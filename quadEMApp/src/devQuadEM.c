@@ -46,6 +46,8 @@
 #include <asynDriver.h>
 #include <asynEpicsUtils.h>
 #include <asynInt32Callback.h>
+#include <asynFloat64.h>
+#include <asynDrvUser.h>
 
 #include <recGbl.h>
 #include <alarm.h>
@@ -72,8 +74,12 @@ typedef enum {
 
 typedef struct devQuadEMPvt {
     asynUser   *pasynUser;
-    asynInt32Callback *int32Callback;
+    asynInt32Callback *pint32Callback;
     void       *int32CallbackPvt;
+    asynFloat64 *pfloat64;
+    void       *float64Pvt;
+    asynDrvUser *pdrvUser;
+    void       *drvUserPvt;
     asynQuadEM *pasynQuadEM;
     void       *quadEMPvt;
     epicsMutexId mutexId;
@@ -144,6 +150,7 @@ static long initCommon(dbCommon *pr, DBLINK *plink, userCallback callback,
                   pasynUser->errorMessage);
         goto bad;
     }
+
     pasynInterface = pasynManager->findInterface(pasynUser, asynQuadEMType, 1);
     if (!pasynInterface) {
         asynPrint(pasynUser, ASYN_TRACE_ERROR,
@@ -153,6 +160,7 @@ static long initCommon(dbCommon *pr, DBLINK *plink, userCallback callback,
     }
     pPvt->pasynQuadEM = (asynQuadEM *)pasynInterface->pinterface;
     pPvt->quadEMPvt = pasynInterface->drvPvt;
+
     pasynInterface = pasynManager->findInterface(pasynUser, 
                                                  asynInt32CallbackType, 1);
     if (!pasynInterface) {
@@ -161,9 +169,32 @@ static long initCommon(dbCommon *pr, DBLINK *plink, userCallback callback,
                   pasynUser->errorMessage);
         goto bad;
     }
-    pPvt->int32Callback = (asynInt32Callback *)pasynInterface->pinterface;
+    pPvt->pint32Callback = (asynInt32Callback *)pasynInterface->pinterface;
     pPvt->int32CallbackPvt = pasynInterface->drvPvt;
+
+    pasynInterface = pasynManager->findInterface(pasynUser,
+                                                 asynFloat64Type, 1);
+    if (!pasynInterface) {
+        asynPrint(pasynUser, ASYN_TRACE_ERROR,
+                  "devQuadEM::initCommon, cannot find float64 interface %s\n",
+                  pasynUser->errorMessage);
+        goto bad;
+    }
+    pPvt->pfloat64 = (asynFloat64 *)pasynInterface->pinterface;
+    pPvt->float64Pvt = pasynInterface->drvPvt;
+
+    pasynInterface = pasynManager->findInterface(pasynUser,
+                                                 asynDrvUserType, 1);
+    if (!pasynInterface) {
+        asynPrint(pasynUser, ASYN_TRACE_ERROR,
+                  "devQuadEM::initCommon, cannot find drvUser interface %s\n",
+                  pasynUser->errorMessage);
+        goto bad;
+    }
+    pPvt->pdrvUser = (asynDrvUser *)pasynInterface->pinterface;
+    pPvt->drvUserPvt = pasynInterface->drvPvt;
     return(0);
+
 bad:
     pr->pact = 1;
     return(-1);
@@ -183,11 +214,15 @@ static long initAo(aoRecord *pao)
     char *up;
     devQuadEMPvt *pPvt;
     int status;
+    const char *commandName;
+    size_t commandSize;
     status = initCommon((dbCommon *)pao, &pao->out, callbackAo, recTypeAo, &up);
     if (status) return 0;
 
     pPvt = (devQuadEMPvt *)pao->dpvt;
     if (strcmp(up, "CONVERSION") == 0) {
+        pPvt->pdrvUser->create(pPvt->quadEMPvt, pPvt->pasynUser, "interval",
+                               &commandName, &commandSize);
         pPvt->command = WRITE_CONVERSION;
     } else if (strcmp(up, "PERIOD") == 0) {
         pPvt->command = WRITE_PERIOD;
@@ -229,9 +264,9 @@ static void callbackAo(asynUser *pasynUser)
                                      pPvt->channel, pao->val);
         break;
     case WRITE_CONVERSION:
-        pPvt->int32Callback->setCallbackInterval(pPvt->quadEMPvt, 
-                                                 pPvt->pasynUser,
-                                                 (double) pao->val / 1.e6);
+        pPvt->pfloat64->write(pPvt->quadEMPvt, 
+                              pPvt->pasynUser,
+                             (double) pao->val / 1.e6);
         break;
     case WRITE_PERIOD:
         pPvt->pasynQuadEM->setPeriod(pPvt->quadEMPvt, pPvt->pasynUser, 0xffff);
