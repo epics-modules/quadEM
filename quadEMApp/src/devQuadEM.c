@@ -34,7 +34,6 @@
 #include <dbDefs.h>
 #include <link.h>
 #include <dbCommon.h>
-#include <aiRecord.h>
 #include <aoRecord.h>
 #include <mbboRecord.h>
 #include <recSup.h>
@@ -54,7 +53,7 @@
 #include "asynQuadEM.h"
 
 
-typedef enum {recTypeAi, recTypeAo, recTypeMbbo} recType;
+typedef enum {recTypeAo, recTypeMbbo} recType;
 
 typedef enum {
     READ_CURRENT,
@@ -99,21 +98,15 @@ static long initCommon(dbCommon *pr, DBLINK *plink, userCallback callback,
                        recType rt, char **up);
 static long queueRequest(dbCommon *pr);
 
-static long initAi(aiRecord *pr);
-static void callbackAi(asynUser *pasynUser);
-static void dataCallbackAi(void *drvPvt, epicsInt32 value);
-static long convertAi(aiRecord *pai, int pass);
 static long initAo(aoRecord *pr);
 static void callbackAo(asynUser *pasynUser);
 static long convertAo(aoRecord *pao, int pass);
 static long initMbbo(mbboRecord *pr);
 static void callbackMbbo(asynUser *pasynUser);
 
-dsetQuadEM devAiQuadEM = {6, 0, 0, initAi, 0, queueRequest, convertAi};
 dsetQuadEM devAoQuadEM = {6, 0, 0, initAo, 0, queueRequest, convertAo};
 dsetQuadEM devMbboQuadEM = {6, 0, 0, initMbbo, 0, queueRequest, 0};
 
-epicsExportAddress(dset, devAiQuadEM);
 epicsExportAddress(dset, devAoQuadEM);
 epicsExportAddress(dset, devMbboQuadEM);
 
@@ -182,64 +175,6 @@ static long queueRequest(dbCommon *pr)
 
     pasynManager->queueRequest(pPvt->pasynUser, 0, 0);
     return(0);
-}
-
-
-static long initAi(aiRecord *pai)
-{
-    char *up;
-    devQuadEMPvt *pPvt;
-    int status;
-
-    status = initCommon((dbCommon *)pai, &pai->inp, callbackAi, recTypeAi, &up);
-    if (status) return 0;
-
-    pPvt = (devQuadEMPvt *)pai->dpvt;
-    if (pPvt->channel < 0 || pPvt->channel > 9) {
-        errlogPrintf("devQuadEM::initAi Invalid signal #: %s = %dn", 
-                     pai->name, pPvt->channel);
-        pai->pact=1;
-    }
-    pPvt->int32Callback->registerCallbacks(pPvt->int32CallbackPvt,
-                                          pPvt->pasynUser, 
-                                          dataCallbackAi, 0, pPvt);
-    convertAi(pai, 1);
-    return(0);
-}
-
-static void dataCallbackAi(void *drvPvt, epicsInt32 value)
-{
-    devQuadEMPvt *pPvt = (devQuadEMPvt *)drvPvt;
-
-    epicsMutexLock(pPvt->mutexId);
-    pPvt->numAverage++;
-    pPvt->sum += value;
-    epicsMutexUnlock(pPvt->mutexId);
-}
-
-static void callbackAi(asynUser *pasynUser)
-{
-    aiRecord *pai = (aiRecord *)pasynUser->userPvt;
-    devQuadEMPvt *pPvt = (devQuadEMPvt *)pai->dpvt;
-    int data;
-
-    epicsMutexLock(pPvt->mutexId);
-    if (pPvt->numAverage == 0) pPvt->numAverage = 1;
-    data = pPvt->sum/pPvt->numAverage + 0.5;
-    pPvt->numAverage = 0;
-    pPvt->sum = 0.;
-    pai->rval = data;
-    epicsMutexUnlock(pPvt->mutexId);
-    asynPrint(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
-              "devQuadEM::readAi %s value=%d\n",
-              pai->name, pai->rval);
-    pai->udf=0;
-}
-
-static long convertAi(aiRecord *pai, int pass)
-{
-    pai->eslo=(pai->eguf-pai->egul)/(double)0xffff;
-    return 0;
 }
 
 
