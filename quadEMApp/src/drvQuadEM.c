@@ -138,7 +138,7 @@ static void intFunc                 (void *drvPvt, asynUser *pasynUser,
 static void intTask                 (drvQuadEMPvt *pPvt);  
                                     /* Task that waits for interrupts */
 
-static const asynInt32 drvQuadEMInt32 = {
+static asynInt32 drvQuadEMInt32 = {
     writeInt32,
     readInt32,
     getBounds,
@@ -146,28 +146,28 @@ static const asynInt32 drvQuadEMInt32 = {
     NULL
 };
 
-static const asynFloat64 drvQuadEMFloat64 = {
+static asynFloat64 drvQuadEMFloat64 = {
     writeFloat64,
     readFloat64,
     NULL,
     NULL
 };
 
-static const asynFloat64 drvQuadEMInt32Array = {
+static asynFloat64 drvQuadEMInt32Array = {
     NULL,
     NULL,
     NULL,
     NULL
 };
 
-static const asynDrvUser drvQuadEMDrvUser = {
+static asynDrvUser drvQuadEMDrvUser = {
     drvUserCreate,
     drvUserGetType,
     drvUserDestroy
 };
 
 /* asynCommon methods */
-static const struct asynCommon drvQuadEMCommon = {
+static struct asynCommon drvQuadEMCommon = {
     report,
     connect,
     disconnect
