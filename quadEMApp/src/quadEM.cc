@@ -2,20 +2,20 @@
 
     Author: Mark Rivers
     Date: April 10, 2003, based on ip330.cc
-
+          June 28, 2003 MLR Converted to R3.14.2
 */
 
-#include <vxWorks.h>
-#include <vxLib.h>
-#include <sysLib.h>
-#include <vme.h>
-#include <math.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
-#include <tickLib.h>
+extern "C" {
+#include <devLib.h>
+}
+#include <epicsTypes.h>
+#include <epicsThread.h>
+#include <iocsh.h>
+#include <epicsExport.h>
+#include <gpHash.h>
 
 #include "quadEM.h"
 #include "ipUnidig.h"
@@ -38,22 +38,41 @@ extern "C"
 #define DEBUG(l,f,v...) { if(l<quadEMDebug) printf(f,## v); }
 #endif
 int quadEMDebug = 0;
+static void *quadEMHash;
 }
 
-extern "C" quadEM *initQuadEM(unsigned short *baseAddr, int fiberChannel, 
-                              int microSecondsPerScan, int maxClients, 
-                              IpUnidig *pIpUnidig, int unidigChan)
+extern "C" int initQuadEM(const char *name, unsigned short *baseAddr, 
+                          int fiberChannel, int microSecondsPerScan, 
+                          int maxClients, const char *unidigName, int unidigChan)
 {
-    quadEM *pQuadEM = new quadEM(baseAddr, fiberChannel, microSecondsPerScan,
-                                 maxClients, pIpUnidig, unidigChan);
-    return pQuadEM;
+    IpUnidig *pIpUnidig = IpUnidig::findModule(unidigName);
+    if ((unidigName!=NULL) && (strlen(unidigName)>0) && (pIpUnidig==NULL)) {
+       printf("quadEM: can't find IpUnidig module %s\n", unidigName);
+    }
+ 
+    quadEM *pQuadEM = new quadEM(name, baseAddr, fiberChannel, microSecondsPerScan,
+               maxClients, pIpUnidig, unidigChan);
+    return(0);
 }
 
-quadEM::quadEM(unsigned short *baseAddr, int fiberChannel, int microSecondsPerScan,
+quadEM* quadEM::findModule(const char *name) 
+{
+    GPHENTRY *hashEntry = gphFind(quadEMHash, name, NULL);
+    if (hashEntry == NULL) return (NULL);
+    return((quadEM *)hashEntry->userPvt);
+}
+
+quadEM::quadEM(const char *name, unsigned short *baseAddr, 
+               int fiberChannel, int microSecondsPerScan,
                int maxClients, IpUnidig *pIpUnidig, int unidigChan)
 : pIpUnidig(pIpUnidig), maxClients(maxClients), numClients(0)
 {
     client = (quadEMClient *)calloc(maxClients, sizeof(quadEMClient));
+
+    if (quadEMHash == NULL) gphInitPvt(&quadEMHash, 256);
+    GPHENTRY *hashEntry = gphAdd(quadEMHash, name, NULL);
+    hashEntry->userPvt = this;
+
     if (fppProbe()==OK) 
        pFpContext = (FP_CONTEXT *)calloc(1, sizeof(FP_CONTEXT));
     else
@@ -71,24 +90,26 @@ quadEM::quadEM(unsigned short *baseAddr, int fiberChannel, int microSecondsPerSc
 
     /* The channel # goes in bits 5 and 6 */
     baseAddr = (unsigned short *)((int)baseAddr | ((fiberChannel << 5) & 0x60));
-    if(sysBusToLocalAdrs(VME_AM_STD_USR_DATA, (char *)baseAddr,
-                         (char **)&baseAddress) != OK) {
+    if (devRegisterAddress("quadEM", atVMEA24, (int)baseAddr, 16, 
+                           (volatile void**)&baseAddress) != 0) {
         baseAddress = NULL;
         printf("quadEM::quadEM: A24 Address map failed\n");
         return;
     }
 
     unsigned long probeVal;
-    if (vxMemProbe((char *)baseAddress, READ, 4, (char *)&probeVal) != OK ) {
-        printf("quadEM::quadEM: vxMemProbe failed for address %p", baseAddress);
+    if (devReadProbe(4, (char *)baseAddress, (char *)&probeVal) != 0 ) {
+        printf("quadEM::quadEM: devReadProbe failed for address %p\n", baseAddress);
         baseAddress = NULL;
         return;
     }
 
     if (pIpUnidig == NULL) {
-        if (taskSpawn("quadEMPoller",100,VX_FP_TASK,4000,
-            (FUNCPTR)quadEM::poller,int(this),0,0,0,0,0,0,0,0,0) == ERROR)
-            printf("quadEM poller taskSpawn Failure\n");
+        if (epicsThreadCreate("quadEMPoller",
+                              epicsThreadPriorityMedium, 10000,
+                              (EPICSTHREADFUNC)quadEM::poller,
+                              (void*)this) == NULL)
+           errlogPrintf("%s IpUnidig Input Server ThreadCreate Failure\n");
     }
     else {
         int mask = 1<<(unidigChan);
@@ -99,12 +120,12 @@ quadEM::quadEM(unsigned short *baseAddr, int fiberChannel, int microSecondsPerSc
 }
 
 void quadEM::poller(quadEM *p)
-//  This functions runs as a polling task at 60Hz if there is no 
+//  This functions runs as a polling task at 100Hz (max) if there is no 
 //  IP-Unidig present
 {
     while(1) { // Do forever
         intFunc(p, 0);
-        taskDelay(1);
+        epicsThreadSleep(epicsThreadSleepQuantum());
     }
 }
 
@@ -154,7 +175,7 @@ float quadEM::setMicroSecondsPerScan(float microSeconds)
     if (pIpUnidig != NULL) {
         actualMicroSecondsPerScan = 2. * convValue * 1.6 + 0.6;
     } else {
-        actualMicroSecondsPerScan = 1.e6 * 1./sysClkRateGet();
+        actualMicroSecondsPerScan = 1.e6 * epicsThreadSleepQuantum();
     }
     return(getMicroSecondsPerScan());
 }
@@ -261,3 +282,37 @@ void quadEMData::computePosition()
        array[i+8] = position[i];
     }
 }
+
+static const iocshArg initArg0 = { "name",iocshArgString};
+static const iocshArg initArg1 = { "baseAddr",iocshArgInt};
+static const iocshArg initArg2 = { "fiberChannel",iocshArgInt};
+static const iocshArg initArg3 = { "microSecondsPerScan",iocshArgInt};
+static const iocshArg initArg4 = { "maxClients",iocshArgInt};
+static const iocshArg initArg5 = { "unidigName",iocshArgString};
+static const iocshArg initArg6 = { "unidigChan",iocshArgInt};
+static const iocshArg * const initArgs[7] = {&initArg0,
+                                             &initArg1,
+                                             &initArg2,
+                                             &initArg3,
+                                             &initArg4,
+                                             &initArg5,
+                                             &initArg6};
+static const iocshFuncDef initFuncDef = {"init",7,initArgs};
+static void initCallFunc(const iocshArgBuf *args)
+{
+    initQuadEM(args[0].sval,
+               (unsigned short*)(int)args[1].sval, 
+               (int)args[2].sval,
+               (int)args[3].sval,
+               (int)args[4].sval,
+               args[5].sval,
+               (int)args[6].sval);
+}
+
+void quadEMRegister(void)
+{
+    iocshRegister(&initFuncDef,initCallFunc);
+}
+
+epicsExportRegistrar(quadEMRegister);
+

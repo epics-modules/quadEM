@@ -5,12 +5,14 @@
    Date:   April 11, 2003  Based on earlier ip330Scan.cc
 */
 
-#include <vxWorks.h>
-#include <iv.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <string.h>
 #include <stdio.h>
+
+#include <epicsTypes.h>
+#include <iocsh.h>
+#include <epicsExport.h>
+#include <epicsThread.h>
 
 #include "Message.h"
 #include "Int32Message.h"
@@ -51,21 +53,24 @@ public:
 };
 
 
-static char taskname[] = "quadEMScan";
 extern "C" int initQuadEMScan(
-    quadEM *pQuadEM, const char *serverName, int queueSize)
+    const char *quadEMName, const char *serverName, int queueSize)
 {
+    quadEM *pQuadEM = quadEM::findModule(quadEMName);
+    if (pQuadEM == NULL) {
+       printf("quadEMScan: can't find quadEM module %s\n", quadEMName);
+       return(-1);
+    }
     quadEMScan *pQuadEMScan = new quadEMScan(pQuadEM);
     if(!pQuadEMScan) return(0);
     quadEMScanServer *pQuadEMScanServer = new quadEMScanServer;
     pQuadEMScanServer->pQuadEMScan = pQuadEMScan;
     pQuadEMScanServer->pMessageServer = new MessageServer(serverName,queueSize);
-    int taskId = taskSpawn(taskname,100,VX_FP_TASK,4000,
-        (FUNCPTR)quadEMScanServer::quadEMServer,(int)pQuadEMScanServer,
-        0,0,0,0,0,0,0,0,0);
-    if(taskId==ERROR)
-        printf("%s quadEMServer taskSpawn Failure\n",
-            pQuadEMScanServer->pMessageServer->getName());
+    if (epicsThreadCreate("quadEMScan",
+                          epicsThreadPriorityMedium, 10000,
+                          (EPICSTHREADFUNC)quadEMScanServer::quadEMServer,
+                          (void*)pQuadEMScanServer) == NULL)
+        printf("%s quadEMServer thread create failure\n", serverName);
     return(0);
 }
 
@@ -158,3 +163,23 @@ void quadEMScanServer::quadEMServer(quadEMScanServer *pQuadEMScanServer)
       }
    }
 }
+
+static const iocshArg initScanArg0 = { "quadEMName",iocshArgString};
+static const iocshArg initScanArg1 = { "serverName",iocshArgString};
+static const iocshArg initScanArg2 = { "queueSize",iocshArgInt};
+static const iocshArg * const initScanArgs[3] = {&initScanArg0,
+                                                  &initScanArg1,
+                                                  &initScanArg2};
+static const iocshFuncDef initScanFuncDef = {"initScan",3,initScanArgs};
+static void initScanCallFunc(const iocshArgBuf *args)
+{
+    initQuadEMScan(args[0].sval, args[1].sval,
+                   (int) args[2].sval);
+}
+
+void quadEMScanRegister(void)
+{
+    iocshRegister(&initScanFuncDef,initScanCallFunc);
+}
+
+epicsExportRegistrar(quadEMScanRegister);

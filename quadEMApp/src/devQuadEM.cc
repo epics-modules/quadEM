@@ -26,7 +26,6 @@
 /**********************************************************************/
 
 #include <stdlib.h>
-#include <stddef.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -40,6 +39,9 @@
 #include <mbboRecord.h>
 #include <recSup.h>
 #include <dbScan.h>
+
+#include <recGbl.h>
+#include <alarm.h>
 
 #include <Message.h>
 #include <Int32Message.h>

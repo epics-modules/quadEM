@@ -10,7 +10,6 @@
 #define quadEMH
 
 #include <fppLib.h>
-#include <semLib.h>
 #include <ipUnidig.h>
 
 /* This is the scale factor to go from (difference/sum) to position.  The total
@@ -42,7 +41,8 @@ public:
 class quadEM
 {
 public:
-    quadEM(unsigned short *baseAddr, int fiberChannel, int microSecondsPerScan, 
+    quadEM(const char *name, unsigned short *baseAddr, 
+           int fiberChannel, int microSecondsPerScan, 
            int maxClients, IpUnidig *pIpUnidig, int unidigChan);
     quadEMData getData();
     float setMicroSecondsPerScan(float microSeconds);
@@ -52,6 +52,7 @@ public:
     void setGain(int gain);
     void setPulse(int pulse);
     void go();
+    static quadEM *findModule(const char *name);
     static void poller(quadEM*);  // Polling routine if no IP-Unidig
     int registerCallback(quadEMCallback callback, void *pvt);
 private:

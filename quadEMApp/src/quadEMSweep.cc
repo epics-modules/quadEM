@@ -5,15 +5,15 @@
     04/18/03  MLR  Created, based on ip330Sweep.cc
 */
 
-#include <vxWorks.h>
-#include <iv.h>
 #include <stdlib.h>
-#include <sysLib.h>
-#include <stddef.h>
 #include <string.h>
 #include <stdio.h>
 
-#include <tickLib.h>
+#include <epicsTypes.h>
+#include <epicsTime.h>
+#include <iocsh.h>
+#include <epicsExport.h>
+#include <epicsThread.h>
 
 #include "Message.h"
 
@@ -36,20 +36,23 @@ private:
 };
 
 // This C function is needed because we call it from the vxWorks shell
-static char taskname[] = "quadEMSweep";
-extern "C" quadEMSweep *initQuadEMSweep(
-    quadEM *pquadEM, const char *serverName, int maxPoints, int queueSize)
+extern "C" int initQuadEMSweep(
+    const char *quadEMName, const char *serverName, int maxPoints, int queueSize)
 {
-    quadEMSweep *pquadEMSweep = new quadEMSweep(pquadEM, maxPoints);
+    quadEM *pQuadEM = quadEM::findModule(quadEMName);
+    if (pQuadEM == NULL) {
+       printf("quadEMSweep: can't find quadEM module %s\n", quadEMName);
+       return(-1);
+    }
+    quadEMSweep *pquadEMSweep = new quadEMSweep(pQuadEM, maxPoints);
     fastSweepServer *pFastSweepServer = 
                      new fastSweepServer(serverName, pquadEMSweep, queueSize);
-    int taskId = taskSpawn(taskname,100,VX_FP_TASK,4000,
-        (FUNCPTR)fastSweepServer::fastServer,(int)pFastSweepServer,
-        0,0,0,0,0,0,0,0,0);
-    if(taskId==ERROR)
-        printf("%s fastSweepServer taskSpawn Failure\n",
-            pFastSweepServer->pMessageServer->getName());
-    return(pquadEMSweep);
+    if (epicsThreadCreate("quadEMSweep",
+                          epicsThreadPriorityMedium, 10000,
+                          (EPICSTHREADFUNC)fastSweepServer::fastServer,
+                          (void*)pFastSweepServer) == NULL)
+        printf("%s fastSweepServer thread create failure\n", serverName);
+    return(0);
 }
 
 quadEMSweep::quadEMSweep(quadEM *pquadEM, int maxPoints) :
@@ -94,3 +97,26 @@ double quadEMSweep::getMicroSecondsPerPoint()
     // Return dwell time in microseconds
     return(pquadEM->getMicroSecondsPerScan() * numAverage);
 }
+
+static const iocshArg initSweepArg0 = { "quadEMName",iocshArgString};
+static const iocshArg initSweepArg1 = { "serverName",iocshArgString};
+static const iocshArg initSweepArg2 = { "maxPoints",iocshArgInt};
+static const iocshArg initSweepArg3 = { "queueSize",iocshArgInt};
+static const iocshArg * const initSweepArgs[4] = {&initSweepArg0,
+                                                  &initSweepArg1,
+                                                  &initSweepArg2,
+                                                  &initSweepArg3};
+static const iocshFuncDef initSweepFuncDef = {"initSweep",4,initSweepArgs};
+static void initSweepCallFunc(const iocshArgBuf *args)
+{
+    initQuadEMSweep(args[0].sval, args[1].sval,
+                    (int) args[2].sval, (int) args[3].sval);
+}
+
+void quadEMSweepRegister(void)
+{
+    iocshRegister(&initSweepFuncDef,initSweepCallFunc);
+}
+
+epicsExportRegistrar(quadEMSweepRegister);
+ 

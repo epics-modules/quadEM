@@ -5,11 +5,13 @@
     04/18/03 MLR   Created, based on ip330PID.cc
 */
 
-#include <vxWorks.h>
-#include <iv.h>
-#include <tickLib.h>
 #include <stdio.h>
 #include <string.h>
+
+#include <epicsTypes.h>
+#include <iocsh.h>
+#include <epicsExport.h>
+#include <epicsThread.h>
 
 #include "Message.h"
 
@@ -42,22 +44,30 @@ private:
 // These C functions are provided so that we can create and configure the
 // fastPID object from the vxWorks command line, which does not understand 
 // C++ syntax.
-static char taskname[] = "quadEMPID";
-extern "C" quadEMPID *initQuadEMPID(const char *serverName, 
-         quadEM *pQuadEM, int quadEMChannel, DAC128V *pDAC128V, int DACChannel,
+extern "C" int initQuadEMPID(const char *serverName, 
+         const char *quadEMName, int quadEMChannel, const char *dacName, int DACChannel,
          int queueSize)
 {
+    quadEM *pQuadEM = quadEM::findModule(quadEMName);
+    if (pQuadEM == NULL) {
+       printf("quadEMPID: can't find quadEM module %s\n", quadEMName);
+       return(-1);
+    }
+    DAC128V *pDAC128V = DAC128V::findModule(dacName);
+    if (pDAC128V == NULL) {
+       printf("quadEMPID: can't find DAC128V module %s\n", dacName);
+       return(-1);
+    }
     quadEMPID *pQuadEMPID = new quadEMPID(pQuadEM, quadEMChannel, pDAC128V, 
                                           DACChannel);
     fastPIDServer *pFastPIDServer = 
                           new fastPIDServer(serverName, pQuadEMPID, queueSize);
-    int taskId = taskSpawn(taskname,100,VX_FP_TASK,4000,
-        (FUNCPTR)fastPIDServer::fastServer,(int)pFastPIDServer,
-        0,0,0,0,0,0,0,0,0);
-    if (taskId==ERROR)
-        printf("%s fastPIDServer taskSpawn Failure\n",
-            pFastPIDServer->pMessageServer->getName());
-    return(pQuadEMPID);
+    if (epicsThreadCreate("quadEMPID",
+                          epicsThreadPriorityMedium, 10000,
+                          (EPICSTHREADFUNC)fastPIDServer::fastServer,
+                          (void*)pFastPIDServer) == NULL)
+        printf("%s fastPIDServer thread create failure\n", serverName);
+    return(0);
 }
 
 quadEMPID::quadEMPID(quadEM *pQuadEM, int quadEMChannel, DAC128V *pDAC128V, 
@@ -114,3 +124,32 @@ void quadEMPID::writeOutput(double output)
 {
     pDAC128V->setValue((int)output, DACChannel);
 }
+
+static const iocshArg initPIDArg0 = { "serverName",iocshArgString};
+static const iocshArg initPIDArg1 = { "quadEMName",iocshArgString};
+static const iocshArg initPIDArg2 = { "quadEMChannel",iocshArgInt};
+static const iocshArg initPIDArg3 = { "dacName",iocshArgString};
+static const iocshArg initPIDArg4 = { "DACChannel",iocshArgInt};
+static const iocshArg initPIDArg5 = { "queueSize",iocshArgInt};
+static const iocshArg * const initPIDArgs[6] = {&initPIDArg0,
+                                                &initPIDArg1,
+                                                &initPIDArg2,
+                                                &initPIDArg3,
+                                                &initPIDArg4,
+                                                &initPIDArg5};
+static const iocshFuncDef initPIDFuncDef = {"initPID",6,initPIDArgs};
+static void initPIDCallFunc(const iocshArgBuf *args)
+{
+    initQuadEMPID(args[0].sval, args[1].sval, 
+                  (int)args[2].sval, args[3].sval, 
+                  (int)args[4].sval, (int)args[5].sval);
+}
+
+void quadEMPIDRegister(void)
+{
+    iocshRegister(&initPIDFuncDef,initPIDCallFunc);
+}
+
+epicsExportRegistrar(quadEMPIDRegister);
+
+

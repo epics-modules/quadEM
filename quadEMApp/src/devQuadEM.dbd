@@ -7,3 +7,11 @@
 device(ai,VME_IO,devAiQuadEM,"quadEM")
 device(ao,VME_IO,devAoQuadEM,"quadEM")
 device(mbbo,VME_IO,devMbboQuadEM,"quadEM")
+
+################
+# Register global functions
+################
+registrar(quadEMRegister)
+registrar(quadEMScanRegister)
+registrar(quadEMSweepRegister)
+registrar(quadEMPIDRegister)
