@@ -13,6 +13,7 @@ extern "C" {
 }
 #include <epicsTypes.h>
 #include <epicsThread.h>
+#include <epicsEvent.h>
 #include <iocsh.h>
 #include <epicsExport.h>
 #include <gpHash.h>
@@ -32,6 +33,10 @@ extern "C" {
 
 extern "C"
 {
+// Debug levels
+// 5  = print info during initialization
+// 10 = print info during write operations
+// 20 = print info during interupts (only use if 60Hz, not real interrupts!)
 #ifdef NODEBUG
 #define DEBUG(l,f,v) ;
 #else
@@ -52,7 +57,7 @@ extern "C" int initQuadEM(const char *name, unsigned short *baseAddr,
        printf("quadEM: can't find IpUnidig module %s\n", unidigName);
     }
  
-    quadEM *pQuadEM = new quadEM(name, baseAddr, fiberChannel, microSecondsPerScan,
+    new quadEM(name, baseAddr, fiberChannel, microSecondsPerScan,
                maxClients, pIpUnidig, unidigChan);
     return(0);
 }
@@ -71,16 +76,17 @@ quadEM::quadEM(const char *name, unsigned short *baseAddr,
 {
     client = (quadEMClient *)calloc(maxClients, sizeof(quadEMClient));
 
+    intEvent = new epicsEvent(epicsEventEmpty);
+    if (epicsThreadCreate("quadEMintTask",
+                           epicsThreadPriorityHigh, 10000,
+                           (EPICSTHREADFUNC)quadEM::intTask,
+                           (void*)this) == NULL)
+       errlogPrintf("quadEMintTask epicsThreadCreate failure\n");
     if (quadEMHash == NULL) gphInitPvt(&quadEMHash, 256);
     char *temp = (char *)malloc(strlen(name)+1);
     strcpy(temp, name);
     GPHENTRY *hashEntry = gphAdd(quadEMHash, temp, NULL);
     hashEntry->userPvt = this;
-
-    if (fppProbe()==OK) 
-       pFpContext = (FP_CONTEXT *)calloc(1, sizeof(FP_CONTEXT));
-    else
-       pFpContext = NULL;
 
     if((fiberChannel >= 4) || (fiberChannel < 0)) {
         printf("quadEM::quadEM: Invalid channel # %d \n", fiberChannel);
@@ -107,14 +113,24 @@ quadEM::quadEM(const char *name, unsigned short *baseAddr,
         baseAddress = NULL;
         return;
     }
+    DEBUG(5, "quadEM:quadEM: devReadProbe found board OK\n");
 
+    // Send the initial settings to the board to get it talking to the electometer
+    // These settings will be overridden by the database values when the database
+    // initializes
+    DEBUG(5, "quadEM::quadEM: initializing hardware ...\n");
+    setGain(0);
+    setPulse(1024);
+    setPeriod(0xffff);
+    setMicroSecondsPerScan(microSecondsPerScan);
+    go();
     if (pIpUnidig == NULL) {
         DEBUG(5, "quadEM::quadEM: calling epicsThreadCreate ...\n");
         if (epicsThreadCreate("quadEMPoller",
                               epicsThreadPriorityMedium, 10000,
                               (EPICSTHREADFUNC)quadEM::poller,
                               (void*)this) == NULL)
-           errlogPrintf("%s IpUnidig Input Server ThreadCreate Failure\n");
+           errlogPrintf("quadEMPoller epicsThreadCreate failure\n");
     }
     else {
         DEBUG(5, "quadEM::quadEM: calling setFallingMaskBits ...\n");
@@ -123,14 +139,13 @@ quadEM::quadEM(const char *name, unsigned short *baseAddr,
         DEBUG(5, "quadEM::quadEM: calling pIpUnidig->registerCallback ...\n");
         pIpUnidig->registerCallback(intFunc, (void *)this, mask);
     }
-    DEBUG(5, "quadEM::quadEM: calling setMicroSecondsPerScan ...\n");
-    setMicroSecondsPerScan(microSecondsPerScan);
 }
 
 void quadEM::poller(quadEM *p)
 //  This functions runs as a polling task at 100Hz (max) if there is no 
 //  IP-Unidig present
 {
+    DEBUG(5, "epicsThreadSleepQuantum=%f\n", epicsThreadSleepQuantum());
     while(1) { // Do forever
         intFunc(p, 0);
         epicsThreadSleep(epicsThreadSleepQuantum());
@@ -157,19 +172,27 @@ int quadEM::registerCallback(quadEMCallback callback, void *pvt)
 void quadEM::intFunc(void *v, unsigned int mask)
 {
     quadEM *t = (quadEM *) v;
-    int    i;
 
-    // Save and restore FP registers so application interrupt functions can do
-    // floating point operations.  Skip if no fpp hardware present.
-    if (t->pFpContext != NULL) fppSave (t->pFpContext);
     // Read the new data
     t->read();
-    t->data.computePosition();
-    // Call the callback routines which have registered
-    for (i = 0; i < t->numClients; i++) {
-       t->client[i].callback(t->client[i].pvt, t->data);
-    }
-    if (t->pFpContext != NULL) fppRestore(t->pFpContext);
+    // Give the semaphore to the intTask task, it handles the rest, not running at interrupt level
+    t->intEvent->signal();
+    
+}
+
+void quadEM::intTask(quadEM *p)
+{
+    int    i;
+
+    while(1) {
+       // Wait for event from interrupt routine
+       p->intEvent->wait();
+       p->data.computePosition();
+       // Call the callback routines which have registered
+       for (i = 0; i < p->numClients; i++) {
+          p->client[i].callback(p->client[i].pvt, p->data);
+       }
+   }
 }
 
 float quadEM::setMicroSecondsPerScan(float microSeconds)
@@ -238,7 +261,7 @@ void quadEM::write(int command, int value)
    *(baseAddress+8)  = (unsigned short)command;
    *(baseAddress+4)  = (unsigned short)value;
    *(baseAddress+16) = (unsigned short)0;
-   DEBUG(5, "quadEM::write, command=%d value=%d\n", command, value);
+   DEBUG(10, "quadEM::write, address=%p, command=%x value=%x\n", baseAddress, command, value);
 }
 
 
