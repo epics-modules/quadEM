@@ -198,7 +198,7 @@ grecord(ai,"$(P)$(EM)Current1") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),0")
     field(FLNK,"$(P)$(EM)Current2")
 }
@@ -209,7 +209,7 @@ grecord(ai,"$(P)$(EM)Current2") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),1")
     field(FLNK,"$(P)$(EM)Current3")
 }
@@ -220,7 +220,7 @@ grecord(ai,"$(P)$(EM)Current3") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),2")
     field(FLNK,"$(P)$(EM)Current4")
 }
@@ -231,7 +231,7 @@ grecord(ai,"$(P)$(EM)Current4") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),3")
     field(FLNK,"$(P)$(EM)Sum1")
 }
@@ -242,7 +242,7 @@ grecord(ai,"$(P)$(EM)Sum1") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),4")
     field(FLNK,"$(P)$(EM)Sum2")
 }
@@ -253,7 +253,7 @@ grecord(ai,"$(P)$(EM)Sum2") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),5")
     field(FLNK,"$(P)$(EM)Diff1")
 }
@@ -264,7 +264,7 @@ grecord(ai,"$(P)$(EM)Diff1") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),6")
     field(FLNK,"$(P)$(EM)Diff2")
 }
@@ -275,7 +275,7 @@ grecord(ai,"$(P)$(EM)Diff2") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),7")
     field(FLNK,"$(P)$(EM)Position1")
 }
@@ -286,7 +286,7 @@ grecord(ai,"$(P)$(EM)Position1") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),8")
     field(FLNK,"$(P)$(EM)Position2")
 }
@@ -297,7 +297,7 @@ grecord(ai,"$(P)$(EM)Position2") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "quadEM")
+    field(DTYP, "asyn Int32Average")
     field(INP,"@$(PORT),9")
 }
 
