@@ -1,0 +1,14 @@
+# This file defines the device support provided
+# for quadEM.  Note that the MCA record device
+# support is defined in mcaAppp/src/mcaSupport.dbd
+# and the EPID record device support is defined
+# in stdApp/src/stdSupport.dbd, since these
+# are "generic" and not device specific
+device(ai,VME_IO,devAiQuadEM,"quadEM")
+device(ao,VME_IO,devAoQuadEM,"quadEM")
+device(mbbo,VME_IO,devMbboQuadEM,"quadEM")
+
+################
+# Register global functions
+################
+registrar(quadEMRegister)
