@@ -15,3 +15,6 @@ registrar(quadEMRegister)
 registrar(quadEMScanRegister)
 registrar(quadEMSweepRegister)
 registrar(quadEMPIDRegister)
+
+variable("quadEMDebug", int)
+variable("quadEMScanDebug", int)

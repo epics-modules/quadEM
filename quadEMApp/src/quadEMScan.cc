@@ -13,8 +13,6 @@
 #include <iocsh.h>
 #include <epicsExport.h>
 #include <epicsThread.h>
-#include <epicsTypes.h>
-#include "symTable.h"
 
 #include "Message.h"
 #include "Int32Message.h"
@@ -32,6 +30,7 @@ extern "C"
 #endif
 volatile int quadEMScanDebug = 0;
 }
+epicsExportAddress(int, quadEMScanDebug);
 
 
 class quadEMScan
@@ -180,7 +179,6 @@ static void initScanCallFunc(const iocshArgBuf *args)
 
 void quadEMScanRegister(void)
 {
-    addSymbol("quadEMScanDebug", (epicsInt32 *)&quadEMScanDebug, epicsInt32T);
     iocshRegister(&initScanFuncDef,initScanCallFunc);
 }
 

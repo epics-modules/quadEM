@@ -16,8 +16,6 @@ extern "C" {
 #include <iocsh.h>
 #include <epicsExport.h>
 #include <gpHash.h>
-#include <epicsTypes.h>
-#include "symTable.h"
 
 #include "quadEM.h"
 #include "ipUnidig.h"
@@ -40,6 +38,8 @@ extern "C"
 #define DEBUG(l,f,v...) { if(l<quadEMDebug) printf(f,## v); }
 #endif
 int quadEMDebug = 0;
+epicsExportAddress(int, quadEMDebug);
+
 static void *quadEMHash;
 }
 
@@ -109,6 +109,7 @@ quadEM::quadEM(const char *name, unsigned short *baseAddr,
     }
 
     if (pIpUnidig == NULL) {
+        DEBUG(5, "quadEM::quadEM: calling epicsThreadCreate ...\n");
         if (epicsThreadCreate("quadEMPoller",
                               epicsThreadPriorityMedium, 10000,
                               (EPICSTHREADFUNC)quadEM::poller,
@@ -116,10 +117,13 @@ quadEM::quadEM(const char *name, unsigned short *baseAddr,
            errlogPrintf("%s IpUnidig Input Server ThreadCreate Failure\n");
     }
     else {
+        DEBUG(5, "quadEM::quadEM: calling setFallingMaskBits ...\n");
         int mask = 1<<(unidigChan);
         pIpUnidig->setFallingMaskBits(mask);
+        DEBUG(5, "quadEM::quadEM: calling pIpUnidig->registerCallback ...\n");
         pIpUnidig->registerCallback(intFunc, (void *)this, mask);
     }
+    DEBUG(5, "quadEM::quadEM: calling setMicroSecondsPerScan ...\n");
     setMicroSecondsPerScan(microSecondsPerScan);
 }
 
@@ -315,7 +319,6 @@ static void initCallFunc(const iocshArgBuf *args)
 
 void quadEMRegister(void)
 {
-    addSymbol("quadEMDebug", &quadEMDebug, epicsInt32T);
     iocshRegister(&initFuncDef,initCallFunc);
 }
 
