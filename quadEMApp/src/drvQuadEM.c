@@ -213,7 +213,8 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
  
     pPvt->intMsgQId = epicsMessageQueueCreate(MAX_MESSAGES, MAX_RAW*sizeof(int));
     if (epicsThreadCreate("quadEMintTask",
-                           epicsThreadPriorityHigh, 10000,
+                           epicsThreadPriorityHigh,
+                           epicsThreadGetStackSize(epicsThreadStackMedium),
                            (EPICSTHREADFUNC)intTask,
                            pPvt) == NULL)
        errlogPrintf("quadEMintTask epicsThreadCreate failure\n");
@@ -246,7 +247,8 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
 
     if (pPvt->uint32DigitalPvt == NULL) {
         if (epicsThreadCreate("quadEMPoller",
-                              epicsThreadPriorityMedium, 10000,
+                              epicsThreadPriorityMedium,
+                              epicsThreadGetStackSize(epicsThreadStackMedium),
                               (EPICSTHREADFUNC)poller,
                               pPvt) == NULL) {
             errlogPrintf("quadEMPoller epicsThreadCreate failure\n");
