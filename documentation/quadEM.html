@@ -1,17 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta name="generator" content=
-"Microsoft FrontPage 5.0">
-<meta http-equiv="content-type" content=
-"text/html; charset=us-ascii">
 <title>synApps quadEM</title>
 <meta name="author" content="Mark Rivers">
 </head>
+
 <body>
 <img src="logo101.gif" alt=
 "EPICS" hspace="5" align="right">
 <h1>synApps: quadEM</h1>
+
 <p>Module Owner: Mark Rivers: University of Chicago</p>
 <p>This page is the home of <b>quadEM</b>.&nbsp;</p>
 <p><b>quadEM</b> supports the Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">Steve
@@ -20,6 +17,7 @@ electrometer unit and 2 VME boards.&nbsp; It is typically used for
 photodiode-based x-ray beam position monitors, although it can be used for any
 low-current measurement that requires high speed digital input.&nbsp; The device
 provides 2 readings per diode at up to 815 Hz.</p>
+
 <p>The <b>quadEM</b>  software includes device support for 3 records:</p>
 <ul>
   <li>analog input (ai).&nbsp; This provides digitally averaged readings of the
@@ -32,106 +30,153 @@ provides 2 readings per diode at up to 815 Hz.</p>
     converter at speeds up to 815Hz.&nbsp; If it is run slower it does signal
     averaging.</li>
 </ul>
+
 <p>The <b>quadEM</b> support uses the synApps modules <a href="mca.html">mca</a>
 (for digital scope mode), <a href="std.html">std</a> (for the EPID fast feedback
 support), and <a href="ipUnidig.html">ipUnidig</a> for interrupt support .</p>
 <p>Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">Mark
 Rivers</a> who is
 responsible for coordinating development and releases.</p>
+
 <h2>Where to find it</h2>
 <p>You can download the software from the links in the table
 below:</p>
 <table summary="Where to find the software" border="1">
 <tbody>
-<tr align="center">
-<td><b>Module Version</b></td>
-<td><b>Release Date</b></td>
-<td><b>Filename</b></td>
-<td><b>Documentation</b></td>
-<td><b>Release Notes</b></td>
-<td><b>Known Problems</b></td>
-</tr>
-<tr>
-<td>2-1</td>
-<td>12-Nov-2003</td>
-<td><a href="pub/quadEMR2-1.tar.gz">quadEMR2-1.tar.gz</a></td>
-<td><a href="quadEMDoc.html">quadEMDoc</a></td>
-<td><a href="quadEMReleaseNotes.html">Release notes</a></td>
-<td>See release notes</td>
-</tr>
-<tr>
-<td>1-2</td>
-<td>2-Apr-2003</td>
-<td><a href="pub/quadEMR1-2.tar.gz">quadEMR1-2.tar.gz</a></td>
-<td><a href="quadEMDoc.html">quadEMDoc</a></td>
-<td><a href="quadEMReleaseNotes.html">Release notes</a></td>
-<td>see release notes</td>
-</tr>
-<tr>
-<td>1-1</td>
-<td>20-June-2001</td>
-<td><a href="pub/quadEMR1-1.tar.gz">quadEMR1-1.tar.gz</a></td>
-<td><a href="quadEMDoc.html">quadEMDoc</a></td>
-<td><a href="quadEMReleaseNotes.html">Release notes</a></td>
-<td>see release notes</td>
-</tr>
+  <tr align="center">
+    <th>Module Version</th>
+    <th>Release Date</th>
+    <th>Filename</th>
+    <th>Documentation</th>
+    <th>Release Notes</th>
+    <th>Known Problems</th>
+  </tr>
+
+  <tr>
+    <td>2-1</td>
+    <td>24-Mar-2005</td>
+    <td><a href="pub/quadEMR2-1.tar.gz">quadEMR2-1.tar.gz</a></td>
+    <td><a href="quadEMDoc.html">quadEMDoc</a></td>
+    <td><a href="quadEMReleaseNotes.html">Release notes</a></td>
+    <td>See release notes</td>
+  </tr>
+
+  <tr>
+    <td>2-0</td>
+    <td>12-Nov-2003</td>
+    <td><a href="pub/quadEMR2-0.tar.gz">quadEMR2-0.tar.gz</a></td>
+    <td><a href="quadEMDoc.html">quadEMDoc</a></td>
+    <td><a href="quadEMReleaseNotes.html">Release notes</a></td>
+    <td>See release notes</td>
+  </tr>
+
+  <tr>
+    <td>1-1</td>
+    <td>20-June-2001</td>
+    <td><a href="pub/quadEMR1-1.tar.gz">quadEMR1-1.tar.gz</a></td>
+    <td><a href="quadEMDoc.html">quadEMDoc</a></td>
+    <td><a href="quadEMReleaseNotes.html">Release notes</a></td>
+    <td>See release notes</td>
+  </tr>
+
 </tbody>
 </table>
+
 <h2>Required Modules</h2>
 <table summary="Required Modules" border="1">
 <tbody>
-<tr align="center">
-<td><b>Module Version</b></td>
-<td><b>Requires module</b></td>
-<td><b>Release needed</b></td>
-<td><b>Required for</b></td>
-</tr>
-<tr>
-<td>
-<p align="left">2-1</td>
-<td>EPICS base<br>
-  mpf<br>
-  mca<br>
-  std<br>
-  dac128V<br>
-  ipUnidig</td>
-<td>3.14.4<br>
-  2-4<br>
-  2-1<br>
-  2-2<br>
-  2-1<br>
-  2-1</td>
-<td>Base support<br>
-  Communication with device<br>
-  MCA record support<br>
-  Fast feedback<br>
-  Fast feedback<br>
-  Interrupts</td>
-</tr>
-<tr>
-<td>
-<p align="left">1-4?</td>
-<td>EPICS base<br>
-  mpf<br>
-  mca<br>
-  std<br>
-  dac128V<br>
-  ipUnidig</td>
-<td>3.17.7<br>
-  1-8<br>
-  5-4<br>
-  1-3<br>
-  <br>
-  </td>
-<td>Base support<br>
-  Communication with device<br>
-  MCA record support<br>
-  Fast feedback<br>
-  Fast feedback<br>
-  Interrupts</td>
-</tr>
+  <tr align="center">
+    <th>Module version</th>
+    <th>Requires module</th>
+    <th>Release needed</th>
+    <th>Required for</th>
+  </tr>
+
+  <tr>
+    <td rowspan=4>2-1</td>
+    <td>EPICS base</td>
+    <td>3.14.7</td>
+    <td>Base support</td>
+  </tr>
+  <tr>
+    <td>asyn</td>
+    <td>4-2</td>
+    <td>Driver support</td>
+  </tr>
+  <tr>
+    <td>mca</td>
+    <td>6-4</td>
+    <td>MCA record</td>
+  </tr>
+  <tr>
+    <td>sscan</td>
+    <td>2-5</td>
+    <td>Busy record</td>
+  </tr>
+
+  <tr>
+    <td rowspan=6>2-0</td>
+    <td>EPICS base</td>
+    <td>3.14.4</td>
+    <td>Base support</td>
+  </tr>
+  <tr>
+    <td>mpf</td>
+    <td>2-4-2</td>
+    <td>Message passing</td>
+  </tr>
+  <tr>
+    <td>mca</td>
+    <td>6-2</td>
+    <td>MCA record support</td>
+  </tr>
+  <tr>
+    <td>std</td>
+    <td>2-3</td>
+    <td>Fast feedback</td>
+  </tr>
+    <td>dac128V</td>
+    <td>2-2</td>
+    <td>Fast feedback</td>
+  </tr>
+    <td>ipUnidig</td>
+    <td>2-2</td>
+    <td>Interrupt support</td>
+  </tr>
+
+  <tr>
+    <td rowspan=6>1-1</td>
+    <td>EPICS base</td>
+    <td>3.13.7</td>
+    <td>Base support</td>
+  </tr>
+  <tr>
+    <td>mpf</td>
+    <td>1-10</td>
+    <td>Message passing</td>
+  </tr>
+  <tr>
+    <td>mca</td>
+    <td>5-5</td>
+    <td>MCA record support</td>
+  </tr>
+  <tr>
+    <td>std</td>
+    <td>1-4</td>
+    <td>Fast feedback</td>
+  </tr>
+    <td>dac128V</td>
+    <td>1-4</td>
+    <td>Fast feedback</td>
+  </tr>
+    <td>ipUnidig</td>
+    <td>1-3</td>
+    <td>Interrupt support</td>
+  </tr>
+
 </tbody>
 </table>
+
 <h2>Installation and Building</h2>
 <p>After obtaining a copy of the distribution, it must be installed
 and built for use at your site. These steps only need to be
@@ -156,7 +201,7 @@ where X-Y is the release.</li>
   <pre>.../support/quadEMRX-Y
 </pre></li>
 <li>Edit the <tt>config[ure]/RELEASE</tt> file and set the paths to
-your installation of EPICS base and to your versions of mpf and ipac.</li>
+your installation of EPICS base and to your versions of other required modules.</li>
 <li>Run <tt>gnumake</tt> in the top level directory and check for
 any compilation errors.</li>
 <li>Please email&nbsp; <a href="mailto:rivers@cars.uchicago.edu">Mark Rivers</a>&nbsp; so that a record can be kept of which sites are
@@ -170,3 +215,4 @@ This software was originally developed by Mark Rivers.
 </ul>
 </body>
 </html>
+
