@@ -23,7 +23,7 @@ grecord(mbbo,"$(P)$(EM)Gain") {
     field(SVVL,"1")
     field(SVST,"17.6")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S0 @$(PORT) GAIN")
+    field(OUT,"@$(PORT),0 GAIN")
 }
 
 grecord(mbbo,"$(P)$(EM)PingPong1") {
@@ -36,7 +36,7 @@ grecord(mbbo,"$(P)$(EM)PingPong1") {
     field(TWVL,"2")
     field(TWST,"Avg.")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S0 @$(PORT) PINGPONG")
+    field(OUT,"@$(PORT),0 PINGPONG")
 }
 
 grecord(mbbo,"$(P)$(EM)PingPong2") {
@@ -49,7 +49,7 @@ grecord(mbbo,"$(P)$(EM)PingPong2") {
     field(TWVL,"2")
     field(TWST,"Avg.")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S1 @$(PORT) PINGPONG")
+    field(OUT,"@$(PORT),1 PINGPONG")
 }
 
 grecord(mbbo,"$(P)$(EM)PingPong3") {
@@ -62,7 +62,7 @@ grecord(mbbo,"$(P)$(EM)PingPong3") {
     field(TWVL,"2")
     field(TWST,"Avg.")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S2 @$(PORT) PINGPONG")
+    field(OUT,"@$(PORT),2 PINGPONG")
 }
 
 grecord(mbbo,"$(P)$(EM)PingPong4") {
@@ -75,7 +75,7 @@ grecord(mbbo,"$(P)$(EM)PingPong4") {
     field(TWVL,"2")
     field(TWST,"Avg.")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S3 @$(PORT) PINGPONG")
+    field(OUT,"@$(PORT),3 PINGPONG")
 }
 
 grecord(ao,"$(P)$(EM)ConversionTime") {
@@ -88,7 +88,7 @@ grecord(ao,"$(P)$(EM)ConversionTime") {
     field(PREC,"1")
     field(VAL,"615.")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S0 @$(PORT) CONVERSION")
+    field(OUT,"@$(PORT),0 CONVERSION")
 }
 
 grecord(ao,"$(P)$(EM)Period") {
@@ -97,7 +97,7 @@ grecord(ao,"$(P)$(EM)Period") {
     field(PREC,"0")
     field(VAL,"-1")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S0 @$(PORT) PERIOD")
+    field(OUT,"@$(PORT),0 PERIOD")
 }
 
 grecord(ao,"$(P)$(EM)Pulse") {
@@ -106,7 +106,7 @@ grecord(ao,"$(P)$(EM)Pulse") {
     field(PREC,"0")
     field(VAL,"1024")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S0 @$(PORT) PULSE")
+    field(OUT,"@$(PORT),0 PULSE")
 }
 
 grecord(ao,"$(P)$(EM)Go") {
@@ -115,7 +115,7 @@ grecord(ao,"$(P)$(EM)Go") {
     field(PREC,"0")
     field(VAL,"0")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S0 @$(PORT) GO")
+    field(OUT,"@$(PORT),0 GO")
 }
 
 grecord(seq,"$(P)$(EM)Initialize") {
@@ -143,7 +143,7 @@ grecord(ao,"$(P)$(EM)Offset1") {
     field(PREC,"0")
     field(VAL,"4096")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S0 @$(PORT) OFFSET")
+    field(OUT,"@$(PORT),0 OFFSET")
 }
 
 grecord(ao,"$(P)$(EM)Offset2") {
@@ -156,7 +156,7 @@ grecord(ao,"$(P)$(EM)Offset2") {
     field(PREC,"0")
     field(VAL,"4096")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S1 @$(PORT) OFFSET")
+    field(OUT,"@$(PORT),1 OFFSET")
 }
 
 grecord(ao,"$(P)$(EM)Offset3") {
@@ -169,7 +169,7 @@ grecord(ao,"$(P)$(EM)Offset3") {
     field(PREC,"0")
     field(VAL,"4096")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S2 @$(PORT) OFFSET")
+    field(OUT,"@$(PORT),2 OFFSET")
 }
 
 grecord(ao,"$(P)$(EM)Offset4") {
@@ -182,7 +182,7 @@ grecord(ao,"$(P)$(EM)Offset4") {
     field(PREC,"0")
     field(VAL,"4096")
     field(DTYP, "quadEM")
-    field(OUT,"#C$(CARD) S3 @$(PORT) OFFSET")
+    field(OUT,"@$(PORT),3 OFFSET")
 }
 
 grecord(ai,"$(P)$(EM)Read") {
@@ -199,7 +199,7 @@ grecord(ai,"$(P)$(EM)Current1") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S0 @$(PORT)")
+    field(INP,"@$(PORT),0")
     field(FLNK,"$(P)$(EM)Current2")
 }
 
@@ -210,7 +210,7 @@ grecord(ai,"$(P)$(EM)Current2") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S1 @$(PORT)")
+    field(INP,"@$(PORT),1")
     field(FLNK,"$(P)$(EM)Current3")
 }
 
@@ -221,7 +221,7 @@ grecord(ai,"$(P)$(EM)Current3") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S2 @$(PORT)")
+    field(INP,"@$(PORT),2")
     field(FLNK,"$(P)$(EM)Current4")
 }
 
@@ -232,7 +232,7 @@ grecord(ai,"$(P)$(EM)Current4") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S3 @$(PORT)")
+    field(INP,"@$(PORT),3")
     field(FLNK,"$(P)$(EM)Sum1")
 }
 
@@ -243,7 +243,7 @@ grecord(ai,"$(P)$(EM)Sum1") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S4 @$(PORT)")
+    field(INP,"@$(PORT),4")
     field(FLNK,"$(P)$(EM)Sum2")
 }
 
@@ -254,7 +254,7 @@ grecord(ai,"$(P)$(EM)Sum2") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S5 @$(PORT)")
+    field(INP,"@$(PORT),5")
     field(FLNK,"$(P)$(EM)Diff1")
 }
 
@@ -265,7 +265,7 @@ grecord(ai,"$(P)$(EM)Diff1") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S6 @$(PORT)")
+    field(INP,"@$(PORT),6")
     field(FLNK,"$(P)$(EM)Diff2")
 }
 
@@ -276,7 +276,7 @@ grecord(ai,"$(P)$(EM)Diff2") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S7 @$(PORT)")
+    field(INP,"@$(PORT),7")
     field(FLNK,"$(P)$(EM)Position1")
 }
 
@@ -287,7 +287,7 @@ grecord(ai,"$(P)$(EM)Position1") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S8 @$(PORT)")
+    field(INP,"@$(PORT),8")
     field(FLNK,"$(P)$(EM)Position2")
 }
 
@@ -298,6 +298,6 @@ grecord(ai,"$(P)$(EM)Position2") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "quadEM")
-    field(INP,"#C$(CARD) S9 @$(PORT)")
+    field(INP,"@$(PORT),9")
 }
 
