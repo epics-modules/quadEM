@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"Microsoft FrontPage 5.0">
+<meta http-equiv="content-type" content=
+"text/html; charset=us-ascii">
+<title>synApps quadEM</title>
+<meta name="author" content="Mark Rivers">
+</head>
+<body>
+<img src="logo101.gif" alt=
+"EPICS" hspace="5" align="right">
+<h1>synApps: quadEM</h1>
+<p>Module Owner: Mark Rivers: University of Chicago</p>
+<p>This page is the home of <b>quadEM</b>.&nbsp;</p>
+<p><b>quadEM</b> supports the Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">Steve
+Ross</a> from the APS.&nbsp; This device consists of a 4-channel digital
+electrometer unit and 2 VME boards.&nbsp; It is typically used for
+photodiode-based x-ray beam position monitors, although it can be used for any
+low-current measurement that requires high speed digital input.&nbsp; The device
+provides 2 readings per diode at up to 815 Hz.</p>
+<p>The <b>quadEM</b>  software includes device support for 3 records:</p>
+<ul>
+  <li>analog input (ai).&nbsp; This provides digitally averaged readings of the
+    current, sum, difference and position at speeds up to 10 Hz with standard
+    EPICS scan times.</li>
+  <li>mca.&nbsp; This provide a time-history (like a digital scope) of the
+    current, sum, difference and position at speeds up to 815 Hz.&nbsp; The time
+    per point can be greater, in which case it does averaging.</li>
+  <li>epid (fast feedback).&nbsp; This provides fast feedback via a dac128V D/A
+    converter at speeds up to 815Hz.&nbsp; If it is run slower it does signal
+    averaging.</li>
+</ul>
+<p>The <b>quadEM</b> support uses the synApps modules <a href="mca.html">mca</a>
+(for digital scope mode), <a href="std.html">std</a> (for the EPID fast feedback
+support), and <a href="ipUnidig.html">ipUnidig</a> for interrupt support .</p>
+<p>Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">Mark
+Rivers</a> who is
+responsible for coordinating development and releases.</p>
+<h2>Where to find it</h2>
+<p>You can download the software from the links in the table
+below:</p>
+<table summary="Where to find the software" border="1">
+<tbody>
+<tr align="center">
+<td><b>Module Version</b></td>
+<td><b>Release Date</b></td>
+<td><b>Filename</b></td>
+<td><b>Documentation</b></td>
+<td><b>Release Notes</b></td>
+<td><b>Known Problems</b></td>
+</tr>
+<tr>
+<td>2-1</td>
+<td>12-Nov-2003</td>
+<td><a href="pub/quadEMR2-1.tar.gz">quadEMR2-1.tar.gz</a></td>
+<td><a href="quadEMDoc.html">quadEMDoc</a></td>
+<td><a href="quadEMReleaseNotes.html">Release notes</a></td>
+<td>See release notes</td>
+</tr>
+<tr>
+<td>1-2</td>
+<td>2-Apr-2003</td>
+<td><a href="pub/quadEMR1-2.tar.gz">quadEMR1-2.tar.gz</a></td>
+<td><a href="quadEMDoc.html">quadEMDoc</a></td>
+<td><a href="quadEMReleaseNotes.html">Release notes</a></td>
+<td>see release notes</td>
+</tr>
+<tr>
+<td>1-1</td>
+<td>20-June-2001</td>
+<td><a href="pub/quadEMR1-1.tar.gz">quadEMR1-1.tar.gz</a></td>
+<td><a href="quadEMDoc.html">quadEMDoc</a></td>
+<td><a href="quadEMReleaseNotes.html">Release notes</a></td>
+<td>see release notes</td>
+</tr>
+</tbody>
+</table>
+<h2>Required Modules</h2>
+<table summary="Required Modules" border="1">
+<tbody>
+<tr align="center">
+<td><b>Module Version</b></td>
+<td><b>Requires module</b></td>
+<td><b>Release needed</b></td>
+<td><b>Required for</b></td>
+</tr>
+<tr>
+<td>
+<p align="left">2-1</td>
+<td>EPICS base<br>
+  mpf<br>
+  mca<br>
+  std<br>
+  dac128V<br>
+  ipUnidig</td>
+<td>3.14.4<br>
+  2-4<br>
+  2-1<br>
+  2-2<br>
+  2-1<br>
+  2-1</td>
+<td>Base support<br>
+  Communication with device<br>
+  MCA record support<br>
+  Fast feedback<br>
+  Fast feedback<br>
+  Interrupts</td>
+</tr>
+<tr>
+<td>
+<p align="left">1-4?</td>
+<td>EPICS base<br>
+  mpf<br>
+  mca<br>
+  std<br>
+  dac128V<br>
+  ipUnidig</td>
+<td>3.17.7<br>
+  1-8<br>
+  5-4<br>
+  1-3<br>
+  <br>
+  </td>
+<td>Base support<br>
+  Communication with device<br>
+  MCA record support<br>
+  Fast feedback<br>
+  Fast feedback<br>
+  Interrupts</td>
+</tr>
+</tbody>
+</table>
+<h2>Installation and Building</h2>
+<p>After obtaining a copy of the distribution, it must be installed
+and built for use at your site. These steps only need to be
+performed once for the site (unless versions of the module running
+under different releases of EPICS and/or the other required modules
+are needed).</p>
+<ol>
+<li>Create an installation directory for the module, usually this
+will end with<br>
+  <br>
+  <tt>.../support/</tt>
+  <br>
+</li>
+<li>Place the distribution file in this directory. Then issue the
+commands (Unix style)
+<pre>gunzip quadEMRX-Y.tar.gz
+
+tar xvf quadEMRX-Y.tar
+</pre>
+where X-Y is the release.</li>
+<li>This creates a &lt;top&gt; application.<br>
+  <pre>.../support/quadEMRX-Y
+</pre></li>
+<li>Edit the <tt>config[ure]/RELEASE</tt> file and set the paths to
+your installation of EPICS base and to your versions of mpf and ipac.</li>
+<li>Run <tt>gnumake</tt> in the top level directory and check for
+any compilation errors.</li>
+<li>Please email&nbsp; <a href="mailto:rivers@cars.uchicago.edu">Mark Rivers</a>&nbsp; so that a record can be kept of which sites are
+using this software.</li>
+</ol>
+<h2>In Use</h2>
+This software was originally developed by Mark Rivers.
+<ul>
+<li>ANL/APS : In use at CARS and IMCA.&nbsp; To be used soon at XOR and a number
+  of other beamlines.</li>
+</ul>
+</body>
+</html>
