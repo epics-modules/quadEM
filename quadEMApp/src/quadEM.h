@@ -16,17 +16,22 @@
  * device
 */
 #define QUAD_EM_POS_SCALE 32767
+#define MAX_RAW 8
+#define MAX_MESSAGES 100
 
 class quadEMData {
 public:
     quadEMData();
     quadEMData(int value);
+    int raw[8];
     int current[4];
     int offset[4];
+    int pingpong[4];
     int sum[2];
     int difference[2];
     int position[2];
     int array[10];
+    void computeCurrent();
     void computePosition();
 };
 
@@ -47,6 +52,7 @@ public:
     float setMicroSecondsPerScan(float microSeconds);
     float getMicroSecondsPerScan();
     void setOffset(int channel, int offset);
+    void setPingPong(int channel, int pingpong);
     void setPeriod(int period);
     void setGain(int gain);
     void setPulse(int pulse);
@@ -60,13 +66,13 @@ private:
     IpUnidig *pIpUnidig;
     static void intFunc(void*, unsigned int mask); // Interrupt function
     void write(int command, int value);
-    void read();
+    void read(int *raw);
     float getActualMicroSecondsPerScan();
     float setTimeRegs(float microSecondsPerScan);
     quadEMData data;
     int maxClients;
     int numClients;
-    epicsEvent *intEvent;
+    epicsMessageQueue *intMsgQ;
     quadEMClient *client;
     float actualMicroSecondsPerScan;
 };

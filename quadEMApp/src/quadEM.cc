@@ -13,7 +13,8 @@ extern "C" {
 }
 #include <epicsTypes.h>
 #include <epicsThread.h>
-#include <epicsEvent.h>
+#include <epicsMessageQueue.h>
+#include <epicsPrint.h>
 #include <iocsh.h>
 #include <epicsExport.h>
 #include <gpHash.h>
@@ -36,11 +37,11 @@ extern "C"
 // Debug levels
 // 5  = print info during initialization
 // 10 = print info during write operations
-// 20 = print info during interupts (only use if 60Hz, not real interrupts!)
+// 20 = print info on each read!
 #ifdef NODEBUG
 #define DEBUG(l,f,v) ;
 #else
-#define DEBUG(l,f,v...) { if(l<quadEMDebug) printf(f,## v); }
+#define DEBUG(l,f,v...) { if(l<quadEMDebug) epicsPrintf(f,## v); }
 #endif
 int quadEMDebug = 0;
 epicsExportAddress(int, quadEMDebug);
@@ -76,7 +77,7 @@ quadEM::quadEM(const char *name, unsigned short *baseAddr,
 {
     client = (quadEMClient *)calloc(maxClients, sizeof(quadEMClient));
 
-    intEvent = new epicsEvent(epicsEventEmpty);
+    intMsgQ = new epicsMessageQueue(MAX_MESSAGES, MAX_RAW*sizeof(int));
     if (epicsThreadCreate("quadEMintTask",
                            epicsThreadPriorityHigh, 10000,
                            (EPICSTHREADFUNC)quadEM::intTask,
@@ -172,21 +173,25 @@ int quadEM::registerCallback(quadEMCallback callback, void *pvt)
 void quadEM::intFunc(void *v, unsigned int mask)
 {
     quadEM *t = (quadEM *) v;
+    int raw[MAX_RAW];
 
     // Read the new data
-    t->read();
-    // Give the semaphore to the intTask task, it handles the rest, not running at interrupt level
-    t->intEvent->signal();
+    t->read(raw);
+    // Send a message to the intTask task, it handles the rest, not running at interrupt level
+    t->intMsgQ->trySend(raw, sizeof(raw));
     
 }
 
 void quadEM::intTask(quadEM *p)
 {
     int    i;
+    int    raw[MAX_RAW];
 
     while(1) {
-       // Wait for event from interrupt routine
-       p->intEvent->wait();
+       // Wait for a message from interrupt routine
+       p->intMsgQ->receive(raw, sizeof(raw));
+       for (i=0; i<MAX_RAW; i++) p->data.raw[i] = raw[i];
+       p->data.computeCurrent();
        p->data.computePosition();
        // Call the callback routines which have registered
        for (i = 0; i < p->numClients; i++) {
@@ -224,6 +229,11 @@ void quadEM::setOffset(int channel, int value)
     data.offset[channel] = value;
 }
 
+void quadEM::setPingPong(int channel, int pingpong)
+{
+    data.pingpong[channel] = pingpong;
+}
+
 void quadEM::setGain(int value)
 {
     write(RANGE_COMMAND, value);
@@ -245,14 +255,19 @@ void quadEM::setPulse(int value)
     write(PULSE_COMMAND, value);
 }
 
-void quadEM::read()
+void quadEM::read(int *raw)
 {
-   data.current[0] = *(baseAddress+0)  - data.offset[0];
-   data.current[1] = *(baseAddress+4)  - data.offset[1];
+
+   raw[0] = *(baseAddress+0);
+   raw[1] = *(baseAddress+2);
+   raw[2] = *(baseAddress+4);
+   raw[3] = *(baseAddress+6);
    // Note that the following seems strange, but diode 4 comes before diode 3 in
    // memory.
-   data.current[2] = *(baseAddress+12)  - data.offset[2];
-   data.current[3] = *(baseAddress+8) - data.offset[3];
+   raw[4] = *(baseAddress+12);
+   raw[5] = *(baseAddress+14);
+   raw[6] = *(baseAddress+8);
+   raw[7] = *(baseAddress+10);
 }
 
 void quadEM::write(int command, int value)
@@ -270,33 +285,49 @@ void quadEM::write(int command, int value)
 quadEMData::quadEMData()
 { 
     int i;
-    for (i=0; i<4; i++) {
-        current[i] = 0;
+    for (i=0; i<MAX_RAW; i++) {
+        raw[i] = 0;
     }
-    for (i=0; i<2; i++) {
-        sum[i] = 0;
-        difference[i] = 0;
-        position[i] = 0;
-    }
+    computeCurrent();
+    computePosition();
 }
 
 // Constructor with 1 argument
 quadEMData::quadEMData(int value)
 { 
     int i;
-    for (i=0; i<4; i++) {
-        current[i] = value;
+    for (i=0; i<MAX_RAW; i++) {
+        raw[i] = value;
     }
-    for (i=0; i<2; i++) {
-        sum[i] = value;
-        difference[i] = value;
-        position[i] = value;
+    computeCurrent();
+    computePosition();
+}
+
+void quadEMData::computeCurrent()
+{
+    int i, j;
+
+    for (i=0, j=0; i<4; i++, j=i*2) {
+        switch(pingpong[i]) {
+        case 0:
+           current[i] = raw[j];
+           break;
+        case 1:
+           current[i] = raw[j+1];
+           break;
+        case 2:
+           current[i] = (raw[j] + raw[j+1])/2;
+           break;
+        }
+        current[i] = current[i] - offset[i];
+        DEBUG(20, "raw[%d]=%d, current[%d]=%d\n", i, raw[i], i, current[i]);
     }
 }
 
 void quadEMData::computePosition()
 {
     int i;
+
     sum[0]  = current[0] + current[2];
     difference[0] = current[2] - current[0];
     if (sum[0] == 0) sum[0] = 1;
