@@ -30,6 +30,7 @@
 
 #define MAX_A24_ADDRESS  0xffffff
 #define MAX_RAW 8
+/* Maximum messages in epicsMessageQueue for interrupt routine */
 #define MAX_MESSAGES 100
 
 /* First word of every command */
@@ -190,7 +191,6 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     unsigned long probeVal;
     epicsUInt32 mask;
     asynStatus status;
-    int priority=0;
 
     pPvt = callocMustSucceed(1, sizeof(*pPvt), "initQuadEM");
     pPvt->portName = epicsStrDup(portName);
@@ -301,10 +301,10 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     pPvt->quadEM.pinterface  = (void *)&drvQuadEM;
     pPvt->quadEM.drvPvt = pPvt;
     status = pasynManager->registerPort(portName,
-                                   1, /*is multiDevice*/
-                                   1,
-                                   priority,
-                                   0);
+                                   ASYN_MULTIDEVICE, /* cannot block */
+                                   1,  /* autoconnect */
+                                   0,  /* Medium priority */
+                                   0); /* Default stack size */
     if (status != asynSuccess) {
         errlogPrintf("initQuadEM ERROR: Can't register port\n");
         return -1;
@@ -361,8 +361,8 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
 
 
 static void poller(drvQuadEMPvt *pPvt)
-/*  This functions runs as a polling task at 100Hz (max) if there is no 
- *  IP-Unidig present */
+/*  This functions runs as a polling task at the system clock rate if there is 
+ *  no IP-Unidig present */
 {
     while(1) { /* Do forever */
         intFunc(pPvt, 0);
