@@ -248,3 +248,56 @@ grecord(ai,"$(P)$(EM)Position2") {
     field(DTYP, "quadEM")
     field(INP,"#C$(CARD) S1 @$(SERVER) POSITION")
 }
+
+grecord(mbbo,"$(P)$(EM)PingPong1") {
+    field(DESC,"PingPong")
+    field(PINI,"YES")
+    field(ZRVL,"0")
+    field(ZRST,"#1")
+    field(ONVL,"1")
+    field(ONST,"#2")
+    field(TWVL,"2")
+    field(TWST,"Avg.")
+    field(DTYP, "quadEM")
+    field(OUT,"#C$(CARD) S0 @$(SERVER) PINGPONG")
+}
+
+grecord(mbbo,"$(P)$(EM)PingPong2") {
+    field(DESC,"PingPong")
+    field(PINI,"YES")
+    field(ZRVL,"0")
+    field(ZRST,"#1")
+    field(ONVL,"1")
+    field(ONST,"#2")
+    field(TWVL,"2")
+    field(TWST,"Avg.")
+    field(DTYP, "quadEM")
+    field(OUT,"#C$(CARD) S1 @$(SERVER) PINGPONG")
+}
+
+grecord(mbbo,"$(P)$(EM)PingPong3") {
+    field(DESC,"PingPong")
+    field(PINI,"YES")
+    field(ZRVL,"0")
+    field(ZRST,"#1")
+    field(ONVL,"1")
+    field(ONST,"#2")
+    field(TWVL,"2")
+    field(TWST,"Avg.")
+    field(DTYP, "quadEM")
+    field(OUT,"#C$(CARD) S2 @$(SERVER) PINGPONG")
+}
+
+grecord(mbbo,"$(P)$(EM)PingPong4") {
+    field(DESC,"PingPong")
+    field(PINI,"YES")
+    field(ZRVL,"0")
+    field(ZRST,"#1")
+    field(ONVL,"1")
+    field(ONST,"#2")
+    field(TWVL,"2")
+    field(TWST,"Avg.")
+    field(DTYP, "quadEM")
+    field(OUT,"#C$(CARD) S3 @$(SERVER) PINGPONG")
+}
+

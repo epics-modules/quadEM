@@ -1,14 +1,14 @@
 
 file {
-	name="j:\epics\devel\quadEM\quadEMApp\op\adl\quadEM.adl"
+	name="j:\epics\3.14\quadEM\quadEMApp\op\adl\quadEM.adl"
 	version=020306
 }
 display {
 	object {
-		x=184
-		y=81
+		x=1062
+		y=187
 		width=440
-		height=270
+		height=300
 	}
 	clr=14
 	bclr=3
@@ -101,7 +101,7 @@ rectangle {
 "message button" {
 	object {
 		x=217
-		y=240
+		y=260
 		width=60
 		height=20
 	}
@@ -146,7 +146,7 @@ text {
 text {
 	object {
 		x=8
-		y=59
+		y=80
 		width=70
 		height=20
 	}
@@ -158,7 +158,7 @@ text {
 text {
 	object {
 		x=8
-		y=83
+		y=105
 		width=60
 		height=20
 	}
@@ -170,7 +170,7 @@ text {
 text {
 	object {
 		x=199
-		y=34
+		y=30
 		width=20
 		height=20
 	}
@@ -182,7 +182,7 @@ text {
 "text update" {
 	object {
 		x=174
-		y=59
+		y=80
 		width=70
 		height=20
 	}
@@ -198,7 +198,7 @@ text {
 "text entry" {
 	object {
 		x=169
-		y=83
+		y=105
 		width=80
 		height=20
 	}
@@ -213,7 +213,7 @@ text {
 text {
 	object {
 		x=369
-		y=34
+		y=30
 		width=20
 		height=20
 	}
@@ -225,7 +225,7 @@ text {
 "text update" {
 	object {
 		x=344
-		y=59
+		y=80
 		width=70
 		height=20
 	}
@@ -241,7 +241,7 @@ text {
 "text entry" {
 	object {
 		x=339
-		y=83
+		y=105
 		width=80
 		height=20
 	}
@@ -256,7 +256,7 @@ text {
 text {
 	object {
 		x=114
-		y=34
+		y=30
 		width=20
 		height=20
 	}
@@ -268,7 +268,7 @@ text {
 "text entry" {
 	object {
 		x=84
-		y=83
+		y=105
 		width=80
 		height=20
 	}
@@ -283,7 +283,7 @@ text {
 "text update" {
 	object {
 		x=89
-		y=59
+		y=80
 		width=70
 		height=20
 	}
@@ -299,7 +299,7 @@ text {
 text {
 	object {
 		x=284
-		y=34
+		y=30
 		width=20
 		height=20
 	}
@@ -311,7 +311,7 @@ text {
 "text update" {
 	object {
 		x=259
-		y=59
+		y=80
 		width=70
 		height=20
 	}
@@ -327,7 +327,7 @@ text {
 "text entry" {
 	object {
 		x=254
-		y=83
+		y=105
 		width=80
 		height=20
 	}
@@ -342,7 +342,7 @@ text {
 text {
 	object {
 		x=8
-		y=110
+		y=130
 		width=30
 		height=20
 	}
@@ -354,7 +354,7 @@ text {
 "text update" {
 	object {
 		x=131
-		y=110
+		y=130
 		width=70
 		height=20
 	}
@@ -370,7 +370,7 @@ text {
 "text update" {
 	object {
 		x=302
-		y=110
+		y=130
 		width=70
 		height=20
 	}
@@ -386,7 +386,7 @@ text {
 text {
 	object {
 		x=8
-		y=135
+		y=155
 		width=100
 		height=20
 	}
@@ -398,7 +398,7 @@ text {
 "text update" {
 	object {
 		x=131
-		y=135
+		y=155
 		width=70
 		height=20
 	}
@@ -414,7 +414,7 @@ text {
 "text update" {
 	object {
 		x=302
-		y=135
+		y=155
 		width=70
 		height=20
 	}
@@ -430,7 +430,7 @@ text {
 text {
 	object {
 		x=8
-		y=160
+		y=180
 		width=80
 		height=20
 	}
@@ -442,7 +442,7 @@ text {
 "text update" {
 	object {
 		x=131
-		y=160
+		y=180
 		width=70
 		height=20
 	}
@@ -458,7 +458,7 @@ text {
 "text update" {
 	object {
 		x=302
-		y=160
+		y=180
 		width=70
 		height=20
 	}
@@ -474,7 +474,7 @@ text {
 composite {
 	object {
 		x=8
-		y=186
+		y=205
 		width=310
 		height=20
 	}
@@ -483,7 +483,7 @@ composite {
 		text {
 			object {
 				x=8
-				y=186
+				y=205
 				width=220
 				height=20
 			}
@@ -495,7 +495,7 @@ composite {
 		"text entry" {
 			object {
 				x=238
-				y=186
+				y=205
 				width=80
 				height=20
 			}
@@ -512,7 +512,7 @@ composite {
 menu {
 	object {
 		x=106
-		y=240
+		y=260
 		width=100
 		height=20
 	}
@@ -525,7 +525,7 @@ menu {
 text {
 	object {
 		x=8
-		y=240
+		y=260
 		width=90
 		height=20
 	}
@@ -549,7 +549,7 @@ text {
 text {
 	object {
 		x=8
-		y=215
+		y=235
 		width=40
 		height=20
 	}
@@ -561,7 +561,7 @@ text {
 menu {
 	object {
 		x=57
-		y=214
+		y=234
 		width=77
 		height=21
 	}
@@ -574,7 +574,7 @@ menu {
 text {
 	object {
 		x=8
-		y=34
+		y=30
 		width=70
 		height=20
 	}
@@ -586,7 +586,7 @@ text {
 valuator {
 	object {
 		x=329
-		y=186
+		y=205
 		width=99
 		height=20
 	}
@@ -602,7 +602,7 @@ valuator {
 "message button" {
 	object {
 		x=288
-		y=240
+		y=260
 		width=80
 		height=20
 	}
@@ -613,4 +613,68 @@ valuator {
 	}
 	label="Initialize"
 	press_msg="1"
+}
+menu {
+	object {
+		x=94
+		y=55
+		width=60
+		height=21
+	}
+	control {
+		chan="$(P)$(EM)PingPong1"
+		clr=14
+		bclr=51
+	}
+}
+text {
+	object {
+		x=7
+		y=55
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Channel"
+}
+menu {
+	object {
+		x=179
+		y=55
+		width=60
+		height=21
+	}
+	control {
+		chan="$(P)$(EM)PingPong3"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=264
+		y=55
+		width=60
+		height=21
+	}
+	control {
+		chan="$(P)$(EM)PingPong2"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=349
+		y=55
+		width=60
+		height=21
+	}
+	control {
+		chan="$(P)$(EM)PingPong4"
+		clr=14
+		bclr=51
+	}
 }

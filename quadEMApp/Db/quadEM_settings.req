@@ -3,6 +3,10 @@ $(P)$(EM)Offset1
 $(P)$(EM)Offset2
 $(P)$(EM)Offset3
 $(P)$(EM)Offset4
+$(P)$(EM)PingPong1
+$(P)$(EM)PingPong2
+$(P)$(EM)PingPong3
+$(P)$(EM)PingPong4
 $(P)$(EM)ConversionTime
 $(P)$(EM)Gain
 $(P)$(EM)Average.SCAN
