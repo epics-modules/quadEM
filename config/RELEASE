@@ -1,0 +1,16 @@
+# RELEASE - Location of external products
+#
+# (Architecture dependent declarations should go into RELEASE.<arch>)
+#
+# Note: This file will be scanned to automatically generate
+#       include path definitions etc.
+#       The order of the following declarations will be retained
+#       within those definitions.
+#
+# Add your declarations here
+EPICS_BASE=/usr/local/epics/R3.13.7/base
+MCA=/home/epics/devel/mca
+DAC128V=/home/epics/devel/dac128V
+IPUNIDIG=/home/epics/devel/ipUnidig
+IP330=/home/epics/devel/ip330
+MPF=/home/epics/devel/mpf1-8
