@@ -10,14 +10,13 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY_IOC_vxWorks += quadEM
 
-DBD += devQuadEM.dbd
+DBD += quadEMSupport.dbd
+
+INC += drvQuadEM.h
 
 # The following are compiled and added to the Support library
-quadEM_SRCS += quadEM.cc
-quadEM_SRCS += quadEMScan.cc
-quadEM_SRCS += quadEMSweep.cc
-quadEM_SRCS += quadEMPID.cc
-quadEM_SRCS += devQuadEM.cc
+quadEM_SRCS += drvQuadEM.c
+quadEM_SRCS += devQuadEM.c
 
 #===========================
 
