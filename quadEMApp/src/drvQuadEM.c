@@ -25,7 +25,6 @@
 #include "asynInt32Callback.h"
 #include "asynFloat64Callback.h"
 #include "asynInt32ArrayCallback.h"
-#include "asynUInt32Digital.h"
 #include "asynUInt32DigitalCallback.h"
 #include "asynDrvUser.h"
 
@@ -101,7 +100,6 @@ typedef struct {
     asynUser *puint32DCbAsynUser;
     asynInterface common;
     asynInterface int32;
-    asynInterface uint32Digital;
     asynInterface float64;
     asynInterface int32Callback;
     asynInterface float64Callback;
@@ -116,10 +114,6 @@ static asynStatus writeInt32        (void *drvPvt, asynUser *pasynUser,
                                      epicsInt32 value);
 static asynStatus getBounds         (void *drvPvt, asynUser *pasynUser,
                                      epicsInt32 *low, epicsInt32 *high);
-static asynStatus readUInt32Digital (void *drvPvt, asynUser *pasynUser,
-                                     epicsUInt32 *value, epicsUInt32 mask);
-static asynStatus writeUInt32Digital (void *drvPvt, asynUser *pasynUser,
-                                      epicsUInt32 value, epicsUInt32 mask);
 static asynStatus readFloat64       (void *drvPvt, asynUser *pasynUser,
                                      epicsFloat64 *value);
 static asynStatus writeFloat64      (void *drvPvt, asynUser *pasynUser,
@@ -195,11 +189,6 @@ static const asynInt32 drvQuadEMInt32 = {
     writeInt32,
     readInt32,
     getBounds
-};
-
-static const asynUInt32Digital drvQuadEMUInt32Digital = {
-    writeUInt32Digital,
-    readUInt32Digital
 };
 
 static const asynFloat64 drvQuadEMFloat64 = {
@@ -346,9 +335,6 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     pPvt->int32.interfaceType = asynInt32Type;
     pPvt->int32.pinterface  = (void *)&drvQuadEMInt32;
     pPvt->int32.drvPvt = pPvt;
-    pPvt->uint32Digital.interfaceType = asynUInt32DigitalType;
-    pPvt->uint32Digital.pinterface  = (void *)&drvQuadEMUInt32Digital;
-    pPvt->uint32Digital.drvPvt = pPvt;
     pPvt->float64.interfaceType = asynFloat64Type;
     pPvt->float64.pinterface  = (void *)&drvQuadEMFloat64;
     pPvt->float64.drvPvt = pPvt;
@@ -381,11 +367,6 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     status = pasynManager->registerInterface(pPvt->portName,&pPvt->int32);
     if (status != asynSuccess) {
         errlogPrintf("initQuadEM ERROR: Can't register int32\n");
-        return -1;
-    }
-    status = pasynManager->registerInterface(pPvt->portName,&pPvt->uint32Digital);
-    if (status != asynSuccess) {
-        errlogPrintf("initQuadEM ERROR: Can't register uint32Digital\n");
         return -1;
     }
     status = pasynManager->registerInterface(pPvt->portName,&pPvt->float64);
@@ -768,7 +749,7 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser,
 
     pasynManager->getAddr(pasynUser, &channel);
     if (pcommand) command = *pcommand;
-    if (command == quadEMOffset) {
+    if ((command == quadEMOffset) || (command == quadEMPingPong)) {
         if ((channel < 0) || (channel > 4)) {
             asynPrint(pasynUser, ASYN_TRACE_ERROR,
                       "drvQuadEM::writeInt32, channel must be 0-3, =%d\n",
@@ -797,6 +778,12 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser,
     case quadEMGo:
         go(drvPvt, pasynUser);
         break;
+    case quadEMPingPong:
+        pPvt->data.pingpong[channel] = value;
+        break;
+    case quadEMGain:
+        setGain(drvPvt, pasynUser, value);
+        break;
     default:
         asynPrint(pasynUser, ASYN_TRACE_ERROR, 
                   "drvQuadEM::writeInt32, illegal command=%d\n", 
@@ -807,57 +794,6 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser,
     return(asynSuccess);
 }
 
-static asynStatus readUInt32Digital(void *drvPvt, asynUser *pasynUser, 
-                                    epicsUInt32 *value, epicsUInt32 mask)
-{
-    asynPrint(pasynUser, ASYN_TRACE_ERROR, 
-              "drvQuadEM::readUInt32Digital, illegal command\n");
-    return(asynError);
-}
-
-
-static asynStatus writeUInt32Digital(void *drvPvt, asynUser *pasynUser,
-                                     epicsUInt32 value, epicsUInt32 mask)
-{
-    drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
-    int channel;
-    quadEMCommand *pcommand = (quadEMCommand *)pasynUser->drvUser;
-    quadEMCommand command = quadEMCurrent;
-
-    pasynManager->getAddr(pasynUser, &channel);
-    if (pcommand) command = *pcommand;
-    if (command == quadEMPingPong) {
-        if ((channel < 0) || (channel > 4)) {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR,
-                      "drvQuadEM::writeUInt32Digital, channel must be 0-3, =%d\n",
-                      channel);
-            return(asynError);
-        }
-    } else {
-        if (channel > 0 ) {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR,
-                      "drvQuadEM::writeUInt32Digital, channel must be 0, =%d\n",
-                      channel);
-            return(asynError);
-        }
-    }
-
-    switch(command) {
-    case quadEMPingPong:
-        pPvt->data.pingpong[channel] = value;
-        break;
-    case quadEMGain:
-        setGain(drvPvt, pasynUser, value);
-        break;
-    default:
-        asynPrint(pasynUser, ASYN_TRACE_ERROR,
-                  "drvQuadEM::writeUInt32Digital, illegal command=%d\n",
-                  command);
-        return(asynError);
-        break;
-    }
-    return(asynSuccess);
-}
 
 static asynStatus getBounds(void *drvPvt, asynUser *pasynUser,
                             epicsInt32 *low, epicsInt32 *high)

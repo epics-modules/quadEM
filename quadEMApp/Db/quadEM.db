@@ -22,7 +22,7 @@ grecord(mbbo,"$(P)$(EM)Gain") {
     field(SXST,"8.80")
     field(SVVL,"1")
     field(SVST,"17.6")
-    field(DTYP, "asynUInt32Digital")
+    field(DTYP, "asynInt32")
     field(OUT,"@asyn($(PORT) 0)GAIN")
 }
 
@@ -35,7 +35,7 @@ grecord(mbbo,"$(P)$(EM)PingPong1") {
     field(ONST,"#2")
     field(TWVL,"2")
     field(TWST,"Avg.")
-    field(DTYP, "asynUInt32Digital")
+    field(DTYP, "asynInt32")
     field(OUT,"@asyn($(PORT) 0)PING_PONG")
 }
 
@@ -48,7 +48,7 @@ grecord(mbbo,"$(P)$(EM)PingPong2") {
     field(ONST,"#2")
     field(TWVL,"2")
     field(TWST,"Avg.")
-    field(DTYP, "asynUInt32Digital")
+    field(DTYP, "asynInt32")
     field(OUT,"@asyn($(PORT) 1)PING_PONG")
 }
 
@@ -61,7 +61,7 @@ grecord(mbbo,"$(P)$(EM)PingPong3") {
     field(ONST,"#2")
     field(TWVL,"2")
     field(TWST,"Avg.")
-    field(DTYP, "asynUInt32Digital")
+    field(DTYP, "asynInt32")
     field(OUT,"@asyn($(PORT) 2)PING_PONG")
 }
 
@@ -74,7 +74,7 @@ grecord(mbbo,"$(P)$(EM)PingPong4") {
     field(ONST,"#2")
     field(TWVL,"2")
     field(TWST,"Avg.")
-    field(DTYP, "asynUInt32Digital")
+    field(DTYP, "asynInt32")
     field(OUT,"@asyn($(PORT) 3)PING_PONG")
 }
 
