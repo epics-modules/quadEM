@@ -132,7 +132,8 @@ static void computePosition         (quadEMData *d);
 static void computeCurrent          (quadEMData *d);
 static void poller                  (drvQuadEMPvt *pPvt);  
                                     /* Polling routine if no interrupts */
-static void intFunc                 (void *drvPvt, unsigned int mask); 
+static void intFunc                 (void *drvPvt, asynUser *pasynUser,
+                                     unsigned int mask); 
                                      /* Interrupt function */
 static void intTask                 (drvQuadEMPvt *pPvt);  
                                     /* Task that waits for interrupts */
@@ -354,7 +355,7 @@ static void poller(drvQuadEMPvt *pPvt)
  *  no interrupts present */
 {
     while(1) { /* Do forever */
-        intFunc(pPvt, 0);
+        intFunc(pPvt, pPvt->pasynUser, 0);
         epicsThreadSleep(epicsThreadSleepQuantum());
     }
 }
@@ -405,7 +406,7 @@ static asynStatus drvUserDestroy(void *drvPvt,asynUser *pasynUser)
 }
 
 
-static void intFunc(void *drvPvt, epicsUInt32 mask)
+static void intFunc(void *drvPvt, asynUser *pasynUser, epicsUInt32 mask)
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     int raw[MAX_RAW];
@@ -456,9 +457,10 @@ static void intTask(drvQuadEMPvt *pPvt)
         while (pnode) {
             pint32Interrupt = pnode->drvPvt;
             addr = pint32Interrupt->addr;
-            reason = pint32Interrupt->reason;
+            reason = pint32Interrupt->pasynUser->reason;
             if (reason == quadEMCurrent) {
                 pint32Interrupt->callback(pint32Interrupt->userPvt,
+                                          pint32Interrupt->pasynUser,
                                           pPvt->data.array[addr]);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
@@ -471,10 +473,11 @@ static void intTask(drvQuadEMPvt *pPvt)
         while (pnode) {
             pfloat64Interrupt = pnode->drvPvt;
             addr = pfloat64Interrupt->addr;
-            reason = pfloat64Interrupt->reason;
+            reason = pfloat64Interrupt->pasynUser->reason;
             if (reason == quadEMCurrent) {
                 pfloat64Interrupt->callback(pfloat64Interrupt->userPvt,
-                                          (double)pPvt->data.array[addr]);
+                                            pfloat64Interrupt->pasynUser,
+                                            (double)pPvt->data.array[addr]);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -485,9 +488,10 @@ static void intTask(drvQuadEMPvt *pPvt)
         pnode = (interruptNode *)ellFirst(pclientList);
         while (pnode) {
             pint32ArrayInterrupt = pnode->drvPvt;
-            reason = pint32ArrayInterrupt->reason;
+            reason = pint32ArrayInterrupt->pasynUser->reason;
             if (reason == quadEMCurrent) {
                 pint32ArrayInterrupt->callback(pint32ArrayInterrupt->userPvt,
+                                               pint32ArrayInterrupt->pasynUser,
                                                pPvt->data.array, 10);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
@@ -525,9 +529,10 @@ static double setScanPeriod(void *drvPvt, asynUser *pasynUser,
     pnode = (interruptNode *)ellFirst(pclientList);
     while (pnode) {
         pfloat64Interrupt = pnode->drvPvt;
-        reason = pfloat64Interrupt->reason;
+        reason = pfloat64Interrupt->pasynUser->reason;
             if (reason == quadEMScanPeriod) {
                 pfloat64Interrupt->callback(pfloat64Interrupt->userPvt,
+                                            pfloat64Interrupt->pasynUser,
                                             pPvt->actualSecondsPerScan);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
@@ -810,7 +815,7 @@ static void report(void *drvPvt, FILE *fp, int details)
             asynInt32Interrupt *pint32Interrupt = pnode->drvPvt;
             fprintf(fp, "    int32 callback client address=%p, addr=%d, reason=%d\n",
                     pint32Interrupt->callback, pint32Interrupt->addr,
-                    pint32Interrupt->reason);
+                    pint32Interrupt->pasynUser->reason);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
         pasynManager->interruptEnd(pPvt->int32InterruptPvt);
@@ -822,7 +827,7 @@ static void report(void *drvPvt, FILE *fp, int details)
             asynFloat64Interrupt *pfloat64Interrupt = pnode->drvPvt;
             fprintf(fp, "    float64 callback client address=%p, addr=%d, reason=%d\n",
                     pfloat64Interrupt->callback, pfloat64Interrupt->addr,
-                    pfloat64Interrupt->reason);
+                    pfloat64Interrupt->pasynUser->reason);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
         pasynManager->interruptEnd(pPvt->float64InterruptPvt);
@@ -833,7 +838,8 @@ static void report(void *drvPvt, FILE *fp, int details)
         while (pnode) {
             asynInt32ArrayInterrupt *pint32ArrayInterrupt = pnode->drvPvt;
             fprintf(fp, "    int32Array callback client address=%p, reason=%d\n",
-                    pint32ArrayInterrupt->callback, pint32ArrayInterrupt->reason);
+                    pint32ArrayInterrupt->callback, 
+                    pint32ArrayInterrupt->pasynUser->reason);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
         pasynManager->interruptEnd(pPvt->int32ArrayInterruptPvt);
