@@ -42,7 +42,7 @@ private:
 // These C functions are provided so that we can create and configure the
 // fastPID object from the vxWorks command line, which does not understand 
 // C++ syntax.
-static char taskname[] = "quadPID";
+static char taskname[] = "quadEMPID";
 extern "C" quadEMPID *initQuadEMPID(const char *serverName, 
          quadEM *pQuadEM, int quadEMChannel, DAC128V *pDAC128V, int DACChannel,
          int queueSize)
