@@ -5,9 +5,6 @@ include $(TOP)/config/CONFIG_APP
 #----------------------------------------------------
 # Add databases, templates, substitutions like this
 
-DB += ip330Scan.template
-DB += ip330Scan.substitutions
-DB += ip330PID.db
 
 include $(TOP)/config/RULES.Db
 #----------------------------------------
