@@ -25,8 +25,8 @@
 #include <asynFloat64Callback.h>
 #include <asynInt32ArrayCallback.h>
 
-#include "drvQuadEM.h"
-#include "drvIpUnidig.h"
+#include "asynQuadEM.h"
+#include "asynIpUnidig.h"
 
 #define MAX_A24_ADDRESS  0xffffff
 #define MAX_RAW 8
@@ -58,9 +58,12 @@ typedef struct {
 typedef struct {
     ELLNODE *next;
     ELLNODE *previous;
-    asynInt32Clbk int32Callback;
-    asynFloat64Clbk float64Callback;
-    asynInt32ArrayClbk int32ArrayCallback;
+    asynInt32DataCallback int32DataCallback;
+    asynInt32IntervalCallback int32IntervalCallback;
+    asynFloat64DataCallback float64DataCallback;
+    asynFloat64IntervalCallback float64IntervalCallback;
+    asynInt32ArrayDataCallback int32ArrayDataCallback;
+    asynInt32ArrayIntervalCallback int32ArrayIntervalCallback;
     void *pvt;
     dataType dataType;
     int channel;
@@ -110,12 +113,18 @@ static asynStatus readFloat64       (void *drvPvt, asynUser *pasynUser,
                                      epicsFloat64 *value);
 static asynStatus writeFloat64      (void *drvPvt, asynUser *pasynUser,
                                      epicsFloat64 value);
-static asynStatus registerInt32Callback (void *drvPvt, asynUser *pasynUser,
-                                     asynInt32Clbk callback, void *pvt);
-static asynStatus registerFloat64Callback  (void *drvPvt, asynUser *pasynUser,
-                                     asynFloat64Clbk callback, void *pvt);
-static asynStatus registerInt32ArrayCallback (void *drvPvt, asynUser *pasynUser,
-                                     asynInt32ArrayClbk callback, void *pvt);
+static asynStatus registerInt32Callbacks (void *drvPvt, asynUser *pasynUser,
+                                     asynInt32DataCallback dataCallback,
+                                     asynInt32IntervalCallback intervalCallback,
+                                     void *pvt);
+static asynStatus registerFloat64Callbacks  (void *drvPvt, asynUser *pasynUser,
+                                   asynFloat64DataCallback dataCallback,
+                                   asynFloat64IntervalCallback intervalCallback,
+                                   void *pvt);
+static asynStatus registerInt32ArrayCallbacks(void *drvPvt, asynUser *pasynUser,
+                               asynInt32ArrayDataCallback dataCallback,
+                               asynInt32ArrayIntervalCallback intervalCallback,
+                               void *pvt);
 static void report                  (void *drvPvt, FILE *fp, int details);
 static asynStatus connect           (void *drvPvt, asynUser *pasynUser);
 static asynStatus disconnect        (void *drvPvt, asynUser *pasynUser);
@@ -126,8 +135,9 @@ static void write                   (void *drvPvt, asynUser *pasynUser,
                                      int command, int value);
 static void read                    (void *drvPvt, asynUser *pasynUser,
                                      int *raw);
-static asynStatus registerCallback  (void *drvPvt, asynUser *pasynUser,
-                                     void *callback, void *pvt, dataType dataType);
+static asynStatus registerCallbacks (void *drvPvt, asynUser *pasynUser,
+                                     void *dataCallback, void *intervalCallback,
+                                     void *pvt, dataType dataType);
 static void computePosition         (quadEMData *d);
 static void computeCurrent          (quadEMData *d);
 static void poller                  (drvQuadEMPvt *pPvt);  
@@ -150,19 +160,19 @@ static const asynFloat64 drvQuadEMFloat64 = {
 static const asynInt32Callback drvQuadEMInt32Callback = {
     setScanPeriod,
     getScanPeriod,
-    registerInt32Callback
+    registerInt32Callbacks
 };
 
 static const asynInt32ArrayCallback drvQuadEMInt32ArrayCallback = {
     setScanPeriod,
     getScanPeriod,
-    registerInt32ArrayCallback
+    registerInt32ArrayCallbacks
 };
 
 static const asynFloat64Callback drvQuadEMFloat64Callback = {
     setScanPeriod,
     getScanPeriod,
-    registerFloat64Callback
+    registerFloat64Callbacks
 };
 
 static const asynQuadEM drvQuadEM = {
@@ -271,11 +281,13 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     }
     else {
         mask = 1<<(unidigChan);
+        /* Make sure interrupts are enabled on the falling edge of the 
+         * quadEM output pulse */
         pPvt->ipUnidig->setFallingMaskBits(pPvt->ipUnidigPvt, 
                                            pPvt->pipUnidigAsynUser, mask);
-        pPvt->ipUnidig->registerIntCallback(pPvt->ipUnidigPvt, 
-                                            pPvt->pipUnidigAsynUser, intFunc, 
-                                            pPvt, mask);
+        pPvt->ipUnidig->registerCallback(pPvt->ipUnidigPvt, 
+                                         pPvt->pipUnidigAsynUser, intFunc, 
+                                         mask, pPvt);
     }
 
     /* Link with higher level routines */
@@ -378,26 +390,37 @@ static quadEMData readData(void *drvPvt, asynUser *pasynUser)
 }
 
 
-static asynStatus registerInt32Callback(void *drvPvt, asynUser *pasynUser, 
-                                        asynInt32Clbk callback, void *pvt)
+static asynStatus registerInt32Callbacks(void *drvPvt, asynUser *pasynUser,
+                                    asynInt32DataCallback dataCallback,
+                                    asynInt32IntervalCallback intervalCallback, 
+                                    void *pvt)
 {
-    return(registerCallback(drvPvt, pasynUser, callback, pvt, typeInt32));
+    return(registerCallbacks(drvPvt, pasynUser, dataCallback, intervalCallback,
+                             pvt, typeInt32));
 }
 
-static asynStatus registerFloat64Callback(void *drvPvt, asynUser *pasynUser, 
-                                          asynFloat64Clbk callback, void *pvt)
+static asynStatus registerFloat64Callbacks(void *drvPvt, asynUser *pasynUser,
+                                   asynFloat64DataCallback dataCallback,
+                                   asynFloat64IntervalCallback intervalCallback,
+                                   void *pvt)
 {
-    return(registerCallback(drvPvt, pasynUser, callback, pvt, typeFloat64));
+    return(registerCallbacks(drvPvt, pasynUser, dataCallback, intervalCallback,
+                             pvt, typeFloat64));
 }
 
-static asynStatus registerInt32ArrayCallback(void *drvPvt, asynUser *pasynUser, 
-                                         asynInt32ArrayClbk callback, void *pvt)
+static asynStatus registerInt32ArrayCallbacks(void *drvPvt, asynUser *pasynUser,
+                                    asynInt32ArrayDataCallback dataCallback,
+                                    asynInt32ArrayIntervalCallback 
+                                        intervalCallback, 
+                                    void *pvt)
 {
-    return(registerCallback(drvPvt, pasynUser, callback, pvt, typeInt32Array));
+    return(registerCallbacks(drvPvt, pasynUser, dataCallback, intervalCallback,
+                             pvt, typeInt32Array));
 }
 
-static asynStatus registerCallback(void *drvPvt, asynUser *pasynUser, 
-                                   void *callback, void *pvt, dataType dataType)
+static asynStatus registerCallbacks(void *drvPvt, asynUser *pasynUser, 
+                                    void *dataCallback, void *intervalCallback,
+                                    void *pvt, dataType dataType)
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     quadEMClient *pClient = callocMustSucceed(1, sizeof(*pClient), 
@@ -407,13 +430,16 @@ static asynStatus registerCallback(void *drvPvt, asynUser *pasynUser,
     pasynManager->getAddr(pasynUser, &pClient->channel);
     switch(dataType) {
     case typeInt32:
-        pClient->int32Callback = callback;
+        pClient->int32DataCallback = dataCallback;
+        pClient->int32IntervalCallback = intervalCallback;
         break;
     case typeFloat64:
-        pClient->float64Callback = callback;
+        pClient->float64DataCallback = dataCallback;
+        pClient->float64IntervalCallback = intervalCallback;
         break;
     case typeInt32Array:
-        pClient->int32ArrayCallback = callback;
+        pClient->int32ArrayDataCallback = dataCallback;
+        pClient->int32ArrayIntervalCallback = intervalCallback;
         break;
     }
     pClient->pvt = pvt;
@@ -426,6 +452,11 @@ static void intFunc(void *drvPvt, unsigned int mask)
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     int raw[MAX_RAW];
 
+    /* We get callbacks on both high-to-low and low-to-high transitions
+     * of the pulse to the IpUnidig.  We only want to use one or the other.
+     * The mask parameter to this routine is 0 if this was a high-to-low 
+     * transition.  Use that one. */
+    if (mask) return;
     /* Read the new data */
     read(pPvt, pPvt->pasynUser, raw);
     /* Send a message to the intTask task, it handles the rest, not running 
@@ -458,15 +489,18 @@ static void intTask(drvQuadEMPvt *pPvt)
        while(pClient) {
            switch(pClient->dataType) {
            case typeInt32:
-               pClient->int32Callback(pClient->pvt, 
-                                      pPvt->data.array[pClient->channel]);
+               if (pClient->int32DataCallback)
+                   pClient->int32DataCallback(pClient->pvt, 
+                                       pPvt->data.array[pClient->channel]);
                break;
            case typeFloat64:
-               pClient->float64Callback(pClient->pvt, 
+               if (pClient->float64DataCallback) 
+                   pClient->float64DataCallback(pClient->pvt, 
                                     (double)pPvt->data.array[pClient->channel]);
                break;
            case typeInt32Array:
-               pClient->int32ArrayCallback(pClient->pvt, 
+               if (pClient->int32ArrayDataCallback) 
+                   pClient->int32ArrayDataCallback(pClient->pvt, 
                                            pPvt->data.array);
                break;
            }
@@ -479,6 +513,7 @@ static double setScanPeriod(void *drvPvt, asynUser *pasynUser,
                             double seconds)
 {
     double microSeconds = seconds * 1.e6;
+    quadEMClient *pClient;
 
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     /* Convert from microseconds to device units */
@@ -494,6 +529,30 @@ static double setScanPeriod(void *drvPvt, asynUser *pasynUser,
     } else {
         pPvt->actualSecondsPerScan = epicsThreadSleepQuantum();
     }
+    /* Call the callback routines which have registered to be notified when
+       the scan period changes */
+    pClient = (quadEMClient *)ellFirst(&pPvt->clientList);
+    while(pClient) {
+        switch(pClient->dataType) {
+        case typeInt32:
+            if (pClient->int32IntervalCallback)
+                pClient->int32IntervalCallback(pClient->pvt,
+                                               pPvt->actualSecondsPerScan);
+            break;
+        case typeFloat64:
+            if (pClient->float64IntervalCallback)
+                pClient->float64IntervalCallback(pClient->pvt,
+                                               pPvt->actualSecondsPerScan);
+            break;
+        case typeInt32Array:
+            if (pClient->int32ArrayIntervalCallback)
+                pClient->int32ArrayIntervalCallback(pClient->pvt,
+                                               pPvt->actualSecondsPerScan);
+            break;
+        }
+        pClient = (quadEMClient *)ellNext(pClient);
+    }
+ 
     return(getScanPeriod(pPvt, pasynUser));
 }
 
