@@ -4,7 +4,6 @@
 # and the EPID record device support is defined
 # in stdApp/src/stdSupport.dbd, since these
 # are "generic" and not device specific
-device(ai,INST_IO,devAiQuadEM,"quadEM")
 device(ao,INST_IO,devAoQuadEM,"quadEM")
 device(mbbo,INST_IO,devMbboQuadEM,"quadEM")
 
