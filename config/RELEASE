@@ -9,8 +9,8 @@
 #
 # Add your declarations here
 EPICS_BASE=/usr/local/epics/R3.13.7/base
-MCA=/home/epics/devel/mca
-STD=/home/epics/devel/std
-DAC128V=/home/epics/devel/dac128V
-IPUNIDIG=/home/epics/devel/ipUnidig
-MPF=/home/epics/devel/mpf1-10
+MCA=/home/epics/support/mca
+STD=/home/epics/support/std
+DAC128V=/home/epics/support/dac128V
+IPUNIDIG=/home/epics/support/ipUnidig
+MPF=/home/epics/support/mpf1-10
