@@ -22,10 +22,8 @@
 #include "asynDriver.h"
 #include "asynInt32.h"
 #include "asynFloat64.h"
-#include "asynInt32Callback.h"
-#include "asynFloat64Callback.h"
-#include "asynInt32ArrayCallback.h"
-#include "asynUInt32DigitalCallback.h"
+#include "asynInt32Array.h"
+#include "asynUInt32Digital.h"
 #include "asynDrvUser.h"
 
 #include "drvQuadEM.h"
@@ -74,36 +72,22 @@ typedef struct {
 } quadEMData;
 
 typedef struct {
-    ELLNODE *next;
-    ELLNODE *previous;
-    void (*int32Callback)(void *drvPvt, epicsInt32 data);
-    void (*float64Callback)(void *drvPvt, epicsFloat64 data);
-    void (*int32ArrayCallback)(void *drvPvt, epicsInt32 *data, 
-                               epicsUInt32 nelem);
-    void *pvt;
-    dataType dataType;
-    quadEMCommand *pcommand;
-    int channel;
-} quadEMClient;
-
-typedef struct {
     char *portName;
     unsigned short *baseAddress;
     asynUser *pasynUser;
     quadEMData data;
     epicsMessageQueueId intMsgQId;
-    quadEMClient *client;
     double actualSecondsPerScan;
-    ELLLIST clientList;
-    asynUInt32DigitalCallback *uint32DCb;
-    void *uint32DCbPvt;
-    asynUser *puint32DCbAsynUser;
+    asynUInt32Digital *uint32Digital;
+    void *uint32DigitalPvt;
+    asynUser *puint32DAsynUser;
     asynInterface common;
     asynInterface int32;
+    void *int32InterruptPvt;
     asynInterface float64;
-    asynInterface int32Callback;
-    asynInterface float64Callback;
-    asynInterface int32ArrayCallback;
+    void *float64InterruptPvt;
+    asynInterface int32Array;
+    void *int32ArrayInterruptPvt;
     asynInterface drvUser;
 } drvQuadEMPvt;
 
@@ -118,32 +102,6 @@ static asynStatus readFloat64       (void *drvPvt, asynUser *pasynUser,
                                      epicsFloat64 *value);
 static asynStatus writeFloat64      (void *drvPvt, asynUser *pasynUser,
                                      epicsFloat64 value);
-static asynStatus registerInt32Callback (void *drvPvt, asynUser *pasynUser,
-                                     void (*callback)(void *drvPvt, 
-                                                      epicsInt32 data),
-                                     void *pvt);
-static asynStatus registerFloat64Callback  (void *drvPvt, asynUser *pasynUser,
-                                     void (*callback)(void *drvPvt, 
-                                                      epicsFloat64 data),
-                                     void *pvt);
-static asynStatus registerInt32ArrayCallback(void *drvPvt, asynUser *pasynUser,
-                                     void (*callback)(void *drvPvt,
-                                                      epicsInt32 *data,
-                                                      epicsUInt32 nelem),
-                                     void *pvt);
-static asynStatus cancelInt32Callback (void *drvPvt, asynUser *pasynUser,
-                                     void (*callback)(void *drvPvt, 
-                                                      epicsInt32 data),
-                                     void *pvt);
-static asynStatus cancelFloat64Callback  (void *drvPvt, asynUser *pasynUser,
-                                     void (*callback)(void *drvPvt, 
-                                                      epicsFloat64 data),
-                                     void *pvt);
-static asynStatus cancelInt32ArrayCallback(void *drvPvt, asynUser *pasynUser,
-                                     void (*callback)(void *drvPvt,
-                                                      epicsInt32 *data,
-                                                      epicsUInt32 nelem),
-                                     void *pvt);
 static asynStatus drvUserCreate(void *drvPvt, asynUser *pasynUser,
                                 const char *drvInfo, const char **pptypeName,
                                 size_t *psize);
@@ -170,12 +128,6 @@ static void write                   (void *drvPvt, asynUser *pasynUser,
                                      int command, int value);
 static void read                    (void *drvPvt, asynUser *pasynUser,
                                      int *raw);
-static asynStatus registerCallback  (void *drvPvt, asynUser *pasynUser,
-                                     void *callback, void *pvt, 
-                                     dataType dataType);
-static asynStatus cancelCallback    (void *drvPvt, asynUser *pasynUser,
-                                     void *callback, void *pvt, 
-                                     dataType dataType);
 static void computePosition         (quadEMData *d);
 static void computeCurrent          (quadEMData *d);
 static void poller                  (drvQuadEMPvt *pPvt);  
@@ -188,27 +140,23 @@ static void intTask                 (drvQuadEMPvt *pPvt);
 static const asynInt32 drvQuadEMInt32 = {
     writeInt32,
     readInt32,
-    getBounds
+    getBounds,
+    NULL,
+    NULL
 };
 
 static const asynFloat64 drvQuadEMFloat64 = {
     writeFloat64,
-    readFloat64
+    readFloat64,
+    NULL,
+    NULL
 };
 
-static const asynInt32Callback drvQuadEMInt32Callback = {
-    registerInt32Callback,
-    cancelInt32Callback
-};
-
-static const asynInt32ArrayCallback drvQuadEMInt32ArrayCallback = {
-    registerInt32ArrayCallback,
-    cancelInt32ArrayCallback
-};
-
-static const asynFloat64Callback drvQuadEMFloat64Callback = {
-    registerFloat64Callback,
-    cancelFloat64Callback
+static const asynFloat64 drvQuadEMInt32Array = {
+    NULL,
+    NULL,
+    NULL,
+    NULL
 };
 
 static const asynDrvUser drvQuadEMDrvUser = {
@@ -234,32 +182,32 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     unsigned long probeVal;
     epicsUInt32 mask;
     asynStatus status;
+    void *registrarPvt;
 
     pPvt = callocMustSucceed(1, sizeof(*pPvt), "initQuadEM");
     pPvt->portName = epicsStrDup(portName);
-    ellInit(&pPvt->clientList);
 
     if ((unidigName != 0) && (strlen(unidigName) != 0)) {
         /* Create asynUser */
-        pPvt->puint32DCbAsynUser = pasynManager->createAsynUser(0, 0);
+        pPvt->puint32DAsynUser = pasynManager->createAsynUser(0, 0);
 
         /* Connect to device */
-        status = pasynManager->connectDevice(pPvt->puint32DCbAsynUser, 
+        status = pasynManager->connectDevice(pPvt->puint32DAsynUser, 
                                              unidigName, unidigChan);
         if (status != asynSuccess) {
-            errlogPrintf("initQuadEM, connectDevice failed for digitalCallback\n");
+            errlogPrintf("initQuadEM, connectDevice failed for uint32Digital\n");
             return -1;
         }
 
         /* Get the asynUInt32DigitalCallback interface */
-        pasynInterface = pasynManager->findInterface(pPvt->puint32DCbAsynUser, 
-                                                   asynUInt32DigitalCallbackType, 1);
+        pasynInterface = pasynManager->findInterface(pPvt->puint32DAsynUser, 
+                                                   asynUInt32DigitalType, 1);
         if (!pasynInterface) {
-            errlogPrintf("initQuadEM, find asynUInt32DigitalCallback interface failed\n");
+            errlogPrintf("initQuadEM, find asynUInt32Digital interface failed\n");
             return -1;
         }
-        pPvt->uint32DCb = (asynUInt32DigitalCallback *)pasynInterface->pinterface;
-        pPvt->uint32DCbPvt = pasynInterface->drvPvt;
+        pPvt->uint32Digital = (asynUInt32Digital *)pasynInterface->pinterface;
+        pPvt->uint32DigitalPvt = pasynInterface->drvPvt;
     }
  
     pPvt->intMsgQId = epicsMessageQueueCreate(MAX_MESSAGES, MAX_RAW*sizeof(int));
@@ -295,15 +243,7 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
         return -1;
     }
 
-    /* Send the initial settings to the board to get it talking to the 
-     * electometer. These settings will be overridden by the database values 
-     * when the database initializes */
-    setGain(pPvt, pPvt->pasynUser, 0);
-    setPulse(pPvt, pPvt->pasynUser, 1024);
-    setPeriod(pPvt, pPvt->pasynUser, 0xffff);
-    setScanPeriod(pPvt, pPvt->pasynUser, microSecondsPerScan/1.e6);
-    go(pPvt, pPvt->pasynUser);
-    if (pPvt->uint32DCbPvt == NULL) {
+    if (pPvt->uint32DigitalPvt == NULL) {
         if (epicsThreadCreate("quadEMPoller",
                               epicsThreadPriorityMedium, 10000,
                               (EPICSTHREADFUNC)poller,
@@ -315,17 +255,18 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     else {
         /* Make sure interrupts are enabled on the falling edge of the 
          * quadEM output pulse */
-        pPvt->uint32DCb->getInterrupt(pPvt->uint32DCbPvt, 
-                                      pPvt->puint32DCbAsynUser, &mask,
-                                      interruptOnOneToZero);
+        pPvt->uint32Digital->getInterrupt(pPvt->uint32DigitalPvt, 
+                                          pPvt->puint32DAsynUser, &mask,
+                                          interruptOnOneToZero);
         mask |= 1 << unidigChan;
-        pPvt->uint32DCb->setInterrupt(pPvt->uint32DCbPvt, 
-                                      pPvt->puint32DCbAsynUser, mask,
-                                      interruptOnOneToZero);
+        pPvt->uint32Digital->setInterrupt(pPvt->uint32DigitalPvt, 
+                                          pPvt->puint32DAsynUser, mask,
+                                          interruptOnOneToZero);
         mask = 1 << unidigChan;
-        pPvt->uint32DCb->registerCallback(pPvt->uint32DCbPvt, 
-                                          pPvt->puint32DCbAsynUser, intFunc, 
-                                          mask, pPvt);
+        pPvt->uint32Digital->registerInterruptUser(pPvt->uint32DigitalPvt, 
+                                                   pPvt->puint32DAsynUser, 
+                                                   intFunc, pPvt, mask,
+                                                   &registrarPvt);
     }
 
     /* Link with higher level routines */
@@ -338,15 +279,9 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     pPvt->float64.interfaceType = asynFloat64Type;
     pPvt->float64.pinterface  = (void *)&drvQuadEMFloat64;
     pPvt->float64.drvPvt = pPvt;
-    pPvt->int32Callback.interfaceType = asynInt32CallbackType;
-    pPvt->int32Callback.pinterface  = (void *)&drvQuadEMInt32Callback;
-    pPvt->int32Callback.drvPvt = pPvt;
-    pPvt->float64Callback.interfaceType = asynFloat64CallbackType;
-    pPvt->float64Callback.pinterface  = (void *)&drvQuadEMFloat64Callback;
-    pPvt->float64Callback.drvPvt = pPvt;
-    pPvt->int32ArrayCallback.interfaceType = asynInt32ArrayCallbackType;
-    pPvt->int32ArrayCallback.pinterface  = (void *)&drvQuadEMInt32ArrayCallback;
-    pPvt->int32ArrayCallback.drvPvt = pPvt;
+    pPvt->int32Array.interfaceType = asynInt32ArrayType;
+    pPvt->int32Array.pinterface  = (void *)&drvQuadEMInt32Array;
+    pPvt->int32Array.drvPvt = pPvt;
     pPvt->drvUser.interfaceType = asynDrvUserType;
     pPvt->drvUser.pinterface  = (void *)&drvQuadEMDrvUser;
     pPvt->drvUser.drvPvt = pPvt;
@@ -364,32 +299,27 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
         errlogPrintf("initQuadEM ERROR: Can't register common.\n");
         return -1;
     }
-    status = pasynManager->registerInterface(pPvt->portName,&pPvt->int32);
+    status = pasynInt32Base->initialize(pPvt->portName,&pPvt->int32);
     if (status != asynSuccess) {
         errlogPrintf("initQuadEM ERROR: Can't register int32\n");
         return -1;
     }
-    status = pasynManager->registerInterface(pPvt->portName,&pPvt->float64);
+    pasynManager->registerInterruptSource(portName, &pPvt->int32,
+                                          &pPvt->int32InterruptPvt);
+    status = pasynFloat64Base->initialize(pPvt->portName,&pPvt->float64);
     if (status != asynSuccess) {
         errlogPrintf("initQuadEM ERROR: Can't register float64\n");
         return -1;
     }
-    status = pasynManager->registerInterface(pPvt->portName,&pPvt->int32Callback);
+    pasynManager->registerInterruptSource(portName, &pPvt->float64,
+                                          &pPvt->float64InterruptPvt);
+    status = pasynInt32ArrayBase->initialize(pPvt->portName, &pPvt->int32Array);
     if (status != asynSuccess) {
-        errlogPrintf("initQuadEM ERROR: Can't register int32Callback\n");
+        errlogPrintf("initQuadEM ERROR: Can't register int32Array\n");
         return -1;
     }
-    status = pasynManager->registerInterface(pPvt->portName,&pPvt->float64Callback);
-    if (status != asynSuccess) {
-        errlogPrintf("initQuadEM ERROR: Can't register float64Callback\n");
-        return -1;
-    }
-    status = pasynManager->registerInterface(pPvt->portName,
-                                             &pPvt->int32ArrayCallback);
-    if (status != asynSuccess) {
-        errlogPrintf("initQuadEM ERROR: Can't register int32ArrayCallback\n");
-        return -1;
-    }
+    pasynManager->registerInterruptSource(portName, &pPvt->int32Array,
+                                          &pPvt->int32ArrayInterruptPvt);
     status = pasynManager->registerInterface(pPvt->portName, &pPvt->drvUser);
     if (status != asynSuccess) {
         errlogPrintf("initQuadEM ERROR: Can't register drvUser\n");
@@ -406,6 +336,15 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
         return -1;
     }
  
+    /* Send the initial settings to the board to get it talking to the 
+     * electometer. These settings will be overridden by the database values 
+     * when the database initializes */
+    setGain(pPvt, pPvt->pasynUser, 0);
+    setPulse(pPvt, pPvt->pasynUser, 1024);
+    setPeriod(pPvt, pPvt->pasynUser, 0xffff);
+    setScanPeriod(pPvt, pPvt->pasynUser, microSecondsPerScan/1.e6);
+    go(pPvt, pPvt->pasynUser);
+
     return(0);
 }
 
@@ -437,7 +376,7 @@ static asynStatus drvUserCreate(void *drvPvt, asynUser *pasynUser,
     for (i=0; i<MAX_QUADEM_COMMANDS; i++) {
         pstring = quadEMCommands[i].commandString;
         if (epicsStrCaseCmp(drvInfo, pstring) == 0) {
-            pasynUser->drvUser = &quadEMCommands[i].command;
+            pasynUser->reason = quadEMCommands[i].command;
             if (pptypeName) *pptypeName = epicsStrDup(pstring);
             if (psize) *psize = sizeof(quadEMCommands[i].command);
             return(asynSuccess);
@@ -452,11 +391,11 @@ static asynStatus drvUserCreate(void *drvPvt, asynUser *pasynUser,
 static asynStatus drvUserGetType(void *drvPvt, asynUser *pasynUser,
                                  const char **pptypeName, size_t *psize)
 {
-    quadEMCommand *pcommand = pasynUser->drvUser;
+    quadEMCommand command = pasynUser->reason;
 
-    if (pcommand) *pptypeName = epicsStrDup(
-                                    quadEMCommands[*pcommand].commandString);
-    if (psize) *psize = sizeof(*pcommand);
+    if (pptypeName) *pptypeName = epicsStrDup(
+                                      quadEMCommands[command].commandString);
+    if (psize) *psize = sizeof(command);
     return(asynSuccess);
 }
 
@@ -466,57 +405,6 @@ static asynStatus drvUserDestroy(void *drvPvt,asynUser *pasynUser)
 }
 
 
-static asynStatus registerInt32Callback(void *drvPvt, asynUser *pasynUser,
-                                        void (*callback)(void *drvPvt,
-                                                          epicsInt32 data),
-                                        void *pvt)
-{
-    return(registerCallback(drvPvt, pasynUser, callback, pvt, typeInt32));
-}
-
-static asynStatus registerFloat64Callback(void *drvPvt, asynUser *pasynUser,
-                                          void (*callback)(void *drvPvt,
-                                                           epicsFloat64 data),
-                                          void *pvt)
-{
-    return(registerCallback(drvPvt, pasynUser, callback, pvt, typeFloat64));
-}
-
-static asynStatus registerInt32ArrayCallback(void *drvPvt, asynUser *pasynUser,
-                                             void (*callback)(void *drvPvt,
-                                                              epicsInt32 *data,
-                                                             epicsUInt32 nelem),
-                                             void *pvt)
-{
-    return(registerCallback(drvPvt, pasynUser, callback, pvt, typeInt32Array));
-}
-
-static asynStatus registerCallback(void *drvPvt, asynUser *pasynUser, 
-                                   void *callback, void *pvt, dataType dataType)
-{
-    drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
-    quadEMClient *pClient = callocMustSucceed(1, sizeof(*pClient), 
-                                              "drvQuadEM::registerCallback");
-
-    pClient->dataType = dataType;
-    pClient->pcommand = pasynUser->drvUser;
-    pasynManager->getAddr(pasynUser, &pClient->channel);
-    switch(dataType) {
-    case typeInt32:
-        pClient->int32Callback = callback;
-        break;
-    case typeFloat64:
-        pClient->float64Callback = callback;
-        break;
-    case typeInt32Array:
-        pClient->int32ArrayCallback = callback;
-        break;
-    }
-    pClient->pvt = pvt;
-    ellAdd(&pPvt->clientList, (ELLNODE *)pClient);
-    return(asynSuccess);
-}
-       
 static void intFunc(void *drvPvt, epicsUInt32 mask)
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
@@ -536,116 +424,86 @@ static void intFunc(void *drvPvt, epicsUInt32 mask)
     epicsMessageQueueTrySend(pPvt->intMsgQId, raw, sizeof(raw));
 }
 
-static asynStatus cancelInt32Callback(void *drvPvt, asynUser *pasynUser,
-                                      void (*callback)(void *drvPvt,
-                                                       epicsInt32 data),
-                                      void *pvt)
-{
-    return(cancelCallback(drvPvt, pasynUser, callback, pvt, typeInt32));
-}
-
-static asynStatus cancelFloat64Callback(void *drvPvt, asynUser *pasynUser,
-                                        void (*callback)(void *drvPvt,
-                                                         epicsFloat64 data),
-                                        void *pvt)
-{
-    return(cancelCallback(drvPvt, pasynUser, callback, pvt, typeFloat64));
-}
-
-static asynStatus cancelInt32ArrayCallback(void *drvPvt, asynUser *pasynUser,
-                                           void (*callback)(void *drvpvt,
-                                                            epicsInt32 *data,
-                                                            epicsUInt32 nelem),
-                                           void *pvt)
-{
-    return(cancelCallback(drvPvt, pasynUser, callback, pvt, typeInt32Array));
-}
-
-static asynStatus cancelCallback(void *drvPvt, asynUser *pasynUser,
-                                 void *callback, void *pvt, dataType dataType)
-{
-    drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
-    void *clbk=NULL;
-    quadEMClient *pClient;
-
-    pClient = (quadEMClient *)ellFirst(&pPvt->clientList);
-    while(pClient) {
-        switch(dataType) {
-        case typeInt32:
-            clbk = pClient->int32Callback;
-            break;
-        case typeFloat64:
-            clbk = pClient->float64Callback;
-            break;
-        case typeInt32Array:
-            clbk = pClient->int32ArrayCallback;
-            break;
-        }
-        if ((pClient->dataType == dataType) &&
-            (pClient->pvt == pvt) &&
-            (pClient->pcommand == pasynUser->drvUser) &&
-            (clbk == callback)) {
-            ellDelete(&pPvt->clientList, (ELLNODE *)pClient);
-        }
-        pClient = (quadEMClient *)ellNext(pClient);
-    }
-    return(asynSuccess);
-}
-
 static void intTask(drvQuadEMPvt *pPvt)
 {
-    int    i;
-    int    raw[MAX_RAW];
-    quadEMClient *pClient;
+    int i;
+    int raw[MAX_RAW];
+    int addr;
+    int reason;
+    ELLLIST *pclientList;
+    interruptNode *pnode;
+    asynInt32Interrupt *pint32Interrupt;
+    asynFloat64Interrupt *pfloat64Interrupt;
+    asynInt32ArrayInterrupt *pint32ArrayInterrupt;
 
     while(1) {
-       /* Wait for a message from interrupt routine */
-       epicsMessageQueueReceive(pPvt->intMsgQId, raw, sizeof(raw));
-       /* Copy raw data to private structure */
-       for (i=0; i<MAX_RAW; i++) pPvt->data.raw[i] = raw[i];
+        /* Wait for a message from interrupt routine */
+        epicsMessageQueueReceive(pPvt->intMsgQId, raw, sizeof(raw));
+        /* Copy raw data to private structure */
+        for (i=0; i<MAX_RAW; i++) pPvt->data.raw[i] = raw[i];
         asynPrint(pPvt->pasynUser, ASYN_TRACEIO_DRIVER, 
                   "drvQuadEM::intTask, address=%p, "
                   "raw = %d %d %d %d %d %d %d %d\n", 
                   pPvt->baseAddress, 
                   raw[0], raw[1], raw[2], raw[3], raw[4], 
                   raw[5], raw[6], raw[7]);
-       /* Compute sum, difference, and position */
-       computeCurrent(&pPvt->data);
-       computePosition(&pPvt->data);
-       /* Call the callback routines which have registered */
-       pClient = (quadEMClient *)ellFirst(&pPvt->clientList);
-       while(pClient) {
-           if ((pClient->pcommand == NULL) ||
-               (*pClient->pcommand == quadEMCurrent)) {
-               switch(pClient->dataType) {
-               case typeInt32:
-                   if (pClient->int32Callback)
-                       pClient->int32Callback(pClient->pvt, 
-                                              pPvt->data.array[pClient->channel]);
-                   break;
-               case typeFloat64:
-                   if (pClient->float64Callback) 
-                       pClient->float64Callback(pClient->pvt, 
-                                        (double)pPvt->data.array[pClient->channel]);
-                   break;
-               case typeInt32Array:
-                   if (pClient->int32ArrayCallback) 
-                       pClient->int32ArrayCallback(pClient->pvt, 
-                                                   pPvt->data.array,
-                                                   10);
-                   break;
-               }
-           }
-           pClient = (quadEMClient *)ellNext(pClient);
-       }
-   }
+        /* Compute sum, difference, and position */
+        computeCurrent(&pPvt->data);
+        computePosition(&pPvt->data);
+        /* Pass int32 interrupts */
+        pasynManager->interruptStart(pPvt->int32InterruptPvt, &pclientList);
+        pnode = (interruptNode *)ellFirst(pclientList);
+        while (pnode) {
+            pint32Interrupt = pnode->drvPvt;
+            addr = pint32Interrupt->addr;
+            reason = pint32Interrupt->reason;
+            if (reason == quadEMCurrent) {
+                pint32Interrupt->callback(pint32Interrupt->userPvt,
+                                          pPvt->data.array[addr]);
+            }
+            pnode = (interruptNode *)ellNext(&pnode->node);
+        }
+        pasynManager->interruptEnd(pPvt->int32InterruptPvt);
+
+        /* Pass float64 interrupts */
+        pasynManager->interruptStart(pPvt->float64InterruptPvt, &pclientList);
+        pnode = (interruptNode *)ellFirst(pclientList);
+        while (pnode) {
+            pfloat64Interrupt = pnode->drvPvt;
+            addr = pfloat64Interrupt->addr;
+            reason = pfloat64Interrupt->reason;
+            if (reason == quadEMCurrent) {
+                pfloat64Interrupt->callback(pfloat64Interrupt->userPvt,
+                                          (double)pPvt->data.array[addr]);
+            }
+            pnode = (interruptNode *)ellNext(&pnode->node);
+        }
+        pasynManager->interruptEnd(pPvt->float64InterruptPvt);
+
+        /* Pass int32Array interrupts */
+        pasynManager->interruptStart(pPvt->int32ArrayInterruptPvt, &pclientList);
+        pnode = (interruptNode *)ellFirst(pclientList);
+        while (pnode) {
+            pint32ArrayInterrupt = pnode->drvPvt;
+            reason = pint32ArrayInterrupt->reason;
+            if (reason == quadEMCurrent) {
+                pint32ArrayInterrupt->callback(pint32ArrayInterrupt->userPvt,
+                                               pPvt->data.array, 10);
+            }
+            pnode = (interruptNode *)ellNext(&pnode->node);
+        }
+        pasynManager->interruptEnd(pPvt->int32ArrayInterruptPvt);
+    }
 }
 
 static double setScanPeriod(void *drvPvt, asynUser *pasynUser,
                             double seconds)
 {
     double microSeconds = seconds * 1.e6;
-    quadEMClient *pClient;
+    int reason;
+    ELLLIST *pclientList;
+    interruptNode *pnode;
+    asynFloat64Interrupt *pfloat64Interrupt;
 
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     /* Convert from microseconds to device units */
@@ -655,7 +513,7 @@ static double setScanPeriod(void *drvPvt, asynUser *pasynUser,
     /* If we are using the interrupts then this is the scan rate
      * except that we only get interrupts after every other cycle
      * because of ping/pong, so we multiply by 2. */
-    if (pPvt->uint32DCbPvt != NULL) {
+    if (pPvt->uint32DigitalPvt != NULL) {
         microSeconds = 2. * convValue * 1.6 + 0.6;
         pPvt->actualSecondsPerScan = microSeconds/1.e6;
     } else {
@@ -663,15 +521,18 @@ static double setScanPeriod(void *drvPvt, asynUser *pasynUser,
     }
     /* Call the callback routines which have registered to be notified when
        the scan period changes */
-    pClient = (quadEMClient *)ellFirst(&pPvt->clientList);
-    while(pClient) {
-        if ((pClient->dataType == typeFloat64) &&
-            (pClient->pcommand) &&
-            (*pClient->pcommand == quadEMScanPeriod) &&
-            (pClient->float64Callback))
-            pClient->float64Callback(pClient->pvt, pPvt->actualSecondsPerScan);
-        pClient = (quadEMClient *)ellNext(pClient);
-    }
+    pasynManager->interruptStart(pPvt->float64InterruptPvt, &pclientList);
+    pnode = (interruptNode *)ellFirst(pclientList);
+    while (pnode) {
+        pfloat64Interrupt = pnode->drvPvt;
+        reason = pfloat64Interrupt->reason;
+            if (reason == quadEMScanPeriod) {
+                pfloat64Interrupt->callback(pfloat64Interrupt->userPvt,
+                                            pPvt->actualSecondsPerScan);
+            }
+            pnode = (interruptNode *)ellNext(&pnode->node);
+        }
+    pasynManager->interruptEnd(pPvt->float64InterruptPvt);
     return(getScanPeriod(pPvt, pasynUser));
 }
 
@@ -721,11 +582,9 @@ static asynStatus readInt32(void *drvPvt, asynUser *pasynUser,
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     int channel;
-    quadEMCommand *pcommand = (quadEMCommand *)pasynUser->drvUser;
-    quadEMCommand command = quadEMCurrent;
+    quadEMCommand command = pasynUser->reason;
 
     pasynManager->getAddr(pasynUser, &channel);
-    if (pcommand) command = *pcommand;
     switch(command) {
     case quadEMCurrent:
         *value = pPvt->data.array[channel];
@@ -744,11 +603,9 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser,
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     int channel;
-    quadEMCommand *pcommand = (quadEMCommand *)pasynUser->drvUser;
-    quadEMCommand command = quadEMCurrent;
+    quadEMCommand command = pasynUser->reason;
 
     pasynManager->getAddr(pasynUser, &channel);
-    if (pcommand) command = *pcommand;
     if ((command == quadEMOffset) || (command == quadEMPingPong)) {
         if ((channel < 0) || (channel > 4)) {
             asynPrint(pasynUser, ASYN_TRACE_ERROR,
@@ -810,11 +667,9 @@ static asynStatus readFloat64(void *drvPvt, asynUser *pasynUser,
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     int channel;
-    quadEMCommand *pcommand = (quadEMCommand *)pasynUser->drvUser;
-    quadEMCommand command = quadEMCurrent;
+    quadEMCommand command = pasynUser->reason;
 
     pasynManager->getAddr(pasynUser, &channel);
-    if (pcommand) command = *pcommand;
     switch(command) {
     case quadEMCurrent:
         *value = (double)pPvt->data.array[channel];
@@ -834,10 +689,8 @@ static asynStatus readFloat64(void *drvPvt, asynUser *pasynUser,
 static asynStatus writeFloat64(void *drvPvt, asynUser *pasynUser, 
                                epicsFloat64 value)
 {
-    quadEMCommand *pcommand = (quadEMCommand *)pasynUser->drvUser;
-    quadEMCommand command = quadEMCurrent;
+    quadEMCommand command = pasynUser->reason;
 
-    if (pcommand) command = *pcommand;
     switch(command) {
     case quadEMScanPeriod:
         setScanPeriod(drvPvt, pasynUser, value);
@@ -943,7 +796,7 @@ static void report(void *drvPvt, FILE *fp, int details)
 
     fprintf(fp, "Port: %s, address %p\n", pPvt->portName, pPvt->baseAddress);
     if (details >= 1) {
-        if (pPvt->uint32DCbPvt) {
+        if (pPvt->uint32DigitalPvt) {
            fprintf(fp, "  Using digital I/O interrupts\n");
         } else {
            fprintf(fp, "  Not using interrupts, scan time=%f\n",
