@@ -51,7 +51,7 @@ extern "C" quadEMPID *initQuadEMPID(const char *serverName,
                                           DACChannel);
     fastPIDServer *pFastPIDServer = 
                           new fastPIDServer(serverName, pQuadEMPID, queueSize);
-    int taskId = taskSpawn(taskname,100,VX_FP_TASK,2000,
+    int taskId = taskSpawn(taskname,100,VX_FP_TASK,4000,
         (FUNCPTR)fastPIDServer::fastServer,(int)pFastPIDServer,
         0,0,0,0,0,0,0,0,0);
     if (taskId==ERROR)

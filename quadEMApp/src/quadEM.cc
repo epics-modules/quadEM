@@ -86,7 +86,7 @@ quadEM::quadEM(unsigned short *baseAddr, int fiberChannel, int microSecondsPerSc
     }
 
     if (pIpUnidig == NULL) {
-        if (taskSpawn("quadEMPoller",100,VX_FP_TASK,2000,
+        if (taskSpawn("quadEMPoller",100,VX_FP_TASK,4000,
             (FUNCPTR)quadEM::poller,int(this),0,0,0,0,0,0,0,0,0) == ERROR)
             printf("quadEM poller taskSpawn Failure\n");
     }

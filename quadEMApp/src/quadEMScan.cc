@@ -60,7 +60,7 @@ extern "C" int initQuadEMScan(
     quadEMScanServer *pQuadEMScanServer = new quadEMScanServer;
     pQuadEMScanServer->pQuadEMScan = pQuadEMScan;
     pQuadEMScanServer->pMessageServer = new MessageServer(serverName,queueSize);
-    int taskId = taskSpawn(taskname,100,VX_FP_TASK,2000,
+    int taskId = taskSpawn(taskname,100,VX_FP_TASK,4000,
         (FUNCPTR)quadEMScanServer::quadEMServer,(int)pQuadEMScanServer,
         0,0,0,0,0,0,0,0,0);
     if(taskId==ERROR)
