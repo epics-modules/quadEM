@@ -110,6 +110,8 @@ static asynStatus readInt32         (void *drvPvt, asynUser *pasynUser,
                                      epicsInt32 *value);
 static asynStatus writeInt32        (void *drvPvt, asynUser *pasynUser,
                                      epicsInt32 value);
+static asynStatus getBounds         (void *drvPvt, asynUser *pasynUser,
+                                     epicsInt32 *low, epicsInt32 *high);
 static asynStatus readFloat64       (void *drvPvt, asynUser *pasynUser,
                                      epicsFloat64 *value);
 static asynStatus writeFloat64      (void *drvPvt, asynUser *pasynUser,
@@ -150,7 +152,8 @@ static void intTask                 (drvQuadEMPvt *pPvt);
 
 static const asynInt32 drvQuadEMInt32 = {
     writeInt32,
-    readInt32
+    readInt32,
+    getBounds
 };
 
 static const asynFloat64 drvQuadEMFloat64 = {
@@ -636,6 +639,16 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser,
     asynPrint(pasynUser, ASYN_TRACE_ERROR,
               "drvQuadEM::writeInt32, illegal write operation\n");
     return(asynError);
+}
+
+static asynStatus getBounds(void *drvPvt, asynUser *pasynUser,
+                            epicsInt32 *low, epicsInt32 *high)
+{
+    /* This needs work.  The range depends on the signal, which we 
+       could figure out */
+    *low = 0;
+    *high = 65535;
+    return(0);
 }
 
 static asynStatus readFloat64(void *drvPvt, asynUser *pasynUser, 
