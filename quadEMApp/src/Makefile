@@ -12,7 +12,7 @@ LIBRARY_IOC_vxWorks += quadEM
 
 DBD += quadEMSupport.dbd
 
-INC += drvQuadEM.h
+INC += asynQuadEM.h
 
 # The following are compiled and added to the Support library
 quadEM_SRCS += drvQuadEM.c
