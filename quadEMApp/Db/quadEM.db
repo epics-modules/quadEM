@@ -22,8 +22,8 @@ grecord(mbbo,"$(P)$(EM)Gain") {
     field(SXST,"8.80")
     field(SVVL,"1")
     field(SVST,"17.6")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),0 GAIN")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT,"@asyn($(PORT) 0)GAIN")
 }
 
 grecord(mbbo,"$(P)$(EM)PingPong1") {
@@ -35,8 +35,8 @@ grecord(mbbo,"$(P)$(EM)PingPong1") {
     field(ONST,"#2")
     field(TWVL,"2")
     field(TWST,"Avg.")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),0 PINGPONG")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT,"@asyn($(PORT) 0)PING_PONG")
 }
 
 grecord(mbbo,"$(P)$(EM)PingPong2") {
@@ -48,8 +48,8 @@ grecord(mbbo,"$(P)$(EM)PingPong2") {
     field(ONST,"#2")
     field(TWVL,"2")
     field(TWST,"Avg.")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),1 PINGPONG")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT,"@asyn($(PORT) 1)PING_PONG")
 }
 
 grecord(mbbo,"$(P)$(EM)PingPong3") {
@@ -61,8 +61,8 @@ grecord(mbbo,"$(P)$(EM)PingPong3") {
     field(ONST,"#2")
     field(TWVL,"2")
     field(TWST,"Avg.")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),2 PINGPONG")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT,"@asyn($(PORT) 2)PING_PONG")
 }
 
 grecord(mbbo,"$(P)$(EM)PingPong4") {
@@ -74,21 +74,21 @@ grecord(mbbo,"$(P)$(EM)PingPong4") {
     field(ONST,"#2")
     field(TWVL,"2")
     field(TWST,"Avg.")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),3 PINGPONG")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT,"@asyn($(PORT) 3)PING_PONG")
 }
 
 grecord(ao,"$(P)$(EM)ConversionTime") {
-    field(DESC,"Conversion Time (usec)")
+    field(DESC,"Conversion Time (sec)")
     field(PINI,"YES")
-    field(DRVL,"615.")
-    field(LOPR,"615.")
-    field(DRVH,"13107.8")
-    field(HOPR,"13107.8")
-    field(PREC,"1")
-    field(VAL,"615.")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),0 CONVERSION")
+    field(DRVL,"615.e-6")
+    field(LOPR,"615.e-6")
+    field(DRVH,"13.1078e-3")
+    field(HOPR,"13.1078e-3")
+    field(PREC,"5")
+    field(VAL,"615.e-6")
+    field(DTYP, "asynFloat64")
+    field(OUT,"@asyn($(PORT) 0)SCAN_PERIOD")
 }
 
 grecord(ao,"$(P)$(EM)Period") {
@@ -96,8 +96,8 @@ grecord(ao,"$(P)$(EM)Period") {
     field(PINI,"YES")
     field(PREC,"0")
     field(VAL,"-1")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),0 PERIOD")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 0)PERIOD")
 }
 
 grecord(ao,"$(P)$(EM)Pulse") {
@@ -105,8 +105,8 @@ grecord(ao,"$(P)$(EM)Pulse") {
     field(PINI,"YES")
     field(PREC,"0")
     field(VAL,"1024")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),0 PULSE")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 0)PULSE")
 }
 
 grecord(ao,"$(P)$(EM)Go") {
@@ -114,8 +114,8 @@ grecord(ao,"$(P)$(EM)Go") {
     field(PINI,"YES")
     field(PREC,"0")
     field(VAL,"0")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),0 GO")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 0)GO")
 }
 
 grecord(seq,"$(P)$(EM)Initialize") {
@@ -142,8 +142,8 @@ grecord(ao,"$(P)$(EM)Offset1") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(VAL,"4096")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),0 OFFSET")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 0)OFFSET")
 }
 
 grecord(ao,"$(P)$(EM)Offset2") {
@@ -155,8 +155,8 @@ grecord(ao,"$(P)$(EM)Offset2") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(VAL,"4096")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),1 OFFSET")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 1)OFFSET")
 }
 
 grecord(ao,"$(P)$(EM)Offset3") {
@@ -168,8 +168,8 @@ grecord(ao,"$(P)$(EM)Offset3") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(VAL,"4096")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),2 OFFSET")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 2)OFFSET")
 }
 
 grecord(ao,"$(P)$(EM)Offset4") {
@@ -181,8 +181,8 @@ grecord(ao,"$(P)$(EM)Offset4") {
     field(HOPR,"65535")
     field(PREC,"0")
     field(VAL,"4096")
-    field(DTYP, "quadEM")
-    field(OUT,"@$(PORT),3 OFFSET")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 3)OFFSET")
 }
 
 grecord(ai,"$(P)$(EM)Read") {
@@ -198,8 +198,8 @@ grecord(ai,"$(P)$(EM)Current1") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 0)")
     field(FLNK,"$(P)$(EM)Current2")
 }
 
@@ -209,8 +209,8 @@ grecord(ai,"$(P)$(EM)Current2") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),1")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 1)")
     field(FLNK,"$(P)$(EM)Current3")
 }
 
@@ -220,8 +220,8 @@ grecord(ai,"$(P)$(EM)Current3") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),2")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 2)")
     field(FLNK,"$(P)$(EM)Current4")
 }
 
@@ -231,8 +231,8 @@ grecord(ai,"$(P)$(EM)Current4") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),3")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 3)")
     field(FLNK,"$(P)$(EM)Sum1")
 }
 
@@ -242,8 +242,8 @@ grecord(ai,"$(P)$(EM)Sum1") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),4")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 4)")
     field(FLNK,"$(P)$(EM)Sum2")
 }
 
@@ -253,8 +253,8 @@ grecord(ai,"$(P)$(EM)Sum2") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),5")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 5)")
     field(FLNK,"$(P)$(EM)Diff1")
 }
 
@@ -264,8 +264,8 @@ grecord(ai,"$(P)$(EM)Diff1") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),6")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 6)")
     field(FLNK,"$(P)$(EM)Diff2")
 }
 
@@ -275,8 +275,8 @@ grecord(ai,"$(P)$(EM)Diff2") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),7")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 7)")
     field(FLNK,"$(P)$(EM)Position1")
 }
 
@@ -286,8 +286,8 @@ grecord(ai,"$(P)$(EM)Position1") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),8")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 8)")
     field(FLNK,"$(P)$(EM)Position2")
 }
 
@@ -297,7 +297,7 @@ grecord(ai,"$(P)$(EM)Position2") {
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
-    field(DTYP, "asyn Int32Average")
-    field(INP,"@$(PORT),9")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 9)")
 }
 
