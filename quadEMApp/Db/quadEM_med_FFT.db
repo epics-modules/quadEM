@@ -1,0 +1,204 @@
+# quadEM_med.db
+# Author:  Mark Rivers
+# Date:    Nov. 12, 2003
+# This is a database for the FFTs of MCA records in quadEM.  There are 10 total:
+# mca1  = diode current 1
+# mca2  = diode current 2
+# mca3  = diode current 3
+# mca4  = diode current 4
+# mca5  = sum 1+3
+# mca6  = sum 2+4
+# mca7  = difference 3-1
+# mca8  = difference 4-2
+# mca9  = position (3-1)/(3+1)
+# mca10 = position (4-2)/(4+2)
+
+grecord(fanout,"$(P)EraseStart") {
+}
+
+grecord(dfanout,"$(P)StartAll") {
+}
+grecord(dfanout,"$(P)StopAll") {
+}
+grecord(ao,"$(P)InitNuse") {
+      field(DOL, "$(P)mca1.NUSE NPP NMS")
+      field(OMSL,"closed_loop")
+      field(PINI,"YES")
+      field(OUT,"$(P)NuseAll.VAL NPP MS")
+}
+
+grecord(dfanout,"$(P)NuseAll") {
+      field(VAL, "1")
+      field(OUTA,"$(P)NuseAll1.VAL   PP MS")
+      field(OUTB,"$(P)NuseAll2.VAL   PP MS")
+      field(FLNK,"$(P)SetClientWait")
+}
+grecord(dfanout,"$(P)NuseAll1") {
+      field(OUTA,"$(P)mca1.NUSE  PP MS")
+      field(OUTB,"$(P)mca2.NUSE  PP MS")
+      field(OUTC,"$(P)mca3.NUSE  PP MS")
+      field(OUTD,"$(P)mca4.NUSE  PP MS")
+      field(OUTE,"$(P)mca5.NUSE  PP MS")
+      field(OUTF,"$(P)mca6.NUSE  PP MS")
+      field(OUTG,"$(P)mca7.NUSE  PP MS")
+      field(OUTH,"$(P)mca8.NUSE  PP MS")
+}
+grecord(dfanout,"$(P)NuseAll2") {
+      field(OUTA,"$(P)mca9.NUSE  PP MS")
+      field(OUTB,"$(P)mca10.NUSE  PP MS")
+}
+
+grecord(dfanout,"$(P)StatusAll") {
+}
+
+grecord(dfanout,"$(P)ReadAll") {
+      field(SCAN,"Passive")
+      field(OUTA,"$(P)ReadAll1.VAL   PP MS")
+      field(OUTB,"$(P)ReadAll2.VAL   PP MS")
+}
+grecord(dfanout,"$(P)ReadAll1") {
+      field(OUTA,"$(P)mca1.READ  PP MS")
+      field(OUTB,"$(P)mca2.READ  PP MS")
+      field(OUTC,"$(P)mca3.READ  PP MS")
+      field(OUTD,"$(P)mca4.READ  PP MS")
+      field(OUTE,"$(P)mca5.READ  PP MS")
+      field(OUTF,"$(P)mca6.READ  PP MS")
+      field(OUTG,"$(P)mca7.READ  PP MS")
+      field(OUTH,"$(P)mca8.READ  PP MS")
+}
+grecord(dfanout,"$(P)ReadAll2") {
+      field(OUTA,"$(P)mca9.READ  PP MS")
+      field(OUTB,"$(P)mca10.READ  PP MS")
+}
+
+grecord(bo,"$(P)EnableClientWait") {
+      field(ZNAM,"Disable")
+      field(ONAM,"Enable")
+}
+
+grecord(bo,"$(P)SetClientWait") {
+      field(DISV,"0")
+      field(SDIS,"$(P)EnableClientWait NPP NMS")
+      field(OMSL,"closed_loop")
+      field(DOL,"1")
+      field(OUT,"$(P)ClientWait PP MS")
+}
+
+grecord(busy,"$(P)ClientWait") {
+}
+
+# NOTE:  The following appear that they might not be necessary, since they
+# just use MCA1.  However, they are needed for the IDL EPICS_MED class, and for
+# generic MEDM screens.  Also, most are set to PINI so that things are put into
+# a known state, and the MEDM screens reflect reality.
+
+grecord(ao,"$(P)ElapsedReal") {
+      field(OMSL,"closed_loop")
+      field(DOL,"$(P)mca1.ERTM CP MS")
+      field(PREC,"2")
+}
+
+grecord(ao,"$(P)ElapsedLive") {
+      field(OMSL,"closed_loop")
+      field(DOL,"$(P)mca1.ELTM CP MS")
+      field(PREC,"2")
+}
+
+grecord(bo,"$(P)Acquiring") {
+      field(OMSL,"closed_loop")
+      field(DOL,"$(P)mca1.ACQG CP MS")
+      field(ZNAM,"Done")
+      field(ONAM,"Acquiring")
+}
+
+grecord(dfanout,"$(P)PresetReal") {
+}
+
+grecord(dfanout,"$(P)PresetLive") {
+}
+
+grecord(dfanout,"$(P)Dwell") {
+}
+grecord(bo,"$(P)ChannelAdvance") {
+}
+
+grecord(dfanout,"$(P)Prescale") {
+}
+
+grecord(mca,"$(P)mca1")
+{
+    field(DESC, "FFT current 1")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(mca,"$(P)mca2")
+{
+    field(DESC, "FFT current 2")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(mca,"$(P)mca3")
+{
+    field(DESC, "FFT current 3")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(mca,"$(P)mca4")
+{
+    field(DESC, "FFT current 4")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(mca,"$(P)mca5")
+{
+    field(DESC, "FFT sum 1&3")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(mca,"$(P)mca6")
+{
+    field(DESC, "FFT sum 2&4")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(mca,"$(P)mca7")
+{
+    field(DESC, "FFT diff 1&3")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(mca,"$(P)mca8")
+{
+    field(DESC, "FFT diff 2&4")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(mca,"$(P)mca9")
+{
+    field(DESC, "FFT position 1&3")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(mca,"$(P)mca10")
+{
+    field(DESC, "FFT position 2&4")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+grecord(waveform,"$(P)Xaxis")
+{
+    field(DESC, "X axis data")
+    field(FTVL, "FLOAT")
+    field(NELM, "$(NCHAN)")
+    field(PREC, "3")
+}
