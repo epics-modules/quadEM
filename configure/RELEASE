@@ -17,7 +17,7 @@ SSCAN=/corvette/home/epics/synApps5-1beta2/sscan
 # For MCA record
 MCA=/corvette/home/epics/synApps5-1beta2/mca
 
-ASYN=/corvette/home/epics/synApps5-1beta2/asyn/4-2
+ASYN=/corvette/home/epics/synApps5-1beta2/asyn/4-2-1
 
 # EPICS_BASE usually appears last so other apps can override stuff:
 EPICS_BASE=/corvette/usr/local/epics/base-3.14.7
