@@ -18,3 +18,4 @@
 #define WRITE_PERIOD     8
 #define WRITE_OFFSET     9
 #define COMPUTE_AVERAGE  10
+#define PING_PONG        11

@@ -19,10 +19,11 @@
 /**    ao        0      "@$(SERVER) CONVERSION"                      **/
 /**    ao        0      "@$(SERVER) OFFSET"                          **/
 /**    mbbo      0      "@$(SERVER) GAIN"                            **/
+/**    mbbo      0-3    "@$(SERVER) PINGPONG"                        **/
 /**                                                                  **/
-/** Signal is specified by the electrometer (0,1,2,3) for CURRENT or **/
-/** OFFSET, by signal pair (0,1) for SUM, DIFFERENCE or POSITION,    **/
-/** and is always 0 for CONVERSION and GAIN.                         **/
+/** Signal is specified by the electrometer (0,1,2,3) for CURRENT,   **/
+/** OFFSET or PINGPONG, by signal pair (0,1) for SUM, DIFFERENCE or  **/
+/** POSITION,  and is always 0 for CONVERSION and GAIN.              **/
 /**********************************************************************/
 
 #include <stdlib.h>
@@ -247,13 +248,15 @@ DevMbboQuadEM::DevMbboQuadEM(dbCommon* pr,DBLINK* l) : DevMpf(pr,l,false)
     const char* up = getUserParm();
     if (strcmp(up, "GAIN") == 0) {
         command = WRITE_GAIN;
+    } else if (strcmp(up, "PINGPONG") == 0) {
+        command = PING_PONG;
     } else {
         pmbbo->pact = 1;          /* make sure we don't process this thing */
         epicsPrintf("devQuadEM: Invalid parm field: ->%s<-\n", pmbbo->name);
     }
       
     if (((command == WRITE_GAIN) && (channel >= 1)) ||
-        ((command != WRITE_GAIN) && (channel >= 0))) {
+        ((command == PING_PONG)  && (channel >= 4))) {
         pmbbo->pact = 1;          /* make sure we don't process this thing */
         epicsPrintf("devQuadEM: Invalid signal #: ->%s<-\n", pmbbo->name);
     }
@@ -267,6 +270,9 @@ long DevMbboQuadEM::startIO(dbCommon* pr)
     message->address = channel;
     switch (command) {
     case WRITE_GAIN:
+        message->value = pmbbo->rval;
+        break;
+    case PING_PONG:
         message->value = pmbbo->rval;
         break;
     }
