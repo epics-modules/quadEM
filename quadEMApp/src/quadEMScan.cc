@@ -13,6 +13,7 @@
 #include <iocsh.h>
 #include <epicsExport.h>
 #include <epicsThread.h>
+#include <epicsMessageQueue.h>
 
 #include "Message.h"
 #include "Int32Message.h"
@@ -157,6 +158,9 @@ void quadEMScanServer::quadEMServer(quadEMScanServer *pQuadEMScanServer)
                   break;
                case (WRITE_OFFSET):
                   pQuadEMScan->pQuadEM->setOffset(channel, value);
+                  break;
+               case (PING_PONG):
+                  pQuadEMScan->pQuadEM->setPingPong(channel, value);
                   break;
             }
             pMessageServer->reply(pmessage);
