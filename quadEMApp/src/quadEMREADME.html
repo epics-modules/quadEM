@@ -1,0 +1,1020 @@
+<!-- Created by Mark Rivers    on NOV-19-1999 -->
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<title>Acromag IP330 ADC Support</title>
+</head>
+
+<body>
+
+<h1 align="center">Support for the Acromag IP330ADC<br>
+</h1>
+
+<h2 align="center">Authors: Mark Rivers, Joe Sullivan and Marty
+Kraimer<br>
+</h2>
+
+<h2 align="center">Release 1.6<br>
+</h2>
+
+<p>The support for the Ip330 is very general and flexible. It is
+based on a 2-layer model. At the lower level is <a href="#Ip330">class
+Ip330</a> which knows how to talk to the IP330 hardware, but is
+application independent. Above class Ip330 are the
+application-specific classes. There are currently 3 such classes:
+</p>
+
+<ul>
+    <li><a href="#Ip330Scan">Ip330Scan</a> - scanning A/D
+        converter application </li>
+    <li><a href="#Ip330Sweep">Ip330Sweep</a> - waveform
+        recorder/transient digitizer application </li>
+    <li><a href="#Ip330PID">Ip330PID</a> - fast PID (feedback)
+        application </li>
+</ul>
+
+<p>Ip330Scan, Ip330Sweep, and Ip330PID can all be running
+simultaneously, and can even all be talking to the same input
+channels. It is easy to add additional application-specific
+classes as the need arises. </p>
+
+<p>The <a href="#Release">Release notes</a> at the end of this
+document describe how to convert from the existing Ip330Scan
+support to this package. </p>
+
+<p>The software is available as a <a
+href="http://cars.uchicago.edu/software/pub/ip330App.tar">tar file</a>.
+</p>
+
+<h2 align="center"><a name="Ip330">Class Ip330</a></h2>
+
+<p>At the lowest level there is a class called Ip330. This class
+knows how to talk to the IP330 hardware, but does not know how it
+will be used. The only parameters of the IP330 module which are
+not configurable in this class are the output data format (which
+is set to Straight Binary) and the Interrupt Control (which is
+set to interrupt after conversion of all selected channels). All
+other parameters of the IP330 can be configured (first and last
+channels to convert, scan mode, scan rate, trigger signal
+direction, etc.) An Ip330Config server is provided together with
+device support for modifying configuration parameters. Currently
+it only provides the ability to  request calibrationrequest calibration.
+MPF servers and EPICS device
+support exist for the application-specific classes which sit
+above Ip330. </p>
+
+<h3>Ip330 public interface</h3>
+
+<p>This is the public interface of the Ip330 class: </p>
+
+<pre>
+class Ip330
+{
+public:
+    static Ip330 * init(
+        const char *moduleName, const char *carrierName, const char *siteName,
+        const char *type, const char *range, int firstChan, int lastChan,
+        int maxClients, int intVec);
+    int config(scanModeType scanMode, const char *triggerString, int
+        microSecondsPerScan, int secondsBetweenCalibrate);
+    int getCorrectedValue(int channel);
+    int correctValue(int channel, int raw);
+    int getRawValue(int channel);
+    int setGain(int gain,int channel);
+    int setScanMode(scanModeType scanMode);
+    int setTrigger(triggerType trigger);
+    float setMicroSecondsPerScan(float microSeconds);
+    float getMicroSecondsPerScan();
+    void setSecondsBetweenCalibrate(int seconds);
+    int registerCallback(Ip330Callback callback, void *pvt);
+</pre>
+
+<p>Brief description of these functions: </p>
+
+<ul>
+    <li><tt>init()</tt> and <tt>config()</tt> are called from <tt>initIp330</tt>
+        and <tt>configIp330</tt> which are discussed below. </li>
+    <li><tt>getRawValue()</tt> returns the A/D value for a
+        channel without applying the calibration corrections for
+        slope and offset. </li>
+    <li><tt>getCorrectedValue()</tt> returns the A/D value for a
+        channel after applying the calibration corrections for
+        slope and offset.
+        NOTE: If secondsBetweenCalibrate is less than zero then the raw
+        A/D value is returned.
+        </li>
+    <li><tt>correctValue()</tt> corrects an input raw value for a
+        channel by applying the calibration corrections for slope
+        and offset.
+        NOTE: If secondsBetweenCalibrate is less than zero then the raw
+        A/D value is returned.
+        </li>
+    <li><tt>setGain()</tt> sets the gain for a channel. The
+        specified gain must be {0, 1, 2, or 3} corresponding to
+        gains of {1, 2, 4, 8}. At initialization the gain of each channel
+        is set to 0 and the channel calibrated.
+        </li>
+    <li><tt>setScanMode()</tt> sets the scan mode of the IP330.
+        The scan modes are defined symbolically in <tt>Ip330.h</tt>.
+        The most commonly used mode is <tt>burstContinuous</tt>,
+        which digitizes all channels from firstChan to lastChan
+        at 15 microseconds per channel, and then repeats this at
+        an interval controlled by <tt>setMicroSecondsPerScan()</tt>.
+    </li>
+    <li><tt>setTrigger()</tt> sets the direction of the external
+        trigger signal on the IP330 (input or output). The
+        trigger directions are defined symbolically in <tt>Ip330.h</tt>.
+    </li>
+    <li><tt>setMicroSecondsPerScan()</tt> sets the number of
+        microseconds per scan loop of the IP330. This time is
+        only applicable when the scanMode is <tt>burstContinuous</tt>,
+        <tt>uniformContinuous</tt>, or <tt>uniformSingle</tt>.
+        This time will be the time between interrupts. It is
+        automatically corrected for the 15 microsecond per
+        channel conversion time of the IP330. The minimum value
+        is equal to <tt>15*(lastChan-firstChan+1)</tt>. </li>
+    <li><tt>getMicroSecondsPerScan()</tt> returns the number of
+        microseconds per scan loop of the IP330. This value may
+        not equal the requested time either because the requested
+        time was too short or too long, or because of the
+        granularity of the IP330 timer. </li>
+    <li><tt>setSecondsBetweenCalibrate()</tt>
+        When secondsBetweenCalibrate is given a value
+        <ul>
+            <li>greater than zero,
+                then all channels are calibrated every secondsBetweenCalibrate
+                seconds.</li>
+            <li>equal to zero, then all channels are calibrated once.</li>
+            <li>less than zero then no calibration 
+                is done. In addition getCorrectedValue and correctValue both
+                return the raw rather than converted value.</li>
+        </ul>
+    <li><tt>registerCallback()</tt> This function is called by
+        application-specific classes to register their interrupt
+        functions with Ip330. Ip330 will call the registered
+        function every time an interrupt occurs, passing the <tt>pvt</tt>
+        pointer, and a pointer to the new data. The <tt>pvt</tt>
+        pointer is typically a pointer to the application class
+        object. The Ip330 interrupt routine does the following: <ul>
+            <li>Saves the floating point context so application
+                interrupt functions can do floating point
+                operations. </li>
+            <li>Copies the data from the mailBox registers to a
+                local buffer. </li>
+            <li>Calls the interrupt function in each registered
+                application class, passing the <tt>pvt</tt>
+                pointer, and a pointer to the local copy of the
+                data. </li>
+            <li>Restores the floating point context. </li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Ip330 configuration</h3>
+
+<p>The Ip330 is configured by calling the following functions
+from the vxWorks startup file. </p>
+
+<pre>
+extern &quot;C&quot; Ip330 *initIp330(
+    const char *moduleName, const char *carrierName, const char *siteName,
+    const char *typeString, const char *rangeString,
+    int firstChan, int lastChan,
+    int maxClients, int intVec)
+
+# function return value  = pointer to the Ip330 object, needed by configIp330
+#                          and to initialize the application-specific classes
+# serverName  = name to give this server
+# carrierName = name of IPAC carrier from initIpacCarrier above
+# siteName    = name of IP site, e.g. &quot;IP_a&quot;
+# typeString  = &quot;D&quot; or &quot;S&quot; for differential or single-ended
+# rangeString = &quot;-5to5&quot;,&quot;-10to10&quot;,&quot;0to5&quot;, or &quot;0to10&quot;
+#               This value must match hardware setting selected
+# firstChan   = first channel to be digitized.  This must be in the range:
+#               0 to 31 (single-ended)
+#               0 to 15 (differential)
+# lastChan    = last channel to be digitized
+# maxClients =  Maximum number of Ip330 tasks which will attach to this
+#               Ip330 module.  For example Ip330Scan, Ip330Sweep, etc.  This
+#               does not refer to the number of EPICS clients.  A value of
+#               10 should certainly be safe.
+# intVec        Interrupt vector
+
+extern &quot;C&quot; int configIp330(
+    Ip330 *pIp330,
+    scanModeType scanMode, const char *triggerString,
+    int microSecondsPerScan, int secondsBetweenCalibrate)
+
+# pIp330      = pointer to the Ip330 object, returned by initIp330 above
+# scanMode    = scan mode:
+#               0 = disable
+#               1 = uniformContinuous
+#               2 = uniformSingle
+#               3 = burstContinuous (normally recommended)
+#               4 = burstSingle
+#               5 = convertOnExternalTriggerOnly
+# triggerString = &quot;Input&quot; or &quot;Output&quot;. Selects the direction of the external
+#               trigger signal.
+# microSecondsPerScan = repeat interval to digitize all channels
+#               The minimum theoretical time is 15 microseconds times the
+#               number of channels, but a practical limit is probably 100
+#               microseconds.  Larger values reduce CPU usage, but decrease
+#               the number of callbacks per second to the application classes.
+#               This will reduce the number of measurments averages in the
+#               ip330Scan class,  increase the granularity in the time per
+#               point for the ip330Sweep class, and decrease the number of
+#               feedback cycles per second for the ip330PID class.
+# secondsBetweenCalibrate = number of seconds between calibration cycles.
+#               If zero then there will be no periodic calibration, but
+#               one calibration will still be done at initialization.
+#               If less than zero then no calibration is done.
+#               NOTE: setGain also causes a calibration.
+</pre>
+
+<p>Note that the reason for having <tt>configIp330</tt>, rather
+than just <tt>initIp330</tt> is simply that there are more than
+10 configurable parameters, but vxWorks only allows 10 arguments
+to be passed to functions which are called from the shell. </p>
+
+<h3>IP330 Hardware setup</h3>
+
+<p>The DIP Switch Settings column correspond to the value of
+switches 1 - 10. A value of 1011000010 corresponds to switches
+1,3,4,9 on and 2,5,6,7,8,10 off. </p>
+
+<pre>
+ADC Range  DIP Switch     {GAIN}        {FULL VALUE}    {LOW VALUE}
+
+-5to5      1011000010        0               5              -5
+-5to5      1011000010        1               2.5            -2.5
+-5to5      1011000010        2               1.25           -1.25
+-5to5      1011000010        3               0.625          -0.625
+-10to10    0100110010        0              10             -10
+-10to10    0100110010        1               5              -5
+-10to10    0100110010        2               2.5            -2.5
+-10to10    0100110010        3               1.25           -1.25
+0to5       1010100100        0               5               0
+0to5       1010100100        1               2.5             0
+0to5       1010100100        2               1.25            0
+0to5       1010100100        3               0.625           0
+0to10      1011001000        0              10               0
+0to10      1011001000        1               5               0
+0to10      1011001000        2               2.5             0
+0to10      1011001000        3               1.25            0
+</pre>
+
+<h2 align="center"><a name="Ip330Config">Ip330Config Server</a></h2>
+
+<p>A server and device support are provided to dynamically
+change configuration value. Currently this only provides support for
+changing setSecondsBetweenCalibrate.
+
+<h3>Ip330Config server configuration</h3>
+
+<pre>
+extern &quot;C&quot; int initIp330Config(
+    Ip330 *pIp330, const char *serverName, int queueSize)
+# pIp330     = pointer returned by initIp330 above
+# serverName = name to give this server.  Must match the INP parm field in
+#              EPICS records
+# queueSize  = size of output queue for MPF. Make this the maximum number 
+#              of records attached to this server.
+</pre>
+
+<h3>Ip330Config EPICS Device Support</h3>
+
+<p> The current device support is for a longout record.
+It sends an Int32Messages with the following info: </p>
+
+<ul>
+    <li><tt>cmd</tt></li>
+    <li><tt>value</tt></li>
+</ul>
+
+<p>Server returns: </p>
+
+<ul>
+    <li><tt>status</tt> - 0 means success; </li>
+</ul>
+
+<p>Standard output record type format is for longout records </p>
+
+<pre>
+ field(DTYP,&quot;ip330Config&quot;)
+
+ field(OUT,&quot;#C{card} S{signal} @{servername},{cmd}
+ card   =       The location of the server
+ signal =       Not currently used. Just make the value 0
+ servername     Must match the serverName specified with initIp330Config
+ cmd		Default is 0,which for now is the only valid value.
+
+ field(VAL)     When the record is processed the value of the VAL field
+                is setSecondsBetweenCalibrate. See above for meaning.
+</pre>
+A typical use is to have a passive longout record.
+If the VAL field is 0, then each time the record is processed calibration
+will be performed.
+
+<h2 align="center"><a name="Ip330Scan">Class Ip330Scan</a></h2>
+
+<p>This class provides the functions an averaging A/D converter.
+Together with class Ip330 it provides the same functionality as
+Ip330ScanApp in previous releases of MPF. </p>
+
+<h3>Ip330Scan public interface</h3>
+
+<p>This is the public interface of the Ip330Scan class: </p>
+
+<pre>
+class Ip330Scan
+{
+public:
+    static Ip330Scan * init(Ip330 *pIp330, int firstChan, int lastChan,
+                            int milliSecondsToAverage);
+    int getValue(int channel);
+    int setGain(int gain,int channel);
+    void setMilliSecondsToAverage(int milliSeconds);
+</pre>
+
+<p>Brief description of these functions: </p>
+
+<ul>
+    <li><tt>init()</tt> is called from <tt>initIp330Scan</tt>
+        which is discussed below. </li>
+    <li><tt>getValue()</tt> returns the averaged A/D value for a
+        channel. This value is corrected for slope and offset
+        using the calibration data. This is the value returned to
+        EPICS by Ip330ScanServer. </li>
+    <li><tt>setGain()</tt> sets the gain for this channel. See <tt>Ip330::setGain()</tt>
+        for more information. </li>
+    <li><tt>setMilliSecondsToAverage()</tt> sets the number of
+        milliseconds to average readings from the IP330 before
+        computing the value returned by <tt>getValue()</tt>. The
+        actual number of readings which will be averaged depends
+        upon this value and also upon the value of <tt>microSecondsPerScan</tt>
+        specified in the call to <tt>configIp330</tt>.&nbsp; Note that as of
+      Release 1.6 this is just the initial time for averaging, and is replaced
+      by the actual scan time of each record when the records process. </li>
+</ul>
+
+<h3>Ip330Scan server configuration</h3>
+
+<pre>
+extern &quot;C&quot; int initIp330Scan(
+    Ip330 *pIp330, const char *serverName, int firstChan, int lastChan,
+    int milliSecondsToAverage, int queueSize)
+# pIp330     = pointer returned by initIp330 above
+# serverName = name to give this server.  Must match the INP parm field in
+#              EPICS records
+# firstChan  = first channel to be used by Ip330Scan.  This must be in the
+#              range firstChan to lastChan specified in initIp330
+# lastChan   = last channel to be used by Ip330Scan.  This must be in the range
+#              firstChan to lastChan specified in initIp330
+# milliSecondsToAverage = initial number of milliseconds to average readings. This value is
+#              replaced by the actual scan time of the associated ai record when the record 
+#              processes. The actual scan time of the record is sent to the server in the
+#              &quot;extra&quot; field of the message.
+# queueSize  = size of output queue for MPF. Make this the maximum number 
+#              of ai records attached to this server.
+</pre>
+
+<h3>Ip330Scan EPICS Device Support</h3>
+
+<p>Device support sends Int32Messages with the following info: </p>
+
+<ul>
+    <li><tt>address</tt> - channel </li>
+    <li><tt>value</tt> - gain </li>
+    <li><tt>extra</tt> - scan time of the record on milliseconds for records that are
+      periodically scanned.&nbsp; For records that are not periodically scanned
+      <tt>extra</tt>=0 </li>
+</ul>
+
+<p>Server returns: </p>
+
+<ul>
+    <li><tt>value</tt> as 32 bit unsigned integer from 0 to
+        0xffff </li>
+    <li><tt>status</tt> 0 means success; </li>
+</ul>
+
+<p>Standard input record type format is for ai records </p>
+
+<pre>
+ field(SCAN,&quot;1 second&quot;)
+
+ field(DTYP,&quot;ip330Scan&quot;)
+
+ field(INP,&quot;#C{card} S{signal} @{servername},{gain}
+ card   =       The location of the server
+ signal =       The input channel of the ip330ADC
+                Differential inputs 0 - 15 are valid
+                Single ended inputs 0 - 31 are valid
+ servername     Must match the serverName specified with initIp330Scan
+ gain           Optional. If given must be 0,1,2,or 3. Default is 0.
+
+ field(EGUF,&quot;{FULL VALUE}&quot;)
+ {FULL VALUE} = See table under class Ip330.
+
+ field(EGUL,&quot;{LOW VALUE}&quot;)
+ {LOW VALUE} = See table under class Ip330.
+
+ field(LINR,&quot;LINEAR&quot;)
+ Mandatory
+</pre>
+
+<h2 align="center"><a name="Ip330Sweep">Class Ip330Sweep</a></h2>
+
+<p>This class provides a waveform recorder or transient
+digitizer, i.e. it collects voltage as a function of time. Time
+increments as short as 100 microseconds are possible if one does
+not use all of the channels. </p>
+
+<h3>Ip330Sweep public interface</h3>
+
+<p>This is the public interface of the Ip330Sweep class: </p>
+
+<pre>
+class Ip330Sweep
+{
+public:
+    static Ip330Sweep * init(Ip330 *pIp330, int firstChan, int lastChan,
+                            int maxPoints);
+    int setGain(int gain,int channel);
+    void startAcquire();
+    void stopAcquire();
+    void erase();
+    float setMicroSecondsPerPoint(float microSeconds);
+    float getMicroSecondsPerPoint();
+    int setNumPoints(int numPoints);
+    int getNumPoints();
+    int setPresetTime(float time);
+    float getElapsedTime();
+    int getStatus();
+    void getData(int channel, int *data);
+</pre>
+
+<p>Ip330Sweep is a more complex application than Ip330Scan. It
+acquires waveform data into a local buffer, which can be returned
+to EPICS. Waveform acquisition is started by <tt>startAcquire</tt>.
+Acquisition stops whenever one of the following occurs: </p>
+
+<ul>
+    <li>The preset time set with <tt>setPresetTime()</tt> is
+        reached. </li>
+    <li>The preset number of waveform points set with <tt>setNumPoints()</tt>
+        is reached. </li>
+    <li>Acquisition is explicitly stopped by calling <tt>stopAcquire()</tt>.
+    </li>
+</ul>
+
+<p>Ip330Sweep can acquire multiple waveforms simultaneously, one
+for each of the input channels. Acquisition is started and
+stopped for all channels simultaneously, and <tt>erase()</tt>
+erases all waveforms. </p>
+
+<p>Brief description of these functions: </p>
+
+<ul>
+    <li><tt>init()</tt> is called from <tt>initIp330Sweep</tt>
+        which is discussed below. </li>
+    <li><tt>setGain()</tt> sets the gain for this channel. See <tt>Ip330::setGain()</tt>
+        for more information. </li>
+    <li><tt>startAcquire()</tt> starts acquiring points. </li>
+    <li><tt>stopAcquire()</tt> stops acquiring points. </li>
+    <li><tt>erase()</tt> erases the waveform. This sets all of
+        the waveform data to 0, sets the elapsed time to 0, and
+        resets the next channel pointer to 0. </li>
+    <li><tt>setMicroSecondsPerPoint()</tt> sets the time interval
+        between waveform points. The actual time interval will be
+        an integer multiple of the value of <tt>microSecondsPerScan</tt>
+        specified in the call to <tt>configIp330</tt>. </li>
+    <li><tt>getMicroSecondsPerPoint()</tt> gets the actual time
+        interval between waveform points. The actual time
+        interval may not be equal to the time interval requested
+        with <tt>setMicroSecondsPerPoint()</tt>, because the
+        actual time must be an integer multiple of the value of <tt>microSecondsPerScan</tt>
+        specified in the call to <tt>configIp330</tt>. </li>
+    <li><tt>setNumPoints()</tt> sets the number of points to be
+        acquired in the waveform. This value must be less than <tt>maxPoints</tt>
+        specified in the call to <tt>initIp330Sweep()</tt>. </li>
+    <li><tt>getNumPoints()</tt> gets the number of points to be
+        acquired in the waveform. </li>
+    <li><tt>setPresetTime()</tt> sets the maximum acquisition
+        time in seconds. The vxWorks system clock is used for
+        this timing, so the resolution is typically 1/50 or 1/60
+        of a second. The preset time is ignorred if it is zero. </li>
+    <li><tt>getElapsedTime()</tt> returns the elapsed acquisition
+        time in seconds. The elapsed time is reset to zero when <tt>erase()</tt>
+        is called. The vxWorks system clock is used for this
+        timing, so the resolution is typically 1/50 or 1/60 of a
+        second. </li>
+    <li><tt>getStatus()</tt> returns the acquisition status, 1 if
+        the unit is acquiring a waveform, 0 if it is not
+        acquiring. </li>
+    <li><tt>getData()</tt> returns the waveform data for a
+        channel. </li>
+</ul>
+
+<h3>Ip330Sweep server configuration</h3>
+
+<pre>
+initIp330Sweep(Ip330 *pIp330, char *serverName, int firstChan, int lastChan,
+               int maxPoints, int queueSize)
+# pIp330     = pointer returned by initIp330 above
+# serverName = name to give this server
+# firstChan  = first channel to be used by Ip330Sweep.  This must be in the
+#              range firstChan to lastChan specified in initIp330
+# lastChan   = last channel to be used by Ip330Sweep.  This must be in the
+#              range firstChan to lastChan specified in initIp330
+# maxPoints  = maximum number of points in a sweep.  The amount of memory
+#              allocated will be maxPoints*(lastChan-firstChan+1)*4 bytes
+# queueSize  = size of output queue for EPICS
+</pre>
+
+<h3>Ip330Sweep EPICS Device Support</h3>
+
+<p>Device support can send the following messages (MSG_XXX are
+defined in mcaApp/src/mca.h): </p>
+
+<p>Float64Messages with the following info: </p>
+
+<ul>
+    <li><tt>cmd = MSG_ERASE</tt> - erase waveform </li>
+    <li><tt>cmd = MSG_ACQUIRE</tt> - start acquisition </li>
+    <li><tt>cmd = MSG_STOP_ACQUISITION</tt> - stop acquisition </li>
+    <li><tt>cmd = NSG_SET_NCHAN</tt> - set number of waveform
+        points <ul>
+            <li><tt>value</tt> - number of channels </li>
+        </ul>
+    </li>
+    <li><tt>cmd = MSG_READ</tt> - read data. Server returns an
+        Int32ArrayMessage with the data. </li>
+    <li><tt>cmd = MSG_GET_ACQ_STATUS</tt> - read status. Server
+        returns a Float64ArrayMessage with the elapsed real time,
+        elapsed live time, time per point and acquire status. </li>
+    <li><tt>cmd = MSG_SET_DWELL</tt> - sets the time per point <ul>
+            <li><tt>value</tt> - dwell time per point in seconds </li>
+        </ul>
+    </li>
+    <li><tt>cmd = MSG_SET_LIVE_TIME</tt> - sets the preset live
+        time <ul>
+            <li><tt>value</tt> - preset time in seconds. </li>
+        </ul>
+    </li>
+    <li><tt>cmd = MSG_SET_REAL_TIME</tt> - sets the preset real
+        time. </li>
+    <li><ul>
+            <li><tt>value</tt> - preset time in seconds. </li>
+        </ul>
+    </li>
+</ul>
+
+<p>Preset live time and preset real time are ignorred if they are
+zero. There is no difference between live and real time, but
+acquisition will stop whenever either preset time is reached.</p>
+
+<p>Standard input record type format is for MCA records. Note
+that the MCA record is not part of EPICS base. The MPF device
+support for the MCA record, and the MCA record itself are
+available separately in the <a
+href="http://cars.uchicago.edu/software/pub/mcaApp.tar">mcaApp tar
+file</a>. </p>
+
+<pre>
+ field(DTYP,&quot;MPF MCA&quot;)
+
+ field(NMAX, nchannels)
+ nchannels = maximum number of channels (time points) to use for this record.
+             NMAX cannot be changed after iocInit.  NMAX should normally be 
+             set to the same value specified for maxPoints in initIp330Sweep
+
+ field(NUSE, nchannels)
+ nchannels = actual number of channels (time points) to use for this record.
+             NUSE can be changed at any time, however it cannot be greater 
+             than NMAX or maxPoints specified in initIp330Sweep
+
+ field(DWEL, scan_time)
+ scan_time = time per point in seconds (floating point).  Values as small as
+             as 1.e-4 (100 microseconds) can be used if 6 or fewer channels 
+             are digitized.  The DWEL field will be set to the actual time
+             per point, in case the value requested is not available either
+             because it is too short or too long, or because the requested
+             time was not an integer multiple of the value of 
+             microSecondsPerScan specified in the call to configIp330.
+
+ field(INP,&quot;#C{card} S{signal} @{servername})
+ card   =       The location of the server
+ signal =       The input channel of the ip330ADC
+                Differential inputs 0 - 15 are valid
+                Single ended inputs 0 - 31 are valid
+ servername     Must match the serverName specified with initIp330Sweep
+
+</pre>
+
+<h2 align="center"><a name="Ip330PID">Class Ip330PID</a></h2>
+
+<p>This class provides very fast PID (feedback) software. It
+reads its input from a single channel of the Ip330 and writes its
+output to a single DAC channel on the Systran DAC (dac128V which
+is in MPF). It can do feedback faster than 1 kHz. It uses exactly
+the same feedback algorithm as the soft record device support in
+the EPID (Enhanced PID) EPICS record. </p>
+
+<h3>Ip330 public interface</h3>
+
+<p>This is the public interface of the Ip330PID class: </p>
+
+<pre>
+class Ip330PID
+{
+public:
+    static Ip330PID * init(Ip330 *pIp330, int ADCChannel,
+                           DAC128V *pDAC128V, int DACChannel);
+    static void config(Ip330PID *pIp330PID, double KP, double KI, double KD,
+                       int interval, int feedbackOn,
+                       int lowLimit, int highLimit);
+    float setMicroSecondsPerScan(float microSeconds);
+    float getMicroSecondsPerScan();
+    int setPoint;
+    int actual;
+    double error;
+    double KP;
+    double KI;
+    double KD;
+    double P;
+    double I;
+    double D;
+    int feedbackOn;
+    int lowLimit;
+    int highLimit;
+    int output;
+</pre>
+
+<p>This is a brief description of this public interface. The
+public variables (<tt>setPoint, actual</tt>, etc.) are marked as
+R/W for Read/Write or RO for Read Only. The R/W varibles can be
+changed by the server at any time. </p>
+
+<ul>
+    <li><tt>init()</tt> and <tt>config()</tt> are called from <tt>initIp330PID</tt>
+        and <tt>configIp330PID</tt> which are discussed below. </li>
+    <li><tt>setMicroSecondsPerScan()</tt> sets the time per
+        feedback loop. The actual time interval will be an
+        integer multiple of the value of <tt>microSecondsPerScan</tt>
+        specified in the call to <tt>configIp330</tt>. </li>
+    <li><tt>getMicroSecondsPerScan()</tt> gets the actual time
+        per feedback loop. The actual time interval may not be
+        equal to the time interval requested with <tt>setMicroSecondsPerScan()</tt>,
+        because the actual time must be an integer multiple of
+        the value of <tt>microSecondsPerScan</tt> specified in
+        the call to <tt>configIp330</tt>. </li>
+    <li><tt>setPoint</tt> (R/W) is the desired value of the IP330
+        input channel. </li>
+    <li><tt>actual</tt> (RO) is the actual current value of the
+        IP330 input channel. </li>
+    <li><tt>error</tt> (RO) is equal to <tt>setPoint-actual</tt>.
+    </li>
+    <li><tt>KP</tt> (R/W) is the proportional gain. </li>
+    <li><tt>KI</tt> (R/W) is the integral gain. </li>
+    <li><tt>KD</tt> (R/W) is the derivative gain. </li>
+    <li><tt>P</tt> (RO) is the proportional term. </li>
+    <li><tt>I</tt> (R/W) is the integral term. This term is R/W
+        since one may want to force it to zero or another value
+        to prevent over/undershoot or to improve response time. </li>
+    <li><tt>D</tt> (RO) is the derivative term. </li>
+    <li><tt>feedbackOn</tt> (R/W) is 0 is feedback is off, 1 if
+        feedback is on. When feedback is off the PID calculation
+        still runs, but the computed output is simply not written
+        to the DAC. </li>
+    <li><tt>lowLimit</tt> (R/W) is the lower limit on the DAC
+        output. If the computed output from the PID algorithm is
+        less than this value it will be set to <tt>lowLimit</tt>.
+    </li>
+    <li><tt>highLimit</tt> (R/W) is the high limit on the DAC
+        output. If the computed output from the PID algorithm is
+        greater than this value it will be set to <tt>highLimit</tt>.
+    </li>
+    <li><tt>output</tt> (RO) is the output value to be written to
+        the DAC. If <tt>feedbackOn=0</tt> then the value will not
+        actually be written to the DAC. </li>
+</ul>
+
+<h3>Ip330PID server configuration</h3>
+
+<pre>
+extern &quot;C&quot; Ip330PID *initIp330PID(const char *serverName,
+         Ip330 *pIp330, int ADCChannel, DAC128V *pDAC128V, int DACChannel,
+         int queueSize)
+# serverName = name to give this server
+# pIp330     = pointer returned by initIp330 above
+# ADCChannel = ADC channel to be used by Ip330PID as its readback source.  
+#              This must be in the range firstChan to lastChan specified in 
+#              initIp330
+# pDAC128V   = pointer returned by initDAC128V
+# DACChannel = DAC channel to be used by Ip330PID as its control output.  This
+#              must be in the range 0-7.
+# queueSize  = size of output queue for EPICS
+
+extern &quot;C&quot; int configIp330PID(Ip330PID *pIp330PID,
+         double KP, double KI, double KD,
+         int interval, int feedbackOn, int lowLimit, int highLimit)
+# pIp330PID  = pointer returned by initIp330PID above
+# KP         = proportional gain
+# KI         = integral gain
+# KD         = derivative gain
+# interval   = microseconds per feedback loop
+# feedbackOn = 0 for feedback off, 1 for feedback on
+# lowLimit   = low limit on DAC output
+# highLimit  = high limit on DAC output
+</pre>
+
+<p>Note that the reason for having <tt>configIp330PID</tt>,
+rather than just <tt>initIp330PID</tt> is simply that there are
+more than 10 configurable parameters, but vxWorks only allows 10
+arguments to be passed to functions which are called from the
+shell. </p>
+
+<h3>Ip330PID EPICS Device Support</h3>
+
+<p>Device support sends Float64Messages with the following info: </p>
+
+<ul>
+    <li><tt>cmd = cmdStartFeedback</tt> - turn on feedback </li>
+    <li><tt>cmd = cmdStopFeedback</tt> - turn off feedback </li>
+    <li><tt>cmd = cmdSetLowLimit</tt> - set the low limit on the
+        DAC output, <tt>value</tt> = low limit </li>
+    <li><tt>cmd = cmdSetHighLimit</tt> - set the high limit on
+        the DAC output, <tt>value</tt> = high limit </li>
+    <li><tt>cmd = cmdSetKP</tt> - set the proportional gain, <tt>value</tt>
+        = KP </li>
+    <li><tt>cmd = cmdSetKI</tt> - set the integral gain, <tt>value</tt>
+        = KI </li>
+    <li><tt>cmd = cmdSetKD</tt> - set the derivative gain, <tt>value</tt>
+        = KD </li>
+    <li><tt>cmd = cmdSetI</tt> - set the integral term, <tt>value</tt>
+        = I </li>
+    <li><tt>cmd = cmdSetSecondsPerScan</tt> - set the time per
+        feedback loop, <tt>value</tt> = time in seconds </li>
+    <li><tt>cmd = cmdSetSetPoint</tt> - set the setpoint, which
+        is the desired input reading from the ADC channel </li>
+    <li><tt>cmd = cmdGetParams</tt> - read the current feedback
+        parameters. The server returns a Float64ArrayMessage with
+        the following information from Ip330PID: <ul>
+            <li><tt>actual</tt>, ADC input </li>
+            <li><tt>error</tt>, setPoint-actual </li>
+            <li><tt>P</tt>, proportional term </li>
+            <li><tt>I</tt>, integral term </li>
+            <li><tt>D</tt>, derivative term </li>
+            <li><tt>output</tt>, computed output, which is the
+                value written to the DAC if feedback is on. </li>
+            <li><tt>secondsPerScan</tt>, actual seconds per
+                feedback loop. This may differ from the requested
+                time because it was too long or too short, or
+                because the requested time was not an integer
+                multiple of the value of <tt>microSecondsPerScan</tt>
+                specified in the call to <tt>configIp330</tt>. </li>
+        </ul>
+    </li>
+</ul>
+
+<p>Standard input record type format is for EPID records. Note
+that the EPID record is not part of EPICS base, and thus the
+lines to compile devEpidIp330.cc are commented out in
+Makefile.Vx, and the line for EPID device support is commented
+out in devIp330.dbd. The EPID record is available from Mark
+Rivers or from the APS Beamline Controls and Data Acquisition
+group. </p>
+
+<pre>
+ field(DTYP,&quot;MPF EPID&quot;)
+
+ field(INP,&quot;#C{card} S0 @{servername})
+ card   =       The location of the server
+ servername     Must match the serverName specified with initIp330PID
+
+ field(SCAN,&quot;.1 second&quot;)
+           = interval process the record.  Each time the EPID record processes
+             it sends any new parameters (KI, KP, KD, setPoint, etc.) and
+             reads back the parameters from the server (P, I, D, error, output,
+             etc.)  Thus if SCAN=.1 second then the EPID record provides 10 Hz
+             snapshots of the PID feedback, which may actually be occuring at
+             1 kHz or faster.  The Ip330Sweep support can be used together with
+             the EPICS MCA record to capture the actual ADC input as fast as it
+             is digitized, so the complete error information is available.
+
+ field(KP, kp)
+ kp        = proportional gain
+
+ field(KI, ki)
+ ki        = integral gain
+
+ field(KD, kd)
+ kd        = derivative gain
+
+ field(DT, scan_time)
+ scan_time = time per feedback loop in seconds
+
+ field(VAL, setPoint)
+ setPoint = setpoint in IP330 ADC units
+
+ field(DRVL, lowLimit)
+ lowLimit = low output limit in DAC128CV DAC units
+
+ field(DRVH, highLimit)
+ highLimit = high output limit in DAC128CV DAC units
+</pre>
+
+<h2 align="center"><a name="Restriction">Restrictions on Scan
+Timing</a></h2>
+
+<p>In an earlier release of this package (1.0) each of the
+application-specific classes (Ip330Scan, Ip330Sweep, Ip330PID)
+had a function to control the scan rate of the Ip330. However,
+there is only a single interval timer in the IP330 hardware, and
+so if one class changed the scan rate it would change the scan
+rate for all of the other classes. This interaction was
+undesirable, and so the behavior has been changed, starting with
+release 1.01. Now the value of <tt>microSecondsPerScan</tt>
+specified in <tt>configIp330</tt> is never changed by any
+application classes. Each application class will have its
+callback routine executed at this time interval. The application
+class will determine what to do when it is called back. For
+example, in the <tt>ip330Sweep</tt> class if <tt>microSecondsPerPoint</tt>
+is 1000, and <tt>ip330-&gt;microSecondsPerScan</tt> is 500, then
+the <tt>ip330Sweep</tt> callback routine returns immediately
+without doing anything on every other call. This behaviour
+eliminates any interaction between the timing for the different
+application classes. The new limitation is that the granularity
+of the time intervals available to an application class is now
+limited to the value of <tt>microSecondsPerScan</tt> specified in
+<tt>configIp330</tt>, whereas previously the granularity was 8
+microseconds. Thus, for example, if <tt>microSecondsPerScan</tt>
+is 500 microseconds then the dwell times available in the <tt>ip330Sweep</tt>
+class are limited to multiples of 500 microseconds. </p>
+
+<h2 align="center"><a name="Release">Release notes</a></h2>
+
+<h3>Release 1.0 November 15, 1999</h3>
+
+<p>This support replaces the previous ip330ScanApp. That support
+did the following: </p>
+
+<ul>
+    <li>Digitized channels 0 to 15 in differential mode, or 0 to
+        31 in single-ended mode </li>
+    <li>Took a complete set of readings every millisecond.
+        Actually the complete set of readings was taken every
+        1.240 milliseconds in diffential mode and every 1.480
+        milliseconds in single ended mode, because the 15
+        microseconds to convert each channel was not taken into
+        account when programming the interval timer. </li>
+    <li>Averaged 200 samples for each channel. However, there was
+        a bug in the software when running in differential mode.
+        The data were always read from the lower mailbox
+        registers (0-15) rather than alternating the reads
+        between the lower and upper mailbox registers. Thus, only
+        100 unique values were being averaged in this mode,
+        rather than 200. </li>
+    <li>Returned the average value to device support, thus every
+        0.2 seconds a 200 sample average was supposed to be
+        available. </li>
+    <li>Once a minute calibration was done automatically. </li>
+</ul>
+
+<p>The new support can be configured to function exactly as the
+previous support was intended to function with commands like the
+following in the MPF server startup file: </p>
+
+<pre>
+  pIp330 = initIp330(&quot;c-Ip330&quot;,carrier,&quot;IP_c&quot;,&quot;D&quot;,&quot;-5to5&quot;,0,15,10,120)
+  configIp330(pIp330,3,&quot;Input&quot;,1000,60)
+  initIp330Scan(pIp330,&quot;c-Ip330Scan&quot;,0,15,200,20)
+</pre>
+
+<p>The initIp330 command creates a task called
+&quot;c-Ip330&quot;, with the following settings: </p>
+
+<ul>
+    <li>differential mode </li>
+    <li>-5 to 5 volt range </li>
+    <li>convert channels 0 to 15, </li>
+    <li>10 clients (Ip330 application-specific servers) maximum </li>
+    <li>interrupt vector = 120 </li>
+</ul>
+
+<p>The configIp330 command configures Ip330 with the following
+settings: </p>
+
+<ul>
+    <li>scanMode = 3 = Burst Continuous </li>
+    <li>external trigger = input </li>
+    <li>1000 microseconds = 1 millisecond per scan </li>
+    <li>60 seconds between calibrations </li>
+</ul>
+
+<p>The initIp330Scan command creates a server called
+&quot;c-Ip330Scan&quot; with the following settings: </p>
+
+<ul>
+    <li>connected to the Ip330 object created by the initIp330
+        command </li>
+    <li>convert channels 0 to 15 </li>
+    <li>average readings for 200 milliseconds </li>
+    <li>create an output queue for 20 MPF messages </li>
+</ul>
+
+<h3>Release 1.01 April 20, 2000</h3>
+
+<p>Changed the timing logic. See the discussion in <a
+href="#Restriction">Restrictions on Scan Timing</a>. </p>
+
+<h3>Release 1.02 September 10, 2000</h3>
+
+<p>Changed ip330SweepServer.cc, removed Ip330SweepServer.h, and
+replaced devMcaIp330.cc with a device-independent layer,
+devMcaMpf.cc. devMcaMpf.cc is part of mcaApp, not part of Ip330,
+since it is no longer specific to the Ip330. The messages
+accepted by Ip330SweepServer have been changed to accomodate the
+new device-independent layer.</p>
+
+<p>Changes to the PID algorithm in ip330PID.cc to improve its
+operation. See the comments in ip330PID.cc for details.</p>
+
+<h3>Release 1.1 November 1, 2000 (Marty Kraimer)</h3>
+
+<ul>
+    <li>Added the configuration server.</li>
+    <li>Added a lock that protects adj_slope and adj_offset
+         from being changed while corrected values are computed.</li>
+    <li>Force two data acquisition cycles during calibration.
+        This is necessary to allow ADC to settle.</li>
+    <li>After calibration set mailBoxOffset=16. Caused a bad reading.</li>
+    <li>If secondsBetween Calibrate<0 then return raw value.</li>
+</ul>
+
+<h3>Release 1.2 January 16, 2001</h3>
+
+<ul>
+    <li>Fixed a bug which caused the IOC to crash if the external trigger line
+        was asserted during a hardware reboot.
+    <li>Fixed bugs which caused the IOC to crash if the IP330 hardware was not
+        installed but server configuration commands were present in the startup file.
+</ul>
+
+<h3>Release 1.3 August 28, 2001</h3>
+
+<ul>
+    <li>                 Removed calls to intClear and intDisable. These were not necessary and did not work on dumb IP carrier.<br>
+</ul>
+
+<h3>Release 1.4 October 12, 2001</h3>
+
+<ul>
+    <li>Added code to handle soft reboots.<br>
+</ul>
+
+<h3>Release 1.5 July 31, 2002 (Carl Lionberger and Eric Snow at SNS)</h3>
+<ul>
+  <li>                 Moved interrupt enable to end of config.&nbsp; It was
+    generating lots of interrupts before being fully configured.</li>
+  <li>Properly masked mode control bits in setScanMode, was not working in modes
+    other than burstContinuous</li>
+  <li>Adjusted mailBoxOffset for uniformSingle and burstSingle scan modes in intFunc.<br>
+  </li>
+</ul>
+<h3>Release 1.6 March 31, 2003</h3>
+<ul>
+  <li>                 Changed the way averaging is done in the ip330Scan
+    class.&nbsp; Previously there was a single averaging time for all input
+    channels, that was set at boot time with the milliSecondsToAverage parameter
+    in the call to initIp330Scan().&nbsp; This was not the best way to do it,
+    since if an ai record was set to process every 2 seconds, but
+    milliSecondsToAverage was 100 msec, then the ai record would just be
+    sampling every 20'th average.&nbsp; A much better way to do it is to have
+    the averaging time be equal to the scan time of the record, so that if the
+    scan time is 2 seconds then the averaging is done for 2 seconds, greatly
+    improving signal to noise.&nbsp; This has now been implemented by making the
+    averaging time be independent for each input channel, and passing the scan
+    time in the &quot;extra&quot; field of the message from device support to
+    the server.&nbsp; Note that there is a limitation in the way this is
+    presently implemented:&nbsp; it only works if the &quot;standard&quot; EPICS
+    scan times of 10, 5, 2, 1, .5, .2 and .1 seconds are used.&nbsp; If a site
+    changes these scan times it will not work correctly, because there is no API
+    available to determine the actual scan time of a record.</li>
+</ul>
+<p>&nbsp;</p>
+
+<hr>
+
+<address>
+    Suggestions and Comments to: <br>
+    <a href="mailto:rivers@cars.uchicago.edu">Mark Rivers </a>:
+    (rivers@cars.uchicago.edu) <br>
+    Last modified: April 1, 2003
+</address>
+</body>
+</html>
