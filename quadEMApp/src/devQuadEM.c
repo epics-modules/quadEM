@@ -45,7 +45,7 @@
 #include <epicsMutex.h>
 #include <epicsExport.h>
 #include <asynDriver.h>
-#include <asynUtils.h>
+#include <asynEpicsUtils.h>
 #include <asynInt32Callback.h>
 
 #include <recGbl.h>
@@ -121,7 +121,6 @@ epicsExportAddress(dset, devMbboQuadEM);
 static long initCommon(dbCommon *pr, DBLINK *plink, userCallback callback,
                        recType rt, char **up)
 {
-    int card;
     char *port;
     devQuadEMPvt *pPvt;
     asynUser *pasynUser=NULL;
@@ -137,8 +136,8 @@ static long initCommon(dbCommon *pr, DBLINK *plink, userCallback callback,
     pPvt->pasynUser = pasynUser;
     pasynUser->userPvt = pr;
 
-    status = pasynUtils->parseVmeIo(pasynUser, plink, &card, &pPvt->channel,
-                                    &port, up);
+    status = pasynEpicsUtils->parseLink(pasynUser, plink, 
+                                        &port, &pPvt->channel, up);
     if (status != asynSuccess) {
         errlogPrintf("devQuadEM::initCommon %s bad link %s\n", 
                      pr->name, pasynUser->errorMessage);
