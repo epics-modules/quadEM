@@ -106,7 +106,7 @@ rectangle {
 		height=20
 	}
 	control {
-		chan="$(P)$(EM)Average.PROC"
+		chan="$(P)$(EM)Read.PROC"
 		clr=14
 		bclr=51
 	}
@@ -517,7 +517,7 @@ menu {
 		height=20
 	}
 	control {
-		chan="$(P)$(EM)Average.SCAN"
+		chan="$(P)$(EM)Read.SCAN"
 		clr=14
 		bclr=51
 	}
