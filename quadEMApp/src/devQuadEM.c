@@ -42,14 +42,16 @@
 #include <dbScan.h>
 #include <cantProceed.h>
 #include <epicsPrint.h>
+#include <epicsMutex.h>
 #include <epicsExport.h>
 #include <asynDriver.h>
+#include <asynUtils.h>
 #include <asynInt32Callback.h>
 
 #include <recGbl.h>
 #include <alarm.h>
 
-#include "drvQuadEM.h"
+#include "asynQuadEM.h"
 
 
 typedef enum {recTypeAi, recTypeAo, recTypeMbbo} recType;
@@ -75,6 +77,7 @@ typedef struct devQuadEMPvt {
     void       *int32CallbackPvt;
     asynQuadEM *pasynQuadEM;
     void       *quadEMPvt;
+    epicsMutexId mutexId;
     int        channel;
     int        command;
     recType    recType;
@@ -92,32 +95,34 @@ typedef struct dsetQuadEM {
     DEVSUPFUN  convert;
 } dsetQuadEM;
 
-static long initCommon(dbCommon *pr, DBLINK *plink, recType rt, char **up);
+static long initCommon(dbCommon *pr, DBLINK *plink, userCallback callback,
+                       recType rt, char **up);
+static long queueRequest(dbCommon *pr);
 
 static long initAi(aiRecord *pr);
-static long readAi(aiRecord *pr);
-static void callbackAi(void *drvPvt, epicsInt32 value);
+static void callbackAi(asynUser *pasynUser);
+static void dataCallbackAi(void *drvPvt, epicsInt32 value);
 static long convertAi(aiRecord *pai, int pass);
 static long initAo(aoRecord *pr);
-static long writeAo(aoRecord *pr);
+static void callbackAo(asynUser *pasynUser);
 static long convertAo(aoRecord *pao, int pass);
 static long initMbbo(mbboRecord *pr);
-static long writeMbbo(mbboRecord *pr);
+static void callbackMbbo(asynUser *pasynUser);
 
-dsetQuadEM devAiQuadEM = {6, 0, 0, initAi, 0, readAi, convertAi};
-dsetQuadEM devAoQuadEM = {6, 0, 0, initAo, 0, writeAo, convertAo};
-dsetQuadEM devMbboQuadEM = {6, 0, 0, initMbbo, 0, writeMbbo, 0};
+dsetQuadEM devAiQuadEM = {6, 0, 0, initAi, 0, queueRequest, convertAi};
+dsetQuadEM devAoQuadEM = {6, 0, 0, initAo, 0, queueRequest, convertAo};
+dsetQuadEM devMbboQuadEM = {6, 0, 0, initMbbo, 0, queueRequest, 0};
 
 epicsExportAddress(dset, devAiQuadEM);
 epicsExportAddress(dset, devAoQuadEM);
 epicsExportAddress(dset, devMbboQuadEM);
 
 
-static long initCommon(dbCommon *pr, DBLINK *plink, recType rt, char **up)
+static long initCommon(dbCommon *pr, DBLINK *plink, userCallback callback,
+                       recType rt, char **up)
 {
-    int i;
-    char port[100];
-    struct vmeio *pio = (struct vmeio *)plink;
+    int card;
+    char *port;
     devQuadEMPvt *pPvt;
     asynUser *pasynUser=NULL;
     asynInterface *pasynInterface;
@@ -127,25 +132,20 @@ static long initCommon(dbCommon *pr, DBLINK *plink, recType rt, char **up)
                              "devQuadEM::initCommon");
     pr->dpvt = pPvt;
     pPvt->recType = rt;
-
-    /* Fetch the port field */
-    if (plink->type != VME_IO) {
-        errlogPrintf("devQuadEM::initCommon %s link is not VME link\n", 
-                     pr->name);
-        goto bad;
-    }
-    pPvt->channel = pio->signal;
-    /* First field of parm is the port name */
-    for (i=0; pio->parm[i] && pio->parm[i]!=',' && pio->parm[i]!=' '
-                           && i<100; i++)
-       port[i]=pio->parm[i];
-    port[i]='\0';
-
-    *up = &pio->parm[i+1];
-    pasynUser = pasynManager->createAsynUser(0, 0);
+    pPvt->mutexId = epicsMutexCreate();
+    pasynUser = pasynManager->createAsynUser(callback, 0);
     pPvt->pasynUser = pasynUser;
     pasynUser->userPvt = pr;
-    status = pasynManager->connectDevice(pasynUser, port, pio->signal);
+
+    status = pasynUtils->parseVmeIo(pasynUser, plink, &card, &pPvt->channel,
+                                    &port, up);
+    if (status != asynSuccess) {
+        errlogPrintf("devQuadEM::initCommon %s bad link %s\n", 
+                     pr->name, pasynUser->errorMessage);
+        goto bad;
+    }
+
+    status = pasynManager->connectDevice(pasynUser, port, pPvt->channel);
     if (status != asynSuccess) {
         asynPrint(pasynUser, ASYN_TRACE_ERROR,
                   "devQuadEM::initCommon, error in connectDevice %s\n",
@@ -177,6 +177,14 @@ bad:
     return(-1);
 }
 
+static long queueRequest(dbCommon *pr)
+{
+    devQuadEMPvt *pPvt = (devQuadEMPvt *)pr->dpvt;
+
+    pasynManager->queueRequest(pPvt->pasynUser, 0, 0);
+    return(0);
+}
+
 
 static long initAi(aiRecord *pai)
 {
@@ -184,7 +192,7 @@ static long initAi(aiRecord *pai)
     devQuadEMPvt *pPvt;
     int status;
 
-    status = initCommon((dbCommon *)pai, &pai->inp, recTypeAi, &up);
+    status = initCommon((dbCommon *)pai, &pai->inp, callbackAi, recTypeAi, &up);
     if (status) return 0;
 
     pPvt = (devQuadEMPvt *)pai->dpvt;
@@ -193,36 +201,40 @@ static long initAi(aiRecord *pai)
                      pai->name, pPvt->channel);
         pai->pact=1;
     }
-    pPvt->int32Callback->registerCallback(pPvt->int32CallbackPvt,
-                                          pPvt->pasynUser,
-                                          callbackAi, pPvt);
+    pPvt->int32Callback->registerCallbacks(pPvt->int32CallbackPvt,
+                                          pPvt->pasynUser, 
+                                          dataCallbackAi, 0, pPvt);
     convertAi(pai, 1);
     return(0);
 }
 
-static void callbackAi(void *drvPvt, epicsInt32 value)
+static void dataCallbackAi(void *drvPvt, epicsInt32 value)
 {
     devQuadEMPvt *pPvt = (devQuadEMPvt *)drvPvt;
 
+    epicsMutexLock(pPvt->mutexId);
     pPvt->numAverage++;
     pPvt->sum += value;
+    epicsMutexUnlock(pPvt->mutexId);
 }
 
-static long readAi(aiRecord *pai)
+static void callbackAi(asynUser *pasynUser)
 {
+    aiRecord *pai = (aiRecord *)pasynUser->userPvt;
     devQuadEMPvt *pPvt = (devQuadEMPvt *)pai->dpvt;
     int data;
 
+    epicsMutexLock(pPvt->mutexId);
     if (pPvt->numAverage == 0) pPvt->numAverage = 1;
     data = pPvt->sum/pPvt->numAverage + 0.5;
     pPvt->numAverage = 0;
     pPvt->sum = 0.;
     pai->rval = data;
+    epicsMutexUnlock(pPvt->mutexId);
     asynPrint(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
               "devQuadEM::readAi %s value=%d\n",
               pai->name, pai->rval);
     pai->udf=0;
-    return(0);
 }
 
 static long convertAi(aiRecord *pai, int pass)
@@ -237,7 +249,7 @@ static long initAo(aoRecord *pao)
     char *up;
     devQuadEMPvt *pPvt;
     int status;
-    status = initCommon((dbCommon *)pao, &pao->out, recTypeAo, &up);
+    status = initCommon((dbCommon *)pao, &pao->out, callbackAo, recTypeAo, &up);
     if (status) return 0;
 
     pPvt = (devQuadEMPvt *)pao->dpvt;
@@ -269,8 +281,9 @@ static long initAo(aoRecord *pao)
     return(0);
 }
 
-static long writeAo(aoRecord *pao)
+static void callbackAo(asynUser *pasynUser)
 {
+    aoRecord *pao = (aoRecord *)pasynUser->userPvt;
     devQuadEMPvt *pPvt = (devQuadEMPvt *)pao->dpvt;
 
     asynPrint(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
@@ -296,7 +309,6 @@ static long writeAo(aoRecord *pao)
         pPvt->pasynQuadEM->setPulse(pPvt->quadEMPvt, pPvt->pasynUser, pao->val);
         break;
     }
-    return(0);
 }
 
 static long convertAo(aoRecord *pao, int pass)
@@ -312,7 +324,8 @@ static long initMbbo(mbboRecord *pmbbo)
     devQuadEMPvt *pPvt;
     int status;
 
-    status = initCommon((dbCommon *)pmbbo, &pmbbo->out, recTypeMbbo, &up);
+    status = initCommon((dbCommon *)pmbbo, &pmbbo->out, callbackMbbo,
+                        recTypeMbbo, &up);
     if (status) return 0;
 
     pPvt = (devQuadEMPvt *)pmbbo->dpvt;
@@ -335,8 +348,9 @@ static long initMbbo(mbboRecord *pmbbo)
     return(0);
 }
 
-static long writeMbbo(mbboRecord *pmbbo)
+static void callbackMbbo(asynUser *pasynUser)
 {
+    mbboRecord *pmbbo = (mbboRecord *)pasynUser->userPvt;
     devQuadEMPvt *pPvt = (devQuadEMPvt *)pmbbo->dpvt;
 
     asynPrint(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
@@ -352,5 +366,4 @@ static long writeMbbo(mbboRecord *pmbbo)
                                        pPvt->channel, pmbbo->rval);
         break;
     }
-    return(0);
 }
