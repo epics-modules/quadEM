@@ -1,12 +1,12 @@
 
 file {
-	name="j:\epics\3.14\quadEM\quadEMApp\op\adl\quadEM_plotAll.adl"
+	name="C:\Program Files\EPICS\adls\quadEM_plotAll.adl"
 	version=020306
 }
 display {
 	object {
-		x=395
-		y=69
+		x=383
+		y=221
 		width=915
 		height=630
 	}
@@ -131,14 +131,15 @@ composite {
 	}
 	plotcom {
 		title="$(P)$(CURR1)"
-		xlabel="channel"
-		ylabel="counts"
+		xlabel="$(XTITLE)"
+		ylabel="$(YTITLE)"
 		clr=14
 		bclr=2
 	}
 	style="line"
 	erase_oldest="plot last n pts"
 	trace[0] {
+		xdata="$(P)Xaxis"
 		ydata="$(P)$(CURR1).VAL"
 		data_clr=27
 	}
@@ -173,14 +174,15 @@ text {
 	}
 	plotcom {
 		title="$(P)$(CURR2)"
-		xlabel="channel"
-		ylabel="counts"
+		xlabel="$(XTITLE)"
+		ylabel="$(YTITLE)"
 		clr=14
 		bclr=2
 	}
 	style="line"
 	erase_oldest="plot last n pts"
 	trace[0] {
+		xdata="$(P)Xaxis"
 		ydata="$(P)$(CURR2).VAL"
 		data_clr=27
 	}
@@ -215,14 +217,15 @@ text {
 	}
 	plotcom {
 		title="$(P)$(SUM)"
-		xlabel="channel"
-		ylabel="counts"
+		xlabel="$(XTITLE)"
+		ylabel="$(YTITLE)"
 		clr=14
 		bclr=2
 	}
 	style="line"
 	erase_oldest="plot last n pts"
 	trace[0] {
+		xdata="$(P)Xaxis"
 		ydata="$(P)$(SUM).VAL"
 		data_clr=27
 	}
@@ -257,14 +260,15 @@ text {
 	}
 	plotcom {
 		title="$(P)$(POS)"
-		xlabel="channel"
-		ylabel="counts"
+		xlabel="$(XTITLE)"
+		ylabel="$(YTITLE)"
 		clr=14
 		bclr=2
 	}
 	style="line"
 	erase_oldest="plot last n pts"
 	trace[0] {
+		xdata="$(P)Xaxis"
 		ydata="$(P)$(POS).VAL"
 		data_clr=27
 	}

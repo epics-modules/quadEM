@@ -240,17 +240,16 @@ grecord(dfanout,"$(P)PresetLive2") {
 }
 
 # We handle dwell differently because we want user-specified number
-# to be modified to reflect actual dwell time.  User modifies DWELL field
-# of mca1 so we don't get inifinite loop
-grecord(calcout,"$(P)Dwell") {
-      field(PINI,"YES")
-      field(PREC,"3")
-      field(INPA,"$(P)mca1.DWEL   CP MS")
-      field(CALC,"A")
-      field(OUT, "$(P)Dwell0      PP MS")
-}
+# to be modified to reflect actual dwell time.
+#grecord(calcout,"$(P)DwellCB") {
+#      field(PINI,"YES")
+#      field(PREC,"3")
+#      field(INPA,"$(P)mca1.DWEL   CP MS")
+#      field(CALC,"A")
+#      field(OUT, "$(P)Dwell      PP MS")
+#}
  
-grecord(dfanout,"$(P)Dwell0") {
+grecord(dfanout,"$(P)Dwell") {
       field(VAL,"0.1")
       field(PINI,"YES")
       field(PREC,"3")
@@ -258,6 +257,7 @@ grecord(dfanout,"$(P)Dwell0") {
       field(OUTB,"$(P)Dwell2.VAL   PP MS")
 }
 grecord(dfanout,"$(P)Dwell1") {
+      field(OUTA,"$(P)mca1.DWEL  PP MS")
       field(OUTB,"$(P)mca2.DWEL  PP MS")
       field(OUTC,"$(P)mca3.DWEL  PP MS")
       field(OUTD,"$(P)mca4.DWEL  PP MS")
@@ -418,4 +418,11 @@ grecord(mca,"$(P)mca10")
     field(NUSE, "$(NCHAN)")
     field(PREC, "3")
     field(INP,  "#C$(C) S9 @$(SERVER)")
+}
+grecord(waveform,"$(P)Xaxis")
+{
+    field(DESC, "X axis data")
+    field(NELM, "$(NCHAN)")
+    field(FTVL, "FLOAT")
+    field(PREC, "3")
 }

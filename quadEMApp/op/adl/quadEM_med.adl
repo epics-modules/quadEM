@@ -1,14 +1,14 @@
 
 file {
-	name="j:\epics\3.14\quadEM\quadEMApp\op\adl\quadEM_med.adl"
+	name="C:\Program Files\EPICS\adls\quadEM_med.adl"
 	version=020306
 }
 display {
 	object {
-		x=168
-		y=98
+		x=51
+		y=48
 		width=580
-		height=320
+		height=340
 	}
 	clr=14
 	bclr=4
@@ -156,7 +156,7 @@ rectangle {
 		x=4
 		y=37
 		width=295
-		height=285
+		height=300
 	}
 	"basic attribute" {
 		clr=54
@@ -169,7 +169,7 @@ rectangle {
 		x=319
 		y=37
 		width=250
-		height=265
+		height=300
 	}
 	"basic attribute" {
 		clr=54
@@ -262,60 +262,258 @@ rectangle {
 	label="Stop"
 	press_msg="1"
 }
-menu {
+composite {
 	object {
-		x=32
-		y=205
-		width=80
+		x=22
+		y=108
+		width=90
 		height=20
 	}
-	control {
-		chan="$(P)StatusAll.SCAN"
-		clr=14
-		bclr=51
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=72
+				y=108
+				width=40
+				height=20
+			}
+			"basic attribute" {
+				clr=21
+			}
+			"dynamic attribute" {
+				vis="if zero"
+				chan="$(P)Acquiring"
+			}
+			textix="Done"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=22
+				y=108
+				width=90
+				height=20
+			}
+			"basic attribute" {
+				clr=18
+			}
+			"dynamic attribute" {
+				vis="if not zero"
+				chan="$(P)Acquiring"
+			}
+			textix="Acquiring"
+		}
 	}
 }
 text {
 	object {
 		x=118
-		y=205
-		width=110
+		y=156
+		width=160
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Status rate"
+	textix="Dwell time"
 }
-menu {
+"text entry" {
+	object {
+		x=32
+		y=155
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)Dwell"
+		clr=14
+		bclr=51
+	}
+	format="exponential"
+	limits {
+	}
+}
+composite {
 	object {
 		x=32
 		y=230
-		width=80
-		height=20
+		width=246
+		height=95
 	}
-	control {
-		chan="$(P)ReadAll.SCAN"
-		clr=14
-		bclr=51
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=32
+				y=230
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)StatusAll.SCAN"
+				clr=14
+				bclr=51
+			}
+		}
+		text {
+			object {
+				x=118
+				y=230
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Status rate"
+		}
+		menu {
+			object {
+				x=32
+				y=255
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)ReadAll.SCAN"
+				clr=14
+				bclr=51
+			}
+		}
+		text {
+			object {
+				x=118
+				y=256
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Read rate"
+		}
+		menu {
+			object {
+				x=32
+				y=280
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)EnableClientWait"
+				clr=14
+				bclr=51
+			}
+		}
+		text {
+			object {
+				x=118
+				y=280
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Wait for client"
+		}
+		text {
+			object {
+				x=118
+				y=305
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Client Wait"
+		}
+		menu {
+			object {
+				x=32
+				y=305
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)ClientWait"
+				clr=14
+				bclr=51
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=32
+		y=180
+		width=246
+		height=22
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=118
+				y=181
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Preset real time"
+		}
+		"text entry" {
+			object {
+				x=32
+				y=180
+				width=80
+				height=22
+			}
+			control {
+				chan="$(P)PresetReal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
 	}
 }
 text {
 	object {
 		x=118
-		y=231
-		width=110
+		y=206
+		width=160
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Read rate"
+	textix="FFT avg. time"
+}
+"text entry" {
+	object {
+		x=32
+		y=205
+		width=80
+		height=22
+	}
+	control {
+		chan="$(P_FFT)PresetReal"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
 }
 "related display" {
 	object {
-		x=329
-		y=96
+		x=330
+		y=115
 		width=60
 		height=20
 	}
@@ -364,9 +562,9 @@ text {
 }
 text {
 	object {
-		x=394
-		y=96
-		width=40
+		x=395
+		y=115
+		width=170
 		height=20
 	}
 	"basic attribute" {
@@ -376,9 +574,9 @@ text {
 }
 text {
 	object {
-		x=394
-		y=121
-		width=40
+		x=395
+		y=140
+		width=90
 		height=20
 	}
 	"basic attribute" {
@@ -388,8 +586,8 @@ text {
 }
 "related display" {
 	object {
-		x=329
-		y=121
+		x=330
+		y=140
 		width=60
 		height=20
 	}
@@ -406,175 +604,26 @@ text {
 	clr=14
 	bclr=4
 }
-menu {
-	object {
-		x=32
-		y=255
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)EnableClientWait"
-		clr=14
-		bclr=51
-	}
-}
-text {
-	object {
-		x=118
-		y=255
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Wait for client"
-}
-text {
-	object {
-		x=118
-		y=280
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Client Wait"
-}
-menu {
-	object {
-		x=32
-		y=280
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)ClientWait"
-		clr=14
-		bclr=51
-	}
-}
-composite {
-	object {
-		x=22
-		y=108
-		width=90
-		height=20
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=72
-				y=108
-				width=40
-				height=20
-			}
-			"basic attribute" {
-				clr=21
-			}
-			"dynamic attribute" {
-				vis="if zero"
-				chan="$(P)Acquiring"
-			}
-			textix="Done"
-			align="horiz. right"
-		}
-		text {
-			object {
-				x=22
-				y=108
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=18
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				chan="$(P)Acquiring"
-			}
-			textix="Acquiring"
-		}
-	}
-}
-text {
-	object {
-		x=118
-		y=181
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Preset real time"
-}
-"text entry" {
-	object {
-		x=32
-		y=180
-		width=80
-		height=22
-	}
-	control {
-		chan="$(P)PresetReal"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=118
-		y=156
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Dwell time"
-}
-"text entry" {
-	object {
-		x=32
-		y=155
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)mca1.DWEL"
-		clr=14
-		bclr=51
-	}
-	format="exponential"
-	limits {
-	}
-}
 "related display" {
 	object {
-		x=329
-		y=46
+		x=330
+		y=65
 		width=60
 		height=20
 	}
 	display[0] {
 		label="1&3 (current, sum, pos)"
 		name="quadEM_plotAll.adl"
-		args="P=$(P), CURR1=mca1, CURR2=mca3, SUM=mca5, POS=mca9, TITLE=$(T13)"
+		args="P=$(P), CURR1=mca1, CURR2=mca3, SUM=mca5, POS=mca9, TITLE=$(T13), XTITLE=Time (sec), YTITLE=Counts"
 	}
 	clr=14
 	bclr=4
 }
 text {
 	object {
-		x=394
-		y=46
-		width=40
+		x=395
+		y=65
+		width=90
 		height=20
 	}
 	"basic attribute" {
@@ -584,28 +633,200 @@ text {
 }
 "related display" {
 	object {
-		x=329
-		y=71
+		x=330
+		y=90
 		width=60
 		height=20
 	}
 	display[0] {
 		label="1&3 (current, sum, pos)"
 		name="quadEM_plotAll.adl"
-		args="P=$(P), CURR1=mca2, CURR2=mca4, SUM=mca6, POS=mca10,TITLE=$(T24)"
+		args="P=$(P), CURR1=mca2, CURR2=mca4, SUM=mca6, POS=mca10,TITLE=$(T24),XTITLE=Time (sec), YTITLE=Counts"
 	}
 	clr=14
 	bclr=4
 }
 text {
 	object {
-		x=394
-		y=71
-		width=40
+		x=395
+		y=90
+		width=90
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
 	textix="Plots 2&4"
+}
+"related display" {
+	object {
+		x=330
+		y=250
+		width=60
+		height=20
+	}
+	display[0] {
+		label="Current 1"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca1"
+	}
+	display[1] {
+		label="Current 2"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca2"
+	}
+	display[2] {
+		label="Current 3"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca3"
+	}
+	display[3] {
+		label="Current 4"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca4"
+	}
+	display[4] {
+		label="Sum 1+3"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca5"
+	}
+	display[5] {
+		label="Sum 2+4"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca6"
+	}
+	display[6] {
+		label="Difference 3-1"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca7"
+	}
+	display[7] {
+		label="Difference 4-2"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca8"
+	}
+	clr=14
+	bclr=4
+}
+text {
+	object {
+		x=395
+		y=250
+		width=170
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Current,Sum,Diff."
+}
+text {
+	object {
+		x=395
+		y=275
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Positions"
+}
+"related display" {
+	object {
+		x=330
+		y=275
+		width=60
+		height=20
+	}
+	display[0] {
+		label="Position 1&3"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca9"
+	}
+	display[1] {
+		label="Position 2&4"
+		name="mca_small.adl"
+		args="P=$(P_FFT), M=mca10"
+	}
+	clr=14
+	bclr=4
+}
+"related display" {
+	object {
+		x=330
+		y=200
+		width=60
+		height=20
+	}
+	display[0] {
+		label="1&3 (current, sum, pos)"
+		name="quadEM_plotAll.adl"
+		args="P=$(P_FFT), CURR1=mca1, CURR2=mca3, SUM=mca5, POS=mca9, TITLE=$(T13)_FFT, XTITLE=Frequency (Hz),YTITLE=Power Spectrum"
+	}
+	clr=14
+	bclr=4
+}
+text {
+	object {
+		x=395
+		y=200
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Plots 1&3"
+}
+"related display" {
+	object {
+		x=330
+		y=225
+		width=60
+		height=20
+	}
+	display[0] {
+		label="1&3 (current, sum, pos)"
+		name="quadEM_plotAll.adl"
+		args="P=$(P_FFT), CURR1=mca2, CURR2=mca4, SUM=mca6, POS=mca10,TITLE=$(T24)_FFT,XTITLE=Frequence (Hz),YTITLE=Power Spectrum"
+	}
+	clr=14
+	bclr=4
+}
+text {
+	object {
+		x=395
+		y=225
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Plots 2&4"
+}
+text {
+	object {
+		x=389
+		y=40
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=54
+	}
+	textix="Time domain"
+}
+text {
+	object {
+		x=364
+		y=175
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=54
+	}
+	textix="Frequency domain"
 }
