@@ -1,12 +1,12 @@
-/* drvQuadEM.h
+/* asynQuadEM.h
 
     Author:  Mark Rivers
     Created: April 10, 2003, based on Ip330.h
 
 */
 
-#ifndef drvQuadEMH
-#define drvQuadEMH
+#ifndef asynQuadEMH
+#define asynQuadEMH
 
 /* This is the scale factor to go from (difference/sum) to position.  The total
  * range will be -32767 to 32767, which preserves the full 16 bit range of the
@@ -39,4 +39,4 @@ typedef struct {
     void (*go)                      (void *drvPvt, asynUser *pasynUser);
 } asynQuadEM;
 
-#endif /* drvQuadEMH */
+#endif /* asynQuadEMH */
