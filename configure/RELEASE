@@ -11,28 +11,19 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 #If using the sequencer, point SNCSEQ at its top directory:
 #SNCSEQ=/corvette/usr/local/epics/seq-2.0.4
 
-# For mca record
-MCA=/home/oxygen/MOONEY/epics/synApps_5_0/support/mca/6-2
-
 # For busy record
-SSCAN=/home/oxygen/MOONEY/epics/synApps_5_0/support/sscan/2-3
+SSCAN=/corvette/home/epics/synApps5-1beta/sscan
 
 # For transform, etc. records
-CALC=/home/oxygen/MOONEY/epics/synApps_5_0/support/calc/2-3
-
-# For fast PID record
-STD=/home/oxygen/MOONEY/epics/synApps_5_0/support/std/2-3
-
-# For fast PID support
-DAC128V=/home/oxygen/MOONEY/epics/synApps_5_0/support/dac128V/2-2
+CALC=/corvette/home/epics/synApps5-1beta/calc
 
 # For interrupt support
-IPUNIDIG=/home/oxygen/MOONEY/epics/synApps_5_0/support/ipUnidig/2-2
+IPUNIDIG=/corvette/home/epics/synApps5-1beta/ipUnidig
 
-MPF=/home/oxygen/MOONEY/epics/synApps_5_0/support/mpf/2-4-2
+ASYN=/corvette/home/epics/synApps5-1beta/asyn/3-3beta
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/net/beams/export/local/epics/baseR3.14.5
+EPICS_BASE=/corvette/usr/local/epics/base-3.14.6
 
 #Capfast users may need the following definitions
 #CAPFAST_TEMPLATES=
