@@ -141,8 +141,8 @@ static const iocshFuncDef initPIDFuncDef = {"initPID",6,initPIDArgs};
 static void initPIDCallFunc(const iocshArgBuf *args)
 {
     initQuadEMPID(args[0].sval, args[1].sval, 
-                  (int)args[2].sval, args[3].sval, 
-                  (int)args[4].sval, (int)args[5].sval);
+                  args[2].ival, args[3].sval, 
+                  args[4].ival, args[5].ival);
 }
 
 void quadEMPIDRegister(void)

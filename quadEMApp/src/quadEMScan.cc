@@ -13,6 +13,8 @@
 #include <iocsh.h>
 #include <epicsExport.h>
 #include <epicsThread.h>
+#include <epicsTypes.h>
+#include "symTable.h"
 
 #include "Message.h"
 #include "Int32Message.h"
@@ -173,12 +175,12 @@ static const iocshArg * const initScanArgs[3] = {&initScanArg0,
 static const iocshFuncDef initScanFuncDef = {"initScan",3,initScanArgs};
 static void initScanCallFunc(const iocshArgBuf *args)
 {
-    initQuadEMScan(args[0].sval, args[1].sval,
-                   (int) args[2].sval);
+    initQuadEMScan(args[0].sval, args[1].sval, args[2].ival);
 }
 
 void quadEMScanRegister(void)
 {
+    addSymbol("quadEMScanDebug", (epicsInt32 *)&quadEMScanDebug, epicsInt32T);
     iocshRegister(&initScanFuncDef,initScanCallFunc);
 }
 

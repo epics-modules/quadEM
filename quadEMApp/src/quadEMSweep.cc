@@ -110,7 +110,7 @@ static const iocshFuncDef initSweepFuncDef = {"initSweep",4,initSweepArgs};
 static void initSweepCallFunc(const iocshArgBuf *args)
 {
     initQuadEMSweep(args[0].sval, args[1].sval,
-                    (int) args[2].sval, (int) args[3].sval);
+                    args[2].ival, args[3].ival);
 }
 
 void quadEMSweepRegister(void)

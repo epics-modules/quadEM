@@ -16,6 +16,8 @@ extern "C" {
 #include <iocsh.h>
 #include <epicsExport.h>
 #include <gpHash.h>
+#include <epicsTypes.h>
+#include "symTable.h"
 
 #include "quadEM.h"
 #include "ipUnidig.h"
@@ -70,7 +72,9 @@ quadEM::quadEM(const char *name, unsigned short *baseAddr,
     client = (quadEMClient *)calloc(maxClients, sizeof(quadEMClient));
 
     if (quadEMHash == NULL) gphInitPvt(&quadEMHash, 256);
-    GPHENTRY *hashEntry = gphAdd(quadEMHash, name, NULL);
+    char *temp = (char *)malloc(strlen(name)+1);
+    strcpy(temp, name);
+    GPHENTRY *hashEntry = gphAdd(quadEMHash, temp, NULL);
     hashEntry->userPvt = this;
 
     if (fppProbe()==OK) 
@@ -301,16 +305,17 @@ static const iocshFuncDef initFuncDef = {"init",7,initArgs};
 static void initCallFunc(const iocshArgBuf *args)
 {
     initQuadEM(args[0].sval,
-               (unsigned short*)(int)args[1].sval, 
-               (int)args[2].sval,
-               (int)args[3].sval,
-               (int)args[4].sval,
+               (unsigned short*)args[1].ival, 
+               args[2].ival,
+               args[3].ival,
+               args[4].ival,
                args[5].sval,
-               (int)args[6].sval);
+               args[6].ival);
 }
 
 void quadEMRegister(void)
 {
+    addSymbol("quadEMDebug", &quadEMDebug, epicsInt32T);
     iocshRegister(&initFuncDef,initCallFunc);
 }
 
