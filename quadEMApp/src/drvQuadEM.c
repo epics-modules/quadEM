@@ -382,9 +382,9 @@ static asynStatus drvUserCreate(void *drvPvt, asynUser *pasynUser,
             return(asynSuccess);
         }
     }
-    asynPrint(pasynUser, ASYN_TRACE_ERROR,
-              "drvQuadEM::drvUserCreate unknown drvInfo string = %s\n",
-              drvInfo);
+    epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
+                  "drvQuadEM::drvUserCreate unknown drvInfo string = %s",
+                  drvInfo);
     return(asynError);
 }
 
@@ -590,8 +590,8 @@ static asynStatus readInt32(void *drvPvt, asynUser *pasynUser,
         *value = pPvt->data.array[channel];
         break;
     default:
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, 
-                  "drvQuadEM::readInt32, illegal command=%d\n", command);
+        epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
+                      "readInt32, illegal command=%d", command);
         return(asynError);
         break;
     }
@@ -608,16 +608,16 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser,
     pasynManager->getAddr(pasynUser, &channel);
     if ((command == quadEMOffset) || (command == quadEMPingPong)) {
         if ((channel < 0) || (channel > 4)) {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR,
-                      "drvQuadEM::writeInt32, channel must be 0-3, =%d\n",
-                      channel);
+            epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
+                          "drvQuadEM::writeInt32, channel must be 0-3, =%d",
+                          channel);
             return(asynError);
         }
     } else {
         if (channel > 0 ) {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR,
-                      "drvQuadEM::writeInt32, channel must be 0, =%d\n",
-                      channel);
+            epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
+                          "drvQuadEM::writeInt32, channel must be 0, =%d",
+                          channel);
             return(asynError);
         }
     }
@@ -642,9 +642,8 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser,
         setGain(drvPvt, pasynUser, value);
         break;
     default:
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, 
-                  "drvQuadEM::writeInt32, illegal command=%d\n", 
-                  command);
+        epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
+                      "writeInt32, illegal command=%d", command);
         return(asynError);
         break;
     }
@@ -678,8 +677,8 @@ static asynStatus readFloat64(void *drvPvt, asynUser *pasynUser,
         *value = getScanPeriod(drvPvt, pasynUser);
         break;
     default:
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, 
-                  "drvQuadEM::readFloat64, illegal command=%d\n", command);
+        epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
+                      "readFloat64, illegal command=%d", command);
         return(asynError);
         break;
     }
@@ -696,8 +695,8 @@ static asynStatus writeFloat64(void *drvPvt, asynUser *pasynUser,
         setScanPeriod(drvPvt, pasynUser, value);
         break;
     default:
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, 
-                  "drvQuadEM::writeFloat64, illegal command=%d\n", command);
+        epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
+                      "writeFloat64, illegal command=%d", command);
         return(asynError);
         break;
     }
@@ -793,15 +792,51 @@ static void computePosition(quadEMData *d)
 static void report(void *drvPvt, FILE *fp, int details)
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
+    interruptNode *pnode;
+    ELLLIST *pclientList;
 
     fprintf(fp, "Port: %s, address %p\n", pPvt->portName, pPvt->baseAddress);
     if (details >= 1) {
         if (pPvt->uint32DigitalPvt) {
-           fprintf(fp, "  Using digital I/O interrupts\n");
+           fprintf(fp, "    Using digital I/O interrupts\n");
         } else {
-           fprintf(fp, "  Not using interrupts, scan time=%f\n",
+           fprintf(fp, "    Not using interrupts, scan time=%f\n",
                    pPvt->actualSecondsPerScan);
         }
+        /* Report int32 interrupts */
+        pasynManager->interruptStart(pPvt->int32InterruptPvt, &pclientList);
+        pnode = (interruptNode *)ellFirst(pclientList);
+        while (pnode) {
+            asynInt32Interrupt *pint32Interrupt = pnode->drvPvt;
+            fprintf(fp, "    int32 callback client address=%p, addr=%d, reason=%d\n",
+                    pint32Interrupt->callback, pint32Interrupt->addr,
+                    pint32Interrupt->reason);
+            pnode = (interruptNode *)ellNext(&pnode->node);
+        }
+        pasynManager->interruptEnd(pPvt->int32InterruptPvt);
+
+        /* Report float64 interrupts */
+        pasynManager->interruptStart(pPvt->float64InterruptPvt, &pclientList);
+        pnode = (interruptNode *)ellFirst(pclientList);
+        while (pnode) {
+            asynFloat64Interrupt *pfloat64Interrupt = pnode->drvPvt;
+            fprintf(fp, "    float64 callback client address=%p, addr=%d, reason=%d\n",
+                    pfloat64Interrupt->callback, pfloat64Interrupt->addr,
+                    pfloat64Interrupt->reason);
+            pnode = (interruptNode *)ellNext(&pnode->node);
+        }
+        pasynManager->interruptEnd(pPvt->float64InterruptPvt);
+
+        /* Report int32Array interrupts */
+        pasynManager->interruptStart(pPvt->int32ArrayInterruptPvt, &pclientList);
+        pnode = (interruptNode *)ellFirst(pclientList);
+        while (pnode) {
+            asynInt32ArrayInterrupt *pint32ArrayInterrupt = pnode->drvPvt;
+            fprintf(fp, "    int32Array callback client address=%p, reason=%d\n",
+                    pint32ArrayInterrupt->callback, pint32ArrayInterrupt->reason);
+            pnode = (interruptNode *)ellNext(&pnode->node);
+        }
+        pasynManager->interruptEnd(pPvt->int32ArrayInterruptPvt);
     }
 }
 
