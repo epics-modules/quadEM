@@ -91,7 +91,7 @@ quadEM::quadEM(unsigned short *baseAddr, int fiberChannel, int microSecondsPerSc
             printf("quadEM poller taskSpawn Failure\n");
     }
     else {
-        int mask = 1<<(unidigChan-1);
+        int mask = 1<<(unidigChan);
         pIpUnidig->setFallingMaskBits(mask);
         pIpUnidig->registerCallback(intFunc, (void *)this, mask);
     }
