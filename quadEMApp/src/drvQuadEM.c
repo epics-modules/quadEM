@@ -26,7 +26,8 @@
 #include <asynInt32ArrayCallback.h>
 
 #include "asynQuadEM.h"
-#include "asynIpUnidig.h"
+#include "asynUInt32Digital.h"
+#include "asynUInt32DigitalCallback.h"
 
 #define MAX_A24_ADDRESS  0xffffff
 #define MAX_RAW 8
@@ -78,9 +79,9 @@ typedef struct {
     quadEMClient *client;
     double actualSecondsPerScan;
     ELLLIST clientList;
-    asynIpUnidig *ipUnidig;
-    void *ipUnidigPvt;
-    asynUser *pipUnidigAsynUser;
+    asynUInt32DigitalCallback *uint32DCb;
+    void *uint32DCbPvt;
+    asynUser *puint32DCbAsynUser;
     asynInterface common;
     asynInterface int32;
     asynInterface float64;
@@ -141,7 +142,7 @@ static asynStatus registerCallbacks (void *drvPvt, asynUser *pasynUser,
 static void computePosition         (quadEMData *d);
 static void computeCurrent          (quadEMData *d);
 static void poller                  (drvQuadEMPvt *pPvt);  
-                                    /* Polling routine if no IP-Unidig */
+                                    /* Polling routine if no interrupts */
 static void intFunc                 (void *drvPvt, unsigned int mask); 
                                      /* Interrupt function */
 static void intTask                 (drvQuadEMPvt *pPvt);  
@@ -208,25 +209,25 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
 
     if ((unidigName != 0) && (strlen(unidigName) != 0)) {
         /* Create asynUser */
-        pPvt->pipUnidigAsynUser = pasynManager->createAsynUser(0, 0);
+        pPvt->puint32DCbAsynUser = pasynManager->createAsynUser(0, 0);
 
         /* Connect to device */
-        status = pasynManager->connectDevice(pPvt->pipUnidigAsynUser, 
+        status = pasynManager->connectDevice(pPvt->puint32DCbAsynUser, 
                                              unidigName, unidigChan);
         if (status != asynSuccess) {
-            errlogPrintf("initQuadEM, connectDevice failed for IpUnidig\n");
+            errlogPrintf("initQuadEM, connectDevice failed for digitalCallback\n");
             return -1;
         }
 
-        /* Get the ipUnidig interface */
-        pasynInterface = pasynManager->findInterface(pPvt->pipUnidigAsynUser, 
-                                                     asynIpUnidigType, 1);
+        /* Get the asynUInt32DigitalCallback interface */
+        pasynInterface = pasynManager->findInterface(pPvt->puint32DCbAsynUser, 
+                                                   asynUInt32DigitalCallbackType, 1);
         if (!pasynInterface) {
-            errlogPrintf("initQuadEM, find asynIpUnidig interface failed\n");
+            errlogPrintf("initQuadEM, find asynUInt32DigitalCallback interface failed\n");
             return -1;
         }
-        pPvt->ipUnidig = (asynIpUnidig *)pasynInterface->pinterface;
-        pPvt->ipUnidigPvt = pasynInterface->drvPvt;
+        pPvt->uint32DCb = (asynUInt32DigitalCallback *)pasynInterface->pinterface;
+        pPvt->uint32DCbPvt = pasynInterface->drvPvt;
     }
  
     pPvt->intMsgQId = epicsMessageQueueCreate(MAX_MESSAGES, MAX_RAW*sizeof(int));
@@ -270,7 +271,7 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     setPeriod(pPvt, pPvt->pasynUser, 0xffff);
     setScanPeriod(pPvt, pPvt->pasynUser, microSecondsPerScan/1.e6);
     go(pPvt, pPvt->pasynUser);
-    if (pPvt->ipUnidigPvt == NULL) {
+    if (pPvt->uint32DCbPvt == NULL) {
         if (epicsThreadCreate("quadEMPoller",
                               epicsThreadPriorityMedium, 10000,
                               (EPICSTHREADFUNC)poller,
@@ -280,14 +281,19 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
         }
     }
     else {
-        mask = 1<<(unidigChan);
         /* Make sure interrupts are enabled on the falling edge of the 
          * quadEM output pulse */
-        pPvt->ipUnidig->setFallingMaskBits(pPvt->ipUnidigPvt, 
-                                           pPvt->pipUnidigAsynUser, mask);
-        pPvt->ipUnidig->registerCallback(pPvt->ipUnidigPvt, 
-                                         pPvt->pipUnidigAsynUser, intFunc, 
-                                         mask, pPvt);
+        pPvt->uint32DCb->getInterruptMask(pPvt->uint32DCbPvt, 
+                                          pPvt->puint32DCbAsynUser, &mask,
+                                          interruptOnOneToZero);
+        mask |= 1 << unidigChan;
+        pPvt->uint32DCb->setInterruptMask(pPvt->uint32DCbPvt, 
+                                          pPvt->puint32DCbAsynUser, mask,
+                                          interruptOnOneToZero);
+        mask = 1 << unidigChan;
+        pPvt->uint32DCb->registerCallback(pPvt->uint32DCbPvt, 
+                                          pPvt->puint32DCbAsynUser, intFunc, 
+                                          mask, pPvt);
     }
 
     /* Link with higher level routines */
@@ -374,7 +380,7 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
 
 static void poller(drvQuadEMPvt *pPvt)
 /*  This functions runs as a polling task at the system clock rate if there is 
- *  no IP-Unidig present */
+ *  no interrupts present */
 {
     while(1) { /* Do forever */
         intFunc(pPvt, 0);
@@ -447,15 +453,17 @@ static asynStatus registerCallbacks(void *drvPvt, asynUser *pasynUser,
     return(asynSuccess);
 }
        
-static void intFunc(void *drvPvt, unsigned int mask)
+static void intFunc(void *drvPvt, epicsUInt32 mask)
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     int raw[MAX_RAW];
 
     /* We get callbacks on both high-to-low and low-to-high transitions
-     * of the pulse to the IpUnidig.  We only want to use one or the other.
+     * of the pulse to the digital I/O board.  We only want to use one or the other.
      * The mask parameter to this routine is 0 if this was a high-to-low 
      * transition.  Use that one. */
+    asynPrint(pPvt->pasynUser, ASYN_TRACE_FLOW, 
+              "drvQuadEM::intFunc got callback, mask=%x\n", mask);
     if (mask) return;
     /* Read the new data */
     read(pPvt, pPvt->pasynUser, raw);
@@ -520,10 +528,10 @@ static double setScanPeriod(void *drvPvt, asynUser *pasynUser,
     int convValue = (int)((microSeconds - 0.6)/1.6);
 
     write(pPvt, pasynUser, CONV_COMMAND, convValue);
-    /* If we are using the ipUnidig then this is the scan rate
+    /* If we are using the interrupts then this is the scan rate
      * except that we only get interrupts after every other cycle
      * because of ping/pong, so we multiply by 2. */
-    if (pPvt->ipUnidigPvt != NULL) {
+    if (pPvt->uint32DCbPvt != NULL) {
         microSeconds = 2. * convValue * 1.6 + 0.6;
         pPvt->actualSecondsPerScan = microSeconds/1.e6;
     } else {
@@ -741,10 +749,10 @@ static void report(void *drvPvt, FILE *fp, int details)
 
     fprintf(fp, "Port: %s, address %p\n", pPvt->portName, pPvt->baseAddress);
     if (details >= 1) {
-        if (pPvt->ipUnidigPvt) {
-           fprintf(fp, "  Using IpUnidig interrupts\n");
+        if (pPvt->uint32DCbPvt) {
+           fprintf(fp, "  Using digital I/O interrupts\n");
         } else {
-           fprintf(fp, "  Not using IpUnidig interrupts, scan time=%f\n",
+           fprintf(fp, "  Not using interrupts, scan time=%f\n",
                    pPvt->actualSecondsPerScan);
         }
     }
