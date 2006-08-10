@@ -188,7 +188,7 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
     pPvt = callocMustSucceed(1, sizeof(*pPvt), "initQuadEM");
     pPvt->portName = epicsStrDup(portName);
 
-    if ((unidigName != 0) && (strlen(unidigName) != 0)) {
+    if ((unidigName != 0) && (strlen(unidigName) != 0) && (strcmp(unidigName, "0") != 0)) {
         /* Create asynUser */
         pPvt->puint32DAsynUser = pasynManager->createAsynUser(0, 0);
 
@@ -196,7 +196,7 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
         status = pasynManager->connectDevice(pPvt->puint32DAsynUser, 
                                              unidigName, unidigChan);
         if (status != asynSuccess) {
-            errlogPrintf("initQuadEM, connectDevice failed for uint32Digital\n");
+            errlogPrintf("initQuadEM: connectDevice failed for uint32Digital\n");
             return -1;
         }
 
@@ -875,7 +875,7 @@ static const iocshArg * const initArgs[6] = {&initArg0,
                                              &initArg3,
                                              &initArg4,
                                              &initArg5};
-static const iocshFuncDef initFuncDef = {"init",6,initArgs};
+static const iocshFuncDef initFuncDef = {"initQuadEM",6,initArgs};
 static void initCallFunc(const iocshArgBuf *args)
 {
     initQuadEM(args[0].sval,
