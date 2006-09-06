@@ -15,7 +15,7 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 SSCAN=J:/epics/devel/sscan/2-5-3
 
 # For MCA record
-MCA=J:/epics/devel/mca/6-7beta
+MCA=J:/epics/devel/mca/6-8
 
 ASYN=J:/epics/devel/asyn/4-7beta
 
