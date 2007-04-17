@@ -123,7 +123,6 @@ static void setGain                 (void *drvPvt, asynUser *pasynUser,
 static void setPulse                (void *drvPvt, asynUser *pasynUser,
                                      int pulse);
 static void go                      (void *drvPvt, asynUser *pasynUser);
-static quadEMData readData          (void *drvPvt, asynUser *pasynUser);
 static void write                   (void *drvPvt, asynUser *pasynUser,
                                      int command, int value);
 static void read                    (void *drvPvt, asynUser *pasynUser,
@@ -133,7 +132,7 @@ static void computeCurrent          (quadEMData *d);
 static void poller                  (drvQuadEMPvt *pPvt);  
                                     /* Polling routine if no interrupts */
 static void intFunc                 (void *drvPvt, asynUser *pasynUser,
-                                     unsigned int mask); 
+                                     unsigned int mask, asynStatus status); 
                                      /* Interrupt function */
 static void intTask                 (drvQuadEMPvt *pPvt);  
                                     /* Task that waits for interrupts */
@@ -357,16 +356,9 @@ static void poller(drvQuadEMPvt *pPvt)
  *  no interrupts present */
 {
     while(1) { /* Do forever */
-        intFunc(pPvt, pPvt->pasynUser, 0);
+        intFunc(pPvt, pPvt->pasynUser, 0, asynSuccess);
         epicsThreadSleep(epicsThreadSleepQuantum());
     }
-}
-
-static quadEMData readData(void *drvPvt, asynUser *pasynUser)
-{
-    drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
-
-    return(pPvt->data);
 }
 
 static asynStatus drvUserCreate(void *drvPvt, asynUser *pasynUser,
@@ -408,7 +400,7 @@ static asynStatus drvUserDestroy(void *drvPvt,asynUser *pasynUser)
 }
 
 
-static void intFunc(void *drvPvt, asynUser *pasynUser, epicsUInt32 mask)
+static void intFunc(void *drvPvt, asynUser *pasynUser, epicsUInt32 mask, asynStatus status)
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     int raw[MAX_RAW];
@@ -463,7 +455,8 @@ static void intTask(drvQuadEMPvt *pPvt)
             if (reason == quadEMCurrent) {
                 pint32Interrupt->callback(pint32Interrupt->userPvt,
                                           pint32Interrupt->pasynUser,
-                                          pPvt->data.array[addr]);
+                                          pPvt->data.array[addr],
+                                          asynSuccess);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -479,7 +472,8 @@ static void intTask(drvQuadEMPvt *pPvt)
             if (reason == quadEMCurrent) {
                 pfloat64Interrupt->callback(pfloat64Interrupt->userPvt,
                                             pfloat64Interrupt->pasynUser,
-                                            (double)pPvt->data.array[addr]);
+                                            (double)pPvt->data.array[addr],
+                                            asynSuccess);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -494,7 +488,8 @@ static void intTask(drvQuadEMPvt *pPvt)
             if (reason == quadEMCurrent) {
                 pint32ArrayInterrupt->callback(pint32ArrayInterrupt->userPvt,
                                                pint32ArrayInterrupt->pasynUser,
-                                               pPvt->data.array, 10);
+                                               pPvt->data.array, 10,
+                                               asynSuccess);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -535,7 +530,8 @@ static double setScanPeriod(void *drvPvt, asynUser *pasynUser,
             if (reason == quadEMScanPeriod) {
                 pfloat64Interrupt->callback(pfloat64Interrupt->userPvt,
                                             pfloat64Interrupt->pasynUser,
-                                            pPvt->actualSecondsPerScan);
+                                            pPvt->actualSecondsPerScan,
+                                            asynSuccess);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -741,16 +737,6 @@ static void write(void *drvPvt, asynUser *pasynUser, int command, int value)
 }
 
 
-static void quadEMDataInit(quadEMData *d, int value)
-{
-    int i;
-    for (i=0; i<MAX_RAW; i++) {
-        d->raw[i] = value;
-    }
-    computeCurrent(d);
-    computePosition(d);
-}
-
 static void computeCurrent(quadEMData *d)
 {
     int i, j;
