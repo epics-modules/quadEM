@@ -132,7 +132,7 @@ static void computeCurrent          (quadEMData *d);
 static void poller                  (drvQuadEMPvt *pPvt);  
                                     /* Polling routine if no interrupts */
 static void intFunc                 (void *drvPvt, asynUser *pasynUser,
-                                     unsigned int mask, asynStatus status); 
+                                     unsigned int mask); 
                                      /* Interrupt function */
 static void intTask                 (drvQuadEMPvt *pPvt);  
                                     /* Task that waits for interrupts */
@@ -356,7 +356,7 @@ static void poller(drvQuadEMPvt *pPvt)
  *  no interrupts present */
 {
     while(1) { /* Do forever */
-        intFunc(pPvt, pPvt->pasynUser, 0, asynSuccess);
+        intFunc(pPvt, pPvt->pasynUser, 0);
         epicsThreadSleep(epicsThreadSleepQuantum());
     }
 }
@@ -400,7 +400,7 @@ static asynStatus drvUserDestroy(void *drvPvt,asynUser *pasynUser)
 }
 
 
-static void intFunc(void *drvPvt, asynUser *pasynUser, epicsUInt32 mask, asynStatus status)
+static void intFunc(void *drvPvt, asynUser *pasynUser, epicsUInt32 mask)
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
     int raw[MAX_RAW];
@@ -455,8 +455,7 @@ static void intTask(drvQuadEMPvt *pPvt)
             if (reason == quadEMCurrent) {
                 pint32Interrupt->callback(pint32Interrupt->userPvt,
                                           pint32Interrupt->pasynUser,
-                                          pPvt->data.array[addr],
-                                          asynSuccess);
+                                          pPvt->data.array[addr]);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -472,8 +471,7 @@ static void intTask(drvQuadEMPvt *pPvt)
             if (reason == quadEMCurrent) {
                 pfloat64Interrupt->callback(pfloat64Interrupt->userPvt,
                                             pfloat64Interrupt->pasynUser,
-                                            (double)pPvt->data.array[addr],
-                                            asynSuccess);
+                                            (double)pPvt->data.array[addr]);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -488,8 +486,7 @@ static void intTask(drvQuadEMPvt *pPvt)
             if (reason == quadEMCurrent) {
                 pint32ArrayInterrupt->callback(pint32ArrayInterrupt->userPvt,
                                                pint32ArrayInterrupt->pasynUser,
-                                               pPvt->data.array, 10,
-                                               asynSuccess);
+                                               pPvt->data.array, 10);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -530,8 +527,7 @@ static double setScanPeriod(void *drvPvt, asynUser *pasynUser,
             if (reason == quadEMScanPeriod) {
                 pfloat64Interrupt->callback(pfloat64Interrupt->userPvt,
                                             pfloat64Interrupt->pasynUser,
-                                            pPvt->actualSecondsPerScan,
-                                            asynSuccess);
+                                            pPvt->actualSecondsPerScan);
             }
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
