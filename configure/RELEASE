@@ -12,7 +12,7 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 #SNCSEQ=/corvette/usr/local/epics/seq-2.0.4
 
 # For busy record
-SSCAN=/corvette/home/epics/devel/sscan/2-5-3
+BUSY=/corvette/home/epics/devel/busy
 
 # For MCA record
 MCA=/corvette/home/epics/devel/mca/6-8
