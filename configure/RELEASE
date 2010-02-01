@@ -12,15 +12,15 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 #SNCSEQ=/corvette/usr/local/epics/seq-2.0.4
 
 # For busy record
-BUSY=/corvette/home/epics/devel/busy/1-1
+BUSY=/corvette/home/epics/devel/busy/1-2
 
 # For MCA record
-MCA=/corvette/home/epics/devel/mca/6-11
+MCA=/corvette/home/epics/devel/mca/6-12
 
-ASYN=/corvette/home/epics/devel/asyn/4-10
+ASYN=/corvette/home/epics/devel/asyn/4-13
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/corvette/usr/local/epics/base-3.14.10
+EPICS_BASE=/corvette/usr/local/epics/base-3.14.11
 
 #Capfast users may need the following definitions
 #CAPFAST_TEMPLATES=
