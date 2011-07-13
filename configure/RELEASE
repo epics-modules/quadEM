@@ -8,19 +8,14 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # define INSTALL_LOCATION_APP here
 #INSTALL_LOCATION_APP=<fullpathname>
 
-#If using the sequencer, point SNCSEQ at its top directory:
-#SNCSEQ=/corvette/usr/local/epics/seq-2.0.4
+SUPPORT=/corvette/home/epics/devel
+-include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
-# For busy record
-BUSY=/corvette/home/epics/devel/busy/1-2
-
-# For MCA record
-MCA=/corvette/home/epics/devel/mca/6-12
-
-ASYN=/corvette/home/epics/devel/asyn/4-13
+ASYN=$(SUPPORT)/asyn-4-17
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/corvette/usr/local/epics/base-3.14.11
+EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.1
+-include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
 #Capfast users may need the following definitions
 #CAPFAST_TEMPLATES=
