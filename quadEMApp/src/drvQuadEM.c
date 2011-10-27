@@ -195,7 +195,7 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
         status = pasynManager->connectDevice(pPvt->puint32DAsynUser, 
                                              unidigName, unidigChan);
         if (status != asynSuccess) {
-            errlogPrintf("initQuadEM: connectDevice failed for uint32Digital\n");
+            errlogPrintf("initQuadEM: connectDevice failed for ipUnidig\n");
             return -1;
         }
 
