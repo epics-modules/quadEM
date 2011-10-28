@@ -11,24 +11,26 @@
   <p>
     Module Owner: Mark Rivers: University of Chicago</p>
   <p>
-    This page is the home of <b>quadEM</b>.&nbsp;</p>
+    This page is the home of <b>quadEM</b>.</p>
   <p>
     <b>quadEM</b> supports the Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">
-      Steve Ross</a> from the APS.&nbsp; This device consists of a 4-channel digital
-    electrometer unit and 2 VME boards.&nbsp; It is typically used for photodiode-based
-    x-ray beam position monitors, although it can be used for any low-current measurement
-    that requires high speed digital input.&nbsp; The device provides 2 readings per
-    diode at up to 815 Hz.</p>
+      Steve Ross</a> from the APS. This device consists of a 4-channel digital electrometer
+    unit and 2 VME boards. It is typically used for photodiode-based x-ray beam position
+    monitors, although it can be used for any low-current measurement that requires
+    high speed digital input. The device provides 2 readings per diode at up to 815
+    Hz.</p>
   <p>
-    The <b>quadEM</b> software includes device support for 3 records:</p>
+    The <b>quadEM</b> software includes an asyn driver that provides support for the
+    following:</p>
   <ul>
-    <li>analog input (ai).&nbsp; This provides digitally averaged readings of the current,
-      sum, difference and position at speeds up to 10 Hz with standard EPICS scan times.</li>
-    <li>mca.&nbsp; This provide a time-history (like a digital scope) of the current,
-      sum, difference and position at speeds up to 815 Hz.&nbsp; The time per point can
-      be greater, in which case it does averaging.</li>
-    <li>epid (fast feedback).&nbsp; This provides fast feedback via a dac128V D/A converter
-      at speeds up to 815Hz.&nbsp; If it is run slower it does signal averaging.</li>
+    <li>Analog input records using the standard asyn device support. This provides digitally
+      averaged readings of the current, sum, difference and position at speeds up to 10
+      Hz with standard EPICS scan times.</li>
+    <li>mca record. This provide a time-history (like a digital scope) of the current,
+      sum, difference and position at speeds up to 815 Hz. The time per point can be greater,
+      in which case it does averaging.</li>
+    <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
+      dac128V) at speeds up to 815Hz. If it is run slower it does signal averaging.</li>
   </ul>
   <p>
     The <b>quadEM</b> support uses the synApps modules <a href="mca.html">mca</a> (for
@@ -59,13 +61,27 @@
       </tr>
       <tr>
         <td>
+          2-6</td>
+        <td>
+          28-October-2011</td>
+        <td>
+          <a href="http://cars.uchicago.edu/software/pub/quadEMR2-6.tgz">quadEMR2-6.tgz</a></td>
+        <td>
+          <a href="quadEM.html">quadEM </a>(only this file at present)</td>
+        <td>
+          <a href="quadEMReleaseNotes.html">Release notes</a></td>
+        <td>
+          See release notes</td>
+      </tr>
+      <tr>
+        <td>
           2-5</td>
         <td>
           9-September-2011</td>
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR2-5.tgz">quadEMR2-5.tgz</a></td>
         <td>
-          <a href="quadEMDoc.html">quadEMDoc</a></td>
+          <a href="quadEM.html">quadEM </a>(only this file at present)</td>
         <td>
           <a href="quadEMReleaseNotes.html">Release notes</a></td>
         <td>
@@ -79,7 +95,7 @@
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR2-4.tgz">quadEMR2-4.tgz</a></td>
         <td>
-          <a href="quadEMDoc.html">quadEMDoc</a></td>
+          <a href="quadEM.html">quadEM </a>(only this file at present)</td>
         <td>
           <a href="quadEMReleaseNotes.html">Release notes</a></td>
         <td>
@@ -93,7 +109,7 @@
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR2-3.tgz">quadEMR2-3.tgz</a></td>
         <td>
-          <a href="quadEMDoc.html">quadEMDoc</a></td>
+          <a href="quadEM.html">quadEM </a>(only this file at present)</td>
         <td>
           <a href="quadEMReleaseNotes.html">Release notes</a></td>
         <td>
@@ -107,7 +123,7 @@
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR2-2.tar.gz">quadEMR2-2.tar.gz</a></td>
         <td>
-          <a href="quadEMDoc.html">quadEMDoc</a></td>
+          <a href="quadEM.html">quadEM </a>(only this file at present)</td>
         <td>
           <a href="quadEMReleaseNotes.html">Release notes</a></td>
         <td>
@@ -121,7 +137,7 @@
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR2-1.tar.gz">quadEMR2-1.tar.gz</a></td>
         <td>
-          <a href="quadEMDoc.html">quadEMDoc</a></td>
+          <a href="quadEM.html">quadEM </a>(only this file at present)</td>
         <td>
           <a href="quadEMReleaseNotes.html">Release notes</a></td>
         <td>
@@ -135,7 +151,7 @@
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR2-0.tar.gz">quadEMR2-0.tar.gz</a></td>
         <td>
-          <a href="quadEMDoc.html">quadEMDoc</a></td>
+          <a href="quadEM.html">quadEM </a>(only this file at present)</td>
         <td>
           <a href="quadEMReleaseNotes.html">Release notes</a></td>
         <td>
@@ -149,7 +165,7 @@
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR1-1.tar.gz">quadEMR1-1.tar.gz</a></td>
         <td>
-          <a href="quadEMDoc.html">quadEMDoc</a></td>
+          <a href="quadEM.html">quadEM </a>(only this file at present)</td>
         <td>
           <a href="quadEMReleaseNotes.html">Release notes</a></td>
         <td>
@@ -170,6 +186,40 @@
           Release needed</th>
         <th>
           Required for</th>
+      </tr>
+      <tr>
+        <td rowspan="4">
+          2-6</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.14.12.1</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-18</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+        <td>
+          mca</td>
+        <td>
+          7-1</td>
+        <td>
+          MCA record</td>
+      </tr>
+      <tr>
+        <td>
+          busy</td>
+        <td>
+          1-4</td>
+        <td>
+          Busy record</td>
       </tr>
       <tr>
         <td rowspan="4">
@@ -470,15 +520,16 @@ tar xvf quadEMRX-Y.tar
       of EPICS base and to your versions of other required modules.</li>
     <li>Run <tt>gnumake</tt> in the top level directory and check for any compilation
       errors.</li>
-    <li>Please email&nbsp; <a href="mailto:rivers@cars.uchicago.edu">Mark Rivers</a>&nbsp;
-      so that a record can be kept of which sites are using this software.</li>
+    <li>Please email <a href="mailto:rivers@cars.uchicago.edu">Mark Rivers</a> so that
+      a record can be kept of which sites are using this software.</li>
   </ol>
   <h2>
     In Use</h2>
-  <p>This software was originally developed by Mark Rivers.</p>
+  <p>
+    This software was originally developed by Mark Rivers.</p>
   <ul>
-    <li>ANL/APS : In use at CARS and IMCA.&nbsp; To be used soon at XOR and a number of
-      other beamlines.</li>
+    <li>ANL/APS : In use at CARS and IMCA. To be used soon at XOR and a number of other
+      beamlines.</li>
   </ul>
 </body>
 </html>
