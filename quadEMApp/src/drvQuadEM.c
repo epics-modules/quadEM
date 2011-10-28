@@ -41,7 +41,8 @@ static quadEMCommandStruct quadEMCommands[MAX_QUADEM_COMMANDS] = {
     {quadEMPingPong,   "PING_PONG"},
     {quadEMPulse,      "PULSE"},
     {quadEMGo,         "GO"},
-    {quadEMScanPeriod, "SCAN_PERIOD"}
+    {quadEMScanPeriod, "SCAN_PERIOD"},
+    {quadEMReboot,     "REBOOT"}
 };
 
 #define MAX_A24_ADDRESS  0xffffff
@@ -57,6 +58,7 @@ static quadEMCommandStruct quadEMCommands[MAX_QUADEM_COMMANDS] = {
 #define CONV_COMMAND    5
 #define PULSE_COMMAND   6
 #define PERIOD_COMMAND  7
+#define REBOOT_COMMAND 14
 
 typedef enum{typeInt32, typeFloat64, typeInt32Array} dataType;
 
@@ -175,13 +177,14 @@ static struct asynCommon drvQuadEMCommon = {
 
 int initQuadEM(const char *portName, unsigned short *baseAddr, 
                int fiberChannel, int microSecondsPerScan, 
-               const char *unidigName, int unidigChan)
+               const char *unidigName, int unidigChan, char *unidigDrvInfo)
 {
     drvQuadEMPvt *pPvt;
     asynInterface *pasynInterface;
     unsigned long probeVal;
     epicsUInt32 mask;
     asynStatus status;
+    asynDrvUser *pdrvUser;
     void *registrarPvt;
 
     pPvt = callocMustSucceed(1, sizeof(*pPvt), "initQuadEM");
@@ -208,6 +211,24 @@ int initQuadEM(const char *portName, unsigned short *baseAddr,
         }
         pPvt->uint32Digital = (asynUInt32Digital *)pasynInterface->pinterface;
         pPvt->uint32DigitalPvt = pasynInterface->drvPvt;
+        
+        /* If the drvInfo is specified then call drvUserCreate, else assume asynUser->reason=0 */
+        if (unidigDrvInfo) {
+            pasynInterface = pasynManager->findInterface(pPvt->puint32DAsynUser, 
+                                                         asynDrvUserType, 1);
+            if (!pasynInterface) {
+                errlogPrintf("initQuadEM, find asynDrvUser interface failed\n");
+                return -1;
+            }
+            pdrvUser = (asynDrvUser *)pasynInterface->pinterface;
+            status = pdrvUser->create(pasynInterface->drvPvt, pPvt->puint32DAsynUser, unidigDrvInfo, NULL, 0);
+            if (status != asynSuccess) {
+                errlogPrintf("initQuadEM: drvUser->create failed for ipUnidig\n");
+                return -1;
+            }
+        } else {
+            pPvt->puint32DAsynUser->reason = 0;
+        }
     }
  
     pPvt->intMsgQId = epicsMessageQueueCreate(MAX_MESSAGES, MAX_RAW*sizeof(int));
@@ -547,6 +568,14 @@ static double getScanPeriod(void *drvPvt, asynUser *pasynUser)
 }
 
 
+static void setReboot(void *drvPvt, asynUser *pasynUser)
+{
+    drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
+
+    /* For now we use a fixed period */
+    write(pPvt, pasynUser, REBOOT_COMMAND, 0);
+}
+
 static void setGain(void *drvPvt, asynUser *pasynUser, int value)
 {
     drvQuadEMPvt *pPvt = (drvQuadEMPvt *)drvPvt;
@@ -622,6 +651,9 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser,
     }
     
     switch(command) {
+    case quadEMReboot:
+        setReboot(drvPvt, pasynUser);
+        break;
     case quadEMOffset:
         pPvt->data.offset[channel] = value;
         break;
@@ -851,12 +883,14 @@ static const iocshArg initArg2 = { "fiberChannel",iocshArgInt};
 static const iocshArg initArg3 = { "microSecondsPerScan",iocshArgInt};
 static const iocshArg initArg4 = { "unidigName",iocshArgString};
 static const iocshArg initArg5 = { "unidigChan",iocshArgInt};
-static const iocshArg * const initArgs[6] = {&initArg0,
+static const iocshArg initArg6 = { "unidigDrvInfo",iocshArgString};
+static const iocshArg * const initArgs[7] = {&initArg0,
                                              &initArg1,
                                              &initArg2,
                                              &initArg3,
                                              &initArg4,
-                                             &initArg5};
+                                             &initArg5,
+                                             &initArg6};
 static const iocshFuncDef initFuncDef = {"initQuadEM",6,initArgs};
 static void initCallFunc(const iocshArgBuf *args)
 {
@@ -865,7 +899,8 @@ static void initCallFunc(const iocshArgBuf *args)
                args[2].ival,
                args[3].ival,
                args[4].sval,
-               args[5].ival);
+               args[5].ival,
+               args[6].sval);
 }
 
 void quadEMRegister(void)
