@@ -9,6 +9,20 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 2-6 (October 28, 2011)</h2>
+  <ul>
+    <li>Added support for the remote reboot capability of the electrometer. This makes
+      initialization much simpler and more robust, since it can be done with software
+      commands rather than power-cycling and toggling switches. It is only supported on
+      newer electrometer firmware, but does not cause ill effects when sent to older electrometers.
+      Added a Reboot record to the database, and modified the Initialize seq record to
+      process the Reboot record as the first thing it does.</li>
+    <li>Added an additional optional parameter to initQuadEM. This is the drvInfo field
+      for the ipUnidig module. Previously the driver hardcoded pasynUser-&gt;reason=0
+      when using the asynUInt32Digital interface. Now it uses drvUser-&gt;create, which
+      is the correct way to do it.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 2-5 (Sept 9, 2011)</h2>
   <ul>
     <li>Modified RELEASE; deleted RELEASE.arch.</li>
