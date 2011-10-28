@@ -3,9 +3,14 @@
 #   February 24, 2003
 #   July 8, 2004 Changes for asyn version
 
-grecord(mbbo,"$(P)$(EM)Gain") {
+record(bo,"$(P)$(EM)Reboot") {
+    field(DESC,"Reboot electrometer")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 0)REBOOT")
+}
+
+record(mbbo,"$(P)$(EM)Gain") {
     field(DESC,"Gain")
-    field(PINI,"YES")
     field(ZRVL,"0")
     field(ZRST,"1.00")
     field(ONVL,"7")
@@ -26,7 +31,7 @@ grecord(mbbo,"$(P)$(EM)Gain") {
     field(OUT,"@asyn($(PORT) 0)GAIN")
 }
 
-grecord(mbbo,"$(P)$(EM)PingPong1") {
+record(mbbo,"$(P)$(EM)PingPong1") {
     field(DESC,"PingPong")
     field(PINI,"YES")
     field(ZRVL,"0")
@@ -39,7 +44,7 @@ grecord(mbbo,"$(P)$(EM)PingPong1") {
     field(OUT,"@asyn($(PORT) 0)PING_PONG")
 }
 
-grecord(mbbo,"$(P)$(EM)PingPong2") {
+record(mbbo,"$(P)$(EM)PingPong2") {
     field(DESC,"PingPong")
     field(PINI,"YES")
     field(ZRVL,"0")
@@ -52,7 +57,7 @@ grecord(mbbo,"$(P)$(EM)PingPong2") {
     field(OUT,"@asyn($(PORT) 1)PING_PONG")
 }
 
-grecord(mbbo,"$(P)$(EM)PingPong3") {
+record(mbbo,"$(P)$(EM)PingPong3") {
     field(DESC,"PingPong")
     field(PINI,"YES")
     field(ZRVL,"0")
@@ -65,7 +70,7 @@ grecord(mbbo,"$(P)$(EM)PingPong3") {
     field(OUT,"@asyn($(PORT) 2)PING_PONG")
 }
 
-grecord(mbbo,"$(P)$(EM)PingPong4") {
+record(mbbo,"$(P)$(EM)PingPong4") {
     field(DESC,"PingPong")
     field(PINI,"YES")
     field(ZRVL,"0")
@@ -78,9 +83,8 @@ grecord(mbbo,"$(P)$(EM)PingPong4") {
     field(OUT,"@asyn($(PORT) 3)PING_PONG")
 }
 
-grecord(ao,"$(P)$(EM)ConversionTime") {
+record(ao,"$(P)$(EM)ConversionTime") {
     field(DESC,"Conversion Time (sec)")
-    field(PINI,"YES")
     field(DRVL,"615.e-6")
     field(LOPR,"615.e-6")
     field(DRVH,"13.1078e-3")
@@ -91,49 +95,48 @@ grecord(ao,"$(P)$(EM)ConversionTime") {
     field(OUT,"@asyn($(PORT) 0)SCAN_PERIOD")
 }
 
-grecord(ao,"$(P)$(EM)Period") {
+record(ao,"$(P)$(EM)Period") {
     field(DESC,"Period")
-    field(PINI,"YES")
     field(PREC,"0")
     field(VAL,"-1")
     field(DTYP, "asynInt32")
     field(OUT,"@asyn($(PORT) 0)PERIOD")
 }
 
-grecord(ao,"$(P)$(EM)Pulse") {
+record(ao,"$(P)$(EM)Pulse") {
     field(DESC,"Pulse")
-    field(PINI,"YES")
     field(PREC,"0")
     field(VAL,"1024")
     field(DTYP, "asynInt32")
     field(OUT,"@asyn($(PORT) 0)PULSE")
 }
 
-grecord(ao,"$(P)$(EM)Go") {
+record(ao,"$(P)$(EM)Go") {
     field(DESC,"Go")
-    field(PINI,"YES")
     field(PREC,"0")
     field(VAL,"0")
     field(DTYP, "asynInt32")
     field(OUT,"@asyn($(PORT) 0)GO")
 }
 
-grecord(seq,"$(P)$(EM)Initialize") {
-    field(DESC,"Initialize")
+record(seq,"$(P)$(EM)Initialize") {
     field(PINI,"YES")
-    field(LNK1,"$(P)$(EM)Gain.PROC PP MS")
-    field(DLY1,".01")
-    field(LNK2,"$(P)$(EM)Pulse.PROC PP MS")
-    field(DLY2,".01")
-    field(LNK3,"$(P)$(EM)Period.PROC PP MS")
-    field(DLY3,".01")
-    field(LNK4,"$(P)$(EM)ConversionTime.PROC PP MS")
-    field(DLY4,".01")
-    field(LNK5,"$(P)$(EM)Go.PROC PP MS")
-    field(DLY5,".01")
+    field(DESC,"Initialize")
+    field(LNK1,"$(P)$(EM)Reboot.PROC PP MS")
+    # Must wait for a little time after reboot
+    field(DLY2,"1.0")
+    field(LNK2,"$(P)$(EM)Gain.PROC PP MS")
+    field(DLY3,"0.01")
+    field(LNK3,"$(P)$(EM)Pulse.PROC PP MS")
+    field(DLY4,"0.01")
+    field(LNK4,"$(P)$(EM)Period.PROC PP MS")
+    field(DLY5,"0.01")
+    field(LNK5,"$(P)$(EM)ConversionTime.PROC PP MS")
+    field(DLY6,"0.01")
+    field(LNK6,"$(P)$(EM)Go.PROC PP MS")
 }
 
-grecord(ao,"$(P)$(EM)Offset1") {
+record(ao,"$(P)$(EM)Offset1") {
     field(DESC,"Offset")
     field(PINI,"YES")
     field(DRVL,"-65535")
@@ -145,7 +148,7 @@ grecord(ao,"$(P)$(EM)Offset1") {
     field(OUT,"@asyn($(PORT) 0)OFFSET")
 }
 
-grecord(ao,"$(P)$(EM)Offset2") {
+record(ao,"$(P)$(EM)Offset2") {
     field(DESC,"Offset")
     field(PINI,"YES")
     field(DRVL,"-65535")
@@ -157,7 +160,7 @@ grecord(ao,"$(P)$(EM)Offset2") {
     field(OUT,"@asyn($(PORT) 1)OFFSET")
 }
 
-grecord(ao,"$(P)$(EM)Offset3") {
+record(ao,"$(P)$(EM)Offset3") {
     field(DESC,"Offset")
     field(PINI,"YES")
     field(DRVL,"-65535")
@@ -169,7 +172,7 @@ grecord(ao,"$(P)$(EM)Offset3") {
     field(OUT,"@asyn($(PORT) 2)OFFSET")
 }
 
-grecord(ao,"$(P)$(EM)Offset4") {
+record(ao,"$(P)$(EM)Offset4") {
     field(DESC,"Offset")
     field(PINI,"YES")
     field(DRVL,"-65535")
@@ -181,119 +184,119 @@ grecord(ao,"$(P)$(EM)Offset4") {
     field(OUT,"@asyn($(PORT) 3)OFFSET")
 }
 
-grecord(ai,"$(P)$(EM)Read") {
+record(ai,"$(P)$(EM)Read") {
     field(DESC,"Read all inputs")
     field(PINI,"NO")
     field(SCAN,"1 second")
     field(FLNK,"$(P)$(EM)Current1")
 }
 
-grecord(ai,"$(P)$(EM)Current1") {
+record(ai,"$(P)$(EM)Current1") {
     field(DESC,"Diode 1 current")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 0)")
+    field(INP,"@asyn($(PORT) 0)DATA")
     field(FLNK,"$(P)$(EM)Current2")
 }
 
-grecord(ai,"$(P)$(EM)Current2") {
+record(ai,"$(P)$(EM)Current2") {
     field(DESC,"Diode 2 current")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 1)")
+    field(INP,"@asyn($(PORT) 1)DATA")
     field(FLNK,"$(P)$(EM)Current3")
 }
 
-grecord(ai,"$(P)$(EM)Current3") {
+record(ai,"$(P)$(EM)Current3") {
     field(DESC,"Diode 3 current")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 2)")
+    field(INP,"@asyn($(PORT) 2)DATA")
     field(FLNK,"$(P)$(EM)Current4")
 }
 
-grecord(ai,"$(P)$(EM)Current4") {
+record(ai,"$(P)$(EM)Current4") {
     field(DESC,"Diode 4 current")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 3)")
+    field(INP,"@asyn($(PORT) 3)DATA")
     field(FLNK,"$(P)$(EM)Sum1")
 }
 
-grecord(ai,"$(P)$(EM)Sum1") {
+record(ai,"$(P)$(EM)Sum1") {
     field(DESC,"Diode pair 1 sum")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 4)")
+    field(INP,"@asyn($(PORT) 4)DATA")
     field(FLNK,"$(P)$(EM)Sum2")
 }
 
-grecord(ai,"$(P)$(EM)Sum2") {
+record(ai,"$(P)$(EM)Sum2") {
     field(DESC,"Diode pair 2 sum")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 5)")
+    field(INP,"@asyn($(PORT) 5)DATA")
     field(FLNK,"$(P)$(EM)Diff1")
 }
 
-grecord(ai,"$(P)$(EM)Diff1") {
+record(ai,"$(P)$(EM)Diff1") {
     field(DESC,"Diode pair 1 diff")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 6)")
+    field(INP,"@asyn($(PORT) 6)DATA")
     field(FLNK,"$(P)$(EM)Diff2")
 }
 
-grecord(ai,"$(P)$(EM)Diff2") {
+record(ai,"$(P)$(EM)Diff2") {
     field(DESC,"Diode pair 2 diff")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 7)")
+    field(INP,"@asyn($(PORT) 7)DATA")
     field(FLNK,"$(P)$(EM)Position1")
 }
 
-grecord(ai,"$(P)$(EM)Position1") {
+record(ai,"$(P)$(EM)Position1") {
     field(DESC,"Diode pair 1 position")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 8)")
+    field(INP,"@asyn($(PORT) 8)DATA")
     field(FLNK,"$(P)$(EM)Position2")
 }
 
-grecord(ai,"$(P)$(EM)Position2") {
+record(ai,"$(P)$(EM)Position2") {
     field(DESC,"Diode pair 2 position")
     field(PINI,"NO")
     field(LOPR,"0")
     field(HOPR,"65535")
     field(PREC,"0")
     field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 9)")
+    field(INP,"@asyn($(PORT) 9)DATA")
 }
 
