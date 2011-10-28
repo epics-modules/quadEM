@@ -20,12 +20,19 @@ typedef enum {quadEMCurrent,
               quadEMPingPong,
               quadEMPulse,
               quadEMGo,
-              quadEMScanPeriod
+              quadEMScanPeriod,
+              quadEMReboot
 } quadEMCommand;
 
-#define MAX_QUADEM_COMMANDS 8
+#define MAX_QUADEM_COMMANDS 9
 
 /* Implements the following asyn interfaces:
+    Interface:          asynInt32   
+    Method:             write   
+    asynUser->drvUser:  &quadEMReboot
+    asynDrvUser->create "REBOOT"
+    Description:        reboot the electrometer
+
     Interface:          asynInt32   
     Method:             read   
     asynUser->drvUser:  0 or &quadEMData
