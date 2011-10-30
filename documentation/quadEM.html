@@ -33,10 +33,6 @@
       dac128V) at speeds up to 815Hz. If it is run slower it does signal averaging.</li>
   </ul>
   <p>
-    The <b>quadEM</b> support uses the synApps modules <a href="mca.html">mca</a> (for
-    digital scope mode), <a href="std.html">std</a> (for the EPID fast feedback support),
-    and <a href="ipUnidig.html">ipUnidig</a> for interrupt support .</p>
-  <p>
     Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">
       Mark Rivers</a> who is responsible for coordinating development and releases.</p>
   <h2>
@@ -63,7 +59,7 @@
         <td>
           2-6</td>
         <td>
-          28-October-2011</td>
+          2-November-2011</td>
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR2-6.tgz">quadEMR2-6.tgz</a></td>
         <td>
@@ -175,6 +171,11 @@
   </table>
   <h2>
     Required Modules</h2>
+  <p>
+    The <b>quadEM</b> support typically uses the synApps modules <a href="mca.html">mca</a>
+    (for digital scope mode), <a href="std.html">std</a> (for the EPID fast feedback
+    support), and <a href="ipUnidig.html">ipUnidig</a> for interrupt support .&nbsp;
+    But the quadEM module does not actually depend on these other modules to be built.</p>
   <table border="1" summary="Required Modules">
     <tbody>
       <tr align="center">
@@ -188,7 +189,7 @@
           Required for</th>
       </tr>
       <tr>
-        <td rowspan="4">
+        <td rowspan="2">
           2-6</td>
         <td>
           EPICS base</td>
@@ -204,22 +205,6 @@
           4-18</td>
         <td>
           Driver support</td>
-      </tr>
-      <tr>
-        <td>
-          mca</td>
-        <td>
-          7-1</td>
-        <td>
-          MCA record</td>
-      </tr>
-      <tr>
-        <td>
-          busy</td>
-        <td>
-          1-4</td>
-        <td>
-          Busy record</td>
       </tr>
       <tr>
         <td rowspan="4">
