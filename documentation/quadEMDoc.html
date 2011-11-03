@@ -28,10 +28,10 @@
       averaged readings of the current, sum, difference and position at speeds up to 10
       Hz with standard EPICS scan times.</li>
     <li>mca record. This provide a time-history (like a digital scope) of the current,
-      sum, difference and position at speeds up to 815 Hz. The time per point can be greater
+      sum, difference and position at speeds up to 813 Hz. The time per point can be greater
       than the sampling time in which case it does averaging.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
-      dac128V) at speeds up to 815Hz. If it is run slower than the sampling time it does
+      dac128V) at speeds up to 813Hz. If it is run slower than the sampling time it does
       signal averaging.</li>
   </ul>
   <h2>
@@ -97,13 +97,14 @@
           cover a narrow range, so the gains are quite high, and only rather low currents
           can be measured with them, even at the shortest integration times. The external
           capacitors can be replaced to select the first gain, and boards are normally built
-          with 22 pF external capacitors. At APS 13-ID have used much larger values, 1000
-          to 5000 pF because the currents from our undulator beam position monitor are large.
+          with 220 pF external capacitors. At APS 13-ID we have used much larger values, 1000
+          to 5000 pF, because the currents from our undulator beam position monitor are large.
           There are actually 8 external capacitors: 4 of them control the gain for each input
           for the "ping" channel, and the other 4 control the gain for the "pong" channel.
-          By one capacitor value for the 4 ping and a different capacitor value for the 4
-          pong channels then two use-selectable gains are available. One must then select
-          the appropriate channel in the PingPong1 to PingPong4 records, and not use the average.</td>
+          By using one capacitor value for the 4 diodes on the ping channel and a different
+          capacitor value for the 4 diodes on the pong channel, then two user-selectable gains
+          are available. One must then select the appropriate channel in the PingPong1 to
+          PingPong4 records, and not use the average.</td>
       </tr>
       <tr>
         <td>
@@ -179,7 +180,7 @@
         <td>
           asynInt32 (addr=0-3)</td>
         <td>
-          r/w</td>
+          r/o</td>
         <td>
           The value of the current. These records use asynInt32Average device support so they
           average the readings from the device since the time the record was last processed.
@@ -196,7 +197,7 @@
         <td>
           asynInt32 (addr=4-5)</td>
         <td>
-          r/w</td>
+          r/o</td>
         <td>
           The sum of the diode pair. These records use asynInt32Average device support so
           they average the readings from the device since the time the record was last processed.</td>
@@ -211,7 +212,7 @@
         <td>
           asynInt32 (addr=6-7)</td>
         <td>
-          r/w</td>
+          r/o</td>
         <td>
           The difference of the diode pair. These records use asynInt32Average device support
           so they average the readings from the device since the time the record was last
@@ -227,7 +228,7 @@
         <td>
           asynInt32 (addr=8-9)</td>
         <td>
-          r/w</td>
+          r/o</td>
         <td>
           The position of the diode pair, which is Diff/Sum. These records use asynInt32Average
           device support so they average the readings from the device since the time the record
@@ -291,7 +292,7 @@
           r/w</td>
         <td>
           This command causes the quadEM to actually process the values of Gain, ConversionTime,
-          etc. It is automatically sent went needed, so the user does not care about this
+          etc. It is automatically sent when needed, so the user does not care about this
           record.</td>
       </tr>
     </tbody>
