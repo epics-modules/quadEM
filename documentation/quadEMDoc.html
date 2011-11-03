@@ -1,0 +1,625 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>synApps quadEM</title>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type" />
+</head>
+<body>
+  <div style="text-align: center">
+    <h1>
+      quadEM Driver</h1>
+    <h2>
+      Mark Rivers, University of Chicago</h2>
+  </div>
+  <p>
+    <b>quadEM</b> supports the Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">
+      Steve Ross</a> from the APS. This device consists of a 4-channel digital electrometer
+    unit and 2 VME boards. It is typically used for photodiode-based x-ray beam position
+    monitors, although it can be used for any low-current measurement that requires
+    high speed digital input. The device provides 2 readings per diode at up to 813
+    Hz. Steve has written an extensive <a href="Electrometer Users Guide 01_22_2007.pdf">
+      Electometer User's Guide</a></p>
+  <p>
+    The <b>quadEM</b> software includes an asyn driver that provides support for the
+    following:</p>
+  <ul>
+    <li>Analog input records using the standard asyn device support. This provides digitally
+      averaged readings of the current, sum, difference and position at speeds up to 10
+      Hz with standard EPICS scan times.</li>
+    <li>mca record. This provide a time-history (like a digital scope) of the current,
+      sum, difference and position at speeds up to 815 Hz. The time per point can be greater
+      than the sampling time in which case it does averaging.</li>
+    <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
+      dac128V) at speeds up to 815Hz. If it is run slower than the sampling time it does
+      signal averaging.</li>
+  </ul>
+  <h2>
+    Databases</h2>
+  <h3>
+    quadEM.db</h3>
+  <p>
+    The quadEM.db database provides control of the electrometer and analog input records
+    using the standard asyn device support. This provides digitally averaged readings
+    of the current, sum, difference and position at speeds up to 10 Hz with standard
+    EPICS scan times.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <td align="center" colspan="7">
+          <b>Records in quadEM.db</b></td>
+      </tr>
+      <tr>
+        <th>
+          drvInfo string</th>
+        <th>
+          EPICS record name</th>
+        <th>
+          EPICS record type</th>
+        <th>
+          asyn interface</th>
+        <th>
+          Access</th>
+        <th>
+          Description</th>
+      </tr>
+      <tr>
+        <td>
+          REBOOT</td>
+        <td>
+          $(P)$(R)Reboot</td>
+        <td>
+          bo</td>
+        <td>
+          asyInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          Reboot command. Processing this record will reboot the electrometer. This operation
+          takes about 1 second. This record is processed first by the Initialize seq record.</td>
+      </tr>
+      <tr>
+        <td>
+          GAIN</td>
+        <td>
+          $(P)$(R)Gain</td>
+        <td>
+          mbbo</td>
+        <td>
+          asyInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          Gain command. This selects the feedback capacitor, which controls the gain of the
+          device. There are 8 capacitor choices. The choices are External, 2.51, 2.93, 3.52,
+          4.40, 5.87, 8.80, and 17.6 pF. All gains except the first External gain use capacitors
+          that are built in to the Burr Brown chip. These are quite small capacitors and only
+          cover a narrow range, so the gains are quite high, and only rather low currents
+          can be measured with them, even at the shortest integration times. The external
+          capacitors can be replaced to select the first gain, and boards are normally built
+          with 22 pF external capacitors. At APS 13-ID have used much larger values, 1000
+          to 5000 pF because the currents from our undulator beam position monitor are large.
+          There are actually 8 external capacitors: 4 of them control the gain for each input
+          for the "ping" channel, and the other 4 control the gain for the "pong" channel.
+          By one capacitor value for the 4 ping and a different capacitor value for the 4
+          pong channels then two use-selectable gains are available. One must then select
+          the appropriate channel in the PingPong1 to PingPong4 records, and not use the average.</td>
+      </tr>
+      <tr>
+        <td>
+          PING_PONG</td>
+        <td>
+          $(P)$(R)PingPong[1-4]</td>
+        <td>
+          mbbo</td>
+        <td>
+          asyInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          Selects which channel the data are read from. The choices are #1 (Ping), #2 (Pong),
+          and Avg. which averages the values from the Ping and Pong channels.</td>
+      </tr>
+      <tr>
+        <td>
+          SCAN_PERIOD</td>
+        <td>
+          $(P)$(R)ConversionTime</td>
+        <td>
+          ao</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          Selects the integration time of the amplifier. Values range from 0.615 ms to 13.11
+          ms. The data are sent to the VME card from the amplifier after 2 integration times,
+          one value in the Ping channel and one value in the Pong channel. The data period
+          is thus 1.23ms to 26.22 ms, or a frequency of about 813 Hz to 38.1 Hz. As the integration
+          time is increased the sensitivity increases, but the number of readings sent to
+          the VME card is decreased.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)Initialize</td>
+        <td>
+          seq</td>
+        <td>
+          N.A.</td>
+        <td>
+          r/w</td>
+        <td>
+          Processing this record initializes the quadEM. It processes the Reboot, Gain, Pulse,
+          Period, ConversionTime, and Go records in that order. It waits 1 second after processing
+          the Reboot record, and 0.01 seconds after each of the other records.</td>
+      </tr>
+      <tr>
+        <td>
+          OFFSET</td>
+        <td>
+          $(P)$(R)Offset[1-4]</td>
+        <td>
+          ao</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          Offset that will be subtracted from each reading before calculating the Current[1-4].</td>
+      </tr>
+      <tr>
+        <td>
+          DATA</td>
+        <td>
+          $(P)$(R)Current[1-4]</td>
+        <td>
+          ai</td>
+        <td>
+          asynInt32 (addr=0-3)</td>
+        <td>
+          r/w</td>
+        <td>
+          The value of the current. These records use asynInt32Average device support so they
+          average the readings from the device since the time the record was last processed.
+          For example at the shortest integration time (813 Hz), if the Read record .SCAN
+          field is 1 second then 813 readings will be averaged.</td>
+      </tr>
+      <tr>
+        <td>
+          DATA</td>
+        <td>
+          $(P)$(R)Sum[1-2]</td>
+        <td>
+          ai</td>
+        <td>
+          asynInt32 (addr=4-5)</td>
+        <td>
+          r/w</td>
+        <td>
+          The sum of the diode pair. These records use asynInt32Average device support so
+          they average the readings from the device since the time the record was last processed.</td>
+      </tr>
+      <tr>
+        <td>
+          DATA</td>
+        <td>
+          $(P)$(R)Diff[1-2]</td>
+        <td>
+          ai</td>
+        <td>
+          asynInt32 (addr=6-7)</td>
+        <td>
+          r/w</td>
+        <td>
+          The difference of the diode pair. These records use asynInt32Average device support
+          so they average the readings from the device since the time the record was last
+          processed.</td>
+      </tr>
+      <tr>
+        <td>
+          DATA</td>
+        <td>
+          $(P)$(R)Position[1-2]</td>
+        <td>
+          ai</td>
+        <td>
+          asynInt32 (addr=8-9)</td>
+        <td>
+          r/w</td>
+        <td>
+          The position of the diode pair, which is Diff/Sum. These records use asynInt32Average
+          device support so they average the readings from the device since the time the record
+          was last processed.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)Read</td>
+        <td>
+          ai</td>
+        <td>
+          N.A.</td>
+        <td>
+          r/w</td>
+        <td>
+          Processing this record reads all of the Position, Sum, Diff, and Position records
+          using forward links.</td>
+      </tr>
+      <tr>
+        <td>
+          PERIOD</td>
+        <td>
+          $(P)$(R)Period</td>
+        <td>
+          ao</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          This command must be sent to the quadEM. The value is -1, but it is not actually
+          used and the user does not care about this record.</td>
+      </tr>
+      <tr>
+        <td>
+          PULSE</td>
+        <td>
+          $(P)$(R)Pulse</td>
+        <td>
+          ao</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          This command must be sent to the quadEM. The value is 1024, but it is not actually
+          used and the user does not care about this record.</td>
+      </tr>
+      <tr>
+        <td>
+          GO</td>
+        <td>
+          $(P)$(R)Go</td>
+        <td>
+          ao</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          This command causes the quadEM to actually process the values of Gain, ConversionTime,
+          etc. It is automatically sent went needed, so the user does not care about this
+          record.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    This is the medm screen to control the quadEM with the records in quadEM.db.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      quadEM.adl</h3>
+    <img alt="quadEM.png" src="quadEM.png" /></div>
+  <h3>
+    quadEM_med.db</h3>
+  <p>
+    The quadEM_med.db database provides a time-history (like a digital scope) of the
+    current, sum, difference and position at speeds up to 813 Hz. The time per point
+    can be greater than the sampling time, in which case it does averaging.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <td align="center" colspan="3">
+          <b>Records in quadEM_med.db</b></td>
+      </tr>
+      <tr>
+        <th>
+          EPICS record name</th>
+        <th>
+          EPICS record type</th>
+        <th>
+          Description</th>
+      </tr>
+      <tr>
+        <td>
+          $(P)EraseStart</td>
+        <td>
+          fanout</td>
+        <td>
+          Erases and starts all the MCA records.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)StartAll</td>
+        <td>
+          dfanout</td>
+        <td>
+          Starts all the MCA records without erasing them first.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)StopAll</td>
+        <td>
+          dfanout</td>
+        <td>
+          Stops all the MCA records.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)NUseAll</td>
+        <td>
+          dfanout</td>
+        <td>
+          Sets the NUSE field all the MCA records, controlling how many time points are collected.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)StatusAll</td>
+        <td>
+          dfanout</td>
+        <td>
+          Forces all the MCA records to process, reading their status.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)ReadAll</td>
+        <td>
+          dfanout</td>
+        <td>
+          Forces all the MCA records to read the time array. The scan rate of this record
+          determines the update rate of the MCA record displays.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)ElapsedReal</td>
+        <td>
+          ao</td>
+        <td>
+          The elapsed real time.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)ElapsedLive</td>
+        <td>
+          ao</td>
+        <td>
+          The elapsed live time.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)PresetReal</td>
+        <td>
+          dfanout</td>
+        <td>
+          The preset real time, counting will stop if this value is reached.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)PresetLive</td>
+        <td>
+          dfanout</td>
+        <td>
+          The preset Live time, counting will stop if this value is reached.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)Dwell</td>
+        <td>
+          dfanout</td>
+        <td>
+          The dwell time per point. This time is constrained to be a multiple of the sampling
+          time, which is in the range 1.23ms to 26.22 ms, depending on the ConversionTime
+          record. The readback value of $(P)Dwell_RBV gives the actual dwell time per point.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)Dwell_RBV</td>
+        <td>
+          dfanout</td>
+        <td>
+          The actual dwell time per point, which may differ from Dwell, because the time per
+          point is constrained to be a multiple of the sampling time.</td>
+      </tr>
+    </tbody>
+    <tr>
+      <td>
+        $(P)mca[1-10]</td>
+      <td>
+        mca</td>
+      <td>
+        The mca records that contain the time history. mca1-mca4 are the Current, mca5-mca6
+        are the Sum, mca7-mca8 are the Diff, and mca9-mca10 are the Position.</td>
+    </tr>
+    <tr>
+      <td>
+        $(P)Xaxis</td>
+      <td>
+        waveform</td>
+      <td>
+        An array of the times for the x-axis of time series plots. This is not used by the
+        MCA record. This array is currently not set by the IOC, rather a client needs to
+        read the Dwell_RBV record, compute this array, and write it to the IOC. This should
+        be moved to the IOC in a future release.</td>
+    </tr>
+  </table>
+  <p>
+    This is the medm screen to control the records in quadEM_med.db.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      quadEM_med.adl</h3>
+    <img alt="quadEM_med.png" src="quadEM_med.png" /></div>
+  <p>
+    This is the medm screen for the mca10, the second Position value. It contains the
+    beam position as a function of time. The dwell time was 1.23 ms, and there are 2048
+    channels (time points), so the total time is 2.52 seconds.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      quadEM_med.adl</h3>
+    <img alt="quadEM_position_mca.png" src="quadEM_position_mca.png" /></div>
+  <h3>
+    quadEM_med_FFT.db</h3>
+  <p>
+    The quadEM_med_FFT.db database provides a display of the Fast Fourrier Transform
+    of the mca data in quadEM_med.db. The FFT currently is not computed in the IOC,
+    it must be computed by a client. By putting the mca records in the IOC then any
+    client has access to the data. For example, medm can be used to display the FFTs.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <td align="center" colspan="3">
+          <b>Records in quadEM_med_FFT.db</b></td>
+      </tr>
+      <tr>
+        <th>
+          EPICS record name</th>
+        <th>
+          EPICS record type</th>
+        <th>
+          Description</th>
+      </tr>
+      <tr>
+        <td>
+          $(P)mca[1-10]</td>
+        <td>
+          mca</td>
+        <td>
+          The mca records that contain the FFTs. mca1-mca4 are the Current, mca5-mca6 are
+          the Sum, mca7-mca8 are the Diff, and mca9-mca10 are the Position.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)Xaxis</td>
+        <td>
+          waveform</td>
+        <td>
+          An array of the times for the x-axis of time series plots. This is not used by the
+          MCA record. This array is currently not set by the IOC, rather a client needs to
+          read the Dwell_RBV record, compute this array, and write it to the IOC. This should
+          be moved to the IOC in a future release.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    This is a simple IDL procedure that computes the FFTs of all 10 MCA records in quadEM_med.db
+    and writes the FFTs into the MCA records in quadEM_med_FFT.db.</p>
+  <pre>pro med_fft, med_name, med_fft_nam, med_raw=med, med_fft=med_fft
+    if (n_elements(med_name) eq 0) then med_name='13IDA:quadEM:'
+    if (n_elements(med_fft_name) eq 0) then med_fft_name='13IDA:quadEM_FFT:'
+    nmcas = 10
+    casettimeout, .001
+    med = obj_new('epics_med', med_name, nmcas)
+    med_fft = obj_new('epics_med', med_fft_name, nmcas)
+    while(1) do begin
+       fft_presets = med_fft->get_presets()
+       t = caget(med_fft_name + 'PresetReal', avg_time)
+       fft_data_avg = 0
+       n_avg = 0
+       tstart = systime(1)
+       while(1) do begin
+          ; Start med
+          med->erase
+          med->acquire_on
+          ; Wait for MED to complete
+          med->acquire_wait, /start, /stop
+          data = med->get_data()
+          presets = med->get_presets()
+          dwell = presets[0].dwell
+          nchans_data = n_elements(data(*,1))
+          nchans_fft = nchans_data/2
+          fft_data = fltarr(nchans_fft, nmcas)
+          for i=0, nmcas-1 do begin
+             fft_data[0,i] = (abs(fft(data(*,i), -1)))[0:nchans_fft-1]
+          endfor
+          n_avg = n_avg + 1
+          fft_data_avg = fft_data_avg + fft_data
+          if ((avg_time eq 0.0) or ((systime(1) - tstart) GE avg_time)) then break
+       endwhile
+       fft_data_avg = fft_data_avg / n_avg
+       time_axis = dwell*findgen(nchans_data)
+       t = caput(med_name+'Xaxis', time_axis)
+       cal = {mca_calibration}
+       cal.offset=0.
+       cal.slope=dwell
+       med->set_calibration, cal
+       freq = findgen(nchans_fft)/(nchans_fft-1)/dwell/2.
+       t = caput(med_fft_name+'Xaxis', freq)
+       med_fft->set_data, 1000*fft_data_avg
+       cal.slope = freq[1]
+       med_fft->set_calibration, cal
+       t = caput(med_fft_name+'ReadAll.PROC', 1)
+       if (get_kbrd(0) ne '') then break
+    endwhile
+end
+  </pre>
+  <p>
+    This is an medm screen that displays the FFTs of the Current, Sum, and Position
+    for the horizontal photodiodes on APS beamline 13-ID.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      quadEM_plotAll.adl</h3>
+    <img alt="quadEM_horizontal_FFT.png" src="quadEM_horizontal_FFT.png" /></div>
+  <h2>
+    Fast feedback
+  </h2>
+  <p>
+    The quadEM can be used to do fast feedback with the EPID record from the synApps
+    "std" module. The EPID record will process at up to 813 Hz. The DT field of the
+    EPID record controls the time between feedback calculations, and this is constrained
+    to be an integer multiple N of the quadEM sampling time. If N>1 then N samples are
+    averaged for each feedback operation.
+  </p>
+  <p>
+    The following is an example substitutions file for this. This example uses a quadEM
+    asyn port driver named "quadEM1". ICHAN is set to read from addr=8 and 9, which
+    are the two position values of the quadEM driver. The INPUT_DATA and INPUT_INTERVAL
+    strings are the drvInfo strings for these parameters in the driver. The output is
+    sent to an asyn port driver named DAC1, which is a dac128V 12-bit A/D converter
+    in this data. OCHAN is set to write to addr=2 and 1, which are the second and third
+    DAC channels on that card. The OUTPUT_DATA string is the drvInfo string for the
+    data in the dac128V.
+  </p>
+  <pre>file "$(STD)/stdApp/Db/fast_pid_control.db"
+{
+pattern
+{P,                 PID,    INPUT, ICHAN, INPUT DATA,    INPUT_INTERVAL, OUTPUT, OCHAN, OUTPUT_DATA,   LOPR,  HOPR, DRVL,  DRVH,  PREC,   KP,    KI,  KD,   DT, SCAN}
+{13IDA:, fast_pitch_pid,  quadEM1,     8,       DATA,       SCAN_PERIOD,   DAC1,     2,        DATA, -32767, 32767,    0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+{13IDA:,  fast_roll_pid,  quadEM1,     9,       DATA,       SCAN_PERIOD,   DAC1,     1,        DATA, -32767, 32767,    0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+}  
+</pre>
+  <p>
+    This is the medm screen that controls the fast feedback of the pitch of the monochromator
+    on APS beamline 13-ID. The readback and control PVs cannot be changed after iocInit.
+    The update rate (SCAN rate of EPID record) only controls the rate at which the EPID
+    record displays "snapshots" of the values of the input, output, and error. It does
+    not affect the rate at which the feedback is actually being done, which can be much
+    faster than this.
+  </p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      pid_control.adl</h3>
+    <img alt="quadEM_pid_control.png" src="quadEM_pid_control.png" /></div>
+  <p>
+    This is the medm screen that controls the PID parameters. These include the feedback
+    coefficients KP, KI, and KD. The DT (delta time) field controls the rate at which
+    the feedback is actually been run. In this case DT=68.0 ms, which is 55 times longer
+    than the sampling time (1.23 ms), so 55 position readings are being averaged each
+    time the feedback is run.
+  </p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      pid_parameters.adl</h3>
+    <img alt="quadEM_pid_parameters.png" src="quadEM_pid_parameters.png" /></div>
+  <p>
+    This is an medm screen that displays the setpoint of the pitch of the monochromator
+    (in red), and the actual readback from the quadEM (in blue). Note that the readback
+    here is only the snapshot values from the EPID record. For full-speed readings of
+    the readback the MCA records from the quadEM_med.db database would be used.
+  </p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      pid_plot_readback.adl</h3>
+    <img alt="quadEM_plot_readback.png" src="quadEM_pid_plot_readback.png" /></div>
+</body>
+</html>
