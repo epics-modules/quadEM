@@ -12,7 +12,7 @@ record(bo,"$(P)$(EM)Reboot") {
 record(mbbo,"$(P)$(EM)Gain") {
     field(DESC,"Gain")
     field(ZRVL,"0")
-    field(ZRST,"1.00")
+    field(ZRST,"External")
     field(ONVL,"7")
     field(ONST,"2.51")
     field(TWVL,"6")
