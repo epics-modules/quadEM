@@ -12,13 +12,29 @@
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
+  <h2>
+    Contents</h2>
+  <ul>
+    <li><a href="#Overview">Overview</a></li>
+    <li><a href="#Databases">Databases</a>
+      <ul>
+        <li><a href="#quadEM">quadEM.db</a></li>
+        <li><a href="#quadEM_med">quadEM_med.db</a></li>
+        <li><a href="#quadEM_med_FFT">quadEM_med_FFT.db</a></li>
+        <li><a href="#fast_pid_control">fast_pid_control.db</a></li>
+      </ul>
+    </li>
+    <li><a href="#Setup">Setup</a></li>
+  </ul>
+  <h2 id="Overview">
+    Overview</h2>
   <p>
     <b>quadEM</b> supports the Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">
       Steve Ross</a> from the APS. This device consists of a 4-channel digital electrometer
     unit and 2 VME boards. It is typically used for photodiode-based x-ray beam position
     monitors, although it can be used for any low-current measurement that requires
     high speed digital input. The device provides 2 readings per diode at up to 813
-    Hz. Steve has written an extensive <a href="Electrometer Users Guide 01_22_2007.pdf">
+    Hz. Steve has written an extensive <a href="Electrometer_Users_Guide_01_22_2007.pdf">
       Electometer User's Guide</a></p>
   <p>
     The <b>quadEM</b> software includes an asyn driver that provides support for the
@@ -34,9 +50,9 @@
       dac128V) at speeds up to 813Hz. If it is run slower than the sampling time it does
       signal averaging.</li>
   </ul>
-  <h2>
+  <h2 id="Databases">
     Databases</h2>
-  <h3>
+  <h3 id="quadEM">
     quadEM.db</h3>
   <p>
     The quadEM.db database provides control of the electrometer and analog input records
@@ -303,7 +319,7 @@
     <h3 style="text-align: center">
       quadEM.adl</h3>
     <img alt="quadEM.png" src="quadEM.png" /></div>
-  <h3>
+  <h3 id="quadEM_med">
     quadEM_med.db</h3>
   <p>
     The quadEM_med.db database provides a time-history (like a digital scope) of the
@@ -459,7 +475,7 @@
     <h3 style="text-align: center">
       quadEM_med.adl</h3>
     <img alt="quadEM_position_mca.png" src="quadEM_position_mca.png" /></div>
-  <h3>
+  <h3 id="quadEM_med_FFT">
     quadEM_med_FFT.db</h3>
   <p>
     The quadEM_med_FFT.db database provides a display of the Fast Fourrier Transform
@@ -561,9 +577,9 @@ end
     <h3 style="text-align: center">
       quadEM_plotAll.adl</h3>
     <img alt="quadEM_horizontal_FFT.png" src="quadEM_horizontal_FFT.png" /></div>
-  <h2>
-    Fast feedback
-  </h2>
+  <h3 id="fast_pid_control">
+    fast_pid_control.db
+  </h3>
   <p>
     The quadEM can be used to do fast feedback with the EPID record from the synApps
     "std" module. The EPID record will process at up to 813 Hz. The DT field of the
@@ -622,5 +638,62 @@ pattern
     <h3 style="text-align: center">
       pid_plot_readback.adl</h3>
     <img alt="quadEM_plot_readback.png" src="quadEM_pid_plot_readback.png" /></div>
+  <h2 id="Setup">
+    Setup</h2>
+  <p>
+    The quadEM VME card cannot generate interrupts, but it can output a TTL pulse each
+    time new data is available, at up to 815 Hz. If this pulse is input to an Ip-Unidig
+    (or other asyn digital I/O device with interrupt and callback capabilities), then
+    the ipUnidig interrupt routine will call the quadEM driver each time new data is
+    available. The Ip-Unidig channel where the quadEM pulse is connected is specified
+    in the unidigChan argument to initQuadEM below. If an Ip-Unidig or other interrupt
+    source is not being used then the quadEM driver will poll for new data at the system
+    clock rate, typically 60Hz or 50Hz.</p>
+  <p>
+    The quadEM is set up in the IOC startup script as follows:</p>
+  <pre>
+# initQuadEM(quadEMName, baseAddress, fiberChannel, microSecondsPerScan,
+#            maxClients, unidigName, unidigChan, unidigDrvInfo)
+#  quadEMName  = name of quadEM asyn port driver created
+#  baseAddress = base address of VME card
+#  channel     = 0-3, fiber channel number
+#  microSecondsPerScan = microseconds to integrate.  When used with ipUnidig
+#                interrupts the unit is also read at this rate.
+#  unidigName  = name of ipInidig server if it is used for interrupts.
+#                Set to 0 if there is no IP-Unidig being used, in which
+#                case the quadEM will be read at 60Hz.
+#  unidigChan  = IP-Unidig channel connected to quadEM pulse output
+#  unidigDrvInfo = drvInfo string for digital input parameter
+initQuadEM("quadEM1", 0xf000, 0, 1000, "Unidig1", 2, "DIGITAL_INPUT")
+# Use this line for 60Hz
+#initQuadEM("quadEM1", 0xf000, 0, 1000, 0, 0)
+
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM.db", "P=13LAB:, EM=EM1, CARD=0, PORT=quadEM1")
+
+# This creates the MCA record driver to collect time series
+# initFastSweep(portName, inputName, maxSignals, maxPoints)
+#  portName = asyn port name for this new port (string)
+#  inputName = name of asynPort providing data
+#  maxSignals  = maximum number of signals (spectra)
+#  maxPoints  = maximum number of channels per spectrum
+initFastSweep("quadEMSweep", "quadEM1", 10, 2048)
+
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_med.db", "P=13LAB:quadEM:,NCHAN=2048,PORT=quadEMSweep")
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_med_FFT.db", "P=13LAB:quadEM_FFT:,NCHAN=1024")
+
+#Fast feedback
+dbLoadTemplate "pid_fast.template"
+  </pre>
+  <p>
+    This is pid_fast.template</p>
+  <pre>
+file "$(STD)/stdApp/Db/fast_pid_control.db"
+{
+pattern
+{P,      PID,   INPUT,  INPUT_DATA, INPUT_INTERVAL, ICHAN, OUTPUT, OCHAN,  OUTPUT_DATA,    LOPR,     HOPR,  DRVL,  DRVH,  PREC,   KP,    KI,  KD,   DT,        SCAN}
+{13LAB:, PID3, quadEM1,  DATA,      SCAN_PERIOD       8,     DAC1,     2,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+{13LAB:, PID4, quadEM1,  DATA,      SCAN_PERIOD       9,     DAC1,     3,  DOUBLE_DATA,  -32767,    32767,  2048,  3072,     3,  .02,  100.,  0., .001, ".1 second"}
+}
+  </pre>
 </body>
 </html>
