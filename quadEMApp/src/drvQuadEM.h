@@ -1,151 +1,81 @@
-/* drvQuadEM.h
+/*
+ * drvQuadEM.h
+ * 
+ * Asyn driver base class that inherits from the asynPortDriver class to control quad electrometers
+ *
+ * Author: Mark Rivers
+ *
+ * Created June 14, 2012
+ */
 
-    Author:  Mark Rivers
-    Created: April 10, 2003, based on Ip330.h
+#include "asynPortDriver.h"
 
-*/
+/* These are the drvInfo strings that are used to identify the parameters.
+ * They are used by asyn clients, including standard asyn device support */
+#define P_AcquireString            "QE_ACQUIRE"                 /* asynInt32,    r/w */
+#define P_CurrentOffsetString      "QE_CURRENT_OFFSET"          /* asynInt32,    r/w */
+#define P_DataString               "QE_DATA"                    /* asynInt32,    r/o */
+#define P_DoubleDataString         "QE_DOUBLE_DATA"             /* asynFloat64,  r/o */
+#define P_IntArrayDataString       "QE_INT_ARRAY_DATA"          /* asynInt32Array,  r/o */
+#define P_PingPongString           "QE_PING_PONG"               /* asynInt32,    r/w */
+#define P_IntegrationTimeString    "QE_INTEGRATION_TIME"        /* asynFloat64,  r/w */
+#define P_RangeString              "QE_RANGE"                   /* asynInt32,    r/w */
+#define P_ResetString              "QE_RESET"                   /* asynInt32,    r/w */
+#define P_TriggerString            "QE_TRIGGER"                 /* asynInt32,    r/w */
 
-#ifndef drvQuadEMH
-#define drvQuadEMH
+/* These enums give the offsets into the data array for each value */
+typedef enum {
+    QECurrent1,
+    QECurrent2,
+    QECurrent3,
+    QECurrent4,
+    QESum12,
+    QESum34,
+    QESum1234,
+    QEDiff12,
+    QEDiff34,
+    QEPosition12,
+    QEPosition34
+} QEData_t;
+#define QE_MAX_DATA QEPosition34+1
+#define QE_MAX_INPUTS 4
+/* This defines the scale factor for integer positions, which preserves 20 bit resolution */
+#define QE_POSITION_SCALE 1048576
 
-/* This is the scale factor to go from (difference/sum) to position.  The total
- * range will be -32767 to 32767, which preserves the full 16 bit range of the
- * device */
-#define QUAD_EM_POS_SCALE 32767
+/** Bse class to control the quad electrometer */
+class drvQuadEM : public asynPortDriver {
+public:
+    drvQuadEM(const char *portName, int numParams);
+                 
+    /* These are the methods that we override from asynPortDriver */
+    virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+    virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
 
-typedef enum {quadEMCurrent, 
-              quadEMOffset,
-              quadEMGain, 
-              quadEMPeriod,
-              quadEMPingPong,
-              quadEMPulse,
-              quadEMGo,
-              quadEMScanPeriod,
-              quadEMReboot
-} quadEMCommand;
+protected:
+    /** Values used for pasynUser->reason, and indexes into the parameter library. */
+    int P_Acquire;
+    #define FIRST_QE_COMMAND P_Acquire
+    int P_CurrentOffset;
+    int P_Data;
+    int P_DoubleData;
+    int P_IntArrayData;
+    int P_PingPong;
+    int P_IntegrationTime;
+    int P_Range;
+    int P_Reset;
+    int P_Trigger;
+    #define LAST_QE_COMMAND P_Trigger
+    
+    void computePositions(epicsInt32 raw[QE_MAX_INPUTS]);
+    virtual asynStatus setAcquire(epicsInt32 value) = 0;
+    virtual asynStatus setPingPong(epicsInt32 value) = 0;
+    virtual asynStatus setIntegrationTime(epicsFloat64 value) = 0;
+    virtual asynStatus setRange(epicsInt32 value) = 0;
+    virtual asynStatus setReset() = 0;
+    virtual asynStatus setTrigger(epicsInt32 value) = 0;
+ 
+};
 
-#define MAX_QUADEM_COMMANDS 9
 
-/* Implements the following asyn interfaces:
-    Interface:          asynInt32   
-    Method:             write   
-    asynUser->drvUser:  &quadEMReboot
-    asynDrvUser->create "REBOOT"
-    Description:        reboot the electrometer
+#define NUM_QE_PARAMS (&LAST_QE_COMMAND - &FIRST_QE_COMMAND + 1)
 
-    Interface:          asynInt32   
-    Method:             read   
-    asynUser->drvUser:  0 or &quadEMData
-    asynDrvUser->create "DATA"
-    Description:        read the current value of a channel
-
-    Interface:          asynInt32   
-    Method:             write 
-    asynUser->drvUser:  0 or &quadEMData 
-    asynDrvUser->create "DATA"
-    Description:        Error, undefined
-
-    Interface:          asynInt32 
-    Method:             read   
-    asynUser->drvUser:  &quadEMOffset
-    asynDrvUser->create "OFFSET"
-    Description:        read the offset for a channel
-
-    Interface:          asynInt32
-    Method:             write 
-    asynUser->drvUser:  &quadEMOffset
-    asynDrvUser->create "OFFSET"
-    Description:        write the offset for a channel
-
-    Interface:          asynInt32 
-    Method:             read   
-    asynUser->drvUser:  &quadEMPulse
-    asynDrvUser->create "PULSE"
-    Description:        read the pulse for a channel
-
-    Interface:          asynInt32
-    Method:             write 
-    asynUser->drvUser:  &quadEMPulse
-    asynDrvUser->create "PULSE"
-    Description:        write the pulse for a channel
-
-    Interface:          asynInt32 
-    Method:             read   
-    asynUser->drvUser:  &quadEMGo
-    asynDrvUser->create "GO"
-    Description:        not supported, error
-
-    Interface:          asynInt32
-    Method:             write 
-    asynUser->drvUser:  &quadEMGo
-    asynDrvUser->create "GO"
-    Description:        give the go command
-
-    Interface:          asynInt32Callback 
-    Method:             registerCallback
-    asynUser->drvUser:  0 or &quadEMData
-    asynDrvUser->create "DATA"
-    Description:        register callback with the current value of a channel
-
-    Interface:          asynUInt32Digital 
-    Method:             read   
-    asynUser->drvUser:  &quadEMGain
-    asynDrvUser->create "GAIN"
-    Description:        read the gain for a channel
-
-    Interface:          asynUInt32Digitial
-    Method:             write 
-    asynUser->drvUser:  &quadEMGain 
-    asynDrvUser->create "GAIN"
-    Description:        write the gain for a channel
-
-    Interface:          asyniUInt32Digital 
-    Method:             read   
-    asynUser->drvUser:  &quadEMPingPong
-    asynDrvUser->create "PING_PONG"
-    Description:        read the ping/pong value for a channel
-
-    Interface:          asynIntU32Digital
-    Method:             write 
-    asynUser->drvUser:  &quadEMPingPong
-    asynDrvUser->create "PING_PONG"
-    Description:        write the ping/pong for a channel
-
-    Interface:          asynFloat64 
-    Method:             read
-    asynUser->drvUser:  0 or &quadEMData 
-    asynDrvUser->create "DATA"
-    Description:        read the current value of a channel
-
-    Interface:          asynFloat64
-    Method:             write 
-    asynUser->drvUser:  0 or &quadEMData
-    asynDrvUser->create "DATA"
-    Description:        Error, undefined
-
-    Interface:          asynFloat64
-    Method:             read
-    asynUser->drvUser:  &quadEMScanPeriod 
-    asynDrvUser->create "SCAN_PERIOD"
-    Description:        Read the scan period
-
-    Interface:          asynFloat64
-    Method:             write
-    asynUser->drvUser:  &quadEMScanPeriod
-    asynDrvUser->create "SCAN_PERIOD"
-    Description:        Write the scan period
-
-    Interface:          asynFloat64Callback
-    Method:             registerCallback
-    asynUser->drvUser:  0 or &quadEMData
-    asynDrvUser->create "DATA"
-    Description:        Register callback with the current value of a channel
-
-    Interface:          asynFloat64Callback
-    Method:             registerCallback
-    asynUser->drvUser:  &quadEMScanPeriod
-    asynDrvUser->create "SCAN_PERIOD"
-    Description:        Register callback with the new scan period
-*/
-
-#endif /* drvQuadEMH */
