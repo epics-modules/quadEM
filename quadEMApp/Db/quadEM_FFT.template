@@ -6,12 +6,13 @@
 # mca2  = diode current 2
 # mca3  = diode current 3
 # mca4  = diode current 4
-# mca5  = sum 1+3
-# mca6  = sum 2+4
-# mca7  = difference 3-1
-# mca8  = difference 4-2
-# mca9  = position (3-1)/(3+1)
-# mca10 = position (4-2)/(4+2)
+# mca5  = sum 1+2
+# mca6  = sum 3+4
+# mca7  = sum 1+2+3+4
+# mca8  = difference 2-1
+# mca9  = difference 4-3
+# mca10 = position (2-1)/(2+1)
+# mca11 = position (4-3)/(4+3)
 
 record(ao,"$(P)InitNuse") {
       field(DOL, "$(P)mca1.NUSE NPP NMS")
@@ -39,6 +40,7 @@ record(dfanout,"$(P)NuseAll1") {
 record(dfanout,"$(P)NuseAll2") {
       field(OUTA,"$(P)mca9.NUSE  PP MS")
       field(OUTB,"$(P)mca10.NUSE  PP MS")
+      field(OUTC,"$(P)mca11.NUSE  PP MS")
 }
 
 record(dfanout,"$(P)StatusAll") {
@@ -62,6 +64,7 @@ record(dfanout,"$(P)ReadAll1") {
 record(dfanout,"$(P)ReadAll2") {
       field(OUTA,"$(P)mca9.READ  PP MS")
       field(OUTB,"$(P)mca10.READ  PP MS")
+      field(OUTB,"$(P)mca11.READ  PP MS")
 }
 
 record(bo,"$(P)EnableClientWait") {
@@ -158,42 +161,49 @@ record(mca,"$(P)mca4")
 }
 record(mca,"$(P)mca5")
 {
-    field(DESC, "FFT sum 1&3")
+    field(DESC, "FFT sum 1+2")
     field(NMAX, "$(NCHAN)")
     field(NUSE, "$(NCHAN)")
     field(PREC, "3")
 }
 record(mca,"$(P)mca6")
 {
-    field(DESC, "FFT sum 2&4")
+    field(DESC, "FFT sum 3+4")
     field(NMAX, "$(NCHAN)")
     field(NUSE, "$(NCHAN)")
     field(PREC, "3")
 }
 record(mca,"$(P)mca7")
 {
-    field(DESC, "FFT diff 1&3")
+    field(DESC, "FFT sum 1+2+3+4")
     field(NMAX, "$(NCHAN)")
     field(NUSE, "$(NCHAN)")
     field(PREC, "3")
 }
 record(mca,"$(P)mca8")
 {
-    field(DESC, "FFT diff 2&4")
+    field(DESC, "FFT diff 2-1")
     field(NMAX, "$(NCHAN)")
     field(NUSE, "$(NCHAN)")
     field(PREC, "3")
 }
 record(mca,"$(P)mca9")
 {
-    field(DESC, "FFT position 1&3")
+    field(DESC, "FFT diff 4-3")
     field(NMAX, "$(NCHAN)")
     field(NUSE, "$(NCHAN)")
     field(PREC, "3")
 }
 record(mca,"$(P)mca10")
 {
-    field(DESC, "FFT position 2&4")
+    field(DESC, "FFT position 1&2")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+}
+record(mca,"$(P)mca11")
+{
+    field(DESC, "FFT position 3&4")
     field(NMAX, "$(NCHAN)")
     field(NUSE, "$(NCHAN)")
     field(PREC, "3")
