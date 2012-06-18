@@ -1,0 +1,219 @@
+# Database for Elettra AH401B picoammeter
+#   Mark Rivers
+#   June 3, 2012
+
+record(bo,"$(P)$(R)Acquire") {
+    field(DESC,"Acquire On/Off")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_ACQUIRE")
+    field(ZNAM, "Stop")
+    field(ONAM, "Acquire")
+}
+
+record(mbbo,"$(P)$(R)Range") {
+    field(DESC,"Range")
+    field(PINI,"YES")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_RANGE")
+    field(PINI, "YES")
+}
+
+record(bo,"$(P)$(R)PingPong") {
+    field(DESC,"PingPong")
+    field(PINI,"YES")
+    field(ZNAM,"No")
+    field(ONAM,"Yes")
+    field(DTYP,"asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_PING_PONG")
+}
+
+record(ao,"$(P)$(R)IntegrationTime") {
+    field(DESC,"Conversion Time (sec)")
+    field(PINI,"YES")
+    field(PREC,"4")
+    field(VAL,"0.1")
+    field(DTYP, "asynFloat64")
+    field(OUT,"@asyn($(PORT) 0)QE_INTEGRATION_TIME")
+}
+
+record(bo,"$(P)$(R)Trigger") {
+    field(DESC,"Trigger")
+    field(PINI,"YES")
+    field(ZNAM,"No")
+    field(ONAM,"Yes")
+    field(DTYP,"asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_TRIGGER")
+}
+
+record(bo,"$(P)$(R)Reset") {
+    field(DESC,"Reset")
+    field(PINI,"YES")
+    field(DTYP, "asynInt32")
+    field(VAL, "1")
+    field(OUT,"@asyn($(PORT) 0)QE_RESET")
+}
+
+record(ao,"$(P)$(R)Offset1") {
+    field(DESC,"Offset")
+    field(PINI,"YES")
+    field(DRVL,"0")
+    field(LOPR,"0")
+    field(DRVH,"10000")
+    field(HOPR,"10000")
+    field(PREC,"0")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_CURRENT_OFFSET")
+}
+
+record(ao,"$(P)$(R)Offset2") {
+    field(DESC,"Offset")
+    field(PINI,"YES")
+    field(DRVL,"0")
+    field(LOPR,"0")
+    field(DRVH,"10000")
+    field(HOPR,"10000")
+    field(PREC,"0")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 1)QE_CURRENT_OFFSET")
+}
+
+record(ao,"$(P)$(R)Offset3") {
+    field(DESC,"Offset")
+    field(PINI,"YES")
+    field(DRVL,"0")
+    field(LOPR,"0")
+    field(DRVH,"10000")
+    field(HOPR,"10000")
+    field(PREC,"0")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 2)QE_CURRENT_OFFSET")
+}
+
+record(ao,"$(P)$(R)Offset4") {
+    field(DESC,"Offset")
+    field(PINI,"YES")
+    field(DRVL,"0")
+    field(LOPR,"0")
+    field(DRVH,"10000")
+    field(HOPR,"10000")
+    field(PREC,"0")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 3)QE_CURRENT_OFFSET")
+}
+
+record(busy,"$(P)$(R)Read") {
+    field(DESC,"Read all inputs")
+    field(SCAN,"1 second")
+    field(FLNK,"$(P)$(R)Current1")
+}
+
+record(ai,"$(P)$(R)Current1") {
+    field(DESC,"Diode 1 current")
+    field(LOPR,"-10000")
+    field(HOPR,"1048576")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 0)QE_DATA")
+    field(FLNK,"$(P)$(R)Current2")
+}
+
+record(ai,"$(P)$(R)Current2") {
+    field(DESC,"Diode 2 current")
+    field(LOPR,"-10000")
+    field(HOPR,"1048576")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 1)QE_DATA")
+    field(FLNK,"$(P)$(R)Current3")
+}
+
+record(ai,"$(P)$(R)Current3") {
+    field(DESC,"Diode 3 current")
+    field(LOPR,"-10000")
+    field(HOPR,"1048576")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 2)QE_DATA")
+    field(FLNK,"$(P)$(R)Current4")
+}
+
+record(ai,"$(P)$(R)Current4") {
+    field(DESC,"Diode 4 current")
+    field(LOPR,"-10000")
+    field(HOPR,"1048576")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 3)QE_DATA")
+    field(FLNK,"$(P)$(R)Sum12")
+}
+
+record(ai,"$(P)$(R)Sum12") {
+    field(DESC,"Diode 1 & 2 sum")
+    field(LOPR,"-10000")
+    field(HOPR,"2097152")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 4)QE_DATA")
+    field(FLNK,"$(P)$(R)Sum34")
+}
+
+record(ai,"$(P)$(R)Sum34") {
+    field(DESC,"Diode 3 & 4 sum")
+    field(LOPR,"-10000")
+    field(HOPR,"2097152")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 5)QE_DATA")
+    field(FLNK,"$(P)$(R)Sum1234")
+}
+
+record(ai,"$(P)$(R)Sum1234") {
+    field(DESC,"Diode 1,2,3 & 4 sum")
+    field(LOPR,"-10000")
+    field(HOPR,"2097152")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 6)QE_DATA")
+    field(FLNK,"$(P)$(R)Diff12")
+}
+
+record(ai,"$(P)$(R)Diff12") {
+    field(DESC,"Diode 1 & 2 difference")
+    field(PINI,"NO")
+    field(LOPR,"-1048576")
+    field(HOPR,"1048576")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 7)QE_DATA")
+    field(FLNK,"$(P)$(R)Diff34")
+}
+
+record(ai,"$(P)$(R)Diff34") {
+    field(DESC,"Diode pair 3 & 4 difference")
+    field(LOPR,"-1048576")
+    field(HOPR,"1048576")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 8)QE_DATA")
+    field(FLNK,"$(P)$(R)Position12")
+}
+record(ai,"$(P)$(R)Position12") {
+    field(DESC,"Diode 1 & 2 position")
+    field(PINI,"NO")
+    field(LOPR,"-1048576")
+    field(HOPR,"1048576")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 9)QE_DATA")
+    field(FLNK,"$(P)$(R)Position34")
+}
+
+record(ai,"$(P)$(R)Position34") {
+    field(DESC,"Diode pair 3&4 position")
+    field(LOPR,"-1048576")
+    field(HOPR,"1048576")
+    field(PREC,"0")
+    field(DTYP, "asynInt32Average")
+    field(INP,"@asyn($(PORT) 10)QE_DATA")
+}
+
