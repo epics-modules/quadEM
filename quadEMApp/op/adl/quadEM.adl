@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=173
-		y=144
-		width=440
-		height=300
+		x=254
+		y=59
+		width=430
+		height=375
 	}
 	clr=14
 	bclr=3
@@ -98,21 +98,6 @@ rectangle {
 		clr=1
 	}
 }
-"message button" {
-	object {
-		x=217
-		y=260
-		width=60
-		height=20
-	}
-	control {
-		chan="$(P)$(EM)Read.PROC"
-		clr=14
-		bclr=51
-	}
-	label="Process"
-	press_msg="1"
-}
 polyline {
 	object {
 		x=-1
@@ -140,13 +125,95 @@ text {
 	"basic attribute" {
 		clr=14
 	}
-	textix="($(P)$(EM))"
-	align="horiz. centered"
+	textix="($(P)$(R))"
+}
+text {
+	object {
+		x=11
+		y=5
+		width=170
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Quad Electrometer"
+}
+composite {
+	object {
+		x=8
+		y=33
+		width=381
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=199
+				y=33
+				width=20
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="3"
+		}
+		text {
+			object {
+				x=369
+				y=33
+				width=20
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix=" 4"
+		}
+		text {
+			object {
+				x=114
+				y=33
+				width=20
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="1"
+		}
+		text {
+			object {
+				x=284
+				y=33
+				width=20
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="2"
+		}
+		text {
+			object {
+				x=8
+				y=33
+				width=70
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Diode #"
+		}
+	}
 }
 text {
 	object {
 		x=8
-		y=80
+		y=58
 		width=70
 		height=20
 	}
@@ -158,7 +225,7 @@ text {
 text {
 	object {
 		x=8
-		y=105
+		y=83
 		width=60
 		height=20
 	}
@@ -167,27 +234,15 @@ text {
 	}
 	textix="Offset"
 }
-text {
-	object {
-		x=199
-		y=30
-		width=20
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="3"
-}
 "text update" {
 	object {
 		x=174
-		y=80
+		y=58
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Current3"
+		chan="$(P)$(R)Current2"
 		clr=54
 		bclr=3
 	}
@@ -198,39 +253,27 @@ text {
 "text entry" {
 	object {
 		x=169
-		y=105
+		y=83
 		width=80
 		height=20
 	}
 	control {
-		chan="$(P)$(EM)Offset3"
+		chan="$(P)$(R)Offset2"
 		clr=14
 		bclr=51
 	}
 	limits {
 	}
 }
-text {
-	object {
-		x=369
-		y=30
-		width=20
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix=" 4"
-}
 "text update" {
 	object {
 		x=344
-		y=80
+		y=58
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Current4"
+		chan="$(P)$(R)Current4"
 		clr=54
 		bclr=3
 	}
@@ -241,39 +284,27 @@ text {
 "text entry" {
 	object {
 		x=339
-		y=105
+		y=83
 		width=80
 		height=20
 	}
 	control {
-		chan="$(P)$(EM)Offset4"
+		chan="$(P)$(R)Offset4"
 		clr=14
 		bclr=51
 	}
 	limits {
 	}
 }
-text {
-	object {
-		x=114
-		y=30
-		width=20
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="1"
-}
 "text entry" {
 	object {
 		x=84
-		y=105
+		y=83
 		width=80
 		height=20
 	}
 	control {
-		chan="$(P)$(EM)Offset1"
+		chan="$(P)$(R)Offset1"
 		clr=14
 		bclr=51
 	}
@@ -283,12 +314,12 @@ text {
 "text update" {
 	object {
 		x=89
-		y=80
+		y=58
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Current1"
+		chan="$(P)$(R)Current1"
 		clr=54
 		bclr=3
 	}
@@ -296,27 +327,15 @@ text {
 	limits {
 	}
 }
-text {
-	object {
-		x=284
-		y=30
-		width=20
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="2"
-}
 "text update" {
 	object {
 		x=259
-		y=80
+		y=58
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Current2"
+		chan="$(P)$(R)Current3"
 		clr=54
 		bclr=3
 	}
@@ -327,12 +346,12 @@ text {
 "text entry" {
 	object {
 		x=254
-		y=105
+		y=83
 		width=80
 		height=20
 	}
 	control {
-		chan="$(P)$(EM)Offset2"
+		chan="$(P)$(R)Offset3"
 		clr=14
 		bclr=51
 	}
@@ -342,7 +361,7 @@ text {
 text {
 	object {
 		x=8
-		y=130
+		y=108
 		width=30
 		height=20
 	}
@@ -354,12 +373,12 @@ text {
 "text update" {
 	object {
 		x=131
-		y=130
+		y=108
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Sum1"
+		chan="$(P)$(R)Sum12"
 		clr=54
 		bclr=3
 	}
@@ -370,12 +389,12 @@ text {
 "text update" {
 	object {
 		x=302
-		y=130
+		y=108
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Sum2"
+		chan="$(P)$(R)Sum34"
 		clr=54
 		bclr=3
 	}
@@ -386,7 +405,7 @@ text {
 text {
 	object {
 		x=8
-		y=155
+		y=133
 		width=100
 		height=20
 	}
@@ -398,12 +417,12 @@ text {
 "text update" {
 	object {
 		x=131
-		y=155
+		y=133
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Diff1"
+		chan="$(P)$(R)Diff12"
 		clr=54
 		bclr=3
 	}
@@ -414,12 +433,12 @@ text {
 "text update" {
 	object {
 		x=302
-		y=155
+		y=133
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Diff2"
+		chan="$(P)$(R)Diff34"
 		clr=54
 		bclr=3
 	}
@@ -430,7 +449,7 @@ text {
 text {
 	object {
 		x=8
-		y=180
+		y=158
 		width=80
 		height=20
 	}
@@ -442,12 +461,12 @@ text {
 "text update" {
 	object {
 		x=131
-		y=180
+		y=158
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Position1"
+		chan="$(P)$(R)Position12"
 		clr=54
 		bclr=3
 	}
@@ -458,12 +477,12 @@ text {
 "text update" {
 	object {
 		x=302
-		y=180
+		y=158
 		width=70
 		height=20
 	}
 	monitor {
-		chan="$(P)$(EM)Position2"
+		chan="$(P)$(R)Position34"
 		clr=54
 		bclr=3
 	}
@@ -471,61 +490,34 @@ text {
 	limits {
 	}
 }
-composite {
-	object {
-		x=8
-		y=205
-		width=310
-		height=20
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=8
-				y=205
-				width=220
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Conversion Time (usec)"
-		}
-		"text entry" {
-			object {
-				x=238
-				y=205
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(EM)ConversionTime"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-	}
-}
-menu {
-	object {
-		x=106
-		y=260
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(EM)Read.SCAN"
-		clr=14
-		bclr=51
-	}
-}
 text {
 	object {
 		x=8
-		y=260
+		y=190
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Integration time"
+}
+text {
+	object {
+		x=78
+		y=315
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Ping pong"
+}
+text {
+	object {
+		x=78
+		y=265
 		width=90
 		height=20
 	}
@@ -536,145 +528,198 @@ text {
 }
 text {
 	object {
-		x=11
-		y=5
-		width=204
+		x=118
+		y=215
+		width=50
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Quad Electrometer"
+	textix="Range"
 }
 text {
 	object {
-		x=8
-		y=235
-		width=40
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Gain"
-}
-menu {
-	object {
-		x=57
-		y=235
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(EM)Gain"
-		clr=14
-		bclr=51
-	}
-}
-text {
-	object {
-		x=8
-		y=30
+		x=98
+		y=240
 		width=70
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Diode #"
+	textix="Acquire"
 }
-valuator {
+text {
 	object {
-		x=329
-		y=205
-		width=99
+		x=118
+		y=340
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Reset"
+}
+text {
+	object {
+		x=98
+		y=290
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger"
+}
+menu {
+	object {
+		x=173
+		y=315
+		width=60
 		height=20
 	}
 	control {
-		chan="$(P)$(EM)ConversionTime"
+		chan="$(P)$(R)PingPong"
 		clr=14
 		bclr=51
 	}
-	dPrecision=1.000000
-	limits {
-	}
 }
-"message button" {
+menu {
 	object {
-		x=288
-		y=260
+		x=173
+		y=215
 		width=80
 		height=20
 	}
 	control {
-		chan="$(P)$(EM)Initialize.PROC"
+		chan="$(P)$(R)Range"
 		clr=14
 		bclr=51
 	}
-	label="Initialize"
+}
+"choice button" {
+	object {
+		x=173
+		y=240
+		width=150
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Acquire"
+		clr=14
+		bclr=51
+	}
+	stacking="column"
+}
+"message button" {
+	object {
+		x=173
+		y=340
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Reset.PROC"
+		clr=14
+		bclr=51
+	}
+	label="Reset"
 	press_msg="1"
 }
 menu {
 	object {
-		x=94
-		y=55
+		x=173
+		y=290
 		width=60
-		height=21
-	}
-	control {
-		chan="$(P)$(EM)PingPong1"
-		clr=14
-		bclr=51
-	}
-}
-text {
-	object {
-		x=7
-		y=55
-		width=70
 		height=20
 	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Channel"
-}
-menu {
-	object {
-		x=179
-		y=55
-		width=60
-		height=21
-	}
 	control {
-		chan="$(P)$(EM)PingPong3"
+		chan="$(P)$(R)Trigger"
 		clr=14
 		bclr=51
 	}
 }
-menu {
+composite {
 	object {
-		x=264
-		y=55
-		width=60
-		height=21
+		x=173
+		y=265
+		width=165
+		height=20
 	}
-	control {
-		chan="$(P)$(EM)PingPong2"
-		clr=14
-		bclr=51
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=173
+				y=265
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Read.SCAN"
+				clr=14
+				bclr=51
+			}
+		}
+		"message button" {
+			object {
+				x=278
+				y=265
+				width=60
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Read.PROC"
+				clr=14
+				bclr=51
+			}
+			label="Process"
+			press_msg="1"
+		}
 	}
 }
-menu {
+composite {
 	object {
-		x=349
-		y=55
-		width=60
-		height=21
+		x=173
+		y=190
+		width=184
+		height=20
 	}
-	control {
-		chan="$(P)$(EM)PingPong4"
-		clr=14
-		bclr=51
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=173
+				y=190
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)IntegrationTime"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=258
+				y=190
+				width=99
+				height=20
+			}
+			control {
+				chan="$(P)$(R)IntegrationTime"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
 	}
 }
