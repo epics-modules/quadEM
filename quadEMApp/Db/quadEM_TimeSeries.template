@@ -1,17 +1,18 @@
 # quadEM_med.db
 # Author:  Mark Rivers
 # Date:    Nov. 12, 2003
-# This is a database for the MCA records in quadEM.  There are 10 total:
+# This is a database for the MCA records in quadEM.  There are 11 total:
 # mca1  = diode current 1
 # mca2  = diode current 2
 # mca3  = diode current 3
 # mca4  = diode current 4
-# mca5  = sum 1+3
-# mca6  = sum 2+4
-# mca7  = difference 3-1
-# mca8  = difference 4-2
-# mca9  = position (3-1)/(3+1)
-# mca10 = position (4-2)/(4+2)
+# mca5  = sum 1+2
+# mca6  = sum 3+4
+# mca7  = sum 1+2+3+4
+# mca8  = difference 2-1
+# mca9  = difference 4-3
+# mca10 = position (2-1)/(2+1)
+# mca11 = position (4-3)/(4+3)
 
 record(fanout,"$(P)EraseStart") {
       field(LNK1,"$(P)EraseAll.PROC  CA MS")
@@ -36,6 +37,7 @@ record(dfanout,"$(P)EraseAll1") {
 record(dfanout,"$(P)EraseAll2") {
       field(OUTA,"$(P)mca9.ERAS  PP MS")
       field(OUTB,"$(P)mca10.ERAS  PP MS")
+      field(OUTC,"$(P)mca11.ERAS  PP MS")
 }
 
 record(dfanout,"$(P)StartAll") {
@@ -57,6 +59,7 @@ record(dfanout,"$(P)StartAll1") {
 record(dfanout,"$(P)StartAll2") {
       field(OUTA,"$(P)mca9.STRT  PP MS")
       field(OUTB,"$(P)mca10.STRT  PP MS")
+      field(OUTC,"$(P)mca11.STRT  PP MS")
 }
 
 record(dfanout,"$(P)StopAll") {
@@ -77,6 +80,7 @@ record(dfanout,"$(P)StopAll1") {
 record(dfanout,"$(P)StopAll2") {
       field(OUTA,"$(P)mca9.STOP  PP MS")
       field(OUTB,"$(P)mca10.STOP  PP MS")
+      field(OUTC,"$(P)mca11.STOP  PP MS")
 }
 
 record(ao,"$(P)InitNuse") {
@@ -105,6 +109,7 @@ record(dfanout,"$(P)NuseAll1") {
 record(dfanout,"$(P)NuseAll2") {
       field(OUTA,"$(P)mca9.NUSE  PP MS")
       field(OUTB,"$(P)mca10.NUSE  PP MS")
+      field(OUTC,"$(P)mca11.NUSE  PP MS")
 }
 
 record(dfanout,"$(P)StatusAll") {
@@ -128,6 +133,7 @@ record(dfanout,"$(P)StatusAll1") {
 record(dfanout,"$(P)StatusAll2") {
       field(OUTA,"$(P)mca9.PROC  PP MS")
       field(OUTB,"$(P)mca10.PROC  PP MS")
+      field(OUTC,"$(P)mca11.PROC  PP MS")
 }
 
 record(dfanout,"$(P)ReadAll") {
@@ -151,6 +157,7 @@ record(dfanout,"$(P)ReadAll1") {
 record(dfanout,"$(P)ReadAll2") {
       field(OUTA,"$(P)mca9.READ  PP MS")
       field(OUTB,"$(P)mca10.READ  PP MS")
+      field(OUTC,"$(P)mca11.READ  PP MS")
 }
 
 record(bo,"$(P)EnableClientWait") {
@@ -221,6 +228,7 @@ record(dfanout,"$(P)PresetReal1") {
 record(dfanout,"$(P)PresetReal2") {
       field(OUTA,"$(P)mca9.PRTM  PP MS")
       field(OUTB,"$(P)mca10.PRTM  PP MS")
+      field(OUTC,"$(P)mca11.PRTM  PP MS")
 }
 
 record(dfanout,"$(P)PresetLive") {
@@ -243,6 +251,7 @@ record(dfanout,"$(P)PresetLive1") {
 record(dfanout,"$(P)PresetLive2") {
       field(OUTA,"$(P)mca9.PLTM  PP MS")
       field(OUTB,"$(P)mca10.PLTM  PP MS")
+      field(OUTC,"$(P)mca11.PLTM  PP MS")
 }
 
 record(dfanout,"$(P)Dwell") {
@@ -265,6 +274,7 @@ record(dfanout,"$(P)Dwell1") {
 record(dfanout,"$(P)Dwell2") {
       field(OUTA,"$(P)mca9.DWEL  PP MS")
       field(OUTB,"$(P)mca10.DWEL  PP MS")
+      field(OUTC,"$(P)mca11.DWEL  PP MS")
 }
 
 record(ai,"$(P)Dwell_RBV") {
@@ -314,7 +324,7 @@ record(mca,"$(P)mca4")
 }
 record(mca,"$(P)mca5")
 {
-    field(DESC, "Sum 1+3")
+    field(DESC, "Sum 1+2")
     field(DTYP, "asynMCA")
     field(PINI, "YES")
     field(NMAX, "$(NCHAN)")
@@ -324,7 +334,7 @@ record(mca,"$(P)mca5")
 }
 record(mca,"$(P)mca6")
 {
-    field(DESC, "Sum 2+4")
+    field(DESC, "Sum 3+4")
     field(DTYP, "asynMCA")
     field(PINI, "YES")
     field(NMAX, "$(NCHAN)")
@@ -334,7 +344,7 @@ record(mca,"$(P)mca6")
 }
 record(mca,"$(P)mca7")
 {
-    field(DESC, "Difference 3-1")
+    field(DESC, "Sum 1+2+3+4")
     field(DTYP, "asynMCA")
     field(PINI, "YES")
     field(NMAX, "$(NCHAN)")
@@ -344,7 +354,7 @@ record(mca,"$(P)mca7")
 }
 record(mca,"$(P)mca8")
 {
-    field(DESC, "Difference 4-2")
+    field(DESC, "Difference 2-1")
     field(DTYP, "asynMCA")
     field(PINI, "YES")
     field(NMAX, "$(NCHAN)")
@@ -354,7 +364,7 @@ record(mca,"$(P)mca8")
 }
 record(mca,"$(P)mca9")
 {
-    field(DESC, "Position 1&3")
+    field(DESC, "Difference 4-3")
     field(DTYP, "asynMCA")
     field(PINI, "YES")
     field(NMAX, "$(NCHAN)")
@@ -364,13 +374,23 @@ record(mca,"$(P)mca9")
 }
 record(mca,"$(P)mca10")
 {
-    field(DESC, "Position 2&4")
+    field(DESC, "Position 1&2")
     field(DTYP, "asynMCA")
     field(PINI, "YES")
     field(NMAX, "$(NCHAN)")
     field(NUSE, "$(NCHAN)")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 9)")
+}
+record(mca,"$(P)mca11")
+{
+    field(DESC, "Position 3&4")
+    field(DTYP, "asynMCA")
+    field(PINI, "YES")
+    field(NMAX, "$(NCHAN)")
+    field(NUSE, "$(NCHAN)")
+    field(PREC, "3")
+    field(INP,  "@asyn($(PORT) 10)")
 }
 record(waveform,"$(P)Xaxis")
 {
