@@ -22,9 +22,33 @@ record(mbbo,"$(P)$(R)Range") {
     field(SVST,"50 pC")
 }
 
+record(mbbi,"$(P)$(R)Range_RBV") {
+    field(ZRVL,"0")
+    field(ZRST,"1800 pC")
+    field(ONVL,"7")
+    field(ONST,"350 pC")
+    field(TWVL,"6")
+    field(TWST,"300 pC")
+    field(THVL,"5")
+    field(THST,"250 pC")
+    field(FRVL,"4")
+    field(FRST,"200 pC")
+    field(FVVL,"3")
+    field(FVST,"150 pC")
+    field(SXVL,"2")
+    field(SXST,"100 pC")
+    field(SVVL,"1")
+    field(SVST,"50 pC")
+}
+
 record(ao,"$(P)$(R)IntegrationTime") {
     field(DRVL,".001")
     field(LOPR,".001")
     field(DRVH,"1")
+    field(HOPR,"1")
+}
+
+record(ai,"$(P)$(R)IntegrationTime_RBV") {
+    field(LOPR,".001")
     field(HOPR,"1")
 }
