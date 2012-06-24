@@ -1,0 +1,8 @@
+# FILE... quadEM_TimeSeries_settings.req
+$(P)$(R)ReadAll.SCAN
+$(P)$(R)NuseAll
+$(P)$(R)Dwell
+$(P)$(R)PresetReal
+$(P)$(R)EnableClientWait
+
+
