@@ -95,7 +95,7 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
 asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
     int function = pasynUser->reason;
-    asynStatus status = asynSuccess;
+    int status = asynSuccess;
     int channel;
     const char *paramName;
     const char* functionName = "writeInt32";
@@ -103,30 +103,32 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     getAddress(pasynUser, &channel);
     
     /* Set the parameter in the parameter library. */
-    status = (asynStatus) setIntegerParam(channel, function, value);
+    status |= setIntegerParam(channel, function, value);
     
     /* Fetch the parameter string name for possible use in debugging */
     getParamName(function, &paramName);
 
     if (function == P_Acquire) {
-        setAcquire(value);
+        status |= setAcquire(value);
     } 
     else if (function == P_PingPong) {
-        setPingPong(value);
+        status |= setPingPong(value);
     }
     else if (function == P_Range) {
-        setRange(value);
+        status |= setRange(value);
     }
     else if (function == P_Trigger) {
-        setTrigger(value);
+        status |= setTrigger(value);
     }
     else {
         /* All other parameters just get set in parameter list, no need to
          * act on them here */
     }
     
+    if (function != P_Acquire) status |= getSettings();
+    
     /* Do callbacks so higher layers see any changes */
-    status = (asynStatus) callParamCallbacks();
+    status |= (asynStatus) callParamCallbacks();
     
     if (status) 
         epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
@@ -136,7 +138,7 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
               "%s:%s: function=%d, name=%s, value=%d\n", 
               driverName, functionName, function, paramName, value);
-    return status;
+    return (asynStatus)status;
 }
 
 /** Called when asyn clients call pasynFloat64->write().
@@ -147,7 +149,7 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
 asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
 {
     int function = pasynUser->reason;
-    asynStatus status = asynSuccess;
+    int status = asynSuccess;
     int channel;
     const char *paramName;
     const char* functionName = "writeFloat64";
@@ -155,21 +157,23 @@ asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
     getAddress(pasynUser, &channel);
     
     /* Set the parameter in the parameter library. */
-    status = (asynStatus) setDoubleParam(channel, function, value);
+    status |= setDoubleParam(channel, function, value);
 
     /* Fetch the parameter string name for possible use in debugging */
     getParamName(function, &paramName);
 
     if (function == P_IntegrationTime) {
         /* Make sure the update time is valid. If not change it and put back in parameter library */
-        setIntegrationTime(value);
+        status |= setIntegrationTime(value);
     } else {
         /* All other parameters just get set in parameter list, no need to
          * act on them here */
     }
     
+    status |= getSettings();
+    
     /* Do callbacks so higher layers see any changes */
-    status = (asynStatus) callParamCallbacks();
+    status |= (asynStatus) callParamCallbacks();
     
     if (status) 
         epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
@@ -179,5 +183,5 @@ asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
         asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
               "%s:%s: function=%d, name=%s, value=%f\n", 
               driverName, functionName, function, paramName, value);
-    return status;
+    return (asynStatus)status;
 }
