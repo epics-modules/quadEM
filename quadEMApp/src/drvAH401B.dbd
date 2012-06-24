@@ -2,3 +2,4 @@
 # Register global functions
 ################
 registrar(drvAH401BRegister)
+registrar("quadEM_SNLRegistrar")
