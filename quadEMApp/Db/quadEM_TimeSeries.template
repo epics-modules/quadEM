@@ -1,4 +1,4 @@
-# quadEM_med.db
+# quadEM_TimeSeries.template
 # Author:  Mark Rivers
 # Date:    Nov. 12, 2003
 # This is a database for the MCA records in quadEM.  There are 11 total:
@@ -14,275 +14,146 @@
 # mca10 = position (2-1)/(2+1)
 # mca11 = position (4-3)/(4+3)
 
-record(fanout,"$(P)EraseStart") {
-      field(LNK1,"$(P)EraseAll.PROC  CA MS")
-      field(LNK2,"$(P)StartAll.PROC  CA MS")
+record(bi,"$(P)$(R)SNL_Connected") {
+  field(ZNAM, "Not connected")
+  field(ZSV,  "MAJOR")
+  field(ONAM, "Connected")
+  field(OSV,  "NO_ALARM")
 }
 
-record(dfanout,"$(P)EraseAll") {
-      field(VAL, "1")
-      field(OUTA,"$(P)EraseAll1.VAL   PP MS")
-      field(OUTB,"$(P)EraseAll2.VAL   PP MS")
-}
-record(dfanout,"$(P)EraseAll1") {
-      field(OUTA,"$(P)mca1.ERAS  PP MS")
-      field(OUTB,"$(P)mca2.ERAS  PP MS")
-      field(OUTC,"$(P)mca3.ERAS  PP MS")
-      field(OUTD,"$(P)mca4.ERAS  PP MS")
-      field(OUTE,"$(P)mca5.ERAS  PP MS")
-      field(OUTF,"$(P)mca6.ERAS  PP MS")
-      field(OUTG,"$(P)mca7.ERAS  PP MS")
-      field(OUTH,"$(P)mca8.ERAS  PP MS")
-}
-record(dfanout,"$(P)EraseAll2") {
-      field(OUTA,"$(P)mca9.ERAS  PP MS")
-      field(OUTB,"$(P)mca10.ERAS  PP MS")
-      field(OUTC,"$(P)mca11.ERAS  PP MS")
+record(bo,"$(P)$(R)EraseAll") {
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT),0)MCA_ERASE")
+  field(ZNAM, "Done")
+  field(ONAM, "Erase")
+  field(VAL,  "1")
+  field(FLNK, "$(P)$(R)ReadAllOnce")
 }
 
-record(dfanout,"$(P)StartAll") {
-      field(VAL, "1")
-      field(OUTA,"$(P)StartAll1.VAL   PP MS")
-      field(OUTB,"$(P)StartAll2.VAL   PP MS")
-      field(FLNK,"$(P)SetClientWait")
-}
-record(dfanout,"$(P)StartAll1") {
-      field(OUTA,"$(P)mca1.STRT  PP MS")
-      field(OUTB,"$(P)mca2.STRT  PP MS")
-      field(OUTC,"$(P)mca3.STRT  PP MS")
-      field(OUTD,"$(P)mca4.STRT  PP MS")
-      field(OUTE,"$(P)mca5.STRT  PP MS")
-      field(OUTF,"$(P)mca6.STRT  PP MS")
-      field(OUTG,"$(P)mca7.STRT  PP MS")
-      field(OUTH,"$(P)mca8.STRT  PP MS")
-}
-record(dfanout,"$(P)StartAll2") {
-      field(OUTA,"$(P)mca9.STRT  PP MS")
-      field(OUTB,"$(P)mca10.STRT  PP MS")
-      field(OUTC,"$(P)mca11.STRT  PP MS")
+record(bo,"$(P)$(R)EraseStart") {
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT),0)MCA_ERASE")
+  field(ZNAM, "Done")
+  field(ONAM, "Erase")
+  field(VAL,  "1")
+  field(FLNK, "$(P)$(R)StartAll.PROC")
 }
 
-record(dfanout,"$(P)StopAll") {
-      field(VAL, "1")
-      field(OUTA,"$(P)StopAll1.VAL   PP MS")
-      field(OUTB,"$(P)StopAll2.VAL   PP MS")
-}
-record(dfanout,"$(P)StopAll1") {
-      field(OUTA,"$(P)mca1.STOP  PP MS")
-      field(OUTB,"$(P)mca2.STOP  PP MS")
-      field(OUTC,"$(P)mca3.STOP  PP MS")
-      field(OUTD,"$(P)mca4.STOP  PP MS")
-      field(OUTE,"$(P)mca5.STOP  PP MS")
-      field(OUTF,"$(P)mca6.STOP  PP MS")
-      field(OUTG,"$(P)mca7.STOP  PP MS")
-      field(OUTH,"$(P)mca8.STOP  PP MS")
-}
-record(dfanout,"$(P)StopAll2") {
-      field(OUTA,"$(P)mca9.STOP  PP MS")
-      field(OUTB,"$(P)mca10.STOP  PP MS")
-      field(OUTC,"$(P)mca11.STOP  PP MS")
+record(bo,"$(P)$(R)StartAll") {
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT),0)MCA_START_ACQUIRE")
+  field(ZNAM, "Done")
+  field(ONAM, "Start")
+  field(VAL,  "1")
+  field(FLNK, "$(P)$(R)SetAcquiring.PROC")
 }
 
-record(ao,"$(P)InitNuse") {
-      field(DOL, "$(P)mca1.NUSE NPP NMS")
-      field(OMSL,"closed_loop")
-      field(PINI,"YES")
-      field(OUT,"$(P)NuseAll.VAL NPP MS")
+record(bo,"$(P)$(R)SetAcquiring") {
+  field(OUT,  "$(P)$(R)Acquiring PP MS")
+  field(ZNAM, "Done")
+  field(ONAM, "Set")
+  field(VAL,  "1")
+  field(FLNK, "$(P)$(R)SetClientWait.PROC")
 }
 
-record(dfanout,"$(P)NuseAll") {
-      field(VAL, "1")
-      field(OUTA,"$(P)NuseAll1.VAL   PP MS")
-      field(OUTB,"$(P)NuseAll2.VAL   PP MS")
-      field(FLNK,"$(P)SetClientWait")
-}
-record(dfanout,"$(P)NuseAll1") {
-      field(OUTA,"$(P)mca1.NUSE  PP MS")
-      field(OUTB,"$(P)mca2.NUSE  PP MS")
-      field(OUTC,"$(P)mca3.NUSE  PP MS")
-      field(OUTD,"$(P)mca4.NUSE  PP MS")
-      field(OUTE,"$(P)mca5.NUSE  PP MS")
-      field(OUTF,"$(P)mca6.NUSE  PP MS")
-      field(OUTG,"$(P)mca7.NUSE  PP MS")
-      field(OUTH,"$(P)mca8.NUSE  PP MS")
-}
-record(dfanout,"$(P)NuseAll2") {
-      field(OUTA,"$(P)mca9.NUSE  PP MS")
-      field(OUTB,"$(P)mca10.NUSE  PP MS")
-      field(OUTC,"$(P)mca11.NUSE  PP MS")
+record(busy,"$(P)$(R)Acquiring") {
+  field(ZNAM, "Done")
+  field(ONAM, "Acquiring")
 }
 
-record(dfanout,"$(P)StatusAll") {
-      field(SCAN,".1 second")
-      field(DISV,"0")
-      field(SDIS,"$(P)mca1.ACQG NPP NMS")
-      field(VAL, "1")
-      field(OUTA,"$(P)StatusAll1.VAL   PP MS")
-      field(OUTB,"$(P)StatusAll2.VAL   PP MS")
-}
-record(dfanout,"$(P)StatusAll1") {
-      field(OUTA,"$(P)mca1.PROC  PP MS")
-      field(OUTB,"$(P)mca2.PROC  PP MS")
-      field(OUTC,"$(P)mca3.PROC  PP MS")
-      field(OUTD,"$(P)mca4.PROC  PP MS")
-      field(OUTE,"$(P)mca5.PROC  PP MS")
-      field(OUTF,"$(P)mca6.PROC  PP MS")
-      field(OUTG,"$(P)mca7.PROC  PP MS")
-      field(OUTH,"$(P)mca8.PROC  PP MS")
-}
-record(dfanout,"$(P)StatusAll2") {
-      field(OUTA,"$(P)mca9.PROC  PP MS")
-      field(OUTB,"$(P)mca10.PROC  PP MS")
-      field(OUTC,"$(P)mca11.PROC  PP MS")
+record(bo,"$(P)$(R)StopAll") {
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT),0)MCA_STOP_ACQUIRE")
+  field(ZNAM, "Done")
+  field(ONAM, "Stop")
+  field(VAL,  "1")
 }
 
-record(dfanout,"$(P)ReadAll") {
-      field(SCAN,"2 second")
-      field(DISV,"0")
-      field(SDIS,"$(P)mca1.ACQG NPP NMS")
-      field(VAL, "1")
-      field(OUTA,"$(P)ReadAll1.VAL   PP MS")
-      field(OUTB,"$(P)ReadAll2.VAL   PP MS")
-}
-record(dfanout,"$(P)ReadAll1") {
-      field(OUTA,"$(P)mca1.READ  PP MS")
-      field(OUTB,"$(P)mca2.READ  PP MS")
-      field(OUTC,"$(P)mca3.READ  PP MS")
-      field(OUTD,"$(P)mca4.READ  PP MS")
-      field(OUTE,"$(P)mca5.READ  PP MS")
-      field(OUTF,"$(P)mca6.READ  PP MS")
-      field(OUTG,"$(P)mca7.READ  PP MS")
-      field(OUTH,"$(P)mca8.READ  PP MS")
-}
-record(dfanout,"$(P)ReadAll2") {
-      field(OUTA,"$(P)mca9.READ  PP MS")
-      field(OUTB,"$(P)mca10.READ  PP MS")
-      field(OUTC,"$(P)mca11.READ  PP MS")
+record(ao,"$(P)$(R)PresetReal") {
+  field(PINI, "YES")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT),0)MCA_PRESET_REAL")
+  field(VAL,  "0.0")
+  field(PREC, "2")
 }
 
-record(bo,"$(P)EnableClientWait") {
-      field(ZNAM,"Disable")
-      field(ONAM,"Enable")
+record(bi,"$(P)$(R)HardwareAcquiring") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT),0)MCA_ACQUIRING")
+  field(ZNAM, "Done")
+  field(ONAM, "Acquiring")
+  field(SCAN, "I/O Intr")
 }
 
-record(bo,"$(P)SetClientWait") {
-      field(DISV,"0")
-      field(SDIS,"$(P)EnableClientWait NPP NMS")
-      field(OMSL,"closed_loop")
-      field(DOL,"1")
-      field(OUT,"$(P)ClientWait PP MS")
+record(ai,"$(P)$(R)ElapsedReal") {
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT),0)MCA_ELAPSED_REAL")
+  field(PREC, "2")
+  field(SCAN, "I/O Intr")
 }
 
-record(busy,"$(P)ClientWait") {
+record(bo,"$(P)$(R)ReadAll") {
+  field(SCAN, "1 second")
+  field(DISV, "0")
+  field(SDIS, "$(P)$(R)Acquiring NPP NMS")
+  field(ZNAM, "Done")
+  field(ONAM, "Read")
+  field(FLNK, "$(P)$(R)ReadAllOnce")
 }
 
-# NOTE:  The following appear that they might not be necessary, since they
-# just use MCA1.  However, they are needed for the IDL EPICS_MED class, and for
-# generic MEDM screens.  Also, most are set to PINI so that things are put into
-# a known state, and the MEDM screens reflect reality.
-
-record(ao,"$(P)ElapsedReal") {
-      field(OMSL,"closed_loop")
-      field(DOL,"$(P)mca1.ERTM CP MS")
-      field(PREC,"2")
+record(bo,"$(P)$(R)ReadAllOnce") {
+  field(VAL,  "1")
+  field(OUT,  "$(P)$(R)DoReadAll.VAL PP MS")
 }
 
-record(ao,"$(P)ElapsedLive") {
-      field(OMSL,"closed_loop")
-      field(DOL,"$(P)mca1.ELTM CP MS")
-      field(PREC,"2")
+record(bo,"$(P)$(R)DoReadAll") {
+  field(ZNAM, "Done")
+  field(ONAM, "Read")
 }
 
-record(bo,"$(P)Acquiring") {
-      field(OMSL,"closed_loop")
-      field(DOL,"$(P)mca1.ACQG CP MS")
-      field(ZNAM,"Done")
-      field(ONAM,"Acquiring")
+record(longout,"$(P)$(R)NuseAll") {
+  field(PINI, "YES")
+  field(DTYP, "asynInt32")
+  field(VAL,  "$(NCHAN)")
+  field(OUT,  "@asyn($(PORT),0)MCA_NUM_CHANNELS")
 }
 
-record(bo,"$(P)ChannelAdvance") {
+record(longin,"$(P)$(R)CurrentChannel") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT),0)FAST_SWEEP_CURRENT_CHANNEL")
+  field(SCAN, "I/O Intr")
 }
 
-record(dfanout,"$(P)Prescale") {
+record(longin,"$(P)$(R)MaxChannels") {
+  field(PINI, "YES")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT),0)FAST_SWEEP_MAX_CHANNELS")
 }
 
-# NOTE:  In the past we just set the presets for MCA1.  However, all MCAs now send
-# their presets to the driver each time acquisition is started, so they must all agree.
-record(dfanout,"$(P)PresetReal") {
-      field(VAL,"0")
-      field(PINI,"YES")
-      field(PREC,"3")
-      field(OUTA,"$(P)PresetReal1.VAL  PP MS")
-      field(OUTB,"$(P)PresetReal2.VAL  PP MS")
-}
-record(dfanout,"$(P)PresetReal1") {
-      field(OUTA,"$(P)mca1.PRTM  PP MS")
-      field(OUTB,"$(P)mca2.PRTM  PP MS")
-      field(OUTC,"$(P)mca3.PRTM  PP MS")
-      field(OUTD,"$(P)mca4.PRTM  PP MS")
-      field(OUTE,"$(P)mca5.PRTM  PP MS")
-      field(OUTF,"$(P)mca6.PRTM  PP MS")
-      field(OUTG,"$(P)mca7.PRTM  PP MS")
-      field(OUTH,"$(P)mca8.PRTM  PP MS")
-}
-record(dfanout,"$(P)PresetReal2") {
-      field(OUTA,"$(P)mca9.PRTM  PP MS")
-      field(OUTB,"$(P)mca10.PRTM  PP MS")
-      field(OUTC,"$(P)mca11.PRTM  PP MS")
+record(ao,"$(P)$(R)Dwell") {
+  field(PINI, "YES")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT),0)MCA_DWELL_TIME")
+  field(VAL,  "0.1")
+  field(PREC, "3")
 }
 
-record(dfanout,"$(P)PresetLive") {
-      field(VAL,"0")
-      field(PINI,"YES")
-      field(PREC,"3")
-      field(OUTA,"$(P)PresetLive1.VAL   PP MS")
-      field(OUTB,"$(P)PresetLive2.VAL   PP MS")
-}
-record(dfanout,"$(P)PresetLive1") {
-      field(OUTA,"$(P)mca1.PLTM  PP MS")
-      field(OUTB,"$(P)mca2.PLTM  PP MS")
-      field(OUTC,"$(P)mca3.PLTM  PP MS")
-      field(OUTD,"$(P)mca4.PLTM  PP MS")
-      field(OUTE,"$(P)mca5.PLTM  PP MS")
-      field(OUTF,"$(P)mca6.PLTM  PP MS")
-      field(OUTG,"$(P)mca7.PLTM  PP MS")
-      field(OUTH,"$(P)mca8.PLTM  PP MS")
-}
-record(dfanout,"$(P)PresetLive2") {
-      field(OUTA,"$(P)mca9.PLTM  PP MS")
-      field(OUTB,"$(P)mca10.PLTM  PP MS")
-      field(OUTC,"$(P)mca11.PLTM  PP MS")
+record(ai,"$(P)$(R)Dwell_RBV") {
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT),0)MCA_DWELL_TIME")
+  field(PREC, "3")
+  field(SCAN, "I/O Intr")
 }
 
-record(dfanout,"$(P)Dwell") {
-      field(VAL,"0.1")
-      field(PINI,"YES")
-      field(PREC,"3")
-      field(OUTA,"$(P)Dwell1.VAL   PP MS")
-      field(OUTB,"$(P)Dwell2.VAL   PP MS")
-}
-record(dfanout,"$(P)Dwell1") {
-      field(OUTA,"$(P)mca1.DWEL  PP MS")
-      field(OUTB,"$(P)mca2.DWEL  PP MS")
-      field(OUTC,"$(P)mca3.DWEL  PP MS")
-      field(OUTD,"$(P)mca4.DWEL  PP MS")
-      field(OUTE,"$(P)mca5.DWEL  PP MS")
-      field(OUTF,"$(P)mca6.DWEL  PP MS")
-      field(OUTG,"$(P)mca7.DWEL  PP MS")
-      field(OUTH,"$(P)mca8.DWEL  PP MS")
-}
-record(dfanout,"$(P)Dwell2") {
-      field(OUTA,"$(P)mca9.DWEL  PP MS")
-      field(OUTB,"$(P)mca10.DWEL  PP MS")
-      field(OUTC,"$(P)mca11.DWEL  PP MS")
+record(ao,"$(P)$(R)PresetReal") {
+  field(PINI, "YES")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT),0)MCA_PRESET_REAL")
+  field(VAL,  "0")
+  field(PREC, "3")
 }
 
-record(ai,"$(P)Dwell_RBV") {
-      field(INP,"$(P)mca1.DWEL CP")
-      field(PREC, "3")
-}
-
-record(mca,"$(P)mca1")
+record(mca,"$(P)$(R)mca1")
 {
     field(DESC, "Current 1")
     field(DTYP, "asynMCA")
@@ -292,7 +163,7 @@ record(mca,"$(P)mca1")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 0)")
 }
-record(mca,"$(P)mca2")
+record(mca,"$(P)$(R)mca2")
 {
     field(DESC, "Current 2")
     field(DTYP, "asynMCA")
@@ -302,7 +173,7 @@ record(mca,"$(P)mca2")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 1)")
 }
-record(mca,"$(P)mca3")
+record(mca,"$(P)$(R)mca3")
 {
     field(DESC, "Current 3")
     field(DTYP, "asynMCA")
@@ -312,7 +183,7 @@ record(mca,"$(P)mca3")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 2)")
 }
-record(mca,"$(P)mca4")
+record(mca,"$(P)$(R)mca4")
 {
     field(DESC, "Current 4")
     field(DTYP, "asynMCA")
@@ -322,7 +193,7 @@ record(mca,"$(P)mca4")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 3)")
 }
-record(mca,"$(P)mca5")
+record(mca,"$(P)$(R)mca5")
 {
     field(DESC, "Sum 1+2")
     field(DTYP, "asynMCA")
@@ -332,7 +203,7 @@ record(mca,"$(P)mca5")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 4)")
 }
-record(mca,"$(P)mca6")
+record(mca,"$(P)$(R)mca6")
 {
     field(DESC, "Sum 3+4")
     field(DTYP, "asynMCA")
@@ -342,7 +213,7 @@ record(mca,"$(P)mca6")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 5)")
 }
-record(mca,"$(P)mca7")
+record(mca,"$(P)$(R)mca7")
 {
     field(DESC, "Sum 1+2+3+4")
     field(DTYP, "asynMCA")
@@ -352,7 +223,7 @@ record(mca,"$(P)mca7")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 6)")
 }
-record(mca,"$(P)mca8")
+record(mca,"$(P)$(R)mca8")
 {
     field(DESC, "Difference 2-1")
     field(DTYP, "asynMCA")
@@ -362,7 +233,7 @@ record(mca,"$(P)mca8")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 7)")
 }
-record(mca,"$(P)mca9")
+record(mca,"$(P)$(R)mca9")
 {
     field(DESC, "Difference 4-3")
     field(DTYP, "asynMCA")
@@ -372,7 +243,7 @@ record(mca,"$(P)mca9")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 8)")
 }
-record(mca,"$(P)mca10")
+record(mca,"$(P)$(R)mca10")
 {
     field(DESC, "Position 1&2")
     field(DTYP, "asynMCA")
@@ -382,7 +253,7 @@ record(mca,"$(P)mca10")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 9)")
 }
-record(mca,"$(P)mca11")
+record(mca,"$(P)$(R)mca11")
 {
     field(DESC, "Position 3&4")
     field(DTYP, "asynMCA")
@@ -392,10 +263,34 @@ record(mca,"$(P)mca11")
     field(PREC, "3")
     field(INP,  "@asyn($(PORT) 10)")
 }
-record(waveform,"$(P)Xaxis")
+record(waveform,"$(P)$(R)Xaxis")
 {
     field(DESC, "X axis data")
     field(NELM, "$(NCHAN)")
-    field(FTVL, "FLOAT")
+    field(FTVL, "DOUBLE")
     field(PREC, "3")
+}
+
+record(bo,"$(P)$(R)EnableClientWait") {
+  field(PINI, "YES")
+  field(ZNAM, "Disable")
+  field(ONAM, "Enable")
+}
+
+record(bo,"$(P)$(R)SetClientWait") {
+  field(DISV, "0")
+  field(SDIS, "$(P)$(R)EnableClientWait NPP NMS")
+  field(OMSL, "closed_loop")
+  field(DOL,  "1")
+  field(OUT,  "$(P)$(R)ClientWait PP MS")
+  field(ONAM, "SetClientWait")
+  field(ZNAM, "Done")
+}
+
+record(busy,"$(P)$(R)ClientWait") {
+}
+
+# asyn record for debugging
+record(asyn, "$(P)$(R)Asyn") {
+  field(PORT, "$(PORT)")
 }
