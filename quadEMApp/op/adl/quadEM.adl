@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=254
-		y=59
-		width=430
-		height=375
+		x=60
+		y=24
+		width=490
+		height=420
 	}
 	clr=14
 	bclr=3
@@ -91,7 +91,7 @@ rectangle {
 	object {
 		x=0
 		y=0
-		width=440
+		width=490
 		height=26
 	}
 	"basic attribute" {
@@ -102,7 +102,7 @@ polyline {
 	object {
 		x=-1
 		y=27
-		width=440
+		width=489
 		height=3
 	}
 	"basic attribute" {
@@ -112,7 +112,7 @@ polyline {
 	}
 	points {
 		(0,28)
-		(437,28)
+		(486,28)
 	}
 }
 text {
@@ -138,77 +138,6 @@ text {
 		clr=14
 	}
 	textix="Quad Electrometer"
-}
-composite {
-	object {
-		x=8
-		y=33
-		width=381
-		height=20
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=199
-				y=33
-				width=20
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="3"
-		}
-		text {
-			object {
-				x=369
-				y=33
-				width=20
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix=" 4"
-		}
-		text {
-			object {
-				x=114
-				y=33
-				width=20
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="1"
-		}
-		text {
-			object {
-				x=284
-				y=33
-				width=20
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="2"
-		}
-		text {
-			object {
-				x=8
-				y=33
-				width=70
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Diode #"
-		}
-	}
 }
 text {
 	object {
@@ -361,7 +290,320 @@ text {
 text {
 	object {
 		x=8
-		y=108
+		y=240
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Integration time"
+}
+text {
+	object {
+		x=78
+		y=340
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Ping pong"
+}
+text {
+	object {
+		x=118
+		y=265
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Range"
+}
+text {
+	object {
+		x=98
+		y=290
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Acquire"
+}
+text {
+	object {
+		x=118
+		y=365
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Reset"
+}
+text {
+	object {
+		x=98
+		y=315
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger"
+}
+menu {
+	object {
+		x=172
+		y=340
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)PingPong"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=172
+		y=265
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Range"
+		clr=14
+		bclr=51
+	}
+}
+"choice button" {
+	object {
+		x=172
+		y=290
+		width=150
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Acquire"
+		clr=14
+		bclr=51
+	}
+	stacking="column"
+}
+"message button" {
+	object {
+		x=172
+		y=365
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Reset.PROC"
+		clr=14
+		bclr=51
+	}
+	label="Reset"
+	press_msg="1"
+}
+menu {
+	object {
+		x=172
+		y=315
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Trigger"
+		clr=14
+		bclr=51
+	}
+}
+composite {
+	object {
+		x=172
+		y=240
+		width=184
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=172
+				y=240
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)IntegrationTime"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=257
+				y=240
+				width=99
+				height=20
+			}
+			control {
+				chan="$(P)$(R)IntegrationTime"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+	}
+}
+"text update" {
+	object {
+		x=366
+		y=241
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)IntegrationTime_RBV"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=366
+		y=266
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Range_RBV"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=366
+		y=291
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Acquire_RBV"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=366
+		y=316
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Trigger_RBV"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=366
+		y=341
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)PingPong_RBV"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+text {
+	object {
+		x=78
+		y=390
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Read rate"
+}
+composite {
+	object {
+		x=172
+		y=390
+		width=165
+		height=20
+	}
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=172
+				y=390
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Read.SCAN"
+				clr=14
+				bclr=51
+			}
+		}
+		"message button" {
+			object {
+				x=277
+				y=390
+				width=60
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Read.PROC"
+				clr=14
+				bclr=51
+			}
+			label="Process"
+			press_msg="1"
+		}
+	}
+}
+text {
+	object {
+		x=8
+		y=133
 		width=30
 		height=20
 	}
@@ -373,7 +615,7 @@ text {
 "text update" {
 	object {
 		x=131
-		y=108
+		y=133
 		width=70
 		height=20
 	}
@@ -389,7 +631,7 @@ text {
 "text update" {
 	object {
 		x=302
-		y=108
+		y=133
 		width=70
 		height=20
 	}
@@ -405,7 +647,7 @@ text {
 text {
 	object {
 		x=8
-		y=133
+		y=158
 		width=100
 		height=20
 	}
@@ -417,7 +659,7 @@ text {
 "text update" {
 	object {
 		x=131
-		y=133
+		y=158
 		width=70
 		height=20
 	}
@@ -433,7 +675,7 @@ text {
 "text update" {
 	object {
 		x=302
-		y=133
+		y=158
 		width=70
 		height=20
 	}
@@ -449,7 +691,7 @@ text {
 text {
 	object {
 		x=8
-		y=158
+		y=183
 		width=80
 		height=20
 	}
@@ -461,7 +703,7 @@ text {
 "text update" {
 	object {
 		x=131
-		y=158
+		y=183
 		width=70
 		height=20
 	}
@@ -477,7 +719,7 @@ text {
 "text update" {
 	object {
 		x=302
-		y=158
+		y=183
 		width=70
 		height=20
 	}
@@ -492,234 +734,113 @@ text {
 }
 text {
 	object {
+		x=199
+		y=33
+		width=20
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="2"
+}
+text {
+	object {
+		x=369
+		y=33
+		width=20
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix=" 4"
+}
+text {
+	object {
+		x=114
+		y=33
+		width=20
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="1"
+}
+text {
+	object {
+		x=284
+		y=33
+		width=20
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="3"
+}
+text {
+	object {
 		x=8
-		y=190
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Integration time"
-}
-text {
-	object {
-		x=78
-		y=315
-		width=90
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Ping pong"
-}
-text {
-	object {
-		x=78
-		y=265
-		width=90
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Read rate"
-}
-text {
-	object {
-		x=118
-		y=215
-		width=50
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Range"
-}
-text {
-	object {
-		x=98
-		y=240
+		y=33
 		width=70
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Acquire"
+	textix="Diode #"
 }
 text {
 	object {
-		x=118
-		y=340
-		width=50
+		x=151
+		y=110
+		width=30
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Reset"
+	textix="1&2"
 }
 text {
 	object {
-		x=98
-		y=290
+		x=322
+		y=110
+		width=30
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="3&4"
+}
+text {
+	object {
+		x=408
+		y=110
 		width=70
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Trigger"
+	textix="1&2&3&4"
 }
-menu {
+"text update" {
 	object {
-		x=173
-		y=315
-		width=60
+		x=408
+		y=133
+		width=70
 		height=20
 	}
-	control {
-		chan="$(P)$(R)PingPong"
-		clr=14
-		bclr=51
+	monitor {
+		chan="$(P)$(R)Sum1234"
+		clr=54
+		bclr=3
 	}
-}
-menu {
-	object {
-		x=173
-		y=215
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Range"
-		clr=14
-		bclr=51
-	}
-}
-"choice button" {
-	object {
-		x=173
-		y=240
-		width=150
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Acquire"
-		clr=14
-		bclr=51
-	}
-	stacking="column"
-}
-"message button" {
-	object {
-		x=173
-		y=340
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Reset.PROC"
-		clr=14
-		bclr=51
-	}
-	label="Reset"
-	press_msg="1"
-}
-menu {
-	object {
-		x=173
-		y=290
-		width=60
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Trigger"
-		clr=14
-		bclr=51
-	}
-}
-composite {
-	object {
-		x=173
-		y=265
-		width=165
-		height=20
-	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=173
-				y=265
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Read.SCAN"
-				clr=14
-				bclr=51
-			}
-		}
-		"message button" {
-			object {
-				x=278
-				y=265
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Read.PROC"
-				clr=14
-				bclr=51
-			}
-			label="Process"
-			press_msg="1"
-		}
-	}
-}
-composite {
-	object {
-		x=173
-		y=190
-		width=184
-		height=20
-	}
-	"composite name"=""
-	children {
-		"text entry" {
-			object {
-				x=173
-				y=190
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)IntegrationTime"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		valuator {
-			object {
-				x=258
-				y=190
-				width=99
-				height=20
-			}
-			control {
-				chan="$(P)$(R)IntegrationTime"
-				clr=14
-				bclr=51
-			}
-			dPrecision=1.000000
-			limits {
-			}
-		}
+	align="horiz. right"
+	limits {
 	}
 }
