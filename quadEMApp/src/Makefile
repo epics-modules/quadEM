@@ -19,6 +19,7 @@ INC += drvQuadEM.h
 # The following are compiled and added to the Support library
 quadEM_SRCS         += drvQuadEM.cpp
 quadEM_SRCS         += drvAH401B.cpp
+quadEM_SRCS         += quadEM_SNL.st
 quadEM_SRCS_vxWorks += drvAPS_EM.cpp
 
 # The following builds a test application
