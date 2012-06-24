@@ -42,7 +42,7 @@ typedef enum {
 /* This defines the scale factor for integer positions, which preserves 20 bit resolution */
 #define QE_POSITION_SCALE 1048576
 
-/** Bse class to control the quad electrometer */
+/** Base class to control the quad electrometer */
 class drvQuadEM : public asynPortDriver {
 public:
     drvQuadEM(const char *portName, int numParams);
@@ -73,8 +73,8 @@ protected:
     virtual asynStatus setRange(epicsInt32 value) = 0;
     virtual asynStatus setReset() = 0;
     virtual asynStatus setTrigger(epicsInt32 value) = 0;
- 
-};
+    virtual asynStatus getSettings() = 0;
+ };
 
 
 #define NUM_QE_PARAMS (&LAST_QE_COMMAND - &FIRST_QE_COMMAND + 1)
