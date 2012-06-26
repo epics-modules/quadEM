@@ -1,18 +1,18 @@
 # quadEM_TimeSeries.template
 # Author:  Mark Rivers
 # Date:    Nov. 12, 2003
-# This is a database for the MCA records in quadEM.  There are 11 total:
-# mca1  = diode current 1
-# mca2  = diode current 2
-# mca3  = diode current 3
-# mca4  = diode current 4
-# mca5  = sum 1+2
-# mca6  = sum 3+4
-# mca7  = sum 1+2+3+4
-# mca8  = difference 2-1
-# mca9  = difference 4-3
-# mca10 = position (2-1)/(2+1)
-# mca11 = position (4-3)/(4+3)
+# This is a database for TimeSeries and FFTs quadEM.  There are 22 total:
+# TimeSeries1  = diode current 1
+# TimeSeries2  = diode current 2
+# TimeSeries3  = diode current 3
+# TimeSeries4  = diode current 4
+# TimeSeries5  = sum 1+2
+# TimeSeries6  = sum 3+4
+# TimeSeries7  = sum 1+2+3+4
+# TimeSeries8  = difference 2-1
+# TimeSeries9  = difference 4-3
+# TimeSeries10 = position (2-1)/(2+1)
+# TimeSeries11 = position (4-3)/(4+3)
 
 record(bi,"$(P)$(R)SNL_Connected") {
   field(ZNAM, "Not connected")
@@ -114,7 +114,7 @@ record(bo,"$(P)$(R)DoReadAll") {
 record(longout,"$(P)$(R)NuseAll") {
   field(PINI, "YES")
   field(DTYP, "asynInt32")
-  field(VAL,  "$(NCHAN)")
+  field(VAL,  "$(NUM_TS)")
   field(OUT,  "@asyn($(PORT),0)MCA_NUM_CHANNELS")
 }
 
@@ -153,121 +153,221 @@ record(ao,"$(P)$(R)PresetReal") {
   field(PREC, "3")
 }
 
-record(mca,"$(P)$(R)mca1")
+record(bo,"$(P)$(R)AutoRestartTS")
+{
+    field(DESC, "Auto restart time series")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+}
+
+record(waveform,"$(P)$(R)Current1TS")
 {
     field(DESC, "Current 1")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 0)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 0)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca2")
+
+record(waveform,"$(P)$(R)Current2TS")
 {
     field(DESC, "Current 2")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 1)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 1)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca3")
+
+record(waveform,"$(P)$(R)Current3TS")
 {
     field(DESC, "Current 3")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 2)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 2)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca4")
+
+record(waveform,"$(P)$(R)Current4TS")
 {
     field(DESC, "Current 4")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 3)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 3)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca5")
+
+record(waveform,"$(P)$(R)Sum12TS")
 {
     field(DESC, "Sum 1+2")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 4)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 4)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca6")
+
+record(waveform,"$(P)$(R)Sum34TS")
 {
     field(DESC, "Sum 3+4")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 5)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 5)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca7")
+
+record(waveform,"$(P)$(R)Sum1234TS")
 {
     field(DESC, "Sum 1+2+3+4")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 6)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 6)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca8")
+
+record(waveform,"$(P)$(R)Diff12TS")
 {
     field(DESC, "Difference 2-1")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 7)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 7)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca9")
+
+record(waveform,"$(P)$(R)Diff34TS")
 {
     field(DESC, "Difference 4-3")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 8)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 8)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca10")
+
+record(waveform,"$(P)$(R)Position12TS")
 {
     field(DESC, "Position 1&2")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 9)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 9)MCA_DATA")
 }
-record(mca,"$(P)$(R)mca11")
+
+record(waveform,"$(P)$(R)Position34TS")
 {
     field(DESC, "Position 3&4")
-    field(DTYP, "asynMCA")
+    field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
-    field(NMAX, "$(NCHAN)")
-    field(NUSE, "$(NCHAN)")
-    field(PREC, "3")
-    field(INP,  "@asyn($(PORT) 10)")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "LONG")
+    field(INP,  "@asyn($(PORT) 10)MCA_DATA")
 }
-record(waveform,"$(P)$(R)Xaxis")
+
+record(waveform,"$(P)$(R)TimeAxis")
 {
-    field(DESC, "X axis data")
-    field(NELM, "$(NCHAN)")
-    field(FTVL, "DOUBLE")
+    field(DESC, "Time axis data")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "FLOAT")
+    field(PREC, "3")
+}
+
+# FFT records
+record(bo,"$(P)$(R)ComputeFFT")
+{
+    field(DESC, "Compute FFTs")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+}
+
+record(waveform,"$(P)$(R)Current1FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Current2FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Current3FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Current4FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Sum12FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Sum34FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Sum1234FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Diff12FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Diff34FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Position12FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)Position34FFT")
+{
+    field(DESC, "Current 1 FFT")
+    field(NELM, "$(NUM_FREQ)")
+    field(FTVL, "FLOAT")
+}
+
+record(waveform,"$(P)$(R)FreqAxis")
+{
+    field(DESC, "Frequency axis data")
+    field(NELM, "$(NUM_TS)")
+    field(FTVL, "FLOAT")
     field(PREC, "3")
 }
 
