@@ -5,8 +5,8 @@ file {
 }
 display {
 	object {
-		x=334
-		y=152
+		x=451
+		y=32
 		width=159
 		height=41
 	}
@@ -113,7 +113,7 @@ text {
 	}
 	display[1] {
 		label="AH401B time series"
-		name="quadEM_med.adl"
+		name="quadEM_TimeSeries.adl"
 		args="P=quadEMTest:QE1:,P_FFT=quadEMTest:QE1_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
 	}
 	clr=14
