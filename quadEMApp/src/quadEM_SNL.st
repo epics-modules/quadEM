@@ -1,6 +1,6 @@
-program quadEM_SNL("P=quadEMTest:, R=QE1:, ARRAY=mca, NUM_SIGNALS=11, NUM_CHANNELS=2048, FIELD=READ")
+program quadEM_SNL("P=quadEMTest:, R=QE1:")
 
-/*  This sequencer program works with quadEM_TimeSeries.template and quadEM_FFT.template
+/*  This sequencer program works with quadEM_TimeSeries.template
  *  It does the following:
  *  Forces all the mca or waveform records to read when the ReadAll PV processes or when acquisition completes
  *  Constructs the time-base array when the dwell time changes
@@ -20,58 +20,75 @@ option -c;
 %%#include <stdlib.h>
 %%#include <errlog.h>
 %%#include <string.h>
+%%#include <math.h>
+
+%%extern void four1(float data[], unsigned long nn, int isign);
+
 
 /* Maximum number of detectors supported */
 #define MAX_SIGNALS 11
 #define MAX_CHANNELS 2048
 
-int i;
-int n;
-int numSignals;
-int numChannels;
-char temp[100];
+int     Acquiring; assign Acquiring to "{P}{R}Acquiring";
 
-char *prefix;
-char *record;
-char *array;
-char *field;
+int     EraseStart; assign EraseStart to "{P}{R}EraseStart";
 
-int     ReadArray[MAX_SIGNALS]; 
-assign  ReadArray to
-          {"","","","","","",
-           "","","","",""};
-int     ReadArrays; assign ReadArrays to "{P}{R}DoReadAll";
-monitor ReadArrays; evflag ReadArraysMon; sync ReadArrays ReadArraysMon;
+int     NumChannels; assign NumChannels to "{P}{R}NuseAll"; 
+monitor NumChannels; evflag NumChannelsMon; sync NumChannels NumChannelsMon;
 
-double  TimeArray[MAX_CHANNELS];
-assign  TimeArray to "{P}{R}Xaxis";
+int     TimeSeriesProc[MAX_SIGNALS]; 
+assign  TimeSeriesProc to
+          {"{P}{R}Current1TS.PROC","{P}{R}Current2TS.PROC","{P}{R}Current2TS.PROC","{P}{R}Current2TS.PROC",
+           "{P}{R}Sum12TS.PROC","{P}{R}Sum34TS.PROC","{P}{R}Sum1234TS.PROC",
+           "{P}{R}Diff12TS.PROC","{P}{R}Diff34TS.PROC","{P}{R}Position12TS.PROC","{P}{R}Position34TS.PROC"};
 
-double  DwellTime; assign DwellTime to "{P}{R}Dwell";
+int     TimeSeriesData[MAX_SIGNALS][MAX_CHANNELS]; 
+assign  TimeSeriesData to
+          {"{P}{R}Current1TS.VAL","{P}{R}Current2TS.VAL","{P}{R}Current2TS.VAL","{P}{R}Current2TS.VAL",
+            "{P}{R}Sum12TS.VAL","{P}{R}Sum34TS.VAL", "{P}{R}Sum1234TS.VAL",
+            "{P}{R}Diff12TS.VAL","{P}{R}Diff34TS.VAL","{P}{R}Position12TS.VAL","{P}{R}Position34TS.VAL"};
+
+int     ReadTimeSeries; assign ReadTimeSeries to "{P}{R}DoReadAll";
+monitor ReadTimeSeries; evflag ReadTimeSeriesMon; sync ReadTimeSeries ReadTimeSeriesMon;
+
+float   FFTData[MAX_SIGNALS][MAX_CHANNELS]; 
+assign  FFTData to
+          {"{P}{R}Current1FFT.VAL","{P}{R}Current2FFT.VAL","{P}{R}Current2FFT.VAL","{P}{R}Current2FFT.VAL",
+            "{P}{R}Sum12FFT.VAL","{P}{R}Sum34FFT.VAL", "{P}{R}Sum1234FFT.VAL",
+            "{P}{R}Diff12FFT.VAL","{P}{R}Diff34FFT.VAL","{P}{R}Position12FFT.VAL","{P}{R}Position34FFT.VAL"};
+
+float   TimeArray[MAX_CHANNELS];
+assign  TimeArray to "{P}{R}TimeAxis";
+
+float   FreqArray[MAX_CHANNELS];
+assign  FreqArray to "{P}{R}FreqAxis";
+
+double  DwellTime; assign DwellTime to "{P}{R}Dwell_RBV";
 monitor DwellTime; evflag DwellTimeMon; sync DwellTime DwellTimeMon;
 
 int     HardwareAcquiring; assign HardwareAcquiring to "{P}{R}HardwareAcquiring";
 monitor HardwareAcquiring; evflag HardwareAcquiringMon; sync HardwareAcquiring HardwareAcquiringMon;
 
+int     ComputeFFT; assign ComputeFFT to "{P}{R}ComputeFFT";
+monitor ComputeFFT;
+
+int     AutoRestart; assign AutoRestart to "{P}{R}AutoRestartTS";
+monitor AutoRestart;
+
 int     SNL_Connected;  assign SNL_Connected      to "{P}{R}SNL_Connected";
+
 int     AsynDebug;      assign AsynDebug          to "{P}{R}Asyn.TB1";
 monitor AsynDebug;
 
-int Acquiring; assign Acquiring to "{P}{R}Acquiring";
+int i;
+int j;
+int n;
+float   freqStep;
+float   tempData[4096];
 
 ss mca_control {
   state init {
     when() {
-      prefix = macValueGet("P");
-      record = macValueGet("R");
-      array = macValueGet("ARRAY");
-      field = macValueGet("FIELD");
-      numSignals = atoi(macValueGet("NUM_SIGNALS"));
-      numChannels = atoi(macValueGet("NUM_CHANNELS"));
-      for (i=0; i<numSignals; i++) {
-        n = i+1;
-        sprintf(temp, "%s%s%s%d.%s", prefix, record, array, n, field);
-        pvAssign(ReadArray[i], temp);
-       }
     } state waitConnected
   }
 
@@ -88,22 +105,27 @@ ss mca_control {
       printf ("SIS: Not all channels connected.\n");
     } state waitConnected
 
-    when(efTestAndClear(DwellTimeMon)) {
+    when(efTestAndClear(DwellTimeMon) || efTestAndClear(NumChannelsMon)) {
       if (AsynDebug) printf("quadEM_SNL.st: Computing time array\n");
-      for (i=0; i<numChannels; i++) {
+      for (i=0; i<MAX_CHANNELS; i++) {
         TimeArray[i] = i*DwellTime;
       }
       pvPut(TimeArray);
+      freqStep = 1./DwellTime/(NumChannels-2);
+      for (i=0; i<MAX_CHANNELS; i++) {
+        FreqArray[i] = i*freqStep;
+      }
+      pvPut(FreqArray);
     } state monitor_changes
 
-    when(efTestAndClear(ReadArraysMon) && (ReadArrays == 1)) {
+    when(efTestAndClear(ReadTimeSeriesMon) && (ReadTimeSeries == 1)) {
       if (AsynDebug) printf("quadEM_SNL.st: Read array data\n");
-      for (i=0; i<numSignals; i++) {
-        ReadArray[i] = 1;
-        pvPut(ReadArray[i]);
+      for (i=0; i<MAX_SIGNALS; i++) {
+        TimeSeriesProc[i] = 1;
+        pvPut(TimeSeriesProc[i]);
       }
-      ReadArrays = 0;
-      pvPut(ReadArrays);
+      ReadTimeSeries = 0;
+      pvPut(ReadTimeSeries);
     } state monitor_changes
 
     when(efTestAndClear(HardwareAcquiringMon)) {
@@ -111,13 +133,37 @@ ss mca_control {
       /* If the detector is acquiring then force each record to read status */
       if (!HardwareAcquiring) {
         /* If the detector is done then force each record to read data */
-        for (i=0; i<numSignals; i++) {
-          ReadArray[i] = 1;
-          pvPut(ReadArray[i], SYNC);
+        for (i=0; i<MAX_SIGNALS; i++) {
+          TimeSeriesProc[i] = 1;
+          pvPut(TimeSeriesProc[i], SYNC);
         }
+        if (ComputeFFT) {
+          /* Compute the FFTs of each array */
+          for (i=0; i<MAX_SIGNALS; i++) {
+            pvGet(TimeSeriesData[i]);
+            memset(tempData, 0, MAX_CHANNELS*4);
+            for (j=0; j<NumChannels; j++) {
+              tempData[2*j] = TimeSeriesData[i][j];
+              tempData[2*j+1] = 0.;
+            }
+            four1(tempData-1, NumChannels, 1);
+            memset(FFTData[i], 0, MAX_CHANNELS*4);
+            /* Start at 1 so we don't copy DC offset which messes up scaling of plots */
+            for (j=1; j<NumChannels/2; j++) {
+              FFTData[i][j] = sqrt((tempData[2*j]*tempData[2*j] + 
+                                    tempData[2*j+1]*tempData[2*j+1])
+                                    / (NumChannels * NumChannels));
+            }
+            pvPut(FFTData[i]);
+          }
+        }          
         /* Clear the Acquiring busy record */
         Acquiring = 0;
         pvPut(Acquiring);
+        if (AutoRestart) {
+          EraseStart = 1;
+          pvPut(EraseStart);
+        }
       }
     } state monitor_changes
   }
