@@ -1,7 +1,7 @@
 
 file {
-	name="C:\Program Files\EPICS\adls\quadEM_plotAll.adl"
-	version=020306
+	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM_plotAll.adl"
+	version=030105
 }
 display {
 	object {
@@ -139,7 +139,7 @@ composite {
 	style="line"
 	erase_oldest="plot last n pts"
 	trace[0] {
-		xdata="$(P)Xaxis"
+		xdata="$(P)$(XAXIS)"
 		ydata="$(P)$(CURR1).VAL"
 		data_clr=27
 	}
@@ -182,7 +182,7 @@ text {
 	style="line"
 	erase_oldest="plot last n pts"
 	trace[0] {
-		xdata="$(P)Xaxis"
+		xdata="$(P)$(XAXIS)"
 		ydata="$(P)$(CURR2).VAL"
 		data_clr=27
 	}
@@ -225,7 +225,7 @@ text {
 	style="line"
 	erase_oldest="plot last n pts"
 	trace[0] {
-		xdata="$(P)Xaxis"
+		xdata="$(P)$(XAXIS)"
 		ydata="$(P)$(SUM).VAL"
 		data_clr=27
 	}
@@ -268,7 +268,7 @@ text {
 	style="line"
 	erase_oldest="plot last n pts"
 	trace[0] {
-		xdata="$(P)Xaxis"
+		xdata="$(P)$(XAXIS)"
 		ydata="$(P)$(POS).VAL"
 		data_clr=27
 	}
