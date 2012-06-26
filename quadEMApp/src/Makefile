@@ -20,6 +20,7 @@ INC += drvQuadEM.h
 quadEM_SRCS         += drvQuadEM.cpp
 quadEM_SRCS         += drvAH401B.cpp
 quadEM_SRCS         += quadEM_SNL.st
+quadEM_SRCS         += four1.c
 quadEM_SRCS_vxWorks += drvAPS_EM.cpp
 
 # The following builds a test application
