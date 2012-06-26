@@ -3,6 +3,8 @@ $(P)$(R)ReadAll.SCAN
 $(P)$(R)NuseAll
 $(P)$(R)Dwell
 $(P)$(R)PresetReal
+$(P)$(R)AutoRestartTS
+$(P)$(R)ComputeFFT
 $(P)$(R)EnableClientWait
 
 
