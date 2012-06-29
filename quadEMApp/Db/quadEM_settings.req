@@ -3,8 +3,12 @@ $(P)$(R)Range
 $(P)$(R)PingPong
 $(P)$(R)IntegrationTime
 $(P)$(R)Trigger
-$(P)$(R)Offset1
-$(P)$(R)Offset2
-$(P)$(R)Offset3
-$(P)$(R)Offset4
+$(P)$(R)CurrentOffset1
+$(P)$(R)CurrentOffset2
+$(P)$(R)CurrentOffset3
+$(P)$(R)CurrentOffset4
+$(P)$(R)PositionOffset12
+$(P)$(R)PositionOffset34
+$(P)$(R)PositionScale12
+$(P)$(R)PositionScale34
 $(P)$(R)Read.SCAN
