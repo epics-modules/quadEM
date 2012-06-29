@@ -41,6 +41,8 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
     
     createParam(P_AcquireString,            asynParamInt32,         &P_Acquire);
     createParam(P_CurrentOffsetString,      asynParamInt32,         &P_CurrentOffset);
+    createParam(P_PositionOffsetString,     asynParamInt32,         &P_PositionOffset);
+    createParam(P_PositionScaleString,      asynParamInt32,         &P_PositionScale);
     createParam(P_DataString,               asynParamInt32,         &P_Data);
     createParam(P_DoubleDataString,         asynParamFloat64,       &P_DoubleData);
     createParam(P_IntArrayDataString,       asynParamInt32Array,    &P_IntArrayData);
@@ -56,22 +58,31 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
     /* This function computes the sums, diffs and positions, and does callbacks */
 
     int i;
-    epicsInt32 offset[QE_MAX_INPUTS];
+    epicsInt32 currentOffset[QE_MAX_INPUTS];
+    epicsInt32 positionOffset[2];
+    epicsInt32 positionScale[2];
     epicsInt32 data[QE_MAX_DATA];
     epicsFloat64 doubleData[QE_MAX_DATA];
     static const char *functionName = "computePositions";
     
     for (i=0; i<QE_MAX_INPUTS; i++) {
-        getIntegerParam(i, P_CurrentOffset, &offset[i]);
-        data[i] = raw[i] - offset[i];
+        getIntegerParam(i, P_CurrentOffset, &currentOffset[i]);
+        data[i] = raw[i] - currentOffset[i];
     }
+    for (i=0; i<2; i++) {
+        getIntegerParam(i, P_PositionOffset, &positionOffset[i]);
+        getIntegerParam(i, P_PositionScale, &positionScale[i]);
+    }
+    
     data[QESum12] = data[QECurrent1] + data[QECurrent2];
     data[QESum34] = data[QECurrent3] + data[QECurrent4];
     data[QESum1234] = data[QESum12] + data[QESum34];
     data[QEDiff12] = data[QECurrent2] - data[QECurrent1];
     data[QEDiff34] = data[QECurrent4] - data[QECurrent3];
-    data[QEPosition12] = (epicsInt32)((QE_POSITION_SCALE * data[QEDiff12] / (double)data[QESum12]) + 0.5);
-    data[QEPosition34] = (epicsInt32)((QE_POSITION_SCALE * data[QEDiff34] / (double)data[QESum34]) + 0.5);
+    data[QEPosition12] = (epicsInt32)((positionScale[0] * data[QEDiff12] / (double)data[QESum12]) +
+                                       positionOffset[0] + 0.5);
+    data[QEPosition34] = (epicsInt32)((positionScale[1] * data[QEDiff34] / (double)data[QESum34]) +
+                                       positionOffset[1] + 0.5);
     for (i=0; i<QE_MAX_DATA; i++) {
         setIntegerParam(i, P_Data, data[i]);
         doubleData[i] = (double)data[i];
