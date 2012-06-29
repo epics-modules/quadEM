@@ -14,6 +14,8 @@
  * They are used by asyn clients, including standard asyn device support */
 #define P_AcquireString            "QE_ACQUIRE"                 /* asynInt32,    r/w */
 #define P_CurrentOffsetString      "QE_CURRENT_OFFSET"          /* asynInt32,    r/w */
+#define P_PositionOffsetString     "QE_POSITION_OFFSET"         /* asynInt32,    r/w */
+#define P_PositionScaleString      "QE_POSITION_SCALE"          /* asynInt32,    r/w */
 #define P_DataString               "QE_DATA"                    /* asynInt32,    r/o */
 #define P_DoubleDataString         "QE_DOUBLE_DATA"             /* asynFloat64,  r/o */
 #define P_IntArrayDataString       "QE_INT_ARRAY_DATA"          /* asynInt32Array,  r/o */
@@ -39,8 +41,6 @@ typedef enum {
 } QEData_t;
 #define QE_MAX_DATA QEPosition34+1
 #define QE_MAX_INPUTS 4
-/* This defines the scale factor for integer positions, which preserves 20 bit resolution */
-#define QE_POSITION_SCALE 1048576
 
 /** Base class to control the quad electrometer */
 class drvQuadEM : public asynPortDriver {
@@ -56,6 +56,8 @@ protected:
     int P_Acquire;
     #define FIRST_QE_COMMAND P_Acquire
     int P_CurrentOffset;
+    int P_PositionOffset;
+    int P_PositionScale;
     int P_Data;
     int P_DoubleData;
     int P_IntArrayData;
