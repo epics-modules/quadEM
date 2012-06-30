@@ -37,7 +37,6 @@ PROD_LIBS += Ipac
 PROD_LIBS += ipUnidig
 PROD_LIBS += mca
 PROD_LIBS += busy
-PROD_LIBS += calc 
 PROD_LIBS += autosave
 PROD_LIBS += asyn
 PROD_LIBS += seq pv
