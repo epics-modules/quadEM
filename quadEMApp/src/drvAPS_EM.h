@@ -35,15 +35,19 @@ protected:
     virtual asynStatus setRange(epicsInt32 value);
     virtual asynStatus setReset();
     virtual asynStatus setTrigger(epicsInt32 value);
+    virtual asynStatus getSettings();
     virtual void report(FILE *fp, int details);
  
 private:
     /* Our data */
     asynUInt32Digital *pUInt32Digital_;
+    int unidigChan_;
     void *pUInt32DigitalPvt_;
     asynUser *pUInt32DAsynUser_;
+    void *pUInt32RegistrarPvt_;
     PingPongValue_t pingPong_;
-    unsigned short *baseAddress_;
+    int acquiring_;
+    volatile unsigned short *baseAddress_;
     asynStatus setPulse();
     asynStatus setPeriod();
     asynStatus setGo();
