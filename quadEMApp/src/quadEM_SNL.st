@@ -38,13 +38,13 @@ monitor NumChannels; evflag NumChannelsMon; sync NumChannels NumChannelsMon;
 
 int     TimeSeriesProc[MAX_SIGNALS]; 
 assign  TimeSeriesProc to
-          {"{P}{R}Current1TS.PROC","{P}{R}Current2TS.PROC","{P}{R}Current2TS.PROC","{P}{R}Current2TS.PROC",
+          {"{P}{R}Current1TS.PROC","{P}{R}Current2TS.PROC","{P}{R}Current3TS.PROC","{P}{R}Current4TS.PROC",
            "{P}{R}Sum12TS.PROC","{P}{R}Sum34TS.PROC","{P}{R}Sum1234TS.PROC",
            "{P}{R}Diff12TS.PROC","{P}{R}Diff34TS.PROC","{P}{R}Position12TS.PROC","{P}{R}Position34TS.PROC"};
 
 int     TimeSeriesData[MAX_SIGNALS][MAX_CHANNELS]; 
 assign  TimeSeriesData to
-          {"{P}{R}Current1TS.VAL","{P}{R}Current2TS.VAL","{P}{R}Current2TS.VAL","{P}{R}Current2TS.VAL",
+          {"{P}{R}Current1TS.VAL","{P}{R}Current2TS.VAL","{P}{R}Current3TS.VAL","{P}{R}Current4TS.VAL",
             "{P}{R}Sum12TS.VAL","{P}{R}Sum34TS.VAL", "{P}{R}Sum1234TS.VAL",
             "{P}{R}Diff12TS.VAL","{P}{R}Diff34TS.VAL","{P}{R}Position12TS.VAL","{P}{R}Position34TS.VAL"};
 
@@ -53,7 +53,7 @@ monitor ReadTimeSeries; evflag ReadTimeSeriesMon; sync ReadTimeSeries ReadTimeSe
 
 float   FFTData[MAX_SIGNALS][MAX_CHANNELS]; 
 assign  FFTData to
-          {"{P}{R}Current1FFT.VAL","{P}{R}Current2FFT.VAL","{P}{R}Current2FFT.VAL","{P}{R}Current2FFT.VAL",
+          {"{P}{R}Current1FFT.VAL","{P}{R}Current2FFT.VAL","{P}{R}Current3FFT.VAL","{P}{R}Current4FFT.VAL",
             "{P}{R}Sum12FFT.VAL","{P}{R}Sum34FFT.VAL", "{P}{R}Sum1234FFT.VAL",
             "{P}{R}Diff12FFT.VAL","{P}{R}Diff34FFT.VAL","{P}{R}Position12FFT.VAL","{P}{R}Position34FFT.VAL"};
 
