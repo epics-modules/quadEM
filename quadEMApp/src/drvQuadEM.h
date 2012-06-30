@@ -21,6 +21,7 @@
 #define P_IntArrayDataString       "QE_INT_ARRAY_DATA"          /* asynInt32Array,  r/o */
 #define P_PingPongString           "QE_PING_PONG"               /* asynInt32,    r/w */
 #define P_IntegrationTimeString    "QE_INTEGRATION_TIME"        /* asynFloat64,  r/w */
+#define P_SampleTimeString         "QE_SAMPLE_TIME"             /* asynFloat64,  r/o */
 #define P_RangeString              "QE_RANGE"                   /* asynInt32,    r/w */
 #define P_ResetString              "QE_RESET"                   /* asynInt32,    r/w */
 #define P_TriggerString            "QE_TRIGGER"                 /* asynInt32,    r/w */
@@ -63,6 +64,7 @@ protected:
     int P_IntArrayData;
     int P_PingPong;
     int P_IntegrationTime;
+    int P_SampleTime;
     int P_Range;
     int P_Reset;
     int P_Trigger;
