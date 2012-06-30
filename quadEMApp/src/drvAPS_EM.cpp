@@ -35,6 +35,9 @@
 #define PERIOD_COMMAND  7
 #define REBOOT_COMMAND 14
 
+/* Conversion time in device units is limited to range 0x180 (384) to 0x2000 (8192) */
+#define MIN_CONVERSION_TIME_VALUE 384
+#define MAX_CONVERSION_TIME_VALUE 8192
 
 static const char *driverName = "drvAPS_EM";
 
@@ -59,8 +62,9 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
     unsigned long probeVal;
     epicsUInt32 mask;
     asynStatus status;
-    void *registrarPvt;
     static const char *functionName = "drvAPS_EM";
+    
+    unidigChan_ = unidigChan;
 
     if ((unidigName != 0) && (strlen(unidigName) != 0) && (strcmp(unidigName, "0") != 0)) {
         /* Create asynUser */
@@ -68,7 +72,7 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
 
         /* Connect to device */
         status = pasynManager->connectDevice(pUInt32DAsynUser_, 
-                                             unidigName, unidigChan);
+                                             unidigName, unidigChan_);
         if (status != asynSuccess) {
             errlogPrintf("initQuadEM: connectDevice failed for ipUnidig\n");
             goto error;
@@ -145,15 +149,10 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
         pUInt32Digital_->getInterrupt(pUInt32DigitalPvt_, 
                                      pUInt32DAsynUser_, &mask,
                                      interruptOnOneToZero);
-        mask |= 1 << unidigChan;
+        mask |= 1 << unidigChan_;
         pUInt32Digital_->setInterrupt(pUInt32DigitalPvt_, 
                                     pUInt32DAsynUser_, mask,
                                     interruptOnOneToZero);
-        mask = 1 << unidigChan;
-        pUInt32Digital_->registerInterruptUser(pUInt32DigitalPvt_, 
-                                               pUInt32DAsynUser_, 
-                                               callbackFuncC, this, mask,
-                                               &registrarPvt);
     }
 
     /* Send the initial settings to the board to get it talking to the 
@@ -171,7 +170,7 @@ void drvAPS_EM::pollerThread()
  *  no interrupts present */
 {
     while(1) { /* Do forever */
-        callbackFunc(0);
+        if (acquiring_) callbackFunc(0);
         epicsThreadSleep(epicsThreadSleepQuantum());
     }
 }
@@ -196,7 +195,22 @@ void drvAPS_EM::callbackFunc(epicsUInt32 mask)
 
 asynStatus drvAPS_EM::setAcquire(int value)
 {
-    // This command is not supported, the meter is always running?
+    epicsUInt32 mask;
+
+    if (pUInt32DigitalPvt_ != NULL) {
+        mask = 1 << unidigChan_;
+        if (value) {
+            pUInt32Digital_->registerInterruptUser(pUInt32DigitalPvt_, 
+                                                   pUInt32DAsynUser_, 
+                                                   callbackFuncC, this, mask,
+                                                   &pUInt32RegistrarPvt_);
+        } else {
+            pUInt32Digital_->cancelInterruptUser(pUInt32DigitalPvt_, 
+                                                 pUInt32DAsynUser_, 
+                                                 pUInt32RegistrarPvt_);
+        }
+    }
+    acquiring_ = value;
     return asynSuccess;
 }
 
@@ -209,19 +223,25 @@ asynStatus drvAPS_EM::setPingPong(int value)
 asynStatus drvAPS_EM::setIntegrationTime(double seconds)
 {
     double microSeconds = seconds * 1.e6;
+    int convValue;
     double integrationTime;
+    double sampleTime;
 
     /* Convert from microseconds to device units */
-    int convValue = (int)((microSeconds - 0.6)/1.6);
+    convValue = (int)((microSeconds - 0.6)/1.6);
+    if (convValue < MIN_CONVERSION_TIME_VALUE) convValue = MIN_CONVERSION_TIME_VALUE;
+    if (convValue > MAX_CONVERSION_TIME_VALUE) convValue = MAX_CONVERSION_TIME_VALUE;
+    integrationTime = (convValue * 1.6 + 0.6)/1.e6;
+    setDoubleParam(P_IntegrationTime, integrationTime);
     /* If we are using the interrupts then this is the scan rate
      * except that we only get interrupts after every other cycle
      * because of ping/pong, so we multiply by 2. */
     if (pUInt32DigitalPvt_ != NULL) {
-        integrationTime = (2. * convValue * 1.6 + 0.6)/1.e6;
+        sampleTime = 2. * integrationTime;
     } else {
-        integrationTime = epicsThreadSleepQuantum();
+        sampleTime = epicsThreadSleepQuantum();
     }
-    setDoubleParam(P_IntegrationTime, integrationTime);
+    setDoubleParam(P_SampleTime, sampleTime);
 
     return writeMeter(CONV_COMMAND, convValue);
 }
@@ -247,6 +267,7 @@ asynStatus drvAPS_EM::setReset()
     setPeriod();
     epicsThreadSleep(0.01);
     setIntegrationTime(integrationTime);
+    epicsThreadSleep(0.01);
     setGo();
     return asynSuccess;
 }
@@ -257,6 +278,12 @@ asynStatus drvAPS_EM::setTrigger(int value)
     return asynSuccess;
 }
 
+asynStatus drvAPS_EM::getSettings() 
+{
+    // No settings readback on APS electrometer
+    return asynSuccess;
+}
+  
 asynStatus drvAPS_EM::setPulse()
 {
     return writeMeter(PULSE_COMMAND, APS_EM_PULSE_VALUE);
