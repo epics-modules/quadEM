@@ -48,6 +48,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
     createParam(P_IntArrayDataString,       asynParamInt32Array,    &P_IntArrayData);
     createParam(P_PingPongString,           asynParamInt32,         &P_PingPong);
     createParam(P_IntegrationTimeString,    asynParamFloat64,       &P_IntegrationTime);
+    createParam(P_SampleTimeString,         asynParamFloat64,       &P_SampleTime);
     createParam(P_RangeString,              asynParamInt32,         &P_Range);
     createParam(P_ResetString,              asynParamInt32,         &P_Reset);
     createParam(P_TriggerString,            asynParamInt32,         &P_Trigger);
@@ -130,6 +131,9 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     }
     else if (function == P_Trigger) {
         status |= setTrigger(value);
+    }
+    else if (function == P_Reset) {
+        status |= setReset();
     }
     else {
         /* All other parameters just get set in parameter list, no need to
