@@ -4,53 +4,88 @@
 < cdCommands
 
 cd topbin
-ld < mcaAIM.munch
+ld < quadEMTestApp.munch
 
 cd startup
-dbLoadDatabase("../../dbd/mcaCanberra.dbd",0,0)
-mcaCanberra_registerRecordDeviceDriver(pdbbase) 
 
-#aimDebug=10
-#llcDebug=10
+# Tell EPICS all about the record types, device-support modules, drivers,
+# etc. in this build
+dbLoadDatabase("../../dbd/quadEMTestAppVx.dbd")
+quadEMTestAppVx_registerRecordDeviceDriver(pdbbase)
 
-# AIMConfig(portName, ethernet_address, portNumber(1 or 2), maxChans,
-#           maxSignals, maxSequences, ethernetDevice)
-AIMConfig("AIM1/1", 0x59e, 1, 2048, 1, 1, "dc0")
-AIMConfig("AIM1/2", 0x59e, 2, 2048, 1, 1, "dc0")
-dbLoadRecords("$(MCA)/mcaApp/Db/mca.db", "P=mcaTest:,M=aim_adc1,DTYP=asynMCA,INP=@asyn(AIM1/1 0),NCHAN=2048")
-dbLoadRecords("$(MCA)/mcaApp/Db/mca.db", "P=mcaTest:,M=aim_adc2,DTYP=asynMCA,INP=@asyn(AIM1/2 0),NCHAN=2048")
+ipacAddVIPC616_01("0x3000,0xa0000000")
+# Initialize Greenspring IP-Unidig
+# initIpUnidig(char *portName, 
+#              int carrier, 
+#              int slot,
+#              int msecPoll,
+#              int intVec, 
+#              int risingMask, 
+#              int fallingMask)
+# portName  = name to give this asyn port
+# carrier     = IPAC carrier number (0, 1, etc.)
+# slot        = IPAC slot (0,1,2,3, etc.)
+# msecPoll    = polling time for input bits in msec.  Default=100.
+# intVec      = interrupt vector
+# risingMask  = mask of bits to generate interrupts on low to high (24 bits)
+# fallingMask = mask of bits to generate interrupts on high to low (24 bits)
+initIpUnidig("Unidig1", 0, 1, 2000, 116, 0xfffffb, 0xfffffb)
 
-#icbConfig(portName, module, ethernetAddress, icbAddress, moduleType)
-#   portName to give to this asyn port
-#   ethernetAddress - Ethernet address of module, low order 16 bits
-#   icbAddress - rotary switch setting inside ICB module
-#   moduleType
-#      0 = ADC
-#      1 = Amplifier
-#      2 = HVPS
-#      3 = TCA
-#      4 = DSP
-icbConfig("icbAdc1", 0x59e, 5, 0)
-dbLoadRecords("$(MCA)/mcaApp/Db/icb_adc.db", "P=mcaTest:,ADC=adc1,PORT=icbAdc1")
-icbConfig("icbAmp1", 0x59e, 3, 1)
-dbLoadRecords("$(MCA)/mcaApp/Db/icb_amp.db", "P=mcaTest:,AMP=amp1,PORT=icbAmp1")
-icbConfig("icbHvps1", 0x59e, 2, 2)
-dbLoadRecords("$(MCA)/mcaApp/Db/icb_hvps.db", "P=mcaTest:,HVPS=hvps1,PORT=icbHvps1,LIMIT=1000")
-icbConfig("icbTca1", 0x59e, 8, 3)
-dbLoadRecords("$(MCA)/mcaApp/Db/icb_tca.db", "P=mcaTest:,TCA=tca1,MCA=aim_adc2,PORT=icbTca1")
-#icbConfig("icbDsp1", 0x8058, 0, 4)
-#dbLoadRecords("$(MCA)/mcaApp/Db/icbDsp.db", "P=mcaTest:,DSP=dsp1,PORT=icbDsp1")
+#drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,
+#                        noProcessEos)
+drvAsynIPPortConfigure("IP_AH401B", "164.54.160.240:10001", 0, 0, 0)
+asynOctetSetInputEos("IP_AH401B",0,"\r\n")
+asynOctetSetOutputEos("IP_AH401B",0,"\r")
 
-nmc_show_modules
+asynSetTraceIOMask("IP_AH401B",0,2)
+#asynSetTraceMask("IP_AH401B",0,9)
 
-#mcaRecordDebug = 10
-#asynSetTraceMask "AIM1/1",0,0xff
-#asynSetTraceMask "icbTca1",0,0x13
-#asynSetTraceMask "icbHvps1",0,0xff
+# Load asynRecord record
+dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=quadEMTest:, R=asyn1,PORT=IP_AH401B,ADDR=0,OMAX=256,IMAX=256")
 
-< save_restore.cmd
+drvAH401BConfigure("AH401B", "IP_AH401B")
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM.template", "P=quadEMTest:, R=QE1:, PORT=AH401B")
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/AH401B.template", "P=quadEMTest:, R=QE1:, PORT=AH401B")
+
+# drvAPS_EMConfigure(const char *portName, unsigned short *baseAddr, int fiberChannel,
+#                    const char *unidigName, int unidigChan, char *unidigDrvInfo)
+#  portName     = name of APS_EM asyn port driver created 
+#  baseAddress = base address of VME card
+#  channel     = 0-3, fiber channel number
+#  unidigName  = name of ipInidig server if it is used for interrupts.
+#                Set to 0 if there is no IP-Unidig being used, in which
+#                case the quadEM will be read at 60Hz.
+#  unidigChan  = IP-Unidig channel connected to quadEM pulse output
+#  unidigDrvInfo = drvInfo string for digital input parameter
+drvAPS_EMConfigure("APS_EM", 0xf000, 0, "Unidig1", 2, "DIGITAL_INPUT")
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM.template", "P=quadEMTest:, R=QE2:, PORT=APS_EM")
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/APS_EM.template", "P=quadEMTest:, R=QE2:, PORT=APS_EM")
+
+# initFastSweep(portName, inputName, maxSignals, maxPoints)
+#  portName = asyn port name for this new port (string)
+#  inputName = name of asynPort providing data
+#  maxSignals  = maximum number of signals (spectra)
+#  maxPoints  = maximum number of channels per spectrum
+#  dataString  = drvInfo string for current and position data
+#  intervalString  = drvInfo string for time interval per point
+initFastSweep("QE1TS", "AH401B", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
+initFastSweep("QE2TS", "APS_EM", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=quadEMTest:,R=QE1:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE1TS")
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=quadEMTest:,R=QE2:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE2TS")
+
+set_requestfile_path("./")
+set_requestfile_path(quadem, "quadEMApp/Db")
+set_savefile_path("./autosave")
+set_pass0_restoreFile("auto_settingsVx.sav")
+set_pass1_restoreFile("auto_settingsVx.sav")
+save_restoreSet_status_prefix("quadEMTest:")
+dbLoadRecords("$(AUTOSAVE)/asApp/Db/save_restoreStatus.db", "P=quadEMTest:")
 
 iocInit()
 
 # save settings every thirty seconds
-create_monitor_set("auto_settings.req",30,"P=mcaTest:")
+create_monitor_set("auto_settingsVx.req",30,"P=quadEMTest:")
+
+seq(&quadEM_SNL, "P=quadEMTest:, R=QE1:, NUM_CHANNELS=2048")
+seq(&quadEM_SNL, "P=quadEMTest:, R=QE2:, NUM_CHANNELS=2048")
+
