@@ -21,12 +21,6 @@ ASYN=$(SUPPORT)/asyn-4-19
 
 IPAC=$(SUPPORT)/ipac-2-11
 
-# Transform record
-CALC=$(SUPPORT)/calc-2-9
-
-# If calc was built with sscan, we must link against it
-SSCAN=$(SUPPORT)/sscan-2-7
-
 # Busy record 
 BUSY=$(SUPPORT)/busy-1-4
 
