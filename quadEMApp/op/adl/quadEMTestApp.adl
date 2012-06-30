@@ -5,8 +5,8 @@ file {
 }
 display {
 	object {
-		x=451
-		y=32
+		x=449
+		y=31
 		width=159
 		height=41
 	}
@@ -115,6 +115,16 @@ text {
 		label="AH401B time series"
 		name="quadEM_TimeSeries.adl"
 		args="P=quadEMTest:QE1:,P_FFT=quadEMTest:QE1_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
+	}
+	display[2] {
+		label="APS_EM"
+		name="quadEM.adl"
+		args="P=quadEMTest:, R=QE2:"
+	}
+	display[3] {
+		label="APS_EM time series"
+		name="quadEM_TimeSeries.adl"
+		args="P=quadEMTest:QE2:,P_FFT=quadEMTest:QE2_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
 	}
 	clr=14
 	bclr=4
