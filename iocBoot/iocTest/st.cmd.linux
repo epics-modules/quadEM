@@ -1,5 +1,6 @@
 errlogInit(5000)
 < envPaths
+
 # Tell EPICS all about the record types, device-support modules, drivers,
 # etc. in this build
 dbLoadDatabase("../../dbd/quadEMTestApp.dbd")
@@ -14,12 +15,12 @@ asynOctetSetOutputEos("IP_AH401B",0,"\r")
 asynSetTraceIOMask("IP_AH401B",0,2)
 #asynSetTraceMask("IP_AH401B",0,9)
 
-# Load asynRecord records on all ports
+# Load asynRecord record
 dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=quadEMTest:, R=asyn1,PORT=IP_AH401B,ADDR=0,OMAX=256,IMAX=256")
 
+drvAH401BConfigure("AH401B", "IP_AH401B")
 dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM.template", "P=quadEMTest:, R=QE1:, PORT=AH401B")
 dbLoadRecords("$(QUADEM)/quadEMApp/Db/AH401B.template", "P=quadEMTest:, R=QE1:, PORT=AH401B")
-drvAH401BConfigure("AH401B", "IP_AH401B")
 
 # initFastSweep(portName, inputName, maxSignals, maxPoints)
 #  portName = asyn port name for this new port (string)
@@ -28,8 +29,8 @@ drvAH401BConfigure("AH401B", "IP_AH401B")
 #  maxPoints  = maximum number of channels per spectrum
 #  dataString  = drvInfo string for current and position data
 #  intervalString  = drvInfo string for time interval per point
-initFastSweep("quadEMSweep", "AH401B", 11, 2048, "QE_INT_ARRAY_DATA", "QE_INTEGRATION_TIME")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=quadEMTest:,R=QE1:,NUM_TS=2048,NUM_FREQ=1024,PORT=quadEMSweep")
+initFastSweep("QE1TS", "AH401B", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=quadEMTest:,R=QE1:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE1TS")
 
 set_requestfile_path("./")
 set_requestfile_path("$(QUADEM)/quadEMApp/Db")
