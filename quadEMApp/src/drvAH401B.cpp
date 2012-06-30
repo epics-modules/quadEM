@@ -242,6 +242,7 @@ asynStatus drvAH401B::getSettings()
     // Reads the values of all the meter parameters, sets them in the parameter library
     int pingPong, trigger, range;
     double integrationTime;
+    double sampleTime;
     int prevAcquiring;
     static const char *functionName = "getStatus";
     
@@ -271,6 +272,8 @@ asynStatus drvAH401B::getSettings()
     if (sscanf(inString_, "ITM %lf", &integrationTime) != 1) goto error;
     integrationTime = integrationTime/10000.;
     setDoubleParam(P_IntegrationTime, integrationTime);
+    sampleTime = pingPong ? integrationTime : integrationTime*2.;
+    setDoubleParam(P_SampleTime, sampleTime);
     
     if (prevAcquiring) setAcquire(1);
     
