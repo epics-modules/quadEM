@@ -1,0 +1,72 @@
+# Database for Elettra AH401B picoammeter
+#   Mark Rivers
+#   June 3, 2012
+
+# We replace the choices for the Range and PingPong, and the range of the IntegrationTime
+record(mbbo,"$(P)$(R)Range") {
+    field(ZRVL,"0")
+    field(ZRST,"External")
+    field(ONVL,"7")
+    field(ONST,"2.51")
+    field(TWVL,"6")
+    field(TWST,"2.93")
+    field(THVL,"5")
+    field(THST,"3.52")
+    field(FRVL,"4")
+    field(FRST,"4.40")
+    field(FVVL,"3")
+    field(FVST,"5.87")
+    field(SXVL,"2")
+    field(SXST,"8.80")
+    field(SVVL,"1")
+    field(SVST,"17.6")
+}
+
+record(mbbi,"$(P)$(R)Range_RBV") {
+    field(ZRVL,"0")
+    field(ZRST,"External")
+    field(ONVL,"7")
+    field(ONST,"2.51")
+    field(TWVL,"6")
+    field(TWST,"2.93")
+    field(THVL,"5")
+    field(THST,"3.52")
+    field(FRVL,"4")
+    field(FRST,"4.40")
+    field(FVVL,"3")
+    field(FVST,"5.87")
+    field(SXVL,"2")
+    field(SXST,"8.80")
+    field(SVVL,"1")
+    field(SVST,"17.6")
+}
+
+record(mbbo,"$(P)$(R)PingPong") {
+    field(ZRVL,"0")
+    field(ZRST,"#1")
+    field(ONVL,"1")
+    field(ONST,"#2")
+    field(TWVL,"2")
+    field(TWST,"Avg.")
+}
+
+record(mbbi,"$(P)$(R)PingPong_RBV") {
+    field(ZRVL,"0")
+    field(ZRST,"#1")
+    field(ONVL,"1")
+    field(ONST,"#2")
+    field(TWVL,"2")
+    field(TWST,"Avg.")
+}
+
+record(ao,"$(P)$(R)IntegrationTime") {
+    field(DRVL,".00")
+    field(LOPR,".00")
+    field(DRVH,"1")
+    field(HOPR,"1")
+}
+
+record(ai,"$(P)$(R)IntegrationTime_RBV") {
+    field(LOPR,".0006")
+    field(HOPR,".2")
+}
