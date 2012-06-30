@@ -4,6 +4,7 @@
 
 record(bo,"$(P)$(R)Acquire") {
     field(DESC,"Acquire On/Off")
+    field(PINI, "YES")
     field(DTYP, "asynInt32")
     field(OUT,"@asyn($(PORT) 0)QE_ACQUIRE")
     field(ZNAM, "Stop")
