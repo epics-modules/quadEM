@@ -2,11 +2,7 @@ include "base.dbd"
 include "asyn.dbd"
 include "drvAsynIPPort.dbd"
 include "mcaSupport.dbd"
-include "stdSupport.dbd"
-# Comment out the following line except for vxWorks
-#include "drvAPS_EM.dbd"
 include "drvAH401B.dbd"
-include "calcSupport.dbd"
 include "asSupport.dbd"
 include "busySupport.dbd"
 
