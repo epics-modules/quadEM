@@ -33,19 +33,23 @@ record(mbbi,"$(P)$(R)Range_RBV") {
     field(SCAN, "I/O Intr")
 }
 
-record(bo,"$(P)$(R)PingPong") {
+record(mbbo,"$(P)$(R)PingPong") {
     field(DESC,"PingPong")
     field(PINI,"YES")
-    field(ZNAM,"No")
-    field(ONAM,"Yes")
+    field(ZRVL, "0")
+    field(ZRST,"No")
+    field(ONVL, "1")
+    field(ONST,"Yes")
     field(DTYP,"asynInt32")
     field(OUT,"@asyn($(PORT) 0)QE_PING_PONG")
 }
 
-record(bi,"$(P)$(R)PingPong_RBV") {
+record(mbbi,"$(P)$(R)PingPong_RBV") {
     field(DESC,"PingPong")
-    field(ZNAM,"No")
-    field(ONAM,"Yes")
+    field(ZRVL, "0")
+    field(ZRST,"No")
+    field(ONVL, "1")
+    field(ONST,"Yes")
     field(DTYP,"asynInt32")
     field(INP,"@asyn($(PORT) 0)QE_PING_PONG")
     field(SCAN, "I/O Intr")
@@ -66,6 +70,15 @@ record(ai,"$(P)$(R)IntegrationTime_RBV") {
     field(VAL,"0.1")
     field(DTYP, "asynFloat64")
     field(INP,"@asyn($(PORT) 0)QE_INTEGRATION_TIME")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai,"$(P)$(R)SampleTime_RBV") {
+    field(DESC,"Sampling time (sec)")
+    field(PREC,"4")
+    field(VAL,"0.1")
+    field(DTYP, "asynFloat64")
+    field(INP,"@asyn($(PORT) 0)QE_SAMPLE_TIME")
     field(SCAN, "I/O Intr")
 }
 
