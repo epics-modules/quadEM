@@ -1,0 +1,4 @@
+file "quadEM_settings.req",            P=$(P), R=QE1:
+file "quadEM_TimeSeries_settings.req", P=$(P), R=QE1:
+file "quadEM_settings.req",            P=$(P), R=QE2:
+file "quadEM_TimeSeries_settings.req", P=$(P), R=QE2:
