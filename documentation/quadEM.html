@@ -6,31 +6,50 @@
   <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type" />
 </head>
 <body>
+  <div style="text-align: center">
   <h1>
-    synApps: quadEM</h1>
-  <p>
-    Module Owner: Mark Rivers: University of Chicago</p>
+    quadEM</h1>
+    <h2>
+      Mark Rivers, University of Chicago</h2>
+  </div>
   <p>
     This page is the home of <b>quadEM</b>.</p>
   <p>
-    <b>quadEM</b> supports the Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">
-      Steve Ross</a> from the APS. This device consists of a 4-channel digital electrometer
-    unit and 2 VME boards. It is typically used for photodiode-based x-ray beam position
-    monitors, although it can be used for any low-current measurement that requires
-    high speed digital input. The device provides 2 readings per diode at up to 813
-    Hz.</p>
+    <b>quadEM</b> supports quad electrometers/picoammeters, typically used for photodiode-based x-ray beam position
+    monitors, or split ion chambers.  They can also be used for any low-current measurement that requires
+    high speed digital input. There is support for two models:</p>
+    <ol>
+      <li>The AH401B picoammeter designed and sold by 
+      <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">Synchrotron Trieste (elettra)</a>.
+      It is also sold by <a href="http://www.caenels.com/caenels/product.php?fam=cemis&amp;mod=AH401B">CAENels</a>.
+      This device communicates using TCP/IP over 100 Mbit/s Ethernet or high-speed serial.  
+      It provides 4-channel current measurements at up to 1000 Hz.</li>
+      <li>The Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">
+      Steve Ross</a> from the APS (called APS_EM in this document). This device consists of a 4-channel digital electrometer
+    unit and 2 VME boards. The device provides 2 readings per diode at up to 813
+    Hz.</li>
+    </ol>
+    <p>Both of these units are based on the same principle of an op-amp run as a current amplifier with a large feedback capacitor, and a high
+    resolution ADC.</p>
   <p>
-    The <b>quadEM</b> software includes an asyn driver that provides support for the
+    The <b>quadEM</b> software includes asyn drivers and an SNL program that provide support for the
     following:</p>
   <ul>
-    <li>Analog input records using the standard asyn device support. This provides digitally
+    <li>Analog input records using the standard asynInt32Average device support. This provides digitally
       averaged readings of the current, sum, difference and position at speeds up to 10
-      Hz with standard EPICS scan times.</li>
-    <li>mca record. This provide a time-history (like a digital scope) of the current,
-      sum, difference and position at speeds up to 813 Hz. The time per point can be greater,
+      Hz with standard EPICS scan times.  One could also use the standard asynInt32 device support with ai records and scan=I/O Intr, 
+      in which case the record would update with every reading from the device. This is likely to overwhelm the EPICS IOC if the
+      electrometer is run at very fast integration times.</li>
+    <li>Time series data (like a digital scope) of the current,
+      sum, difference and position at speeds up to 1000 Hz (AH401B) or 813 Hz (APS_EM). The data is available in standard EPICS
+      waveform records, using the drvFastSweep asyn driver from the synApps "mca' module.  The time per point can be greater,
       in which case it does averaging.</li>
+     <li>FFTs of the time series data, providing the power spectrum
+      of each signal as another EPICS waveform record.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
-      dac128V) at speeds up to 813Hz. If it is run slower it does signal averaging.</li>
+      dac128V) at speeds up to 1000Hz or 813Hz. If it is run slower it does signal averaging.  This support is provided in the
+      synApps "std" module.  The quadEM drivers do the callbacks on the asynFloat64 interface required to use the epics fast feedback
+      device support.</li>
   </ul>
   <p>
     Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">
@@ -54,6 +73,20 @@
           Release Notes</th>
         <th>
           Known Problems</th>
+      </tr>
+      <tr>
+        <td>
+          3-0</td>
+        <td>
+          30-June-2012</td>
+        <td>
+          <a href="http://cars.uchicago.edu/software/pub/quadEMR3-0.tgz">quadEMR3-0.tgz</a></td>
+        <td>
+          <a href="quadEMDoc.html">quadEMDoc.html</a></td>
+        <td>
+          <a href="quadEMReleaseNotes.html">Release notes</a></td>
+        <td>
+          See release notes</td>
       </tr>
       <tr>
         <td>
@@ -187,6 +220,72 @@
           Release needed</th>
         <th>
           Required for</th>
+      </tr>
+      <tr>
+        <td rowspan="8">
+          3-0</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.14.12.2</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-19</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+        <td>
+          mca</td>
+        <td>
+          7-2</td>
+        <td>
+          Fast sweep driver for time series</td>
+      </tr>
+      <tr>
+        <td>
+          busy</td>
+        <td>
+          1-3</td>
+        <td>
+          Busy record.  Used in quadEM_TimeSeries.template.</td>
+      </tr>
+      <tr>
+        <td>
+          ipUnidig</td>
+        <td>
+          2-9</td>
+        <td>
+          Used in test application for interrupt callback support for APS_EM.</td>
+      </tr>
+      <tr>
+        <td>
+          ipac</td>
+        <td>
+          2-11</td>
+        <td>
+          Used in test application for Industry Pack support for ipUnidig.</td>
+      </tr>
+      <tr>
+        <td>
+          seq</td>
+        <td>
+          2-1-7</td>
+        <td>
+          Used by quadEM_TimeSeries to synchronize acquisition and to compute FFTs.</td>
+      </tr>
+      <tr>
+        <td>
+          autosave</td>
+        <td>
+          4-8</td>
+        <td>
+          Used in test application for save/restore.</td>
       </tr>
       <tr>
         <td rowspan="2">
@@ -513,8 +612,7 @@ tar xvf quadEMRX-Y.tar
   <p>
     This software was originally developed by Mark Rivers.</p>
   <ul>
-    <li>ANL/APS : In use at CARS and IMCA. To be used soon at XOR and a number of other
-      beamlines.</li>
+    <li>ANL/APS : In use at CARS and a number of other beamlines.</li>
   </ul>
 </body>
 </html>
