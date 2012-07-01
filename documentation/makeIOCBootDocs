@@ -1,0 +1,2 @@
+txt2html --outfile quadEM_st_cmd_linux.html -pb 0         ../iocBoot/iocTest/st.cmd.linux
+txt2html --outfile quadEM_st_cmd_vxWorks.html -pb 0       ../iocBoot/iocTest/st.cmd.vxWorks
