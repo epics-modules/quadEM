@@ -55,7 +55,9 @@ static void callbackFuncC(void *pPvt, asynUser *pasynUser, epicsUInt32 mask)
 
 drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberChannel,
                      const char *unidigName, int unidigChan, char *unidigDrvInfo)
-   : drvQuadEM(portName, 0)
+   : drvQuadEM(portName, 0),
+    unidigChan_(unidigChan),
+    pUInt32RegistrarPvt_(NULL)
 {
     asynInterface *pasynInterface;
     asynDrvUser *pdrvUser;
@@ -64,8 +66,6 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
     asynStatus status;
     static const char *functionName = "drvAPS_EM";
     
-    unidigChan_ = unidigChan;
-
     if ((unidigName != 0) && (strlen(unidigName) != 0) && (strcmp(unidigName, "0") != 0)) {
         /* Create asynUser */
         pUInt32DAsynUser_ = pasynManager->createAsynUser(0, 0);
@@ -205,9 +205,11 @@ asynStatus drvAPS_EM::setAcquire(int value)
                                                    callbackFuncC, this, mask,
                                                    &pUInt32RegistrarPvt_);
         } else {
-            pUInt32Digital_->cancelInterruptUser(pUInt32DigitalPvt_, 
-                                                 pUInt32DAsynUser_, 
-                                                 pUInt32RegistrarPvt_);
+            if (pUInt32RegistrarPvt_ != NULL) {
+                pUInt32Digital_->cancelInterruptUser(pUInt32DigitalPvt_, 
+                                                     pUInt32DAsynUser_, 
+                                                     pUInt32RegistrarPvt_);
+            }
         }
     }
     acquiring_ = value;
@@ -228,7 +230,7 @@ asynStatus drvAPS_EM::setIntegrationTime(double seconds)
     double sampleTime;
 
     /* Convert from microseconds to device units */
-    convValue = (int)((microSeconds - 0.6)/1.6);
+    convValue = (int)((microSeconds - 0.6)/1.6 + 0.5);
     if (convValue < MIN_CONVERSION_TIME_VALUE) convValue = MIN_CONVERSION_TIME_VALUE;
     if (convValue > MAX_CONVERSION_TIME_VALUE) convValue = MAX_CONVERSION_TIME_VALUE;
     integrationTime = (convValue * 1.6 + 0.6)/1.e6;
