@@ -364,6 +364,7 @@ void drvAPS_EM::report(FILE *fp, int details)
            fprintf(fp, "    Not using interrupts, scan time=%f\n", epicsThreadSleepQuantum());
         }
     }
+    drvQuadEM::report(fp, details);
 }
 
 /* Configuration routine.  Called directly, or from the iocsh function below */
