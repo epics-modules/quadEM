@@ -12,7 +12,7 @@ drvAsynIPPortConfigure("IP_AH401B", "164.54.160.240:10001", 0, 0, 0)
 asynOctetSetInputEos("IP_AH401B",0,"\r\n")
 asynOctetSetOutputEos("IP_AH401B",0,"\r")
 
-asynSetTraceIOMask("IP_AH401B",0,2)
+asynSetTraceIOMask("IP_AH401B",0,6)
 #asynSetTraceMask("IP_AH401B",0,9)
 
 # Load asynRecord record
@@ -21,6 +21,9 @@ dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=quadEMTest:, R=asyn1,PORT=IP_AH401B
 drvAH401BConfigure("AH401B", "IP_AH401B")
 dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM.template", "P=quadEMTest:, R=QE1:, PORT=AH401B")
 dbLoadRecords("$(QUADEM)/quadEMApp/Db/AH401B.template", "P=quadEMTest:, R=QE1:, PORT=AH401B")
+
+asynSetTraceIOMask("AH401B",0,2)
+#asynSetTraceMask("AH401B",0,9)
 
 # initFastSweep(portName, inputName, maxSignals, maxPoints)
 #  portName = asyn port name for this new port (string)
