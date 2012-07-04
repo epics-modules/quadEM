@@ -61,6 +61,8 @@ drvAH401B::drvAH401B(const char *portName, const char *QEPortName)
     strcpy(outString_, "VER ?");
     writeReadMeter();
     firmwareVersion_ = epicsStrDup(inString_);
+    strcpy(outString_, "BIN ON");
+    writeReadMeter();
     
     /* Create the thread that reads the meter */
     status = (asynStatus)(epicsThreadCreate("drvAH401BTask",
@@ -130,8 +132,7 @@ void drvAH401B::readThread(void)
     size_t nRead; 
     int eomReason;
     epicsInt32 raw[QE_MAX_INPUTS];
-    char input[MAX_COMMAND_LEN];
-    double integrationTime;
+    unsigned char input[12];
     static const char *functionName = "readThread";
     
     /* Loop forever */
@@ -143,20 +144,28 @@ void drvAH401B::readThread(void)
             epicsEventWait(readDataEvent_);
             lock();
         }
-        getDoubleParam(P_IntegrationTime, &integrationTime);
         unlock();
-        status = pasynOctetSyncIO->read(pasynUserMeter_, input, sizeof(input), 
+        status = pasynOctetSyncIO->read(pasynUserMeter_, (char *)input, sizeof(input), 
                                         AH401B_TIMEOUT, &nRead, &eomReason);
         lock();
-        if (nRead == 0) continue;
-        if (status != asynSuccess) {
+        if ((status == asynSuccess) && (nRead == 12) && (eomReason == ASYN_EOM_CNT)) {
+            raw[0] = input[2]<<16 | input[1]<<8 | input[0];
+            raw[1] = input[5]<<16 | input[4]<<8 | input[3];
+            raw[2] = input[8]<<16 | input[7]<<8 | input[6];
+            raw[3] = input[11]<<16 | input[10]<<8 | input[9];
+            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+                "%s:%s: nRead=%d, eomReason=%d\n"
+                "input=%x %x %x %x %x %x %x %x %x %x %x %x\n"
+                "raw=%d %d %d %d\n",
+                driverName, functionName, nRead, eomReason, 
+                input[0], input[1], input[2], input[3], input[4], input[5], input[6], input[7], input[8], input[9], input[10], input[11], 
+                raw[0], raw[1], raw[2], raw[3]);
+            computePositions(raw);
+        } else if (status != asynTimeout) {
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                 "%s:%s: unexpected error reading meter status=%d, nRead=%d, eomReason=%d\n", 
-                driverName, functionName, status);
-            continue;
+                driverName, functionName, status, nRead, eomReason);
         }
-        sscanf(input, "%d %d %d %d", &raw[0], &raw[1], &raw[2], &raw[3]);
-        computePositions(raw);
     }
 }
 
@@ -171,6 +180,7 @@ asynStatus drvAH401B::setAcquire(epicsInt32 value)
     if (value == 0) {
         while (1) {
             // Repeat sending ACQ OFF until we get only an ACK back
+            status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ OFF", strlen("ACQ OFF"), 
                                              dummyIn, MAX_COMMAND_LEN, AH401B_TIMEOUT, &nwrite, &nread, &eomReason);
             // Flush the input buffer because there could be more characters sent after ACK
@@ -182,6 +192,7 @@ asynStatus drvAH401B::setAcquire(epicsInt32 value)
     } else {
         status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ ON", strlen("ACQ ON"), 
                                              dummyIn, MAX_COMMAND_LEN, AH401B_TIMEOUT, &nwrite, &nread, &eomReason);
+        status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "", 0);
         // Notify the read thread if acquisition status has started
         epicsEventSignal(readDataEvent_);
         acquiring_ = 1;
