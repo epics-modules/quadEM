@@ -728,12 +728,31 @@
     This is an medm screen that displays the setpoint of the pitch of the monochromator
     (in red), and the actual readback from the quadEM (in blue). Note that the readback
     here is only the snapshot values from the EPID record. For full-speed readings of
-    the readback the MCA records from the quadEM_med.db database would be used.
+    the readback the waveform records from the quadEM_TimeSeries.template database would be used.
   </p>
   <div style="text-align: center">
     <h3 style="text-align: center">
       pid_plot_readback.adl</h3>
     <img alt="quadEM_plot_readback.png" src="quadEM_pid_plot_readback.png" /></div>
+  <p>
+    This is pid_fast.template, an example substitutions file. This example uses a quadEM
+    asyn port driver named "APS_EM". ICHAN is set to read from addr=9 and 10, which
+    are the two position values of the quadEM driver. The INPUT_DATA and INPUT_INTERVAL
+    strings are the drvInfo strings for these parameters in the driver. The output is
+    sent to an asyn port driver named DAC1, which is a dac128V 12-bit A/D converter
+    in this data. OCHAN is set to write to addr=1 and 2, which are the second and third
+    DAC channels on that card. The OUTPUT_DATA string is the drvInfo string for the
+    double precision data in the dac128V.
+  </p>
+  <pre>
+file "$(STD)/stdApp/Db/fast_pid_control.db"
+{
+pattern
+{P,                 PID,  INPUT,  INPUT_DATA,   INPUT_INTERVAL, ICHAN, OUTPUT, OCHAN,  OUTPUT_DATA,    LOPR,     HOPR,  DRVL,  DRVH,  PREC,   KP,    KI,  KD,   DT,        SCAN}
+{quadEMTest:, MonoPitch, APS_EM,     QE_DATA, QE_CALLBACK_TIME,     9,   DAC1,     1,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+{quadEMTest:,  MonoRoll, APS_EM,     QE_DATA, QE_CALLBACK_TIME,    10,   DAC1,     2,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+}
+</pre>
   <h2 id="AH401B_Setup">
     AH401B Setup</h2>
   <p>
@@ -751,33 +770,13 @@
     (or other asyn digital I/O device with interrupt and callback capabilities), then
     the ipUnidig interrupt routine will call the APS_EM driver each time new data is
     available. The Ip-Unidig channel where the APS_EM pulse is connected is specified
-    in the unidigChan argument to drvAPS_EMConfigure command below. If an Ip-Unidig
+    in the unidigChan argument to drvAPS_EMConfigure command in the startup script. If an Ip-Unidig
     or other interrupt source is not being used then the APS_EM driver will poll for
-    new data at the system clock rate, typically 60Hz or 50Hz.</p>
+    new data at the system clock rate, typically 60Hz.</p>
   <p>
     An example startup script for vxWorks with the APS_EM is provided in <a href="quadEM_st_cmd_vxWorks.html">
       quadEM/iocBoot/iocTest.st.cmd.vxWorks</a>. This example startup script actually
     starts both an AH401B ($(R)=QE1:) and an APS_EM ($(R)=QE2:) driver. One or the other
     can be commented out for testing if both devices are not available.</p>
-  <p>
-    This is pid_fast.template, an example substitutions file. This example uses a quadEM
-    asyn port driver named "APS_EM". ICHAN is set to read from addr=9 and 10, which
-    are the two position values of the quadEM driver. The INPUT_DATA and INPUT_INTERVAL
-    strings are the drvInfo strings for these parameters in the driver. The output is
-    sent to an asyn port driver named DAC1, which is a dac128V 12-bit A/D converter
-    in this data. OCHAN is set to write to addr=2 and 3, which are the second and third
-    DAC channels on that card. The OUTPUT_DATA string is the drvInfo string for the
-    double precision data in the dac128V.
-  </p>
-  <pre>
-file "$(STD)/stdApp/Db/fast_pid_control.db"
-{
-pattern
-{P,           PID,   INPUT,  INPUT_DATA,   INPUT_INTERVAL, ICHAN, OUTPUT, OCHAN,  OUTPUT_DATA,    LOPR,     HOPR,  DRVL,  DRVH,  PREC,   KP,    KI,  KD,   DT,        SCAN}
-{quadEMTest:, PID1, APS_EM,     QE_DATA, QE_CALLBACK_TIME,     9,   DAC1,     2,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
-{quadEMTest:, PID2, APS_EM,     QE_DATA, QE_CALLBACK_TIME,    10,   DAC1,     3,  DOUBLE_DATA,  -32767,    32767,  2048,  3072,     3,  .02,  100.,  0., .001, ".1 second"}
-}
-
-</pre>
 </body>
 </html>
