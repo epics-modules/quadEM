@@ -64,6 +64,9 @@ drvAH401B::drvAH401B(const char *portName, const char *QEPortName)
     strcpy(outString_, "BIN ON");
     writeReadMeter();
     
+    // Read the current settings from the device.  This will set parameters in the parameter library.
+    getSettings();
+    
     /* Create the thread that reads the meter */
     status = (asynStatus)(epicsThreadCreate("drvAH401BTask",
                           epicsThreadPriorityMedium,
