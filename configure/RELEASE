@@ -15,7 +15,7 @@ SUPPORT=/corvette/home/epics/devel
 QUADEM=$(SUPPORT)/quadEM-2-6
 
 # ASYN - for device/driver support
-ASYN=$(SUPPORT)/asyn-4-19
+ASYN=$(SUPPORT)/asyn-4-20
 
 ### The following are needed only for the test application
 
@@ -28,10 +28,10 @@ BUSY=$(SUPPORT)/busy-1-4
 IPUNIDIG=$(SUPPORT)/ipUnidig-2-9
 
 # quadEM_SNL uses the sequencer
-SNCSEQ=$(SUPPORT)/seq-2-1-7
+SNCSEQ=$(SUPPORT)/seq-2-1-9
 
 # save_restore
-AUTOSAVE=$(SUPPORT)/autosave-4-8
+AUTOSAVE=$(SUPPORT)/autosave-4-9
 
 # MCA - this module
 MCA=$(SUPPORT)/mca-7-1
