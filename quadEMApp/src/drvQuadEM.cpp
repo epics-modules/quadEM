@@ -25,6 +25,7 @@ void readThread(void *drvPvt);
 /** Constructor for the drvQuadEM class.
   * Calls constructor for the asynPortDriver base class.
   * \param[in] portName The name of the asyn port driver to be created.
+  * \param[in] numParams The number of driver-specific parameters for the derived class
   */
 drvQuadEM::drvQuadEM(const char *portName, int numParams) 
    : asynPortDriver(portName, 
@@ -54,10 +55,12 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
     createParam(P_TriggerString,            asynParamInt32,         &P_Trigger);
      
 }
+
+/** This function computes the sums, diffs and positions, and does callbacks 
+  * \param[in] raw Array of raw current readings 
+  */
 void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
 {
-    /* This function computes the sums, diffs and positions, and does callbacks */
-
     int i;
     epicsInt32 currentOffset[QE_MAX_INPUTS];
     epicsInt32 positionOffset[2];
