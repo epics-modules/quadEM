@@ -58,7 +58,7 @@
       EPICS IOC if the electrometer is run at very fast integration times.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
       at speeds up to 1000 Hz (AH401B) or 813 Hz (APS_EM). The data is available in standard
-      EPICS waveform records, using the drvFastSweep asyn driver from the synApps "mca'
+      EPICS waveform records, using the drvFastSweep asyn driver from the synApps "mca"
       module. The time per point can be greater, in which case it does averaging.</li>
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
       EPICS waveform record.</li>
@@ -69,11 +69,19 @@
       support.</li>
   </ul>
   <p>
-    The support is based on asynPortDriver. It consists of a base class (drvQuadEM.cpp)
-    which is device-independent. There are device-dependent classes for the AH401B (drvAH401B.cpp)
-    and the APS electrometer (drvAPS_EM.cpp). There is an EPICS State Notation Language
-    (SNL) program (quadEM_SNL.st) is used to synchronize acquisition of time-series
-    data, and to compute FFT power-spectra of the time-series data.</p>
+    Detailed information on the APS electrometer can be found in the <a href="Electrometer_Users_Guide_01_22_2007.pdf">
+      Electrometer Users Guide</a>.</p>
+  <p>
+    Detailed information on the AH401B electrometer can be found in the <a href="AH401B_UsersManual_V1.0.pdf">
+      AH401B Users Manual</a>.</p>
+  <p>
+    The support is based on asynPortDriver. It consists of a base class <a href="quadEMDoxygenHTML/classdrv_quad_e_m.html">
+      (drvQuadEM.cpp)</a> which is device-independent. There are device-dependent classes
+    for the AH401B <a href="quadEMDoxygenHTML/classdrv_a_h401_b.html">(drvAH401B.cpp)</a>
+    and the APS electrometer <a href="quadEMDoxygenHTML/classdrv_a_p_s___e_m.html">(drvAPS_EM.cpp)</a>.
+    There is an EPICS State Notation Language (SNL) program (quadEM_SNL.st) is used
+    to synchronize acquisition of time-series data, and to compute FFT power-spectra
+    of the time-series data.</p>
   <h2 id="Databases">
     Databases</h2>
   <h3 id="quadEM">
@@ -264,10 +272,11 @@
         <td>
           r/w</td>
         <td>
-          Reset command. Processing this record will reset the electrometer. This is only
-          supported by the APS_EM, the AH401B does not have a reset option. This operation
-          takes about 1 second, and may be required to establish communication if the amplifier
-          unit is power-cycled or disconnected.</td>
+          Reset command. Processing this record will reset the electrometer. On the APS_EM
+          this operation takes about 1 second, and may be required to establish communication
+          if the amplifier unit is power-cycled or disconnected and reconnected. On the AH401B
+          this operation downloads all of the EPICS settings to the electrometer, and must
+          be done if the electrometer is power-cycled without rebooting the EPICS IOC.</td>
       </tr>
       <tr>
         <td>
@@ -377,6 +386,24 @@
           The position of the diode pair. This is calculated as ((Diff/Sum)*PositionScale
           - PositionOffset). These records use asynInt32Average device support so they average
           the readings from the device since the time the record was last processed.</td>
+      </tr>
+      <tr>
+        <td>
+          QE_DOUBLE_DATA</td>
+        <td>
+          N.A.</td>
+        <td>
+          N.A.</td>
+        <td>
+          asynFloat64 (addr=0-10)</td>
+        <td>
+          r/o</td>
+        <td>
+          The QE_DOUBLE_DATA drvInfo string is used to read the same information as QE_DATA,
+          but using the asynFloat64 interface rather than the asynInt32 interface. This is
+          provided to support the fast feedback device support for the EPID record, which
+          is provided in the synApps "std" module. That device support expects callbacks on
+          the asynFloat64 interface for its input data.</td>
       </tr>
       <tr>
         <td>
@@ -560,115 +587,115 @@
           as it completes. Choices are "No" and "Yes". This can be useful for producing a
           continuously updating display of frequency power-spectra, for example.</td>
       </tr>
+      <tr>
+        <td>
+          $(P)$(R)Current[1-4]TS</td>
+        <td>
+          waveform</td>
+        <td>
+          The time-series values for the diode currents.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)Sum[12,34,1234]TS</td>
+        <td>
+          waveform</td>
+        <td>
+          The time-series values for the diode sums.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)Diff[12,34]TS</td>
+        <td>
+          waveform</td>
+        <td>
+          The time-series values for the diode sums.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)Position[12,34]TS</td>
+        <td>
+          waveform</td>
+        <td>
+          The time-series values for the diode positions.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)TimeAxis</td>
+        <td>
+          waveform</td>
+        <td>
+          An array of the times for the x-axis of time series plots.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)ComputeFFT</td>
+        <td>
+          bo</td>
+        <td>
+          Controls whether FFTs power-spectra are computed when time-series data acquisition
+          completes. Choices are "No" and "Yes". The FFT calculations are done in the SNL
+          program using the Numerical Recipes "four1" function.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)Current[1-4]FFT</td>
+        <td>
+          waveform</td>
+        <td>
+          The frequency power-spectra for the diode currents.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)Sum[12,34,1234]FFT</td>
+        <td>
+          waveform</td>
+        <td>
+          The frequency power-spectra for the diode sums.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)Diff[12,34]FFT</td>
+        <td>
+          waveform</td>
+        <td>
+          The frequency power-spectra for the diode sums.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)Position[12,34]FFT</td>
+        <td>
+          waveform</td>
+        <td>
+          The frequency power-spectra for the diode positions.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)FreqAxis</td>
+        <td>
+          waveform</td>
+        <td>
+          An array of the frequencies for the x-axis of frequency power-spectrum plots.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)EnableClientWait</td>
+        <td>
+          bo</td>
+        <td>
+          A flag to control whether time-series data acquisition waits for a client to reset
+          the ClientWait record.</td>
+      </tr>
+      <tr>
+        <td>
+          $(P)$(R)ClientWait</td>
+        <td>
+          busy</td>
+        <td>
+          A busy record which a client must set back to 0 to enable time-series data acquisition
+          to continue if EnableClientWait is "Enable".</td>
+      </tr>
     </tbody>
-    <tr>
-      <td>
-        $(P)$(R)Current[1-4]TS</td>
-      <td>
-        waveform</td>
-      <td>
-        The time-series values for the diode currents.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)Sum[12,34,1234]TS</td>
-      <td>
-        waveform</td>
-      <td>
-        The time-series values for the diode sums.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)Diff[12,34]TS</td>
-      <td>
-        waveform</td>
-      <td>
-        The time-series values for the diode sums.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)Position[12,34]TS</td>
-      <td>
-        waveform</td>
-      <td>
-        The time-series values for the diode positions.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)TimeAxis</td>
-      <td>
-        waveform</td>
-      <td>
-        An array of the times for the x-axis of time series plots.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)ComputeFFT</td>
-      <td>
-        bo</td>
-      <td>
-        Controls whether FFTs power-spectra are computed when time-series data acquisition
-        completes. Choices are "No" and "Yes". The FFT calculations are done in the SNL
-        program using the Numerical Recipes "four1" function.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)Current[1-4]FFT</td>
-      <td>
-        waveform</td>
-      <td>
-        The frequency power-spectra for the diode currents.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)Sum[12,34,1234]FFT</td>
-      <td>
-        waveform</td>
-      <td>
-        The frequency power-spectra for the diode sums.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)Diff[12,34]FFT</td>
-      <td>
-        waveform</td>
-      <td>
-        The frequency power-spectra for the diode sums.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)Position[12,34]FFT</td>
-      <td>
-        waveform</td>
-      <td>
-        The frequency power-spectra for the diode positions.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)FreqAxis</td>
-      <td>
-        waveform</td>
-      <td>
-        An array of the frequencies for the x-axis of frequency power-spectrum plots.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)EnableClientWait</td>
-      <td>
-        bo</td>
-      <td>
-        A flag to control whether time-series data acquisition waits for a client to reset
-        the ClientWait record.</td>
-    </tr>
-    <tr>
-      <td>
-        $(P)$(R)ClientWait</td>
-      <td>
-        busy</td>
-      <td>
-        A busy record which a client must set back to 0 to enable time-series data acquisition
-        to continue if EnableClientWait is "Enable".</td>
-    </tr>
   </table>
   <p>
     This is the medm screen to control the records in quadEM_TimeSeries.template.</p>
@@ -706,8 +733,8 @@
     on APS beamline 13-ID. The readback and control PVs cannot be changed after iocInit.
     The update rate (SCAN rate of EPID record) only controls the rate at which the EPID
     record displays "snapshots" of the values of the input, output, and error. It does
-    not affect the rate at which the feedback is actually being done, which can be much
-    faster than this.
+    not affect the rate at which the feedback is actually being done, which is controlled
+    by the DT field in the EPID record, can be much faster than the SCAN value.
   </p>
   <div style="text-align: center">
     <h3 style="text-align: center">
@@ -728,7 +755,8 @@
     This is an medm screen that displays the setpoint of the pitch of the monochromator
     (in red), and the actual readback from the quadEM (in blue). Note that the readback
     here is only the snapshot values from the EPID record. For full-speed readings of
-    the readback the waveform records from the quadEM_TimeSeries.template database would be used.
+    the readback the waveform records from the quadEM_TimeSeries.template database would
+    be used.
   </p>
   <div style="text-align: center">
     <h3 style="text-align: center">
@@ -748,9 +776,9 @@
 file "$(STD)/stdApp/Db/fast_pid_control.db"
 {
 pattern
-{P,                 PID,  INPUT,  INPUT_DATA,   INPUT_INTERVAL, ICHAN, OUTPUT, OCHAN,  OUTPUT_DATA,    LOPR,     HOPR,  DRVL,  DRVH,  PREC,   KP,    KI,  KD,   DT,        SCAN}
-{quadEMTest:, MonoPitch, APS_EM,     QE_DATA, QE_CALLBACK_TIME,     9,   DAC1,     1,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
-{quadEMTest:,  MonoRoll, APS_EM,     QE_DATA, QE_CALLBACK_TIME,    10,   DAC1,     2,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+{P,                 PID,  INPUT,     INPUT_DATA,   INPUT_INTERVAL, ICHAN, OUTPUT, OCHAN,  OUTPUT_DATA,    LOPR,     HOPR,  DRVL,  DRVH,  PREC,   KP,    KI,  KD,   DT,        SCAN}
+{quadEMTest:, MonoPitch, APS_EM, QE_DOUBLE_DATA,   QE_SAMPLE_TIME,     9,   DAC1,     1,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+{quadEMTest:,  MonoRoll, APS_EM, QE_DOUBLE_DATA,   QE_SAMPLE_TIME,    10,   DAC1,     2,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
 }
 </pre>
   <h2 id="AH401B_Setup">
@@ -770,9 +798,9 @@ pattern
     (or other asyn digital I/O device with interrupt and callback capabilities), then
     the ipUnidig interrupt routine will call the APS_EM driver each time new data is
     available. The Ip-Unidig channel where the APS_EM pulse is connected is specified
-    in the unidigChan argument to drvAPS_EMConfigure command in the startup script. If an Ip-Unidig
-    or other interrupt source is not being used then the APS_EM driver will poll for
-    new data at the system clock rate, typically 60Hz.</p>
+    in the unidigChan argument to drvAPS_EMConfigure command in the startup script.
+    If an Ip-Unidig or other interrupt source is not being used then the APS_EM driver
+    will poll for new data at the system clock rate, typically 60Hz.</p>
   <p>
     An example startup script for vxWorks with the APS_EM is provided in <a href="quadEM_st_cmd_vxWorks.html">
       quadEM/iocBoot/iocTest.st.cmd.vxWorks</a>. This example startup script actually
