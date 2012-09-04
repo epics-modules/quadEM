@@ -9,6 +9,25 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 3-0 (September 4, 2012)</h2>
+  <ul>
+    <li>Complete re-write of the module. The new version is based on asynPortDriver. It
+      consists of a base class, drvQuadEM.cpp, and two derived classes:
+      <ol>
+        <li>drvAH401B.cpp which is new support for the AH401B picoammeter designed and sold
+          by <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
+            Synchrotron Trieste (elettra)</a>. It is also sold by <a href="http://www.caenels.com/caenels/product.php?fam=cemis&amp;mod=AH401B">
+              CAENels</a>. </li>
+        <li>drvAPS_EM.cpp, which is improved support for the APS electrometer designed by
+          Steve Ross.</li>
+      </ol>
+      The new version is not completely backwards compatible with the previous version,
+      and will require modification of startup scripts and medm screens. </li>
+    <li>Added support for power-spectra calculations using FFTs on time-series arrays.
+      These now run in the IOC, rather than requiring a separate Channel Access client,
+      which previous releases required.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 2-6 (November 2, 2011)</h2>
   <ul>
     <li>Added support for the remote reboot capability of the electrometer. This makes
