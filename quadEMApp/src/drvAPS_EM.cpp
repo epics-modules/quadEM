@@ -53,6 +53,15 @@ static void callbackFuncC(void *pPvt, asynUser *pasynUser, epicsUInt32 mask)
     pdrvAPS_EM->callbackFunc(mask);
 }
 
+/** Constructor for the drvAPS_EM class.
+  * Calls the constructor for the drvQuadEM base class.
+  * \param[in] portName The name of the asyn port driver to be created.
+  * \param[in] baseAddr A24 base address of the VME card
+  * \param[in] fiberChannel Address [0-3] of the fiber channel connected to the electrometer
+  * \param[in] unidigName Name of asynPort for the Ip-Unidig driver if it is being used to generate interrupts
+  * \param[in] unidigChan Channel number [0-23] of the Ip-Unidig connected to the APS_EM pulse output, if Ip-Unidig is being used.
+  * \param[in] unidigDrvInfo  The drvInfo field for the data callback of the ipUnidig driver. If not specified then asynUser->reason=0 is used.
+  */
 drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberChannel,
                      const char *unidigName, int unidigChan, char *unidigDrvInfo)
    : drvQuadEM(portName, 0),
@@ -165,9 +174,8 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
 }
 
 
+/**  This function runs as a polling task at the system clock rate if there is no interrupt driver (such as Ip-Unidig) being used */
 void drvAPS_EM::pollerThread()
-/*  This functions runs as a polling task at the system clock rate if there is 
- *  no interrupts present */
 {
     while(1) { /* Do forever */
         if (acquiring_) callbackFunc(0);
@@ -175,15 +183,17 @@ void drvAPS_EM::pollerThread()
     }
 }
 
+/**  Callback function which is called either from drvAPS_EM::pollerThread or from the interrupt driver when a pulse is received from the VME card.
+  * Calls drvAPS_EM::readMeter and then drvQuadEM::computePositions.
+  * \param[in] mask The mask of bit status in the Ip-Unidig. We can get callbacks on both high-to-low and low-to-high transitions
+  * of the pulse to the digital I/O board.  We only want to use one or the other.
+  * mask is 0 if this was a high-to-low transition, which is the one we use. 
+  */
 void drvAPS_EM::callbackFunc(epicsUInt32 mask)
 {
     int raw[QE_MAX_INPUTS];
     static const char *functionName="intFunc";
 
-    /* We get callbacks on both high-to-low and low-to-high transitions
-     * of the pulse to the digital I/O board.  We only want to use one or the other.
-     * The mask parameter to this routine is 0 if this was a high-to-low 
-     * transition.  Use that one. */
     asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
               "%s:%s: got callback, mask=%x\n", driverName, functionName, mask);
     if (mask) return;
@@ -193,6 +203,9 @@ void drvAPS_EM::callbackFunc(epicsUInt32 mask)
     computePositions(raw);
 }
 
+/** Starts and stops the electrometer.
+  * \param[in] value 1 to start the electrometer, 0 to stop it.
+  */
 asynStatus drvAPS_EM::setAcquire(int value)
 {
     epicsUInt32 mask;
@@ -216,15 +229,21 @@ asynStatus drvAPS_EM::setAcquire(int value)
     return asynSuccess;
 }
 
+/** Sets the ping-pong setting. 
+  * \param[in] value 0=ping, 1=pong, 2=average
+  */
 asynStatus drvAPS_EM::setPingPong(int value)
 {
     pingPong_ = (PingPongValue_t)value;
     return asynSuccess;
 }
 
-asynStatus drvAPS_EM::setIntegrationTime(double seconds)
+/** Sets the integration time. 
+  * \param[in] value The integration time in seconds.
+  */
+asynStatus drvAPS_EM::setIntegrationTime(double value)
 {
-    double microSeconds = seconds * 1.e6;
+    double microSeconds = value * 1.e6;
     int convValue;
     double integrationTime;
     double sampleTime;
@@ -248,11 +267,16 @@ asynStatus drvAPS_EM::setIntegrationTime(double seconds)
     return writeMeter(CONV_COMMAND, convValue);
 }
 
+/** Sets the range. 
+  * \param[in] value The range setting.
+  */
 asynStatus drvAPS_EM::setRange(int value)
 {
     return writeMeter(RANGE_COMMAND, value);
 }
 
+/** Resets the electometer, rebooting the device, sleeping for 1 second, and then downloading all of the settings.
+  */
 asynStatus drvAPS_EM::setReset()
 {
     int range;
@@ -274,35 +298,48 @@ asynStatus drvAPS_EM::setReset()
     return asynSuccess;
 }
 
+/** Sets the trigger setting.
+  * This is not implemented in APS_EM, which has no trigger function. 
+  * \param[in] value 0=internal, 1=external
+  */
 asynStatus drvAPS_EM::setTrigger(int value)
 {
     // No trigger support on APS electrometer
     return asynSuccess;
 }
 
+/** Reads the settings back from the electrometer.  This is not supported on APS_EM. 
+  */
 asynStatus drvAPS_EM::getSettings() 
 {
     // No settings readback on APS electrometer
     return asynSuccess;
 }
   
+/** Sends the pulse command to the electrometer. 
+  */
 asynStatus drvAPS_EM::setPulse()
 {
     return writeMeter(PULSE_COMMAND, APS_EM_PULSE_VALUE);
 }
 
+/** Sends the period command to the electrometer. 
+  */
 asynStatus drvAPS_EM::setPeriod()
 {
     /* For now we use a fixed period */
     return writeMeter(PERIOD_COMMAND, APS_EM_PERIOD_VALUE);
 }
 
+/** Sends the go command to the electrometer. 
+  */
 asynStatus drvAPS_EM::setGo()
 {
     return writeMeter(GO_COMMAND, 1);
 }
 
-
+/** Reads the current values from the VME registers.  This function is called from drvAPS_EM::callbackFunc(). 
+  */
 asynStatus drvAPS_EM::readMeter(epicsInt32 raw[QE_MAX_INPUTS])
 {
     int data[APS_EM_MAX_RAW];
@@ -334,6 +371,10 @@ asynStatus drvAPS_EM::readMeter(epicsInt32 raw[QE_MAX_INPUTS])
     return asynSuccess;
 }
 
+/** Sends a command to the electrometer
+  * \param[in] command  The electrometer command
+  * \param[in] value The command value 
+  */
 asynStatus drvAPS_EM::writeMeter(int command, int value)
 {
     static const char *functionName = "writeMeter";
@@ -348,12 +389,12 @@ asynStatus drvAPS_EM::writeMeter(int command, int value)
     return asynSuccess;
 }
 
-
-
-
 /* asynCommon routines */
 
-/* Report  parameters */
+/** Report  parameters 
+  * \param[in] fp The file pointer to write to
+  * \param[in] details The level of detail requested
+  */
 void drvAPS_EM::report(FILE *fp, int details)
 {
     fprintf(fp, "Port: %s, address %p\n", portName, baseAddress_);
@@ -375,8 +416,8 @@ extern "C" {
   * \param[in] baseAddr The A24 address of the VME card
   * \param[in] fiberChannel The fiber channel number (0-3)
   * \param[in] unidigName The IpUnidig (or other asyn digital I/O card) port driver name
-  * \param[in] unidigName The IpUnidig (or other asyn digital I/O card) channel (bit) number 
-  * \param[in] unidigName The IpUnidig (or other asyn digital I/O card) drvInfo string for data */ 
+  * \param[in] unidigChan The IpUnidig (or other asyn digital I/O card) channel (bit) number 
+  * \param[in] unidigDrvInfo The IpUnidig (or other asyn digital I/O card) drvInfo string for data */ 
 int drvAPS_EMConfigure(const char *portName, unsigned short *baseAddr, int fiberChannel,
                        const char *unidigName, int unidigChan, char *unidigDrvInfo)
 {
@@ -385,8 +426,6 @@ int drvAPS_EMConfigure(const char *portName, unsigned short *baseAddr, int fiber
 }
 
 
-
-
 static const iocshArg initArg0 = { "name",iocshArgString};
 static const iocshArg initArg1 = { "baseAddr",iocshArgInt};
 static const iocshArg initArg2 = { "fiberChannel",iocshArgInt};
