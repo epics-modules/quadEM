@@ -45,6 +45,7 @@ private:
     char *firmwareVersion_;
     char outString_[MAX_COMMAND_LEN];
     char inString_[MAX_COMMAND_LEN];
+    asynStatus setBinaryMode();
     asynStatus sendCommand();
     asynStatus writeReadMeter();
 };
