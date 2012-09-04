@@ -1,0 +1,7 @@
+file "$(STD)/stdApp/Db/fast_pid_control.db"
+{
+pattern
+{P,                  PID,   INPUT,     INPUT_DATA, INPUT_INTERVAL, ICHAN, OUTPUT, OCHAN, OUTPUT_DATA,    LOPR,     HOPR,  DRVL,  DRVH,  PREC,   KP,  KI,  KD,   DT,      SCAN}
+{quadEMTest:, mono_pitch,  AH401B, QE_DOUBLE_DATA, QE_SAMPLE_TIME,     9,   DAC1,     0, DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+{quadEMTest:,  mono_roll,  AH401B, QE_DOUBLE_DATA, QE_SAMPLE_TIME,    10,   DAC1,     3, DOUBLE_DATA,  -32767,    32767,  2048,  3072,     3,  .02,  100.,  0., .001, ".1 second"}
+}
