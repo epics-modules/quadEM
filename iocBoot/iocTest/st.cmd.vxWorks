@@ -70,11 +70,15 @@ dbLoadRecords("$(QUADEM)/quadEMApp/Db/APS_EM.template", "P=quadEMTest:, R=QE2:, 
 #  intervalString  = drvInfo string for time interval per point
 initFastSweep("QE1TS", "AH401B", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
 initFastSweep("QE2TS", "APS_EM", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=quadEMTest:,R=QE1_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE1TS")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=quadEMTest:,R=QE2_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE2TS")
+
+# The following commands are longer than vxWorks 80 character limit, use a symbol to reduce length
+str = "$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template"
+dbLoadRecords(str, "P=quadEMTest:,R=QE1_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE1TS")
+dbLoadRecords(str, "P=quadEMTest:,R=QE2_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE2TS")
 
 # Fast feedback using EPID record
-# We don't actually load this, because that requires the synApps "std" and "dac128V" modules which we don't include in this example application
+# We don't actually load this, because that requires the synApps "std" and "dac128V" modules 
+# which we don't include in this example application
 #dbLoadTemplate("quadEM_pid.substitutions")
 
 set_requestfile_path("./")
