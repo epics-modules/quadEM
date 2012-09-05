@@ -33,7 +33,7 @@ asynSetTraceIOMask("AH401B",0,2)
 #  dataString  = drvInfo string for current and position data
 #  intervalString  = drvInfo string for time interval per point
 initFastSweep("QE1TS", "AH401B", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=quadEMTest:,R=QE1:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE1TS")
+dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=quadEMTest:,R=QE1_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE1TS")
 
 set_requestfile_path("./")
 set_requestfile_path("$(QUADEM)/quadEMApp/Db")
@@ -48,5 +48,5 @@ iocInit()
 # save settings every thirty seconds
 create_monitor_set("auto_settings.req",30,"P=quadEMTest:")
 
-seq("quadEM_SNL", "P=quadEMTest:, R=QE1:, NUM_CHANNELS=2048")
+seq("quadEM_SNL", "P=quadEMTest:, R=QE1_TS:, NUM_CHANNELS=2048")
 
