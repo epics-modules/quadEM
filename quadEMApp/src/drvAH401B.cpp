@@ -141,7 +141,9 @@ void drvAH401B::readThread(void)
     lock();
     while (1) {
         getIntegerParam(P_Acquire, &acquire);
-        if (!acquire) {
+        //  We check both P_Acquire and acquiring_. P_Acquire means that EPICS "wants" to acquire, acquiring_ means
+        // that we are actually acquiring, which could be false if the device is unreachable.
+        if (!acquire || !acquiring_) {
             unlock();
             epicsEventWait(readDataEvent_);
             lock();
@@ -167,6 +169,7 @@ void drvAH401B::readThread(void)
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                 "%s:%s: unexpected error reading meter status=%d, nRead=%d, eomReason=%d\n", 
                 driverName, functionName, status, nRead, eomReason);
+            // We got an error reading the meter, it is probably offline.  Wait 1 second before trying again.
             unlock();
             epicsThreadSleep(1.0);
             lock();
@@ -199,6 +202,7 @@ asynStatus drvAH401B::setAcquire(epicsInt32 value)
             readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .1, &nread, &eomReason);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
+        acquiring_ = 0;
     } else {
         status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ ON", strlen("ACQ ON"), 
                                              dummyIn, MAX_COMMAND_LEN, AH401B_TIMEOUT, &nwrite, &nread, &eomReason);
@@ -209,7 +213,6 @@ asynStatus drvAH401B::setAcquire(epicsInt32 value)
     }
     if (status) {
         acquiring_ = 0;
-        setIntegerParam(P_Acquire, 0);
     }
     return status;
 }
