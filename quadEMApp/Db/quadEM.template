@@ -250,3 +250,6 @@ record(ai,"$(P)$(R)Position34") {
     field(INP,"@asyn($(PORT) 10)QE_DATA")
 }
 
+record(asyn, "$(P)$(R)Asyn") {
+    field(PORT, "$(PORT)")
+}
