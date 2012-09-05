@@ -114,7 +114,7 @@ text {
 	display[1] {
 		label="AH401B time series"
 		name="quadEM_TimeSeries.adl"
-		args="P=quadEMTest:QE1:,P_FFT=quadEMTest:QE1_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
+		args="P=quadEMTest:QE1_TS:,P_FFT=quadEMTest:QE1_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
 	}
 	display[2] {
 		label="APS_EM"
@@ -124,7 +124,7 @@ text {
 	display[3] {
 		label="APS_EM time series"
 		name="quadEM_TimeSeries.adl"
-		args="P=quadEMTest:QE2:,P_FFT=quadEMTest:QE2_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
+		args="P=quadEMTest:QE2_TS:,P_FFT=quadEMTest:QE2_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
 	}
 	clr=14
 	bclr=4
