@@ -167,6 +167,9 @@ void drvAH401B::readThread(void)
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                 "%s:%s: unexpected error reading meter status=%d, nRead=%d, eomReason=%d\n", 
                 driverName, functionName, status, nRead, eomReason);
+            unlock();
+            epicsThreadSleep(1.0);
+            lock();
         }
     }
 }
@@ -181,19 +184,21 @@ asynStatus drvAH401B::setAcquire(epicsInt32 value)
     asynStatus status=asynSuccess, readStatus;
     int eomReason;
     char dummyIn[MAX_COMMAND_LEN];
+    //static const char *functionName = "setAcquire";
 
     if (value == 0) {
         while (1) {
             // Repeat sending ACQ OFF until we get only an ACK back
             status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
+            if (status) break;
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ OFF", strlen("ACQ OFF"), 
                                              dummyIn, MAX_COMMAND_LEN, AH401B_TIMEOUT, &nwrite, &nread, &eomReason);
+            if (status) break;
             // Flush the input buffer because there could be more characters sent after ACK
             nread = 0;
             readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .1, &nread, &eomReason);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
-        acquiring_ = 0;
     } else {
         status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ ON", strlen("ACQ ON"), 
                                              dummyIn, MAX_COMMAND_LEN, AH401B_TIMEOUT, &nwrite, &nread, &eomReason);
@@ -201,6 +206,10 @@ asynStatus drvAH401B::setAcquire(epicsInt32 value)
         // Notify the read thread if acquisition status has started
         epicsEventSignal(readDataEvent_);
         acquiring_ = 1;
+    }
+    if (status) {
+        acquiring_ = 0;
+        setIntegerParam(P_Acquire, 0);
     }
     return status;
 }
@@ -255,9 +264,6 @@ asynStatus drvAH401B::setReset()
     epicsInt32 iValue;
     epicsFloat64 dValue;
 
-    getIntegerParam(P_Acquire, &iValue);
-    setAcquire(iValue);
-
     getIntegerParam(P_PingPong, &iValue);
     setPingPong(iValue);
 
@@ -274,6 +280,9 @@ asynStatus drvAH401B::setReset()
 
     getSettings();
     
+    getIntegerParam(P_Acquire, &iValue);
+    setAcquire(iValue);
+
     return asynSuccess;
 }
 
