@@ -41,6 +41,7 @@ PROD_LIBS += autosave
 PROD_LIBS += asyn
 PROD_LIBS += seq pv
 PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
+PROD_LIBS_vxWorks += $(EPICS_BASE_IOC_LIBS)
 
 #===========================
 
