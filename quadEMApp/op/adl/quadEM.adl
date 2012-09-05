@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=60
-		y=30
+		x=74
+		y=194
 		width=430
-		height=495
+		height=520
 	}
 	clr=14
 	bclr=3
@@ -956,4 +956,31 @@ composite {
 			}
 		}
 	}
+}
+text {
+	object {
+		x=58
+		y=490
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Asyn record"
+}
+"related display" {
+	object {
+		x=182
+		y=490
+		width=80
+		height=20
+	}
+	display[0] {
+		label="asyn record"
+		name="asynRecord.adl"
+		args="P=$(P), R=$(R)Asyn"
+	}
+	clr=14
+	bclr=51
 }
