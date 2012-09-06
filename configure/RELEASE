@@ -34,7 +34,7 @@ SNCSEQ=$(SUPPORT)/seq-2-1-9
 AUTOSAVE=$(SUPPORT)/autosave-4-9
 
 # MCA - this module
-MCA=$(SUPPORT)/mca-7-1
+MCA=$(SUPPORT)/mca-7-2
 
 # EPICS_BASE usually appears last so other apps can override stuff:
 EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.2
