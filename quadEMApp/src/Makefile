@@ -11,7 +11,7 @@ include $(TOP)/configure/CONFIG
 LIBRARY_IOC += quadEM
 
 DBD += drvAPS_EM.dbd
-DBD += drvAH401B.dbd
+DBD += drvAHxxx.dbd
 DBD += quadEMTestApp.dbd
 DBD += quadEMTestAppVx.dbd
 
