@@ -4,6 +4,11 @@ $(P)$(R)Range
 $(P)$(R)PingPong
 $(P)$(R)IntegrationTime
 $(P)$(R)Trigger
+$(P)$(R)NumChannels
+$(P)$(R)BiasState
+$(P)$(R)BiasVoltage
+$(P)$(R)Resolution
+$(P)$(R)SkipReadings
 $(P)$(R)CurrentOffset1
 $(P)$(R)CurrentOffset2
 $(P)$(R)CurrentOffset3
