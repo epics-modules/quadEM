@@ -1,2 +1,2 @@
-file "quadEM_settings.req",            P=$(P), R=QE1:
-file "quadEM_TimeSeries_settings.req", P=$(P), R=QE1_TS:
+file "quadEM_settings.req",            P=$(P), R=$(R)
+file "quadEM_TimeSeries_settings.req", P=$(P), R=$(R_TS)
