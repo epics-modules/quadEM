@@ -163,6 +163,9 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
                                     pUInt32DAsynUser_, mask,
                                     interruptOnOneToZero);
     }
+    
+    /* Set the model */
+    setIntegerParam(P_Model, QE_ModelAPS_EM); 
 
     /* Send the initial settings to the board to get it talking to the 
      * electometer. These settings will be overridden by the database values 
@@ -247,6 +250,7 @@ asynStatus drvAPS_EM::setIntegrationTime(double value)
     int convValue;
     double integrationTime;
     double sampleTime;
+    int skipReadings;
 
     /* Convert from microseconds to device units */
     convValue = (int)((microSeconds - 0.6)/1.6 + 0.5);
@@ -262,6 +266,8 @@ asynStatus drvAPS_EM::setIntegrationTime(double value)
     } else {
         sampleTime = epicsThreadSleepQuantum();
     }
+    getIntegerParam(P_SkipReadings, &skipReadings);
+    sampleTime = sampleTime * (skipReadings + 1);
     setDoubleParam(P_SampleTime, sampleTime);
 
     return writeMeter(CONV_COMMAND, convValue);
