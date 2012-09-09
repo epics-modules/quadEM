@@ -167,7 +167,7 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
     /* Send the initial settings to the board to get it talking to the 
      * electometer. These settings will be overridden by the database values 
      * when the database initializes */
-    setReset();
+    reset();
     
     error:
     return;
@@ -277,7 +277,7 @@ asynStatus drvAPS_EM::setRange(int value)
 
 /** Resets the electometer, rebooting the device, sleeping for 1 second, and then downloading all of the settings.
   */
-asynStatus drvAPS_EM::setReset()
+asynStatus drvAPS_EM::reset()
 {
     int range;
     double integrationTime;
@@ -295,16 +295,6 @@ asynStatus drvAPS_EM::setReset()
     setIntegrationTime(integrationTime);
     epicsThreadSleep(0.01);
     setGo();
-    return asynSuccess;
-}
-
-/** Sets the trigger setting.
-  * This is not implemented in APS_EM, which has no trigger function. 
-  * \param[in] value 0=internal, 1=external
-  */
-asynStatus drvAPS_EM::setTrigger(int value)
-{
-    // No trigger support on APS electrometer
     return asynSuccess;
 }
 
