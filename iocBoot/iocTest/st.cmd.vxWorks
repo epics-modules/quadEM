@@ -13,87 +13,35 @@ cd startup
 dbLoadDatabase("../../dbd/quadEMTestAppVx.dbd")
 quadEMTestAppVx_registerRecordDeviceDriver(pdbbase)
 
-ipacAddVIPC616_01("0x3000,0xa0000000")
-# Initialize Greenspring IP-Unidig
-# initIpUnidig(char *portName, 
-#              int carrier, 
-#              int slot,
-#              int msecPoll,
-#              int intVec, 
-#              int risingMask, 
-#              int fallingMask)
-# portName  = name to give this asyn port
-# carrier     = IPAC carrier number (0, 1, etc.)
-# slot        = IPAC slot (0,1,2,3, etc.)
-# msecPoll    = polling time for input bits in msec.  Default=100.
-# intVec      = interrupt vector
-# risingMask  = mask of bits to generate interrupts on low to high (24 bits)
-# fallingMask = mask of bits to generate interrupts on high to low (24 bits)
-initIpUnidig("Unidig1", 0, 1, 2000, 116, 0xfffffb, 0xfffffb)
+# This IOC can run the APS_EM, AH401B, or AH501, but only one at a time
+# Comment out the lines for the unused ones
+#epicsEnvSet("MODEL", "APS_EM")
+#iocsh("st.cmd.APS_EM")
 
-#drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,
-#                        noProcessEos)
-drvAsynIPPortConfigure("IP_AH401B", "164.54.160.240:10001", 0, 0, 0)
-asynOctetSetInputEos("IP_AH401B",0,"\r\n")
-asynOctetSetOutputEos("IP_AH401B",0,"\r")
+#epicsEnvSet("MODEL", "AH401B")
+#epicsEnvSet("IP", "164.54.160.240:10001")
+#iocsh("st.cmd.AHxxx")
 
-asynSetTraceIOMask("IP_AH401B",0,2)
-#asynSetTraceMask("IP_AH401B",0,9)
-
-# Load asynRecord record
-dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=quadEMTest:, R=asyn1,PORT=IP_AH401B,ADDR=0,OMAX=256,IMAX=256")
-
-drvAH401BConfigure("AH401B", "IP_AH401B")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM.template", "P=quadEMTest:, R=QE1:, PORT=AH401B")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/AH401B.template", "P=quadEMTest:, R=QE1:, PORT=AH401B")
-
-# drvAPS_EMConfigure(const char *portName, unsigned short *baseAddr, int fiberChannel,
-#                    const char *unidigName, int unidigChan, char *unidigDrvInfo)
-#  portName     = name of APS_EM asyn port driver created 
-#  baseAddress = base address of VME card
-#  channel     = 0-3, fiber channel number
-#  unidigName  = name of ipInidig server if it is used for interrupts.
-#                Set to 0 if there is no IP-Unidig being used, in which
-#                case the quadEM will be read at 60Hz.
-#  unidigChan  = IP-Unidig channel connected to quadEM pulse output
-#  unidigDrvInfo = drvInfo string for digital input parameter
-drvAPS_EMConfigure("APS_EM", 0xf000, 0, "Unidig1", 2, "DIGITAL_INPUT")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM.template", "P=quadEMTest:, R=QE2:, PORT=APS_EM")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/APS_EM.template", "P=quadEMTest:, R=QE2:, PORT=APS_EM")
-
-# initFastSweep(portName, inputName, maxSignals, maxPoints)
-#  portName = asyn port name for this new port (string)
-#  inputName = name of asynPort providing data
-#  maxSignals  = maximum number of signals (spectra)
-#  maxPoints  = maximum number of channels per spectrum
-#  dataString  = drvInfo string for current and position data
-#  intervalString  = drvInfo string for time interval per point
-initFastSweep("QE1TS", "AH401B", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
-initFastSweep("QE2TS", "APS_EM", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
-
-# The following commands are longer than vxWorks 80 character limit, use a symbol to reduce length
-str = "$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template"
-dbLoadRecords(str, "P=quadEMTest:,R=QE1_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE1TS")
-dbLoadRecords(str, "P=quadEMTest:,R=QE2_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=QE2TS")
-
-# Fast feedback using EPID record
-# We don't actually load this, because that requires the synApps "std" and "dac128V" modules 
-# which we don't include in this example application
-#dbLoadTemplate("quadEM_pid.substitutions")
+epicsEnvSet("MODEL", "AH501")
+epicsEnvSet("IP", "164.54.160.241:10001")
+iocsh("st.cmd.AHxxx")
 
 set_requestfile_path("./")
 set_requestfile_path(quadem, "quadEMApp/Db")
 set_savefile_path("./autosave")
-set_pass0_restoreFile("auto_settingsVx.sav")
-set_pass1_restoreFile("auto_settingsVx.sav")
+set_pass0_restoreFile("auto_settings.sav")
+set_pass1_restoreFile("auto_settings.sav")
 save_restoreSet_status_prefix("quadEMTest:")
 dbLoadRecords("$(AUTOSAVE)/asApp/Db/save_restoreStatus.db", "P=quadEMTest:")
 
 iocInit()
 
 # save settings every thirty seconds
-create_monitor_set("auto_settingsVx.req",30,"P=quadEMTest:")
+#create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=APS_EM:, R_TS=APS_EM_TS:")
+#create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=AH401B:, R_TS=AH401B_TS:")
+create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=AH501:,  R_TS=AH501_TS:")
 
-seq(&quadEM_SNL, "P=quadEMTest:, R=QE1_TS:, NUM_CHANNELS=2048")
-seq(&quadEM_SNL, "P=quadEMTest:, R=QE2_TS:, NUM_CHANNELS=2048")
+#seq(&quadEM_SNL, "P=quadEMTest:, R=APS_EM_TS:, NUM_CHANNELS=2048")
+#seq(&quadEM_SNL, "P=quadEMTest:, R=AH401B_TS:, NUM_CHANNELS=2048")
+seq(&quadEM_SNL, "P=quadEMTest:, R=AH501_TS:, NUM_CHANNELS=2048")
 
