@@ -202,6 +202,20 @@ record(ai,"$(P)$(R)BiasVoltage_RBV") {
     field(SCAN, "I/O Intr")
 }
 
+record(longout,"$(P)$(R)SkipReadings") {
+    field(DESC,"Readings to skip")
+    field(PINI,"YES")
+    field(DTYP, "asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_SKIP_READINGS")
+}
+
+record(longin,"$(P)$(R)SkipReadings_RBV") {
+    field(DESC,"Readings to skip")
+    field(DTYP, "asynInt32")
+    field(INP,"@asyn($(PORT) 0)QE_SKIP_READINGS")
+    field(SCAN, "I/O Intr")
+}
+
 record(bo,"$(P)$(R)Reset") {
     field(DESC,"Reset")
     field(DTYP, "asynInt32")
