@@ -392,9 +392,10 @@ asynStatus drvAHxxx::getSettings()
 {
     // Reads the values of all the meter parameters, sets them in the parameter library
     int trigger, range, resolution, pingPong, numChannels, biasState;
+    int skipReadings;
     double integrationTime, biasVoltage;
     int prevAcquiring;
-    double sampleTime;
+    double sampleTime=0.;
     static const char *functionName = "getStatus";
     
     prevAcquiring = acquiring_;
@@ -425,7 +426,6 @@ asynStatus drvAHxxx::getSettings()
         integrationTime = integrationTime/10000.;
         setDoubleParam(P_IntegrationTime, integrationTime);
         sampleTime = pingPong ? integrationTime : integrationTime*2.;
-        setDoubleParam(P_SampleTime, sampleTime);
     }
     if ((model_ == QE_ModelAH501) || (model_ == QE_ModelAH501C) || (model_ == QE_ModelAH501D)) {
         strcpy(outString_, "CHN ?");
@@ -441,7 +441,6 @@ asynStatus drvAHxxx::getSettings()
         // Compute the sample time.  This is a function of the resolution and number of channels
         sampleTime = 38.4e-6 * numChannels;
         if (resolution == 24) sampleTime = sampleTime * 2.;
-        setDoubleParam(P_SampleTime, sampleTime);
     }
     if ((model_ == QE_ModelAH501C) || (model_ == QE_ModelAH501D)) {
         strcpy(outString_, "HVS ?");
@@ -457,6 +456,10 @@ asynStatus drvAHxxx::getSettings()
         if (biasState) setDoubleParam(P_BiasVoltage, biasVoltage);
     }
     
+    // The sample times computed above don't include skipReadings
+    getIntegerParam(P_SkipReadings, &skipReadings);
+    sampleTime = sampleTime * (skipReadings + 1);
+    setDoubleParam(P_SampleTime, sampleTime);
     if (prevAcquiring) setAcquire(1);
     
     return asynSuccess;
