@@ -17,9 +17,13 @@
 
 #include "drvQuadEM.h"
 
-
 static const char *driverName="drvQuadEM";
-void readThread(void *drvPvt);
+
+static void exitHandlerC(void *pPvt)
+{
+    drvQuadEM *pdrvQuadEM = (drvQuadEM *)pPvt;
+    pdrvQuadEM->exitHandler();
+}
 
 
 /** Constructor for the drvQuadEM class.
@@ -53,7 +57,23 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
     createParam(P_RangeString,              asynParamInt32,         &P_Range);
     createParam(P_ResetString,              asynParamInt32,         &P_Reset);
     createParam(P_TriggerString,            asynParamInt32,         &P_Trigger);
-     
+    createParam(P_NumChannelsString,        asynParamInt32,         &P_NumChannels);
+    createParam(P_BiasStateString,          asynParamInt32,         &P_BiasState);
+    createParam(P_BiasVoltageString,        asynParamFloat64,       &P_BiasVoltage);
+    createParam(P_ResolutionString,         asynParamInt32,         &P_Resolution);
+    createParam(P_ModelString,              asynParamInt32,         &P_Model);
+    
+    setIntegerParam(P_Acquire, 0);
+    setIntegerParam(P_PingPong, 0);
+    setDoubleParam(P_IntegrationTime, 0.);
+    setIntegerParam(P_Range, 0);
+    setIntegerParam(P_Trigger, 0);
+    setIntegerParam(P_NumChannels, 4);
+    setIntegerParam(P_BiasState, 0);
+    setDoubleParam(P_BiasVoltage, 0.);
+    setIntegerParam(P_Resolution, 16);
+    
+    epicsAtExit(exitHandlerC, this);
 }
 
 /** This function computes the sums, diffs and positions, and does callbacks 
@@ -135,8 +155,17 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     else if (function == P_Trigger) {
         status |= setTrigger(value);
     }
+    else if (function == P_NumChannels) {
+        status |= setNumChannels(value);
+    }
+    else if (function == P_BiasState) {
+        status |= setBiasState(value);
+    }
+    else if (function == P_Resolution) {
+        status |= setResolution(value);
+    }
     else if (function == P_Reset) {
-        status |= setReset();
+        status |= reset();
     }
     else {
         /* All other parameters just get set in parameter list, no need to
@@ -183,6 +212,9 @@ asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
     if (function == P_IntegrationTime) {
         /* Make sure the update time is valid. If not change it and put back in parameter library */
         status |= setIntegrationTime(value);
+    }
+    else if (function == P_BiasVoltage) {
+        status |= setBiasVoltage(value);
     } else {
         /* All other parameters just get set in parameter list, no need to
          * act on them here */
@@ -203,3 +235,49 @@ asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
               driverName, functionName, function, paramName, value);
     return (asynStatus)status;
 }
+
+/** Downloads all of the current EPICS settings to the electrometer.  
+  * Typically used after the electrometer is power-cycled.
+  */
+asynStatus drvQuadEM::reset() 
+{
+    epicsInt32 iValue;
+    epicsFloat64 dValue;
+
+    getIntegerParam(P_Range, &iValue);
+    setRange(iValue);
+
+    getIntegerParam(P_Trigger, &iValue);
+    setTrigger(iValue);
+    
+    getIntegerParam(P_NumChannels, &iValue);
+    setNumChannels(iValue);
+    
+    getIntegerParam(P_BiasState, &iValue);
+    setBiasState(iValue);
+    
+    getDoubleParam(P_BiasVoltage, &dValue);
+    setBiasVoltage(dValue);
+    
+    getIntegerParam(P_Resolution, &iValue);
+    setResolution(iValue);
+    
+    getSettings();
+    
+    getIntegerParam(P_Acquire, &iValue);
+    setAcquire(iValue);
+
+    return asynSuccess;
+}
+
+// Dummy implementations of set functions.  These return success. 
+//  These will be called when a derived class does not implement a function
+void       drvQuadEM::exitHandler()                          {return;}
+asynStatus drvQuadEM::setPingPong(epicsInt32 value)          {return asynSuccess;}
+asynStatus drvQuadEM::setIntegrationTime(epicsFloat64 value) {return asynSuccess;}
+asynStatus drvQuadEM::setRange(epicsInt32 value)             {return asynSuccess;}
+asynStatus drvQuadEM::setTrigger(epicsInt32 value)           {return asynSuccess;}
+asynStatus drvQuadEM::setNumChannels(epicsInt32 value)       {return asynSuccess;}
+asynStatus drvQuadEM::setBiasState(epicsInt32 value)         {return asynSuccess;}
+asynStatus drvQuadEM::setBiasVoltage(epicsFloat64 value)     {return asynSuccess;}
+asynStatus drvQuadEM::setResolution(epicsInt32 value)        {return asynSuccess;}
