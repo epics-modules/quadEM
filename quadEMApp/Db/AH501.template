@@ -1,0 +1,22 @@
+# Database for Elettra AH401B picoammeter
+#   Mark Rivers
+#   June 3, 2012
+
+# We replace the choices for the Range
+record(mbbo,"$(P)$(R)Range") {
+    field(ZRVL,"0")
+    field(ZRST,"+- 2.5 mA")
+    field(ONVL,"1")
+    field(ONST,"+- 2.5 uA")
+    field(TWVL,"2")
+    field(TWST,"+- 2.5 nA")
+}
+
+record(mbbi,"$(P)$(R)Range_RBV") {
+    field(ZRVL,"0")
+    field(ZRST,"+- 2.5 mA")
+    field(ONVL,"1")
+    field(ONST,"+- 2.5 uA")
+    field(TWVL,"2")
+    field(TWST,"+- 2.5 nA")
+}
