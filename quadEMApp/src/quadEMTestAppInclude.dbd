@@ -2,7 +2,7 @@ include "base.dbd"
 include "asyn.dbd"
 include "drvAsynIPPort.dbd"
 include "mcaSupport.dbd"
-include "drvAH401B.dbd"
+include "drvAHxxx.dbd"
 include "asSupport.dbd"
 include "busySupport.dbd"
 
