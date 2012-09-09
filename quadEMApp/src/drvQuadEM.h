@@ -30,6 +30,7 @@
 #define P_BiasStateString          "QE_BIAS_STATE"              /* asynInt32,    r/w */
 #define P_BiasVoltageString        "QE_BIAS_VOLTAGE"            /* asynFloat64,  r/w */
 #define P_ResolutionString         "QE_RESOLUTION"              /* asynInt32,    r/w */
+#define P_SkipReadingsString       "QE_SKIP_READINGS"           /* asynInt32,    r/w */
 #define P_ModelString              "QE_MODEL"                   /* asynInt32,    r/w */
 
 /* Models */
@@ -89,9 +90,11 @@ protected:
     int P_BiasState;
     int P_BiasVoltage;
     int P_Resolution;
+    int P_SkipReadings;
     int P_Model;
     #define LAST_QE_COMMAND P_Model
-    
+    int readingsSkipped_;
+
     void computePositions(epicsInt32 raw[QE_MAX_INPUTS]);
     virtual asynStatus setAcquire(epicsInt32 value)=0;
     virtual asynStatus setPingPong(epicsInt32 value);
