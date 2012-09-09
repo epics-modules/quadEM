@@ -1,0 +1,3 @@
+epicsEnvSet("MODEL", "AH501")
+epicsEnvSet("IP", "164.54.160.241:10001")
+< st.cmd.AHxxx
