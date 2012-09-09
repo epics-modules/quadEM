@@ -1,11 +1,3 @@
-errlogInit(5000)
-< envPaths
-
-# Tell EPICS all about the record types, device-support modules, drivers,
-# etc. in this build
-dbLoadDatabase("../../dbd/quadEMTestApp.dbd")
-quadEMTestApp_registerRecordDeviceDriver(pdbbase)
-
 #drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,
 #                        noProcessEos)
 drvAsynIPPortConfigure("IP_$(MODEL)", "$(IP)", 0, 0, 0)
@@ -35,19 +27,3 @@ asynSetTraceIOMask("$(MODEL)",0,2)
 #  intervalString  = drvInfo string for time interval per point
 initFastSweep("$(MODEL)TS", "$(MODEL)", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
 dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=quadEMTest:,R=$(MODEL)_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=$(MODEL)TS")
-
-set_requestfile_path("./")
-set_requestfile_path("$(QUADEM)/quadEMApp/Db")
-set_savefile_path("./autosave")
-set_pass0_restoreFile("auto_settings.sav")
-set_pass1_restoreFile("auto_settings.sav")
-save_restoreSet_status_prefix("quadEMTest:")
-dbLoadRecords("$(AUTOSAVE)/asApp/Db/save_restoreStatus.db", "P=quadEMTest:")
-
-iocInit()
-
-# save settings every thirty seconds
-create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=$(MODEL):, R_TS=$(MODEL)_TS:")
-
-seq("quadEM_SNL", "P=quadEMTest:, R=$(MODEL)_TS:, NUM_CHANNELS=2048")
-
