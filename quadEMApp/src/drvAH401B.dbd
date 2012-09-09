@@ -1,5 +1,5 @@
 ################
 # Register global functions
 ################
-registrar(drvAH401BRegister)
+registrar(drvAHxxxRegister)
 registrar("quadEM_SNLRegistrar")
