@@ -227,7 +227,7 @@ composite {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)BiasStatus_RBV"
+		chan="$(P)$(R)BiasState_RBV"
 		clr=54
 		bclr=3
 	}
@@ -242,22 +242,22 @@ menu {
 		height=20
 	}
 	control {
-		chan="$(P)$(R)BiasStatus"
+		chan="$(P)$(R)BiasState"
 		clr=14
 		bclr=51
 	}
 }
 text {
 	object {
-		x=80
+		x=90
 		y=75
-		width=110
+		width=100
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Bias status"
+	textix="Bias state"
 }
 "text update" {
 	object {
