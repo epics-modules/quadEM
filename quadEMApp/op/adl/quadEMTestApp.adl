@@ -109,32 +109,17 @@ text {
 	display[0] {
 		label="AH401B"
 		name="quadEM.adl"
-		args="P=quadEMTest:, R=AH401B:"
+		args="P=quadEMTest:, R=AH401B:,P_TS=quadEMTest:AH401B_TS:,P_FFT=quadEMTest:AH401B_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
 	}
 	display[1] {
-		label="AH401B time series"
-		name="quadEM_TimeSeries.adl"
-		args="P=quadEMTest:AH401B_TS:,P_FFT=quadEMTest:QE1_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
-	}
-	display[2] {
 		label="AH501"
 		name="quadEM.adl"
-		args="P=quadEMTest:, R=AH501:"
+		args="P=quadEMTest:, R=AH501:,P_TS=quadEMTest:AH501_TS:,P_FFT=quadEMTest:AH501_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
 	}
-	display[3] {
-		label="AH501 time series"
-		name="quadEM_TimeSeries.adl"
-		args="P=quadEMTest:AH501_TS:,P_FFT=quadEMTest:QE2_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
-	}
-	display[4] {
+	display[2] {
 		label="APS_EM"
 		name="quadEM.adl"
-		args="P=quadEMTest:, R=APS_EM:"
-	}
-	display[5] {
-		label="APS_EM time series"
-		name="quadEM_TimeSeries.adl"
-		args="P=quadEMTest:APS_EM_TS:,P_FFT=quadEMTest:QE3_FFT:,T12=Horizontal_BPM,"
+		args="P=quadEMTest:, R=APS_EM:,P_TS=quadEMTest:APS_EM_TS:,P_FFT=quadEMTest:APS_EM_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
 	}
 	clr=14
 	bclr=4
