@@ -33,10 +33,9 @@ protected:
     virtual asynStatus setPingPong(epicsInt32 value);
     virtual asynStatus setIntegrationTime(epicsFloat64 value);
     virtual asynStatus setRange(epicsInt32 value);
-    virtual asynStatus setReset();
-    virtual asynStatus setTrigger(epicsInt32 value);
     virtual asynStatus getSettings();
     virtual void report(FILE *fp, int details);
+    virtual asynStatus reset();
  
 private:
     /* Our data */
