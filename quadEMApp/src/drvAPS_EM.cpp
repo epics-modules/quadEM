@@ -249,8 +249,6 @@ asynStatus drvAPS_EM::setIntegrationTime(double value)
     double microSeconds = value * 1.e6;
     int convValue;
     double integrationTime;
-    double sampleTime;
-    int skipReadings;
 
     /* Convert from microseconds to device units */
     convValue = (int)((microSeconds - 0.6)/1.6 + 0.5);
@@ -258,17 +256,6 @@ asynStatus drvAPS_EM::setIntegrationTime(double value)
     if (convValue > MAX_CONVERSION_TIME_VALUE) convValue = MAX_CONVERSION_TIME_VALUE;
     integrationTime = (convValue * 1.6 + 0.6)/1.e6;
     setDoubleParam(P_IntegrationTime, integrationTime);
-    /* If we are using the interrupts then this is the scan rate
-     * except that we only get interrupts after every other cycle
-     * because of ping/pong, so we multiply by 2. */
-    if (pUInt32DigitalPvt_ != NULL) {
-        sampleTime = 2. * integrationTime;
-    } else {
-        sampleTime = epicsThreadSleepQuantum();
-    }
-    getIntegerParam(P_SkipReadings, &skipReadings);
-    sampleTime = sampleTime * (skipReadings + 1);
-    setDoubleParam(P_SampleTime, sampleTime);
 
     return writeMeter(CONV_COMMAND, convValue);
 }
@@ -304,11 +291,26 @@ asynStatus drvAPS_EM::reset()
     return asynSuccess;
 }
 
-/** Reads the settings back from the electrometer.  This is not supported on APS_EM. 
+/** Reads the settings back from the electrometer.
+  * On the APS_EM this just computes the SampleTime based on the IntegrationTime and SkipReadings. 
   */
 asynStatus drvAPS_EM::getSettings() 
 {
-    // No settings readback on APS electrometer
+    double integrationTime, sampleTime;
+    int skipReadings;
+    
+    getIntegerParam(P_SkipReadings, &skipReadings);
+    getDoubleParam(P_IntegrationTime, &integrationTime);
+    /* If we are using the interrupts then this is the scan rate
+     * except that we only get interrupts after every other cycle
+     * because of ping/pong, so we multiply by 2. */
+    if (pUInt32DigitalPvt_ != NULL) {
+        sampleTime = 2. * integrationTime;
+    } else {
+        sampleTime = epicsThreadSleepQuantum();
+    }
+    sampleTime = sampleTime * (skipReadings + 1);
+    setDoubleParam(P_SampleTime, sampleTime);
     return asynSuccess;
 }
   
