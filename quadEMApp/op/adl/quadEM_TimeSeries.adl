@@ -331,6 +331,7 @@ text {
 		clr=14
 		bclr=51
 	}
+	format="exponential"
 	limits {
 	}
 }
@@ -359,6 +360,7 @@ text {
 		bclr=4
 	}
 	align="horiz. right"
+	format="exponential"
 	limits {
 	}
 }
