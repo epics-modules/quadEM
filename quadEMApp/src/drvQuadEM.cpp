@@ -61,6 +61,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
     createParam(P_BiasStateString,          asynParamInt32,         &P_BiasState);
     createParam(P_BiasVoltageString,        asynParamFloat64,       &P_BiasVoltage);
     createParam(P_ResolutionString,         asynParamInt32,         &P_Resolution);
+    createParam(P_SkipReadingsString,       asynParamInt32,         &P_SkipReadings);
     createParam(P_ModelString,              asynParamInt32,         &P_Model);
     
     setIntegerParam(P_Acquire, 0);
@@ -72,6 +73,8 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
     setIntegerParam(P_BiasState, 0);
     setDoubleParam(P_BiasVoltage, 0.);
     setIntegerParam(P_Resolution, 16);
+    setIntegerParam(P_SkipReadings, 0);
+    readingsSkipped_ = 0;
     
     epicsAtExit(exitHandlerC, this);
 }
@@ -87,7 +90,13 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
     epicsInt32 positionScale[2];
     epicsInt32 data[QE_MAX_DATA];
     epicsFloat64 doubleData[QE_MAX_DATA];
+    int skipReadings;
     static const char *functionName = "computePositions";
+    
+    // skipReadings>0 reduces the CPU load when readings arrive very fast
+    getIntegerParam(P_SkipReadings, &skipReadings);
+    if (++readingsSkipped_ < skipReadings) return;
+    readingsSkipped_ = 0;
     
     for (i=0; i<QE_MAX_INPUTS; i++) {
         getIntegerParam(i, P_CurrentOffset, &currentOffset[i]);
