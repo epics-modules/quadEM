@@ -1,6 +1,25 @@
-# Database for Elettra AH401B picoammeter
+# Database for Elettra AHxxx picoammeters
 #   Mark Rivers
 #   June 3, 2012
+
+record(mbbi,"$(P)$(R)Model") {
+    field(DESC,"Model")
+    field(DTYP, "asynInt32")
+    field(INP,"@asyn($(PORT) 0)QE_MODEL")
+    field(ZRVL, "0")
+    field(ZRST, "Unknown")
+    field(ONVL, "1")
+    field(ONST, "APS_EM")
+    field(TWVL, "2")
+    field(TWST, "AH401B")
+    field(THVL, "3")
+    field(THST, "AH501")
+    field(FRVL, "4")
+    field(FRST, "AH501C")
+    field(FVVL, "5")
+    field(FVST, "AH501D")
+    field(SCAN, "I/O Intr")
+}
 
 record(bo,"$(P)$(R)Acquire") {
     field(DESC,"Acquire On/Off")
@@ -101,9 +120,90 @@ record(bi,"$(P)$(R)Trigger_RBV") {
     field(SCAN, "I/O Intr")
 }
 
+record(mbbo,"$(P)$(R)NumChannels") {
+    field(DESC,"Number of input channels")
+    field(PINI,"YES")
+    field(ZRVL,"1")
+    field(ZRST,"1")
+    field(ONVL,"2")
+    field(ONST,"2")
+    field(TWVL,"4")
+    field(TWST,"4")
+    field(DTYP,"asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_NUM_CHANNELS")
+}
+
+record(mbbi,"$(P)$(R)NumChannels_RBV") {
+    field(DESC,"Number of input channels")
+    field(ZRVL,"1")
+    field(ZRST,"1")
+    field(ONVL,"2")
+    field(ONST,"2")
+    field(TWVL,"4")
+    field(TWST,"4")
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT) 0)QE_NUM_CHANNELS")
+    field(SCAN,"I/O Intr")
+}
+
+record(mbbo,"$(P)$(R)Resolution") {
+    field(DESC,"Resolution")
+    field(PINI,"YES")
+    field(ZRVL,"16")
+    field(ZRST,"16 bits")
+    field(ONVL,"24")
+    field(ONST,"24 bits")
+    field(DTYP,"asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_RESOLUTION")
+}
+
+record(mbbi,"$(P)$(R)Resolution_RBV") {
+    field(DESC,"Resolution")
+    field(ZRVL,"16")
+    field(ZRST,"16 bits")
+    field(ONVL,"24")
+    field(ONST,"24 bits")
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT) 0)QE_RESOLUTION")
+    field(SCAN,"I/O Intr")
+}
+
+record(bo,"$(P)$(R)BiasState") {
+    field(DESC,"Bias voltage state")
+    field(PINI,"YES")
+    field(ZNAM,"Off")
+    field(ONAM,"On")
+    field(DTYP,"asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_BIAS_STATE")
+}
+
+record(bi,"$(P)$(R)BiasState_RBV") {
+    field(DESC,"Bias voltage state")
+    field(ZNAM,"Off")
+    field(ONAM,"On")
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT) 0)QE_BIAS_STATE")
+    field(SCAN,"I/O Intr")
+}
+
+record(ao,"$(P)$(R)BiasVoltage") {
+    field(DESC,"Bias voltage")
+    field(PINI,"YES")
+    field(PREC,"2")
+    field(DTYP, "asynFloat64")
+    field(OUT,"@asyn($(PORT) 0)QE_BIAS_VOLTAGE")
+}
+
+record(ai,"$(P)$(R)BiasVoltage_RBV") {
+    field(DESC,"Bias voltage")
+    field(PREC,"2")
+    field(DTYP, "asynFloat64")
+    field(INP,"@asyn($(PORT) 0)QE_BIAS_VOLTAGE")
+    field(SCAN, "I/O Intr")
+}
+
 record(bo,"$(P)$(R)Reset") {
     field(DESC,"Reset")
-    field(PINI,"YES")
     field(DTYP, "asynInt32")
     field(VAL, "1")
     field(OUT,"@asyn($(PORT) 0)QE_RESET")
