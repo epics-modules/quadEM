@@ -8,6 +8,7 @@
  * Created June 14, 2012
  */
 
+#include <epicsExit.h>
 #include "asynPortDriver.h"
 
 /* These are the drvInfo strings that are used to identify the parameters.
@@ -25,6 +26,21 @@
 #define P_RangeString              "QE_RANGE"                   /* asynInt32,    r/w */
 #define P_ResetString              "QE_RESET"                   /* asynInt32,    r/w */
 #define P_TriggerString            "QE_TRIGGER"                 /* asynInt32,    r/w */
+#define P_NumChannelsString        "QE_NUM_CHANNELS"            /* asynInt32,    r/w */
+#define P_BiasStateString          "QE_BIAS_STATE"              /* asynInt32,    r/w */
+#define P_BiasVoltageString        "QE_BIAS_VOLTAGE"            /* asynFloat64,  r/w */
+#define P_ResolutionString         "QE_RESOLUTION"              /* asynInt32,    r/w */
+#define P_ModelString              "QE_MODEL"                   /* asynInt32,    r/w */
+
+/* Models */
+typedef enum {
+    QE_ModelUnknown,
+    QE_ModelAPS_EM,
+    QE_ModelAH401B,
+    QE_ModelAH501,
+    QE_ModelAH501C,
+    QE_ModelAH501D
+} QEModel_t;
 
 /* These enums give the offsets into the data array for each value */
 typedef enum {
@@ -51,6 +67,7 @@ public:
     /* These are the methods that we override from asynPortDriver */
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
+    virtual void exitHandler();
 
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
@@ -68,17 +85,26 @@ protected:
     int P_Range;
     int P_Reset;
     int P_Trigger;
-    #define LAST_QE_COMMAND P_Trigger
+    int P_NumChannels;
+    int P_BiasState;
+    int P_BiasVoltage;
+    int P_Resolution;
+    int P_Model;
+    #define LAST_QE_COMMAND P_Model
     
     void computePositions(epicsInt32 raw[QE_MAX_INPUTS]);
-    virtual asynStatus setAcquire(epicsInt32 value) = 0;
-    virtual asynStatus setPingPong(epicsInt32 value) = 0;
-    virtual asynStatus setIntegrationTime(epicsFloat64 value) = 0;
-    virtual asynStatus setRange(epicsInt32 value) = 0;
-    virtual asynStatus setReset() = 0;
-    virtual asynStatus setTrigger(epicsInt32 value) = 0;
-    virtual asynStatus getSettings() = 0;
- };
+    virtual asynStatus setAcquire(epicsInt32 value)=0;
+    virtual asynStatus setPingPong(epicsInt32 value);
+    virtual asynStatus setIntegrationTime(epicsFloat64 value);
+    virtual asynStatus setRange(epicsInt32 value);
+    virtual asynStatus setTrigger(epicsInt32 value);
+    virtual asynStatus setNumChannels(epicsInt32 value);
+    virtual asynStatus setBiasState(epicsInt32 value);
+    virtual asynStatus setBiasVoltage(epicsFloat64 value);
+    virtual asynStatus setResolution(epicsInt32 value);
+    virtual asynStatus getSettings()=0;
+    virtual asynStatus reset()=0;
+};
 
 
 #define NUM_QE_PARAMS (&LAST_QE_COMMAND - &FIRST_QE_COMMAND + 1)
