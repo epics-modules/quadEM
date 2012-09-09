@@ -8,7 +8,7 @@ display {
 		x=142
 		y=116
 		width=430
-		height=570
+		height=620
 	}
 	clr=14
 	bclr=3
@@ -85,66 +85,6 @@ display {
 		3cb420,
 		289315,
 		1a7309,
-	}
-}
-composite {
-	object {
-		x=0
-		y=365
-		width=380
-		height=120
-	}
-	"composite name"=""
-	"composite file"="AH401B.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=2"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=0
-		y=365
-		width=380
-		height=120
-	}
-	"composite name"=""
-	"composite file"="APS_EM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=1"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=0
-		y=365
-		width=380
-		height=120
-	}
-	"composite name"=""
-	"composite file"="AH501C.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="(A=4)||(A=5)"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=0
-		y=365
-		width=380
-		height=120
-	}
-	"composite name"=""
-	"composite file"="AH501.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=3"
-		chan="$(P)$(R)Model"
 	}
 }
 rectangle {
@@ -751,92 +691,6 @@ composite {
 	limits {
 	}
 }
-menu {
-	object {
-		x=195
-		y=340
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Range"
-		clr=14
-		bclr=51
-	}
-}
-"text update" {
-	object {
-		x=280
-		y=340
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)Range_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-"message button" {
-	object {
-		x=195
-		y=490
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Reset.PROC"
-		clr=14
-		bclr=51
-	}
-	label="Reset"
-	press_msg="1"
-}
-menu {
-	object {
-		x=195
-		y=515
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Read.SCAN"
-		clr=14
-		bclr=51
-	}
-}
-"message button" {
-	object {
-		x=300
-		y=515
-		width=60
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Read.PROC"
-		clr=14
-		bclr=51
-	}
-	label="Process"
-	press_msg="1"
-}
-"related display" {
-	object {
-		x=195
-		y=540
-		width=80
-		height=20
-	}
-	display[0] {
-		label="asyn record"
-		name="asynRecord.adl"
-		args="P=$(P), R=$(R)Asyn"
-	}
-	clr=14
-	bclr=51
-}
 "choice button" {
 	object {
 		x=195
@@ -877,6 +731,238 @@ text {
 }
 text {
 	object {
+		x=120
+		y=315
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Acquire"
+}
+composite {
+	object {
+		x=0
+		y=390
+		width=380
+		height=220
+	}
+	"composite name"=""
+	children {
+		composite {
+			object {
+				x=0
+				y=390
+				width=380
+				height=120
+			}
+			"composite name"=""
+			"composite file"="AH501.adl"
+			"dynamic attribute" {
+				vis="calc"
+				calc="A=3"
+				chan="$(P)$(R)Model"
+			}
+		}
+		composite {
+			object {
+				x=0
+				y=390
+				width=380
+				height=120
+			}
+			"composite name"=""
+			"composite file"="AH401B.adl"
+			"dynamic attribute" {
+				vis="calc"
+				calc="A=2"
+				chan="$(P)$(R)Model"
+			}
+		}
+		composite {
+			object {
+				x=0
+				y=390
+				width=380
+				height=120
+			}
+			"composite name"=""
+			"composite file"="APS_EM.adl"
+			"dynamic attribute" {
+				vis="calc"
+				calc="A=1"
+				chan="$(P)$(R)Model"
+			}
+		}
+		composite {
+			object {
+				x=0
+				y=390
+				width=380
+				height=120
+			}
+			"composite name"=""
+			"composite file"="AH501C.adl"
+			"dynamic attribute" {
+				vis="calc"
+				calc="(A=4)||(A=5)"
+				chan="$(P)$(R)Model"
+			}
+		}
+		"message button" {
+			object {
+				x=195
+				y=515
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Reset.PROC"
+				clr=14
+				bclr=51
+			}
+			label="Reset"
+			press_msg="1"
+		}
+		menu {
+			object {
+				x=195
+				y=540
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Read.SCAN"
+				clr=14
+				bclr=51
+			}
+		}
+		"message button" {
+			object {
+				x=300
+				y=540
+				width=60
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Read.PROC"
+				clr=14
+				bclr=51
+			}
+			label="Process"
+			press_msg="1"
+		}
+		text {
+			object {
+				x=140
+				y=515
+				width=50
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Reset"
+		}
+		text {
+			object {
+				x=100
+				y=540
+				width=90
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Read rate"
+		}
+		"related display" {
+			object {
+				x=195
+				y=565
+				width=80
+				height=20
+			}
+			display[0] {
+				label="Time series"
+				name="quadEM_TimeSeries.adl"
+				args="P=$(P_TS),P_FFT=$(P_FFT),T12=$(T12),T34=$(T34)"
+			}
+			clr=14
+			bclr=51
+		}
+		text {
+			object {
+				x=80
+				y=565
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Time series"
+		}
+		"related display" {
+			object {
+				x=195
+				y=590
+				width=80
+				height=20
+			}
+			display[0] {
+				label="asyn record"
+				name="asynRecord.adl"
+				args="P=$(P), R=$(R)Asyn"
+			}
+			clr=14
+			bclr=51
+		}
+		text {
+			object {
+				x=80
+				y=590
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Asyn record"
+		}
+	}
+}
+menu {
+	object {
+		x=195
+		y=340
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Range"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=280
+		y=340
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Range_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
 		x=140
 		y=340
 		width=50
@@ -887,51 +973,45 @@ text {
 	}
 	textix="Range"
 }
-text {
+"text update" {
 	object {
-		x=140
-		y=490
-		width=50
+		x=280
+		y=365
+		width=100
 		height=20
 	}
-	"basic attribute" {
-		clr=14
+	monitor {
+		chan="$(P)$(R)SkipReadings_RBV"
+		clr=54
+		bclr=3
 	}
-	textix="Reset"
+	limits {
+	}
 }
 text {
 	object {
-		x=100
-		y=515
-		width=90
+		x=30
+		y=365
+		width=160
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Read rate"
+	textix="Readings to skip"
 }
-text {
+"text entry" {
 	object {
-		x=80
-		y=540
-		width=110
+		x=195
+		y=365
+		width=80
 		height=20
 	}
-	"basic attribute" {
+	control {
+		chan="$(P)$(R)SkipReadings"
 		clr=14
+		bclr=51
 	}
-	textix="Asyn record"
-}
-text {
-	object {
-		x=120
-		y=315
-		width=70
-		height=20
+	limits {
 	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Acquire"
 }
