@@ -30,7 +30,7 @@
 #define P_BiasStateString          "QE_BIAS_STATE"              /* asynInt32,    r/w */
 #define P_BiasVoltageString        "QE_BIAS_VOLTAGE"            /* asynFloat64,  r/w */
 #define P_ResolutionString         "QE_RESOLUTION"              /* asynInt32,    r/w */
-#define P_SkipReadingsString       "QE_SKIP_READINGS"           /* asynInt32,    r/w */
+#define P_NumAverageString         "QE_NUM_AVERAGE"             /* asynInt32,    r/w */
 #define P_ModelString              "QE_MODEL"                   /* asynInt32,    r/w */
 
 /* Models */
@@ -38,6 +38,7 @@ typedef enum {
     QE_ModelUnknown,
     QE_ModelAPS_EM,
     QE_ModelAH401B,
+    QE_ModelAH401D,
     QE_ModelAH501,
     QE_ModelAH501C,
     QE_ModelAH501D
@@ -90,10 +91,14 @@ protected:
     int P_BiasState;
     int P_BiasVoltage;
     int P_Resolution;
-    int P_SkipReadings;
+    int P_NumAverage;
     int P_Model;
     #define LAST_QE_COMMAND P_Model
-    int readingsSkipped_;
+    // We cache these values so we don't need to call getIntegerParam inside the
+    // fast data reading loop
+    int resolution_;
+    int numChannels_;
+    int numAverage_;
 
     void computePositions(epicsInt32 raw[QE_MAX_INPUTS]);
     virtual asynStatus setAcquire(epicsInt32 value)=0;
