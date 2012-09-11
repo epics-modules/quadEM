@@ -99,6 +99,7 @@ protected:
     int resolution_;
     int numChannels_;
     int numAverage_;
+    int numAveraged_;
 
     void computePositions(epicsInt32 raw[QE_MAX_INPUTS]);
     virtual asynStatus setAcquire(epicsInt32 value)=0;
