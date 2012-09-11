@@ -74,6 +74,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
     setDoubleParam(P_BiasVoltage, 0.);
     setIntegerParam(P_Resolution, 16);
     setIntegerParam(P_NumAverage, 1);
+    numAveraged_ = 0;
     
     epicsAtExit(exitHandlerC, this);
 }
