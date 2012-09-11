@@ -13,11 +13,13 @@ record(mbbi,"$(P)$(R)Model") {
     field(TWVL, "2")
     field(TWST, "AH401B")
     field(THVL, "3")
-    field(THST, "AH501")
+    field(THST, "AH401D")
     field(FRVL, "4")
-    field(FRST, "AH501C")
+    field(FRST, "AH501")
     field(FVVL, "5")
-    field(FVST, "AH501D")
+    field(FVST, "AH501C")
+    field(SXVL, "6")
+    field(SXST, "AH501D")
     field(SCAN, "I/O Intr")
 }
 
@@ -202,17 +204,18 @@ record(ai,"$(P)$(R)BiasVoltage_RBV") {
     field(SCAN, "I/O Intr")
 }
 
-record(longout,"$(P)$(R)SkipReadings") {
-    field(DESC,"Readings to skip")
+record(longout,"$(P)$(R)NumAverage") {
+    field(DESC,"Readings to average")
     field(PINI,"YES")
-    field(DTYP, "asynInt32")
-    field(OUT,"@asyn($(PORT) 0)QE_SKIP_READINGS")
+    field(DTYP,"asynInt32")
+    field(VAL, "1")
+    field(OUT,"@asyn($(PORT) 0)QE_NUM_AVERAGE")
 }
 
-record(longin,"$(P)$(R)SkipReadings_RBV") {
-    field(DESC,"Readings to skip")
+record(longin,"$(P)$(R)NumAverage_RBV") {
+    field(DESC,"Readings to average")
     field(DTYP, "asynInt32")
-    field(INP,"@asyn($(PORT) 0)QE_SKIP_READINGS")
+    field(INP,"@asyn($(PORT) 0)QE_NUM_AVERAGE")
     field(SCAN, "I/O Intr")
 }
 
