@@ -138,12 +138,14 @@ void drvAHxxx::readThread(void)
     int acquire;
     asynStatus status;
     int i, j;
+    int offset;
     size_t nRead;
-    size_t nRequested;
+    int numBytes;
     int eomReason;
     epicsInt32 raw[QE_MAX_INPUTS];
-    char input[QE_MAX_INPUTS * 3];
-    int resolution, numChannels;
+    unsigned char *input=NULL;
+    size_t inputSize=0;
+    size_t nRequested;
     static const char *functionName = "readThread";
     
     /* Loop forever */
@@ -152,42 +154,68 @@ void drvAHxxx::readThread(void)
         
         //  We check both P_Acquire and acquiring_. P_Acquire means that EPICS "wants" to acquire, acquiring_ means
         // that we are actually acquiring, which could be false if the device is unreachable.
+        getIntegerParam(P_Acquire, &acquire);
         if (!acquire || !acquiring_) {
             unlock();
             epicsEventWait(readDataEvent_);
             lock();
         }
-        getIntegerParam(P_Acquire, &acquire);
-        getIntegerParam(P_Resolution, &resolution);
-        getIntegerParam(P_NumChannels, &numChannels);
-        if (resolution == 16) nRequested = numChannels * 2;
-        else nRequested = numChannels * 3;
+        numBytes = 3;
+        if (numAverage_ < 1) numAverage_ = 1;
+        if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH401D)) {
+            numChannels_ = 4;
+        } 
+        else {
+            if (resolution_ == 16) numBytes = 2;
+        }
+        nRequested = numBytes * numChannels_ * numAverage_;
+        if (nRequested > inputSize) {
+            if (input) free(input);
+            input = (unsigned char *)malloc(nRequested);
+            inputSize = nRequested;
+        }
         unlock();
         status = pasynOctetSyncIO->read(pasynUserMeter_, (char *)input, nRequested, 
                                         AHxxx_TIMEOUT, &nRead, &eomReason);
         lock();
         if ((status == asynSuccess) && (nRead == nRequested) && (eomReason == ASYN_EOM_CNT)) {
-            if (resolution == 16) {
-                for (i=0; i<numChannels; i++) {
-                    j = i*2;
-                    raw[i] = (input[j]<<8) + input[j+1];
-                    raw[i] = -raw[i];
+            for (i=0; i<numChannels_; i++) {
+                raw[i] = 0;
+            }
+            offset = 0;
+            if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH401D)) {
+                // These models are little-endian byte order
+                for (i=0; i<numAverage_; i++) {
+                    for (j=0; j<numChannels_; j++) {
+                        raw[j] += (input[offset+2]<<16) + (input[offset+1]<<8) + input[offset];
+                        offset += numBytes;
+                    }
                 }
             }
             else {
-                for (i=0; i<numChannels; i++) {
-                    j = i*3;
-                    raw[i] = (input[j]<<16) + (input[j+1]<<8) + input[j+2];
-                    raw[i] = -raw[i];
+                // These models are big-endian byte order
+                if (resolution_ == 16) {
+                    for (i=0; i<numAverage_; i++) {
+                        for (j=0; j<numChannels_; j++) {
+                            raw[j] += -((input[offset]<<8) + input[offset+1]);
+                            offset += numBytes;
+                        }
+                    }
+                }
+                else {
+                    for (i=0; i<numAverage_; i++) {
+                        for (j=0; j<numChannels_; j++) {
+                            raw[j] += -((input[offset]<<16) + (input[offset+1]<<8) + input[offset+2]);
+                            offset += numBytes;
+                        }
+                    }
                 }
             }
-            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
-                "%s:%s: nRead=%d, eomReason=%d\n"
-                "input=%x %x %x %x %x %x %x %x %x %x %x %x\n"
-                "raw=%d %d %d %d\n",
-                driverName, functionName, nRead, eomReason, 
-                input[0], input[1], input[2], input[3], input[4], input[5], input[6], input[7], input[8], input[9], input[10], input[11], 
-                raw[0], raw[1], raw[2], raw[3]);
+            if (numAverage_ > 1) {
+                for (i=0; i<numChannels_; i++) {
+                    raw[i] = raw[i] / numAverage_;
+                }
+            }
             computePositions(raw);
         } else if (status != asynTimeout) {
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
@@ -213,7 +241,8 @@ asynStatus drvAHxxx::reset()
     status = writeReadMeter();
     if (status) return status;
     strcpy(firmwareVersion_, inString_);
-    if (strstr(firmwareVersion_, "401B") != 0) model_=QE_ModelAH401B;
+    if (strstr(firmwareVersion_,   "PicoNew") != 0) model_=QE_ModelAH401B;
+    else if (strstr(firmwareVersion_, "401D") != 0) model_=QE_ModelAH401D;
     else if (strstr(firmwareVersion_, "501 ") != 0) model_=QE_ModelAH501;
     else if (strstr(firmwareVersion_, "501C") != 0) model_=QE_ModelAH501C;
     else if (strstr(firmwareVersion_, "501D") != 0) model_=QE_ModelAH501D;
@@ -392,7 +421,6 @@ asynStatus drvAHxxx::getSettings()
 {
     // Reads the values of all the meter parameters, sets them in the parameter library
     int trigger, range, resolution, pingPong, numChannels, biasState;
-    int skipReadings;
     double integrationTime, biasVoltage;
     int prevAcquiring;
     double sampleTime=0.;
@@ -409,7 +437,9 @@ asynStatus drvAHxxx::getSettings()
     
     strcpy(outString_, "RNG ?");
     writeReadMeter();
-    if (sscanf(inString_, "RNG %d", &range) != 1) goto error;
+    // Note: the AH401D returns 2 ranges, but we only support a single range so we
+    // only parse a single character in the response
+    if (sscanf(inString_, "RNG %1d", &range) != 1) goto error;
     setIntegerParam(P_Range, range);
     
     if (model_ == QE_ModelAH401B) {
@@ -432,11 +462,13 @@ asynStatus drvAHxxx::getSettings()
         writeReadMeter();
         if (sscanf(inString_, "CHN %d", &numChannels) != 1) goto error;
         setIntegerParam(P_NumChannels, numChannels);
+        numChannels_ = numChannels;
 
         strcpy(outString_, "RES ?");
         writeReadMeter();
         if (sscanf(inString_, "RES %d", &resolution) != 1) goto error;
         setIntegerParam(P_Resolution, resolution);
+        resolution_ = resolution;
 
         // Compute the sample time.  This is a function of the resolution and number of channels
         sampleTime = 38.4e-6 * numChannels;
@@ -456,9 +488,8 @@ asynStatus drvAHxxx::getSettings()
         if (biasState) setDoubleParam(P_BiasVoltage, biasVoltage);
     }
     
-    // The sample times computed above don't include skipReadings
-    getIntegerParam(P_SkipReadings, &skipReadings);
-    sampleTime = sampleTime * (skipReadings + 1);
+    // The sample times computed above don't include numAverage
+    sampleTime = sampleTime * numAverage_;
     setDoubleParam(P_SampleTime, sampleTime);
     if (prevAcquiring) setAcquire(1);
     
