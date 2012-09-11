@@ -8,7 +8,7 @@ $(P)$(R)NumChannels
 $(P)$(R)BiasState
 $(P)$(R)BiasVoltage
 $(P)$(R)Resolution
-$(P)$(R)SkipReadings
+$(P)$(R)NumAverage
 $(P)$(R)CurrentOffset1
 $(P)$(R)CurrentOffset2
 $(P)$(R)CurrentOffset3
