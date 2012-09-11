@@ -7,7 +7,7 @@ dbLoadDatabase("../../dbd/quadEMTestApp.dbd")
 quadEMTestApp_registerRecordDeviceDriver(pdbbase)
 
 epicsEnvSet("MODEL", "AH501")
-epicsEnvSet("IP", "164.54.160.241:10001")
+epicsEnvSet("IP", "164.54.160.241:10001 UDP")
 < st.cmd.AHxxx
 
 set_requestfile_path("./")
