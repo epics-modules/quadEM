@@ -194,16 +194,32 @@ void drvAPS_EM::pollerThread()
   */
 void drvAPS_EM::callbackFunc(epicsUInt32 mask)
 {
-    int raw[QE_MAX_INPUTS];
+    int input[QE_MAX_INPUTS];
+    int i;
     static const char *functionName="intFunc";
 
     asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
               "%s:%s: got callback, mask=%x\n", driverName, functionName, mask);
     if (mask) return;
     /* Read the new data */
-    readMeter(raw);
-    /* Compute sum, difference, and position and do callbacks */
-    computePositions(raw);
+    readMeter(input);
+    if (numAveraged_ == 0) {
+        for (i=0; i<QE_MAX_INPUTS; i++) {
+            rawData_[i] = 0;
+        }
+    }
+    for (i=0; i<QE_MAX_INPUTS; i++) {
+        rawData_[i] += input[i];
+    }
+    numAveraged_++;
+    if (numAveraged_ >= numAverage_) {
+        for (i=0; i<QE_MAX_INPUTS; i++) {
+            rawData_[i] /= numAveraged_;
+        }
+        numAveraged_ = 0;
+        /* Compute sum, difference, and position and do callbacks */
+        computePositions(rawData_);
+    }
 }
 
 /** Starts and stops the electrometer.
@@ -292,14 +308,12 @@ asynStatus drvAPS_EM::reset()
 }
 
 /** Reads the settings back from the electrometer.
-  * On the APS_EM this just computes the SampleTime based on the IntegrationTime and SkipReadings. 
+  * On the APS_EM this just computes the SampleTime based on the IntegrationTime and NumAverage. 
   */
 asynStatus drvAPS_EM::getSettings() 
 {
     double integrationTime, sampleTime;
-    int skipReadings;
     
-    getIntegerParam(P_SkipReadings, &skipReadings);
     getDoubleParam(P_IntegrationTime, &integrationTime);
     /* If we are using the interrupts then this is the scan rate
      * except that we only get interrupts after every other cycle
@@ -309,7 +323,7 @@ asynStatus drvAPS_EM::getSettings()
     } else {
         sampleTime = epicsThreadSleepQuantum();
     }
-    sampleTime = sampleTime * (skipReadings + 1);
+    sampleTime = sampleTime * numAverage_;
     setDoubleParam(P_SampleTime, sampleTime);
     return asynSuccess;
 }
