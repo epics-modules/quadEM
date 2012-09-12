@@ -50,7 +50,7 @@ drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName)
     
     QEPortName_ = epicsStrDup(QEPortName);
     
-    readDataEvent_ = epicsEventCreate(epicsEventEmpty);
+    acquireStartEvent_ = epicsEventCreate(epicsEventEmpty);
     
     // Connect to the server
     status = pasynOctetSyncIO->connect(QEPortName, 0, &pasynUserMeter_, NULL);
@@ -61,11 +61,14 @@ drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName)
     }
     
     acquiring_ = 0;
+    readingActive_ = 0;
 
     // Do everything that needs to be done when connecting to the meter initially.
     // Note that the meter could be offline when the IOC starts, so we put this in
     // the reset() function which can be done later when the meter is online.
+    lock();
     reset();
+    unlock();
 
     /* Create the thread that reads the meter */
     status = (asynStatus)(epicsThreadCreate("drvAHxxxTask",
@@ -135,30 +138,51 @@ asynStatus drvAHxxx::writeReadMeter()
   */
 void drvAHxxx::readThread(void)
 {
-    int acquire;
     asynStatus status;
     int i, j;
     int offset;
     size_t nRead;
     int numBytes;
     int eomReason;
+    asynUser *pasynUser;
+    asynInterface *pasynInterface;
+    asynOctet *pasynOctet;
+    void *octetPvt;
     epicsInt32 raw[QE_MAX_INPUTS];
     unsigned char *input=NULL;
     size_t inputSize=0;
     size_t nRequested;
     static const char *functionName = "readThread";
+
+    /* Create an asynUser */
+    pasynUser = pasynManager->createAsynUser(0, 0);
+    pasynUser->timeout = AHxxx_TIMEOUT;
+    status = pasynManager->connectDevice(pasynUser, QEPortName_, 0);
+    if(status!=asynSuccess) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s:%s: connectDevice failed, status=%d\n",
+            driverName, functionName, status);
+    }
+    pasynInterface = pasynManager->findInterface(pasynUser, asynOctetType, 1);
+    if(!pasynInterface) {;
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s:%s: findInterface failed for asynOctet, status=%d\n",
+            driverName, functionName, status);
+    }
+    pasynOctet = (asynOctet *)pasynInterface->pinterface;
+    octetPvt = pasynInterface->drvPvt;
     
     /* Loop forever */
     lock();
     while (1) {
-        
-        //  We check both P_Acquire and acquiring_. P_Acquire means that EPICS "wants" to acquire, acquiring_ means
-        // that we are actually acquiring, which could be false if the device is unreachable.
-        getIntegerParam(P_Acquire, &acquire);
-        if (!acquire || !acquiring_) {
+        if (acquiring_ == 0) {
+            readingActive_ = 0;
+            pasynManager->unlockPort(pasynUser);
             unlock();
-            epicsEventWait(readDataEvent_);
+            epicsEventWait(acquireStartEvent_);
+            readingActive_ = 1;
             lock();
+            pasynManager->lockPort(pasynUser);
         }
         numBytes = 3;
         if (numAverage_ < 1) numAverage_ = 1;
@@ -174,11 +198,10 @@ void drvAHxxx::readThread(void)
             input = (unsigned char *)malloc(nRequested);
             inputSize = nRequested;
         }
-        unlock();
-        status = pasynOctetSyncIO->read(pasynUserMeter_, (char *)input, nRequested, 
-                                        AHxxx_TIMEOUT, &nRead, &eomReason);
-        lock();
+        status = pasynOctet->read(octetPvt, pasynUser, (char *)input, nRequested, 
+                                  &nRead, &eomReason);
         if ((status == asynSuccess) && (nRead == nRequested) && (eomReason == ASYN_EOM_CNT)) {
+            unlock();
             for (i=0; i<numChannels_; i++) {
                 raw[i] = 0;
             }
@@ -216,6 +239,7 @@ void drvAHxxx::readThread(void)
                     raw[i] = raw[i] / numAverage_;
                 }
             }
+            lock();
             computePositions(raw);
         } else if (status != asynTimeout) {
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
@@ -267,6 +291,14 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
     //static const char *functionName = "setAcquire";
     
     if (value == 0) {
+        // Setting this flag tells the read thread to stop
+        acquiring_ = 0;
+        // Release the lock and wait for the read thread to stop
+        unlock();
+        while (readingActive_) {
+            epicsThreadSleep(0.1);
+        }
+        lock();
         while (1) {
             // Send stop command for both types of meters since initially we don't know which type we are talking to
             status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
@@ -282,7 +314,6 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
             readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .1, &nread, &eomReason);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
-        acquiring_ = 0;
     } else {
         // Make sure the meter is in binary mode
         strcpy(outString_, "BIN ON");
@@ -299,7 +330,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         }
         status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "", 0);
         // Notify the read thread if acquisition status has started
-        epicsEventSignal(readDataEvent_);
+        epicsEventSignal(acquireStartEvent_);
         acquiring_ = 1;
     }
     if (status) {
@@ -505,7 +536,9 @@ asynStatus drvAHxxx::getSettings()
 /** Exit handler.  Turns off acquire so we don't waste network bandwidth when the IOC stops */
 void drvAHxxx::exitHandler()
 {
+    lock();
     setAcquire(0);
+    unlock();
 }
 
 /** Report  parameters 
