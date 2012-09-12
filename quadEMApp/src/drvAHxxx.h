@@ -41,8 +41,9 @@ protected:
 private:
     /* Our data */
     asynUser *pasynUserMeter_;
-    epicsEventId readDataEvent_;
+    epicsEventId acquireStartEvent_;
     int acquiring_;
+    int readingActive_;
     char *QEPortName_;
     char firmwareVersion_[MAX_COMMAND_LEN];
     QEModel_t model_;
