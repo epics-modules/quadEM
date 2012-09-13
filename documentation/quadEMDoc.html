@@ -1004,10 +1004,13 @@ pattern
     The following table shows the CPU utilization of a Linux machine (Xeon E5630 2.53GHz),
     vxWorks MVME2100, and vxWorks MVME5100 with the AH501 electometer as a function
     of the parameters that control the SampleTime. It can be seen that the load on Linux
-    is very low. The load on the MVME5100 is significant, but it can handle NumChannels=4
-    with NumAverage=1 for either resolution. The MVME2100 on the other hand cannot run
-    with NumAverage=1 at all, it completely saturates the system. It does work NumAverage=4
-    or 10.</p>
+    is very low. Tests on a Windows 7 64-bit machine (Intel Core i7-2820QM 2.3GHz) gave
+    almost identical results to Linux. Note that the Linux (and Windows CPU) values
+    listed are the percent of a <b>single</b> CPU core. These are 8-core systems, so
+    the percent of the total system CPU is 8 times less. The load on the MVME5100 is
+    significant, but it can handle NumChannels=4 with NumAverage=1 for either resolution.
+    The MVME2100 on the other hand cannot run with NumAverage=1 at all, it completely
+    saturates the system. It does work NumAverage=4 or 10.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
     <tbody>
       <tr>
