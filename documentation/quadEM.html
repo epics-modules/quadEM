@@ -20,21 +20,24 @@
     low-current measurement that requires high speed digital input. There is support
     for two models:</p>
   <ol>
-    <li>The AH401B, AH401D, AH501, AH501C, and AH501D picoammeters designed and sold by <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
-      Synchrotron Trieste (elettra)</a>. They are also sold by <a href="http://www.caenels.com/caenels/product.php?fam=cemis&amp;mod=AH401B">
-        CAENels</a>. These devices communicate using TCP/IP over 100 Mbit/s Ethernet or
-      high-speed serial. They provide 4-channel current measurements at up to 1000 Hz (AH401 series) or 6510 Hz (AH501 series).</li>
+    <li>The AH401B, AH401D, AH501, AH501C, and AH501D picoammeters designed and sold by
+      <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
+        Synchrotron Trieste (elettra)</a>. They are also sold by <a href="http://www.caenels.com/caenels/product.php?fam=cemis&amp;mod=AH401B">
+          CAENels</a>. These devices communicate using TCP/IP over 100 Mbit/s Ethernet
+      or high-speed serial. They provide 4-channel current measurements at up to 1000
+      Hz (AH401 series) or 6510 Hz (AH501 series).</li>
     <li>The Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">Steve Ross</a>
       from the APS (called APS_EM in this document). This device consists of a 4-channel
       digital electrometer unit and 2 VME boards. The device provides 2 readings per diode
       at up to 813 Hz.</li>
   </ol>
   <p>
-    The AH401 series and the APS_EM are based on the same principle of an op-amp run as a current
-    amplifier with a large feedback capacitor, and a high resolution ADC.  The AH501 series are based on
-    a transimpedance input stage for current sensing, combined with analog signal conditioning and filtering stages.
-    The AH501C/D have an integrated programmable bias supply.
-</p>
+    The AH401 series and the APS_EM are based on the same principle of an op-amp run
+    as a current amplifier with a large feedback capacitor, and a high resolution ADC.
+    The AH501 series are based on a transimpedance input stage for current sensing,
+    combined with analog signal conditioning and filtering stages. The AH501C/D have
+    an integrated programmable bias supply.
+  </p>
   <p>
     The <b>quadEM</b> software includes asyn drivers and an SNL program that provide
     support for the following:</p>
@@ -46,16 +49,17 @@
       would update with every reading from the device. This is likely to overwhelm the
       EPICS IOC if the electrometer is run at very fast integration times.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
-      at speeds up to 6510 Hz (AH501 series), 1000 Hz (AH401 series) or 813 Hz (APS_EM). The data is available in standard
-      EPICS waveform records, using the drvFastSweep asyn driver from the synApps "mca"
-      module. The time per point can be greater, in which case it does averaging.</li>
+      at speeds up to 6510 Hz (AH501 series), 1000 Hz (AH401 series) or 813 Hz (APS_EM).
+      The data is available in standard EPICS waveform records, using the drvFastSweep
+      asyn driver from the synApps "mca" module. The time per point can be greater, in
+      which case it does averaging.</li>
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
       EPICS waveform record.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
-      dac128V) also at speeds up to 6510Hz, 1000Hz or 813Hz. If it is run slower it does signal averaging.
-      This support is provided in the synApps "std" module. The quadEM drivers do the
-      callbacks on the asynFloat64 interface required to use the epics fast feedback device
-      support.</li>
+      dac128V) also at speeds up to 6510Hz, 1000Hz or 813Hz. If it is run slower it does
+      signal averaging. This support is provided in the synApps "std" module. The quadEM
+      drivers do the callbacks on the asynFloat64 interface required to use the epics
+      fast feedback device support.</li>
   </ul>
   <p>
     Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">
@@ -84,7 +88,7 @@
         <td>
           3-1</td>
         <td>
-          XXX-September-2012</td>
+          13-September-2012</td>
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR3-1.tgz">quadEMR3-1.tgz</a>
         </td>
