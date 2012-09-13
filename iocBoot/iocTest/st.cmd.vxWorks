@@ -13,18 +13,18 @@ cd startup
 dbLoadDatabase("../../dbd/quadEMTestAppVx.dbd")
 quadEMTestAppVx_registerRecordDeviceDriver(pdbbase)
 
-# This IOC can run the APS_EM, AH401B, or AH501, but only one at a time
+# This IOC can run the APS_EM, AH401B, or AH501, but only one at a time because of save/restore
 # Comment out the lines for the unused ones
-#epicsEnvSet("MODEL", "APS_EM")
-#iocsh("st.cmd.APS_EM")
+epicsEnvSet("MODEL", "APS_EM")
+iocsh("st.cmd.APS_EM")
 
 #epicsEnvSet("MODEL", "AH401B")
 #epicsEnvSet("IP", "164.54.160.240:10001")
 #iocsh("st.cmd.AHxxx")
 
-epicsEnvSet("MODEL", "AH501")
-epicsEnvSet("IP", "164.54.160.241:10001")
-iocsh("st.cmd.AHxxx")
+#epicsEnvSet("MODEL", "AH501")
+#epicsEnvSet("IP", "164.54.160.241:10001 UDP")
+#iocsh("st.cmd.AHxxx")
 
 set_requestfile_path("./")
 set_requestfile_path(quadem, "quadEMApp/Db")
@@ -37,11 +37,11 @@ dbLoadRecords("$(AUTOSAVE)/asApp/Db/save_restoreStatus.db", "P=quadEMTest:")
 iocInit()
 
 # save settings every thirty seconds
-#create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=APS_EM:, R_TS=APS_EM_TS:")
+create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=APS_EM:, R_TS=APS_EM_TS:")
 #create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=AH401B:, R_TS=AH401B_TS:")
-create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=AH501:,  R_TS=AH501_TS:")
+#create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=AH501:,  R_TS=AH501_TS:")
 
-#seq(&quadEM_SNL, "P=quadEMTest:, R=APS_EM_TS:, NUM_CHANNELS=2048")
+seq(&quadEM_SNL, "P=quadEMTest:, R=APS_EM_TS:, NUM_CHANNELS=2048")
 #seq(&quadEM_SNL, "P=quadEMTest:, R=AH401B_TS:, NUM_CHANNELS=2048")
-seq(&quadEM_SNL, "P=quadEMTest:, R=AH501_TS:, NUM_CHANNELS=2048")
+#seq(&quadEM_SNL, "P=quadEMTest:, R=AH501_TS:, NUM_CHANNELS=2048")
 
