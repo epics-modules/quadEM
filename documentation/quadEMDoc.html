@@ -23,7 +23,8 @@
         <li><a href="#fast_pid_control">fast_pid_control.db</a></li>
       </ul>
     </li>
-    <li><a href="#AH401B_Setup">AH401B Setup</a></li>
+    <li><a href="#Performance">Performance</a></li>
+    <li><a href="#AHxxx_Setup">AH401 and AH501 series Setup</a></li>
     <li><a href="#APS_EM_Setup">APS Electrometer Setup</a></li>
   </ul>
   <h2 id="Overview">
@@ -32,20 +33,25 @@
     <b>quadEM</b> supports quad electrometers/picoammeters, typically used for photodiode-based
     x-ray beam position monitors, or split ion chambers. They can also be used for any
     low-current measurement that requires high speed digital input. There is support
-    for two models:</p>
+    for several models:</p>
   <ol>
-    <li>The AH401B picoammeter designed and sold by <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
-      Synchrotron Trieste (elettra)</a>. It is also sold by <a href="http://www.caenels.com/caenels/product.php?fam=cemis&amp;mod=AH401B">
-        CAENels</a>. This device communicates using TCP/IP over 100 Mbit/s Ethernet or
-      high-speed serial. It provides 4-channel current measurements at up to 1000 Hz.</li>
+    <li>The AH401 series (AH401B, AH401D) and AH501 series (AH501, AH501C, AH501D) picoammeters
+      designed and sold by <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
+        Synchrotron Trieste (elettra)</a>. They are also sold by <a href="http://www.caenels.com/caenels/product.php?fam=cemis&amp;mod=AH401B">
+          CAENels</a>. These devices communicate using TCP or UDP over 100 Mbit/s Ethernet
+      or high-speed serial. They provide 4-channel current measurements at up to 6510
+      Hz (AH501 series) or 1000 Hz (AH401 series).</li>
     <li>The Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">Steve Ross</a>
       from the APS (called APS_EM in this document). This device consists of a 4-channel
       digital electrometer unit and 2 VME boards. The device provides 2 readings per diode
       at up to 813 Hz.</li>
   </ol>
   <p>
-    Both of these units are based on the same principle of an op-amp run as a current
-    amplifier with a large feedback capacitor, and a high resolution ADC.</p>
+    The AH401 series and the APS_EM are based on the same principle of an op-amp run
+    as a current amplifier with a large feedback capacitor, and a high resolution ADC.
+    The AH501 series are based on a transimpedance input stage for current sensing,
+    combined with analog signal conditioning and filtering stages. The AH501C and AH501D
+    have an integrated programmable bias supply.</p>
   <p>
     The <b>quadEM</b> software includes asyn drivers and an SNL program that provide
     support for the following:</p>
@@ -55,29 +61,34 @@
       at speeds up to 10 Hz with standard EPICS scan times. One could also use the standard
       asynInt32 device support with ai records and scan=I/O Intr, in which case the record
       would update with every reading from the device. This is likely to overwhelm the
-      EPICS IOC if the electrometer is run at very fast integration times.</li>
+      EPICS IOC if the electrometer is run at very fast sampling times.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
-      at speeds up to 1000 Hz (AH401B) or 813 Hz (APS_EM). The data is available in standard
-      EPICS waveform records, using the drvFastSweep asyn driver from the synApps "mca"
-      module. The time per point can be greater, in which case it does averaging.</li>
+      at speeds up to 6510 Hz (AH501 series), 1000 Hz (AH401 series) or 813 Hz (APS_EM).
+      The data is available in standard EPICS waveform records, using the drvFastSweep
+      asyn driver from the synApps "mca" module. The time per point can be greater, in
+      which case it does averaging.</li>
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
       EPICS waveform record.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
-      dac128V) at speeds up to 1000Hz or 813Hz. If it is run slower it does signal averaging.
-      This support is provided in the synApps "std" module. The quadEM drivers do the
-      callbacks on the asynFloat64 interface required to use the epics fast feedback device
-      support.</li>
+      dac128V), also at speeds up to 6510 Hz, 1000Hz or 813Hz. If it is run slower it
+      does signal averaging. This support is provided in the synApps "std" module. The
+      quadEM drivers do the callbacks on the asynFloat64 interface required to use the
+      epics fast feedback device support.</li>
   </ul>
   <p>
-    Detailed information on the APS electrometer can be found in the <a href="Electrometer_Users_Guide_01_22_2007.pdf">
-      Electrometer Users Guide</a>.</p>
-  <p>
-    Detailed information on the AH401B electrometer can be found in the <a href="AH401B_UsersManual_V1.0.pdf">
-      AH401B Users Manual</a>.</p>
+    The following manuals provide detailed information on these devices:</p>
+  <ul>
+    <li>APS electrometer: <a href="Electrometer_Users_Guide_01_22_2007.pdf">Electrometer
+      Users Guide</a></li>
+    <li>AH401B electrometer: <a href="AH401B_UsersManual_V1.0.pdf">AH401B Users Manual</a></li>
+    <li>AH401D electrometer: <a href="AH401D_UsersManual_V1.2.pdf">AH401D Users Manual</a></li>
+    <li>AH501C electrometer: <a href="AH501C_UsersManual_V1.0.pdf">AH501C Users Manual</a></li>
+    <li>AH501D electrometer: <a href="AH501D_UsersManual_V1.0.pdf">AH501D Users Manual</a></li>
+  </ul>
   <p>
     The support is based on asynPortDriver. It consists of a base class <a href="quadEMDoxygenHTML/classdrv_quad_e_m.html">
       (drvQuadEM.cpp)</a> which is device-independent. There are device-dependent classes
-    for the AH401B <a href="quadEMDoxygenHTML/classdrv_a_h401_b.html">(drvAH401B.cpp)</a>
+    for the AH401 and AH501 series <a href="quadEMDoxygenHTML/classdrv_a_hxxx.html">(drvAHxxx.cpp)</a>
     and the APS electrometer <a href="quadEMDoxygenHTML/classdrv_a_p_s___e_m.html">(drvAPS_EM.cpp)</a>.
     There is an EPICS State Notation Language (SNL) program (quadEM_SNL.st) is used
     to synchronize acquisition of time-series data, and to compute FFT power-spectra
@@ -114,7 +125,36 @@
         <th>
           Access</th>
         <th>
+          Models supported</th>
+        <th>
           Description</th>
+      </tr>
+      <tr>
+        <td>
+          QE_MODEL</td>
+        <td>
+          $(P)$(R)Model</td>
+        <td>
+          mbbi</td>
+        <td>
+          asyInt32</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          The model of the electrometer. This is determined automatically by the driver. Values
+          are:
+          <ul>
+            <li>0: Unknown</li>
+            <li>1: APS_EM</li>
+            <li>2: AH401B</li>
+            <li>3: AH401D</li>
+            <li>4: AH501</li>
+            <li>5: AH501C</li>
+            <li>6: AH501D</li>
+          </ul>
+        </td>
       </tr>
       <tr>
         <td>
@@ -127,6 +167,8 @@
           asyInt32</td>
         <td>
           r/w</td>
+        <td>
+          All</td>
         <td>
           Acquire command. This command turns acquisition on (1) and off (0).</td>
       </tr>
@@ -142,9 +184,17 @@
         <td>
           r/w</td>
         <td>
-          Range command. This selects the feedback capacitor, which controls the gain of the
-          device. There are 8 capacitor choices. For the AH401B the choices are in units of
-          saturation charge:
+          All</td>
+        <td>
+          Range command. This selects the sensitivity of the electrometer (A/D units per nanoamp).<br />
+          For the AH501 series the choices are:
+          <ul>
+            <li>&plusmn;2.5mA</li>
+            <li>&plusmn;2.5uA</li>
+            <li>&plusmn;2.5nA</li>
+          </ul>
+          For the AH401 series this selects the feedback capacitor, which controls the gain
+          of the device. There are 8 capacitor choices in units of saturation charge:
           <ul>
             <li>1800 pC</li>
             <li>350 pC</li>
@@ -155,7 +205,8 @@
             <li>100 pC</li>
             <li>50 pC</li>
           </ul>
-          For the APS_EM the choices are in units of capacitance:
+          For the APS_EM this selects the feedback capacitor, which controls the gain of the
+          device. There are 8 capacitor choices:
           <ul>
             <li>External</li>
             <li>17.6 pf</li>
@@ -192,14 +243,16 @@
         <td>
           r/w</td>
         <td>
-          Both the AH401B and the APS_EM have 2 input channels, which we call Ping and Pong
-          here. This doubles the speed of the unit, because one channel is being digitized
+          AH401 series, APS_EM</td>
+        <td>
+          Both the AH401 series and the APS_EM have 2 input channels, which we call Ping and
+          Pong here. This doubles the speed of the unit, because one channel is being digitized
           while the other is integrating. This record selects how the two channels are treated.<br />
-          On the AH401B the choices are "Off" (0) and "On" (1). "Off" only returns the data
-          from the Ping channel. This reduces noise because only a single integration capacitor
-          is used, but it reduces the data rate by a factor of two, because data are only
-          returned on every other integration time. "On" returns the data from both channels,
-          which doubles the data rate at some expense in noise.<br />
+          On the AH401 series the choices are "Off" (0) and "On" (1). "Off" only returns the
+          data from the Ping channel. This reduces noise because only a single integration
+          capacitor is used, but it reduces the data rate by a factor of two, because data
+          are only returned on every other integration time. "On" returns the data from both
+          channels, which doubles the data rate at some expense in noise.<br />
           On the APS_EM both values are always transmitted from the device, and the choices
           are #1 (Ping), #2 (Pong), and Avg. which averages the values from the Ping and Pong
           channels. Note that if Range=External and the two external capacitors are different,
@@ -218,15 +271,127 @@
         <td>
           r/w</td>
         <td>
+          AH401 series, APS_EM</td>
+        <td>
           Selects the integration time of the amplifier. As the integration time is increased
           the sensitivity increases, but the number of readings/sec sent from the device is
           decreased.<br />
-          For the AH401B values range from 0.001s to 1.000s. The data are sent after one integration
-          time if PingPong="On" or after 2 integration times if PingPong="Off".<br />
+          For the AH401 series values range from 0.001s to 1.000s. The data are sent after
+          one integration time if PingPong="On" or after 2 integration times if PingPong="Off".<br />
           For the APS_EM the values range from .000615s to 0.1311s. The data are sent to the
           VME card from the amplifier after 2 integration times, one value in the Ping channel
           and one value in the Pong channel. The data period is thus 0.00123 to 0.02622 s,
           or a frequency range of about 813 Hz to 38.1 Hz. </td>
+      </tr>
+      <tr>
+        <td>
+          QE_NUM_CHANNELS</td>
+        <td>
+          $(P)$(R)NumChannels</td>
+        <td>
+          mbbo</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          AH501 series</td>
+        <td>
+          Selects the number of channels to measure and transmit data for. Using fewer than
+          4 channels increases the sampling rate. Allowed choices are:
+          <ul>
+            <li>1: channel 1 only</li>
+            <li>2: channels 1 and 2 only</li>
+            <li>4: channels 1-4</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          QE_RESOLUTION</td>
+        <td>
+          $(P)$(R)Resolution</td>
+        <td>
+          mbbo</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          AH501 series</td>
+        <td>
+          Selects the resolution of the ADC in bits. Using 16-bits increases the sampling
+          rate by a factor of 2 relative to 26-bits. Allowed choices are:
+          <ul>
+            <li>16: 16-bit data</li>
+            <li>24: 24-bit data</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          QE_BIAS_STATE</td>
+        <td>
+          $(P)$(R)BiasState</td>
+        <td>
+          bo</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          AH501C and AH501D</td>
+        <td>
+          Selects the state of the bias supply output voltage. Allowed choices are:
+          <ul>
+            <li>0: Off</li>
+            <li>1: On</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          QE_BIAS_VOLTAGE</td>
+        <td>
+          $(P)$(R)BiasVoltage</td>
+        <td>
+          ao</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          AH501C and AH501D</td>
+        <td>
+          Controls the voltage of the bias supply output. </td>
+      </tr>
+      <tr>
+        <td>
+          QE_NUM_AVERAGE</td>
+        <td>
+          $(P)$(R)NumAverage</td>
+        <td>
+          longout</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Controls the number of readings from the meter that are averaged in the driver before
+          it does callbacks. The default is 1 (no averaging). Setting NumAverage &gt; 1 will
+          reduce the CPU time for 2 reasons:
+          <ol>
+            <li>On the AH401 and AH501 series the driver reduces the frequency of asynOctet-&gt;read()
+              calls by a factor of NumAverage, because it can obtain multiple readings from the
+              meter in a single call. This is particularly significant on the AH501 series, which
+              can transmit up to 26,040 packets per second!</li>
+            <li>It reduces the frequency of callbacks to device support.</li>
+          </ol>
+          The potential disadvantage of setting NumAverage &gt; 1 is that it will reduce the
+          sampling frequency of the TimeSeries support, and the update frequency of the EPID
+          fast feedback support. </td>
       </tr>
       <tr>
         <td>
@@ -240,9 +405,40 @@
         <td>
           r/w</td>
         <td>
-          Contains the actual time between sample readings from the device. This is controlled
-          by the value of IntegrationTime, and for the AH401B also by the value of PingPong.
-        </td>
+          All</td>
+        <td>
+          Provides the actual time between sample readings from the device. This is controlled
+          by the following parameters:
+          <ul>
+            <li>NumAverage: All models</li>
+            <li>IntegrationTime: AH401 series and APS_EM</li>
+            <li>PingPong: AH401 series</li>
+            <li>NumChannels: AH501 series</li>
+            <li>Resolution: AH501 series</li>
+          </ul>
+          The sample time on the AH501 series is controlled by the following algorithm:
+          <ul>
+            <li>SampleTime = 38.4 microseconds * NumChannels * NumAverage</li>
+            <li>If Resolution == 24 then SampleTime = SampleTime * 2</li>
+          </ul>
+          The minimum sample time (NumChannels=1, NumAverage=1, Resolution=16) is 38.4 microseconds,
+          or a sampling frequency of 26.04 kHz. The maximum sample time with NumAverage=1,
+          NumChannels=4, Resolution=24 is 307.2 microseconds, or a sampling frequency of 3.255
+          kHz. Setting NumAverage &gt; 1 will increase the sample time and reduce the sampling
+          frequency proportionally.<br />
+          <br />
+          The sample time on the AH401 series is controlled by the following algorithm:
+          <ul>
+            <li>SampleTime = IntegrationTime * NumAverage</li>
+            <li>If PingPong == 0 then SampleTime = SampleTime * 2</li>
+          </ul>
+          The minimum sample time is 0.001 seconds, or 1 kHz sampling frequency. The maximum
+          sampling time (PingPong=0) is 2 seconds, or 0.5 Hz sampling frequency. Setting NumAverage
+          &gt; 1 will increase the sample time and reduce the sampling frequency proportionally.<br />
+          <br />
+          For the APS_EM the sample time is controlled only by NumAverage and the IntegrationTime,
+          which ranges from 0.00123 to 0.02622 s, or a sampling frequency range of about 813
+          Hz to 38.1 Hz. </td>
       </tr>
       <tr>
         <td>
@@ -256,9 +452,10 @@
         <td>
           r/w</td>
         <td>
-          Controls whether acquistion is free-running ("No") or triggered by an external pulse
-          ("Yes"). This is only supported on the AH401B, the APS_EM does not support external
-          triggering.</td>
+          AH501 and AH401 series</td>
+        <td>
+          Controls whether acquisition is free-running ("No") or triggered by an external
+          pulse ("Yes").</td>
       </tr>
       <tr>
         <td>
@@ -272,11 +469,14 @@
         <td>
           r/w</td>
         <td>
+          All</td>
+        <td>
           Reset command. Processing this record will reset the electrometer. On the APS_EM
           this operation takes about 1 second, and may be required to establish communication
-          if the amplifier unit is power-cycled or disconnected and reconnected. On the AH401B
-          this operation downloads all of the EPICS settings to the electrometer, and must
-          be done if the electrometer is power-cycled without rebooting the EPICS IOC.</td>
+          if the amplifier unit is power-cycled or disconnected and reconnected. On the AH401
+          and AH501 series this operation downloads all of the EPICS settings to the electrometer,
+          and must be done if the electrometer is power-cycled without rebooting the EPICS
+          IOC.</td>
       </tr>
       <tr>
         <td>
@@ -289,6 +489,8 @@
           asynInt32 (addr=0-3)</td>
         <td>
           r/w</td>
+        <td>
+          All</td>
         <td>
           Offset that will be subtracted from each reading before calculating the Current[1-4].
         </td>
@@ -305,6 +507,8 @@
         <td>
           r/w</td>
         <td>
+          All</td>
+        <td>
           Offset that will be subtracted from the computed position.</td>
       </tr>
       <tr>
@@ -318,6 +522,8 @@
           asynInt32 (addr=0-1)</td>
         <td>
           r/w</td>
+        <td>
+          All</td>
         <td>
           Scale factor used when computing the position.</td>
       </tr>
@@ -333,11 +539,13 @@
         <td>
           r/o</td>
         <td>
+          All</td>
+        <td>
           The value of the current. This is calculated as measuredValue-CurrentOffset. These
           records use asynInt32Average device support so they average the readings from the
-          device since the time the record was last processed. For example with the AH401B
-          if PingPong="On" and the integration time is 0.002s (500 Hz), if the Read record
-          .SCAN field is 1 second then 500 readings will be averaged.</td>
+          device since the time the record was last processed. For example with the AH401
+          series if PingPong="On" and the integration time is 0.002s (500 Hz), if the Read
+          record .SCAN field is 1 second then 500 readings will be averaged.</td>
       </tr>
       <tr>
         <td>
@@ -350,6 +558,8 @@
           asynInt32 (addr=4-6)</td>
         <td>
           r/o</td>
+        <td>
+          All</td>
         <td>
           The sum of diodes 1+2, 3+4, and 1+2+3+4. These records use asynInt32Average device
           support so they average the readings from the device since the time the record was
@@ -367,6 +577,8 @@
         <td>
           r/o</td>
         <td>
+          All</td>
+        <td>
           The difference of the diode pair 2-1 and 4-3. These records use asynInt32Average
           device support so they average the readings from the device since the time the record
           was last processed.</td>
@@ -383,6 +595,8 @@
         <td>
           r/o</td>
         <td>
+          All</td>
+        <td>
           The position of the diode pair. This is calculated as ((Diff/Sum)*PositionScale
           - PositionOffset). These records use asynInt32Average device support so they average
           the readings from the device since the time the record was last processed.</td>
@@ -398,6 +612,8 @@
           asynFloat64 (addr=0-10)</td>
         <td>
           r/o</td>
+        <td>
+          All</td>
         <td>
           The QE_DOUBLE_DATA drvInfo string is used to read the same information as QE_DATA,
           but using the asynFloat64 interface rather than the asynInt32 interface. This is
@@ -417,6 +633,8 @@
         <td>
           r/w</td>
         <td>
+          All</td>
+        <td>
           Processing this record reads all of the Position, Sum, Diff, and Position records
           using forward links.</td>
       </tr>
@@ -432,13 +650,13 @@
     quadEM_TimeSeries.template</h3>
   <p>
     The quadEM_TimeSeries.template database provides a time-history (like a digital
-    scope) of the current, sum, difference and position at speeds up to 1000Hz (AH401B)
-    or 813 Hz (APS_EM). The time per point can be greater than the sampling time, in
-    which case it does averaging. It also optionally uses FFTs to compute the frequency
-    power-spectrum of each signal. The time-series support requires the drvFastSweep
-    driver from the synApps mca module, and also the quadEM_SNL SNL program in this
-    quadEM module. The time-series and frequency spectra are contained in standard EPICS
-    waveform records.</p>
+    scope) of the current, sum, difference and position at speeds up to 6510 Hz (AH501
+    series), 1000Hz (AH401 series) or 813 Hz (APS_EM). The time per point can be greater
+    than the sampling time, in which case it does averaging. It also optionally uses
+    FFTs to compute the frequency power-spectrum of each signal. The time-series support
+    requires the drvFastSweep driver from the synApps mca module, and also the quadEM_SNL
+    SNL program in this quadEM module. The time-series and frequency spectra are contained
+    in standard EPICS waveform records.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
       <tr>
@@ -547,9 +765,8 @@
           ao</td>
         <td>
           The dwell time per point. This time is constrained to be an integer multiple of
-          the sampling time, which is in the range 0.001s to 1.0s for the AH401B and 0.00123s
-          to 0.002622s for the APS_EM, depending on the IntegrationTime record. The readback
-          value of $(P)$(R)Dwell_RBV gives the actual dwell time per point.</td>
+          the SampleTime, whose range is discussed above. The readback value of $(P)$(R)Dwell_RBV
+          gives the actual dwell time per point.</td>
       </tr>
       <tr>
         <td>
@@ -723,10 +940,10 @@
   </h3>
   <p>
     The quadEM can be used to do fast feedback with the EPID record from the synApps
-    "std" module. The EPID record will process at up to 1000 Hz (AH401B) or 813 Hz (APS_EM).
+    "std" module. The EPID record will process at up to the SampleTime discussed above.
     The DT field of the EPID record controls the time between feedback calculations,
-    and this is constrained to be an integer multiple N of the quadEM sampling time.
-    If N>1 then N samples are averaged for each feedback operation.
+    and this is constrained to be an integer multiple N of the quadEM SampleTime. If
+    N>1 then N samples are averaged for each feedback operation.
   </p>
   <p>
     This is the medm screen that controls the fast feedback of the pitch of the monochromator
@@ -781,15 +998,606 @@ pattern
 {quadEMTest:,  MonoRoll, APS_EM, QE_DOUBLE_DATA,   QE_SAMPLE_TIME,    10,   DAC1,     2,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
 }
 </pre>
-  <h2 id="AH401B_Setup">
-    AH401B Setup</h2>
+  <h2 id="Performance">
+    Performance</h2>
   <p>
-    The AH401B communicates via TCP/IP, so it must be configured with an IP address
-    reachable from the host IOC machine.</p>
+    The following table shows the CPU utilization of a Linux machine (Xeon E5630 2.53GHz),
+    vxWorks MVME2100, and vxWorks MVME5100 with the AH501 electometer as a function
+    of the parameters that control the SampleTime. It can be seen that the load on Linux
+    is very low. The load on the MVME5100 is significant, but it can handle NumChannels=4
+    with NumAverage=1 for either resolution. The MVME2100 on the other hand cannot run
+    with NumAverage=1 at all, it completely saturates the system. It does work NumAverage=4
+    or 10.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
+    <tbody>
+      <tr>
+        <td align="center" colspan="5">
+          <b>Performance of AH501 using UDP</b></td>
+      </tr>
+      <tr>
+        <th>
+          System</th>
+        <th>
+          NumChannels</th>
+        <th>
+          Resolution</th>
+        <th>
+          NumAverage</th>
+        <th>
+          %CPU time</th>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          1</td>
+        <td>
+          4%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          2</td>
+        <td>
+          2%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          2</td>
+        <td>
+          24</td>
+        <td>
+          1</td>
+        <td>
+          5%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
+          24</td>
+        <td>
+          1</td>
+        <td>
+          9%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          1</td>
+        <td>
+          4%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          2</td>
+        <td>
+          16</td>
+        <td>
+          1</td>
+        <td>
+          6%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
+          16</td>
+        <td>
+          1</td>
+        <td>
+          7%</td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          1</td>
+        <td>
+          37%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          2</td>
+        <td>
+          18%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          4</td>
+        <td>
+          9%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          2</td>
+        <td>
+          24</td>
+        <td>
+          1</td>
+        <td>
+          50%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          2</td>
+        <td>
+          24</td>
+        <td>
+          2</td>
+        <td>
+          24%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          1</td>
+        <td>
+          43%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          2</td>
+        <td>
+          20%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          2</td>
+        <td>
+          16</td>
+        <td>
+          1</td>
+        <td>
+          66%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          2</td>
+        <td>
+          16</td>
+        <td>
+          2</td>
+        <td>
+          36%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          16</td>
+        <td>
+          1</td>
+        <td>
+          91%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          16</td>
+        <td>
+          2</td>
+        <td>
+          48%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          16</td>
+        <td>
+          4</td>
+        <td>
+          27%</td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          2</td>
+        <td>
+          77%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          3</td>
+        <td>
+          52%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          4</td>
+        <td>
+          43%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          10</td>
+        <td>
+          19%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          4</td>
+        <td>
+          41%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          10</td>
+        <td>
+          15%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          1</td>
+        <td>
+          16</td>
+        <td>
+          10</td>
+        <td>
+          50%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          1</td>
+        <td>
+          16</td>
+        <td>
+          20</td>
+        <td>
+          29%</td>
+      </tr>
+    </tbody>
+  </table>
   <p>
-    An example startup script for Linux (or Windows) is provided in <a href="quadEM_st_cmd_linux.html">
-      quadEM/iocBoot/iocTest.st.cmd.linux</a>. This will need to be edited to set the
-    correct IP address of the AH401B to be used.</p>
+    The following table shows the CPU utilization of the Linux machine, vxWorks MVME2100,
+    and vxWorks MVME5100 with the AH401B electometer as a function of the parameters
+    that control the SampleTime. It can be seen that the load on Linux is almost unmeasurable.
+    The load on the MVME5100 is small. The MVME2100 uses almost 50% of the CPU at the
+    fastest sampling time, but increasing NumAverage or IntegrationTime reduces this
+    to a small value.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
+    <tbody>
+      <tr>
+        <td align="center" colspan="5">
+          <b>Performance of AH401B using TCP</b></td>
+      </tr>
+      <tr>
+        <th>
+          System</th>
+        <th>
+          IntegrationTime</th>
+        <th>
+          PingPong</th>
+        <th>
+          NumAverage</th>
+        <th>
+          %CPU time</th>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          0.001</td>
+        <td>
+          1</td>
+        <td>
+          1</td>
+        <td>
+          1%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          0.001</td>
+        <td>
+          1</td>
+        <td>
+          2</td>
+        <td>
+          &lt;1%</td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          0.001</td>
+        <td>
+          1</td>
+        <td>
+          1</td>
+        <td>
+          12%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          0.001</td>
+        <td>
+          1</td>
+        <td>
+          2</td>
+        <td>
+          7%</td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          0.001</td>
+        <td>
+          1</td>
+        <td>
+          1</td>
+        <td>
+          47%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          0.001</td>
+        <td>
+          1</td>
+        <td>
+          2</td>
+        <td>
+          27%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          0.001</td>
+        <td>
+          1</td>
+        <td>
+          4</td>
+        <td>
+          16%</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    The following table shows the CPU utilization of vxWorks MVME2100, with the APS
+    electometer as a function of the parameters that control the SampleTime. The MVME2100
+    uses almost 50% of the CPU at the fastest sampling time, but increasing NumAverage
+    or IntegrationTime reduces this to a small value. The MVME2700 and MVME5100 would
+    show significantly lower CPU values, but measurements were not done with those systems
+    with the test application.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
+    <tbody>
+      <tr>
+        <td align="center" colspan="4">
+          <b>Performance of APS Electometer</b></td>
+      </tr>
+      <tr>
+        <th>
+          System</th>
+        <th>
+          IntegrationTime</th>
+        <th>
+          NumAverage</th>
+        <th>
+          %CPU time</th>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          0.0006</td>
+        <td>
+          1</td>
+        <td>
+          49%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          0.0006</td>
+        <td>
+          2</td>
+        <td>
+          35%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          0.001</td>
+        <td>
+          1</td>
+        <td>
+          40%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          0.002</td>
+        <td>
+          1</td>
+        <td>
+          20%</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2 id="AHxxx_Setup">
+    AH401 and AH501 Series Setup</h2>
+  <p>
+    These meters communicates via IP, so they must be configured with an IP address
+    reachable from the host IOC machine. The Lantronix module in the meters can be configured
+    to use either UDP (recommended to reduce CPU load, particularly on AH501 series)
+    or TCP. The startup script must include the UDP qualifier on the drvAsynIPPortConfigure
+    command if UDP is selected.</p>
+  <p>
+    Example startup scripts for Linux or Windows are provided in
+    <br />
+    <a href="quadEM_st_cmd_AH401B.html">quadEM/iocBoot/iocTest.st.cmd.AH401B</a> and
+    <br />
+    <a href="quadEM_st_cmd_AH501.html">quadEM/iocBoot/iocTest.st.cmd.AH501</a>
+  </p>
+  <p>
+    These will need to be edited to set the correct IP address of the meters to be used.</p>
+  <p>
+    These scripts each invoke a generic script:
+    <br />
+    <a href="quadEM_st_cmd_AHxxx.html">quadEM/iocBoot/iocTest.st.cmd.AHxxx</a>.
+  </p>
   <h2 id="APS_EM_Setup">
     APS Electrometer Setup</h2>
   <p>
@@ -802,9 +1610,15 @@ pattern
     If an Ip-Unidig or other interrupt source is not being used then the APS_EM driver
     will poll for new data at the system clock rate, typically 60Hz.</p>
   <p>
-    An example startup script for vxWorks with the APS_EM is provided in <a href="quadEM_st_cmd_vxWorks.html">
-      quadEM/iocBoot/iocTest.st.cmd.vxWorks</a>. This example startup script actually
-    starts both an AH401B ($(R)=QE1:) and an APS_EM ($(R)=QE2:) driver. One or the other
-    can be commented out for testing if both devices are not available.</p>
+    An example startup script for vxWorks is provided in
+    <br />
+    <a href="quadEM_st_cmd_vxWorks.html">quadEM/iocBoot/iocTest.st.cmd.vxWorks</a>.
+  </p>
+  <p>
+    This example startup script can be edited to start either the APS_EM, the AH401B,
+    or the AH501. For the APS_EM this script invokes
+    <br />
+    <a href="quadEM_st_cmd_APS_EM.html">quadEM/iocBoot/iocTest.st.cmd.APS_EM</a>.
+  </p>
 </body>
 </html>
