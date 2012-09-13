@@ -45,6 +45,8 @@ private:
     int acquiring_;
     int readingActive_;
     char *QEPortName_;
+    bool AH501Series_;
+    bool AH401Series_;
     char firmwareVersion_[MAX_COMMAND_LEN];
     QEModel_t model_;
     char outString_[MAX_COMMAND_LEN];
