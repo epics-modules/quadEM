@@ -62,6 +62,8 @@ drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName)
     
     acquiring_ = 0;
     readingActive_ = 0;
+    resolution_ = 24;
+    numChannels_ = 4;
 
     // Do everything that needs to be done when connecting to the meter initially.
     // Note that the meter could be offline when the IOC starts, so we put this in
@@ -277,10 +279,13 @@ asynStatus drvAHxxx::reset()
             driverName, functionName, firmwareVersion_);
         return asynError;
     }
-    if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH401D)) 
+    if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH401D)) {
         AH401Series_ = true;
-    else 
+        AH501Series_ = false;
+    } else {
         AH501Series_ = true;
+        AH401Series_ = false;
+    }
     setIntegerParam(P_Model, model_);
     // Call the base class method
     status = drvQuadEM::reset();
