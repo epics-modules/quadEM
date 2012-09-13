@@ -186,7 +186,7 @@ void drvAHxxx::readThread(void)
         }
         numBytes = 3;
         if (numAverage_ < 1) numAverage_ = 1;
-        if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH401D)) {
+        if (AH401Series_) {
             numChannels_ = 4;
         } 
         else {
@@ -206,7 +206,7 @@ void drvAHxxx::readThread(void)
                 raw[i] = 0;
             }
             offset = 0;
-            if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH401D)) {
+            if (AH401Series_) {
                 // These models are little-endian byte order
                 for (i=0; i<numAverage_; i++) {
                     for (j=0; j<numChannels_; j++) {
@@ -256,6 +256,7 @@ void drvAHxxx::readThread(void)
 asynStatus drvAHxxx::reset()
 {
     asynStatus status;
+    static const char *functionName = "reset";
 
     setAcquire(0);    
     model_ = QE_ModelUnknown;
@@ -270,6 +271,16 @@ asynStatus drvAHxxx::reset()
     else if (strstr(firmwareVersion_, "501 ") != 0) model_=QE_ModelAH501;
     else if (strstr(firmwareVersion_, "501C") != 0) model_=QE_ModelAH501C;
     else if (strstr(firmwareVersion_, "501D") != 0) model_=QE_ModelAH501D;
+    else {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s:%s: unknown firmware version = %s\n", 
+            driverName, functionName, firmwareVersion_);
+        return asynError;
+    }
+    if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH401D)) 
+        AH401Series_ = true;
+    else 
+        AH501Series_ = true;
     setIntegerParam(P_Model, model_);
     // Call the base class method
     status = drvQuadEM::reset();
@@ -319,8 +330,8 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         strcpy(outString_, "BIN ON");
         writeReadMeter();
     
-        // The AH401B sends an ACK after ACQ ON, other models don't
-        if (model_ == QE_ModelAH401B) {
+        // The AH401 series sends an ACK after ACQ ON, other models don't
+        if (AH401Series_) {
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ ON", strlen("ACQ ON"), 
                         dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
         }
@@ -346,7 +357,7 @@ asynStatus drvAHxxx::setPingPong(epicsInt32 value)
 {
     asynStatus status;
     
-    if (model_ != QE_ModelAH401B) return asynSuccess;
+    if (AH501Series_) return asynSuccess;
     epicsSnprintf(outString_, sizeof(outString_), "HLF %s", value ? "OFF" : "ON");
     status = sendCommand();
     return status;
@@ -359,7 +370,7 @@ asynStatus drvAHxxx::setIntegrationTime(epicsFloat64 value)
 {
     asynStatus status;
     
-    if (model_ != QE_ModelAH401B) return asynSuccess;
+    if (AH501Series_) return asynSuccess;
     /* Make sure the update time is valid. If not change it and put back in parameter library */
     if (value < MIN_INTEGRATION_TIME) {
         value = MIN_INTEGRATION_TIME;
@@ -401,7 +412,7 @@ asynStatus drvAHxxx::setNumChannels(epicsInt32 value)
 {
     asynStatus status;
     
-    if (model_ == QE_ModelAH401B) return asynSuccess;
+    if (AH401Series_) return asynSuccess;
     epicsSnprintf(outString_, sizeof(outString_), "CHN %d", value);
     status = sendCommand();
     return status;
@@ -414,7 +425,7 @@ asynStatus drvAHxxx::setBiasState(epicsInt32 value)
 {
     asynStatus status;
     
-    if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH501)) return asynSuccess;
+    if (AH401Series_ || (model_ == QE_ModelAH501)) return asynSuccess;
     epicsSnprintf(outString_, sizeof(outString_), "HVS %s", value ? "ON" : "OFF");
     status = sendCommand();
     return status;
@@ -427,7 +438,7 @@ asynStatus drvAHxxx::setBiasVoltage(epicsFloat64 value)
 {
     asynStatus status;
     
-    if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH501)) return asynSuccess;
+    if (AH401Series_ || (model_ == QE_ModelAH501)) return asynSuccess;
     epicsSnprintf(outString_, sizeof(outString_), "HVS %f", value);
     status = sendCommand();
     return status;
@@ -440,7 +451,7 @@ asynStatus drvAHxxx::setResolution(epicsInt32 value)
 {
     asynStatus status;
     
-    if (model_ == QE_ModelAH401B) return asynSuccess;
+    if (AH401Series_) return asynSuccess;
     epicsSnprintf(outString_, sizeof(outString_), "RES %d", value);
     status = sendCommand();
     return status;
@@ -473,7 +484,7 @@ asynStatus drvAHxxx::getSettings()
     if (sscanf(inString_, "RNG %1d", &range) != 1) goto error;
     setIntegerParam(P_Range, range);
     
-    if (model_ == QE_ModelAH401B) {
+    if (AH401Series_) {
         strcpy(outString_, "HLF ?");
         writeReadMeter();
         if (strcmp("HLF ON", inString_) == 0) pingPong = 0;
@@ -488,7 +499,7 @@ asynStatus drvAHxxx::getSettings()
         setDoubleParam(P_IntegrationTime, integrationTime);
         sampleTime = pingPong ? integrationTime : integrationTime*2.;
     }
-    if ((model_ == QE_ModelAH501) || (model_ == QE_ModelAH501C) || (model_ == QE_ModelAH501D)) {
+    if (AH501Series_) {
         strcpy(outString_, "CHN ?");
         writeReadMeter();
         if (sscanf(inString_, "CHN %d", &numChannels) != 1) goto error;
