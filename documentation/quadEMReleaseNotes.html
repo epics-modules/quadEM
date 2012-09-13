@@ -9,6 +9,32 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 3-1 (September XXX, 2012)</h2>
+  <ul>
+    <li>Added support for AH401D and the AH501 series (AH501, AH501C, AH501D) picoammeters
+      from CaenEls. The AH501 series are signficantly faster than the AH401 series. They
+      work differently than the AH401 or APS_EM units, and do not support the concept
+      of integration time or ping-pong. They have programmable resolution (16-bit or 24-bits),
+      programmable number of active input channels (1, 2, or 4), and programmable bias
+      power supply (AH501C and AH501D only).</li>
+    <li>Added new record NumAverage. This applies to all models, and can be used to average
+      NumAverage readings from the meter before doing the callbacks. On the AH501 series
+      this also reduces the number of read operations by a factor of NumAverage, by increasing
+      the number of messages read in a single operation. This reduces CPU time in direct
+      proportion to NumAverage, which is particularly important with slow computers (e.g.
+      older VME cards) with the AH501 series.</li>
+    <li>Tested using UDP rather than TCP for communication with the AH401B and AH501 meters.
+      This is more efficient than TCP, reducing CPU time by up to 10%. The example startup
+      scripts now use UDP. The Lantronix DeviceInstaller must be used to configure the
+      electrometer to use UDP, since the default is TCP.</li>
+    <li>Added new record Model. This provides the model index and name of the device.
+      This is determined automatically by the driver.</li>
+    <li>Modified the medm screens so they only display the parameters that apply to the
+      specific model being used.</li>
+    <li>Modified startup scripts to simplify and support testing all models on any OS
+      (for AH401 and AH501 series), and vxWorks for APS_EM.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 3-0 (September 6, 2012)</h2>
   <ul>
     <li>Complete re-write of the module. The new version is based on asynPortDriver. It
