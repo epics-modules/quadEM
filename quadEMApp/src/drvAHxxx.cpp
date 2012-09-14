@@ -143,6 +143,7 @@ void drvAHxxx::readThread(void)
     asynStatus status;
     int i, j;
     int offset;
+    int value;
     size_t nRead;
     int numBytes;
     int eomReason;
@@ -222,7 +223,13 @@ void drvAHxxx::readThread(void)
                 if (resolution_ == 16) {
                     for (i=0; i<numAverage_; i++) {
                         for (j=0; j<numChannels_; j++) {
-                            raw[j] += -((input[offset]<<8) + input[offset+1]);
+                            value = (input[offset]<<8) + input[offset+1];
+                            if (value < 32767) {
+                                value = -value;
+                            } else {
+                                value = 65536 - value;
+                            }
+                            raw[j] += value;
                             offset += numBytes;
                         }
                     }
@@ -230,7 +237,13 @@ void drvAHxxx::readThread(void)
                 else {
                     for (i=0; i<numAverage_; i++) {
                         for (j=0; j<numChannels_; j++) {
-                            raw[j] += -((input[offset]<<16) + (input[offset+1]<<8) + input[offset+2]);
+                            value = (input[offset]<<16) + (input[offset+1]<<8) + input[offset+2];
+                            if (value < 8388607) {
+                                value = -value;
+                            } else {
+                                value = 16777216 - value;
+                            }
+                            raw[j] += value;
                             offset += numBytes;
                         }
                     }
