@@ -112,21 +112,6 @@ menu {
 		bclr=51
 	}
 }
-"text update" {
-	object {
-		x=280
-		y=50
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)Trigger_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
 text {
 	object {
 		x=100
