@@ -224,7 +224,7 @@ void drvAHxxx::readThread(void)
                     for (i=0; i<numAverage_; i++) {
                         for (j=0; j<numChannels_; j++) {
                             value = (input[offset]<<8) + input[offset+1];
-                            if (value < 32767) {
+                            if (value <= 32767) {
                                 value = -value;
                             } else {
                                 value = 65536 - value;
@@ -238,7 +238,7 @@ void drvAHxxx::readThread(void)
                     for (i=0; i<numAverage_; i++) {
                         for (j=0; j<numChannels_; j++) {
                             value = (input[offset]<<16) + (input[offset+1]<<8) + input[offset+2];
-                            if (value < 8388607) {
+                            if (value <= 8388607) {
                                 value = -value;
                             } else {
                                 value = 16777216 - value;
@@ -316,6 +316,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
     size_t nwrite;
     asynStatus status=asynSuccess, readStatus;
     int eomReason;
+    int trigger;
     char dummyIn[MAX_COMMAND_LEN];
     //static const char *functionName = "setAcquire";
     
@@ -336,20 +337,30 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
                                              dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "S", strlen("S"), 
                                              dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
+            // Also send TRG OFF because we don't know what mode the meter might be in when we start
+            status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG OFF", strlen("TRG OFF"), 
+                                             dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
             if (status) break;
-            // Now do 3 reads with short timeout to flush any responses
+            // Now do flush and read with short timeout to flush any responses
             nread = 0;
             readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
             readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .1, &nread, &eomReason);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
     } else {
+        getIntegerParam(P_Trigger, &trigger);
         // Make sure the meter is in binary mode
         strcpy(outString_, "BIN ON");
         writeReadMeter();
-    
-        // The AH401 series sends an ACK after ACQ ON, other models don't
-        if (AH401Series_) {
+
+        // If we are in external trigger mode then send the TRG ON command
+        if (trigger) {    
+            status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG ON", strlen("TRG ON"), 
+                        dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
+        }
+        // If not in external trigger mode send the ACQ ON command
+        // The AH401 series sends an ACK after ACQ ON, AH501 series don't
+        else if (AH401Series_) {
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ ON", strlen("ACQ ON"), 
                         dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
         }
@@ -416,11 +427,9 @@ asynStatus drvAHxxx::setRange(epicsInt32 value)
   */
 asynStatus drvAHxxx::setTrigger(epicsInt32 value) 
 {
-    asynStatus status;
-    
-    epicsSnprintf(outString_, sizeof(outString_), "TRG %s", value ? "ON" : "OFF");
-    status = sendCommand();
-    return status;
+    // Nothing to do.  The value in the parameter library is used to determine
+    // whether acquisition is started and stopped with ACQ ON/ACQ OFF or TRG ON/TRG OFF
+    return asynSuccess;
 }
 
 /** Sets the number of channels.
@@ -488,13 +497,7 @@ asynStatus drvAHxxx::getSettings()
     
     prevAcquiring = acquiring_;
     if (prevAcquiring) setAcquire(0);
-    strcpy(outString_, "TRG ?");
-    writeReadMeter();
-    if (strcmp("TRG ON", inString_) == 0) trigger = 1;
-    else if (strcmp("TRG OFF", inString_) == 0) trigger = 0;
-    else goto error;
-    setIntegerParam(P_Trigger, trigger);
-    
+
     strcpy(outString_, "RNG ?");
     writeReadMeter();
     // Note: the AH401D returns 2 ranges, but we only support a single range so we
