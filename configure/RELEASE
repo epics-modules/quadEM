@@ -31,7 +31,7 @@ IPUNIDIG=$(SUPPORT)/ipUnidig-2-9
 SNCSEQ=$(SUPPORT)/seq-2-1-9
 
 # save_restore
-AUTOSAVE=$(SUPPORT)/autosave-4-9
+AUTOSAVE=$(SUPPORT)/autosave-5-0
 
 # MCA - this module
 MCA=$(SUPPORT)/mca-7-2
