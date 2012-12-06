@@ -15,7 +15,7 @@ SUPPORT=/corvette/home/epics/devel
 QUADEM=$(SUPPORT)/quadEM-3-0
 
 # ASYN - for device/driver support
-ASYN=$(SUPPORT)/asyn-4-20
+ASYN=$(SUPPORT)/asyn-4-21
 
 ### The following are needed only for the test application
 
