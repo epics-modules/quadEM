@@ -489,7 +489,7 @@ asynStatus drvAHxxx::setResolution(epicsInt32 value)
 asynStatus drvAHxxx::getSettings() 
 {
     // Reads the values of all the meter parameters, sets them in the parameter library
-    int trigger, range, resolution, pingPong, numChannels, biasState;
+    int range, resolution, pingPong, numChannels, biasState;
     double integrationTime, biasVoltage;
     int prevAcquiring;
     double sampleTime=0.;

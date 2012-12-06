@@ -116,5 +116,5 @@ protected:
 };
 
 
-#define NUM_QE_PARAMS (&LAST_QE_COMMAND - &FIRST_QE_COMMAND + 1)
+#define NUM_QE_PARAMS ((int)(&LAST_QE_COMMAND - &FIRST_QE_COMMAND + 1))
 
