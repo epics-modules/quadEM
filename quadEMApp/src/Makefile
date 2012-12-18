@@ -28,20 +28,17 @@ quadEM_SRCS_vxWorks += drvAPS_EM.cpp
 #==================================
 PROD_IOC += quadEMTestApp
 ## <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
-PROD_SRCS_DEFAULT += quadEMTestApp_registerRecordDeviceDriver.cpp
+PROD_SRCS_DEFAULT += quadEMTestApp_registerRecordDeviceDriver.cpp quadEMTestAppMain.cpp
 PROD_SRCS_vxWorks += quadEMTestAppVx_registerRecordDeviceDriver.cpp
-PROD_SRCS_DEFAULT += quadEMTestAppMain.cpp
-PROD_SRCS_vxWorks += -nil-
+
 PROD_LIBS += quadEM
 PROD_LIBS_vxWorks += Ipac
 PROD_LIBS_vxWorks += ipUnidig
 PROD_LIBS += mca
-PROD_LIBS += busy
-PROD_LIBS += autosave
-PROD_LIBS += asyn
+
 PROD_LIBS += seq pv
-PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
-PROD_LIBS_vxWorks += $(EPICS_BASE_IOC_LIBS)
+
+include $(AREA_DETECTOR)/ADApp/commonDriverMakefile
 
 #===========================
 
