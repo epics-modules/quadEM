@@ -12,7 +12,7 @@ SUPPORT=/corvette/home/epics/devel
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
 # This module
-QUADEM=$(SUPPORT)/quadEM-3-2
+QUADEM=$(SUPPORT)/quadEM-3-3
 
 # ASYN - for device/driver support
 ASYN=$(SUPPORT)/asyn-4-21
@@ -28,7 +28,7 @@ BUSY=$(SUPPORT)/busy-1-4
 IPUNIDIG=$(SUPPORT)/ipUnidig-2-9
 
 # quadEM_SNL uses the sequencer
-SNCSEQ=$(SUPPORT)/seq-2-1-9
+SNCSEQ=$(SUPPORT)/seq-2-1-10
 
 # save_restore
 AUTOSAVE=$(SUPPORT)/autosave-5-0
