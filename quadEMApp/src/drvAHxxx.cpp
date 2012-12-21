@@ -180,12 +180,10 @@ void drvAHxxx::readThread(void)
     while (1) {
         if (acquiring_ == 0) {
             readingActive_ = 0;
-            pasynManager->unlockPort(pasynUser);
             unlock();
             epicsEventWait(acquireStartEvent_);
             readingActive_ = 1;
             lock();
-            pasynManager->lockPort(pasynUser);
         }
         numBytes = 3;
         if (numAverage_ < 1) numAverage_ = 1;
@@ -201,10 +199,13 @@ void drvAHxxx::readThread(void)
             input = (unsigned char *)malloc(nRequested);
             inputSize = nRequested;
         }
+        unlock();
+        pasynManager->lockPort(pasynUser);
         status = pasynOctet->read(octetPvt, pasynUser, (char *)input, nRequested, 
                                   &nRead, &eomReason);
+        pasynManager->unlockPort(pasynUser);
+        lock();
         if ((status == asynSuccess) && (nRead == nRequested) && (eomReason == ASYN_EOM_CNT)) {
-            unlock();
             for (i=0; i<numChannels_; i++) {
                 raw[i] = 0;
             }
@@ -254,7 +255,6 @@ void drvAHxxx::readThread(void)
                     raw[i] = raw[i] / numAverage_;
                 }
             }
-            lock();
             computePositions(raw);
         } else if (status != asynTimeout) {
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
