@@ -9,6 +9,13 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 3-3 (December 20, 2012)</h2>
+  <ul>
+    <li>Fixed problem with mutex locking on AH401 (and perhaps AH501). The lock was not
+      being released for in the read task for long enough to allow EPICS to quickly stop
+      acquisition.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 3-2 (December 6, 2012)</h2>
   <ul>
     <li>Fixed bug in reading binary data from AH501 meters. The manual incorrectly documented
