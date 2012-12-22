@@ -331,7 +331,7 @@ asynStatus drvAPS_EM::getSettings()
 
     // Compute the number of values that will be accumulated in the ring buffer before averaging
     getDoubleParam(P_AveragingTime, &averagingTime);
-    numAverage = (averagingTime / sampleTime) + 0.5;
+    numAverage = (int)((averagingTime / sampleTime) + 0.5);
     setIntegerParam(P_NumAverage, numAverage);
 
     return asynSuccess;
