@@ -34,8 +34,6 @@ PROD_SRCS_vxWorks += quadEMTestAppVx_registerRecordDeviceDriver.cpp
 PROD_LIBS += quadEM
 PROD_LIBS_vxWorks += Ipac
 PROD_LIBS_vxWorks += ipUnidig
-PROD_LIBS += mca
-
 PROD_LIBS += seq pv
 
 include $(AREA_DETECTOR)/ADApp/commonDriverMakefile
