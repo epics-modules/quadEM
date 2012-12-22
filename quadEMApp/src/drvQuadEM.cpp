@@ -14,6 +14,7 @@
 
 #include <epicsTypes.h>
 #include <epicsString.h>
+#include <epicsThread.h>
 
 #include "drvQuadEM.h"
 
@@ -25,32 +26,43 @@ static void exitHandlerC(void *pPvt)
     pdrvQuadEM->exitHandler();
 }
 
+static void callbackTaskC(void *pPvt)
+{
+    drvQuadEM *pdrvQuadEM = (drvQuadEM *)pPvt;
+    pdrvQuadEM->callbackTask();
+}
+
 
 /** Constructor for the drvQuadEM class.
   * Calls constructor for the asynPortDriver base class.
   * \param[in] portName The name of the asyn port driver to be created.
   * \param[in] numParams The number of driver-specific parameters for the derived class
   */
-drvQuadEM::drvQuadEM(const char *portName, int numParams) 
-   : asynPortDriver(portName, 
-                    QE_MAX_DATA, /* maxAddr */ 
+drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize) 
+   : asynNDArrayDriver(portName, 
+                    QE_MAX_DATA+1, /* maxAddr */ 
                     NUM_QE_PARAMS + numParams,
-                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynDrvUserMask, /* Interface mask */
-                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask,                   /* Interrupt mask */
+                    0, 0,        /* maxBuffers, maxMemory, no limits */
+                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynGenericPointerMask | asynDrvUserMask, /* Interface mask */
+                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynGenericPointerMask,                   /* Interrupt mask */
                     ASYN_CANBLOCK | ASYN_MULTIDEVICE, /* asynFlags.  This driver blocks it is multi-device */
                     1, /* Autoconnect */
                     0, /* Default priority */
-                    0) /* Default stack size*/    
+                    0) /* Default stack size*/ 
 {
-    //const char *functionName = "drvQuadEM";
+    int i;
+    int status;
+    const char *functionName = "drvQuadEM";
     
     createParam(P_AcquireString,            asynParamInt32,         &P_Acquire);
-    createParam(P_CurrentOffsetString,      asynParamInt32,         &P_CurrentOffset);
-    createParam(P_PositionOffsetString,     asynParamInt32,         &P_PositionOffset);
-    createParam(P_PositionScaleString,      asynParamInt32,         &P_PositionScale);
-    createParam(P_DataString,               asynParamInt32,         &P_Data);
+    createParam(P_CurrentOffsetString,      asynParamFloat64,       &P_CurrentOffset);
+    createParam(P_CurrentScaleString,       asynParamFloat64,       &P_CurrentScale);
+    createParam(P_PositionOffsetString,     asynParamFloat64,       &P_PositionOffset);
+    createParam(P_PositionScaleString,      asynParamFloat64,       &P_PositionScale);
     createParam(P_DoubleDataString,         asynParamFloat64,       &P_DoubleData);
     createParam(P_IntArrayDataString,       asynParamInt32Array,    &P_IntArrayData);
+    createParam(P_RingOverflowsString,      asynParamInt32,         &P_RingOverflows);
+    createParam(P_ReadDataString,           asynParamInt32,         &P_ReadData);
     createParam(P_PingPongString,           asynParamInt32,         &P_PingPong);
     createParam(P_IntegrationTimeString,    asynParamFloat64,       &P_IntegrationTime);
     createParam(P_SampleTimeString,         asynParamFloat64,       &P_SampleTime);
@@ -61,10 +73,14 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
     createParam(P_BiasStateString,          asynParamInt32,         &P_BiasState);
     createParam(P_BiasVoltageString,        asynParamFloat64,       &P_BiasVoltage);
     createParam(P_ResolutionString,         asynParamInt32,         &P_Resolution);
+    createParam(P_ValuesPerReadString,      asynParamInt32,         &P_ValuesPerRead);
+    createParam(P_AveragingTimeString,      asynParamFloat64,       &P_AveragingTime);
     createParam(P_NumAverageString,         asynParamInt32,         &P_NumAverage);
+    createParam(P_NumAveragedString,        asynParamInt32,         &P_NumAveraged);
     createParam(P_ModelString,              asynParamInt32,         &P_Model);
     
     setIntegerParam(P_Acquire, 0);
+    setIntegerParam(P_RingOverflows, 0);
     setIntegerParam(P_PingPong, 0);
     setDoubleParam(P_IntegrationTime, 0.);
     setIntegerParam(P_Range, 0);
@@ -73,10 +89,29 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
     setIntegerParam(P_BiasState, 0);
     setDoubleParam(P_BiasVoltage, 0.);
     setIntegerParam(P_Resolution, 16);
-    setIntegerParam(P_NumAverage, 1);
-    numAveraged_ = 0;
-    numAverage_ = 1;
+    setIntegerParam(P_ValuesPerRead, 1);
+    for (i=0; i<QE_MAX_DATA; i++) {
+        setDoubleParam(i, P_DoubleData, 0.0);
+    }
+    readingsAveraged_ = 0;
+    valuesPerRead_ = 1;
     
+    if (ringBufferSize <= 0) ringBufferSize = QE_DEFAULT_RING_BUFFER_SIZE;
+    
+    ringBuffer_ = epicsRingBytesCreate(ringBufferSize * QE_MAX_DATA * sizeof(epicsFloat64));
+    ringEvent_ = epicsEventCreate(epicsEventEmpty);
+
+    /* Create the thread that does callbacks when the ring buffer has numAverage samples */
+    status = (asynStatus)(epicsThreadCreate("drvQuadEMCallbackTask",
+                          epicsThreadPriorityMedium,
+                          epicsThreadGetStackSize(epicsThreadStackMedium),
+                          (EPICSTHREADFUNC)::callbackTaskC,
+                          this) == NULL);
+    if (status) {
+        printf("%s:%s: epicsThreadCreate failure, status=%d\n", driverName, functionName, status);
+        return;
+    }
+   
     epicsAtExit(exitHandlerC, this);
 }
 
@@ -86,46 +121,156 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams)
 void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
 {
     int i;
-    epicsInt32 currentOffset[QE_MAX_INPUTS];
-    epicsInt32 positionOffset[2];
-    epicsInt32 positionScale[2];
-    epicsInt32 data[QE_MAX_DATA];
+    int count;
+    int numAverage;
+    int ringOverflows;
+    epicsFloat64 currentOffset[QE_MAX_INPUTS];
+    epicsFloat64 currentScale[QE_MAX_INPUTS];
+    epicsFloat64 positionOffset[2];
+    epicsFloat64 positionScale[2];
+    epicsInt32 intData[QE_MAX_DATA];
     epicsFloat64 doubleData[QE_MAX_DATA];
     static const char *functionName = "computePositions";
     
-    for (i=0; i<QE_MAX_INPUTS; i++) {
-        getIntegerParam(i, P_CurrentOffset, &currentOffset[i]);
-        data[i] = raw[i] - currentOffset[i];
-    }
-    for (i=0; i<2; i++) {
-        getIntegerParam(i, P_PositionOffset, &positionOffset[i]);
-        getIntegerParam(i, P_PositionScale, &positionScale[i]);
+    // If the ring buffer is full then remove the oldest entry
+    if (epicsRingBytesFreeBytes(ringBuffer_) < (int)sizeof(doubleData)) {
+        count = epicsRingBytesGet(ringBuffer_, (char *)&doubleData, sizeof(doubleData));
+        ringCount_--;
+        getIntegerParam(P_RingOverflows, &ringOverflows);
+        ringOverflows++;
+        setIntegerParam(P_RingOverflows, ringOverflows);
     }
     
-    data[QESum12] = data[QECurrent1] + data[QECurrent2];
-    data[QESum34] = data[QECurrent3] + data[QECurrent4];
-    data[QESum1234] = data[QESum12] + data[QESum34];
-    data[QEDiff12] = data[QECurrent2] - data[QECurrent1];
-    data[QEDiff34] = data[QECurrent4] - data[QECurrent3];
-    data[QEPosition12] = (epicsInt32)((positionScale[0] * data[QEDiff12] / (double)data[QESum12]) +
-                                       positionOffset[0] + 0.5);
-    data[QEPosition34] = (epicsInt32)((positionScale[1] * data[QEDiff34] / (double)data[QESum34]) +
-                                       positionOffset[1] + 0.5);
-    for (i=0; i<QE_MAX_DATA; i++) {
-        setIntegerParam(i, P_Data, data[i]);
-        doubleData[i] = (double)data[i];
-        setDoubleParam(i, P_DoubleData, doubleData[i]);
+    for (i=0; i<QE_MAX_INPUTS; i++) {
+        getDoubleParam(i, P_CurrentOffset, &currentOffset[i]);
+        getDoubleParam(i, P_CurrentScale,  &currentScale[i]);
+        doubleData[i] = raw[i]*currentScale[i] - currentOffset[i];
     }
-    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
-               "%s:%s:\n", 
-               driverName, functionName);
+    for (i=0; i<2; i++) {
+        getDoubleParam(i, P_PositionOffset, &positionOffset[i]);
+        getDoubleParam(i, P_PositionScale, &positionScale[i]);
+    }
+    
+    doubleData[QESum12] = doubleData[QECurrent1] + doubleData[QECurrent2];
+    doubleData[QESum34] = doubleData[QECurrent3] + doubleData[QECurrent4];
+    doubleData[QESum1234] = doubleData[QESum12] + doubleData[QESum34];
+    doubleData[QEDiff12] = doubleData[QECurrent2] - doubleData[QECurrent1];
+    doubleData[QEDiff34] = doubleData[QECurrent4] - doubleData[QECurrent3];
+    doubleData[QEPosition12] = (positionScale[0] * doubleData[QEDiff12] / doubleData[QESum12]) -  positionOffset[0];
+    doubleData[QEPosition34] = (positionScale[1] * doubleData[QEDiff34] / doubleData[QESum34]) -  positionOffset[1];
+
+    count = epicsRingBytesPut(ringBuffer_, (char *)&doubleData, sizeof(doubleData));
+    ringCount_++;
+    if (count != sizeof(doubleData)) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+               "%s:%s: error writing ring buffer, count=%d, should be %d\n", 
+               driverName, functionName, count, sizeof(doubleData));
+    }
+
+    getIntegerParam(P_NumAverage, &numAverage);
+    if (numAverage > 0) {
+        if (ringCount_ >= numAverage) {
+            epicsEventSignal(ringEvent_);
+        }
+    }
 
     for (i=0; i<QE_MAX_DATA; i++) {
+        intData[i] = (epicsInt32)doubleData[i];
+        setDoubleParam(i, P_DoubleData, doubleData[i]);
         callParamCallbacks(i);
         asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
-               "  data[%d]=%d\n", data[i]);
+               "  data[%d]=%f\n", i, doubleData[i]);
     }
-    doCallbacksInt32Array(data, QE_MAX_DATA, P_IntArrayData, 0);
+    doCallbacksInt32Array(intData, QE_MAX_DATA, P_IntArrayData, 0);
+}
+
+
+asynStatus drvQuadEM::doDataCallbacks()
+{
+    epicsFloat64 doubleData[QE_MAX_DATA];
+    epicsFloat64 *pIn, *pOut;
+    int numAverage;
+    int numAveraged;
+    int sampleSize = sizeof(doubleData);
+    int count;
+    epicsTimeStamp now;
+    int arrayCounter;
+    int i, j;
+    size_t dims[2];
+    NDArray *pArrayAll, *pArraySingle;
+    static const char *functionName = "doDataCallbacks";
+    
+    getIntegerParam(P_NumAverage, &numAverage);
+    while (1) {
+        numAveraged = epicsRingBytesUsedBytes(ringBuffer_) / sampleSize;
+        if (numAverage > 0) {
+            if (numAveraged < numAverage) break;
+            numAveraged = numAverage;
+            setIntegerParam(P_NumAveraged, numAveraged);
+        } else {
+            setIntegerParam(P_NumAveraged, numAveraged);
+            if (numAveraged < 1) break;
+        }
+
+        dims[0] = QE_MAX_DATA;
+        dims[1] = numAveraged;
+
+        epicsTimeGetCurrent(&now);
+        getIntegerParam(NDArrayCounter, &arrayCounter);
+        arrayCounter++;
+        setIntegerParam(NDArrayCounter, arrayCounter);
+
+        pArrayAll = pNDArrayPool->alloc(2, dims, NDFloat64, 0, 0);
+        pArrayAll->uniqueId = arrayCounter;
+        pArrayAll->timeStamp = now.secPastEpoch + now.nsec / 1.e9;
+
+        count = epicsRingBytesGet(ringBuffer_, (char *)pArrayAll->pData, numAveraged * sampleSize);
+        if (count != numAveraged * sampleSize) {
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s:%s: ring read failed\n",
+                driverName, functionName);
+            return asynError;
+        }
+        ringCount_ -= numAveraged;
+        unlock();
+        doCallbacksGenericPointer(pArrayAll, NDArrayData, QE_MAX_DATA);
+        lock();
+        // Copy data to arrays for each type of data, do callbacks on that.  Simpler than using ROI plugins
+        dims[0] = numAveraged;
+        for (i=0; i<QE_MAX_DATA; i++) {
+            pArraySingle = pNDArrayPool->alloc(1, dims, NDFloat64, 0, 0);
+            pArraySingle->uniqueId = arrayCounter;
+            pArraySingle->timeStamp = now.secPastEpoch + now.nsec / 1.e9;
+            pIn = (epicsFloat64 *)pArrayAll->pData;
+            pOut = (epicsFloat64 *)pArraySingle->pData;
+            for (j=0; j<numAveraged; j++) {
+                pOut[j] = pIn[i];
+                pIn += QE_MAX_DATA;
+            }
+            unlock();
+            doCallbacksGenericPointer(pArraySingle, NDArrayData, i);
+            lock();
+            pArraySingle->release();
+        }   
+        pArrayAll->release();
+        callParamCallbacks();
+        // We only loop once if numAverage==0
+        if (numAverage == 0) break;
+    }    
+    setIntegerParam(P_RingOverflows, 0);
+    callParamCallbacks();
+    return asynSuccess;
+}
+
+void drvQuadEM::callbackTask()
+{
+    lock();
+    while (1) {
+        unlock();
+        epicsEventWait(ringEvent_);
+        lock();
+        doDataCallbacks();
+    }
 }
 
 /** Called when asyn clients call pasynInt32->write().
@@ -148,38 +293,51 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     getParamName(function, &paramName);
 
     if (function == P_Acquire) {
+        if (value) {
+            epicsRingBytesFlush(ringBuffer_);
+            ringCount_ = 0;
+        }
         status |= setAcquire(value);
     } 
+    else if (function == P_ReadData) {
+        status |= doDataCallbacks();
+    }
     else if (function == P_PingPong) {
         status |= setPingPong(value);
+        status |= getSettings();
     }
     else if (function == P_Range) {
         status |= setRange(value);
+        status |= getSettings();
     }
     else if (function == P_Trigger) {
         status |= setTrigger(value);
+        status |= getSettings();
     }
     else if (function == P_NumChannels) {
         status |= setNumChannels(value);
+        status |= getSettings();
     }
     else if (function == P_BiasState) {
         status |= setBiasState(value);
+        status |= getSettings();
     }
     else if (function == P_Resolution) {
         status |= setResolution(value);
+        status |= getSettings();
     }
-    else if (function == P_NumAverage) {
-        numAverage_ = value;
+    else if (function == P_ValuesPerRead) {
+        valuesPerRead_ = value;
+        status |= getSettings();
     }
     else if (function == P_Reset) {
         status |= reset();
+        status |= getSettings();
     }
     else {
         /* All other parameters just get set in parameter list, no need to
          * act on them here */
     }
-    
-    if (function != P_Acquire) status |= getSettings();
     
     /* Do callbacks so higher layers see any changes */
     status |= (asynStatus) callParamCallbacks();
@@ -217,17 +375,21 @@ asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
     getParamName(function, &paramName);
 
     if (function == P_IntegrationTime) {
-        /* Make sure the update time is valid. If not change it and put back in parameter library */
         status |= setIntegrationTime(value);
+        status |= getSettings();
+    }
+    if (function == P_AveragingTime) {
+        epicsRingBytesFlush(ringBuffer_);
+        ringCount_ = 0;
+        status |= getSettings();
     }
     else if (function == P_BiasVoltage) {
         status |= setBiasVoltage(value);
+        status |= getSettings();
     } else {
         /* All other parameters just get set in parameter list, no need to
          * act on them here */
     }
-    
-    status |= getSettings();
     
     /* Do callbacks so higher layers see any changes */
     status |= (asynStatus) callParamCallbacks();
