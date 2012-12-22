@@ -9,17 +9,21 @@
  */
 
 #include <epicsExit.h>
-#include "asynPortDriver.h"
+#include <epicsRingBytes.h>
+#include <epicsEvent.h>
+#include "asynNDArrayDriver.h"
 
 /* These are the drvInfo strings that are used to identify the parameters.
  * They are used by asyn clients, including standard asyn device support */
 #define P_AcquireString            "QE_ACQUIRE"                 /* asynInt32,    r/w */
-#define P_CurrentOffsetString      "QE_CURRENT_OFFSET"          /* asynInt32,    r/w */
-#define P_PositionOffsetString     "QE_POSITION_OFFSET"         /* asynInt32,    r/w */
-#define P_PositionScaleString      "QE_POSITION_SCALE"          /* asynInt32,    r/w */
-#define P_DataString               "QE_DATA"                    /* asynInt32,    r/o */
+#define P_CurrentOffsetString      "QE_CURRENT_OFFSET"          /* asynFloat64,  r/w */
+#define P_CurrentScaleString       "QE_CURRENT_SCALE"           /* asynFloat64,  r/w */
+#define P_PositionOffsetString     "QE_POSITION_OFFSET"         /* asynFloat64,    r/w */
+#define P_PositionScaleString      "QE_POSITION_SCALE"          /* asynFloat64,    r/w */
 #define P_DoubleDataString         "QE_DOUBLE_DATA"             /* asynFloat64,  r/o */
 #define P_IntArrayDataString       "QE_INT_ARRAY_DATA"          /* asynInt32Array,  r/o */
+#define P_RingOverflowsString      "QE_RING_OVERFLOWS"          /* asynInt32,    r/o */
+#define P_ReadDataString           "QE_READ_DATA"               /* asynInt32,    r/w */
 #define P_PingPongString           "QE_PING_PONG"               /* asynInt32,    r/w */
 #define P_IntegrationTimeString    "QE_INTEGRATION_TIME"        /* asynFloat64,  r/w */
 #define P_SampleTimeString         "QE_SAMPLE_TIME"             /* asynFloat64,  r/o */
@@ -30,7 +34,10 @@
 #define P_BiasStateString          "QE_BIAS_STATE"              /* asynInt32,    r/w */
 #define P_BiasVoltageString        "QE_BIAS_VOLTAGE"            /* asynFloat64,  r/w */
 #define P_ResolutionString         "QE_RESOLUTION"              /* asynInt32,    r/w */
-#define P_NumAverageString         "QE_NUM_AVERAGE"             /* asynInt32,    r/w */
+#define P_ValuesPerReadString      "QE_VALUES_PER_READ"         /* asynInt32,    r/w */
+#define P_AveragingTimeString      "QE_AVERAGING_TIME"          /* asynFloat64,  r/w */
+#define P_NumAverageString         "QE_NUM_AVERAGE"             /* asynInt32,    r/o */
+#define P_NumAveragedString        "QE_NUM_AVERAGED"            /* asynInt32,    r/o */
 #define P_ModelString              "QE_MODEL"                   /* asynInt32,    r/w */
 
 /* Models */
@@ -58,29 +65,33 @@ typedef enum {
     QEPosition12,
     QEPosition34
 } QEData_t;
-#define QE_MAX_DATA QEPosition34+1
+#define QE_MAX_DATA (QEPosition34+1)
 #define QE_MAX_INPUTS 4
+#define QE_DEFAULT_RING_BUFFER_SIZE 2048
 
 /** Base class to control the quad electrometer */
-class drvQuadEM : public asynPortDriver {
+class drvQuadEM : public asynNDArrayDriver {
 public:
-    drvQuadEM(const char *portName, int numParams);
+    drvQuadEM(const char *portName, int numParams, int ringBufferSize);
                  
     /* These are the methods that we override from asynPortDriver */
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
     virtual void exitHandler();
+    void callbackTask();
 
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
     int P_Acquire;
     #define FIRST_QE_COMMAND P_Acquire
     int P_CurrentOffset;
+    int P_CurrentScale;
     int P_PositionOffset;
     int P_PositionScale;
-    int P_Data;
     int P_DoubleData;
     int P_IntArrayData;
+    int P_RingOverflows;
+    int P_ReadData;
     int P_PingPong;
     int P_IntegrationTime;
     int P_SampleTime;
@@ -91,17 +102,24 @@ protected:
     int P_BiasState;
     int P_BiasVoltage;
     int P_Resolution;
+    int P_ValuesPerRead;
+    int P_AveragingTime;
     int P_NumAverage;
+    int P_NumAveraged;
     int P_Model;
     #define LAST_QE_COMMAND P_Model
     // We cache these values so we don't need to call getIntegerParam inside the
     // fast data reading loop
     int resolution_;
     int numChannels_;
-    int numAverage_;
-    int numAveraged_;
+    int valuesPerRead_;
+    int readingsAveraged_;
+    int ringCount_;
+    epicsRingBytesId  ringBuffer_;
+    epicsEventId ringEvent_;
 
     void computePositions(epicsInt32 raw[QE_MAX_INPUTS]);
+    virtual asynStatus doDataCallbacks();
     virtual asynStatus setAcquire(epicsInt32 value)=0;
     virtual asynStatus setPingPong(epicsInt32 value);
     virtual asynStatus setIntegrationTime(epicsFloat64 value);
