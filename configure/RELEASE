@@ -12,19 +12,20 @@ SUPPORT=/corvette/home/epics/devel
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
 # This module
-QUADEM=$(SUPPORT)/quadEM-3-3
+QUADEM=$(SUPPORT)/quadEM-4-0
 
 # ASYN - for device/driver support
 ASYN=$(SUPPORT)/asyn-4-21
 
 ### The following are needed only for the test application
 
+# For ipUnidig for APS_EM
 IPAC=$(SUPPORT)/ipac-2-11
 
 # Busy record 
 BUSY=$(SUPPORT)/busy-1-4
 
-# IpUnidig
+# IpUnidig for APS_EM
 IPUNIDIG=$(SUPPORT)/ipUnidig-2-9
 
 # quadEM_SNL uses the sequencer
@@ -33,8 +34,14 @@ SNCSEQ=$(SUPPORT)/seq-2-1-10
 # save_restore
 AUTOSAVE=$(SUPPORT)/autosave-5-0
 
-# MCA - this module
-MCA=$(SUPPORT)/mca-7-2
+# areaDetector for plugins like NDPluginStats
+AREA_DETECTOR=$(SUPPORT)/areaDetector-1-9
+
+# SSCAN is needed for general scanning
+SSCAN=$(SUPPORT)/sscan-2-8-1
+
+# calc
+CALC=$(SUPPORT)/calc-3-0
 
 # EPICS_BASE usually appears last so other apps can override stuff:
 EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.2
