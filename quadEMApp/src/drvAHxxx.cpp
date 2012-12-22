@@ -258,8 +258,8 @@ void drvAHxxx::readThread(void)
             computePositions(raw);
         } else if (status != asynTimeout) {
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                "%s:%s: unexpected error reading meter status=%d, nRead=%d, eomReason=%d\n", 
-                driverName, functionName, status, nRead, eomReason);
+                "%s:%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
+                driverName, functionName, status, (unsigned long)nRead, eomReason);
             // We got an error reading the meter, it is probably offline.  Wait 1 second before trying again.
             pasynManager->queueUnlockPort(pasynUser);
             unlock();
