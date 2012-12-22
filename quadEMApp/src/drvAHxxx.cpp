@@ -41,8 +41,8 @@ static void readThread(void *drvPvt);
   * \param[in] portName The name of the asyn port driver to be created.
   * \param[in] QEPortName The name of the asyn communication port to the AHxxx 
   *            created with drvAsynIPPortConfigure or drvAsynSerialPortConfigure */
-drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName) 
-   : drvQuadEM(portName, 0)
+drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferSize) 
+   : drvQuadEM(portName, 0, ringBufferSize)
   
 {
     asynStatus status;
@@ -186,14 +186,14 @@ void drvAHxxx::readThread(void)
             lock();
         }
         numBytes = 3;
-        if (numAverage_ < 1) numAverage_ = 1;
+        if (valuesPerRead_ < 1) valuesPerRead_ = 1;
         if (AH401Series_) {
             numChannels_ = 4;
         } 
         else {
             if (resolution_ == 16) numBytes = 2;
         }
-        nRequested = numBytes * numChannels_ * numAverage_;
+        nRequested = numBytes * numChannels_ * valuesPerRead_;
         if (nRequested > inputSize) {
             if (input) free(input);
             input = (unsigned char *)malloc(nRequested);
@@ -212,7 +212,7 @@ void drvAHxxx::readThread(void)
             offset = 0;
             if (AH401Series_) {
                 // These models are little-endian byte order
-                for (i=0; i<numAverage_; i++) {
+                for (i=0; i<valuesPerRead_; i++) {
                     for (j=0; j<numChannels_; j++) {
                         raw[j] += (input[offset+2]<<16) + (input[offset+1]<<8) + input[offset];
                         offset += numBytes;
@@ -222,7 +222,7 @@ void drvAHxxx::readThread(void)
             else {
                 // These models are big-endian byte order
                 if (resolution_ == 16) {
-                    for (i=0; i<numAverage_; i++) {
+                    for (i=0; i<valuesPerRead_; i++) {
                         for (j=0; j<numChannels_; j++) {
                             value = (input[offset]<<8) + input[offset+1];
                             if (value <= 32767) {
@@ -236,7 +236,7 @@ void drvAHxxx::readThread(void)
                     }
                 }
                 else {
-                    for (i=0; i<numAverage_; i++) {
+                    for (i=0; i<valuesPerRead_; i++) {
                         for (j=0; j<numChannels_; j++) {
                             value = (input[offset]<<16) + (input[offset+1]<<8) + input[offset+2];
                             if (value <= 8388607) {
@@ -250,9 +250,9 @@ void drvAHxxx::readThread(void)
                     }
                 }
             }
-            if (numAverage_ > 1) {
+            if (valuesPerRead_ > 1) {
                 for (i=0; i<numChannels_; i++) {
-                    raw[i] = raw[i] / numAverage_;
+                    raw[i] = raw[i] / valuesPerRead_;
                 }
             }
             computePositions(raw);
@@ -261,9 +261,11 @@ void drvAHxxx::readThread(void)
                 "%s:%s: unexpected error reading meter status=%d, nRead=%d, eomReason=%d\n", 
                 driverName, functionName, status, nRead, eomReason);
             // We got an error reading the meter, it is probably offline.  Wait 1 second before trying again.
+            pasynManager->queueUnlockPort(pasynUser);
             unlock();
             epicsThreadSleep(1.0);
             lock();
+            pasynManager->queueLockPort(pasynUser);
         }
     }
 }
@@ -318,7 +320,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
     int eomReason;
     int trigger;
     char dummyIn[MAX_COMMAND_LEN];
-    //static const char *functionName = "setAcquire";
+    static const char *functionName = "setAcquire";
     
     if (value == 0) {
         // Setting this flag tells the read thread to stop
@@ -332,7 +334,12 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         while (1) {
             // Send stop command for both types of meters since initially we don't know which type we are talking to
             status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
-            if (status) break;
+            if (status) {
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                    "%s:%s: error calling pasynOctetSyncIO->setInputEos, status=%d\n",
+                    driverName, functionName, status);
+                break;
+            }
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ OFF", strlen("ACQ OFF"), 
                                              dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "S", strlen("S"), 
@@ -340,11 +347,16 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
             // Also send TRG OFF because we don't know what mode the meter might be in when we start
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG OFF", strlen("TRG OFF"), 
                                              dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
-            if (status) break;
+            if (status) {
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                    "%s:%s: error calling pasynOctetSyncIO->writeRead, status=%d\n",
+                    driverName, functionName, status);
+                break;
+            }
             // Now do flush and read with short timeout to flush any responses
             nread = 0;
             readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
-            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .1, &nread, &eomReason);
+            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .5, &nread, &eomReason);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
     } else {
@@ -489,10 +501,10 @@ asynStatus drvAHxxx::setResolution(epicsInt32 value)
 asynStatus drvAHxxx::getSettings() 
 {
     // Reads the values of all the meter parameters, sets them in the parameter library
-    int range, resolution, pingPong, numChannels, biasState;
+    int range, resolution, pingPong, numChannels, biasState, numAverage;
     double integrationTime, biasVoltage;
     int prevAcquiring;
-    double sampleTime=0.;
+    double sampleTime=0., averagingTime;
     static const char *functionName = "getStatus";
     
     prevAcquiring = acquiring_;
@@ -551,9 +563,15 @@ asynStatus drvAHxxx::getSettings()
         if (biasState) setDoubleParam(P_BiasVoltage, biasVoltage);
     }
     
-    // The sample times computed above don't include numAverage
-    sampleTime = sampleTime * numAverage_;
+    // The sample times computed above don't include valuesPerRead
+    sampleTime = sampleTime * valuesPerRead_;
     setDoubleParam(P_SampleTime, sampleTime);
+
+    // Compute the number of values that will be accumulated in the ring buffer before averaging
+    getDoubleParam(P_AveragingTime, &averagingTime);
+    numAverage = (int)((averagingTime / sampleTime) + 0.5);
+    setIntegerParam(P_NumAverage, numAverage);
+
     if (prevAcquiring) setAcquire(1);
     
     return asynSuccess;
@@ -592,10 +610,13 @@ extern "C" {
 /** EPICS iocsh callable function to call constructor for the drvAHxxx class.
   * \param[in] portName The name of the asyn port driver to be created.
   * \param[in] QEPortName The name of the asyn communication port to the AHxxx 
-  *            created with drvAsynIPPortConfigure or drvAsynSerialPortConfigure */
-int drvAHxxxConfigure(const char *portName, const char *QEPortName)
+  *            created with drvAsynIPPortConfigure or drvAsynSerialPortConfigure.
+  * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
+               This should be large enough to hold all the samples between reads of the
+               device, i.e. 1 kHz input and 1 second read rate = 1000 samples. */
+int drvAHxxxConfigure(const char *portName, const char *QEPortName, int ringBufferSize)
 {
-    new drvAHxxx(portName, QEPortName);
+    new drvAHxxx(portName, QEPortName, ringBufferSize);
     return(asynSuccess);
 }
 
@@ -604,12 +625,14 @@ int drvAHxxxConfigure(const char *portName, const char *QEPortName)
 
 static const iocshArg initArg0 = { "portName",iocshArgString};
 static const iocshArg initArg1 = { "QEPortName",iocshArgString};
+static const iocshArg initArg2 = { "ring buffer size",iocshArgInt};
 static const iocshArg * const initArgs[] = {&initArg0,
-                                            &initArg1};
-static const iocshFuncDef initFuncDef = {"drvAHxxxConfigure",2,initArgs};
+                                            &initArg1,
+                                            &initArg2};
+static const iocshFuncDef initFuncDef = {"drvAHxxxConfigure",3,initArgs};
 static void initCallFunc(const iocshArgBuf *args)
 {
-    drvAHxxxConfigure(args[0].sval, args[1].sval);
+    drvAHxxxConfigure(args[0].sval, args[1].sval, args[2].ival);
 }
 
 void drvAHxxxRegister(void)
