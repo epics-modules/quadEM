@@ -6,21 +6,20 @@ errlogInit(5000)
 dbLoadDatabase("../../dbd/quadEMTestApp.dbd")
 quadEMTestApp_registerRecordDeviceDriver(pdbbase)
 
-epicsEnvSet("MODEL", "AH501")
+epicsEnvSet("PREFIX", "quadEMTest:")
+epicsEnvSet("PORT", "AH501")
+epicsEnvSet("MODEL","AH501")
+epicsEnvSet("QSIZE", "20")
+epicsEnvSet("RING_SIZE", "10000")
+epicsEnvSet("TSPOINTS", "1000")
 epicsEnvSet("IP", "164.54.160.11:10001")
 < st.cmd.AHxxx
 
-set_requestfile_path("./")
-set_requestfile_path("$(QUADEM)/quadEMApp/Db")
-set_savefile_path("./autosave")
-set_pass0_restoreFile("auto_settings.sav")
-set_pass1_restoreFile("auto_settings.sav")
-save_restoreSet_status_prefix("quadEMTest:")
-dbLoadRecords("$(AUTOSAVE)/asApp/Db/save_restoreStatus.db", "P=quadEMTest:")
+< saveRestore.cmd
 
 iocInit()
 
 # save settings every thirty seconds
-create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=$(MODEL):, R_TS=$(MODEL)_TS:")
+create_monitor_set("auto_settings.req",30,"P=$(PREFIX), R=$(PORT):, R_TS=$(PORT)_TS:")
 
-seq("quadEM_SNL", "P=quadEMTest:, R=$(MODEL)_TS:, NUM_CHANNELS=2048")
+seq("quadEM_SNL", "P=$(PREFIX), R=$(PORT)_TS:, NUM_CHANNELS=2048")
