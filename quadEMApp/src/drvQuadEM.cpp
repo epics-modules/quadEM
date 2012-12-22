@@ -164,7 +164,7 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
     if (count != sizeof(doubleData)) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                "%s:%s: error writing ring buffer, count=%d, should be %d\n", 
-               driverName, functionName, count, sizeof(doubleData));
+               driverName, functionName, count, (int)sizeof(doubleData));
     }
 
     getIntegerParam(P_NumAverage, &numAverage);
