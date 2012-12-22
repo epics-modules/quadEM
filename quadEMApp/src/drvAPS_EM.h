@@ -23,7 +23,7 @@ typedef enum {
 class drvAPS_EM : public drvQuadEM {
 public:
     drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberChannel,
-              const char *unidigName, int unidigChan, char *unidigDrvInfo);              
+              const char *unidigName, int unidigChan, char *unidigDrvInfo, int ringBufferSize);              
     /* These are the methods that are new to this class */
     void pollerThread();                   /* Polling routine if no interrupts */
     void callbackFunc(unsigned int mask);  /* Callback function */
