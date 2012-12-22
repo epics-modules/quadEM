@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEMTestApp.adl"
+	name="/home/epics/devel/quadEM-4-0/quadEMApp/op/adl/quadEMTestApp.adl"
 	version=030105
 }
 display {
