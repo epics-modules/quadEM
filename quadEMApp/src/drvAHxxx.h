@@ -15,7 +15,7 @@
 /** Class to control the Elettra AHxxx 4-Channel Picoammeter */
 class drvAHxxx : public drvQuadEM {
 public:
-    drvAHxxx(const char *portName, const char *QEPortName);
+    drvAHxxx(const char *portName, const char *QEPortName, int ringBufferSize);
     
     /* These are the methods we implement from asynPortDriver */
     void report(FILE *fp, int details);
