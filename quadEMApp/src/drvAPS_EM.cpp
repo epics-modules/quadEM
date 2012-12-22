@@ -63,8 +63,8 @@ static void callbackFuncC(void *pPvt, asynUser *pasynUser, epicsUInt32 mask)
   * \param[in] unidigDrvInfo  The drvInfo field for the data callback of the ipUnidig driver. If not specified then asynUser->reason=0 is used.
   */
 drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberChannel,
-                     const char *unidigName, int unidigChan, char *unidigDrvInfo)
-   : drvQuadEM(portName, 0),
+                     const char *unidigName, int unidigChan, char *unidigDrvInfo, int ringBufferSize)
+   : drvQuadEM(portName, 0, ringBufferSize),
     unidigChan_(unidigChan),
     pUInt32RegistrarPvt_(NULL)
 {
@@ -201,9 +201,10 @@ void drvAPS_EM::callbackFunc(epicsUInt32 mask)
     asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
               "%s:%s: got callback, mask=%x\n", driverName, functionName, mask);
     if (mask) return;
+    lock();
     /* Read the new data */
     readMeter(input);
-    if (numAveraged_ == 0) {
+    if (readingsAveraged_ == 0) {
         for (i=0; i<QE_MAX_INPUTS; i++) {
             rawData_[i] = 0;
         }
@@ -211,15 +212,16 @@ void drvAPS_EM::callbackFunc(epicsUInt32 mask)
     for (i=0; i<QE_MAX_INPUTS; i++) {
         rawData_[i] += input[i];
     }
-    numAveraged_++;
-    if (numAveraged_ >= numAverage_) {
+    readingsAveraged_++;
+    if (readingsAveraged_ >= valuesPerRead_) {
         for (i=0; i<QE_MAX_INPUTS; i++) {
-            rawData_[i] /= numAveraged_;
+            rawData_[i] /= readingsAveraged_;
         }
-        numAveraged_ = 0;
+        readingsAveraged_ = 0;
         /* Compute sum, difference, and position and do callbacks */
         computePositions(rawData_);
     }
+    unlock();
 }
 
 /** Starts and stops the electrometer.
@@ -308,11 +310,12 @@ asynStatus drvAPS_EM::reset()
 }
 
 /** Reads the settings back from the electrometer.
-  * On the APS_EM this just computes the SampleTime based on the IntegrationTime and NumAverage. 
+  * On the APS_EM this just computes the SampleTime based on the IntegrationTime and valuesPerRead. 
   */
 asynStatus drvAPS_EM::getSettings() 
 {
-    double integrationTime, sampleTime;
+    double integrationTime, sampleTime, averagingTime;
+    int numAverage;
     
     getDoubleParam(P_IntegrationTime, &integrationTime);
     /* If we are using the interrupts then this is the scan rate
@@ -323,8 +326,14 @@ asynStatus drvAPS_EM::getSettings()
     } else {
         sampleTime = epicsThreadSleepQuantum();
     }
-    sampleTime = sampleTime * numAverage_;
+    sampleTime = sampleTime * valuesPerRead_;
     setDoubleParam(P_SampleTime, sampleTime);
+
+    // Compute the number of values that will be accumulated in the ring buffer before averaging
+    getDoubleParam(P_AveragingTime, &averagingTime);
+    numAverage = (averagingTime / sampleTime) + 0.5;
+    setIntegerParam(P_NumAverage, numAverage);
+
     return asynSuccess;
 }
   
@@ -431,9 +440,9 @@ extern "C" {
   * \param[in] unidigChan The IpUnidig (or other asyn digital I/O card) channel (bit) number 
   * \param[in] unidigDrvInfo The IpUnidig (or other asyn digital I/O card) drvInfo string for data */ 
 int drvAPS_EMConfigure(const char *portName, unsigned short *baseAddr, int fiberChannel,
-                       const char *unidigName, int unidigChan, char *unidigDrvInfo)
+                       const char *unidigName, int unidigChan, char *unidigDrvInfo, int ringBufferSize)
 {
-    new drvAPS_EM(portName, baseAddr, fiberChannel, unidigName, unidigChan, unidigDrvInfo);
+    new drvAPS_EM(portName, baseAddr, fiberChannel, unidigName, unidigChan, unidigDrvInfo, ringBufferSize);
     return(asynSuccess);
 }
 
@@ -444,13 +453,15 @@ static const iocshArg initArg2 = { "fiberChannel",iocshArgInt};
 static const iocshArg initArg3 = { "unidigName",iocshArgString};
 static const iocshArg initArg4 = { "unidigChan",iocshArgInt};
 static const iocshArg initArg5 = { "unidigDrvInfo",iocshArgString};
+static const iocshArg initArg6 = { "ring buffer size",iocshArgInt};
 static const iocshArg * const initArgs[] =  {&initArg0,
                                              &initArg1,
                                              &initArg2,
                                              &initArg3,
                                              &initArg4,
-                                             &initArg5};
-static const iocshFuncDef initFuncDef = {"drvAPS_EMConfigure",6,initArgs};
+                                             &initArg5,
+                                             &initArg6};
+static const iocshFuncDef initFuncDef = {"drvAPS_EMConfigure",7,initArgs};
 static void initCallFunc(const iocshArgBuf *args)
 {
     drvAPS_EMConfigure(args[0].sval,
@@ -458,7 +469,8 @@ static void initCallFunc(const iocshArgBuf *args)
                       args[2].ival,
                       args[3].sval,
                       args[4].ival,
-                      args[5].sval);
+                      args[5].sval,
+                      args[6].ival);
 }
 
 void drvAPS_EMRegister(void)
