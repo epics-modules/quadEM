@@ -204,18 +204,48 @@ record(ai,"$(P)$(R)BiasVoltage_RBV") {
     field(SCAN, "I/O Intr")
 }
 
-record(longout,"$(P)$(R)NumAverage") {
-    field(DESC,"Readings to average")
+record(longout,"$(P)$(R)ValuesPerRead") {
+    field(DESC,"Values per read")
     field(PINI,"YES")
     field(DTYP,"asynInt32")
     field(VAL, "1")
-    field(OUT,"@asyn($(PORT) 0)QE_NUM_AVERAGE")
+    field(OUT,"@asyn($(PORT) 0)QE_VALUES_PER_READ")
+}
+
+record(longin,"$(P)$(R)ValuesPerRead_RBV") {
+    field(DESC,"Values per read")
+    field(DTYP, "asynInt32")
+    field(INP,"@asyn($(PORT) 0)QE_VALUES_PER_READ")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao,"$(P)$(R)AveragingTime") {
+    field(DESC,"Averaging time")
+    field(PINI,"YES")
+    field(PREC,"2")
+    field(DTYP, "asynFloat64")
+    field(OUT,"@asyn($(PORT) 0)QE_AVERAGING_TIME")
+}
+
+record(ai,"$(P)$(R)AveragingTime_RBV") {
+    field(DESC,"Averaging time")
+    field(PREC,"2")
+    field(DTYP, "asynFloat64")
+    field(INP,"@asyn($(PORT) 0)QE_AVERAGING_TIME")
+    field(SCAN, "I/O Intr")
 }
 
 record(longin,"$(P)$(R)NumAverage_RBV") {
-    field(DESC,"Readings to average")
+    field(DESC,"Number of samples to average")
     field(DTYP, "asynInt32")
     field(INP,"@asyn($(PORT) 0)QE_NUM_AVERAGE")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin,"$(P)$(R)NumAveraged_RBV") {
+    field(DESC,"Number of samples actually averaged")
+    field(DTYP, "asynInt32")
+    field(INP,"@asyn($(PORT) 0)QE_NUM_AVERAGED")
     field(SCAN, "I/O Intr")
 }
 
@@ -226,145 +256,177 @@ record(bo,"$(P)$(R)Reset") {
     field(OUT,"@asyn($(PORT) 0)QE_RESET")
 }
 
+record(stringin,"$(P)$(R)CurrentName1") {
+    field(DESC,"Name")
+    field(VAL, "1")
+}
+
+record(stringin,"$(P)$(R)CurrentName2") {
+    field(DESC,"Name")
+    field(VAL, "2")
+}
+
+record(stringin,"$(P)$(R)CurrentName3") {
+    field(DESC,"Name")
+    field(VAL, "3")
+}
+
+record(stringin,"$(P)$(R)CurrentName4") {
+    field(DESC,"Name")
+    field(VAL, "4")
+}
+
 record(ao,"$(P)$(R)CurrentOffset1") {
     field(DESC,"Offset")
     field(PINI,"YES")
-    field(DTYP, "asynInt32")
+    field(DTYP, "asynFloat64")
     field(OUT,"@asyn($(PORT) 0)QE_CURRENT_OFFSET")
 }
 
 record(ao,"$(P)$(R)CurrentOffset2") {
     field(DESC,"Offset")
     field(PINI,"YES")
-    field(DTYP, "asynInt32")
+    field(DTYP, "asynFloat64")
     field(OUT,"@asyn($(PORT) 1)QE_CURRENT_OFFSET")
 }
 
 record(ao,"$(P)$(R)CurrentOffset3") {
     field(DESC,"Offset")
     field(PINI,"YES")
-    field(DTYP, "asynInt32")
+    field(DTYP, "asynFloat64")
     field(OUT,"@asyn($(PORT) 2)QE_CURRENT_OFFSET")
 }
 
 record(ao,"$(P)$(R)CurrentOffset4") {
     field(DESC,"Offset")
     field(PINI,"YES")
-    field(DTYP, "asynInt32")
+    field(DTYP, "asynFloat64")
     field(OUT,"@asyn($(PORT) 3)QE_CURRENT_OFFSET")
+}
+
+record(calcout,"$(P)$(R)ComputeCurrentOffset1") {
+    field(DESC, "Compute Offset")
+    field(INPA, "$(P)$(R)Current1:MeanValue_RBV")
+    field(INPB, "$(P)$(R)CurrentOffset1")
+    field(CALC, "A+B")
+    field(OUT,  "$(P)$(R)CurrentOffset1 PP")
+}
+
+record(calcout,"$(P)$(R)ComputeCurrentOffset2") {
+    field(DESC, "Compute Offset")
+    field(INPA, "$(P)$(R)Current2:MeanValue_RBV")
+    field(INPB, "$(P)$(R)CurrentOffset2")
+    field(CALC, "A+B")
+    field(OUT,  "$(P)$(R)CurrentOffset2 PP")
+}
+
+record(calcout,"$(P)$(R)ComputeCurrentOffset3") {
+    field(DESC, "Compute Offset")
+    field(INPA, "$(P)$(R)Current3:MeanValue_RBV")
+    field(INPB, "$(P)$(R)CurrentOffset3")
+    field(CALC, "A+B")
+    field(OUT,  "$(P)$(R)CurrentOffset3 PP")
+}
+
+record(calcout,"$(P)$(R)ComputeCurrentOffset4") {
+    field(DESC, "Compute Offset")
+    field(INPA, "$(P)$(R)Current4:MeanValue_RBV")
+    field(INPB, "$(P)$(R)CurrentOffset4")
+    field(CALC, "A+B")
+    field(OUT,  "$(P)$(R)CurrentOffset4 PP")
+}
+
+record(ao,"$(P)$(R)CurrentScale1") {
+    field(DESC,"Scale")
+    field(PINI,"YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,"@asyn($(PORT) 0)QE_CURRENT_SCALE")
+    field(VAL, "1.0")
+}
+
+record(ao,"$(P)$(R)CurrentScale2") {
+    field(DESC,"Scale")
+    field(PINI,"YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,"@asyn($(PORT) 1)QE_CURRENT_SCALE")
+    field(VAL, "1.0")
+}
+
+record(ao,"$(P)$(R)CurrentScale3") {
+    field(DESC,"Scale")
+    field(PINI,"YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,"@asyn($(PORT) 2)QE_CURRENT_SCALE")
+    field(VAL, "1.0")
+}
+
+record(ao,"$(P)$(R)CurrentScale4") {
+    field(DESC,"Scale")
+    field(PINI,"YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,"@asyn($(PORT) 3)QE_CURRENT_SCALE")
+    field(VAL, "1.0")
 }
 
 record(ao,"$(P)$(R)PositionOffset12") {
     field(DESC,"Offset")
     field(PINI,"YES")
-    field(DTYP, "asynInt32")
+    field(DTYP, "asynFloat64")
     field(OUT,"@asyn($(PORT) 0)QE_POSITION_OFFSET")
 }
 
 record(ao,"$(P)$(R)PositionOffset34") {
     field(DESC,"Offset")
     field(PINI,"YES")
-    field(DTYP, "asynInt32")
+    field(DTYP, "asynFloat64")
     field(OUT,"@asyn($(PORT) 1)QE_POSITION_OFFSET")
+}
+
+record(calcout,"$(P)$(R)ComputePosOffset12") {
+    field(DESC, "Compute Offset")
+    field(INPA, "$(P)$(R)Pos12:MeanValue_RBV")
+    field(INPB, "$(P)$(R)PositionOffset12")
+    field(CALC, "A+B")
+    field(OUT,  "$(P)$(R)PositionOffset12 PP")
+}
+
+record(calcout,"$(P)$(R)ComputePosOffset34") {
+    field(DESC, "Compute Offset")
+    field(INPA, "$(P)$(R)Pos34:MeanValue_RBV")
+    field(INPB, "$(P)$(R)PositionOffset34")
+    field(CALC, "A+B")
+    field(OUT,  "$(P)$(R)PositionOffset34 PP")
 }
 
 record(ao,"$(P)$(R)PositionScale12") {
     field(DESC,"Offset")
     field(PINI,"YES")
-    field(DTYP, "asynInt32")
-    field(VAL, "1000000")
+    field(DTYP, "asynFloat64")
+    field(VAL, "1000000.")
     field(OUT,"@asyn($(PORT) 0)QE_POSITION_SCALE")
 }
 
 record(ao,"$(P)$(R)PositionScale34") {
     field(DESC,"Offset")
     field(PINI,"YES")
-    field(DTYP, "asynInt32")
-    field(VAL, "1000000")
+    field(DTYP, "asynFloat64")
+    field(VAL, "1000000.")
     field(OUT,"@asyn($(PORT) 1)QE_POSITION_SCALE")
 }
 
-record(busy,"$(P)$(R)Read") {
-    field(DESC,"Read all inputs")
-    field(SCAN,"1 second")
-    field(FLNK,"$(P)$(R)Current1")
+record(longin,"$(P)$(R)RingOverflows") {
+    field(DESC,"Ring buffer overflows")
+    field(DTYP, "asynInt32")
+    field(INP,"@asyn($(PORT) 0)QE_RING_OVERFLOWS")
+    field(SCAN, "I/O Intr")
 }
 
-record(ai,"$(P)$(R)Current1") {
-    field(DESC,"Diode 1 current")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 0)QE_DATA")
-    field(FLNK,"$(P)$(R)Current2")
-}
-
-record(ai,"$(P)$(R)Current2") {
-    field(DESC,"Diode 2 current")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 1)QE_DATA")
-    field(FLNK,"$(P)$(R)Current3")
-}
-
-record(ai,"$(P)$(R)Current3") {
-    field(DESC,"Diode 3 current")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 2)QE_DATA")
-    field(FLNK,"$(P)$(R)Current4")
-}
-
-record(ai,"$(P)$(R)Current4") {
-    field(DESC,"Diode 4 current")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 3)QE_DATA")
-    field(FLNK,"$(P)$(R)Sum12")
-}
-
-record(ai,"$(P)$(R)Sum12") {
-    field(DESC,"Diode 1 & 2 sum")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 4)QE_DATA")
-    field(FLNK,"$(P)$(R)Sum34")
-}
-
-record(ai,"$(P)$(R)Sum34") {
-    field(DESC,"Diode 3 & 4 sum")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 5)QE_DATA")
-    field(FLNK,"$(P)$(R)Sum1234")
-}
-
-record(ai,"$(P)$(R)Sum1234") {
-    field(DESC,"Diode 1,2,3 & 4 sum")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 6)QE_DATA")
-    field(FLNK,"$(P)$(R)Diff12")
-}
-
-record(ai,"$(P)$(R)Diff12") {
-    field(DESC,"Diode 1 & 2 difference")
-    field(PINI,"NO")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 7)QE_DATA")
-    field(FLNK,"$(P)$(R)Diff34")
-}
-
-record(ai,"$(P)$(R)Diff34") {
-    field(DESC,"Diode pair 3 & 4 difference")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 8)QE_DATA")
-    field(FLNK,"$(P)$(R)Position12")
-}
-record(ai,"$(P)$(R)Position12") {
-    field(DESC,"Diode 1 & 2 position")
-    field(PINI,"NO")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 9)QE_DATA")
-    field(FLNK,"$(P)$(R)Position34")
-}
-
-record(ai,"$(P)$(R)Position34") {
-    field(DESC,"Diode pair 3&4 position")
-    field(DTYP, "asynInt32Average")
-    field(INP,"@asyn($(PORT) 10)QE_DATA")
+record(busy,"$(P)$(R)ReadData") {
+    field(DESC,"Read ring buffer")
+    field(ZNAM,"Done")
+    field(ONAM,"Read")
+    field(DTYP,"asynInt32")
+    field(OUT,"@asyn($(PORT) 0)QE_READ_DATA")
 }
 
 record(asyn, "$(P)$(R)Asyn") {
