@@ -5,4 +5,5 @@ include "mcaSupport.dbd"
 include "drvAHxxx.dbd"
 include "asSupport.dbd"
 include "busySupport.dbd"
+include "NDPluginSupport.dbd"
 
