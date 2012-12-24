@@ -10,6 +10,10 @@
     <h1>
       quadEM Driver</h1>
     <h2>
+      R4-0</h2>
+    <h2>
+      December 23, 2012</h2>
+    <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
   <h2>
@@ -56,22 +60,33 @@
     The <b>quadEM</b> software includes asyn drivers and an SNL program that provide
     support for the following:</p>
   <ul>
-    <li>Analog input records using the standard asynInt32Average device support. This
+    <li>Analog input records using the NDPluginStats plugin from the synApps
+      <a href="areaDetector.html">areaDetector</a> module. This
       provides digitally averaged readings of the current, sum, difference and position
-      at speeds up to 10 Hz with standard EPICS scan times. One could also use the standard
-      asynInt32 device support with ai records and scan=I/O Intr, in which case the record
+      at speeds that are determined by the AveragingTime record described below. 
+      The quadEM drivers do the callbacks on the asynGenericPointer interface for NDArray
+      objects required to use the areaDetector plugins.  The NDPluginStats module
+      is used to computer the averaged readings. It also provides additional statistics
+      including standard deviation, histogram of values, etc.</li>
+     <li>One could also use the standard
+      asynFloat64 device support with ai records and scan=I/O Intr, in which case the record
       would update with every reading from the device. This is likely to overwhelm the
       EPICS IOC if the electrometer is run at very fast sampling times.</li>
+    <li>Streaming data to disk at the maximum rate from the device.  This is done using
+    the file plugins from areaDetector.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
       at speeds up to 6510 Hz (AH501 series), 1000 Hz (AH401 series) or 813 Hz (APS_EM).
       The data is available in standard EPICS waveform records, using the drvFastSweep
-      asyn driver from the synApps "mca" module. The time per point can be greater, in
-      which case it does averaging.</li>
+      asyn driver from the synApps 
+      <a href="mca.html">mca</a> module. The time per point can be greater, in
+      which case it does averaging.  The quadEM drivers do the callbacks on the asynInt32Array
+      interface required to use this support.</li>
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
       EPICS waveform record.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
       dac128V), also at speeds up to 6510 Hz, 1000Hz or 813Hz. If it is run slower it
-      does signal averaging. This support is provided in the synApps "std" module. The
+      does signal averaging. This support is provided in the synApps 
+      <a href="www.aps.anl.gov/bcda/synApps/std/std.html">std</a> module. The
       quadEM drivers do the callbacks on the asynFloat64 interface required to use the
       epics fast feedback device support.</li>
   </ul>
@@ -86,27 +101,52 @@
     <li>AH501D electrometer: <a href="AH501D_UsersManual_V1.3.pdf">AH501D Users Manual</a></li>
   </ul>
   <p>
-    The support is based on asynPortDriver. It consists of a base class <a href="quadEMDoxygenHTML/classdrv_quad_e_m.html">
+    The support is based on asynNDArray driver from areaDetector, which in turn is based on asynPortDriver. 
+    It consists of a base class <a href="quadEMDoxygenHTML/classdrv_quad_e_m.html">
       (drvQuadEM.cpp)</a> which is device-independent. There are device-dependent classes
     for the AH401 and AH501 series <a href="quadEMDoxygenHTML/classdrv_a_hxxx.html">(drvAHxxx.cpp)</a>
     and the APS electrometer <a href="quadEMDoxygenHTML/classdrv_a_p_s___e_m.html">(drvAPS_EM.cpp)</a>.
     There is an EPICS State Notation Language (SNL) program (quadEM_SNL.st) is used
     to synchronize acquisition of time-series data, and to compute FFT power-spectra
     of the time-series data.</p>
+    <p>The quadEM driver works as follows:</p>
+      <ul>
+        <li>The data from the device-dependent drivers are first placed into a ring buffer whose
+        size is defined in the constructor.</li>
+        <li>The PV called AveragingTime determines the time period over which to
+         average the readings.  The AveragingTime divided by the SampleTime determines the number of samples
+         to average, NumAverage_RBV.  When this number of samples have been accumulated in the ring buffer
+         a separate thread copies them to a set of NDArrays and calls any registered plugins. </li>
+        <li>There is a separate NDPluginStats plugin loaded for each of the 11 data values.  This
+        plugin receives an array of dimensions [NumAverage_RBV].  This plugin
+        computes not only the mean, but also the standard deviation, histogram
+        of values, etc.</li>
+        <li>One of the NDArrays contains all of the data values, and has dimensions [11,NumAverage_RBV].
+        This array can be passed to any of the file writing plugins, which can thus stream all of the data
+        to disk for arbitrarily long time periods.</li>
+        <li>An NDStdArrays plugin is also loaded.  This can be used to pass all of the data 
+        [11,NumAverage_RBV] or any of the individual data arrays to any channel access client.</li>
+        <li>The computationally intensive work of calculating the statistics is done in plugins, 
+        so can be done in different threads (if CallbackBlock is set to No), 
+        each potentially running in a separate core on modern CPUs.</li>
+        <li>In addition to placing the data from each time point into the ring buffer, the driver
+        does callbacks on the asynFloat64 interface for each data value.  This is typically used for
+        fast feedback support with the epid record.  It also does callbacks on the asynInt32Array interface, 
+        which is typically used for the drvFastSweep support in the mca module for time-series acquisition.</li>
+      </ul> 
   <h2 id="Databases">
     Databases</h2>
   <h3 id="quadEM">
     quadEM.template</h3>
   <p>
-    The quadEM.template database provides control of the electrometer and analog input
-    records using the standard asyn device support. This provides digitally averaged
-    readings of the current, sum, difference and position at speeds up to 10 Hz with
-    standard EPICS scan times. For the data values the analog input records use asynInt32Average
-    device support, which averages all callback readings between record processing.
-    The driver also does callbacks for these same values on the asynFloat64 interface,
-    which is required by the fast feedback device support for the EPID record. It also
-    does asynInt32Array callbacks with an array for each of the 11 values (Current1
-    to Position34), which is required by the drvFastSweep driver for time-series data.</p>
+    The quadEM.template database provides control of the electrometer using the standard asyn device 
+    support. 
+    <a href="http://cars.uchicago.edu/software/epics/NDPluginStats.html">NDStats.template</a> from 
+    <a href="http://cars.uchicago.edu/software/epics/areaDetector.html">areaDetector</a>
+    provides digitally averaged
+    readings of the current, sum, difference and position with user-defined averaging time. 
+    It also provides the standard deviation, miniumim, maximum,
+    and other statistics, including a histogram of array values.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
       <tr>
@@ -137,7 +177,7 @@
         <td>
           mbbi</td>
         <td>
-          asyInt32</td>
+          asynInt32</td>
         <td>
           r/o</td>
         <td>
@@ -160,27 +200,31 @@
         <td>
           QE_ACQUIRE</td>
         <td>
-          $(P)$(R)Acquire</td>
+          $(P)$(R)Acquire<br/>
+          $(P)$(R)Acquire_RBV</td>
         <td>
-          bo</td>
+          bo<br/>
+          bi</td>
         <td>
-          asyInt32</td>
+          asynInt32</td>
         <td>
           r/w</td>
         <td>
           All</td>
         <td>
-          Acquire command. This command turns acquisition on (1) and off (0).</td>
+          Acquire command. This command turns acquisition from the device on (1) and off (0).</td>
       </tr>
       <tr>
         <td>
           QE_RANGE</td>
         <td>
-          $(P)$(R)Range</td>
+          $(P)$(R)Range<br/>
+          $(P)$(R)Range_RBV</td>
         <td>
-          mbbo</td>
+          mbbo<br/>
+          mbbi</td>
         <td>
-          asyInt32</td>
+          asynInt32</td>
         <td>
           r/w</td>
         <td>
@@ -235,11 +279,13 @@
         <td>
           QE_PING_PONG</td>
         <td>
+          $(P)$(R)PingPong<br/>
           $(P)$(R)PingPong</td>
         <td>
-          mbbo</td>
+          mbbo<br/>
+          mbbi</td>
         <td>
-          asyInt32</td>
+          asynInt32</td>
         <td>
           r/w</td>
         <td>
@@ -263,9 +309,11 @@
         <td>
           QE_INTEGRATION_TIME</td>
         <td>
-          $(P)$(R)IntegrationTime</td>
+          $(P)$(R)IntegrationTime<br/>
+          $(P)$(R)IntegrationTime_RBV</td>
         <td>
-          ao</td>
+          ao<br/>
+          ai</td>
         <td>
           asynFloat64</td>
         <td>
@@ -287,9 +335,11 @@
         <td>
           QE_NUM_CHANNELS</td>
         <td>
-          $(P)$(R)NumChannels</td>
+          $(P)$(R)NumChannels<br/>
+          $(P)$(R)NumChannels_RBV</td>
         <td>
-          mbbo</td>
+          mbbo<br/>
+          mbbi</td>
         <td>
           asynInt32</td>
         <td>
@@ -310,9 +360,11 @@
         <td>
           QE_RESOLUTION</td>
         <td>
-          $(P)$(R)Resolution</td>
+          $(P)$(R)Resolution<br/>
+          $(P)$(R)Resolution_RBV</td>
         <td>
-          mbbo</td>
+          mbbo<br/>
+          mbbi</td>
         <td>
           asynInt32</td>
         <td>
@@ -321,7 +373,7 @@
           AH501 series</td>
         <td>
           Selects the resolution of the ADC in bits. Using 16-bits increases the sampling
-          rate by a factor of 2 relative to 26-bits. Allowed choices are:
+          rate by a factor of 2 relative to 24-bits. Allowed choices are:
           <ul>
             <li>16: 16-bit data</li>
             <li>24: 24-bit data</li>
@@ -332,9 +384,11 @@
         <td>
           QE_BIAS_STATE</td>
         <td>
-          $(P)$(R)BiasState</td>
+          $(P)$(R)BiasState<br/>
+          $(P)$(R)BiasState_RBV</td>
         <td>
-          bo</td>
+          bo<br/>
+          bi</td>
         <td>
           asynInt32</td>
         <td>
@@ -353,9 +407,11 @@
         <td>
           QE_BIAS_VOLTAGE</td>
         <td>
-          $(P)$(R)BiasVoltage</td>
+          $(P)$(R)BiasVoltage<br/>
+          $(P)$(R)BiasVoltage_RBV</td>
         <td>
-          ao</td>
+          ao<br/>
+          ai</td>
         <td>
           asynFloat64</td>
         <td>
@@ -363,15 +419,17 @@
         <td>
           AH501C and AH501D</td>
         <td>
-          Controls the voltage of the bias supply output. </td>
+          Controls the voltage of the bias supply output.</td>
       </tr>
       <tr>
         <td>
-          QE_NUM_AVERAGE</td>
+          QE_VALUES_PER_READ</td>
         <td>
-          $(P)$(R)NumAverage</td>
+          $(P)$(R)ValuesPerRead<br/>
+          $(P)$(R)ValuesPerRead_RBV</td>
         <td>
-          longout</td>
+          longout<br/>
+          longin</td>
         <td>
           asynInt32</td>
         <td>
@@ -379,17 +437,18 @@
         <td>
           All</td>
         <td>
-          Controls the number of readings from the meter that are averaged in the driver before
-          it does callbacks. The default is 1 (no averaging). Setting NumAverage &gt; 1 will
+          Controls the number of values that are read from the meter in a single call.
+          These values are averaged in the driver before
+          it does callbacks. The default is 1 (no averaging). Setting ValuesPerRead &gt; 1 will
           reduce the CPU time for 2 reasons:
           <ol>
             <li>On the AH401 and AH501 series the driver reduces the frequency of asynOctet-&gt;read()
-              calls by a factor of NumAverage, because it can obtain multiple readings from the
+              calls by a factor of ValuesPerRead, because it can obtain multiple readings from the
               meter in a single call. This is particularly significant on the AH501 series, which
               can transmit up to 26,040 packets per second!</li>
             <li>It reduces the frequency of callbacks to device support.</li>
           </ol>
-          The potential disadvantage of setting NumAverage &gt; 1 is that it will reduce the
+          The potential disadvantage of setting ValuesPerRead &gt; 1 is that it will reduce the
           sampling frequency of the TimeSeries support, and the update frequency of the EPID
           fast feedback support. </td>
       </tr>
@@ -403,14 +462,14 @@
         <td>
           asynFloat64</td>
         <td>
-          r/w</td>
+          r/o</td>
         <td>
           All</td>
         <td>
           Provides the actual time between sample readings from the device. This is controlled
           by the following parameters:
           <ul>
-            <li>NumAverage: All models</li>
+            <li>ValuesPerRead: All models</li>
             <li>IntegrationTime: AH401 series and APS_EM</li>
             <li>PingPong: AH401 series</li>
             <li>NumChannels: AH501 series</li>
@@ -424,7 +483,7 @@
           The minimum sample time (NumChannels=1, NumAverage=1, Resolution=16) is 38.4 microseconds,
           or a sampling frequency of 26.04 kHz. The maximum sample time with NumAverage=1,
           NumChannels=4, Resolution=24 is 307.2 microseconds, or a sampling frequency of 3.255
-          kHz. Setting NumAverage &gt; 1 will increase the sample time and reduce the sampling
+          kHz. Setting ValuesPerRead &gt; 1 will increase the sample time and reduce the sampling
           frequency proportionally.<br />
           <br />
           The sample time on the AH401 series is controlled by the following algorithm:
@@ -433,12 +492,126 @@
             <li>If PingPong == 0 then SampleTime = SampleTime * 2</li>
           </ul>
           The minimum sample time is 0.001 seconds, or 1 kHz sampling frequency. The maximum
-          sampling time (PingPong=0) is 2 seconds, or 0.5 Hz sampling frequency. Setting NumAverage
+          sampling time (PingPong=0) is 2 seconds, or 0.5 Hz sampling frequency. Setting ValuesPerRead
           &gt; 1 will increase the sample time and reduce the sampling frequency proportionally.<br />
           <br />
-          For the APS_EM the sample time is controlled only by NumAverage and the IntegrationTime,
+          For the APS_EM the sample time is controlled only by ValuesPerRead and the IntegrationTime,
           which ranges from 0.00123 to 0.02622 s, or a sampling frequency range of about 813
           Hz to 38.1 Hz. </td>
+      </tr>
+      <tr>
+        <td>
+          QE_AVERAGING_TIME</td>
+        <td>
+          $(P)$(R)AveragingTime<br/>
+          $(P)$(R)AveragingTime_RBV</td>
+        <td>
+          ao<br/>
+          ai</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Controls the time period over which values are accumulated in the ring buffer before
+          they are read out into NDArray objects and any registered plugins are called.
+          AveragingTime is actually used to compute NumAverage_RBV=AveragingTime/SampleTime_RBV.
+          The callbacks are done when the number of values in the ring buffer equals NumAverage_RBV,
+          and exactly NumAverage_RBV values will be passed to the plugins.<br/>
+          However, setting AveragingTime=0
+          will set NumAverage_RBV=0 as well, and will disable automatic callbacks to areaDetector
+          plugins.  In this case data will only be read from the ring buffer when the ReadData record
+          is processed.  This will read out all available data from ring buffer, and the actual number
+          of values read will be NumAveraged_RBV.  This mode is useful when the quadEM is being used
+          for data acquisition, for example in a scan.  In this case processing the ReadData record
+          will read all values that have accumulated in the ring buffer since ReadData was last processed.</td>
+      </tr>
+      <tr>
+        <td>
+          QE_NUM_AVERAGE</td>
+        <td>
+          $(P)$(R)NumAverage_RBV</td>
+        <td>
+          longin</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          Provides the number of values that will be accumulated in the ring buffer before
+          they are read out into NDArray objects and any registered plugins are called.
+          NumAverage_RBV is computed as (int)((AveragingTime / SampleTime_RBV) + 0.5).</td>
+      </tr>
+      <tr>
+        <td>
+          QE_NUM_AVERAGED</td>
+        <td>
+          $(P)$(R)NumAveraged_RBV</td>
+        <td>
+          longin</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          Provides the number of values that were actually accumulated in the ring buffer before
+          they were read out into NDArray objects and any registered plugins were called.
+          If AveragingTime&gt;0 then NumAveraged will be the same as NumAverage.  
+          However, if AveragingTime=0. then
+          NumAverage=0 and NumAveraged gives the actual number of values read from the ring buffer
+          when the ReadData record was processed.</td>
+      </tr>
+      <tr>
+        <td>
+          QE_READ_DATA</td>
+        <td>
+          $(P)$(R)ReadData</td>
+        <td>
+          busy</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          Writing 1 to this record signals the background thread to read the ring buffer and do the
+          NDArray callbacks.  This is typically done when the quadEM is being used
+          for data acquisition, for example in a scan.  In this case AveragingTime is set to 0 and
+          processing the ReadData record
+          will read all values that have accumulated in the ring buffer 
+          since ReadData was last processed.</td>
+      </tr>
+      <tr>
+        <td>
+          QE_RING_OVERFLOWS</td>
+        <td>
+          $(P)$(R)RingOverflows</td>
+        <td>
+          longin</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          It is possible for the ring buffer to overflow.  The rate at which values are added to the ring
+          buffer is controlled by SampleTime_RBV.  The rate at which values are removed is determined
+          by AveragingTime, or by the rate at which ReadData is processed if AveragingTime=0.  The size
+          of the ring buffer is determined by the ringBufferSize argument to the driver constructor.  
+          This defaults
+          to 2048 if it is not specified in configuration command in the startup script. If the ring buffer
+          is full when the driver tries to add a new value, then the oldest value in the buffer is
+          discarded, the new value is added, and RingOverflows is incremented.  RingOverflows is set to 0
+          the next time the ring buffer is read out.
+          </td>
       </tr>
       <tr>
         <td>
@@ -465,7 +638,7 @@
         <td>
           bo</td>
         <td>
-          asyInt32</td>
+          asynInt32</td>
         <td>
           r/w</td>
         <td>
@@ -480,19 +653,78 @@
       </tr>
       <tr>
         <td>
+          QE_CURRENT_NAME</td>
+        <td>
+          $(P)$(R)CurrentName[1-4]</td>
+        <td>
+          stringin</td>
+        <td>
+          N.A.</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          User-defined name to give each of the Current[1-4] inputs.
+        </td>
+      </tr>
+      <tr>
+        <td>
           QE_CURRENT_OFFSET</td>
         <td>
           $(P)$(R)CurrentOffset[1-4]</td>
         <td>
           ao</td>
         <td>
-          asynInt32 (addr=0-3)</td>
+          asynFloat64 (addr=0-3)</td>
         <td>
           r/w</td>
         <td>
           All</td>
         <td>
-          Offset that will be subtracted from each reading before calculating the Current[1-4].
+          Offset that will be subtracted from each reading when calculating the Current[1-4].
+          The current is calculated as Current = Raw*CurrentScale - CurrentOffset, where Raw is the
+          raw value from the device.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)ComputeCurrentOffset[1-4]</td>
+        <td>
+          calcout</td>
+        <td>
+          N.A.</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Processing this record will compute a new value of CurrentOffset that will set 
+          value of the current to 0 under the current conditions.  It computes
+          CurrentOffset(new) = Current[1-3]:MeanValue_RBV + CurrentOffset(old).  This record
+          is provided to convenience set the CurrentOffset when the input signal is 0.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          QE_CURRENT_SCALE</td>
+        <td>
+          $(P)$(R)CurrentScale[1-4]</td>
+        <td>
+          ao</td>
+        <td>
+          asynFloat64 (addr=0-3)</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Scale factor that each reading is multiplied by when calculating the Current[1-4].
+          The current is calculated as Current = Raw*CurrentScale - CurrentOffset, where Raw is the
+          raw value from the device.  This record provides a way to convert the current readings into
+          engineering units.
         </td>
       </tr>
       <tr>
@@ -503,13 +735,36 @@
         <td>
           ao</td>
         <td>
-          asynInt32 (addr=0-1)</td>
+          asynFloat64 (addr=0-1)</td>
         <td>
           r/w</td>
         <td>
           All</td>
         <td>
-          Offset that will be subtracted from the computed position.</td>
+          Offset that will be subtracted from each reading when calculating the Position[12,34].
+          The position is calculated as 
+          Position = Diff/Sum * PositionScale - PositionOffset.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)ComputePosOffset[12,34]</td>
+        <td>
+          calcout</td>
+        <td>
+          N.A.</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Processing this record will compute a new value of PositionOffset that will set 
+          value of the position to 0 under the current conditions.  It computes
+          PositionOffset(new) = Pos[12,34]:MeanValue_RBV + PositionOffset(old).  This record
+          is provided to convenience set the PositionOffset when the position should be defined
+          as 0.
+        </td>
       </tr>
       <tr>
         <td>
@@ -519,124 +774,15 @@
         <td>
           ao</td>
         <td>
-          asynInt32 (addr=0-1)</td>
+          asynFloat64 (addr=0-1)</td>
         <td>
           r/w</td>
         <td>
           All</td>
         <td>
-          Scale factor used when computing the position.</td>
-      </tr>
-      <tr>
-        <td>
-          QE_DATA</td>
-        <td>
-          $(P)$(R)Current[1-4]</td>
-        <td>
-          ai</td>
-        <td>
-          asynInt32 (addr=0-3)</td>
-        <td>
-          r/o</td>
-        <td>
-          All</td>
-        <td>
-          The value of the current. This is calculated as measuredValue-CurrentOffset. These
-          records use asynInt32Average device support so they average the readings from the
-          device since the time the record was last processed. For example with the AH401
-          series if PingPong="On" and the integration time is 0.002s (500 Hz), if the Read
-          record .SCAN field is 1 second then 500 readings will be averaged.</td>
-      </tr>
-      <tr>
-        <td>
-          QE_DATA</td>
-        <td>
-          $(P)$(R)Sum[12,34,1234]</td>
-        <td>
-          ai</td>
-        <td>
-          asynInt32 (addr=4-6)</td>
-        <td>
-          r/o</td>
-        <td>
-          All</td>
-        <td>
-          The sum of diodes 1+2, 3+4, and 1+2+3+4. These records use asynInt32Average device
-          support so they average the readings from the device since the time the record was
-          last processed.</td>
-      </tr>
-      <tr>
-        <td>
-          QE_DATA</td>
-        <td>
-          $(P)$(R)Diff[12,34]</td>
-        <td>
-          ai</td>
-        <td>
-          asynInt32 (addr=7-8)</td>
-        <td>
-          r/o</td>
-        <td>
-          All</td>
-        <td>
-          The difference of the diode pair 2-1 and 4-3. These records use asynInt32Average
-          device support so they average the readings from the device since the time the record
-          was last processed.</td>
-      </tr>
-      <tr>
-        <td>
-          QE_DATA</td>
-        <td>
-          $(P)$(R)Position[12,34]</td>
-        <td>
-          ai</td>
-        <td>
-          asynInt32 (addr=9-10)</td>
-        <td>
-          r/o</td>
-        <td>
-          All</td>
-        <td>
-          The position of the diode pair. This is calculated as ((Diff/Sum)*PositionScale
-          - PositionOffset). These records use asynInt32Average device support so they average
-          the readings from the device since the time the record was last processed.</td>
-      </tr>
-      <tr>
-        <td>
-          QE_DOUBLE_DATA</td>
-        <td>
-          N.A.</td>
-        <td>
-          N.A.</td>
-        <td>
-          asynFloat64 (addr=0-10)</td>
-        <td>
-          r/o</td>
-        <td>
-          All</td>
-        <td>
-          The QE_DOUBLE_DATA drvInfo string is used to read the same information as QE_DATA,
-          but using the asynFloat64 interface rather than the asynInt32 interface. This is
-          provided to support the fast feedback device support for the EPID record, which
-          is provided in the synApps "std" module. That device support expects callbacks on
-          the asynFloat64 interface for its input data.</td>
-      </tr>
-      <tr>
-        <td>
-          N.A.</td>
-        <td>
-          $(P)$(R)Read</td>
-        <td>
-          ai</td>
-        <td>
-          N.A.</td>
-        <td>
-          r/w</td>
-        <td>
-          All</td>
-        <td>
-          Processing this record reads all of the Position, Sum, Diff, and Position records
-          using forward links.</td>
+          Scale that will be used when calculating the Position[12,34].
+          The position is calculated as 
+          Position = Diff/Sum * PositionScale - PositionOffset.</td>
       </tr>
     </tbody>
   </table>
@@ -646,8 +792,109 @@
     <h3 style="text-align: center">
       quadEM.adl</h3>
     <img alt="quadEM.png" src="quadEM.png" /></div>
-  <h3 id="quadEM_TimeSeries">
-    quadEM_TimeSeries.template</h3>
+  <h3 id="Plugins">
+    Plugins</h3>
+  <p>The example IOCs provided with quadEM load a file called commonPlugins.cmd loads the following 
+  set of plugins from the areaDetector module.  For more information see the documentation on
+  NDPluginStats, NDPluginStdArrays, and NDFileNetCDF.  Other plugins can also be loaded, for example
+  the HDF5 or Nexus file writing plugins, etc.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <td align="center" colspan="3">
+          <b>Plugins loaded by commonPlugins.cmd</b></td>
+      </tr>
+      <tr>
+        <th>
+          Plugin type</th>
+        <th>
+          Record prefixes</th>
+        <th>
+          Description</th>
+      </tr>
+      <tr>
+        <td>
+          NDPluginStats</td>
+        <td>
+          $(P)$(R)Current[1-4]:</td>
+        <td>
+          Statistics for the current values. The average value is $(P)$(R)Current[1-4]:MeanValue_RBV.
+          Many other statistics are available, including the minimum, maximum, standard deviation,
+          and histogram of values.</td>
+      </tr>
+      <tr>
+        <td>
+          NDPluginStats</td>
+        <td>
+          $(P)$(R)Sum[12,34,1234]:</td>
+        <td>
+          Statistics for the sum of currents 1+2, 3+4, and 1+2+3+4. 
+          The average value is $(P)$(R)Sum[12,34,1234]:MeanValue_RBV.
+          Many other statistics are available, including the minimum, maximum, standard deviation,
+          and histogram of values.</td>
+      </tr>
+      <tr>
+        <td>
+          NDPluginStats</td>
+        <td>
+          $(P)$(R)Diff[12,34]:</td>
+        <td>
+          Statistics for the differences of current 2-1 and 4-3. 
+          The average value is $(P)$(R)Diff[12,34]:MeanValue_RBV.
+          Many other statistics are available, including the minimum, maximum, standard deviation,
+          and histogram of values.</td>
+      </tr>
+      <tr>
+        <td>
+          NDPluginStats</td>
+        <td>
+          $(P)$(R)Pos[12,34]:</td>
+        <td>
+          Statistics for the positions. The average value is $(P)$(R)Pos[12,34]:MeanValue_RBV.
+          Many other statistics are available, including the minimum, maximum, standard deviation,
+          and histogram of values.</td>
+      </tr>
+      <tr>
+        <td>
+          NDPluginStdArrays</td>
+        <td>
+          $(P)$(R)image1:</td>
+        <td>
+          Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and puts this data
+          into an EPICS waveform record.  This can
+          be used to provide access to all of the data from quadEM to any Channel Access client.</td>
+      </tr>
+      <tr>
+        <td>
+          NDFileNetCDF</td>
+        <td>
+          $(P)$(R)netCDF1:</td>
+        <td>
+          Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and writes this
+          data into a netCDF file.  This can be done in Single mode, writing one array per file. o
+          It can also be done in Stream mode, which continuously appends arrays 
+          to a single netCDF file.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    This is the medm screen for all of the plugins defined in commonPlugins.cmd.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      QECommonPlugins.adl</h3>
+    <img alt="QECommonPlugins.png" src="QECommonPlugins.png" /></div>
+  <p>
+    This is the medm screen for the Current1: NDPluginStats plugin loaded by commonPlugins.cmd.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      NDStats.adl</h3>
+    <img alt="QENDStats.png" src="QENDStats.png" /></div>
+  <p>
+    This is the medm screen for the netCDF1: NDFileNetCDF plugin loaded by commonPlugins.cmd.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      NDFileNetCDF.adl.adl</h3>
+    <img alt="QENetCDF.png" src="QENetCDF.png" /></div>
   <p>
     The quadEM_TimeSeries.template database provides a time-history (like a digital
     scope) of the current, sum, difference and position at speeds up to 6510 Hz (AH501
