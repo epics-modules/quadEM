@@ -3,3 +3,4 @@ txt2html --outfile quadEM_st_cmd_vxWorks.html -pb 0       ../iocBoot/iocTest/st.
 txt2html --outfile quadEM_st_cmd_AH401B.html -pb 0        ../iocBoot/iocTest/st.cmd.AH401B
 txt2html --outfile quadEM_st_cmd_AH501.html -pb 0         ../iocBoot/iocTest/st.cmd.AH501
 txt2html --outfile quadEM_st_cmd_AHxxx.html -pb 0         ../iocBoot/iocTest/st.cmd.AHxxx
+txt2html --outfile quadEM_commonPlugins_cmd.html -pb 0    ../iocBoot/iocTest/commonPlugins.cmd
