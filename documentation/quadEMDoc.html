@@ -23,11 +23,13 @@
     <li><a href="#Databases">Databases</a>
       <ul>
         <li><a href="#quadEM">quadEM.template</a></li>
+        <li><a href="#Plugins">Plugins: NDPluginStats, NDPluginStdArrays, NDFileNetCDF</a></li>
         <li><a href="#quadEM_TimeSeries">quadEM_TimeSeries.template</a></li>
         <li><a href="#fast_pid_control">fast_pid_control.db</a></li>
       </ul>
     </li>
     <li><a href="#Performance">Performance</a></li>
+    <li><a href="#Common_Setup">Common Setup</a></li>
     <li><a href="#AHxxx_Setup">AH401 and AH501 series Setup</a></li>
     <li><a href="#APS_EM_Setup">APS Electrometer Setup</a></li>
   </ul>
@@ -893,8 +895,10 @@
     This is the medm screen for the netCDF1: NDFileNetCDF plugin loaded by commonPlugins.cmd.</p>
   <div style="text-align: center">
     <h3 style="text-align: center">
-      NDFileNetCDF.adl.adl</h3>
+      NDFileNetCDF.adl</h3>
     <img alt="QENetCDF.png" src="QENetCDF.png" /></div>
+    <h3 id="quadEM_TimeSeries">
+      Time Series</h3>
   <p>
     The quadEM_TimeSeries.template database provides a time-history (like a digital
     scope) of the current, sum, difference and position at speeds up to 6510 Hz (AH501
@@ -1826,6 +1830,13 @@ pattern
       </tr>
     </tbody>
   </table>
+  <h2 id="Common_Setup">
+    Common Setup</h2>
+  <p>All of the device-dependent startup scripts invoke
+      <a href="quadEM_commonPlugins_cmd.html">quadEM/iocBoot/iocTest/commonPlugins.cmd</a>.
+    This file can be edited to add additional plugins, such as the TIFF, HDF5, or Nexus file
+    writers, etc.</p>
+  
   <h2 id="AHxxx_Setup">
     AH401 and AH501 Series Setup</h2>
   <p>
@@ -1837,16 +1848,16 @@ pattern
   <p>
     Example startup scripts for Linux or Windows are provided in
     <br />
-    <a href="quadEM_st_cmd_AH401B.html">quadEM/iocBoot/iocTest.st.cmd.AH401B</a> and
+    <a href="quadEM_st_cmd_AH401B.html">quadEM/iocBoot/iocTest/st.cmd.AH401B</a> and
     <br />
-    <a href="quadEM_st_cmd_AH501.html">quadEM/iocBoot/iocTest.st.cmd.AH501</a>
+    <a href="quadEM_st_cmd_AH501.html">quadEM/iocBoot/iocTest/st.cmd.AH501</a>
   </p>
   <p>
     These will need to be edited to set the correct IP address of the meters to be used.</p>
   <p>
     These scripts each invoke a generic script:
     <br />
-    <a href="quadEM_st_cmd_AHxxx.html">quadEM/iocBoot/iocTest.st.cmd.AHxxx</a>.
+    <a href="quadEM_st_cmd_AHxxx.html">quadEM/iocBoot/iocTest/st.cmd.AHxxx</a>.
   </p>
   <h2 id="APS_EM_Setup">
     APS Electrometer Setup</h2>
@@ -1862,13 +1873,13 @@ pattern
   <p>
     An example startup script for vxWorks is provided in
     <br />
-    <a href="quadEM_st_cmd_vxWorks.html">quadEM/iocBoot/iocTest.st.cmd.vxWorks</a>.
+    <a href="quadEM_st_cmd_vxWorks.html">quadEM/iocBoot/iocTest/st.cmd.vxWorks</a>.
   </p>
   <p>
     This example startup script can be edited to start either the APS_EM, the AH401B,
     or the AH501. For the APS_EM this script invokes
     <br />
-    <a href="quadEM_st_cmd_APS_EM.html">quadEM/iocBoot/iocTest.st.cmd.APS_EM</a>.
+    <a href="quadEM_st_cmd_APS_EM.html">quadEM/iocBoot/iocTest/st.cmd.APS_EM</a>.
   </p>
 </body>
 </html>
