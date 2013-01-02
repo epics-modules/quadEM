@@ -23,7 +23,7 @@ dbLoadRecords("$(AREA_DETECTOR)/ADApp/Db/NDStats.template",     "P=$(PREFIX),R=$
 NDStatsConfigure("STATS8", $(QSIZE), 0, "$(PORT)", 7, 0, 0)
 dbLoadRecords("$(AREA_DETECTOR)/ADApp/Db/NDPluginBase.template","P=$(PREFIX),R=$(PORT):Diff12:,   PORT=STATS8,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=7")
 dbLoadRecords("$(AREA_DETECTOR)/ADApp/Db/NDStats.template",     "P=$(PREFIX),R=$(PORT):Diff12:,   PORT=STATS8,ADDR=0,TIMEOUT=1,HIST_SIZE=256,XSIZE=$(RING_SIZE),YSIZE=0,NCHANS=$(TSPOINTS)")
-NDStatsConfigure("STATS9", $(QSIZE), 0, "$(PORT)", 9, 0, 0)
+NDStatsConfigure("STATS9", $(QSIZE), 0, "$(PORT)", 8, 0, 0)
 dbLoadRecords("$(AREA_DETECTOR)/ADApp/Db/NDPluginBase.template","P=$(PREFIX),R=$(PORT):Diff34:,   PORT=STATS9,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=8")
 dbLoadRecords("$(AREA_DETECTOR)/ADApp/Db/NDStats.template",     "P=$(PREFIX),R=$(PORT):Diff34:,   PORT=STATS9,ADDR=0,TIMEOUT=1,HIST_SIZE=256,XSIZE=$(RING_SIZE),YSIZE=0,NCHANS=$(TSPOINTS)")
 NDStatsConfigure("STATS10",$(QSIZE), 0, "$(PORT)", 9, 0, 0)
