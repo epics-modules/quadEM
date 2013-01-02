@@ -224,6 +224,7 @@ record(ao,"$(P)$(R)AveragingTime") {
     field(PINI,"YES")
     field(PREC,"2")
     field(DTYP, "asynFloat64")
+    field(VAL, "0.1")
     field(OUT,"@asyn($(PORT) 0)QE_AVERAGING_TIME")
 }
 
