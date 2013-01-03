@@ -63,7 +63,6 @@ drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferS
     acquiring_ = 0;
     readingActive_ = 0;
     resolution_ = 24;
-    numChannels_ = 4;
 
     // Do everything that needs to be done when connecting to the meter initially.
     // Note that the meter could be offline when the IOC starts, so we put this in
@@ -206,7 +205,7 @@ void drvAHxxx::readThread(void)
         pasynManager->unlockPort(pasynUser);
         lock();
         if ((status == asynSuccess) && (nRead == nRequested) && (eomReason == ASYN_EOM_CNT)) {
-            for (i=0; i<numChannels_; i++) {
+            for (i=0; i<QE_MAX_INPUTS; i++) {
                 raw[i] = 0;
             }
             offset = 0;
