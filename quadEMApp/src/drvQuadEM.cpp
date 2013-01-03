@@ -86,6 +86,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     setIntegerParam(P_Range, 0);
     setIntegerParam(P_Trigger, 0);
     setIntegerParam(P_NumChannels, 4);
+    numChannels_ = 4;
     setIntegerParam(P_BiasState, 0);
     setDoubleParam(P_BiasVoltage, 0.);
     setIntegerParam(P_Resolution, 16);
@@ -130,6 +131,7 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
     epicsFloat64 positionScale[2];
     epicsInt32 intData[QE_MAX_DATA];
     epicsFloat64 doubleData[QE_MAX_DATA];
+    epicsFloat64 denom;
     static const char *functionName = "computePositions";
     
     // If the ring buffer is full then remove the oldest entry
@@ -156,8 +158,12 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
     doubleData[QESum1234] = doubleData[QESum12] + doubleData[QESum34];
     doubleData[QEDiff12] = doubleData[QECurrent2] - doubleData[QECurrent1];
     doubleData[QEDiff34] = doubleData[QECurrent4] - doubleData[QECurrent3];
-    doubleData[QEPosition12] = (positionScale[0] * doubleData[QEDiff12] / doubleData[QESum12]) -  positionOffset[0];
-    doubleData[QEPosition34] = (positionScale[1] * doubleData[QEDiff34] / doubleData[QESum34]) -  positionOffset[1];
+    denom = doubleData[QESum12];
+    if (denom == 0.) denom = 1.;
+    doubleData[QEPosition12] = (positionScale[0] * doubleData[QEDiff12] / denom) -  positionOffset[0];
+    denom = doubleData[QESum34];
+    if (denom == 0.) denom = 1.;
+    doubleData[QEPosition34] = (positionScale[1] * doubleData[QEDiff34] / denom) -  positionOffset[1];
 
     count = epicsRingBytesPut(ringBuffer_, (char *)&doubleData, sizeof(doubleData));
     ringCount_++;
@@ -194,6 +200,7 @@ asynStatus drvQuadEM::doDataCallbacks()
     int sampleSize = sizeof(doubleData);
     int count;
     epicsTimeStamp now;
+    epicsFloat64 timeStamp;
     int arrayCounter;
     int i, j;
     size_t dims[2];
@@ -222,7 +229,9 @@ asynStatus drvQuadEM::doDataCallbacks()
 
         pArrayAll = pNDArrayPool->alloc(2, dims, NDFloat64, 0, 0);
         pArrayAll->uniqueId = arrayCounter;
-        pArrayAll->timeStamp = now.secPastEpoch + now.nsec / 1.e9;
+        timeStamp = now.secPastEpoch + now.nsec / 1.e9;
+        pArrayAll->timeStamp = timeStamp;
+        getAttributes(pArrayAll->pAttributeList);
 
         count = epicsRingBytesGet(ringBuffer_, (char *)pArrayAll->pData, numAveraged * sampleSize);
         if (count != numAveraged * sampleSize) {
@@ -235,12 +244,13 @@ asynStatus drvQuadEM::doDataCallbacks()
         unlock();
         doCallbacksGenericPointer(pArrayAll, NDArrayData, QE_MAX_DATA);
         lock();
-        // Copy data to arrays for each type of data, do callbacks on that.  Simpler than using ROI plugins
+        // Copy data to arrays for each type of data, do callbacks on that.
         dims[0] = numAveraged;
         for (i=0; i<QE_MAX_DATA; i++) {
             pArraySingle = pNDArrayPool->alloc(1, dims, NDFloat64, 0, 0);
             pArraySingle->uniqueId = arrayCounter;
-            pArraySingle->timeStamp = now.secPastEpoch + now.nsec / 1.e9;
+            pArraySingle->timeStamp = timeStamp;
+            getAttributes(pArraySingle->pAttributeList);
             pIn = (epicsFloat64 *)pArrayAll->pData;
             pOut = (epicsFloat64 *)pArraySingle->pData;
             for (j=0; j<numAveraged; j++) {
