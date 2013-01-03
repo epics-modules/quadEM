@@ -36,6 +36,9 @@ PROD_LIBS_vxWorks += Ipac
 PROD_LIBS_vxWorks += ipUnidig
 PROD_LIBS += mca
 PROD_LIBS += seq pv
+# Need to put this in or there are missing symbols on vxWorks because Ipac and IpUnidig are linked
+# in after PROD_LIBS, which has EPICS_BASE_IOC_LIBS from commonDriverMakefile
+PROD_LIBS_vxWorks += $(EPICS_BASE_IOC_LIBS)
 
 include $(AREA_DETECTOR)/ADApp/commonDriverMakefile
 
