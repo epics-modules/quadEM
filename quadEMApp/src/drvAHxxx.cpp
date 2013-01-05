@@ -40,7 +40,12 @@ static void readThread(void *drvPvt);
   * Calls the constructor for the drvQuadEM base class.
   * \param[in] portName The name of the asyn port driver to be created.
   * \param[in] QEPortName The name of the asyn communication port to the AHxxx 
-  *            created with drvAsynIPPortConfigure or drvAsynSerialPortConfigure */
+  *            created with drvAsynIPPortConfigure or drvAsynSerialPortConfigure
+  * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
+  *            This should be large enough to hold all the samples between reads of the
+  *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
+  *            If 0 then default of 2048 is used.
+  */
 drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferSize) 
    : drvQuadEM(portName, 0, ringBufferSize)
   
@@ -611,8 +616,10 @@ extern "C" {
   * \param[in] QEPortName The name of the asyn communication port to the AHxxx 
   *            created with drvAsynIPPortConfigure or drvAsynSerialPortConfigure.
   * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
-               This should be large enough to hold all the samples between reads of the
-               device, i.e. 1 kHz input and 1 second read rate = 1000 samples. */
+  *            This should be large enough to hold all the samples between reads of the
+  *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
+  *            If 0 then default of 2048 is used.
+  */
 int drvAHxxxConfigure(const char *portName, const char *QEPortName, int ringBufferSize)
 {
     new drvAHxxx(portName, QEPortName, ringBufferSize);

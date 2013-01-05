@@ -60,7 +60,12 @@ static void callbackFuncC(void *pPvt, asynUser *pasynUser, epicsUInt32 mask)
   * \param[in] fiberChannel Address [0-3] of the fiber channel connected to the electrometer
   * \param[in] unidigName Name of asynPort for the Ip-Unidig driver if it is being used to generate interrupts
   * \param[in] unidigChan Channel number [0-23] of the Ip-Unidig connected to the APS_EM pulse output, if Ip-Unidig is being used.
-  * \param[in] unidigDrvInfo  The drvInfo field for the data callback of the ipUnidig driver. If not specified then asynUser->reason=0 is used.
+  * \param[in] unidigDrvInfo  The drvInfo field for the data callback of the ipUnidig driver. 
+  *            If not specified then asynUser->reason=0 is used.
+  * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
+  *            This should be large enough to hold all the samples between reads of the
+  *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
+  *            If 0 then default of 2048 is used.
   */
 drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberChannel,
                      const char *unidigName, int unidigChan, char *unidigDrvInfo, int ringBufferSize)
@@ -434,11 +439,17 @@ extern "C" {
 
 /** EPICS iocsh callable function to call constructor for the drvAPS_EM class.
   * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] baseAddr The A24 address of the VME card
-  * \param[in] fiberChannel The fiber channel number (0-3)
-  * \param[in] unidigName The IpUnidig (or other asyn digital I/O card) port driver name
-  * \param[in] unidigChan The IpUnidig (or other asyn digital I/O card) channel (bit) number 
-  * \param[in] unidigDrvInfo The IpUnidig (or other asyn digital I/O card) drvInfo string for data */ 
+  * \param[in] baseAddr A24 base address of the VME card
+  * \param[in] fiberChannel Address [0-3] of the fiber channel connected to the electrometer
+  * \param[in] unidigName Name of asynPort for the Ip-Unidig driver if it is being used to generate interrupts
+  * \param[in] unidigChan Channel number [0-23] of the Ip-Unidig connected to the APS_EM pulse output, if Ip-Unidig is being used.
+  * \param[in] unidigDrvInfo  The drvInfo field for the data callback of the ipUnidig driver. 
+  *            If not specified then asynUser->reason=0 is used.
+  * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
+  *            This should be large enough to hold all the samples between reads of the
+  *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
+  *            If 0 then default of 2048 is used.
+  */ 
 int drvAPS_EMConfigure(const char *portName, unsigned short *baseAddr, int fiberChannel,
                        const char *unidigName, int unidigChan, char *unidigDrvInfo, int ringBufferSize)
 {
