@@ -62,35 +62,32 @@
     The <b>quadEM</b> software includes asyn drivers and an SNL program that provide
     support for the following:</p>
   <ul>
-    <li>Analog input records using the NDPluginStats plugin from the synApps
-      <a href="areaDetector.html">areaDetector</a> module. This
-      provides digitally averaged readings of the current, sum, difference and position
-      at speeds that are determined by the AveragingTime record described below. 
-      The quadEM drivers do the callbacks on the asynGenericPointer interface for NDArray
-      objects required to use the areaDetector plugins.  The NDPluginStats module
-      is used to computer the averaged readings. It also provides additional statistics
+    <li>Analog input records using the NDPluginStats plugin from the synApps <a href="areaDetector.html">
+      areaDetector</a> module. This provides digitally averaged readings of the current,
+      sum, difference and position at speeds that are determined by the AveragingTime
+      record described below. The quadEM drivers do the callbacks on the asynGenericPointer
+      interface for NDArray objects required to use the areaDetector plugins. The NDPluginStats
+      module is used to computer the averaged readings. It also provides additional statistics
       including standard deviation, histogram of values, etc.</li>
-     <li>One could also use the standard
-      asynFloat64 device support with ai records and scan=I/O Intr, in which case the record
-      would update with every reading from the device. This is likely to overwhelm the
-      EPICS IOC if the electrometer is run at very fast sampling times.</li>
-    <li>Streaming data to disk at the maximum rate from the device.  This is done using
-    the file plugins from areaDetector.</li>
+    <li>One could also use the standard asynFloat64 device support with ai records and
+      scan=I/O Intr, in which case the record would update with every reading from the
+      device. This is likely to overwhelm the EPICS IOC if the electrometer is run at
+      very fast sampling times.</li>
+    <li>Streaming data to disk at the maximum rate from the device. This is done using
+      the file plugins from areaDetector.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
       at speeds up to 6510 Hz (AH501 series), 1000 Hz (AH401 series) or 813 Hz (APS_EM).
       The data is available in standard EPICS waveform records, using the drvFastSweep
-      asyn driver from the synApps 
-      <a href="mca.html">mca</a> module. The time per point can be greater, in
-      which case it does averaging.  The quadEM drivers do the callbacks on the asynInt32Array
-      interface required to use this support.</li>
+      asyn driver from the synApps <a href="mca.html">mca</a> module. The time per point
+      can be greater, in which case it does averaging. The quadEM drivers do the callbacks
+      on the asynInt32Array interface required to use this support.</li>
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
       EPICS waveform record.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
       dac128V), also at speeds up to 6510 Hz, 1000Hz or 813Hz. If it is run slower it
-      does signal averaging. This support is provided in the synApps 
-      <a href="www.aps.anl.gov/bcda/synApps/std/std.html">std</a> module. The
-      quadEM drivers do the callbacks on the asynFloat64 interface required to use the
-      epics fast feedback device support.</li>
+      does signal averaging. This support is provided in the synApps <a href="www.aps.anl.gov/bcda/synApps/std/std.html">
+        std</a> module. The quadEM drivers do the callbacks on the asynFloat64 interface
+      required to use the epics fast feedback device support.</li>
   </ul>
   <p>
     The following manuals provide detailed information on these devices:</p>
@@ -103,52 +100,52 @@
     <li>AH501D electrometer: <a href="AH501D_UsersManual_V1.3.pdf">AH501D Users Manual</a></li>
   </ul>
   <p>
-    The support is based on asynNDArray driver from areaDetector, which in turn is based on asynPortDriver. 
-    It consists of a base class <a href="quadEMDoxygenHTML/classdrv_quad_e_m.html">
+    The support is based on asynNDArray driver from areaDetector, which in turn is based
+    on asynPortDriver. It consists of a base class <a href="quadEMDoxygenHTML/classdrv_quad_e_m.html">
       (drvQuadEM.cpp)</a> which is device-independent. There are device-dependent classes
     for the AH401 and AH501 series <a href="quadEMDoxygenHTML/classdrv_a_hxxx.html">(drvAHxxx.cpp)</a>
     and the APS electrometer <a href="quadEMDoxygenHTML/classdrv_a_p_s___e_m.html">(drvAPS_EM.cpp)</a>.
     There is an EPICS State Notation Language (SNL) program (quadEM_SNL.st) is used
     to synchronize acquisition of time-series data, and to compute FFT power-spectra
     of the time-series data.</p>
-    <p>The quadEM driver works as follows:</p>
-      <ul>
-        <li>The data from the device-dependent drivers are first placed into a ring buffer whose
-        size is defined in the constructor.</li>
-        <li>The PV called AveragingTime determines the time period over which to
-         average the readings.  The AveragingTime divided by the SampleTime determines the number of samples
-         to average, NumAverage_RBV.  When this number of samples have been accumulated in the ring buffer
-         a separate thread copies them to a set of NDArrays and calls any registered plugins. </li>
-        <li>There is a separate NDPluginStats plugin loaded for each of the 11 data values.  This
-        plugin receives an array of dimensions [NumAverage_RBV].  This plugin
-        computes not only the mean, but also the standard deviation, histogram
-        of values, etc.</li>
-        <li>One of the NDArrays contains all of the data values, and has dimensions [11,NumAverage_RBV].
-        This array can be passed to any of the file writing plugins, which can thus stream all of the data
-        to disk for arbitrarily long time periods.</li>
-        <li>An NDStdArrays plugin is also loaded.  This can be used to pass all of the data 
-        [11,NumAverage_RBV] or any of the individual data arrays to any channel access client.</li>
-        <li>The computationally intensive work of calculating the statistics is done in plugins, 
-        so can be done in different threads (if CallbackBlock is set to No), 
-        each potentially running in a separate core on modern CPUs.</li>
-        <li>In addition to placing the data from each time point into the ring buffer, the driver
-        does callbacks on the asynFloat64 interface for each data value.  This is typically used for
-        fast feedback support with the epid record.  It also does callbacks on the asynInt32Array interface, 
-        which is typically used for the drvFastSweep support in the mca module for time-series acquisition.</li>
-      </ul> 
+  <p>
+    The quadEM driver works as follows:</p>
+  <ul>
+    <li>The data from the device-dependent drivers are first placed into a ring buffer
+      whose size is defined in the constructor.</li>
+    <li>The PV called AveragingTime determines the time period over which to average the
+      readings. The AveragingTime divided by the SampleTime determines the number of samples
+      to average, NumAverage_RBV. When this number of samples have been accumulated in
+      the ring buffer a separate thread copies them to a set of NDArrays and calls any
+      registered plugins. </li>
+    <li>There is a separate NDPluginStats plugin loaded for each of the 11 data values.
+      This plugin receives an array of dimensions [NumAverage_RBV]. This plugin computes
+      not only the mean, but also the standard deviation, histogram of values, etc.</li>
+    <li>One of the NDArrays contains all of the data values, and has dimensions [11,NumAverage_RBV].
+      This array can be passed to any of the file writing plugins, which can thus stream
+      all of the data to disk for arbitrarily long time periods.</li>
+    <li>An NDStdArrays plugin is also loaded. This can be used to pass all of the data
+      [11,NumAverage_RBV] or any of the individual data arrays to any channel access client.</li>
+    <li>The computationally intensive work of calculating the statistics is done in plugins,
+      so can be done in different threads (if CallbackBlock is set to No), each potentially
+      running in a separate core on modern CPUs.</li>
+    <li>In addition to placing the data from each time point into the ring buffer, the
+      driver does callbacks on the asynFloat64 interface for each data value. This is
+      typically used for fast feedback support with the epid record. It also does callbacks
+      on the asynInt32Array interface, which is typically used for the drvFastSweep support
+      in the mca module for time-series acquisition.</li>
+  </ul>
   <h2 id="Databases">
     Databases</h2>
   <h3 id="quadEM">
     quadEM.template</h3>
   <p>
-    The quadEM.template database provides control of the electrometer using the standard asyn device 
-    support. 
-    <a href="http://cars.uchicago.edu/software/epics/NDPluginStats.html">NDStats.template</a> from 
-    <a href="http://cars.uchicago.edu/software/epics/areaDetector.html">areaDetector</a>
-    provides digitally averaged
-    readings of the current, sum, difference and position with user-defined averaging time. 
-    It also provides the standard deviation, miniumim, maximum,
-    and other statistics, including a histogram of array values.</p>
+    The quadEM.template database provides control of the electrometer using the standard
+    asyn device support. <a href="http://cars.uchicago.edu/software/epics/NDPluginStats.html">
+      NDStats.template</a> from <a href="http://cars.uchicago.edu/software/epics/areaDetector.html">
+        areaDetector</a> provides digitally averaged readings of the current, sum, difference
+    and position with user-defined averaging time. It also provides the standard deviation,
+    miniumim, maximum, and other statistics, including a histogram of array values.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
       <tr>
@@ -202,10 +199,10 @@
         <td>
           QE_ACQUIRE</td>
         <td>
-          $(P)$(R)Acquire<br/>
+          $(P)$(R)Acquire<br />
           $(P)$(R)Acquire_RBV</td>
         <td>
-          bo<br/>
+          bo<br />
           bi</td>
         <td>
           asynInt32</td>
@@ -214,16 +211,17 @@
         <td>
           All</td>
         <td>
-          Acquire command. This command turns acquisition from the device on (1) and off (0).</td>
+          Acquire command. This command turns acquisition from the device on (1) and off (0).
+        </td>
       </tr>
       <tr>
         <td>
           QE_RANGE</td>
         <td>
-          $(P)$(R)Range<br/>
+          $(P)$(R)Range<br />
           $(P)$(R)Range_RBV</td>
         <td>
-          mbbo<br/>
+          mbbo<br />
           mbbi</td>
         <td>
           asynInt32</td>
@@ -281,10 +279,10 @@
         <td>
           QE_PING_PONG</td>
         <td>
-          $(P)$(R)PingPong<br/>
+          $(P)$(R)PingPong<br />
           $(P)$(R)PingPong</td>
         <td>
-          mbbo<br/>
+          mbbo<br />
           mbbi</td>
         <td>
           asynInt32</td>
@@ -311,10 +309,10 @@
         <td>
           QE_INTEGRATION_TIME</td>
         <td>
-          $(P)$(R)IntegrationTime<br/>
+          $(P)$(R)IntegrationTime<br />
           $(P)$(R)IntegrationTime_RBV</td>
         <td>
-          ao<br/>
+          ao<br />
           ai</td>
         <td>
           asynFloat64</td>
@@ -337,10 +335,10 @@
         <td>
           QE_NUM_CHANNELS</td>
         <td>
-          $(P)$(R)NumChannels<br/>
+          $(P)$(R)NumChannels<br />
           $(P)$(R)NumChannels_RBV</td>
         <td>
-          mbbo<br/>
+          mbbo<br />
           mbbi</td>
         <td>
           asynInt32</td>
@@ -362,10 +360,10 @@
         <td>
           QE_RESOLUTION</td>
         <td>
-          $(P)$(R)Resolution<br/>
+          $(P)$(R)Resolution<br />
           $(P)$(R)Resolution_RBV</td>
         <td>
-          mbbo<br/>
+          mbbo<br />
           mbbi</td>
         <td>
           asynInt32</td>
@@ -386,10 +384,10 @@
         <td>
           QE_BIAS_STATE</td>
         <td>
-          $(P)$(R)BiasState<br/>
+          $(P)$(R)BiasState<br />
           $(P)$(R)BiasState_RBV</td>
         <td>
-          bo<br/>
+          bo<br />
           bi</td>
         <td>
           asynInt32</td>
@@ -409,10 +407,10 @@
         <td>
           QE_BIAS_VOLTAGE</td>
         <td>
-          $(P)$(R)BiasVoltage<br/>
+          $(P)$(R)BiasVoltage<br />
           $(P)$(R)BiasVoltage_RBV</td>
         <td>
-          ao<br/>
+          ao<br />
           ai</td>
         <td>
           asynFloat64</td>
@@ -427,10 +425,10 @@
         <td>
           QE_VALUES_PER_READ</td>
         <td>
-          $(P)$(R)ValuesPerRead<br/>
+          $(P)$(R)ValuesPerRead<br />
           $(P)$(R)ValuesPerRead_RBV</td>
         <td>
-          longout<br/>
+          longout<br />
           longin</td>
         <td>
           asynInt32</td>
@@ -439,20 +437,19 @@
         <td>
           All</td>
         <td>
-          Controls the number of values that are read from the meter in a single call.
-          These values are averaged in the driver before
-          it does callbacks. The default is 1 (no averaging). Setting ValuesPerRead &gt; 1 will
-          reduce the CPU time for 2 reasons:
+          Controls the number of values that are read from the meter in a single call. These
+          values are averaged in the driver before it does callbacks. The default is 1 (no
+          averaging). Setting ValuesPerRead &gt; 1 will reduce the CPU time for 2 reasons:
           <ol>
             <li>On the AH401 and AH501 series the driver reduces the frequency of asynOctet-&gt;read()
-              calls by a factor of ValuesPerRead, because it can obtain multiple readings from the
-              meter in a single call. This is particularly significant on the AH501 series, which
-              can transmit up to 26,040 packets per second!</li>
+              calls by a factor of ValuesPerRead, because it can obtain multiple readings from
+              the meter in a single call. This is particularly significant on the AH501 series,
+              which can transmit up to 26,040 packets per second!</li>
             <li>It reduces the frequency of callbacks to device support.</li>
           </ol>
-          The potential disadvantage of setting ValuesPerRead &gt; 1 is that it will reduce the
-          sampling frequency of the TimeSeries support, and the update frequency of the EPID
-          fast feedback support. </td>
+          The potential disadvantage of setting ValuesPerRead &gt; 1 is that it will reduce
+          the sampling frequency of the TimeSeries support, and the update frequency of the
+          EPID fast feedback support. </td>
       </tr>
       <tr>
         <td>
@@ -505,10 +502,10 @@
         <td>
           QE_AVERAGING_TIME</td>
         <td>
-          $(P)$(R)AveragingTime<br/>
+          $(P)$(R)AveragingTime<br />
           $(P)$(R)AveragingTime_RBV</td>
         <td>
-          ao<br/>
+          ao<br />
           ai</td>
         <td>
           asynFloat64</td>
@@ -518,17 +515,17 @@
           All</td>
         <td>
           Controls the time period over which values are accumulated in the ring buffer before
-          they are read out into NDArray objects and any registered plugins are called.
-          AveragingTime is actually used to compute NumAverage_RBV=AveragingTime/SampleTime_RBV.
-          The callbacks are done when the number of values in the ring buffer equals NumAverage_RBV,
-          and exactly NumAverage_RBV values will be passed to the plugins.<br/>
-          However, setting AveragingTime=0
-          will set NumAverage_RBV=0 as well, and will disable automatic callbacks to areaDetector
-          plugins.  In this case data will only be read from the ring buffer when the ReadData record
-          is processed.  This will read out all available data from ring buffer, and the actual number
-          of values read will be NumAveraged_RBV.  This mode is useful when the quadEM is being used
-          for data acquisition, for example in a scan.  In this case processing the ReadData record
-          will read all values that have accumulated in the ring buffer since ReadData was last processed.</td>
+          they are read out into NDArray objects and any registered plugins are called. AveragingTime
+          is actually used to compute NumAverage_RBV=AveragingTime/SampleTime_RBV. The callbacks
+          are done when the number of values in the ring buffer equals NumAverage_RBV, and
+          exactly NumAverage_RBV values will be passed to the plugins.<br />
+          However, setting AveragingTime=0 will set NumAverage_RBV=0 as well, and will disable
+          automatic callbacks to areaDetector plugins. In this case data will only be read
+          from the ring buffer when the ReadData record is processed. This will read out all
+          available data from ring buffer, and the actual number of values read will be NumAveraged_RBV.
+          This mode is useful when the quadEM is being used for data acquisition, for example
+          in a scan. In this case processing the ReadData record will read all values that
+          have accumulated in the ring buffer since ReadData was last processed.</td>
       </tr>
       <tr>
         <td>
@@ -545,8 +542,8 @@
           All</td>
         <td>
           Provides the number of values that will be accumulated in the ring buffer before
-          they are read out into NDArray objects and any registered plugins are called.
-          NumAverage_RBV is computed as (int)((AveragingTime / SampleTime_RBV) + 0.5).</td>
+          they are read out into NDArray objects and any registered plugins are called. NumAverage_RBV
+          is computed as (int)((AveragingTime / SampleTime_RBV) + 0.5).</td>
       </tr>
       <tr>
         <td>
@@ -562,12 +559,11 @@
         <td>
           All</td>
         <td>
-          Provides the number of values that were actually accumulated in the ring buffer before
-          they were read out into NDArray objects and any registered plugins were called.
-          If AveragingTime&gt;0 then NumAveraged will be the same as NumAverage.  
-          However, if AveragingTime=0. then
-          NumAverage=0 and NumAveraged gives the actual number of values read from the ring buffer
-          when the ReadData record was processed.</td>
+          Provides the number of values that were actually accumulated in the ring buffer
+          before they were read out into NDArray objects and any registered plugins were called.
+          If AveragingTime&gt;0 then NumAveraged will be the same as NumAverage. However,
+          if AveragingTime=0. then NumAverage=0 and NumAveraged gives the actual number of
+          values read from the ring buffer when the ReadData record was processed.</td>
       </tr>
       <tr>
         <td>
@@ -583,12 +579,11 @@
         <td>
           All</td>
         <td>
-          Writing 1 to this record signals the background thread to read the ring buffer and do the
-          NDArray callbacks.  This is typically done when the quadEM is being used
-          for data acquisition, for example in a scan.  In this case AveragingTime is set to 0 and
-          processing the ReadData record
-          will read all values that have accumulated in the ring buffer 
-          since ReadData was last processed.</td>
+          Writing 1 to this record signals the background thread to read the ring buffer and
+          do the NDArray callbacks. This is typically done when the quadEM is being used for
+          data acquisition, for example in a scan. In this case AveragingTime is set to 0
+          and processing the ReadData record will read all values that have accumulated in
+          the ring buffer since ReadData was last processed.</td>
       </tr>
       <tr>
         <td>
@@ -604,16 +599,15 @@
         <td>
           All</td>
         <td>
-          It is possible for the ring buffer to overflow.  The rate at which values are added to the ring
-          buffer is controlled by SampleTime_RBV.  The rate at which values are removed is determined
-          by AveragingTime, or by the rate at which ReadData is processed if AveragingTime=0.  The size
-          of the ring buffer is determined by the ringBufferSize argument to the driver constructor.  
-          This defaults
-          to 2048 if it is not specified in configuration command in the startup script. If the ring buffer
-          is full when the driver tries to add a new value, then the oldest value in the buffer is
-          discarded, the new value is added, and RingOverflows is incremented.  RingOverflows is set to 0
-          the next time the ring buffer is read out.
-          </td>
+          It is possible for the ring buffer to overflow. The rate at which values are added
+          to the ring buffer is controlled by SampleTime_RBV. The rate at which values are
+          removed is determined by AveragingTime, or by the rate at which ReadData is processed
+          if AveragingTime=0. The size of the ring buffer is determined by the ringBufferSize
+          argument to the driver constructor. This defaults to 2048 if it is not specified
+          in configuration command in the startup script. If the ring buffer is full when
+          the driver tries to add a new value, then the oldest value in the buffer is discarded,
+          the new value is added, and RingOverflows is incremented. RingOverflows is set to
+          0 the next time the ring buffer is read out. </td>
       </tr>
       <tr>
         <td>
@@ -667,8 +661,7 @@
         <td>
           All</td>
         <td>
-          User-defined name to give each of the Current[1-4] inputs.
-        </td>
+          User-defined name to give each of the Current[1-4] inputs. </td>
       </tr>
       <tr>
         <td>
@@ -685,9 +678,8 @@
           All</td>
         <td>
           Offset that will be subtracted from each reading when calculating the Current[1-4].
-          The current is calculated as Current = Raw*CurrentScale - CurrentOffset, where Raw is the
-          raw value from the device.
-        </td>
+          The current is calculated as Current = Raw*CurrentScale - CurrentOffset, where Raw
+          is the raw value from the device. </td>
       </tr>
       <tr>
         <td>
@@ -703,11 +695,10 @@
         <td>
           All</td>
         <td>
-          Processing this record will compute a new value of CurrentOffset that will set 
-          value of the current to 0 under the current conditions.  It computes
-          CurrentOffset(new) = Current[1-3]:MeanValue_RBV + CurrentOffset(old).  This record
-          is provided to convenience set the CurrentOffset when the input signal is 0.
-        </td>
+          Processing this record will compute a new value of CurrentOffset that will set value
+          of the current to 0 under the current conditions. It computes CurrentOffset(new)
+          = Current[1-3]:MeanValue_RBV + CurrentOffset(old). This record is provided to convenience
+          set the CurrentOffset when the input signal is 0. </td>
       </tr>
       <tr>
         <td>
@@ -724,10 +715,9 @@
           All</td>
         <td>
           Scale factor that each reading is multiplied by when calculating the Current[1-4].
-          The current is calculated as Current = Raw*CurrentScale - CurrentOffset, where Raw is the
-          raw value from the device.  This record provides a way to convert the current readings into
-          engineering units.
-        </td>
+          The current is calculated as Current = Raw*CurrentScale - CurrentOffset, where Raw
+          is the raw value from the device. This record provides a way to convert the current
+          readings into engineering units. </td>
       </tr>
       <tr>
         <td>
@@ -744,8 +734,8 @@
           All</td>
         <td>
           Offset that will be subtracted from each reading when calculating the Position[12,34].
-          The position is calculated as 
-          Position = Diff/Sum * PositionScale - PositionOffset.</td>
+          The position is calculated as Position = Diff/Sum * PositionScale - PositionOffset.
+        </td>
       </tr>
       <tr>
         <td>
@@ -761,12 +751,10 @@
         <td>
           All</td>
         <td>
-          Processing this record will compute a new value of PositionOffset that will set 
-          value of the position to 0 under the current conditions.  It computes
-          PositionOffset(new) = Pos[12,34]:MeanValue_RBV + PositionOffset(old).  This record
-          is provided to convenience set the PositionOffset when the position should be defined
-          as 0.
-        </td>
+          Processing this record will compute a new value of PositionOffset that will set
+          value of the position to 0 under the current conditions. It computes PositionOffset(new)
+          = Pos[12,34]:MeanValue_RBV + PositionOffset(old). This record is provided to convenience
+          set the PositionOffset when the position should be defined as 0. </td>
       </tr>
       <tr>
         <td>
@@ -782,9 +770,8 @@
         <td>
           All</td>
         <td>
-          Scale that will be used when calculating the Position[12,34].
-          The position is calculated as 
-          Position = Diff/Sum * PositionScale - PositionOffset.</td>
+          Scale that will be used when calculating the Position[12,34]. The position is calculated
+          as Position = Diff/Sum * PositionScale - PositionOffset.</td>
       </tr>
     </tbody>
   </table>
@@ -796,10 +783,12 @@
     <img alt="quadEM.png" src="quadEM.png" /></div>
   <h3 id="Plugins">
     Plugins</h3>
-  <p>The example IOCs provided with quadEM load a file called commonPlugins.cmd loads the following 
-  set of plugins from the areaDetector module.  For more information see the documentation on
-  NDPluginStats, NDPluginStdArrays, and NDFileNetCDF.  Other plugins can also be loaded, for example
-  the HDF5 or Nexus file writing plugins, etc.</p>
+  <p>
+    The example IOCs provided with quadEM load a file called commonPlugins.cmd loads
+    the following set of plugins from the areaDetector module. For more information
+    see the documentation on NDPluginStats, NDPluginStdArrays, and NDFileNetCDF. Other
+    plugins can also be loaded, for example the HDF5 or Nexus file writing plugins,
+    etc.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
       <tr>
@@ -830,8 +819,7 @@
         <td>
           $(P)$(R)Sum[12,34,1234]:</td>
         <td>
-          Statistics for the sum of currents 1+2, 3+4, and 1+2+3+4. 
-          The average value is $(P)$(R)Sum[12,34,1234]:MeanValue_RBV.
+          Statistics for the sum of currents 1+2, 3+4, and 1+2+3+4. The average value is $(P)$(R)Sum[12,34,1234]:MeanValue_RBV.
           Many other statistics are available, including the minimum, maximum, standard deviation,
           and histogram of values.</td>
       </tr>
@@ -841,8 +829,7 @@
         <td>
           $(P)$(R)Diff[12,34]:</td>
         <td>
-          Statistics for the differences of current 2-1 and 4-3. 
-          The average value is $(P)$(R)Diff[12,34]:MeanValue_RBV.
+          Statistics for the differences of current 2-1 and 4-3. The average value is $(P)$(R)Diff[12,34]:MeanValue_RBV.
           Many other statistics are available, including the minimum, maximum, standard deviation,
           and histogram of values.</td>
       </tr>
@@ -862,9 +849,9 @@
         <td>
           $(P)$(R)image1:</td>
         <td>
-          Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and puts this data
-          into an EPICS waveform record.  This can
-          be used to provide access to all of the data from quadEM to any Channel Access client.</td>
+          Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and puts
+          this data into an EPICS waveform record. This can be used to provide access to all
+          of the data from quadEM to any Channel Access client.</td>
       </tr>
       <tr>
         <td>
@@ -872,9 +859,9 @@
         <td>
           $(P)$(R)netCDF1:</td>
         <td>
-          Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and writes this
-          data into a netCDF file.  This can be done in Single mode, writing one array per file. o
-          It can also be done in Stream mode, which continuously appends arrays 
+          Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and writes
+          this data into a netCDF file. This can be done in Single mode, writing one array
+          per file. o It can also be done in Stream mode, which continuously appends arrays
           to a single netCDF file.</td>
       </tr>
     </tbody>
@@ -897,8 +884,8 @@
     <h3 style="text-align: center">
       NDFileNetCDF.adl</h3>
     <img alt="QENetCDF.png" src="QENetCDF.png" /></div>
-    <h3 id="quadEM_TimeSeries">
-      Time Series</h3>
+  <h3 id="quadEM_TimeSeries">
+    Time Series</h3>
   <p>
     The quadEM_TimeSeries.template database provides a time-history (like a digital
     scope) of the current, sum, difference and position at speeds up to 6510 Hz (AH501
@@ -1253,30 +1240,47 @@ pattern
     Performance</h2>
   <p>
     The following table shows the CPU utilization of a Linux machine (Xeon E5630 2.53GHz),
-    vxWorks MVME2100, and vxWorks MVME5100 with the AH501 electometer as a function
-    of the parameters that control the SampleTime. It can be seen that the load on Linux
-    is very low. Tests on a Windows 7 64-bit machine (Intel Core i7-2820QM 2.3GHz) gave
-    almost identical results to Linux. Note that the Linux (and Windows CPU) values
-    listed are the percent of a <b>single</b> CPU core. These are 8-core systems, so
-    the percent of the total system CPU is 8 times less. The load on the MVME5100 is
-    significant, but it can handle NumChannels=4 with NumAverage=1 for either resolution.
-    The MVME2100 on the other hand cannot run with NumAverage=1 at all, it completely
-    saturates the system. It does work NumAverage=4 or 10.</p>
+    vxWorks MVME5100, and vxWorks MVME2100 with the AH501 electometer. The CPU load
+    was measured as a function of the parameters that control the SampleTime (ValuesPerRead,
+    NumChannels, Resolution). The CPU load also depends on the AveragingTime, since
+    that controls the rate of callbacks to the statistics and other plugins. The AveragingTime
+    was held constant at 0.1 seconds on vxWorks, but was changed between 0.1 second
+    and 0.01 seconds on Linux. Measurements were also done with all of the plugins set
+    to CallbacksBlock=Yes and CallbacksBlock=No. When CallbacksBlock=No then each plugin
+    runs in its own thread. On a multi-core system this can improve performance because
+    each plugin runs in its own core. On a single-core system CallbacksBlock=Yes can
+    improve performance because a single thread runs all of the the plugin code, and
+    thread context switches are avoided.</p>
+  <p>
+    It can be seen that the load on Linux is less than 10% when the AveragingTime is
+    0.1 second, and less than 25% when it is 0.01 second. Tests on a Windows 7 64-bit
+    machine (Intel Core i7-2820QM 2.3GHz) gave almost identical results to Linux. Note
+    that the Linux (and Windows CPU) values listed are the percent of a <b>single</b>
+    CPU core. These are 8-core systems, so the percent of the total system CPU is 8
+    times less. The load on the MVME5100 is significant, but it can handle NumChannels=4
+    with ValuesPerRead=1 for either resolution. The MVME2100 on the other hand cannot
+    run with ValuesPerRead=1 at all, it completely saturates the system. It does work
+    with ValuesPerRead=4 or 10. On the MVME 2100 setting CallbacksBlock=Yes does signficantly
+    reduce the CPU load.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
     <tbody>
       <tr>
-        <td align="center" colspan="5">
-          <b>Performance of AH501 using UDP</b></td>
+        <td align="center" colspan="7">
+          <b>Performance of AH501 using TCP</b></td>
       </tr>
       <tr>
         <th>
           System</th>
         <th>
+          ValuesPerRead</th>
+        <th>
           NumChannels</th>
         <th>
           Resolution</th>
         <th>
-          NumAverage</th>
+          AveragingTime</th>
+        <th>
+          CallbacksBlock</th>
         <th>
           %CPU time</th>
       </tr>
@@ -1284,35 +1288,15 @@ pattern
         <td>
           Linux Xeon</td>
         <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
           1</td>
-        <td>
-          4%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
         <td>
           4</td>
         <td>
-          24</td>
+          16</td>
         <td>
-          2</td>
+          0.1</td>
         <td>
-          2%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          2</td>
-        <td>
-          24</td>
-        <td>
-          1</td>
+          No</td>
         <td>
           5%</td>
       </tr>
@@ -1322,21 +1306,13 @@ pattern
         <td>
           1</td>
         <td>
-          24</td>
-        <td>
-          1</td>
-        <td>
-          9%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
           4</td>
         <td>
-          16</td>
+          24</td>
         <td>
-          1</td>
+          0.1</td>
+        <td>
+          No</td>
         <td>
           4%</td>
       </tr>
@@ -1344,11 +1320,95 @@ pattern
         <td>
           Linux Xeon</td>
         <td>
+          1</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          0.01</td>
+        <td>
+          No</td>
+        <td>
+          25%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          0.01</td>
+        <td>
+          Yes</td>
+        <td>
+          19%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          0.01</td>
+        <td>
+          No</td>
+        <td>
+          25%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          0.01</td>
+        <td>
+          Yes</td>
+        <td>
+          18%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
           2</td>
         <td>
           16</td>
         <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          7%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
           1</td>
+        <td>
+          2</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
         <td>
           6%</td>
       </tr>
@@ -1358,57 +1418,614 @@ pattern
         <td>
           1</td>
         <td>
+          1</td>
+        <td>
           16</td>
         <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          10%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
           1</td>
+        <td>
+          1</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          8%</td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          28%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          29%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          22%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          23%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          2</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          11%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          2</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          32%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          1</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          55%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          2</td>
+        <td>
+          1</td>
+        <td>
+          16</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          45%</td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          4</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          65%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          4</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          55%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          4</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          45%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          10</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          31%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          10</td>
+        <td>
+          4</td>
+        <td>
+          24</td>
+        <td>
+          0.2</td>
+        <td>
+          Yes</td>
+        <td>
+          22%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          10</td>
+        <td>
+          2</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          35%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          10</td>
+        <td>
+          1</td>
+        <td>
+          24</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          42%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          10</td>
+        <td>
+          4</td>
+        <td>
+          16</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          46%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          10</td>
+        <td>
+          1</td>
+        <td>
+          16</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          54%</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    The following table shows the CPU utilization of the Linux machine, vxWorks MVME5100,
+    and vxWorks MVME2100 with the AH401B electometer as a function of the AveragingTime
+    and CallbacksBlock at the shortest integration time (0.001 seconds). It can be seen
+    that the load on Linux and on the MVME5100 are both less than 10% when AveragingTime=0.1
+    second. The MVME2100 uses about 50% of the CPU under these conditions, but increasing
+    ValuesPerRead and/or AveragingTime reduces this.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
+    <tbody>
+      <tr>
+        <td align="center" colspan="6">
+          <b>Performance of AH401B using TCP</b></td>
+      </tr>
+      <tr>
+        <th>
+          System</th>
+        <th>
+          ValuesPerRead</th>
+        <th>
+          IntegrationTime</th>
+        <th>
+          AveragingTime</th>
+        <th>
+          CallbacksBlock</th>
+        <th>
+          %CPU time</th>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
+          0.001</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          4%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
+          0.001</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          3%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
+          0.001</td>
+        <td>
+          0.01</td>
+        <td>
+          No</td>
+        <td>
+          13%</td>
+      </tr>
+      <tr>
+        <td>
+          Linux Xeon</td>
+        <td>
+          1</td>
+        <td>
+          0.001</td>
+        <td>
+          0.01</td>
+        <td>
+          Yes</td>
+        <td>
+          14%</td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          0.001</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
         <td>
           7%</td>
       </tr>
       <tr>
         <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr>
-        <td>
           MVME5100</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
         <td>
           1</td>
         <td>
-          37%</td>
+          0.001</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          9%</td>
       </tr>
       <tr>
         <td>
           MVME5100</td>
         <td>
-          4</td>
+          1</td>
         <td>
-          24</td>
+          0.001</td>
         <td>
-          2</td>
+          0.01</td>
         <td>
-          18%</td>
+          No</td>
+        <td>
+          56%</td>
       </tr>
       <tr>
         <td>
           MVME5100</td>
         <td>
+          1</td>
+        <td>
+          0.001</td>
+        <td>
+          0.01</td>
+        <td>
+          Yes</td>
+        <td>
+          36%</td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          1</td>
+        <td>
+          0.001</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          55%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          1</td>
+        <td>
+          0.001</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          50%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          1</td>
+        <td>
+          0.001</td>
+        <td>
+          0.2</td>
+        <td>
+          No</td>
+        <td>
+          20%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
           4</td>
         <td>
-          24</td>
+          0.001</td>
         <td>
-          4</td>
+          0.2</td>
+        <td>
+          Yes</td>
+        <td>
+          15%</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    The following table shows the CPU utilization of vxWorks MVME5100 and vxWorks MVME2100
+    with the APS electometer as a function of the ValuesPerRead, IntegrationTime, AveragingTime,
+    and CallbacksBlock. The MVME5100 uses less than 10% of the CPU under the conditions
+    measured. The MVME2100 uses almost 70% of the CPU at the fastest sampling time,
+    but doubling ValuesPerRead and AveragingTime reduces this to less than 25%.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
+    <tbody>
+      <tr>
+        <td align="center" colspan="6">
+          <b>Performance of APS Electometer</b></td>
+      </tr>
+      <tr>
+        <th>
+          System</th>
+        <th>
+          ValuesPerRead</th>
+        <th>
+          IntegrationTime</th>
+        <th>
+          AveragingTime</th>
+        <th>
+          CallbacksBlock</th>
+        <th>
+          %CPU time</th>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          0.0006</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          10%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME5100</td>
+        <td>
+          1</td>
+        <td>
+          0.0006</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
         <td>
           9%</td>
       </tr>
@@ -1418,11 +2035,13 @@ pattern
         <td>
           2</td>
         <td>
-          24</td>
+          0.0006</td>
         <td>
-          1</td>
+          0.1</td>
         <td>
-          50%</td>
+          No</td>
+        <td>
+          5%</td>
       </tr>
       <tr>
         <td>
@@ -1430,59 +2049,13 @@ pattern
         <td>
           2</td>
         <td>
-          24</td>
+          0.0006</td>
         <td>
-          2</td>
+          0.1</td>
         <td>
-          24%</td>
-      </tr>
-      <tr>
+          Yes</td>
         <td>
-          MVME5100</td>
-        <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          1</td>
-        <td>
-          43%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          2</td>
-        <td>
-          20%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          2</td>
-        <td>
-          16</td>
-        <td>
-          1</td>
-        <td>
-          66%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          2</td>
-        <td>
-          16</td>
-        <td>
-          2</td>
-        <td>
-          36%</td>
+          7%</td>
       </tr>
       <tr>
         <td>
@@ -1490,11 +2063,13 @@ pattern
         <td>
           1</td>
         <td>
-          16</td>
+          0.001</td>
         <td>
-          1</td>
+          0.1</td>
         <td>
-          91%</td>
+          No</td>
+        <td>
+          6%</td>
       </tr>
       <tr>
         <td>
@@ -1502,25 +2077,17 @@ pattern
         <td>
           1</td>
         <td>
-          16</td>
+          0.001</td>
         <td>
-          2</td>
+          0.1</td>
         <td>
-          48%</td>
+          Yes</td>
+        <td>
+          5%</td>
       </tr>
       <tr>
         <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          16</td>
-        <td>
-          4</td>
-        <td>
-          27%</td>
-      </tr>
-      <tr>
+        </td>
         <td>
         </td>
         <td>
@@ -1536,59 +2103,55 @@ pattern
         <td>
           MVME2100</td>
         <td>
-          4</td>
+          1</td>
         <td>
-          24</td>
+          0.0006</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          68%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
+        <td>
+          1</td>
+        <td>
+          0.0006</td>
+        <td>
+          0.1</td>
+        <td>
+          Yes</td>
+        <td>
+          55%</td>
+      </tr>
+      <tr>
+        <td>
+          MVME2100</td>
         <td>
           2</td>
         <td>
-          77%</td>
+          0.0006</td>
+        <td>
+          0.1</td>
+        <td>
+          No</td>
+        <td>
+          53%</td>
       </tr>
       <tr>
         <td>
           MVME2100</td>
         <td>
-          4</td>
+          2</td>
         <td>
-          24</td>
+          0.0006</td>
         <td>
-          3</td>
+          0.1</td>
         <td>
-          52%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          4</td>
-        <td>
-          43%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          10</td>
-        <td>
-          19%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          4</td>
+          Yes</td>
         <td>
           41%</td>
       </tr>
@@ -1596,23 +2159,13 @@ pattern
         <td>
           MVME2100</td>
         <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          10</td>
-        <td>
-          15%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
           1</td>
         <td>
-          16</td>
+          0.001</td>
         <td>
-          10</td>
+          0.1</td>
+        <td>
+          No</td>
         <td>
           50%</td>
       </tr>
@@ -1622,199 +2175,11 @@ pattern
         <td>
           1</td>
         <td>
-          16</td>
-        <td>
-          20</td>
-        <td>
-          29%</td>
-      </tr>
-    </tbody>
-  </table>
-  <p>
-    The following table shows the CPU utilization of the Linux machine, vxWorks MVME2100,
-    and vxWorks MVME5100 with the AH401B electometer as a function of the parameters
-    that control the SampleTime. It can be seen that the load on Linux is almost unmeasurable.
-    The load on the MVME5100 is small. The MVME2100 uses almost 50% of the CPU at the
-    fastest sampling time, but increasing NumAverage or IntegrationTime reduces this
-    to a small value.</p>
-  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
-    <tbody>
-      <tr>
-        <td align="center" colspan="5">
-          <b>Performance of AH401B using TCP</b></td>
-      </tr>
-      <tr>
-        <th>
-          System</th>
-        <th>
-          IntegrationTime</th>
-        <th>
-          PingPong</th>
-        <th>
-          NumAverage</th>
-        <th>
-          %CPU time</th>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
           0.001</td>
         <td>
-          1</td>
+          0.1</td>
         <td>
-          1</td>
-        <td>
-          1%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          0.001</td>
-        <td>
-          1</td>
-        <td>
-          2</td>
-        <td>
-          &lt;1%</td>
-      </tr>
-      <tr>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          0.001</td>
-        <td>
-          1</td>
-        <td>
-          1</td>
-        <td>
-          12%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          0.001</td>
-        <td>
-          1</td>
-        <td>
-          2</td>
-        <td>
-          7%</td>
-      </tr>
-      <tr>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          0.001</td>
-        <td>
-          1</td>
-        <td>
-          1</td>
-        <td>
-          47%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          0.001</td>
-        <td>
-          1</td>
-        <td>
-          2</td>
-        <td>
-          27%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          0.001</td>
-        <td>
-          1</td>
-        <td>
-          4</td>
-        <td>
-          16%</td>
-      </tr>
-    </tbody>
-  </table>
-  <p>
-    The following table shows the CPU utilization of vxWorks MVME2100, with the APS
-    electometer as a function of the parameters that control the SampleTime. The MVME2100
-    uses almost 50% of the CPU at the fastest sampling time, but increasing NumAverage
-    or IntegrationTime reduces this to a small value. The MVME2700 and MVME5100 would
-    show significantly lower CPU values, but measurements were not done with those systems
-    with the test application.</p>
-  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
-    <tbody>
-      <tr>
-        <td align="center" colspan="4">
-          <b>Performance of APS Electometer</b></td>
-      </tr>
-      <tr>
-        <th>
-          System</th>
-        <th>
-          IntegrationTime</th>
-        <th>
-          NumAverage</th>
-        <th>
-          %CPU time</th>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          0.0006</td>
-        <td>
-          1</td>
-        <td>
-          49%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          0.0006</td>
-        <td>
-          2</td>
-        <td>
-          35%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          0.001</td>
-        <td>
-          1</td>
+          Yes</td>
         <td>
           40%</td>
       </tr>
@@ -1822,21 +2187,24 @@ pattern
         <td>
           MVME2100</td>
         <td>
-          0.002</td>
+          2</td>
         <td>
-          1</td>
+          0.001</td>
         <td>
-          20%</td>
+          0.2</td>
+        <td>
+          Yes</td>
+        <td>
+          22%</td>
       </tr>
     </tbody>
   </table>
   <h2 id="Common_Setup">
     Common Setup</h2>
-  <p>All of the device-dependent startup scripts invoke
-      <a href="quadEM_commonPlugins_cmd.html">quadEM/iocBoot/iocTest/commonPlugins.cmd</a>.
-    This file can be edited to add additional plugins, such as the TIFF, HDF5, or Nexus file
-    writers, etc.</p>
-  
+  <p>
+    All of the device-dependent startup scripts invoke <a href="quadEM_commonPlugins_cmd.html">
+      quadEM/iocBoot/iocTest/commonPlugins.cmd</a>. This file can be edited to add additional
+    plugins, such as the TIFF, HDF5, or Nexus file writers, etc.</p>
   <h2 id="AHxxx_Setup">
     AH401 and AH501 Series Setup</h2>
   <p>
