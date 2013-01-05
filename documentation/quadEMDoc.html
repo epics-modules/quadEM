@@ -12,7 +12,7 @@
     <h2>
       R4-0</h2>
     <h2>
-      December 23, 2012</h2>
+      January 5, 2013</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -42,8 +42,8 @@
     for several models:</p>
   <ol>
     <li>The AH401 series (AH401B, AH401D) and AH501 series (AH501, AH501C, AH501D) picoammeters
-      designed and sold by <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
-        Synchrotron Trieste (elettra)</a>. They are also sold by <a href="http://www.caenels.com/caenels/product.php?fam=cemis&amp;mod=AH401B">
+      originally designed by <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
+        Synchrotron Trieste (elettra)</a>. They are now sold commerically by <a href="http://www.caenels.com/caenels/products.php">
           CAENels</a>. These devices communicate using TCP or UDP over 100 Mbit/s Ethernet
       or high-speed serial. They provide 4-channel current measurements at up to 6510
       Hz (AH501 series) or 1000 Hz (AH401 series).</li>
@@ -67,13 +67,13 @@
       sum, difference and position at speeds that are determined by the AveragingTime
       record described below. The quadEM drivers do the callbacks on the asynGenericPointer
       interface for NDArray objects required to use the areaDetector plugins. The NDPluginStats
-      module is used to computer the averaged readings. It also provides additional statistics
-      including standard deviation, histogram of values, etc.</li>
+      module is used to compute the averaged readings. It also provides additional statistics
+      including standard deviation, min, max, a histogram of values, time-series of the statistics, etc.</li>
     <li>One could also use the standard asynFloat64 device support with ai records and
       scan=I/O Intr, in which case the record would update with every reading from the
       device. This is likely to overwhelm the EPICS IOC if the electrometer is run at
       very fast sampling times.</li>
-    <li>Streaming data to disk at the maximum rate from the device. This is done using
+    <li>Streaming data to disk at the full rate from the device. This is done using
       the file plugins from areaDetector.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
       at speeds up to 6510 Hz (AH501 series), 1000 Hz (AH401 series) or 813 Hz (APS_EM).
@@ -87,7 +87,7 @@
       dac128V), also at speeds up to 6510 Hz, 1000Hz or 813Hz. If it is run slower it
       does signal averaging. This support is provided in the synApps <a href="www.aps.anl.gov/bcda/synApps/std/std.html">
         std</a> module. The quadEM drivers do the callbacks on the asynFloat64 interface
-      required to use the epics fast feedback device support.</li>
+      required to use the epid fast feedback device support.</li>
   </ul>
   <p>
     The following manuals provide detailed information on these devices:</p>
@@ -112,7 +112,7 @@
     The quadEM driver works as follows:</p>
   <ul>
     <li>The data from the device-dependent drivers are first placed into a ring buffer
-      whose size is defined in the constructor.</li>
+      whose size is defined in the constructor and configuration function.</li>
     <li>The PV called AveragingTime determines the time period over which to average the
       readings. The AveragingTime divided by the SampleTime determines the number of samples
       to average, NumAverage_RBV. When this number of samples have been accumulated in
@@ -127,7 +127,7 @@
     <li>An NDStdArrays plugin is also loaded. This can be used to pass all of the data
       [11,NumAverage_RBV] or any of the individual data arrays to any channel access client.</li>
     <li>The computationally intensive work of calculating the statistics is done in plugins,
-      so can be done in different threads (if CallbackBlock is set to No), each potentially
+      so can be done in different threads (if CallbacksBlock is set to No), each potentially
       running in a separate core on modern CPUs.</li>
     <li>In addition to placing the data from each time point into the ring buffer, the
       driver does callbacks on the asynFloat64 interface for each data value. This is
@@ -280,7 +280,7 @@
           QE_PING_PONG</td>
         <td>
           $(P)$(R)PingPong<br />
-          $(P)$(R)PingPong</td>
+          $(P)$(R)PingPong_RBV</td>
         <td>
           mbbo<br />
           mbbi</td>
@@ -447,9 +447,15 @@
               which can transmit up to 26,040 packets per second!</li>
             <li>It reduces the frequency of callbacks to device support.</li>
           </ol>
-          The potential disadvantage of setting ValuesPerRead &gt; 1 is that it will reduce
-          the sampling frequency of the TimeSeries support, and the update frequency of the
-          EPID fast feedback support. </td>
+          The potential disadvantages of setting ValuesPerRead &gt; 1 are:
+          <ul> 
+            <li>It will change the statistics computed by the NDPluginStats plugin because
+              an initial averaging operation has already been performed, which reduces the standard deviation,
+              changes the histogram, etc.</li>
+            <li>It will reduce the sampling frequency of the TimeSeries support</li>
+            <li>It will reduce the the update frequency of the EPID fast feedback support.</li>
+          </ul>
+        </td>
       </tr>
       <tr>
         <td>
@@ -476,27 +482,28 @@
           </ul>
           The sample time on the AH501 series is controlled by the following algorithm:
           <ul>
-            <li>SampleTime = 38.4 microseconds * NumChannels * NumAverage</li>
+            <li>SampleTime = 38.4 microseconds * NumChannels * ValuesPerRead</li>
             <li>If Resolution == 24 then SampleTime = SampleTime * 2</li>
           </ul>
-          The minimum sample time (NumChannels=1, NumAverage=1, Resolution=16) is 38.4 microseconds,
-          or a sampling frequency of 26.04 kHz. The maximum sample time with NumAverage=1,
+          The minimum sample time (NumChannels=1, ValuesPerRead=1, Resolution=16) is 38.4 microseconds,
+          or a sampling frequency of 26.04 kHz. The maximum sample time with ValuesPerRead=1,
           NumChannels=4, Resolution=24 is 307.2 microseconds, or a sampling frequency of 3.255
           kHz. Setting ValuesPerRead &gt; 1 will increase the sample time and reduce the sampling
           frequency proportionally.<br />
           <br />
           The sample time on the AH401 series is controlled by the following algorithm:
           <ul>
-            <li>SampleTime = IntegrationTime * NumAverage</li>
+            <li>SampleTime = IntegrationTime * ValuesPerRead</li>
             <li>If PingPong == 0 then SampleTime = SampleTime * 2</li>
           </ul>
           The minimum sample time is 0.001 seconds, or 1 kHz sampling frequency. The maximum
           sampling time (PingPong=0) is 2 seconds, or 0.5 Hz sampling frequency. Setting ValuesPerRead
           &gt; 1 will increase the sample time and reduce the sampling frequency proportionally.<br />
           <br />
-          For the APS_EM the sample time is controlled only by ValuesPerRead and the IntegrationTime,
-          which ranges from 0.00123 to 0.02622 s, or a sampling frequency range of about 813
-          Hz to 38.1 Hz. </td>
+          For the APS_EM the sample time is controlled only by ValuesPerRead and the IntegrationTime.
+          For ValuesPerRead=1 it ranges from 0.00123 to 0.02622 s, or a sampling frequency range of about 813
+          Hz to 38.1 Hz. Setting ValuesPerRead
+          &gt; 1 will increase the sample time and reduce the sampling frequency proportionally.</td>
       </tr>
       <tr>
         <td>
@@ -561,8 +568,8 @@
         <td>
           Provides the number of values that were actually accumulated in the ring buffer
           before they were read out into NDArray objects and any registered plugins were called.
-          If AveragingTime&gt;0 then NumAveraged will be the same as NumAverage. However,
-          if AveragingTime=0. then NumAverage=0 and NumAveraged gives the actual number of
+          If AveragingTime&gt;0 then NumAveraged_RBV will be the same as NumAverage_RBV. However,
+          if AveragingTime=0. then NumAverage_RBV=0 and NumAveraged_RBV gives the actual number of
           values read from the ring buffer when the ReadData record was processed.</td>
       </tr>
       <tr>
@@ -579,8 +586,9 @@
         <td>
           All</td>
         <td>
-          Writing 1 to this record signals the background thread to read the ring buffer and
-          do the NDArray callbacks. This is typically done when the quadEM is being used for
+          Writing 1 to this record reads all data from the ring buffer and
+          does the NDArray callbacks to all registered plugins. 
+          This is typically done when the quadEM is being used for
           data acquisition, for example in a scan. In this case AveragingTime is set to 0
           and processing the ReadData record will read all values that have accumulated in
           the ring buffer since ReadData was last processed.</td>
@@ -784,10 +792,13 @@
   <h3 id="Plugins">
     Plugins</h3>
   <p>
-    The example IOCs provided with quadEM load a file called commonPlugins.cmd loads
+    The example IOCs provided with quadEM load a file called commonPlugins.cmd, which loads
     the following set of plugins from the areaDetector module. For more information
-    see the documentation on NDPluginStats, NDPluginStdArrays, and NDFileNetCDF. Other
-    plugins can also be loaded, for example the HDF5 or Nexus file writing plugins,
+    see the documentation on 
+    <a href="NDPluginStats.html">NDPluginStats</a>,
+    <a href="NDPluginStdArrays.html">NDPluginStdArrays</a>, and
+    <a href="NDPluginFile.html#netCDF">NDFileNetCDF</a>. 
+    Other plugins can also be loaded, for example the TIFF, HDF5 or Nexus file writing plugins,
     etc.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
@@ -866,6 +877,11 @@
       </tr>
     </tbody>
   </table>
+  <p>Note that the first time the IOC is started all of the plugins will have EnableCallbacks=Disable.  It is necessary to enable
+  each of the plugins that will be used.  The plugins will also initially start with CallbacksBlock=No.  Setting
+  CallbacksBlock=Yes can reduce CPU load on slow processors like the MVME2100 (see the performance tables below).
+  The values of EnableCallbacks and CallbacksBlock are saved by autosave, and will be restored the next time the 
+  IOC is started.</p>
   <p>
     This is the medm screen for all of the plugins defined in commonPlugins.cmd.</p>
   <div style="text-align: center">
@@ -940,7 +956,7 @@
         <td>
           bo</td>
         <td>
-          Starts all the MCA records without erasing them first.</td>
+          Re-starts acquisition without erasing the data first.</td>
       </tr>
       <tr>
         <td>
@@ -954,9 +970,9 @@
         <td>
           $(P)$(R)Acquiring</td>
         <td>
-          bo</td>
+          busy</td>
         <td>
-          Stops time-series data acquisition.</td>
+          Indicates if tacquisition is Done or Acquiring.</td>
       </tr>
       <tr>
         <td>
@@ -992,7 +1008,7 @@
           bo</td>
         <td>
           Forces all the time-series waveform records to process and read the current time-series
-          data. This record can be periodically processed to read the time=series data as
+          data. This record can be periodically processed to read the time-series data as
           it is being acquired. Even if this record is Passive the time-series data will be
           read once when time-series data acquisition is complete.</td>
       </tr>
@@ -1064,7 +1080,7 @@
         <td>
           waveform</td>
         <td>
-          The time-series values for the diode sums.</td>
+          The time-series values for the diode differences.</td>
       </tr>
       <tr>
         <td>
@@ -1114,7 +1130,7 @@
         <td>
           waveform</td>
         <td>
-          The frequency power-spectra for the diode sums.</td>
+          The frequency power-spectra for the diode differences.</td>
       </tr>
       <tr>
         <td>
@@ -1244,7 +1260,7 @@ pattern
     was measured as a function of the parameters that control the SampleTime (ValuesPerRead,
     NumChannels, Resolution). The CPU load also depends on the AveragingTime, since
     that controls the rate of callbacks to the statistics and other plugins. The AveragingTime
-    was held constant at 0.1 seconds on vxWorks, but was changed between 0.1 second
+    was mostly held constant at 0.1 seconds on vxWorks, but was changed between 0.1 second
     and 0.01 seconds on Linux. Measurements were also done with all of the plugins set
     to CallbacksBlock=Yes and CallbacksBlock=No. When CallbacksBlock=No then each plugin
     runs in its own thread. On a multi-core system this can improve performance because
