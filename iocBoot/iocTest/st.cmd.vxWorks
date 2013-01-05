@@ -8,6 +8,8 @@ ld < quadEMTestApp.munch
 
 cd startup
 
+iocsh
+
 # Tell EPICS all about the record types, device-support modules, drivers,
 # etc. in this build
 dbLoadDatabase("../../dbd/quadEMTestAppVx.dbd")
@@ -15,33 +17,34 @@ quadEMTestAppVx_registerRecordDeviceDriver(pdbbase)
 
 # This IOC can run the APS_EM, AH401B, or AH501, but only one at a time because of save/restore
 # Comment out the lines for the unused ones
-epicsEnvSet("MODEL", "APS_EM")
-iocsh("st.cmd.APS_EM")
-
+epicsEnvSet("PREFIX", "quadEMTest:")
+epicsEnvSet("QSIZE", "20")
+epicsEnvSet("RING_SIZE", "10000")
+epicsEnvSet("TSPOINTS", "1000")
+# Use the following 3 lines for the AH401B
+#epicsEnvSet("PORT", "AH401B")
 #epicsEnvSet("MODEL", "AH401B")
 #epicsEnvSet("IP", "164.54.160.240:10001")
-#iocsh("st.cmd.AHxxx")
+# Use the following 3 lines for the AH501
+#epicsEnvSet("PORT", "AH501")
+#epicsEnvSet("MODEL","AH501")
+#epicsEnvSet("IP", "164.54.160.11:10001")
 
-#epicsEnvSet("MODEL", "AH501")
-#epicsEnvSet("IP", "164.54.160.241:10001 UDP")
-#iocsh("st.cmd.AHxxx")
+# Use this line for either AH401B or AH501
+#< st.cmd.AHxxx
 
-set_requestfile_path("./")
-set_requestfile_path(quadem, "quadEMApp/Db")
-set_savefile_path("./autosave")
-set_pass0_restoreFile("auto_settings.sav")
-set_pass1_restoreFile("auto_settings.sav")
-save_restoreSet_status_prefix("quadEMTest:")
-dbLoadRecords("$(AUTOSAVE)/asApp/Db/save_restoreStatus.db", "P=quadEMTest:")
+# Use the following lines for APS_EM
+
+epicsEnvSet("PORT", "APS_EM")
+epicsEnvSet("MODEL","APS_EM")
+< st.cmd.APS_EM
+
+< saveRestore.cmd
 
 iocInit()
 
 # save settings every thirty seconds
-create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=APS_EM:, R_TS=APS_EM_TS:")
-#create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=AH401B:, R_TS=AH401B_TS:")
-#create_monitor_set("auto_settings.req",30,"P=quadEMTest:, R=AH501:,  R_TS=AH501_TS:")
+create_monitor_set("auto_settings.req",30,"P=$(PREFIX), R=$(PORT):, R_TS=$(PORT)_TS:")
 
-seq(&quadEM_SNL, "P=quadEMTest:, R=APS_EM_TS:, NUM_CHANNELS=2048")
-#seq(&quadEM_SNL, "P=quadEMTest:, R=AH401B_TS:, NUM_CHANNELS=2048")
-#seq(&quadEM_SNL, "P=quadEMTest:, R=AH501_TS:, NUM_CHANNELS=2048")
+seq("quadEM_SNL", "P=$(PREFIX), R=$(PORT)_TS:, NUM_CHANNELS=2048")
 
