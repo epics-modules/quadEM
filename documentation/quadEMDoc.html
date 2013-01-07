@@ -68,13 +68,14 @@
       record described below. The quadEM drivers do the callbacks on the asynGenericPointer
       interface for NDArray objects required to use the areaDetector plugins. The NDPluginStats
       module is used to compute the averaged readings. It also provides additional statistics
-      including standard deviation, min, max, a histogram of values, time-series of the statistics, etc.</li>
+      including standard deviation, min, max, a histogram of values, time-series of the
+      statistics, etc.</li>
     <li>One could also use the standard asynFloat64 device support with ai records and
       scan=I/O Intr, in which case the record would update with every reading from the
       device. This is likely to overwhelm the EPICS IOC if the electrometer is run at
       very fast sampling times.</li>
-    <li>Streaming data to disk at the full rate from the device. This is done using
-      the file plugins from areaDetector.</li>
+    <li>Streaming data to disk at the full rate from the device. This is done using the
+      file plugins from areaDetector.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
       at speeds up to 6510 Hz (AH501 series), 1000 Hz (AH401 series) or 813 Hz (APS_EM).
       The data is available in standard EPICS waveform records, using the drvFastSweep
@@ -448,10 +449,10 @@
             <li>It reduces the frequency of callbacks to device support.</li>
           </ol>
           The potential disadvantages of setting ValuesPerRead &gt; 1 are:
-          <ul> 
-            <li>It will change the statistics computed by the NDPluginStats plugin because
-              an initial averaging operation has already been performed, which reduces the standard deviation,
-              changes the histogram, etc.</li>
+          <ul>
+            <li>It will change the statistics computed by the NDPluginStats plugin because an
+              initial averaging operation has already been performed, which reduces the standard
+              deviation, changes the histogram, etc.</li>
             <li>It will reduce the sampling frequency of the TimeSeries support</li>
             <li>It will reduce the the update frequency of the EPID fast feedback support.</li>
           </ul>
@@ -485,11 +486,11 @@
             <li>SampleTime = 38.4 microseconds * NumChannels * ValuesPerRead</li>
             <li>If Resolution == 24 then SampleTime = SampleTime * 2</li>
           </ul>
-          The minimum sample time (NumChannels=1, ValuesPerRead=1, Resolution=16) is 38.4 microseconds,
-          or a sampling frequency of 26.04 kHz. The maximum sample time with ValuesPerRead=1,
-          NumChannels=4, Resolution=24 is 307.2 microseconds, or a sampling frequency of 3.255
-          kHz. Setting ValuesPerRead &gt; 1 will increase the sample time and reduce the sampling
-          frequency proportionally.<br />
+          The minimum sample time (NumChannels=1, ValuesPerRead=1, Resolution=16) is 38.4
+          microseconds, or a sampling frequency of 26.04 kHz. The maximum sample time with
+          ValuesPerRead=1, NumChannels=4, Resolution=24 is 307.2 microseconds, or a sampling
+          frequency of 3.255 kHz. Setting ValuesPerRead &gt; 1 will increase the sample time
+          and reduce the sampling frequency proportionally.<br />
           <br />
           The sample time on the AH401 series is controlled by the following algorithm:
           <ul>
@@ -501,9 +502,9 @@
           &gt; 1 will increase the sample time and reduce the sampling frequency proportionally.<br />
           <br />
           For the APS_EM the sample time is controlled only by ValuesPerRead and the IntegrationTime.
-          For ValuesPerRead=1 it ranges from 0.00123 to 0.02622 s, or a sampling frequency range of about 813
-          Hz to 38.1 Hz. Setting ValuesPerRead
-          &gt; 1 will increase the sample time and reduce the sampling frequency proportionally.</td>
+          For ValuesPerRead=1 it ranges from 0.00123 to 0.02622 s, or a sampling frequency
+          range of about 813 Hz to 38.1 Hz. Setting ValuesPerRead &gt; 1 will increase the
+          sample time and reduce the sampling frequency proportionally.</td>
       </tr>
       <tr>
         <td>
@@ -569,8 +570,8 @@
           Provides the number of values that were actually accumulated in the ring buffer
           before they were read out into NDArray objects and any registered plugins were called.
           If AveragingTime&gt;0 then NumAveraged_RBV will be the same as NumAverage_RBV. However,
-          if AveragingTime=0. then NumAverage_RBV=0 and NumAveraged_RBV gives the actual number of
-          values read from the ring buffer when the ReadData record was processed.</td>
+          if AveragingTime=0. then NumAverage_RBV=0 and NumAveraged_RBV gives the actual number
+          of values read from the ring buffer when the ReadData record was processed.</td>
       </tr>
       <tr>
         <td>
@@ -586,12 +587,11 @@
         <td>
           All</td>
         <td>
-          Writing 1 to this record reads all data from the ring buffer and
-          does the NDArray callbacks to all registered plugins. 
-          This is typically done when the quadEM is being used for
-          data acquisition, for example in a scan. In this case AveragingTime is set to 0
-          and processing the ReadData record will read all values that have accumulated in
-          the ring buffer since ReadData was last processed.</td>
+          Writing 1 to this record reads all data from the ring buffer and does the NDArray
+          callbacks to all registered plugins. This is typically done when the quadEM is being
+          used for data acquisition, for example in a scan. In this case AveragingTime is
+          set to 0 and processing the ReadData record will read all values that have accumulated
+          in the ring buffer since ReadData was last processed.</td>
       </tr>
       <tr>
         <td>
@@ -792,14 +792,12 @@
   <h3 id="Plugins">
     Plugins</h3>
   <p>
-    The example IOCs provided with quadEM load a file called commonPlugins.cmd, which loads
-    the following set of plugins from the areaDetector module. For more information
-    see the documentation on 
-    <a href="NDPluginStats.html">NDPluginStats</a>,
-    <a href="NDPluginStdArrays.html">NDPluginStdArrays</a>, and
-    <a href="NDPluginFile.html#netCDF">NDFileNetCDF</a>. 
-    Other plugins can also be loaded, for example the TIFF, HDF5 or Nexus file writing plugins,
-    etc.</p>
+    The example IOCs provided with quadEM load a file called commonPlugins.cmd, which
+    loads the following set of plugins from the areaDetector module. For more information
+    see the documentation on <a href="NDPluginStats.html">NDPluginStats</a>, <a href="NDPluginStdArrays.html">
+      NDPluginStdArrays</a>, and <a href="NDPluginFile.html#netCDF">NDFileNetCDF</a>.
+    Other plugins can also be loaded, for example the TIFF, HDF5 or Nexus file writing
+    plugins, etc.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
       <tr>
@@ -877,11 +875,13 @@
       </tr>
     </tbody>
   </table>
-  <p>Note that the first time the IOC is started all of the plugins will have EnableCallbacks=Disable.  It is necessary to enable
-  each of the plugins that will be used.  The plugins will also initially start with CallbacksBlock=No.  Setting
-  CallbacksBlock=Yes can reduce CPU load on slow processors like the MVME2100 (see the performance tables below).
-  The values of EnableCallbacks and CallbacksBlock are saved by autosave, and will be restored the next time the 
-  IOC is started.</p>
+  <p>
+    Note that the first time the IOC is started all of the plugins will have EnableCallbacks=Disable.
+    It is necessary to enable each of the plugins that will be used. The plugins will
+    also initially start with CallbacksBlock=No. Setting CallbacksBlock=Yes can reduce
+    CPU load on slow processors like the MVME2100 (see the performance tables below).
+    The values of EnableCallbacks and CallbacksBlock are saved by autosave, and will
+    be restored the next time the IOC is started.</p>
   <p>
     This is the medm screen for all of the plugins defined in commonPlugins.cmd.</p>
   <div style="text-align: center">
@@ -1260,23 +1260,23 @@ pattern
     was measured as a function of the parameters that control the SampleTime (ValuesPerRead,
     NumChannels, Resolution). The CPU load also depends on the AveragingTime, since
     that controls the rate of callbacks to the statistics and other plugins. The AveragingTime
-    was mostly held constant at 0.1 seconds on vxWorks, but was changed between 0.1 second
-    and 0.01 seconds on Linux. Measurements were also done with all of the plugins set
-    to CallbacksBlock=Yes and CallbacksBlock=No. When CallbacksBlock=No then each plugin
-    runs in its own thread. On a multi-core system this can improve performance because
-    each plugin runs in its own core. On a single-core system CallbacksBlock=Yes can
-    improve performance because a single thread runs all of the the plugin code, and
-    thread context switches are avoided.</p>
+    was mostly held constant at 0.1 seconds on vxWorks, but was changed between 0.1
+    second and 0.01 seconds on Linux. Measurements were also done with all of the plugins
+    set to CallbacksBlock=Yes and CallbacksBlock=No. When CallbacksBlock=No then each
+    plugin runs in its own thread. On a multi-core system this can improve performance
+    because each plugin runs in its own core. On a single-core system CallbacksBlock=Yes
+    can improve performance because a single thread runs all of the the plugin code,
+    and thread context switches are avoided.</p>
   <p>
     It can be seen that the load on Linux is less than 10% when the AveragingTime is
     0.1 second, and less than 25% when it is 0.01 second. Tests on a Windows 7 64-bit
-    machine (Intel Core i7-2820QM 2.3GHz) gave almost identical results to Linux. Note
-    that the Linux (and Windows CPU) values listed are the percent of a <b>single</b>
-    CPU core. These are 8-core systems, so the percent of the total system CPU is 8
-    times less. The load on the MVME5100 is significant, but it can handle NumChannels=4
-    with ValuesPerRead=1 for either resolution. The MVME2100 on the other hand cannot
-    run with ValuesPerRead=1 at all, it completely saturates the system. It does work
-    with ValuesPerRead=4 or 10. On the MVME 2100 setting CallbacksBlock=Yes does signficantly
+    machine (Intel Core i7-2820QM 2.3GHz) gave very similar results to Linux. Note that
+    the Linux (and Windows CPU) values listed are the percent of a <b>single</b> CPU
+    core. These are 8-core systems, so the percent of the total system CPU is 8 times
+    less. The load on the MVME5100 is significant, but it can handle NumChannels=4 with
+    ValuesPerRead=1 for either resolution. The MVME2100 on the other hand cannot run
+    with ValuesPerRead=1 at all, it completely saturates the system. It does work with
+    ValuesPerRead=4 or 10. On the MVME 2100 setting CallbacksBlock=Yes does signficantly
     reduce the CPU load.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
     <tbody>
