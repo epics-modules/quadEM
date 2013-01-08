@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="no" ?>
+<!-- Attributes -->
+<Attributes
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://epics.aps.anl.gov/areaDetector/attributes ../attributes.xsd"
+    >
+    <Attribute name="SampleTime"          type="PARAM"    source="QE_SAMPLE_TIME"           datatype="DOUBLE"     description="Sample time"/>
+    <Attribute name="ValuesPerReading"    type="PARAM"    source="QE_VALUES_PER_READ"       datatype="INT"        description="Values per reading"/>
+    <Attribute name="AveragingTime"       type="PARAM"    source="QE_AVERAGING_TIME"        datatype="DOUBLE"     description="Averaging time"/>
+    <Attribute name="NumAveraged"         type="PARAM"    source="QE_NUM_AVERAGED"          datatype="INT"        description="Number of samples averaged"/>
+    <Attribute name="NumChannels"         type="PARAM"    source="QE_NUM_CHANNELS"          datatype="INT"        description="Number of channels"/>
+    <Attribute name="Resolution"          type="PARAM"    source="QE_RESOLUTION"            datatype="INT"        description="Number of bits"/>
+    <Attribute name="CurrentOffset1"      type="PARAM"    source="QE_CURRENT_OFFSET"        datatype="DOUBLE"     description="Current offset 1"/>
+    <Attribute name="CurrentScale1"       type="PARAM"    source="QE_CURRENT_SCALE"         datatype="DOUBLE"     description="Current scale 1"/>
+    <Attribute name="PositionOffset1"     type="PARAM"    source="QE_POSITION_OFFSET"       datatype="DOUBLE"     description="Position offset 1"/>
+    <Attribute name="PositionScale1"      type="PARAM"    source="QE_POSITION_SCALE"        datatype="DOUBLE"     description="Position scale 1"/>
+    <Attribute name="Model"               type="EPICS_PV" source="quadEMTest:AH501:Model"   dbrtype="DBR_STRING"  description="Electrometer model"/>
+</Attributes>
+    
+    
