@@ -5,8 +5,8 @@ file {
 }
 display {
 	object {
-		x=223
-		y=66
+		x=119
+		y=69
 		width=840
 		height=515
 	}
@@ -1589,4 +1589,14 @@ text {
 	}
 	limits {
 	}
+}
+composite {
+	object {
+		x=420
+		y=445
+		width=350
+		height=60
+	}
+	"composite name"=""
+	"composite file"="ADAttrFile.adl"
 }
