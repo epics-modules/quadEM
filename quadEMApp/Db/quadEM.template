@@ -430,6 +430,15 @@ record(busy,"$(P)$(R)ReadData") {
     field(OUT,"@asyn($(PORT) 0)QE_READ_DATA")
 }
 
+record(waveform, "$(P)$(R)NDAttributesFile")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynOctetWrite")
+    field(INP,  "@asyn($(PORT) 0)ND_ATTRIBUTES_FILE")
+    field(FTVL, "CHAR")
+    field(NELM, "256")
+}
+
 record(asyn, "$(P)$(R)Asyn") {
     field(PORT, "$(PORT)")
 }
