@@ -57,6 +57,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     int i;
     int status;
     const char *functionName = "drvQuadEM";
+    asynUser *pasynUser;
     
     createParam(P_AcquireString,            asynParamInt32,         &P_Acquire);
     createParam(P_CurrentOffsetString,      asynParamFloat64,       &P_CurrentOffset);
@@ -115,6 +116,18 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     if (status) {
         printf("%s:%s: epicsThreadCreate failure, status=%d\n", driverName, functionName, status);
         return;
+    }
+    
+    // This driver supports QE_MAX_DATA+1 addresses = 0-11 with autoConnect=1.  But there are only records
+    // connected to addresses 0-3, so addresses 4-11 never show as "connected" since nothing ever calls
+    // pasynManager->queueRequest.  So we do an exceptionConnect to each address so asynManager will show
+    // them as connected.  Note that this is NOT necessary for the driver to function correctly, the
+    // NDPlugins will still get called even for addresses that are not "connected".  It is just to
+    // avoid confusion.
+    for (i=0; i<QE_MAX_DATA+1; i++) {
+        pasynUser = pasynManager->createAsynUser(0,0);
+        pasynManager->connectDevice(pasynUser, portName, i);
+        pasynManager->exceptionConnect(pasynUser);
     }
    
     epicsAtExit(exitHandlerC, this);
