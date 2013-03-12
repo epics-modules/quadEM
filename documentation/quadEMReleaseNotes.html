@@ -8,52 +8,56 @@
 <body>
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
-   <h2 style="text-align: center">
-    Release 4-0 (January XXX, 2013)</h2>
+  <h2 style="text-align: center">
+    Release 4-0 (March 12, 2013)</h2>
   <ul>
-    <li>Major update of the module.  The device-dependent classes (AHxxx, APS_EM)
-      have not changed signficantly. However the base quadEM class has been rewritten.
-      In R3-x the quadEM base class worked as follows:
+    <li>Major update of the module. The device-dependent classes (AHxxx, APS_EM) have
+      not changed signficantly. However the base quadEM class has been rewritten. In R3-x
+      the quadEM base class worked as follows:
       <ul>
         <li>The ai records for the 11 parameters (Current[1-3],Sum[12,34,1234],Diff[12,34],
-        and Position[12,34]) were computed using the asynInt32Average device support. </li>
-        <li>This meant that there were 11 callbacks each time a new value came from the electrometer, 
-        or more than 70,000 callbacks per second under some circumstances.  This was a significant CPU
-        load.</li>
-        <li>This approach produced average values, but it did not produce other useful statistics like 
-        the standard deviation, histogram of values, etc.</li>
-        <li>There was no good way to stream all of the readings to a disk file for an arbitrarily long
-        time.  The TimeSeries support was limited to a fixed time length, limited by available memory.</li>
+          and Position[12,34]) were computed using the asynInt32Average device support.
+        </li>
+        <li>This meant that there were 11 callbacks each time a new value came from the electrometer,
+          or more than 70,000 callbacks per second under some circumstances. This was a significant
+          CPU load.</li>
+        <li>This approach produced average values, but it did not produce other useful statistics
+          like the standard deviation, histogram of values, etc.</li>
+        <li>There was no good way to stream all of the readings to a disk file for an arbitrarily
+          long time. The TimeSeries support was limited to a fixed time length, limited by
+          available memory.</li>
       </ul>
       R4-0 addresses these problems as follows:
       <ul>
-        <li>The quadEM base class is now derived from the asynNDArray class in areaDetector, rather than
-        directly from asynPortDriver.</li>
-        <li>The data from the device-dependent drivers are now first placed into a ring buffer whose
-        size is defined in the constructor.</li>
-        <li>There is a new PV called AveragingTime that determines the time period over which to
-         average the readings.  The AveragingTime divided by the SampleTime determines the number of samples
-         to average, NumAverage_RBV.  When this number of samples have been accumulated in the ring buffer
-         a separate thread copies them to a set of NDArrays and calls any registered plugins. </li>
-        <li>There is a separate NDPluginStats plugin loaded for each of the 11 data values.  This
-        plugin receives an array of dimensions [NumAverage_RBV].  This plugin
-        computes not only the mean (as in the previous version), but also the standard deviation, histogram
-        of values, etc.</li>
+        <li>The quadEM base class is now derived from the asynNDArray class in areaDetector,
+          rather than directly from asynPortDriver.</li>
+        <li>The data from the device-dependent drivers are now first placed into a ring buffer
+          whose size is defined in the constructor.</li>
+        <li>There is a new PV called AveragingTime that determines the time period over which
+          to average the readings. The AveragingTime divided by the SampleTime determines
+          the number of samples to average, NumAverage_RBV. When this number of samples have
+          been accumulated in the ring buffer a separate thread copies them to a set of NDArrays
+          and calls any registered plugins. </li>
+        <li>There is a separate NDPluginStats plugin loaded for each of the 11 data values.
+          This plugin receives an array of dimensions [NumAverage_RBV]. This plugin computes
+          not only the mean (as in the previous version), but also the standard deviation,
+          histogram of values, etc.</li>
         <li>One of the NDArrays contains all of the data values, and has dimensions [11,NumAverage_RBV].
-        This array can be passed to any of the file writing plugins, which can thus stream all of the data
-        to disk for arbitrarily long time periods.</li>
-        <li>An NDStdArrays plugin is also loaded.  This can be used to pass all of the data 
-        [11,NumAverage_RBV] or any of the individual data arrays to any channel access client.</li>
-        <li>This new approach provides much more information and flexibility.  But it also significantly
-        reduces the number of callbacks.  For example if the averaging time is 1 second the number
-        of callbacks is reduced from thousands per second to 12 per second, because the data are 
-        being passed in arrays.</li>
-        <li>The computationally intensive work of calculating the statistics is now being done in plugins, 
-        so can be done in different threads, each potentially running in a separate core on modern CPUs.</li>
-      </ul> 
+          This array can be passed to any of the file writing plugins, which can thus stream
+          all of the data to disk for arbitrarily long time periods.</li>
+        <li>An NDStdArrays plugin is also loaded. This can be used to pass all of the data
+          [11,NumAverage_RBV] or any of the individual data arrays to any channel access client.</li>
+        <li>This new approach provides much more information and flexibility. But it also
+          significantly reduces the number of callbacks. For example if the averaging time
+          is 1 second the number of callbacks is reduced from thousands per second to 12 per
+          second, because the data are being passed in arrays.</li>
+        <li>The computationally intensive work of calculating the statistics is now being
+          done in plugins, so can be done in different threads, each potentially running in
+          a separate core on modern CPUs.</li>
+      </ul>
     </li>
   </ul>
- <h2 style="text-align: center">
+  <h2 style="text-align: center">
     Release 3-3 (December 20, 2012)</h2>
   <ul>
     <li>Fixed problem with mutex locking on AH401 (and perhaps AH501). The lock was not
