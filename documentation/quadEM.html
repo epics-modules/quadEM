@@ -38,13 +38,26 @@
     combined with analog signal conditioning and filtering stages. The AH501C/D have
     an integrated programmable bias supply.
   </p>
+  The quadEM driver derives from the asynNDArrayDriver base class from the <a href="areaDetector.html">
+    EPICS areaDetector module</a>. The driver collects the current, sum, difference
+  and position readings during a user-defined "averaging period" and puts the time
+  series of readings into a number of NDArray objects. The NDArrays are passed via
+  callbacks to any NDArray plugins. These plugins include the
+  <ul>
+    <li>NDPluginStats statistics plugin, which computes the mean, min, max, historgram
+      of values, etc. for this time series.</li>
+    <li>NDPluginFile plugins (e.g. NDFileNetCDF, NDFileHDF5, etc.) which can stream all
+      of the time-series data to disk.</li>
+    <li>NDPluginStdArrays which puts the data into an EPICS waveform record for use by
+      any Channel Access client.</li>
+  </ul>
   <p>
     The <b>quadEM</b> software includes asyn drivers and an SNL program that provide
     support for the following:</p>
   <ul>
-    <li>Analog input records using the standard asynInt32Average device support. This
-      provides digitally averaged readings of the current, sum, difference and position
-      at speeds up to 10 Hz with standard EPICS scan times. One could also use the standard
+    <li>Analog input records that provide digitally averaged readings of the current,
+      sum, difference and position. These are computed using the NDPluginStats statistics
+      plugin, which also provides additional statistics. One could also use the standard
       asynInt32 device support with ai records and scan=I/O Intr, in which case the record
       would update with every reading from the device. This is likely to overwhelm the
       EPICS IOC if the electrometer is run at very fast integration times.</li>
@@ -88,7 +101,7 @@
         <td>
           4-0</td>
         <td>
-          XXX-January-2013</td>
+          12-March-2013</td>
         <td>
           <a href="http://cars.uchicago.edu/software/pub/quadEMR4-0.tgz">quadEMR4-0.tgz</a>
         </td>
@@ -306,7 +319,7 @@
         <td>
           EPICS base</td>
         <td>
-          3.14.12.2</td>
+          3.14.12.3</td>
         <td>
           Base support</td>
       </tr>
@@ -322,7 +335,7 @@
         <td>
           areaDetector</td>
         <td>
-          1-9</td>
+          1-9-1</td>
         <td>
           Used for NDArray plugins that compute statistics, stream data to disk, etc.</td>
       </tr>
@@ -330,7 +343,7 @@
         <td>
           mca</td>
         <td>
-          7-2</td>
+          7-3-1</td>
         <td>
           Fast sweep driver for time series</td>
       </tr>
