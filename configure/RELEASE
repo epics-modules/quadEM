@@ -35,10 +35,10 @@ SNCSEQ=$(SUPPORT)/seq-2-1-10
 AUTOSAVE=$(SUPPORT)/autosave-5-0
 
 # MCA is used for time series
-MCA=$(SUPPORT)/mca-7-2
+MCA=$(SUPPORT)/mca-7-3-1
 
 # areaDetector for plugins like NDPluginStats
-AREA_DETECTOR=$(SUPPORT)/areaDetector-1-9
+AREA_DETECTOR=$(SUPPORT)/areaDetector-1-9-1
 
 # SSCAN is needed for general scanning
 SSCAN=$(SUPPORT)/sscan-2-8-1
