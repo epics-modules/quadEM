@@ -3,7 +3,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <wuid>-35547c25:13a0384ab1a:-34c4</wuid>
+  <wuid>39872d87:13e14015f61:5320</wuid>
   <boy_version>3.1.2.20120830</boy_version>
   <scripts />
   <show_ruler>true</show_ruler>
@@ -34,7 +34,7 @@
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
-    <wuid>-35547c25:13a0384ab1a:-34c3</wuid>
+    <wuid>39872d87:13e14015f61:5321</wuid>
     <auto_size>false</auto_size>
     <scripts />
     <height>20</height>
@@ -76,7 +76,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <visible>true</visible>
     <actions_from_pv>false</actions_from_pv>
-    <wuid>-35547c25:13a0384ab1a:-34c2</wuid>
+    <wuid>39872d87:13e14015f61:5322</wuid>
     <scripts />
     <height>20</height>
     <name>Menu Button</name>

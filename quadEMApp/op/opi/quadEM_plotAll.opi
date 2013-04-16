@@ -3,7 +3,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <wuid>-35547c25:13a0384ab1a:-343e</wuid>
+  <wuid>39872d87:13e14015f61:53f7</wuid>
   <boy_version>3.1.2.20120830</boy_version>
   <scripts />
   <show_ruler>true</show_ruler>
@@ -36,7 +36,7 @@
       <include_parent_macros>true</include_parent_macros>
     </macros>
     <visible>true</visible>
-    <wuid>-35547c25:13a0384ab1a:-343d</wuid>
+    <wuid>39872d87:13e14015f61:53f8</wuid>
     <scripts />
     <height>41</height>
     <name>Grouping Container</name>
@@ -77,7 +77,7 @@
       <line_color>
         <color red="128" green="0" blue="255" />
       </line_color>
-      <wuid>-35547c25:13a0384ab1a:-343c</wuid>
+      <wuid>39872d87:13e14015f61:53f9</wuid>
       <bg_gradient_color>
         <color red="255" green="255" blue="255" />
       </bg_gradient_color>
@@ -130,7 +130,7 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
       <visible>true</visible>
       <vertical_alignment>1</vertical_alignment>
-      <wuid>-35547c25:13a0384ab1a:-343b</wuid>
+      <wuid>39872d87:13e14015f61:53fa</wuid>
       <auto_size>false</auto_size>
       <scripts />
       <height>40</height>
@@ -350,7 +350,7 @@ $(pv_value)</tooltip>
       <color red="219" green="128" blue="4" />
     </trace_11_trace_color>
     <trace_14_name>$(trace_14_y_pv)</trace_14_name>
-    <wuid>-35547c25:13a0384ab1a:-343a</wuid>
+    <wuid>39872d87:13e14015f61:53fb</wuid>
     <trace_2_buffer_size>100</trace_2_buffer_size>
     <trace_18_trace_color>
       <color red="255" green="0" blue="240" />
@@ -740,7 +740,7 @@ $(trace_0_y_pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
-    <wuid>-35547c25:13a0384ab1a:-3439</wuid>
+    <wuid>39872d87:13e14015f61:53fc</wuid>
     <auto_size>false</auto_size>
     <scripts />
     <height>20</height>
@@ -959,7 +959,7 @@ $(trace_0_y_pv_value)</tooltip>
       <color red="219" green="128" blue="4" />
     </trace_11_trace_color>
     <trace_14_name>$(trace_14_y_pv)</trace_14_name>
-    <wuid>-35547c25:13a0384ab1a:-3438</wuid>
+    <wuid>39872d87:13e14015f61:53fd</wuid>
     <trace_2_buffer_size>100</trace_2_buffer_size>
     <trace_18_trace_color>
       <color red="255" green="0" blue="240" />
@@ -1349,7 +1349,7 @@ $(trace_0_y_pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
-    <wuid>-35547c25:13a0384ab1a:-3437</wuid>
+    <wuid>39872d87:13e14015f61:53fe</wuid>
     <auto_size>false</auto_size>
     <scripts />
     <height>20</height>
@@ -1568,7 +1568,7 @@ $(trace_0_y_pv_value)</tooltip>
       <color red="219" green="128" blue="4" />
     </trace_11_trace_color>
     <trace_14_name>$(trace_14_y_pv)</trace_14_name>
-    <wuid>-35547c25:13a0384ab1a:-3436</wuid>
+    <wuid>39872d87:13e14015f61:53ff</wuid>
     <trace_2_buffer_size>100</trace_2_buffer_size>
     <trace_18_trace_color>
       <color red="255" green="0" blue="240" />
@@ -1958,7 +1958,7 @@ $(trace_0_y_pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
-    <wuid>-35547c25:13a0384ab1a:-3435</wuid>
+    <wuid>39872d87:13e14015f61:5400</wuid>
     <auto_size>false</auto_size>
     <scripts />
     <height>20</height>
@@ -2177,7 +2177,7 @@ $(trace_0_y_pv_value)</tooltip>
       <color red="219" green="128" blue="4" />
     </trace_11_trace_color>
     <trace_14_name>$(trace_14_y_pv)</trace_14_name>
-    <wuid>-35547c25:13a0384ab1a:-3434</wuid>
+    <wuid>39872d87:13e14015f61:5401</wuid>
     <trace_2_buffer_size>100</trace_2_buffer_size>
     <trace_18_trace_color>
       <color red="255" green="0" blue="240" />
@@ -2567,7 +2567,7 @@ $(trace_0_y_pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
-    <wuid>-35547c25:13a0384ab1a:-3433</wuid>
+    <wuid>39872d87:13e14015f61:5402</wuid>
     <auto_size>false</auto_size>
     <scripts />
     <height>20</height>
