@@ -83,6 +83,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     createParam(P_NumAverageString,         asynParamInt32,         &P_NumAverage);
     createParam(P_NumAveragedString,        asynParamInt32,         &P_NumAveraged);
     createParam(P_ModelString,              asynParamInt32,         &P_Model);
+    createParam(P_FirmwareString,           asynParamOctet,        &P_Firmware);
     
     setIntegerParam(P_Acquire, 0);
     setIntegerParam(P_RingOverflows, 0);
