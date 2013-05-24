@@ -39,6 +39,7 @@
 #define P_NumAverageString         "QE_NUM_AVERAGE"             /* asynInt32,    r/o */
 #define P_NumAveragedString        "QE_NUM_AVERAGED"            /* asynInt32,    r/o */
 #define P_ModelString              "QE_MODEL"                   /* asynInt32,    r/w */
+#define P_FirmwareString           "QE_FIRMWARE"                /* asynOctet,    r/w */
 
 /* Models */
 typedef enum {
@@ -107,7 +108,8 @@ protected:
     int P_NumAverage;
     int P_NumAveraged;
     int P_Model;
-    #define LAST_QE_COMMAND P_Model
+    int P_Firmware;
+    #define LAST_QE_COMMAND P_Firmware
     // We cache these values so we don't need to call getIntegerParam inside the
     // fast data reading loop
     int resolution_;
