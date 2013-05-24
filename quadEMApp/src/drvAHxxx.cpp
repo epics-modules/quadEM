@@ -46,7 +46,7 @@ static void readThread(void *drvPvt);
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
   *            If 0 then default of 2048 is used.
   */
-drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferSize) 
+drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferSize, const char *modelName) 
    : drvQuadEM(portName, 0, ringBufferSize)
   
 {
@@ -68,6 +68,14 @@ drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferS
     acquiring_ = 0;
     readingActive_ = 0;
     resolution_ = 24;
+
+    model_ = QE_ModelUnknown;
+    setIntegerParam(P_Model, model_);
+    if      (strcmp(modelName, "AH401B") != 0) model_=QE_ModelAH401B;
+    else if (strcmp(modelName, "AH401D") != 0) model_=QE_ModelAH401D;
+    else if (strcmp(modelName, "AH501") != 0)  model_=QE_ModelAH501;
+    else if (strcmp(modelName, "AH501C") != 0) model_=QE_ModelAH501C;
+    else if (strcmp(modelName, "AH501D") != 0) model_=QE_ModelAH501D;
 
     // Do everything that needs to be done when connecting to the meter initially.
     // Note that the meter could be offline when the IOC starts, so we put this in
@@ -280,23 +288,27 @@ asynStatus drvAHxxx::reset()
     static const char *functionName = "reset";
 
     setAcquire(0);    
-    model_ = QE_ModelUnknown;
     strcpy(firmwareVersion_, "Unknown");
-    setIntegerParam(P_Model, model_);
     strcpy(outString_, "VER ?");
     status = writeReadMeter();
     if (status) return status;
     strcpy(firmwareVersion_, inString_);
-    if (strstr(firmwareVersion_,   "PicoNew") != 0) model_=QE_ModelAH401B;
-    else if (strstr(firmwareVersion_, "401D") != 0) model_=QE_ModelAH401D;
-    else if (strstr(firmwareVersion_, "501 ") != 0) model_=QE_ModelAH501;
-    else if (strstr(firmwareVersion_, "501C") != 0) model_=QE_ModelAH501C;
-    else if (strstr(firmwareVersion_, "501D") != 0) model_=QE_ModelAH501D;
-    else {
-        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s:%s: unknown firmware version = %s\n", 
-            driverName, functionName, firmwareVersion_);
-        return asynError;
+    setStringParam(P_Firmware, firmwareVersion_);
+    // If the model is not already known from the constructor attempt to determine it
+    // from the firmwareVersion_.
+    if (model_ == QE_ModelUnknown) {
+      if (strstr(firmwareVersion_,   "PicoNew") != 0) model_=QE_ModelAH401B;
+      else if (strstr(firmwareVersion_, "401D") != 0) model_=QE_ModelAH401D;
+      else if (strstr(firmwareVersion_, "501 ") != 0) model_=QE_ModelAH501;
+      else if (strstr(firmwareVersion_, "501C") != 0) model_=QE_ModelAH501C;
+      else if (strstr(firmwareVersion_, "501D") != 0) model_=QE_ModelAH501D;
+      else {
+          asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+              "%s:%s: unknown firmware version = %s\n", 
+              driverName, functionName, firmwareVersion_);
+          return asynError;
+      }
+      setIntegerParam(P_Model, model_);
     }
     if ((model_ == QE_ModelAH401B) || (model_ == QE_ModelAH401D)) {
         AH401Series_ = true;
@@ -305,7 +317,6 @@ asynStatus drvAHxxx::reset()
         AH501Series_ = true;
         AH401Series_ = false;
     }
-    setIntegerParam(P_Model, model_);
     // Call the base class method
     status = drvQuadEM::reset();
     return status;
@@ -620,9 +631,9 @@ extern "C" {
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
   *            If 0 then default of 2048 is used.
   */
-int drvAHxxxConfigure(const char *portName, const char *QEPortName, int ringBufferSize)
+int drvAHxxxConfigure(const char *portName, const char *QEPortName, int ringBufferSize, const char *modelName)
 {
-    new drvAHxxx(portName, QEPortName, ringBufferSize);
+    new drvAHxxx(portName, QEPortName, ringBufferSize, modelName);
     return(asynSuccess);
 }
 
@@ -632,13 +643,15 @@ int drvAHxxxConfigure(const char *portName, const char *QEPortName, int ringBuff
 static const iocshArg initArg0 = { "portName",iocshArgString};
 static const iocshArg initArg1 = { "QEPortName",iocshArgString};
 static const iocshArg initArg2 = { "ring buffer size",iocshArgInt};
+static const iocshArg initArg3 = { "model name",iocshArgString};
 static const iocshArg * const initArgs[] = {&initArg0,
                                             &initArg1,
-                                            &initArg2};
-static const iocshFuncDef initFuncDef = {"drvAHxxxConfigure",3,initArgs};
+                                            &initArg2,
+                                            &initArg3};
+static const iocshFuncDef initFuncDef = {"drvAHxxxConfigure",4,initArgs};
 static void initCallFunc(const iocshArgBuf *args)
 {
-    drvAHxxxConfigure(args[0].sval, args[1].sval, args[2].ival);
+    drvAHxxxConfigure(args[0].sval, args[1].sval, args[2].ival, args[3].sval);
 }
 
 void drvAHxxxRegister(void)
