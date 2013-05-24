@@ -70,12 +70,12 @@ drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferS
     resolution_ = 24;
 
     model_ = QE_ModelUnknown;
+    if      (strcmp(modelName, "AH401B") == 0) model_=QE_ModelAH401B;
+    else if (strcmp(modelName, "AH401D") == 0) model_=QE_ModelAH401D;
+    else if (strcmp(modelName, "AH501")  == 0) model_=QE_ModelAH501;
+    else if (strcmp(modelName, "AH501C") == 0) model_=QE_ModelAH501C;
+    else if (strcmp(modelName, "AH501D") == 0) model_=QE_ModelAH501D;
     setIntegerParam(P_Model, model_);
-    if      (strcmp(modelName, "AH401B") != 0) model_=QE_ModelAH401B;
-    else if (strcmp(modelName, "AH401D") != 0) model_=QE_ModelAH401D;
-    else if (strcmp(modelName, "AH501") != 0)  model_=QE_ModelAH501;
-    else if (strcmp(modelName, "AH501C") != 0) model_=QE_ModelAH501C;
-    else if (strcmp(modelName, "AH501D") != 0) model_=QE_ModelAH501D;
 
     // Do everything that needs to be done when connecting to the meter initially.
     // Note that the meter could be offline when the IOC starts, so we put this in
@@ -291,7 +291,6 @@ asynStatus drvAHxxx::reset()
     strcpy(firmwareVersion_, "Unknown");
     strcpy(outString_, "VER ?");
     status = writeReadMeter();
-    if (status) return status;
     strcpy(firmwareVersion_, inString_);
     setStringParam(P_Firmware, firmwareVersion_);
     // If the model is not already known from the constructor attempt to determine it
