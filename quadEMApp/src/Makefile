@@ -24,6 +24,12 @@ quadEM_SRCS         += quadEM_SNL.st
 quadEM_SRCS         += four1.c
 quadEM_SRCS_vxWorks += drvAPS_EM.cpp
 
+quadEM_LIBS_vxWorks += Ipac
+quadEM_LIBS_vxWorks += ipUnidig
+quadEM_LIBS         += mca
+quadEM_LIBS         += seq pv
+
+
 # The following builds a test application
 #==================================
 PROD_IOC += quadEMTestApp
