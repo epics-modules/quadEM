@@ -170,12 +170,21 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
     }
     
     /* Set the model */
-    setIntegerParam(P_Model, QE_ModelAPS_EM); 
+    setIntegerParam(P_Model, QE_ModelAPS_EM);
+    
+    /* Set the range, ping-pong and integration time to reasonable defaults */
+    setRange(0);
+    setPingPong(0);
+    setIntegrationTime(0.001); 
 
     /* Send the initial settings to the board to get it talking to the 
      * electometer. These settings will be overridden by the database values 
      * when the database initializes */
     reset();
+    
+    /* Calling getSettings() will compute the sampleTime, which must be done before iocInit
+     * or fast feedback won't work. */
+    getSettings();
     
     error:
     return;
