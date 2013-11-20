@@ -194,8 +194,8 @@ void drvAHxxx::readThread(void)
             readingActive_ = 0;
             unlock();
             epicsEventWait(acquireStartEvent_);
-            readingActive_ = 1;
             lock();
+            readingActive_ = 1;
         }
         numBytes = 3;
         if (valuesPerRead_ < 1) valuesPerRead_ = 1;
@@ -273,11 +273,9 @@ void drvAHxxx::readThread(void)
                 "%s:%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
                 driverName, functionName, status, (unsigned long)nRead, eomReason);
             // We got an error reading the meter, it is probably offline.  Wait 1 second before trying again.
-            pasynManager->queueUnlockPort(pasynUser);
             unlock();
             epicsThreadSleep(1.0);
             lock();
-            pasynManager->queueLockPort(pasynUser);
         }
     }
 }
@@ -339,12 +337,12 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
     if (value == 0) {
         // Setting this flag tells the read thread to stop
         acquiring_ = 0;
-        // Release the lock and wait for the read thread to stop
-        unlock();
+        // Wait for the read thread to stop
         while (readingActive_) {
+            unlock();
             epicsThreadSleep(0.1);
+            lock();
         }
-        lock();
         while (1) {
             // Send stop command for both types of meters since initially we don't know which type we are talking to
             status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
