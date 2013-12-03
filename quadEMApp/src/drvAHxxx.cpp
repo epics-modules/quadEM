@@ -630,6 +630,9 @@ extern "C" {
   *            This should be large enough to hold all the samples between reads of the
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
   *            If 0 then default of 2048 is used.
+  * \param[in] modelName The model of electrometer.  It is too difficult to try to determine
+  *            this from the firmware version number, so it must be specified. Allowed values are:
+  *            "AH401B", "AH401D", "AH501", "AH501C", and "AH501D".
   */
 int drvAHxxxConfigure(const char *portName, const char *QEPortName, int ringBufferSize, const char *modelName)
 {
