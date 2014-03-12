@@ -8,9 +8,8 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # define INSTALL_LOCATION_APP here
 #INSTALL_LOCATION_APP=<fullpathname>
 
-SUPPORT=/corvette/home/epics/devel
+SUPPORT=/corvette/home/epics/devel-AD2.0
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
-
 # This module
 QUADEM=$(SUPPORT)/quadEM-4-0
 
@@ -38,7 +37,11 @@ AUTOSAVE=$(SUPPORT)/autosave-5-1
 MCA=$(SUPPORT)/mca-7-4
 
 # areaDetector for plugins like NDPluginStats
-AREA_DETECTOR=$(SUPPORT)/areaDetector-1-9-1
+AREA_DETECTOR=$(SUPPORT)/areaDetector-2-0
+ADCORE=$(SUPPORT)/areaDetector-2-0/ADCore
+-include $(TOP)/../areaDetector-2-0/RELEASE_PATHS.local
+-include $(TOP)/../areaDetector-2-0/RELEASE_PATHS.local.$(EPICS_HOST_ARCH)
+-include $(TOP)/../areaDetector-2-0/RELEASE_PRODS.local
 
 # SSCAN is needed for general scanning
 SSCAN=$(SUPPORT)/sscan-2-9
