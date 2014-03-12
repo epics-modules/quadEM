@@ -17,26 +17,33 @@ quadEMTestAppVx_registerRecordDeviceDriver(pdbbase)
 
 # This IOC can run the APS_EM, AH401B, or AH501, but only one at a time because of save/restore
 # Comment out the lines for the unused ones
-epicsEnvSet("PREFIX", "quadEMTest:")
-epicsEnvSet("QSIZE", "20")
-epicsEnvSet("RING_SIZE", "10000")
-epicsEnvSet("TSPOINTS", "1000")
+epicsEnvSet("PREFIX",     "quadEMTest:")
+epicsEnvSet("QSIZE",      "20")
+epicsEnvSet("RING_SIZE",  "10000")
+epicsEnvSet("TSPOINTS",   "1000")
+
 # Use the following 3 lines for the AH401B
-#epicsEnvSet("PORT", "AH401B")
-#epicsEnvSet("MODEL", "AH401B")
-#epicsEnvSet("IP", "164.54.160.240:10001")
+#epicsEnvSet("RECORD",    "AH401B")
+#epicsEnvSet("PORT",      "AH401B")
+#epicsEnvSet("TEMPLATE,   "AH401B")
+#epicsEnvSet("MODEL",     "AH401B")
+#epicsEnvSet("IP",        "164.54.160.240:10001")
+
 # Use the following 3 lines for the AH501
-#epicsEnvSet("PORT", "AH501")
-#epicsEnvSet("MODEL","AH501")
-#epicsEnvSet("IP", "164.54.160.11:10001")
+#epicsEnvSet("RECORD",    "AH501")
+#epicsEnvSet("PORT",      "AH501")
+#epicsEnvSet("TEMPLATE,   "AH501")
+#epicsEnvSet("MODEL",     "AH501D")
+#epicsEnvSet("IP",        "164.54.160.11:10001")
 
 # Use this line for either AH401B or AH501
 #< st.cmd.AHxxx
 
 # Use the following lines for APS_EM
-
-epicsEnvSet("PORT", "APS_EM")
-epicsEnvSet("MODEL","APS_EM")
+epicsEnvSet("RECORD",    "APS_EM")
+epicsEnvSet("PORT",      "APS_EM")
+epicsEnvSet("TEMPLATE,   "APS_EM")
+epicsEnvSet("MODEL",     "APS_EM")
 < st.cmd.APS_EM
 
 < saveRestore.cmd
@@ -46,5 +53,5 @@ iocInit()
 # save settings every thirty seconds
 create_monitor_set("auto_settings.req",30,"P=$(PREFIX), R=$(PORT):, R_TS=$(PORT)_TS:")
 
-seq("quadEM_SNL", "P=$(PREFIX), R=$(PORT)_TS:, NUM_CHANNELS=2048")
+seq("quadEM_SNL", "P=$(PREFIX), R=$(RECORD)_TS:, NUM_CHANNELS=2048")
 
