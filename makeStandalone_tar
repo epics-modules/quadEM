@@ -1,0 +1,24 @@
+find . -name 'auto_settings*.sav_*' -exec rm -fv {} \;
+find . -name 'core.*' -exec rm -fv {} \;
+pushd ..
+tar czvf /corvette/home/epics/public_html/pub/quadEMStandalone_4-0.tgz  --exclude '.svn*' \
+asyn/db \
+asyn/opi/medm \
+mca/mcaApp/Db/ \
+mca/mcaApp/op/adl/ \
+autosave/asApp/Db/ \
+autosave/asApp/op/adl/ \
+sscan/sscanApp/Db/ \
+sscan/sscanApp/op/adl/ \
+areaDetector/bin/win32-x86/*.dll \
+areaDetector/bin/windows-x64/*.dll \
+areaDetector/ADApp/Db/ \
+areaDetector/ADApp/op/adl/ \
+quadEM/documentation \
+quadEM/quadEMApp/Db \
+quadEM/quadEMApp/op/adl \
+quadEM/bin/ \
+quadEM/lib \
+quadEM/dbd \
+quadEM/iocBoot/
+popd
