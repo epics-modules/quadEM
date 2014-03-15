@@ -1,6 +1,6 @@
 set_requestfile_path("./")
 set_requestfile_path("$(QUADEM)/quadEMApp/Db")
-set_requestfile_path("$(AREA_DETECTOR)/ADApp/Db")
+set_requestfile_path("$(ADCORE)/ADApp/Db")
 set_requestfile_path("$(CALC)/calcApp/Db")
 set_requestfile_path("$(SSCAN)/sscanApp/Db")
 set_savefile_path("./autosave")
