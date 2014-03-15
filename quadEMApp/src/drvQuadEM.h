@@ -16,6 +16,7 @@
 /* These are the drvInfo strings that are used to identify the parameters.
  * They are used by asyn clients, including standard asyn device support */
 #define P_AcquireString            "QE_ACQUIRE"                 /* asynInt32,    r/w */
+#define P_AcquireModeString        "QE_ACQUIRE_MODE"            /* asynInt32,    r/w */
 #define P_CurrentOffsetString      "QE_CURRENT_OFFSET"          /* asynFloat64,  r/w */
 #define P_CurrentScaleString       "QE_CURRENT_SCALE"           /* asynFloat64,  r/w */
 #define P_PositionOffsetString     "QE_POSITION_OFFSET"         /* asynFloat64,    r/w */
@@ -66,6 +67,13 @@ typedef enum {
     QEPosition12,
     QEPosition34
 } QEData_t;
+
+/* Acquire modes */
+typedef enum {
+    QEAcquireModeContinous,
+    QEAcquireModeOneShot
+} QEAcquireMode_t;
+
 #define QE_MAX_DATA (QEPosition34+1)
 #define QE_MAX_INPUTS 4
 #define QE_DEFAULT_RING_BUFFER_SIZE 2048
@@ -85,6 +93,7 @@ protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
     int P_Acquire;
     #define FIRST_QE_COMMAND P_Acquire
+    int P_AcquireMode;
     int P_CurrentOffset;
     int P_CurrentScale;
     int P_PositionOffset;
