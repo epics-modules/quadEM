@@ -60,6 +60,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     asynUser *pasynUser;
     
     createParam(P_AcquireString,            asynParamInt32,         &P_Acquire);
+    createParam(P_AcquireModeString,        asynParamInt32,         &P_AcquireMode);
     createParam(P_CurrentOffsetString,      asynParamFloat64,       &P_CurrentOffset);
     createParam(P_CurrentScaleString,       asynParamFloat64,       &P_CurrentScale);
     createParam(P_PositionOffsetString,     asynParamFloat64,       &P_PositionOffset);
@@ -292,12 +293,19 @@ asynStatus drvQuadEM::doDataCallbacks()
 
 void drvQuadEM::callbackTask()
 {
+    int acquireMode;
     lock();
     while (1) {
         unlock();
         epicsEventWait(ringEvent_);
         lock();
         doDataCallbacks();
+        getIntegerParam(P_AcquireMode, &acquireMode);
+        if (acquireMode == QEAcquireModeOneShot) {
+            setAcquire(0);
+            setIntegerParam(P_Acquire, 0);
+            callParamCallbacks();
+        }
     }
 }
 
@@ -327,6 +335,12 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         }
         status |= setAcquire(value);
     } 
+    else if (function == P_AcquireMode) {
+        if (value == QEAcquireModeOneShot) {
+            status |= setAcquire(0);
+            setIntegerParam(P_Acquire, 0);
+        } 
+    }
     else if (function == P_ReadData) {
         status |= doDataCallbacks();
     }
