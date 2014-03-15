@@ -183,8 +183,9 @@
         <td>
           All</td>
         <td>
-          The model of the electrometer. This is determined automatically by the driver. Values
-          are:
+          The model of the electrometer. This is mormally determined automatically by the driver
+          by reading the firmware version.  It can also be specified in the configuration command.
+          Values are:
           <ul>
             <li>0: Unknown</li>
             <li>1: APS_EM</li>
@@ -198,13 +199,59 @@
       </tr>
       <tr>
         <td>
-          QE_ACQUIRE</td>
+          QE_FIRMWARE</td>
         <td>
-          $(P)$(R)Acquire<br />
-          $(P)$(R)Acquire_RBV</td>
+          $(P)$(R)Firmware</td>
+        <td>
+          stringin</td>
+        <td>
+          asynOctet</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          The firmware version of the electrometer.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          QE_ACQUIRE_MODE</td>
+        <td>
+          $(P)$(R)AcquireMode<br />
+          $(P)$(R)AcquireMode_RBV</td>
         <td>
           bo<br />
           bi</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Acquire mode.  Values are:
+          <ul>
+            <li>0: Continuous </li>
+            <li>1: One-shot </li>
+          </ul>
+          In continuous mode the electrometer setting Acquire=1 acquires data continuously until 
+          Acquire is set to 0.<br />
+          In one-shot mode setting Acquire=1 will acquire a data for a single AveragingTime
+          time period.  This will result in a single call to the plugins, and thus a single
+          set of averaged values. The driver will then set Acquire back to 0. This mode is intended for
+          data acquisition, for example with the sscan record. With the AH401 and AH501 series
+          One-shot works in trigger mode as well.  When Acquire is set to 1 it will wait
+          for the trigger to allow acquisition of NumAverage_RBV samples.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          QE_ACQUIRE</td>
+        <td>
+          $(P)$(R)Acquire</td>
+        <td>
+          busy</td>
         <td>
           asynInt32</td>
         <td>
