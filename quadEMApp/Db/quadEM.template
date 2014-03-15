@@ -30,7 +30,7 @@ record(stringin,"$(P)$(R)Firmware") {
     field(SCAN, "I/O Intr")
 }
 
-record(bo,"$(P)$(R)Acquire") {
+record(busy,"$(P)$(R)Acquire") {
     field(DESC, "Acquire On/Off")
     field(PINI, "YES")
     field(DTYP, "asynInt32")
@@ -39,12 +39,21 @@ record(bo,"$(P)$(R)Acquire") {
     field(ONAM, "Acquire")
 }
 
-record(bi,"$(P)$(R)Acquire_RBV") {
-    field(DESC, "Acquire On/Off")
+record(bo,"$(P)$(R)AcquireMode") {
+    field(DESC, "Acquire Mode")
+    field(PINI, "YES")
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT) 0)QE_ACQUIRE")
-    field(ZNAM, "Stop")
-    field(ONAM, "Acquire")
+    field(OUT,  "@asyn($(PORT) 0)QE_ACQUIRE_MODE")
+    field(ZNAM, "Continuous")
+    field(ONAM, "One-shot")
+}
+
+record(bi,"$(P)$(R)AcquireMode_RBV") {
+    field(DESC, "AcquireMode")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)QE_ACQUIRE_MODE")
+    field(ZNAM, "Continuous")
+    field(ONAM, "One-shot")
     field(SCAN, "I/O Intr")
 }
 
