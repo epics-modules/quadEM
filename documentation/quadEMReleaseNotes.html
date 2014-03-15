@@ -9,6 +9,24 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 4-1 (March XXX, 2014)</h2>
+  <ul>
+    <li>Added new AcquireMode record to support both Continuous and One-shot acquisition modes.
+      Previously only continuous acquisition was supported.  One-shot acquires the data from
+      one AveragingTime and then stops acquisition.</li>
+    <li>The Acquire record was changed from a bo to a busy record to support 
+      use with the sscan record when AcquireMode=One-shot.</li>
+    <li>Added optional "modelName" parameter to the constructors and configuration commands 
+      for the startup scripts.  This allows one to specify what model of AH401x or AH501x is
+      being used.  The driver attempts to detect this automatically from the firmware version
+      it reads from the device, but some of the Elettra units have strange firmware version strings
+      so this can fail.</li>
+    <li>Fix to allow fast feedback to work on APS_EM.</li>
+    <li>Added new Firmware stringin record containing the firmware version from the device.</li>
+    <li>Changed to use R2-0 of areaDetector.  It only uses the ADCORE and ADBINARIES modules.</li>
+  </ul>
+    
+  <h2 style="text-align: center">
     Release 4-0 (March 12, 2013)</h2>
   <ul>
     <li>Major update of the module. The device-dependent classes (AHxxx, APS_EM) have
