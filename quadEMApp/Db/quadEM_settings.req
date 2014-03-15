@@ -1,5 +1,6 @@
 # FILE... quadEM_settings.req
 $(P)$(R)Acquire
+$(P)$(R)AcquireMode
 $(P)$(R)Range
 $(P)$(R)PingPong
 $(P)$(R)IntegrationTime
