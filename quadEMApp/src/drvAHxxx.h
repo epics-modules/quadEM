@@ -44,6 +44,7 @@ private:
     epicsEventId acquireStartEvent_;
     int acquiring_;
     int readingActive_;
+    int numAcquired_;
     char *QEPortName_;
     bool AH501Series_;
     bool AH401Series_;
