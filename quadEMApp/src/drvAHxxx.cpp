@@ -162,6 +162,8 @@ void drvAHxxx::readThread(void)
     size_t nRead;
     int numBytes;
     int eomReason;
+    int acquireMode;
+    int numAverage;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
     asynOctet *pasynOctet;
@@ -199,6 +201,9 @@ void drvAHxxx::readThread(void)
             epicsEventWait(acquireStartEvent_);
             lock();
             readingActive_ = 1;
+            numAcquired_ = 0;
+            getIntegerParam(P_AcquireMode, &acquireMode);
+            getIntegerParam(P_NumAverage, &numAverage);
         }
         numBytes = 3;
         if (valuesPerRead_ < 1) valuesPerRead_ = 1;
@@ -271,6 +276,11 @@ void drvAHxxx::readThread(void)
                 }
             }
             computePositions(raw);
+            numAcquired_++;
+            if ((acquireMode == QEAcquireModeOneShot) &&
+                (numAcquired_ >= numAverage)) {
+                acquiring_ = 0;
+            }
         } else if (status != asynTimeout) {
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                 "%s:%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
@@ -334,10 +344,31 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
     asynStatus status=asynSuccess, readStatus;
     int eomReason;
     int trigger;
+    int numAverage;
+    int numAcquire;
+    int acquireMode;
     char dummyIn[MAX_COMMAND_LEN];
     static const char *functionName = "setAcquire";
     
+    getIntegerParam(P_Trigger, &trigger);
+    getIntegerParam(P_AcquireMode, &acquireMode);
+    getIntegerParam(P_NumAverage, &numAverage);
+
+    // Make sure the input EOS is set
+    status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
+    if (status) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s:%s: error calling pasynOctetSyncIO->setInputEos, status=%d\n",
+            driverName, functionName, status);
+        return asynError;
+    }
+
     if (value == 0) {
+        // We assume that if acquiring_=0, readingActive_=0 and acquireMode=one shot that the meter stopped itself
+        // and we don't need to do anything further.  This really speeds things up.
+        if ((acquiring_ == 0) && (readingActive_ == 0) && (acquireMode == QEAcquireModeOneShot)) 
+            return asynSuccess;
+
         // Setting this flag tells the read thread to stop
         acquiring_ = 0;
         // Wait for the read thread to stop
@@ -348,13 +379,6 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         }
         while (1) {
             // Send stop command for both types of meters since initially we don't know which type we are talking to
-            status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
-            if (status) {
-                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                    "%s:%s: error calling pasynOctetSyncIO->setInputEos, status=%d\n",
-                    driverName, functionName, status);
-                break;
-            }
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ OFF", strlen("ACQ OFF"), 
                                              dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "S", strlen("S"), 
@@ -375,9 +399,17 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
     } else {
-        getIntegerParam(P_Trigger, &trigger);
         // Make sure the meter is in binary mode
         strcpy(outString_, "BIN ON");
+        writeReadMeter();
+        
+        // If we are in one-shot mode then send NAQ to request specific number of samples
+        if (acquireMode == QEAcquireModeOneShot) {
+            numAcquire = numAverage;
+        } else {
+            numAcquire = 0;
+        }
+        sprintf(outString_, "NAQ %d", numAcquire);
         writeReadMeter();
 
         // If we are in external trigger mode then send the TRG ON command
