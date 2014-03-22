@@ -9,11 +9,15 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
-    Release 4-1 (March XXX, 2014)</h2>
+    Release 4-1 (March 22, 2014)</h2>
   <ul>
     <li>Added new AcquireMode record to support both Continuous and One-shot acquisition modes.
       Previously only continuous acquisition was supported.  One-shot acquires the data from
-      one AveragingTime and then stops acquisition.</li>
+      one AveragingTime and then stops acquisition.  One-shot mode can be used with either
+      triggered or free-running acquisition.<br />
+      Note: Correct operation of the One-shot mode and triggered modes on the AH501D requires
+      firmware version 2.0 or later.  Previous firmware versions have bugs that prevent correct
+      operation in these modes.  The firmware can be updated in the field.</li>
     <li>The Acquire record was changed from a bo to a busy record to support 
       use with the sscan record when AcquireMode=One-shot.</li>
     <li>Added optional "modelName" parameter to the constructors and configuration commands 
