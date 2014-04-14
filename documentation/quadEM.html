@@ -38,11 +38,12 @@
     combined with analog signal conditioning and filtering stages. The AH501C/D have
     an integrated programmable bias supply.
   </p>
-  The quadEM driver derives from the asynNDArrayDriver base class from the <a href="areaDetector.html">
-    EPICS areaDetector module</a>. The driver collects the current, sum, difference
-  and position readings during a user-defined "averaging period" and puts the time
-  series of readings into a number of NDArray objects. The NDArrays are passed via
-  callbacks to any NDArray plugins. These plugins include the
+  <p>
+    The quadEM driver derives from the asynNDArrayDriver base class from the <a href="areaDetector.html">
+      EPICS areaDetector module</a>. The driver collects the current, sum, difference
+    and position readings during a user-defined "averaging period" and puts the time
+    series of readings into a number of NDArray objects. The NDArrays are passed via
+    callbacks to any NDArray plugins. These plugins include the</p>
   <ul>
     <li>NDPluginStats statistics plugin, which computes the mean, min, max, historgram
       of values, etc. for this time series.</li>
@@ -96,6 +97,21 @@
           Release Notes</th>
         <th>
           Known Problems</th>
+      </tr>
+      <tr>
+        <td>
+          4-1</td>
+        <td>
+          14-April-2014</td>
+        <td>
+          <a href="http://cars.uchicago.edu/software/pub/quadEMR4-1.tgz">quadEMR4-1.tgz</a>
+        </td>
+        <td>
+          <a href="quadEMDoc.html">quadEMDoc.html</a></td>
+        <td>
+          <a href="quadEMReleaseNotes.html">Release notes</a></td>
+        <td>
+          See release notes</td>
       </tr>
       <tr>
         <td>
@@ -312,6 +328,96 @@
           Release needed</th>
         <th>
           Required for</th>
+      </tr>
+      <tr>
+        <td rowspan="11">
+          4-1</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.14.12.3</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-22</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+        <td>
+          areaDetector</td>
+        <td>
+          2-0</td>
+        <td>
+          Used for NDArray plugins that compute statistics, stream data to disk, etc.</td>
+      </tr>
+      <tr>
+        <td>
+          mca</td>
+        <td>
+          7-4</td>
+        <td>
+          Fast sweep driver for time series</td>
+      </tr>
+      <tr>
+        <td>
+          busy</td>
+        <td>
+          1-6</td>
+        <td>
+          Busy record. Used in databases to support ca_put_callback.</td>
+      </tr>
+      <tr>
+        <td>
+          ipUnidig</td>
+        <td>
+          2-9</td>
+        <td>
+          Used in test application for interrupt callback support for APS_EM.</td>
+      </tr>
+      <tr>
+        <td>
+          ipac</td>
+        <td>
+          2-11</td>
+        <td>
+          Used in test application for Industry Pack support for ipUnidig.</td>
+      </tr>
+      <tr>
+        <td>
+          seq</td>
+        <td>
+          2-1-10</td>
+        <td>
+          Used by quadEM_TimeSeries to synchronize acquisition and to compute FFTs.</td>
+      </tr>
+      <tr>
+        <td>
+          autosave</td>
+        <td>
+          5-1</td>
+        <td>
+          Used in test application for save/restore.</td>
+      </tr>
+      <tr>
+        <td>
+          sscan</td>
+        <td>
+          2-9</td>
+        <td>
+          Used in test application for scanning.</td>
+      </tr>
+      <tr>
+        <td>
+          calc</td>
+        <td>
+          3-2</td>
+        <td>
+          Used in test application for sscan.</td>
       </tr>
       <tr>
         <td rowspan="11">
