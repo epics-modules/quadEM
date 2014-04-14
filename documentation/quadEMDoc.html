@@ -12,7 +12,7 @@
     <h2>
       R4-1</h2>
     <h2>
-      March 22, 2014</h2>
+      April 14, 2014</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -138,15 +138,15 @@
   </ul>
   <p>
     Note: For the AH501D firmware version 2.0 fixes two problems with previous versions:</p>
-    <ul>
-      <li>The NAQ command caused data to be sent immediately, it did not wait for a "TRG ON"
-          or "ACQ ON" command as it should.</li>
-      <li>The "TRG ON" command sent extra characters on the trailing edge of each gate pulse.
-          This would corrupt the data if multiple trigger pulses were received.</li>
-    </ul>
-    <p>The AH501D should be updated to firmware 2.0 for proper operation in One-Shot and/or
-      Triggered modes.</p>
-
+  <ul>
+    <li>The NAQ command caused data to be sent immediately, it did not wait for a "TRG
+      ON" or "ACQ ON" command as it should.</li>
+    <li>The "TRG ON" command sent extra characters on the trailing edge of each gate pulse.
+      This would corrupt the data if multiple trigger pulses were received.</li>
+  </ul>
+  <p>
+    The AH501D should be updated to firmware 2.0 for proper operation in One-Shot and/or
+    Triggered modes.</p>
   <h2 id="Databases">
     Databases</h2>
   <h3 id="quadEM">
@@ -194,9 +194,9 @@
         <td>
           All</td>
         <td>
-          The model of the electrometer. This is mormally determined automatically by the driver
-          by reading the firmware version.  It can also be specified in the configuration command.
-          Values are:
+          The model of the electrometer. This is mormally determined automatically by the
+          driver by reading the firmware version. It can also be specified in the configuration
+          command. Values are:
           <ul>
             <li>0: Unknown</li>
             <li>1: APS_EM</li>
@@ -222,8 +222,7 @@
         <td>
           All</td>
         <td>
-          The firmware version of the electrometer.
-        </td>
+          The firmware version of the electrometer. </td>
       </tr>
       <tr>
         <td>
@@ -241,20 +240,21 @@
         <td>
           All</td>
         <td>
-          Acquire mode.  Values are:
+          Acquire mode. Values are:
           <ul>
             <li>0: Continuous </li>
             <li>1: One-shot </li>
           </ul>
-          In continuous mode setting Acquire=1 acquires data continuously until 
-          Acquire is set back to 0.<br />
+          In continuous mode setting Acquire=1 acquires data continuously until Acquire is
+          set back to 0.<br />
           In one-shot mode setting Acquire=1 will acquire a data for a single AveragingTime
-          time period.  This will result in a single call to the plugins, and thus a single
-          set of averaged values. The driver will then set Acquire back to 0. This mode is intended for
-          data acquisition, for example with the sscan record. With the AH401 and AH501 series
-          One-shot works in triggered mode as well.  When Acquire is set to 1 it will wait
-          for the trigger to acquire NumAverage_RBV samples. This may require multiple trigger
-          pulses depending on the length of the pulses, the AveragingTime and the SampleTime_RBV.<br />
+          time period. This will result in a single call to the plugins, and thus a single
+          set of averaged values. The driver will then set Acquire back to 0. This mode is
+          intended for data acquisition, for example with the sscan record. With the AH401
+          and AH501 series One-shot works in triggered mode as well. When Acquire is set to
+          1 it will wait for the trigger to acquire NumAverage_RBV samples. This may require
+          multiple trigger pulses depending on the length of the pulses, the AveragingTime
+          and the SampleTime_RBV.<br />
         </td>
       </tr>
       <tr>
@@ -272,10 +272,9 @@
           All</td>
         <td>
           Acquire command. This command turns acquisition from the device on (1) and off (0)
-          Since it is a "busy" record the device can be used with the sscan record when
-          AcquireMode=One-shot.<br />
-          <b>Important note:</b> Operation in One-shot mode with the sscan record also 
-          requires that the statistics plugins be set to have CallbacksBlock=Yes so that the driver 
+          Since it is a "busy" record the device can be used with the sscan record when AcquireMode=One-shot.<br />
+          <b>Important note:</b> Operation in One-shot mode with the sscan record also requires
+          that the statistics plugins be set to have CallbacksBlock=Yes so that the driver
           waits for the statistics plugins to compute before it sets Acquire back to 0.
         </td>
       </tr>
@@ -696,10 +695,10 @@
           AH501 and AH401 series</td>
         <td>
           Controls whether acquisition is free-running ("No") or triggered by an external
-          pulse ("Yes").  On the AH501D the trigger is actually a gate.  The meter acquires data 
-          only when the trigger is in the logic high state.  This allows it to be controlled
-          by a scaler gate output signal, so that the AH501D is acquiring for the same time period
-          as the scaler, for example.</td>
+          pulse ("Yes"). On the AH501D the trigger is actually a gate. The meter acquires
+          data only when the trigger is in the logic high state. This allows it to be controlled
+          by a scaler gate output signal, so that the AH501D is acquiring for the same time
+          period as the scaler, for example.</td>
       </tr>
       <tr>
         <td>
