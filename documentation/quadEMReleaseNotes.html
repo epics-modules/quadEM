@@ -9,6 +9,24 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 5-0 (June 30, 2014)</h2>
+  <ul>
+    <li>Supported a new geometry where the current sources are arranged with 2 on the
+      top and 2 on the bottom, in addition to the previous geometer of top, bottom, left
+      right. The sum, difference and position calculations are done differently in this
+      geometry.</li>
+    <li>Added a new Geometry PV that controls which geometry is used in the calculations.</li>
+    <li>Because which diodes contribute to the sum, difference and position calculation
+      depends on the geometry, the names of the Sum, Diff and Position PVs have changed.
+      <ul>
+        <li>Sum12, Sum34 have changed to SumX, SumY</li>
+        <li>Diff12, Diff34 have changed to DiffX, DiffY</li>
+        <li>Position12, Position34 have changed to PositionX, PositionY</li>
+        <li>Sum1234 has changed to SumAll</li>
+      </ul>
+    </li>
+  </ul>
+  <h2 style="text-align: center">
     Release 4-1 (April 14, 2014)</h2>
   <ul>
     <li>Added new AcquireMode record to support both Continuous and One-shot acquisition
