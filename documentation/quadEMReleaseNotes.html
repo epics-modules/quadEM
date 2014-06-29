@@ -11,13 +11,14 @@
   <h2 style="text-align: center">
     Release 5-0 (June 30, 2014)</h2>
   <ul>
-    <li>Supported a new geometry where the current sources are arranged with 2 on the
-      top and 2 on the bottom, in addition to the previous geometer of top, bottom, left
-      right. The sum, difference and position calculations are done differently in this
-      geometry.</li>
-    <li>Added a new Geometry PV that controls which geometry is used in the calculations.</li>
-    <li>Because which diodes contribute to the sum, difference and position calculation
-      depends on the geometry, the names of the Sum, Diff and Position PVs have changed.
+    <li>Supported a new geometry where the current sources are arranged in a square array
+      with 2 on the top and 2 on the bottom, in addition to the previous diamond geometry
+      of top, bottom, left right. The sum, difference and position calculations are done
+      differently in this geometry.</li>
+    <li>Added a new Geometry PV that controls which geometry (Diamond, Square) is used
+      in the calculations.</li>
+    <li>Because the diodes that contribute to the sum, difference and position calculations
+      depend on the geometry, the names of the Sum, Diff and Position PVs have changed.
       <ul>
         <li>Sum12, Sum34 have changed to SumX, SumY</li>
         <li>Diff12, Diff34 have changed to DiffX, DiffY</li>
