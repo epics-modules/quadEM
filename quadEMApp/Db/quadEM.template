@@ -284,6 +284,17 @@ record(mbbo,"$(P)$(R)Geometry") {
     field(OUT,  "@asyn($(PORT) 0)QE_GEOMETRY")
 }
 
+record(mbbi,"$(P)$(R)Geometry_RBV") {
+    field(DESC, "Position geometry")
+    field(ZRVL, "0")
+    field(ZRST, "Diamond")
+    field(ONVL, "1")
+    field(ONST, "Square")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)QE_GEOMETRY")
+    field(SCAN, "I/O Intr")
+}
+
 record(stringin,"$(P)$(R)CurrentName1") {
     field(DESC, "Name")
     field(VAL,  "1")
