@@ -182,7 +182,7 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
     
     doubleData[QESumAll] = doubleData[QECurrent1] + doubleData[QECurrent2] +
                            doubleData[QECurrent3] + doubleData[QECurrent4];
-    if (geometry == QEGeometry0Degrees) {
+    if (geometry == QEGeometrySquare) {
         doubleData[QESumX]   = doubleData[QESumAll];
         doubleData[QESumY]   = doubleData[QESumAll];
         doubleData[QEDiffX]  = (doubleData[QECurrent2] + doubleData[QECurrent3]) -
