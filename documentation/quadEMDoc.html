@@ -170,7 +170,15 @@
     PVs were changed. The computed quantities are called SumX, SumY, SumAll, DiffX,
     DiffY, PositionX, and PositionY.</p>
   <p>
-    The first geometry is:</p>
+    The first geometry is the same as that illustrated above, and is called Diamond.
+    For this geometry only 2 diodes are used for the position calculation in each direction.
+    SumX=(1+2), SumY=(3+4), DiffX=(2-1), DiffY=(4-3). This geometry is identical to
+    the geometry assumed prior to R5-0. The X diodes are 1&2 rather than 1&3 so that
+    it is possible to use just the first 2 inputs on the AH501 series to increase readout
+    speed in cases where all 4 diodes are not used. This would not be possible if diodes
+    1 and 3 were used for the X calculations.</p>
+  <p>
+    The second geometry is:</p>
   <pre>
 
           1     2
@@ -179,24 +187,9 @@
           4     3
   </pre>
   <p>
-    This geometry is called "0 degrees". For this geometry all 4 diodes are used for
-    the position calculation in each direction. SumX=SumY=(1+2+3+4), DiffX=(2+3)-(1+4),
+    This geometry is called Square. For this geometry all 4 diodes are used for the
+    position calculation in each direction. SumX=SumY=(1+2+3+4), DiffX=(2+3)-(1+4),
     DiffY=(1+2)-(3+4).</p>
-  The second geometry is:</p>
-  <pre>
-             4
-             
-          1     2
-             
-             3
-  </pre>
-  This geometry is called "45 degrees" because it is similar to the "0 degrees" geometry
-  rotated 45 degrees counterclockwise. For this geometry only 2 diodes are used for
-  the position calculation in each direction. SumX=(1+2), SumY=(3+4), DiffX=(2-1),
-  DiffY=(4-3). This geometry is identical to the geometry assumed prior to R5-0. The
-  X diodes are 1&2 rather than 1&3 so that it is possible to use just the first 2
-  inputs on the AH501 series to increase readout speed in cases where all 4 diodes
-  are not used.</p>
   <p>
     For both geometries SumAll=(1+2+3+4), PositionX=DiffX/SumX, and PositionY=DiffY/SumY.
     X positive is to the right and Y positive is up for both geometries.</p>
@@ -470,6 +463,27 @@
             <li>1: channel 1 only</li>
             <li>2: channels 1 and 2 only</li>
             <li>4: channels 1-4</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          QE_Geometry</td>
+        <td>
+          $(P)$(R)Geometry</td>
+        <td>
+          mbbo</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Selects the geometry of the current inputs as discussed above. Allowed choices are:
+          <ul>
+            <li>0: Diamond</li>
+            <li>1: Square</li>
           </ul>
         </td>
       </tr>
