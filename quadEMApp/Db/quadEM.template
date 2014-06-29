@@ -1,4 +1,4 @@
-# Database for Elettra AHxxx picoammeters
+# Database for quadEM driver (APS, Elettra, and Caen ELS quad electrometers)
 #   Mark Rivers
 #   June 3, 2012
 
@@ -385,37 +385,48 @@ record(ao,"$(P)$(R)CurrentScale4") {
     field(VAL,  "1.0")
 }
 
-record(ao,"$(P)$(R)PositionOffset12") {
+record(ao,"$(P)$(R)PositionOffsetX") {
     field(DESC, "Offset")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 0)QE_POSITION_OFFSET")
 }
 
-record(ao,"$(P)$(R)PositionOffset34") {
+record(ao,"$(P)$(R)PositionOffsetY") {
     field(DESC, "Offset")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 1)QE_POSITION_OFFSET")
 }
 
-record(calcout,"$(P)$(R)ComputePosOffset12") {
-    field(DESC, "Compute Offset")
-    field(INPA, "$(P)$(R)Pos12:MeanValue_RBV")
-    field(INPB, "$(P)$(R)PositionOffset12")
-    field(CALC, "A+B")
-    field(OUT,  "$(P)$(R)PositionOffset12 PP")
+record(mbbo,"$(P)$(R)Geometry") {
+    field(DESC, "Position geometry")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "0 degrees")
+    field(ONVL, "1")
+    field(ONST, "45 degrees")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)QE_GEOMETRY")
 }
 
-record(calcout,"$(P)$(R)ComputePosOffset34") {
+record(calcout,"$(P)$(R)ComputePosOffsetX") {
     field(DESC, "Compute Offset")
-    field(INPA, "$(P)$(R)Pos34:MeanValue_RBV")
-    field(INPB, "$(P)$(R)PositionOffset34")
+    field(INPA, "$(P)$(R)PosX:MeanValue_RBV")
+    field(INPB, "$(P)$(R)PositionOffsetX")
     field(CALC, "A+B")
-    field(OUT,  "$(P)$(R)PositionOffset34 PP")
+    field(OUT,  "$(P)$(R)PositionOffsetX PP")
 }
 
-record(ao,"$(P)$(R)PositionScale12") {
+record(calcout,"$(P)$(R)ComputePosOffsetY") {
+    field(DESC, "Compute Offset")
+    field(INPA, "$(P)$(R)PosY:MeanValue_RBV")
+    field(INPB, "$(P)$(R)PositionOffsetY")
+    field(CALC, "A+B")
+    field(OUT,  "$(P)$(R)PositionOffsetY PP")
+}
+
+record(ao,"$(P)$(R)PositionScaleX") {
     field(DESC, "Offset")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
@@ -423,7 +434,7 @@ record(ao,"$(P)$(R)PositionScale12") {
     field(OUT,  "@asyn($(PORT) 0)QE_POSITION_SCALE")
 }
 
-record(ao,"$(P)$(R)PositionScale34") {
+record(ao,"$(P)$(R)PositionScaleY") {
     field(DESC, "Offset")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")

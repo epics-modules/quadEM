@@ -6,13 +6,13 @@
 # TimeSeries2  = diode current 2
 # TimeSeries3  = diode current 3
 # TimeSeries4  = diode current 4
-# TimeSeries5  = sum 1+2
-# TimeSeries6  = sum 3+4
-# TimeSeries7  = sum 1+2+3+4
-# TimeSeries8  = difference 2-1
-# TimeSeries9  = difference 4-3
-# TimeSeries10 = position (2-1)/(2+1)
-# TimeSeries11 = position (4-3)/(4+3)
+# TimeSeries5  = sum X
+# TimeSeries6  = sum Y
+# TimeSeries7  = sum All
+# TimeSeries8  = difference X
+# TimeSeries9  = difference Y
+# TimeSeries10 = position X
+# TimeSeries11 = position Y
 
 record(bi,"$(P)$(R)SNL_Connected") {
   field(ZNAM, "Not connected")
@@ -200,7 +200,7 @@ record(waveform,"$(P)$(R)Current4TS")
     field(INP,  "@asyn($(PORT) 3)MCA_DATA")
 }
 
-record(waveform,"$(P)$(R)Sum12TS")
+record(waveform,"$(P)$(R)SumXTS")
 {
     field(DESC, "Sum 1+2")
     field(DTYP, "asynInt32ArrayIn")
@@ -210,7 +210,7 @@ record(waveform,"$(P)$(R)Sum12TS")
     field(INP,  "@asyn($(PORT) 4)MCA_DATA")
 }
 
-record(waveform,"$(P)$(R)Sum34TS")
+record(waveform,"$(P)$(R)SumYTS")
 {
     field(DESC, "Sum 3+4")
     field(DTYP, "asynInt32ArrayIn")
@@ -220,7 +220,7 @@ record(waveform,"$(P)$(R)Sum34TS")
     field(INP,  "@asyn($(PORT) 5)MCA_DATA")
 }
 
-record(waveform,"$(P)$(R)Sum1234TS")
+record(waveform,"$(P)$(R)SumAllTS")
 {
     field(DESC, "Sum 1+2+3+4")
     field(DTYP, "asynInt32ArrayIn")
@@ -230,7 +230,7 @@ record(waveform,"$(P)$(R)Sum1234TS")
     field(INP,  "@asyn($(PORT) 6)MCA_DATA")
 }
 
-record(waveform,"$(P)$(R)Diff12TS")
+record(waveform,"$(P)$(R)DiffXTS")
 {
     field(DESC, "Difference 2-1")
     field(DTYP, "asynInt32ArrayIn")
@@ -240,7 +240,7 @@ record(waveform,"$(P)$(R)Diff12TS")
     field(INP,  "@asyn($(PORT) 7)MCA_DATA")
 }
 
-record(waveform,"$(P)$(R)Diff34TS")
+record(waveform,"$(P)$(R)DiffYTS")
 {
     field(DESC, "Difference 4-3")
     field(DTYP, "asynInt32ArrayIn")
@@ -250,7 +250,7 @@ record(waveform,"$(P)$(R)Diff34TS")
     field(INP,  "@asyn($(PORT) 8)MCA_DATA")
 }
 
-record(waveform,"$(P)$(R)Position12TS")
+record(waveform,"$(P)$(R)PositionXTS")
 {
     field(DESC, "Position 1&2")
     field(DTYP, "asynInt32ArrayIn")
@@ -260,7 +260,7 @@ record(waveform,"$(P)$(R)Position12TS")
     field(INP,  "@asyn($(PORT) 9)MCA_DATA")
 }
 
-record(waveform,"$(P)$(R)Position34TS")
+record(waveform,"$(P)$(R)PositionYTS")
 {
     field(DESC, "Position 3&4")
     field(DTYP, "asynInt32ArrayIn")
@@ -314,49 +314,49 @@ record(waveform,"$(P)$(R)Current4FFT")
     field(FTVL, "FLOAT")
 }
 
-record(waveform,"$(P)$(R)Sum12FFT")
+record(waveform,"$(P)$(R)SumXFFT")
 {
     field(DESC, "Current 1 FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
-record(waveform,"$(P)$(R)Sum34FFT")
+record(waveform,"$(P)$(R)SumXFFT")
 {
     field(DESC, "Current 1 FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
-record(waveform,"$(P)$(R)Sum1234FFT")
+record(waveform,"$(P)$(R)SumAllFFT")
 {
     field(DESC, "Current 1 FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
-record(waveform,"$(P)$(R)Diff12FFT")
+record(waveform,"$(P)$(R)DiffXFFT")
 {
     field(DESC, "Current 1 FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
-record(waveform,"$(P)$(R)Diff34FFT")
+record(waveform,"$(P)$(R)DiffYFFT")
 {
     field(DESC, "Current 1 FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
-record(waveform,"$(P)$(R)Position12FFT")
+record(waveform,"$(P)$(R)PositionXFFT")
 {
     field(DESC, "Current 1 FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
-record(waveform,"$(P)$(R)Position34FFT")
+record(waveform,"$(P)$(R)PositionYFFT")
 {
     field(DESC, "Current 1 FFT")
     field(NELM, "$(NUM_FREQ)")
