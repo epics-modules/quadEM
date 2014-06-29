@@ -2,7 +2,7 @@
  * drvAHxxx.h
  * 
  * Asyn driver that inherits from the asynPortDriver class to control the Elettra/CAENEls 4-channel picoammeters
- * This driver supports models 401B, 501, 501C, and 501D, but only the 401B and 501 have been tested.
+ * This driver supports models 401B, 501, 501C, and 501D, but only the 401B, 501 and 501D have been tested.
  *
  * Author: Mark Rivers
  *
@@ -25,8 +25,8 @@
 #include <asynOctetSyncIO.h>
 #include <iocsh.h>
 
-#include "drvAHxxx.h"
 #include <epicsExport.h>
+#include "drvAHxxx.h"
 
 #define AHxxx_TIMEOUT 1.0
 #define MIN_INTEGRATION_TIME 0.001
