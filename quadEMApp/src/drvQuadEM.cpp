@@ -15,7 +15,13 @@
 #include <epicsTypes.h>
 #include <epicsString.h>
 #include <epicsThread.h>
+#include <epicsExit.h>
+#include <epicsRingBytes.h>
+#include <epicsEvent.h>
 
+#include <asynNDArrayDriver.h>
+
+#include <epicsExport.h>
 #include "drvQuadEM.h"
 
 static const char *driverName="drvQuadEM";
@@ -84,7 +90,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     createParam(P_NumAverageString,         asynParamInt32,         &P_NumAverage);
     createParam(P_NumAveragedString,        asynParamInt32,         &P_NumAveraged);
     createParam(P_ModelString,              asynParamInt32,         &P_Model);
-    createParam(P_FirmwareString,           asynParamOctet,        &P_Firmware);
+    createParam(P_FirmwareString,           asynParamOctet,         &P_Firmware);
     
     setIntegerParam(P_Acquire, 0);
     setIntegerParam(P_RingOverflows, 0);
@@ -144,6 +150,7 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
     int count;
     int numAverage;
     int ringOverflows;
+    int geometry;
     epicsFloat64 currentOffset[QE_MAX_INPUTS];
     epicsFloat64 currentScale[QE_MAX_INPUTS];
     epicsFloat64 positionOffset[2];
@@ -153,6 +160,7 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
     epicsFloat64 denom;
     static const char *functionName = "computePositions";
     
+    getIntegerParam(P_Geometry, &geometry);
     // If the ring buffer is full then remove the oldest entry
     if (epicsRingBytesFreeBytes(ringBuffer_) < (int)sizeof(doubleData)) {
         count = epicsRingBytesGet(ringBuffer_, (char *)&doubleData, sizeof(doubleData));
@@ -172,17 +180,28 @@ void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
         getDoubleParam(i, P_PositionScale, &positionScale[i]);
     }
     
-    doubleData[QESum12] = doubleData[QECurrent1] + doubleData[QECurrent2];
-    doubleData[QESum34] = doubleData[QECurrent3] + doubleData[QECurrent4];
-    doubleData[QESum1234] = doubleData[QESum12] + doubleData[QESum34];
-    doubleData[QEDiff12] = doubleData[QECurrent2] - doubleData[QECurrent1];
-    doubleData[QEDiff34] = doubleData[QECurrent4] - doubleData[QECurrent3];
-    denom = doubleData[QESum12];
+    doubleData[QESumAll] = doubleData[QECurrent1] + doubleData[QECurrent2] +
+                           doubleData[QECurrent3] + doubleData[QECurrent4];
+    if (geometry == QEGeometry0Degrees) {
+        doubleData[QESumX]   = doubleData[QESumAll];
+        doubleData[QESumY]   = doubleData[QESumAll];
+        doubleData[QEDiffX]  = (doubleData[QECurrent2] + doubleData[QECurrent3]) -
+                               (doubleData[QECurrent1] + doubleData[QECurrent4]);
+        doubleData[QEDiffY]  = (doubleData[QECurrent1] + doubleData[QECurrent2]) -
+                               (doubleData[QECurrent3] + doubleData[QECurrent4]);
+    } 
+    else {
+        doubleData[QESumX]   = doubleData[QECurrent1] + doubleData[QECurrent2];
+        doubleData[QESumY]   = doubleData[QECurrent3] + doubleData[QECurrent4];
+        doubleData[QEDiffX]  = doubleData[QECurrent2] - doubleData[QECurrent1];
+        doubleData[QEDiffY]  = doubleData[QECurrent4] - doubleData[QECurrent3];
+    }
+    denom = doubleData[QESumX];
     if (denom == 0.) denom = 1.;
-    doubleData[QEPosition12] = (positionScale[0] * doubleData[QEDiff12] / denom) -  positionOffset[0];
-    denom = doubleData[QESum34];
+    doubleData[QEPositionX] = (positionScale[0] * doubleData[QEDiffX] / denom) -  positionOffset[0];
+    denom = doubleData[QESumY];
     if (denom == 0.) denom = 1.;
-    doubleData[QEPosition34] = (positionScale[1] * doubleData[QEDiff34] / denom) -  positionOffset[1];
+    doubleData[QEPositionY] = (positionScale[1] * doubleData[QEDiffY] / denom) -  positionOffset[1];
 
     count = epicsRingBytesPut(ringBuffer_, (char *)&doubleData, sizeof(doubleData));
     ringCount_++;
