@@ -273,6 +273,17 @@ record(bo,"$(P)$(R)Reset") {
     field(OUT,  "@asyn($(PORT) 0)QE_RESET")
 }
 
+record(mbbo,"$(P)$(R)Geometry") {
+    field(DESC, "Position geometry")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "Diamond")
+    field(ONVL, "1")
+    field(ONST, "Square")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)QE_GEOMETRY")
+}
+
 record(stringin,"$(P)$(R)CurrentName1") {
     field(DESC, "Name")
     field(VAL,  "1")
@@ -397,17 +408,6 @@ record(ao,"$(P)$(R)PositionOffsetY") {
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 1)QE_POSITION_OFFSET")
-}
-
-record(mbbo,"$(P)$(R)Geometry") {
-    field(DESC, "Position geometry")
-    field(PINI, "YES")
-    field(ZRVL, "0")
-    field(ZRST, "0 degrees")
-    field(ONVL, "1")
-    field(ONST, "45 degrees")
-    field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT) 0)QE_GEOMETRY")
 }
 
 record(calcout,"$(P)$(R)ComputePosOffsetX") {
