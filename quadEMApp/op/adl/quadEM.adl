@@ -8,7 +8,7 @@ display {
 		x=119
 		y=69
 		width=840
-		height=565
+		height=590
 	}
 	clr=14
 	bclr=3
@@ -1208,392 +1208,6 @@ text {
 }
 composite {
 	object {
-		x=10
-		y=285
-		width=380
-		height=120
-	}
-	"composite name"=""
-	"composite file"="AH501.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=4"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=20
-		y=185
-		width=370
-		height=20
-	}
-	"composite name"=""
-	children {
-		"text update" {
-			object {
-				x=290
-				y=185
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValuesPerRead_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=20
-				y=185
-				width=180
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Values per reading"
-		}
-		"text entry" {
-			object {
-				x=205
-				y=185
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)ValuesPerRead"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-	}
-}
-"text update" {
-	object {
-		x=290
-		y=210
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)AveragingTime_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=60
-		y=210
-		width=140
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Averaging time"
-}
-"text entry" {
-	object {
-		x=205
-		y=210
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)AveragingTime"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-"message button" {
-	object {
-		x=205
-		y=235
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)ReadData.PROC"
-		clr=14
-		bclr=51
-	}
-	label="Read"
-	press_msg="1"
-}
-text {
-	object {
-		x=50
-		y=235
-		width=150
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Read data"
-	align="horiz. right"
-}
-composite {
-	object {
-		x=86
-		y=535
-		width=195
-		height=20
-	}
-	"composite name"=""
-	children {
-		"related display" {
-			object {
-				x=201
-				y=535
-				width=80
-				height=20
-			}
-			display[0] {
-				label="asyn record"
-				name="asynRecord.adl"
-				args="P=$(P), R=$(R)Asyn"
-			}
-			clr=14
-			bclr=51
-		}
-		text {
-			object {
-				x=86
-				y=535
-				width=110
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Asyn record"
-		}
-	}
-}
-text {
-	object {
-		x=86
-		y=485
-		width=110
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Plugins"
-	align="horiz. right"
-}
-text {
-	object {
-		x=86
-		y=510
-		width=110
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Time series"
-}
-"related display" {
-	object {
-		x=201
-		y=510
-		width=80
-		height=20
-	}
-	display[0] {
-		label="Time series"
-		name="quadEM_TimeSeries.adl"
-		args="P=$(P_TS),P_FFT=$(P_FFT),TX=$(TX),TY=$(TY)"
-	}
-	clr=14
-	bclr=51
-}
-"related display" {
-	object {
-		x=201
-		y=485
-		width=80
-		height=20
-	}
-	display[0] {
-		label="Statistics"
-		name="QECommonPlugins.adl"
-		args="P=$(P),R=$(R)"
-	}
-	clr=14
-	bclr=51
-}
-composite {
-	object {
-		x=10
-		y=310
-		width=380
-		height=120
-	}
-	"composite name"=""
-	"composite file"="APS_EM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=1"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=310
-		width=380
-		height=120
-	}
-	"composite name"=""
-	"composite file"="AH401B.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="(A=2) || (A=3)"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=310
-		width=380
-		height=120
-	}
-	"composite name"=""
-	"composite file"="AH501C.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="(A=5)||(A=6)"
-		chan="$(P)$(R)Model"
-	}
-}
-"message button" {
-	object {
-		x=201
-		y=460
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Reset.PROC"
-		clr=14
-		bclr=51
-	}
-	label="Reset"
-	press_msg="1"
-}
-text {
-	object {
-		x=146
-		y=460
-		width=50
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Reset"
-}
-text {
-	object {
-		x=86
-		y=435
-		width=110
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Ring overflows"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=201
-		y=435
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)RingOverflows"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=90
-		y=285
-		width=110
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# Averaged"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=205
-		y=285
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)NumAveraged_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=80
-		y=260
-		width=120
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# To Average"
-}
-"text update" {
-	object {
-		x=205
-		y=260
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)NumAverage_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-composite {
-	object {
 		x=150
 		y=160
 		width=240
@@ -1682,4 +1296,441 @@ text {
 		clr=14
 	}
 	textix="Acquire mode"
+}
+composite {
+	object {
+		x=10
+		y=310
+		width=380
+		height=120
+	}
+	"composite name"=""
+	"composite file"="AH501.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=4"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=20
+		y=210
+		width=370
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=290
+				y=210
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ValuesPerRead_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=20
+				y=210
+				width=180
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Values per reading"
+		}
+		"text entry" {
+			object {
+				x=205
+				y=210
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ValuesPerRead"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+	}
+}
+"text update" {
+	object {
+		x=290
+		y=235
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)AveragingTime_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=60
+		y=235
+		width=140
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Averaging time"
+}
+"text entry" {
+	object {
+		x=205
+		y=235
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)AveragingTime"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"message button" {
+	object {
+		x=205
+		y=260
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)ReadData.PROC"
+		clr=14
+		bclr=51
+	}
+	label="Read"
+	press_msg="1"
+}
+text {
+	object {
+		x=50
+		y=260
+		width=150
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Read data"
+	align="horiz. right"
+}
+composite {
+	object {
+		x=86
+		y=560
+		width=195
+		height=20
+	}
+	"composite name"=""
+	children {
+		"related display" {
+			object {
+				x=201
+				y=560
+				width=80
+				height=20
+			}
+			display[0] {
+				label="asyn record"
+				name="asynRecord.adl"
+				args="P=$(P), R=$(R)Asyn"
+			}
+			clr=14
+			bclr=51
+		}
+		text {
+			object {
+				x=86
+				y=560
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Asyn record"
+		}
+	}
+}
+text {
+	object {
+		x=86
+		y=510
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Plugins"
+	align="horiz. right"
+}
+text {
+	object {
+		x=86
+		y=535
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Time series"
+}
+"related display" {
+	object {
+		x=201
+		y=535
+		width=80
+		height=20
+	}
+	display[0] {
+		label="Time series"
+		name="quadEM_TimeSeries.adl"
+		args="P=$(P_TS),P_FFT=$(P_FFT),TX=$(TX),TY=$(TY)"
+	}
+	clr=14
+	bclr=51
+}
+"related display" {
+	object {
+		x=201
+		y=510
+		width=80
+		height=20
+	}
+	display[0] {
+		label="Statistics"
+		name="QECommonPlugins.adl"
+		args="P=$(P),R=$(R)"
+	}
+	clr=14
+	bclr=51
+}
+composite {
+	object {
+		x=10
+		y=335
+		width=380
+		height=120
+	}
+	"composite name"=""
+	"composite file"="APS_EM.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=1"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=335
+		width=380
+		height=120
+	}
+	"composite name"=""
+	"composite file"="AH401B.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="(A=2) || (A=3)"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=335
+		width=380
+		height=120
+	}
+	"composite name"=""
+	"composite file"="AH501C.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="(A=5)||(A=6)"
+		chan="$(P)$(R)Model"
+	}
+}
+"message button" {
+	object {
+		x=201
+		y=485
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Reset.PROC"
+		clr=14
+		bclr=51
+	}
+	label="Reset"
+	press_msg="1"
+}
+text {
+	object {
+		x=146
+		y=485
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Reset"
+}
+text {
+	object {
+		x=86
+		y=460
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Ring overflows"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=201
+		y=460
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)RingOverflows"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=90
+		y=310
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# Averaged"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=205
+		y=310
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumAveraged_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=80
+		y=285
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# To Average"
+}
+"text update" {
+	object {
+		x=205
+		y=285
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumAverage_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+composite {
+	object {
+		x=120
+		y=185
+		width=270
+		height=20
+	}
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=205
+				y=185
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Geometry"
+				clr=14
+				bclr=51
+			}
+		}
+		"text update" {
+			object {
+				x=290
+				y=185
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)Geometry_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=120
+				y=185
+				width=80
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Geometry"
+		}
+	}
 }
