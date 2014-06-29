@@ -441,7 +441,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(EM)Sum1"
+				chan="$(P)$(EM)SumX"
 				clr=54
 				bclr=3
 			}
@@ -457,7 +457,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(EM)Sum2"
+				chan="$(P)$(EM)SumY"
 				clr=54
 				bclr=3
 			}
@@ -496,7 +496,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(EM)Diff1"
+				chan="$(P)$(EM)DiffX"
 				clr=54
 				bclr=3
 			}
@@ -512,7 +512,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(EM)Diff2"
+				chan="$(P)$(EM)DiffY"
 				clr=54
 				bclr=3
 			}
@@ -551,7 +551,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(EM)Position1"
+				chan="$(P)$(EM)PositionX"
 				clr=54
 				bclr=3
 			}
@@ -567,7 +567,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(EM)Position2"
+				chan="$(P)$(EM)PositionY"
 				clr=54
 				bclr=3
 			}
