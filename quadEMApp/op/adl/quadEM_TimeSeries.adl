@@ -478,7 +478,7 @@ composite {
 			display[0] {
 				label="1&2 (current, sum, pos)"
 				name="quadEM_plotAll.adl"
-				args="P=$(P), CURR1=Current1TS, CURR2=Current2TS, SUM=Sum12TS, POS=Position12TS, XAXIS=TimeAxis, TITLE=$(T12), XTITLE=Time (sec), YTITLE=Counts"
+				args="P=$(P), CURR1=Current1TS, CURR2=Current2TS, SUM=SumXTS, POS=PositionXTS, XAXIS=TimeAxis, TITLE=$(TX), XTITLE=Time (sec), YTITLE=Counts"
 			}
 			clr=14
 			bclr=4
@@ -505,7 +505,7 @@ composite {
 			display[0] {
 				label="3&4 (current, sum, pos)"
 				name="quadEM_plotAll.adl"
-				args="P=$(P), CURR1=Current3TS, CURR2=Current4TS, SUM=Sum12TS, POS=Position12TS, XAXIS=TimeAxis, TITLE=$(T34),XTITLE=Time (sec), YTITLE=Counts"
+				args="P=$(P), CURR1=Current3TS, CURR2=Current4TS, SUM=SumXTS, POS=PositionXTS, XAXIS=TimeAxis, TITLE=$(T34),XTITLE=Time (sec), YTITLE=Counts"
 			}
 			clr=14
 			bclr=4
@@ -564,7 +564,7 @@ composite {
 			display[4] {
 				label="Sum 1+2"
 				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Sum12TS"
+				args="P=$(P), M=SumXTS"
 			}
 			display[5] {
 				label="Sum 3+4"
@@ -574,12 +574,12 @@ composite {
 			display[6] {
 				label="Sum 1+2+3+4"
 				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Sum1234TS"
+				args="P=$(P), M=SumAllTS"
 			}
 			display[7] {
 				label="Difference 2-1"
 				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Diff12TS"
+				args="P=$(P), M=DiffXTS"
 			}
 			display[8] {
 				label="Difference 4-3"
@@ -589,7 +589,7 @@ composite {
 			display[9] {
 				label="Position 1&2"
 				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Position12TS"
+				args="P=$(P), M=PositionXTS"
 			}
 			display[10] {
 				label="Position 3&4"
@@ -632,7 +632,7 @@ composite {
 			display[0] {
 				label="1&2 (current, sum, pos)"
 				name="quadEM_plotAll.adl"
-				args="P=$(P), CURR1=Current1FFT, CURR2=Current2FFT, SUM=Sum12FFT, POS=Position12FFT, XAXIS=FreqAxis, TITLE=$(T12)_FFT, XTITLE=Frequency (Hz),YTITLE=Power Spectrum"
+				args="P=$(P), CURR1=Current1FFT, CURR2=Current2FFT, SUM=SumXFFT, POS=PositionXFFT, XAXIS=FreqAxis, TITLE=$(TX)_FFT, XTITLE=Frequency (Hz),YTITLE=Power Spectrum"
 			}
 			clr=14
 			bclr=4
@@ -718,7 +718,7 @@ composite {
 			display[4] {
 				label="Sum 1+2"
 				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Sum12FFT"
+				args="P=$(P), M=SumXFFT"
 			}
 			display[5] {
 				label="Sum 3+4"
@@ -728,12 +728,12 @@ composite {
 			display[6] {
 				label="Sum 1+2+3+4"
 				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Sum1234FFT"
+				args="P=$(P), M=SumAllFFT"
 			}
 			display[7] {
 				label="Difference 2-1"
 				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Diff12FFT"
+				args="P=$(P), M=DiffXFFT"
 			}
 			display[8] {
 				label="Difference 4-3"
@@ -743,7 +743,7 @@ composite {
 			display[9] {
 				label="Position 1&2"
 				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Position12FFT"
+				args="P=$(P), M=PositionXFFT"
 			}
 			display[10] {
 				label="Position 3&4"
