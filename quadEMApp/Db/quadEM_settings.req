@@ -11,6 +11,7 @@ $(P)$(R)BiasState
 $(P)$(R)BiasVoltage
 $(P)$(R)Resolution
 $(P)$(R)ValuesPerRead
+$(P)$(R)Geometry
 $(P)$(R)CurrentName1
 $(P)$(R)CurrentName2
 $(P)$(R)CurrentName3
