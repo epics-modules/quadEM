@@ -46,6 +46,7 @@ PROD_LIBS += seq pv
 # in after PROD_LIBS, which has EPICS_BASE_IOC_LIBS from commonDriverMakefile
 PROD_LIBS_vxWorks += $(EPICS_BASE_IOC_LIBS)
 
+include $(ADCORE)/ADApp/commonLibraryMakefile
 include $(ADCORE)/ADApp/commonDriverMakefile
 
 #===========================
