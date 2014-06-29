@@ -1,7 +1,7 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM_TimeSeries.adl"
-	version=030105
+	name="/home/epics/devel/quadEM-4-0/quadEMApp/op/adl/quadEM_TimeSeries.adl"
+	version=030107
 }
 display {
 	object {
@@ -459,313 +459,291 @@ composite {
 		}
 	}
 }
-composite {
+"related display" {
 	object {
 		x=327
-		y=40
-		width=185
-		height=95
+		y=65
+		width=60
+		height=20
 	}
-	"composite name"=""
-	children {
-		"related display" {
-			object {
-				x=327
-				y=65
-				width=60
-				height=20
-			}
-			display[0] {
-				label="1&2 (current, sum, pos)"
-				name="quadEM_plotAll.adl"
-				args="P=$(P), CURR1=Current1TS, CURR2=Current2TS, SUM=SumXTS, POS=PositionXTS, XAXIS=TimeAxis, TITLE=$(TX), XTITLE=Time (sec), YTITLE=Counts"
-			}
-			clr=14
-			bclr=4
-		}
-		text {
-			object {
-				x=392
-				y=65
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Plots 1&2"
-		}
-		"related display" {
-			object {
-				x=327
-				y=90
-				width=60
-				height=20
-			}
-			display[0] {
-				label="3&4 (current, sum, pos)"
-				name="quadEM_plotAll.adl"
-				args="P=$(P), CURR1=Current3TS, CURR2=Current4TS, SUM=SumXTS, POS=PositionXTS, XAXIS=TimeAxis, TITLE=$(T34),XTITLE=Time (sec), YTITLE=Counts"
-			}
-			clr=14
-			bclr=4
-		}
-		text {
-			object {
-				x=392
-				y=90
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Plots 3&4"
-		}
-		text {
-			object {
-				x=386
-				y=40
-				width=110
-				height=20
-			}
-			"basic attribute" {
-				clr=54
-			}
-			textix="Time domain"
-		}
-		"related display" {
-			object {
-				x=327
-				y=115
-				width=60
-				height=20
-			}
-			display[0] {
-				label="Current 1"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Current1TS"
-			}
-			display[1] {
-				label="Current 2"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Current2TS"
-			}
-			display[2] {
-				label="Current 3"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Current3TS"
-			}
-			display[3] {
-				label="Current 4"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Current4TS"
-			}
-			display[4] {
-				label="Sum 1+2"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=SumXTS"
-			}
-			display[5] {
-				label="Sum 3+4"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Sum34TS"
-			}
-			display[6] {
-				label="Sum 1+2+3+4"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=SumAllTS"
-			}
-			display[7] {
-				label="Difference 2-1"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=DiffXTS"
-			}
-			display[8] {
-				label="Difference 4-3"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Diff34TS"
-			}
-			display[9] {
-				label="Position 1&2"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=PositionXTS"
-			}
-			display[10] {
-				label="Position 3&4"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Position34TS"
-			}
-			clr=14
-			bclr=4
-		}
-		text {
-			object {
-				x=392
-				y=115
-				width=120
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Single plots"
-		}
+	display[0] {
+		label="X (current, sum, pos)"
+		name="quadEM_plotAll.adl"
+		args="P=$(P), CURR1=Current1TS, CURR2=Current2TS, SUM=SumXTS, POS=PositionXTS, XAXIS=TimeAxis, TITLE=$(TX), XTITLE=Time (sec), YTITLE=Counts"
 	}
+	clr=14
+	bclr=4
 }
-composite {
+text {
+	object {
+		x=392
+		y=65
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Plots X"
+}
+"related display" {
 	object {
 		x=327
+		y=90
+		width=60
+		height=20
+	}
+	display[0] {
+		label="Y (current, sum, pos)"
+		name="quadEM_plotAll.adl"
+		args="P=$(P), CURR1=Current3TS, CURR2=Current4TS, SUM=SumXTS, POS=PositionXTS, XAXIS=TimeAxis, TITLE=$(TY),XTITLE=Time (sec), YTITLE=Counts"
+	}
+	clr=14
+	bclr=4
+}
+text {
+	object {
+		x=392
+		y=90
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Plots Y"
+}
+text {
+	object {
+		x=386
+		y=40
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=54
+	}
+	textix="Time domain"
+}
+"related display" {
+	object {
+		x=327
+		y=115
+		width=60
+		height=20
+	}
+	display[0] {
+		label="Current 1"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=Current1TS"
+	}
+	display[1] {
+		label="Current 2"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=Current2TS"
+	}
+	display[2] {
+		label="Current 3"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=Current3TS"
+	}
+	display[3] {
+		label="Current 4"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=Current4TS"
+	}
+	display[4] {
+		label="Sum X"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=SumXTS"
+	}
+	display[5] {
+		label="Sum Y"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=SumYTS"
+	}
+	display[6] {
+		label="Sum All"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=SumAllTS"
+	}
+	display[7] {
+		label="Difference X"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=DiffXTS"
+	}
+	display[8] {
+		label="Difference Y"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=DiffYTS"
+	}
+	display[9] {
+		label="Position X"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=PositionXTS"
+	}
+	display[10] {
+		label="Position Y"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=PositionYTS"
+	}
+	clr=14
+	bclr=4
+}
+text {
+	object {
+		x=392
+		y=115
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Single plots"
+}
+"related display" {
+	object {
+		x=327
+		y=175
+		width=60
+		height=20
+	}
+	display[0] {
+		label="X (current, sum, pos)"
+		name="quadEM_plotAll.adl"
+		args="P=$(P), CURR1=Current1FFT, CURR2=Current2FFT, SUM=SumXFFT, POS=PositionXFFT, XAXIS=FreqAxis, TITLE=$(TX)_FFT, XTITLE=Frequency (Hz),YTITLE=Power Spectrum"
+	}
+	clr=14
+	bclr=4
+}
+text {
+	object {
+		x=392
+		y=175
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Plots Y"
+}
+"related display" {
+	object {
+		x=327
+		y=200
+		width=60
+		height=20
+	}
+	display[0] {
+		label="Y (current, sum, pos)"
+		name="quadEM_plotAll.adl"
+		args="P=$(P), CURR1=Current3FFT, CURR2=Current4FFT, SUM=SumYFFT, POS=PositionYFFT,XAXIS=FreqAxis,TITLE=$(TY)_FFT,XTITLE=Frequency (Hz),YTITLE=Power Spectrum"
+	}
+	clr=14
+	bclr=4
+}
+text {
+	object {
+		x=392
+		y=200
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Plots Y"
+}
+text {
+	object {
+		x=361
 		y=150
-		width=194
-		height=95
+		width=160
+		height=20
 	}
-	"composite name"=""
-	children {
-		"related display" {
-			object {
-				x=327
-				y=175
-				width=60
-				height=20
-			}
-			display[0] {
-				label="1&2 (current, sum, pos)"
-				name="quadEM_plotAll.adl"
-				args="P=$(P), CURR1=Current1FFT, CURR2=Current2FFT, SUM=SumXFFT, POS=PositionXFFT, XAXIS=FreqAxis, TITLE=$(TX)_FFT, XTITLE=Frequency (Hz),YTITLE=Power Spectrum"
-			}
-			clr=14
-			bclr=4
-		}
-		text {
-			object {
-				x=392
-				y=175
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Plots 1&2"
-		}
-		"related display" {
-			object {
-				x=327
-				y=200
-				width=60
-				height=20
-			}
-			display[0] {
-				label="1&2 (current, sum, pos)"
-				name="quadEM_plotAll.adl"
-				args="P=$(P), CURR1=Current3FFT, CURR2=Current4FFT, SUM=Sum34FFT, POS=Position34FFT,XAXIS=FreqAxis,TITLE=$(T34)_FFT,XTITLE=Frequency (Hz),YTITLE=Power Spectrum"
-			}
-			clr=14
-			bclr=4
-		}
-		text {
-			object {
-				x=392
-				y=200
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Plots 3&4"
-		}
-		text {
-			object {
-				x=361
-				y=150
-				width=160
-				height=20
-			}
-			"basic attribute" {
-				clr=54
-			}
-			textix="Frequency domain"
-		}
-		"related display" {
-			object {
-				x=327
-				y=225
-				width=60
-				height=20
-			}
-			display[0] {
-				label="Current 1"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Current1FFT"
-			}
-			display[1] {
-				label="Current 2"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Current2FFT"
-			}
-			display[2] {
-				label="Current 3"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Current3FFT"
-			}
-			display[3] {
-				label="Current 4"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Current4FFT"
-			}
-			display[4] {
-				label="Sum 1+2"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=SumXFFT"
-			}
-			display[5] {
-				label="Sum 3+4"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Sum34FFT"
-			}
-			display[6] {
-				label="Sum 1+2+3+4"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=SumAllFFT"
-			}
-			display[7] {
-				label="Difference 2-1"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=DiffXFFT"
-			}
-			display[8] {
-				label="Difference 4-3"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Diff34FFT"
-			}
-			display[9] {
-				label="Position 1&2"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=PositionXFFT"
-			}
-			display[10] {
-				label="Position 3&4"
-				name="SIS38XX_plot.adl"
-				args="P=$(P), M=Position34FFT"
-			}
-			clr=14
-			bclr=4
-		}
-		text {
-			object {
-				x=392
-				y=225
-				width=120
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Single plots"
-		}
+	"basic attribute" {
+		clr=54
 	}
+	textix="Frequency domain"
+}
+"related display" {
+	object {
+		x=327
+		y=225
+		width=60
+		height=20
+	}
+	display[0] {
+		label="Current 1"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=Current1FFT"
+	}
+	display[1] {
+		label="Current 2"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=Current2FFT"
+	}
+	display[2] {
+		label="Current 3"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=Current3FFT"
+	}
+	display[3] {
+		label="Current 4"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=Current4FFT"
+	}
+	display[4] {
+		label="Sum X"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=SumXFFT"
+	}
+	display[5] {
+		label="Sum Y"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=SumYFFT"
+	}
+	display[6] {
+		label="Sum All"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=SumAllFFT"
+	}
+	display[7] {
+		label="Difference X"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=DiffXFFT"
+	}
+	display[8] {
+		label="Difference Y"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=DiffYFFT"
+	}
+	display[9] {
+		label="Position X"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=PositionXFFT"
+	}
+	display[10] {
+		label="Position Y"
+		name="SIS38XX_plot.adl"
+		args="P=$(P), M=PositionYFFT"
+	}
+	clr=14
+	bclr=4
+}
+text {
+	object {
+		x=392
+		y=225
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Single plots"
 }
 composite {
 	object {
