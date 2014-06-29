@@ -19,8 +19,9 @@
 #define P_AcquireModeString        "QE_ACQUIRE_MODE"            /* asynInt32,    r/w */
 #define P_CurrentOffsetString      "QE_CURRENT_OFFSET"          /* asynFloat64,  r/w */
 #define P_CurrentScaleString       "QE_CURRENT_SCALE"           /* asynFloat64,  r/w */
-#define P_PositionOffsetString     "QE_POSITION_OFFSET"         /* asynFloat64,    r/w */
-#define P_PositionScaleString      "QE_POSITION_SCALE"          /* asynFloat64,    r/w */
+#define P_PositionOffsetString     "QE_POSITION_OFFSET"         /* asynFloat64,  r/w */
+#define P_PositionScaleString      "QE_POSITION_SCALE"          /* asynFloat64,  r/w */
+#define P_GeometryString           "QE_GEOMETRY"                /* asynInt32,    r/w */
 #define P_DoubleDataString         "QE_DOUBLE_DATA"             /* asynFloat64,  r/o */
 #define P_IntArrayDataString       "QE_INT_ARRAY_DATA"          /* asynInt32Array,  r/o */
 #define P_RingOverflowsString      "QE_RING_OVERFLOWS"          /* asynInt32,    r/o */
@@ -59,14 +60,19 @@ typedef enum {
     QECurrent2,
     QECurrent3,
     QECurrent4,
-    QESum12,
-    QESum34,
-    QESum1234,
-    QEDiff12,
-    QEDiff34,
-    QEPosition12,
-    QEPosition34
+    QESumX,
+    QESumY,
+    QESumAll,
+    QEDiffX,
+    QEDiffY,
+    QEPositionX,
+    QEPositionY
 } QEData_t;
+
+typedef enum {
+    QEGeometry0Degrees,
+    QEGeometry45Degrees
+} QEGeometry_t;
 
 /* Acquire modes */
 typedef enum {
@@ -74,7 +80,7 @@ typedef enum {
     QEAcquireModeOneShot
 } QEAcquireMode_t;
 
-#define QE_MAX_DATA (QEPosition34+1)
+#define QE_MAX_DATA (QEPositionY+1)
 #define QE_MAX_INPUTS 4
 #define QE_DEFAULT_RING_BUFFER_SIZE 2048
 
@@ -98,6 +104,7 @@ protected:
     int P_CurrentScale;
     int P_PositionOffset;
     int P_PositionScale;
+    int P_Geometry;
     int P_DoubleData;
     int P_IntArrayData;
     int P_RingOverflows;
