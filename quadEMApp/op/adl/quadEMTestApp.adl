@@ -109,17 +109,17 @@ text {
 	display[0] {
 		label="AH401B"
 		name="quadEM.adl"
-		args="P=quadEMTest:, R=AH401B:,P_TS=quadEMTest:AH401B_TS:,P_FFT=quadEMTest:AH401B_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
+		args="P=quadEMTest:, R=AH401B:,P_TS=quadEMTest:AH401B_TS:,P_FFT=quadEMTest:AH401B_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
 	}
 	display[1] {
 		label="AH501"
 		name="quadEM.adl"
-		args="P=quadEMTest:, R=AH501:,P_TS=quadEMTest:AH501_TS:,P_FFT=quadEMTest:AH501_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
+		args="P=quadEMTest:, R=AH501:,P_TS=quadEMTest:AH501_TS:,P_FFT=quadEMTest:AH501_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
 	}
 	display[2] {
 		label="APS_EM"
 		name="quadEM.adl"
-		args="P=quadEMTest:, R=APS_EM:,P_TS=quadEMTest:APS_EM_TS:,P_FFT=quadEMTest:APS_EM_FFT:,T12=Horizontal_BPM, T34=Vertical_BPM"
+		args="P=quadEMTest:, R=APS_EM:,P_TS=quadEMTest:APS_EM_TS:,P_FFT=quadEMTest:APS_EM_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
 	}
 	clr=14
 	bclr=4
