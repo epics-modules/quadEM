@@ -70,8 +70,8 @@ typedef enum {
 } QEData_t;
 
 typedef enum {
-    QEGeometry0Degrees,
-    QEGeometry45Degrees
+    QEGeometryDiamond,
+    QEGeometrySquare
 } QEGeometry_t;
 
 /* Acquire modes */
