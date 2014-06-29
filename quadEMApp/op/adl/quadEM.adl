@@ -482,7 +482,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Sum34:MeanValue_RBV"
+		chan="$(P)$(R)SumY:MeanValue_RBV"
 		clr=54
 		bclr=3
 	}
@@ -498,7 +498,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Sum12:MeanValue_RBV"
+		chan="$(P)$(R)SumX:MeanValue_RBV"
 		clr=54
 		bclr=3
 	}
@@ -514,7 +514,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Sum1234:MeanValue_RBV"
+		chan="$(P)$(R)SumAll:MeanValue_RBV"
 		clr=54
 		bclr=3
 	}
@@ -542,7 +542,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Sum34:Sigma_RBV"
+		chan="$(P)$(R)SumY:Sigma_RBV"
 		clr=54
 		bclr=3
 	}
@@ -558,7 +558,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Sum12:Sigma_RBV"
+		chan="$(P)$(R)SumX:Sigma_RBV"
 		clr=54
 		bclr=3
 	}
@@ -574,7 +574,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Sum1234:Sigma_RBV"
+		chan="$(P)$(R)SumAll:Sigma_RBV"
 		clr=54
 		bclr=3
 	}
@@ -602,7 +602,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Diff34:MeanValue_RBV"
+		chan="$(P)$(R)DiffY:MeanValue_RBV"
 		clr=54
 		bclr=3
 	}
@@ -618,7 +618,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Diff12:MeanValue_RBV"
+		chan="$(P)$(R)DiffX:MeanValue_RBV"
 		clr=54
 		bclr=3
 	}
@@ -646,7 +646,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Diff34:Sigma_RBV"
+		chan="$(P)$(R)DiffY:Sigma_RBV"
 		clr=54
 		bclr=3
 	}
@@ -662,7 +662,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Diff12:Sigma_RBV"
+		chan="$(P)$(R)DiffX:Sigma_RBV"
 		clr=54
 		bclr=3
 	}
@@ -690,7 +690,7 @@ text {
 		height=20
 	}
 	control {
-		chan="$(P)$(R)PositionOffset34"
+		chan="$(P)$(R)PositionOffsetY"
 		clr=14
 		bclr=51
 	}
@@ -705,7 +705,7 @@ text {
 		height=20
 	}
 	control {
-		chan="$(P)$(R)PositionOffset12"
+		chan="$(P)$(R)PositionOffsetX"
 		clr=14
 		bclr=51
 	}
@@ -732,7 +732,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Pos34:MeanValue_RBV"
+		chan="$(P)$(R)PosY:MeanValue_RBV"
 		clr=54
 		bclr=3
 	}
@@ -748,7 +748,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Pos12:MeanValue_RBV"
+		chan="$(P)$(R)PosX:MeanValue_RBV"
 		clr=54
 		bclr=3
 	}
@@ -776,7 +776,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Pos34:Sigma_RBV"
+		chan="$(P)$(R)PosY:Sigma_RBV"
 		clr=54
 		bclr=3
 	}
@@ -792,7 +792,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)Pos12:Sigma_RBV"
+		chan="$(P)$(R)PosX:Sigma_RBV"
 		clr=54
 		bclr=3
 	}
@@ -889,7 +889,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)PositionScale34"
+				chan="$(P)$(R)PositionScaleY"
 				clr=14
 				bclr=51
 			}
@@ -904,7 +904,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)PositionScale12"
+				chan="$(P)$(R)PositionScaleX"
 				clr=14
 				bclr=51
 			}
@@ -921,7 +921,7 @@ composite {
 		height=20
 	}
 	control {
-		chan="$(P)$(R)ComputePosOffset12.PROC"
+		chan="$(P)$(R)ComputePosOffsetX.PROC"
 		clr=14
 		bclr=51
 	}
@@ -936,7 +936,7 @@ composite {
 		height=20
 	}
 	control {
-		chan="$(P)$(R)ComputePosOffset34.PROC"
+		chan="$(P)$(R)ComputePosOffsetY.PROC"
 		clr=14
 		bclr=51
 	}
@@ -1425,7 +1425,7 @@ text {
 	display[0] {
 		label="Time series"
 		name="quadEM_TimeSeries.adl"
-		args="P=$(P_TS),P_FFT=$(P_FFT),T12=$(T12),T34=$(T34)"
+		args="P=$(P_TS),P_FFT=$(P_FFT),TX=$(TX),TY=$(TY)"
 	}
 	clr=14
 	bclr=51
