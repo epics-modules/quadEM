@@ -71,6 +71,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     createParam(P_CurrentScaleString,       asynParamFloat64,       &P_CurrentScale);
     createParam(P_PositionOffsetString,     asynParamFloat64,       &P_PositionOffset);
     createParam(P_PositionScaleString,      asynParamFloat64,       &P_PositionScale);
+    createParam(P_GeometryString,           asynParamInt32,         &P_Geometry);
     createParam(P_DoubleDataString,         asynParamFloat64,       &P_DoubleData);
     createParam(P_IntArrayDataString,       asynParamInt32Array,    &P_IntArrayData);
     createParam(P_RingOverflowsString,      asynParamInt32,         &P_RingOverflows);
