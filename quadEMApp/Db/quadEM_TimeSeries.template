@@ -202,7 +202,7 @@ record(waveform,"$(P)$(R)Current4TS")
 
 record(waveform,"$(P)$(R)SumXTS")
 {
-    field(DESC, "Sum 1+2")
+    field(DESC, "Sum X")
     field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
     field(NELM, "$(NUM_TS)")
@@ -212,7 +212,7 @@ record(waveform,"$(P)$(R)SumXTS")
 
 record(waveform,"$(P)$(R)SumYTS")
 {
-    field(DESC, "Sum 3+4")
+    field(DESC, "Sum Y")
     field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
     field(NELM, "$(NUM_TS)")
@@ -222,7 +222,7 @@ record(waveform,"$(P)$(R)SumYTS")
 
 record(waveform,"$(P)$(R)SumAllTS")
 {
-    field(DESC, "Sum 1+2+3+4")
+    field(DESC, "Sum All")
     field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
     field(NELM, "$(NUM_TS)")
@@ -232,7 +232,7 @@ record(waveform,"$(P)$(R)SumAllTS")
 
 record(waveform,"$(P)$(R)DiffXTS")
 {
-    field(DESC, "Difference 2-1")
+    field(DESC, "Difference X")
     field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
     field(NELM, "$(NUM_TS)")
@@ -242,7 +242,7 @@ record(waveform,"$(P)$(R)DiffXTS")
 
 record(waveform,"$(P)$(R)DiffYTS")
 {
-    field(DESC, "Difference 4-3")
+    field(DESC, "Difference Y")
     field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
     field(NELM, "$(NUM_TS)")
@@ -252,7 +252,7 @@ record(waveform,"$(P)$(R)DiffYTS")
 
 record(waveform,"$(P)$(R)PositionXTS")
 {
-    field(DESC, "Position 1&2")
+    field(DESC, "Position X")
     field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
     field(NELM, "$(NUM_TS)")
@@ -262,7 +262,7 @@ record(waveform,"$(P)$(R)PositionXTS")
 
 record(waveform,"$(P)$(R)PositionYTS")
 {
-    field(DESC, "Position 3&4")
+    field(DESC, "Position Y")
     field(DTYP, "asynInt32ArrayIn")
     field(PINI, "YES")
     field(NELM, "$(NUM_TS)")
@@ -295,70 +295,70 @@ record(waveform,"$(P)$(R)Current1FFT")
 
 record(waveform,"$(P)$(R)Current2FFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Current 2 FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
 record(waveform,"$(P)$(R)Current3FFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Current 3 FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
 record(waveform,"$(P)$(R)Current4FFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Current 4 FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
 record(waveform,"$(P)$(R)SumXFFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Sum X FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
 record(waveform,"$(P)$(R)SumYFFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Sum Y FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
 record(waveform,"$(P)$(R)SumAllFFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Sum All FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
 record(waveform,"$(P)$(R)DiffXFFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Difference X FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
 record(waveform,"$(P)$(R)DiffYFFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Difference Y FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
 record(waveform,"$(P)$(R)PositionXFFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Position X FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }
 
 record(waveform,"$(P)$(R)PositionYFFT")
 {
-    field(DESC, "Current 1 FFT")
+    field(DESC, "Position Y FFT")
     field(NELM, "$(NUM_FREQ)")
     field(FTVL, "FLOAT")
 }

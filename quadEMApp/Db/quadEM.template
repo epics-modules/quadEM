@@ -344,7 +344,7 @@ record(ao,"$(P)$(R)CurrentOffset4") {
 }
 
 record(calcout,"$(P)$(R)ComputeCurrentOffset1") {
-    field(DESC, "Compute Offset")
+    field(DESC, "Compute Offset 1")
     field(INPA, "$(P)$(R)Current1:MeanValue_RBV")
     field(INPB, "$(P)$(R)CurrentOffset1")
     field(CALC, "A+B")
@@ -352,7 +352,7 @@ record(calcout,"$(P)$(R)ComputeCurrentOffset1") {
 }
 
 record(calcout,"$(P)$(R)ComputeCurrentOffset2") {
-    field(DESC, "Compute Offset")
+    field(DESC, "Compute Offset 2")
     field(INPA, "$(P)$(R)Current2:MeanValue_RBV")
     field(INPB, "$(P)$(R)CurrentOffset2")
     field(CALC, "A+B")
@@ -360,7 +360,7 @@ record(calcout,"$(P)$(R)ComputeCurrentOffset2") {
 }
 
 record(calcout,"$(P)$(R)ComputeCurrentOffset3") {
-    field(DESC, "Compute Offset")
+    field(DESC, "Compute Offset 3")
     field(INPA, "$(P)$(R)Current3:MeanValue_RBV")
     field(INPB, "$(P)$(R)CurrentOffset3")
     field(CALC, "A+B")
@@ -368,7 +368,7 @@ record(calcout,"$(P)$(R)ComputeCurrentOffset3") {
 }
 
 record(calcout,"$(P)$(R)ComputeCurrentOffset4") {
-    field(DESC, "Compute Offset")
+    field(DESC, "Compute Offset 4")
     field(INPA, "$(P)$(R)Current4:MeanValue_RBV")
     field(INPB, "$(P)$(R)CurrentOffset4")
     field(CALC, "A+B")
@@ -376,7 +376,7 @@ record(calcout,"$(P)$(R)ComputeCurrentOffset4") {
 }
 
 record(ao,"$(P)$(R)CurrentScale1") {
-    field(DESC, "Scale")
+    field(DESC, "Scale 1")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 0)QE_CURRENT_SCALE")
@@ -384,7 +384,7 @@ record(ao,"$(P)$(R)CurrentScale1") {
 }
 
 record(ao,"$(P)$(R)CurrentScale2") {
-    field(DESC, "Scale")
+    field(DESC, "Scale 2")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 1)QE_CURRENT_SCALE")
@@ -392,7 +392,7 @@ record(ao,"$(P)$(R)CurrentScale2") {
 }
 
 record(ao,"$(P)$(R)CurrentScale3") {
-    field(DESC, "Scale")
+    field(DESC, "Scale 3")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 2)QE_CURRENT_SCALE")
@@ -400,7 +400,7 @@ record(ao,"$(P)$(R)CurrentScale3") {
 }
 
 record(ao,"$(P)$(R)CurrentScale4") {
-    field(DESC, "Scale")
+    field(DESC, "Scale 4")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 3)QE_CURRENT_SCALE")
@@ -408,21 +408,21 @@ record(ao,"$(P)$(R)CurrentScale4") {
 }
 
 record(ao,"$(P)$(R)PositionOffsetX") {
-    field(DESC, "Offset")
+    field(DESC, "Offset X")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 0)QE_POSITION_OFFSET")
 }
 
 record(ao,"$(P)$(R)PositionOffsetY") {
-    field(DESC, "Offset")
+    field(DESC, "Offset Y")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 1)QE_POSITION_OFFSET")
 }
 
 record(calcout,"$(P)$(R)ComputePosOffsetX") {
-    field(DESC, "Compute Offset")
+    field(DESC, "Compute Offset X")
     field(INPA, "$(P)$(R)PosX:MeanValue_RBV")
     field(INPB, "$(P)$(R)PositionOffsetX")
     field(CALC, "A+B")
@@ -430,7 +430,7 @@ record(calcout,"$(P)$(R)ComputePosOffsetX") {
 }
 
 record(calcout,"$(P)$(R)ComputePosOffsetY") {
-    field(DESC, "Compute Offset")
+    field(DESC, "Compute Offset Y")
     field(INPA, "$(P)$(R)PosY:MeanValue_RBV")
     field(INPB, "$(P)$(R)PositionOffsetY")
     field(CALC, "A+B")
@@ -438,7 +438,7 @@ record(calcout,"$(P)$(R)ComputePosOffsetY") {
 }
 
 record(ao,"$(P)$(R)PositionScaleX") {
-    field(DESC, "Offset")
+    field(DESC, "Scale X")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(VAL,  "1000000.")
@@ -446,7 +446,7 @@ record(ao,"$(P)$(R)PositionScaleX") {
 }
 
 record(ao,"$(P)$(R)PositionScaleY") {
-    field(DESC, "Offset")
+    field(DESC, "Scale Y")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(VAL,  "1000000.")
