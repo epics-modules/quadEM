@@ -321,7 +321,7 @@ record(waveform,"$(P)$(R)SumXFFT")
     field(FTVL, "FLOAT")
 }
 
-record(waveform,"$(P)$(R)SumXFFT")
+record(waveform,"$(P)$(R)SumYFFT")
 {
     field(DESC, "Current 1 FFT")
     field(NELM, "$(NUM_FREQ)")
