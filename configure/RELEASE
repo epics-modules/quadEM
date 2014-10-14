@@ -14,12 +14,12 @@ SUPPORT=/corvette/home/epics/devel
 QUADEM=$(SUPPORT)/quadEM-4-0
 
 # ASYN - for device/driver support
-ASYN=$(SUPPORT)/asyn-4-23
+ASYN=$(SUPPORT)/asyn-4-24
 
 ### The following are needed only for the test application
 
 # For ipUnidig for APS_EM
-IPAC=$(SUPPORT)/ipac-2-11
+IPAC=$(SUPPORT)/ipac-2-12
 
 # Busy record 
 BUSY=$(SUPPORT)/busy-1-6
@@ -31,21 +31,21 @@ IPUNIDIG=$(SUPPORT)/ipUnidig-2-9
 SNCSEQ=$(SUPPORT)/seq-2-1-10
 
 # save_restore
-AUTOSAVE=$(SUPPORT)/autosave-5-1
+AUTOSAVE=$(SUPPORT)/autosave-5-4-2
 
 # MCA is used for time series
 MCA=$(SUPPORT)/mca-7-5
 
 # areaDetector for plugins like NDPluginStats
-AREA_DETECTOR=$(SUPPORT)/areaDetector-2-0
-ADCORE=$(SUPPORT)/areaDetector-2-0/ADCore
+AREA_DETECTOR=$(SUPPORT)/areaDetector-2-1
+ADCORE=$(SUPPORT)/areaDetector-2-1/ADCore
 ADBINARIES=$(SUPPORT)/areaDetector-2-0/ADBinaries
 
 # SSCAN is needed for general scanning
-SSCAN=$(SUPPORT)/sscan-2-9
+SSCAN=$(SUPPORT)/sscan-2-10
 
 # calc
-CALC=$(SUPPORT)/calc-3-2
+CALC=$(SUPPORT)/calc-3-4-1
 
 # EPICS_BASE usually appears last so other apps can override stuff:
 EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.4
