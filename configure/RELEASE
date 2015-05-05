@@ -11,44 +11,47 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 SUPPORT=/corvette/home/epics/devel
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 # This module
-QUADEM=$(SUPPORT)/quadEM-4-0
+QUADEM=$(SUPPORT)/quadEM-5-0
 
 # ASYN - for device/driver support
-ASYN=$(SUPPORT)/asyn-4-24
+ASYN=$(SUPPORT)/asyn-4-26
 
 ### The following are needed only for the test application
 
 # For ipUnidig for APS_EM
-IPAC=$(SUPPORT)/ipac-2-12
+IPAC=$(SUPPORT)/ipac-2-13
 
 # Busy record 
-BUSY=$(SUPPORT)/busy-1-6
+BUSY=$(SUPPORT)/busy-1-6-1
 
 # IpUnidig for APS_EM
-IPUNIDIG=$(SUPPORT)/ipUnidig-2-9
+IPUNIDIG=$(SUPPORT)/ipUnidig-2-10
 
 # quadEM_SNL uses the sequencer
-SNCSEQ=$(SUPPORT)/seq-2-1-10
+SNCSEQ=$(SUPPORT)/seq-2-2-2
 
 # save_restore
-AUTOSAVE=$(SUPPORT)/autosave-5-4-2
+AUTOSAVE=$(SUPPORT)/autosave-5-6-2
 
 # MCA is used for time series
-MCA=$(SUPPORT)/mca-7-5
+MCA=$(SUPPORT)/mca-7-6
 
 # areaDetector for plugins like NDPluginStats
-AREA_DETECTOR=$(SUPPORT)/areaDetector-2-1
-ADCORE=$(SUPPORT)/areaDetector-2-1/ADCore
-ADBINARIES=$(SUPPORT)/areaDetector-2-0/ADBinaries
+AREA_DETECTOR=$(SUPPORT)/areaDetector-2-3
+ADCORE=$(AREA_DETECTOR)/ADCore
+ADBINARIES=$(AREA_DETECTOR)/ADBinaries
 
 # SSCAN is needed for general scanning
-SSCAN=$(SUPPORT)/sscan-2-10
+SSCAN=$(SUPPORT)/sscan-2-10-1
 
 # calc
-CALC=$(SUPPORT)/calc-3-4-1
+CALC=$(SUPPORT)/calc-3-4-2-1
 
-# EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.4
+# devIocStats needed by areaDetector
+DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-14
+
+# E usually appears last so other apps can override stuff:
+EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.5
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
 #Capfast users may need the following definitions
