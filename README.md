@@ -6,7 +6,7 @@ for two models:</p>
 
 * The AH401B, AH401D, AH501, AH501C, and AH501D picoammeters originally designed
 [Synchrotron Trieste (elettra)](http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en)
-They are now sold commercially by [CAENels](http://www.caenels.com/caenels/products.php).
+They are now sold commercially by [CAENels](http://www.caenels.com/products).
 These devices communicate using TCP/IP over 100 Mbit/s Ethernet or high-speed serial. 
 They provide 4-channel current measurements at up to 1000 Hz (AH401 series) or 6510 Hz (AH501 series).
 
