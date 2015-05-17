@@ -14,4 +14,7 @@ They provide 4-channel current measurements at up to 1000 Hz (AH401 series) or 6
 This device consists of a 4-channel digital electrometer unit and 2 VME boards. 
 The device provides 2 readings per diode at up to 813 Hz.
 
- 
+Additional information:
+* [Home page](http://cars.uchicago.edu/software/epics/quadEM.html)
+* [Documentation](http://cars.uchicago.edu/software/epics/quadEMDoc.html)
+* [Release notes](http://cars.uchicago.edu/software/epics/quadEMReleaseNotes.html)
