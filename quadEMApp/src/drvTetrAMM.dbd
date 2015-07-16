@@ -1,0 +1,5 @@
+################
+# Register global functions
+################
+registrar(drvTetrAMMRegister)
+registrar("quadEM_SNLRegistrar")
