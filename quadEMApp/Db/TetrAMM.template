@@ -1,0 +1,18 @@
+# Database for CaenEls TetrAMM picoammeter
+#   Mark Rivers
+#   July 15, 2015
+
+# We replace the choices for the Range
+record(mbbo,"$(P)$(R)Range") {
+    field(ZRVL,"0")
+    field(ZRST,"+- 120 uA")
+    field(ONVL,"1")
+    field(ONST,"+- 120 nA")
+}
+
+record(mbbi,"$(P)$(R)Range_RBV") {
+    field(ZRVL,"0")
+    field(ZRST,"+- 120 uA")
+    field(ONVL,"1")
+    field(ONST,"+- 120 nA")
+}
