@@ -20,13 +20,17 @@ record(mbbi,"$(P)$(R)Model") {
     field(FVST, "AH501C")
     field(SXVL, "6")
     field(SXST, "AH501D")
+    field(SVVL, "7")
+    field(SVST, "TetrAMM")
     field(SCAN, "I/O Intr")
 }
 
-record(stringin,"$(P)$(R)Firmware") {
+record(waveform,"$(P)$(R)Firmware") {
     field(DESC, "Firmware")
     field(DTYP, "asynOctetRead")
     field(INP,  "@asyn($(PORT) 0)QE_FIRMWARE")
+    field(FTVL, "CHAR")
+    field(NELM, "256")
     field(SCAN, "I/O Intr")
 }
 
@@ -120,19 +124,19 @@ record(ai,"$(P)$(R)SampleTime_RBV") {
     field(SCAN, "I/O Intr")
 }
 
-record(bo,"$(P)$(R)Trigger") {
-    field(DESC, "Trigger")
+record(mbbo,"$(P)$(R)TriggerMode") {
+    field(DESC, "Trigger mode")
     field(PINI, "YES")
-    field(ZNAM, "No")
-    field(ONAM, "Yes")
+    field(ZRVL, "0")
+    field(ZRST, "Internal")
     field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT) 0)QE_TRIGGER")
+    field(OUT,  "@asyn($(PORT) 0)QE_TRIGGER_MODE")
 }
 
-record(bi,"$(P)$(R)Trigger_RBV") {
-    field(DESC, "Trigger")
-    field(ZNAM, "No")
-    field(ONAM, "Yes")
+record(mbbi,"$(P)$(R)TriggerMode_RBV") {
+    field(DESC, "Trigger mode")
+    field(ZRVL, "0")
+    field(ZRST, "Internal")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT) 0)QE_TRIGGER")
     field(SCAN, "I/O Intr")
@@ -217,6 +221,48 @@ record(ai,"$(P)$(R)BiasVoltage_RBV") {
     field(PREC, "2")
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT) 0)QE_BIAS_VOLTAGE")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo,"$(P)$(R)BiasInterlock") {
+    field(DESC, "Bias interlock")
+    field(PINI, "YES")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)QE_BIAS_INTERLOCK")
+}
+
+record(bi,"$(P)$(R)BiasInterlock_RBV") {
+    field(DESC, "Bias interlock")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)QE_BIAS_INTERLOCK")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai,"$(P)$(R)HVVReadback") {
+    field(DESC, "Bias voltage readback")
+    field(PREC, "2")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT) 0)QE_HVV_READBACK")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai,"$(P)$(R)HVIReadback") {
+    field(DESC, "Bias current readback")
+    field(PREC, "2")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT) 0)QE_HVI_READBACK")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai,"$(P)$(R)Temperature") {
+    field(DESC, "Temperature")
+    field(PREC, "2")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT) 0)QE_TEMPERATURE")
     field(SCAN, "I/O Intr")
 }
 
