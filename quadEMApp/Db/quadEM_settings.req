@@ -5,11 +5,12 @@ $(P)$(R)Range
 $(P)$(R)PingPong
 $(P)$(R)IntegrationTime
 $(P)$(R)AveragingTime
-$(P)$(R)Trigger
+$(P)$(R)TriggerMode
 $(P)$(R)NumChannels
+$(P)$(R)Resolution
 $(P)$(R)BiasState
 $(P)$(R)BiasVoltage
-$(P)$(R)Resolution
+$(P)$(R)BiasInterlock
 $(P)$(R)ValuesPerRead
 $(P)$(R)Geometry
 $(P)$(R)CurrentName1
@@ -20,6 +21,10 @@ $(P)$(R)CurrentOffset1
 $(P)$(R)CurrentOffset2
 $(P)$(R)CurrentOffset3
 $(P)$(R)CurrentOffset4
+$(P)$(R)CurrentScale1
+$(P)$(R)CurrentScale2
+$(P)$(R)CurrentScale3
+$(P)$(R)CurrentScale4
 $(P)$(R)PositionOffsetX
 $(P)$(R)PositionOffsetY
 $(P)$(R)PositionScaleX
