@@ -30,7 +30,6 @@ protected:
     virtual asynStatus setRange(epicsInt32 value);
     virtual asynStatus setPingPong(epicsInt32 value);
     virtual asynStatus setIntegrationTime(epicsFloat64 value);
-    virtual asynStatus setTrigger(epicsInt32 value);
     virtual asynStatus setNumChannels(epicsInt32 value);
     virtual asynStatus setBiasState(epicsInt32 value);
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
