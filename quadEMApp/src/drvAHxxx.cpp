@@ -168,7 +168,7 @@ void drvAHxxx::readThread(void)
     asynInterface *pasynInterface;
     asynOctet *pasynOctet;
     void *octetPvt;
-    epicsInt32 raw[QE_MAX_INPUTS];
+    epicsFloat64 raw[QE_MAX_INPUTS];
     unsigned char *input=NULL;
     size_t inputSize=0;
     size_t nRequested;
@@ -343,14 +343,14 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
     size_t nwrite;
     asynStatus status=asynSuccess, readStatus;
     int eomReason;
-    int trigger;
+    int triggerMode;
     int numAverage;
     int numAcquire;
     int acquireMode;
     char dummyIn[MAX_COMMAND_LEN];
     static const char *functionName = "setAcquire";
     
-    getIntegerParam(P_Trigger, &trigger);
+    getIntegerParam(P_TriggerMode, &triggerMode);
     getIntegerParam(P_AcquireMode, &acquireMode);
     getIntegerParam(P_NumAverage, &numAverage);
 
@@ -413,7 +413,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         writeReadMeter();
 
         // If we are in external trigger mode then send the TRG ON command
-        if (trigger) {    
+        if (triggerMode == QETriggerModeExtTrigger) {    
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG ON", strlen("TRG ON"), 
                         dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
         }
@@ -479,16 +479,6 @@ asynStatus drvAHxxx::setRange(epicsInt32 value)
     epicsSnprintf(outString_, sizeof(outString_), "RNG %d", value);
     status = sendCommand();
     return status;
-}
-
-/** Sets the trigger mode.
-  * \param[in] value 0=Internal trigger, 1=External trigger.
-  */
-asynStatus drvAHxxx::setTrigger(epicsInt32 value) 
-{
-    // Nothing to do.  The value in the parameter library is used to determine
-    // whether acquisition is started and stopped with ACQ ON/ACQ OFF or TRG ON/TRG OFF
-    return asynSuccess;
 }
 
 /** Sets the number of channels.
