@@ -46,7 +46,7 @@ private:
     void *pUInt32RegistrarPvt_;
     PingPongValue_t pingPong_;
     int acquiring_;
-    epicsInt32 rawData_[QE_MAX_INPUTS];
+    float64 rawData_[QE_MAX_INPUTS];
     volatile unsigned short *baseAddress_;
     asynStatus setPulse();
     asynStatus setPeriod();
