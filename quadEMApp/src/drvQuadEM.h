@@ -31,10 +31,14 @@
 #define P_SampleTimeString         "QE_SAMPLE_TIME"             /* asynFloat64,  r/o */
 #define P_RangeString              "QE_RANGE"                   /* asynInt32,    r/w */
 #define P_ResetString              "QE_RESET"                   /* asynInt32,    r/w */
-#define P_TriggerString            "QE_TRIGGER"                 /* asynInt32,    r/w */
+#define P_TriggerModeString        "QE_TRIGGER_MODE"            /* asynInt32,    r/w */
 #define P_NumChannelsString        "QE_NUM_CHANNELS"            /* asynInt32,    r/w */
 #define P_BiasStateString          "QE_BIAS_STATE"              /* asynInt32,    r/w */
 #define P_BiasVoltageString        "QE_BIAS_VOLTAGE"            /* asynFloat64,  r/w */
+#define P_BiasInterlockString      "QE_BIAS_INTERLOCK"          /* asynInt32,    r/w */
+#define P_HVVReadbackString        "QE_HVV_READBACK"            /* asynFloat64,  r/w */
+#define P_HVIReadbackString        "QE_HVI_READBACK"            /* asynFloat64,  r/w */
+#define P_TemperatureString        "QE_TEMPERATURE"             /* asynFloat64,  r/w */
 #define P_ResolutionString         "QE_RESOLUTION"              /* asynInt32,    r/w */
 #define P_ValuesPerReadString      "QE_VALUES_PER_READ"         /* asynInt32,    r/w */
 #define P_AveragingTimeString      "QE_AVERAGING_TIME"          /* asynFloat64,  r/w */
@@ -42,6 +46,7 @@
 #define P_NumAveragedString        "QE_NUM_AVERAGED"            /* asynInt32,    r/o */
 #define P_ModelString              "QE_MODEL"                   /* asynInt32,    r/w */
 #define P_FirmwareString           "QE_FIRMWARE"                /* asynOctet,    r/w */
+
 
 /* Models */
 typedef enum {
@@ -51,7 +56,8 @@ typedef enum {
     QE_ModelAH401D,
     QE_ModelAH501,
     QE_ModelAH501C,
-    QE_ModelAH501D
+    QE_ModelAH501D,
+    QE_ModelTetrAMM
 } QEModel_t;
 
 /* These enums give the offsets into the data array for each value */
@@ -79,6 +85,13 @@ typedef enum {
     QEAcquireModeContinous,
     QEAcquireModeOneShot
 } QEAcquireMode_t;
+
+/* Trigger modes */
+typedef enum {
+    QETriggerModeInternal,
+    QETriggerModeExtTrigger,
+    QETriggerModeExtGate
+} QETriggerMode_t;
 
 #define QE_MAX_DATA (QEPositionY+1)
 #define QE_MAX_INPUTS 4
@@ -114,10 +127,14 @@ protected:
     int P_SampleTime;
     int P_Range;
     int P_Reset;
-    int P_Trigger;
+    int P_TriggerMode;
     int P_NumChannels;
     int P_BiasState;
     int P_BiasVoltage;
+    int P_BiasInterlock;
+    int P_HVVReadback;
+    int P_HVIReadback;
+    int P_Temperature;
     int P_Resolution;
     int P_ValuesPerRead;
     int P_AveragingTime;
@@ -136,17 +153,19 @@ protected:
     epicsRingBytesId  ringBuffer_;
     epicsEventId ringEvent_;
 
-    void computePositions(epicsInt32 raw[QE_MAX_INPUTS]);
+    void computePositions(epicsFloat64 raw[QE_MAX_INPUTS]);
     virtual asynStatus doDataCallbacks();
     virtual asynStatus setAcquire(epicsInt32 value)=0;
     virtual asynStatus setPingPong(epicsInt32 value);
     virtual asynStatus setIntegrationTime(epicsFloat64 value);
     virtual asynStatus setRange(epicsInt32 value);
-    virtual asynStatus setTrigger(epicsInt32 value);
+    virtual asynStatus setTriggerMode(epicsInt32 value);
     virtual asynStatus setNumChannels(epicsInt32 value);
     virtual asynStatus setBiasState(epicsInt32 value);
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
+    virtual asynStatus setBiasInterlock(epicsInt32 value);
     virtual asynStatus setResolution(epicsInt32 value);
+    virtual asynStatus setValuesPerRead(epicsInt32 value);
     virtual asynStatus getSettings()=0;
     virtual asynStatus reset()=0;
 };
