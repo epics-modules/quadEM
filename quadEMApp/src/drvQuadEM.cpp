@@ -81,10 +81,14 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     createParam(P_SampleTimeString,         asynParamFloat64,       &P_SampleTime);
     createParam(P_RangeString,              asynParamInt32,         &P_Range);
     createParam(P_ResetString,              asynParamInt32,         &P_Reset);
-    createParam(P_TriggerString,            asynParamInt32,         &P_Trigger);
+    createParam(P_TriggerModeString,        asynParamInt32,         &P_TriggerMode);
     createParam(P_NumChannelsString,        asynParamInt32,         &P_NumChannels);
     createParam(P_BiasStateString,          asynParamInt32,         &P_BiasState);
     createParam(P_BiasVoltageString,        asynParamFloat64,       &P_BiasVoltage);
+    createParam(P_BiasInterlockString,      asynParamInt32,         &P_BiasInterlock);
+    createParam(P_HVVReadbackString,        asynParamFloat64,       &P_HVVReadback);
+    createParam(P_HVIReadbackString,        asynParamFloat64,       &P_HVIReadback);
+    createParam(P_TemperatureString,        asynParamFloat64,       &P_Temperature);
     createParam(P_ResolutionString,         asynParamInt32,         &P_Resolution);
     createParam(P_ValuesPerReadString,      asynParamInt32,         &P_ValuesPerRead);
     createParam(P_AveragingTimeString,      asynParamFloat64,       &P_AveragingTime);
@@ -98,7 +102,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     setIntegerParam(P_PingPong, 0);
     setDoubleParam(P_IntegrationTime, 0.);
     setIntegerParam(P_Range, 0);
-    setIntegerParam(P_Trigger, 0);
+    setIntegerParam(P_TriggerMode, 0);
     setIntegerParam(P_NumChannels, 4);
     numChannels_ = 4;
     setIntegerParam(P_BiasState, 0);
@@ -145,7 +149,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
 /** This function computes the sums, diffs and positions, and does callbacks 
   * \param[in] raw Array of raw current readings 
   */
-void drvQuadEM::computePositions(epicsInt32 raw[QE_MAX_INPUTS])
+void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
 {
     int i;
     int count;
@@ -372,8 +376,8 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         status |= setRange(value);
         status |= getSettings();
     }
-    else if (function == P_Trigger) {
-        status |= setTrigger(value);
+    else if (function == P_TriggerMode) {
+        status |= setTriggerMode(value);
         status |= getSettings();
     }
     else if (function == P_NumChannels) {
@@ -384,12 +388,17 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         status |= setBiasState(value);
         status |= getSettings();
     }
+    else if (function == P_BiasInterlock) {
+        status |= setBiasInterlock(value);
+        status |= getSettings();
+    }
     else if (function == P_Resolution) {
         status |= setResolution(value);
         status |= getSettings();
     }
     else if (function == P_ValuesPerRead) {
         valuesPerRead_ = value;
+        status |= setValuesPerRead(value);
         status |= getSettings();
     }
     else if (function == P_Reset) {
@@ -478,8 +487,8 @@ asynStatus drvQuadEM::reset()
     getIntegerParam(P_Range, &iValue);
     setRange(iValue);
 
-    getIntegerParam(P_Trigger, &iValue);
-    setTrigger(iValue);
+    getIntegerParam(P_TriggerMode, &iValue);
+    setTriggerMode(iValue);
     
     getIntegerParam(P_NumChannels, &iValue);
     setNumChannels(iValue);
@@ -507,8 +516,10 @@ void       drvQuadEM::exitHandler()                          {return;}
 asynStatus drvQuadEM::setPingPong(epicsInt32 value)          {return asynSuccess;}
 asynStatus drvQuadEM::setIntegrationTime(epicsFloat64 value) {return asynSuccess;}
 asynStatus drvQuadEM::setRange(epicsInt32 value)             {return asynSuccess;}
-asynStatus drvQuadEM::setTrigger(epicsInt32 value)           {return asynSuccess;}
+asynStatus drvQuadEM::setTriggerMode(epicsInt32 value)       {return asynSuccess;}
 asynStatus drvQuadEM::setNumChannels(epicsInt32 value)       {return asynSuccess;}
 asynStatus drvQuadEM::setBiasState(epicsInt32 value)         {return asynSuccess;}
 asynStatus drvQuadEM::setBiasVoltage(epicsFloat64 value)     {return asynSuccess;}
+asynStatus drvQuadEM::setBiasInterlock(epicsInt32 value)     {return asynSuccess;}
 asynStatus drvQuadEM::setResolution(epicsInt32 value)        {return asynSuccess;}
+asynStatus drvQuadEM::setValuesPerRead(epicsInt32 value)     {return asynSuccess;}
