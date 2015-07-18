@@ -21,6 +21,7 @@
 #include <epicsTimer.h>
 #include <epicsMutex.h>
 #include <epicsEvent.h>
+#include <epicsEndian.h>
 #include <asynOctetSyncIO.h>
 #include <iocsh.h>
 
@@ -71,7 +72,8 @@ drvTetrAMM::drvTetrAMM(const char *portName, const char *QEPortName, int ringBuf
     // Note that the meter could be offline when the IOC starts, so we put this in
     // the reset() function which can be done later when the meter is online.
     lock();
-    reset();
+    getFirmwareVersion();
+    drvQuadEM::reset();
     unlock();
 
     /* Create the thread that reads the meter */
@@ -158,6 +160,7 @@ void drvTetrAMM::readThread(void)
     int eomReason;
     int acquireMode;
     int numAverage;
+    int i;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
     asynOctet *pasynOctet;
@@ -165,7 +168,6 @@ void drvTetrAMM::readThread(void)
     epicsFloat64 data[5];
     int64_t ltemp;
     size_t nRequested;
-    bool littleEndian = true;
     static const char *functionName = "readThread";
 
     /* Create an asynUser */
@@ -209,13 +211,11 @@ void drvTetrAMM::readThread(void)
 
         if ((status == asynSuccess) && (nRead == nRequested) && (eomReason == ASYN_EOM_CNT)) {
             // If we are on a little-endian machine we need to swap the byte order
-            if (littleEndian) {
-                for (int i=0; i<=numChannels_; i++) swapDouble((char *)&data[i]);
+            if (EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE) {
+                for (i=0; i<=numChannels_; i++) swapDouble((char *)&data[i]);
             }
             if (isnan(data[numChannels_])) {
-                asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-                    "%s::%s data=%e %e %e %e\n", 
-                    driverName, functionName, data[0], data[1], data[2], data[3]);
+                for (i=numChannels_; i<4; i++) data[i] = 0.0;
                 computePositions(data);
                 numAcquired_++;
                 if ((acquireMode == QEAcquireModeOneShot) &&
@@ -240,17 +240,37 @@ void drvTetrAMM::readThread(void)
     }
 }
 
+asynStatus drvTetrAMM::getFirmwareVersion()
+{
+    asynStatus status;
+    //static const char *functionName = "getFirmwareVersion";
+
+    strcpy(firmwareVersion_, "Unknown");
+    strcpy(outString_, "VER:?");
+    setAcquire(0);
+    status = writeReadMeter();
+    if (status == asynSuccess) {
+        strcpy(firmwareVersion_, &inString_[4]);
+        setStringParam(P_Firmware, firmwareVersion_);
+    }
+    return status;
+}
+
+
 asynStatus drvTetrAMM::reset()
 {
     asynStatus status;
+    int i;
     //static const char *functionName = "reset";
 
-    setAcquire(0);    
-    strcpy(firmwareVersion_, "Unknown");
-    strcpy(outString_, "VER:?");
-    status = writeReadMeter();
-    strcpy(firmwareVersion_, &inString_[4]);
-    setStringParam(P_Firmware, firmwareVersion_);
+    strcpy(outString_, "HWRESET");
+    status = sendCommand();
+    // Wait for meter to start communicating or max of 20 seconds
+    for (i=0; i<20; i++) {
+        epicsThreadSleep(1.0);
+        status = getFirmwareVersion();
+        if (status == asynSuccess) break;
+    } 
     // Call the base class method
     status = drvQuadEM::reset();
     return status;
@@ -269,7 +289,6 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     int eomReason;
     int triggerMode;
     int numAverage;
-    int numAcquire;
     int acquireMode;
     char dummyIn[MAX_COMMAND_LEN];
     static const char *functionName = "setAcquire";
@@ -308,7 +327,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG:OFF", strlen("TRG:OFF"), 
                                              dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
             // Also send GATE OFF because we don't know what mode the meter might be in when we start
-            status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG:OFF", strlen("GATE:OFF"), 
+            status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "GATE:OFF", strlen("GATE:OFF"), 
                                              dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
             if (status) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
@@ -329,27 +348,25 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
         
         // If we are in one-shot mode then send NAQ to request specific number of samples
         if (acquireMode == QEAcquireModeOneShot) {
-            numAcquire = numAverage;
-        } else {
-            numAcquire = 0;
-        }
-        sprintf(outString_, "NAQ:%d", numAcquire);
-        writeReadMeter();
-
-        // If we are in external trigger mode then send the TRG ON command
-        switch (triggerMode) {
-            case QETriggerModeInternal:    
-                status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
-                            TetrAMM_TIMEOUT, &nwrite);
-            break;
-            case QETriggerModeExtTrigger:    
-                status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG:ON", strlen("TRG:ON"), 
-                            dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
-            break;
-            case QETriggerModeExtGate:    
-                status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "GATE:ON", strlen("GATE:ON"), 
-                            dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
-            break;
+            sprintf(outString_, "NAQ:%d", numAverage);
+            writeReadMeter();
+        } 
+        else {       
+            // If we are in external trigger mode then send the TRG ON command
+            switch (triggerMode) {
+                case QETriggerModeInternal:    
+                    status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
+                                TetrAMM_TIMEOUT, &nwrite);
+                break;
+                case QETriggerModeExtTrigger:    
+                    status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG:ON", strlen("TRG:ON"), 
+                                dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
+                break;
+                case QETriggerModeExtGate:    
+                    status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "GATE:ON", strlen("GATE:ON"), 
+                                dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
+                break;
+            }
         }
         status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "", 0);
         // Notify the read thread if acquisition status has started
@@ -404,9 +421,16 @@ asynStatus drvTetrAMM::setValuesPerRead(epicsInt32 value)
 asynStatus drvTetrAMM::setBiasState(epicsInt32 value) 
 {
     asynStatus status;
-    
+
     epicsSnprintf(outString_, sizeof(outString_), "HVS:%s", value ? "ON" : "OFF");
     status = sendCommand();
+    // If turning the bias on then we also need to send the bias voltage, 
+    // because it may not have been sent when the bias was off.
+    if (value) {
+        double biasVoltage;
+        getDoubleParam(P_BiasVoltage, &biasVoltage);
+        status = setBiasVoltage(biasVoltage);
+    }
     return status;
 }
 
@@ -416,7 +440,11 @@ asynStatus drvTetrAMM::setBiasState(epicsInt32 value)
 asynStatus drvTetrAMM::setBiasVoltage(epicsFloat64 value) 
 {
     asynStatus status;
+    int biasState;
     
+    getIntegerParam(P_BiasState, &biasState);
+    // If the bias state is off, don't send the voltage because the meter returns an error.
+    if (biasState == 0) return asynSuccess;
     epicsSnprintf(outString_, sizeof(outString_), "HVS:%f", value);
     status = sendCommand();
     return status;
@@ -436,7 +464,7 @@ asynStatus drvTetrAMM::setBiasInterlock(epicsInt32 value)
 
 /** Reads all the settings back from the electrometer.
   */
-asynStatus drvTetrAMM::getSettings() 
+asynStatus drvTetrAMM::readStatus() 
 {
     // Reads the values of all the meter parameters, sets them in the parameter library
     int range, numChannels, numAverage, valuesPerRead;
@@ -473,9 +501,9 @@ asynStatus drvTetrAMM::getSettings()
     strcpy(outString_, "HVS:?");
     writeReadMeter();
     if (strncmp(inString_, "HVS:OFF", sizeof(inString_)) == 0) {
-        setIntegerParam(P_BiasState, 0);
+        setIntegerParam(P_HVSReadback, 0);
     } else {
-        setIntegerParam(P_BiasState, 1);
+        setIntegerParam(P_HVSReadback, 1);
         if (sscanf(inString_, "HVS:%lf", &biasVoltage) != 1) goto error;
         setDoubleParam(P_BiasVoltage, biasVoltage);
     }
