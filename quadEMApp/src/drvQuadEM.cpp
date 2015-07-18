@@ -86,9 +86,11 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     createParam(P_BiasStateString,          asynParamInt32,         &P_BiasState);
     createParam(P_BiasVoltageString,        asynParamFloat64,       &P_BiasVoltage);
     createParam(P_BiasInterlockString,      asynParamInt32,         &P_BiasInterlock);
+    createParam(P_HVSReadbackString,        asynParamInt32,         &P_HVSReadback);
     createParam(P_HVVReadbackString,        asynParamFloat64,       &P_HVVReadback);
     createParam(P_HVIReadbackString,        asynParamFloat64,       &P_HVIReadback);
     createParam(P_TemperatureString,        asynParamFloat64,       &P_Temperature);
+    createParam(P_ReadStatusString,         asynParamInt32,         &P_ReadStatus);
     createParam(P_ResolutionString,         asynParamInt32,         &P_Resolution);
     createParam(P_ValuesPerReadString,      asynParamInt32,         &P_ValuesPerRead);
     createParam(P_AveragingTimeString,      asynParamFloat64,       &P_AveragingTime);
@@ -370,40 +372,46 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     }
     else if (function == P_PingPong) {
         status |= setPingPong(value);
-        status |= getSettings();
+        status |= readStatus();
     }
     else if (function == P_Range) {
         status |= setRange(value);
-        status |= getSettings();
+        status |= readStatus();
     }
     else if (function == P_TriggerMode) {
         status |= setTriggerMode(value);
-        status |= getSettings();
+        status |= readStatus();
     }
     else if (function == P_NumChannels) {
         status |= setNumChannels(value);
-        status |= getSettings();
+        status |= readStatus();
     }
     else if (function == P_BiasState) {
         status |= setBiasState(value);
-        status |= getSettings();
+        status |= readStatus();
     }
     else if (function == P_BiasInterlock) {
         status |= setBiasInterlock(value);
-        status |= getSettings();
+        status |= readStatus();
     }
     else if (function == P_Resolution) {
         status |= setResolution(value);
-        status |= getSettings();
+        status |= readStatus();
     }
     else if (function == P_ValuesPerRead) {
         valuesPerRead_ = value;
         status |= setValuesPerRead(value);
-        status |= getSettings();
+        status |= readStatus();
+    }
+    else if (function == P_ReadStatus) {
+        // We don't do this if we are acquiring, too disruptive
+        if (!acquiring_) {
+            status |= readStatus();
+        }
     }
     else if (function == P_Reset) {
         status |= reset();
-        status |= getSettings();
+        status |= readStatus();
     }
     else {
         /* All other parameters just get set in parameter list, no need to
@@ -447,16 +455,16 @@ asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
 
     if (function == P_IntegrationTime) {
         status |= setIntegrationTime(value);
-        status |= getSettings();
+        status |= readStatus();
     }
     if (function == P_AveragingTime) {
         epicsRingBytesFlush(ringBuffer_);
         ringCount_ = 0;
-        status |= getSettings();
+        status |= readStatus();
     }
     else if (function == P_BiasVoltage) {
         status |= setBiasVoltage(value);
-        status |= getSettings();
+        status |= readStatus();
     } else {
         /* All other parameters just get set in parameter list, no need to
          * act on them here */
@@ -487,6 +495,9 @@ asynStatus drvQuadEM::reset()
     getIntegerParam(P_Range, &iValue);
     setRange(iValue);
 
+    getIntegerParam(P_ValuesPerRead, &iValue);
+    setValuesPerRead(iValue);
+
     getIntegerParam(P_TriggerMode, &iValue);
     setTriggerMode(iValue);
     
@@ -496,13 +507,19 @@ asynStatus drvQuadEM::reset()
     getIntegerParam(P_BiasState, &iValue);
     setBiasState(iValue);
     
+    getIntegerParam(P_BiasInterlock, &iValue);
+    setBiasInterlock(iValue);
+    
     getDoubleParam(P_BiasVoltage, &dValue);
     setBiasVoltage(dValue);
     
     getIntegerParam(P_Resolution, &iValue);
     setResolution(iValue);
     
-    getSettings();
+    getDoubleParam(P_IntegrationTime, &dValue);
+    setIntegrationTime(dValue);
+    
+    readStatus();
     
     getIntegerParam(P_Acquire, &iValue);
     setAcquire(iValue);
