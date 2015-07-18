@@ -33,7 +33,7 @@ protected:
     virtual asynStatus setPingPong(epicsInt32 value);
     virtual asynStatus setIntegrationTime(epicsFloat64 value);
     virtual asynStatus setRange(epicsInt32 value);
-    virtual asynStatus getSettings();
+    virtual asynStatus readStatus();
     virtual void report(FILE *fp, int details);
     virtual asynStatus reset();
  
@@ -45,7 +45,6 @@ private:
     asynUser *pUInt32DAsynUser_;
     void *pUInt32RegistrarPvt_;
     PingPongValue_t pingPong_;
-    int acquiring_;
     float64 rawData_[QE_MAX_INPUTS];
     volatile unsigned short *baseAddress_;
     asynStatus setPulse();
