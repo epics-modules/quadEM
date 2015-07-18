@@ -34,14 +34,13 @@ protected:
     virtual asynStatus setBiasState(epicsInt32 value);
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
     virtual asynStatus setResolution(epicsInt32 value);
-    virtual asynStatus getSettings();
+    virtual asynStatus readStatus();
     virtual asynStatus reset();
  
 private:
     /* Our data */
     asynUser *pasynUserMeter_;
     epicsEventId acquireStartEvent_;
-    int acquiring_;
     int readingActive_;
     int numAcquired_;
     char *QEPortName_;
