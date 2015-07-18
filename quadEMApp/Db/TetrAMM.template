@@ -16,3 +16,13 @@ record(mbbi,"$(P)$(R)Range_RBV") {
     field(ONVL,"1")
     field(ONST,"+- 120 nA")
 }
+
+# We replace the choices for the TriggerMode
+record(mbbo,"$(P)$(R)TriggerMode") {
+    field(ZRVL, "0")
+    field(ZRST, "Internal")
+    field(ONVL, "1")
+    field(ONST, "Ext. trigger")
+    field(TWVL, "2")
+    field(TWST, "Ext. gate")
+}
