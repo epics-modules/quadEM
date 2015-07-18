@@ -52,3 +52,12 @@ record(ai,"$(P)$(R)IntegrationTime_RBV") {
     field(LOPR,".001")
     field(HOPR,"1")
 }
+
+# We replace the choices for the TriggerMode
+record(mbbo,"$(P)$(R)TriggerMode") {
+    field(ZRVL, "0")
+    field(ZRST, "Internal")
+    field(ONVL, "1")
+    field(ONST, "Ext. trigger")
+}
+
