@@ -138,7 +138,7 @@ record(mbbi,"$(P)$(R)TriggerMode_RBV") {
     field(ZRVL, "0")
     field(ZRST, "Internal")
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT) 0)QE_TRIGGER")
+    field(INP,  "@asyn($(PORT) 0)QE_TRIGGER_MODE")
     field(SCAN, "I/O Intr")
 }
 
@@ -242,6 +242,15 @@ record(bi,"$(P)$(R)BiasInterlock_RBV") {
     field(SCAN, "I/O Intr")
 }
 
+record(bi,"$(P)$(R)HVSReadback") {
+    field(DESC, "Bias state readback")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)QE_HVS_READBACK")
+    field(SCAN, "I/O Intr")
+}
+
 record(ai,"$(P)$(R)HVVReadback") {
     field(DESC, "Bias voltage readback")
     field(PREC, "2")
@@ -317,6 +326,13 @@ record(bo,"$(P)$(R)Reset") {
     field(DTYP, "asynInt32")
     field(VAL,  "1")
     field(OUT,  "@asyn($(PORT) 0)QE_RESET")
+}
+
+record(bo,"$(P)$(R)ReadStatus") {
+    field(DESC, "Read status")
+    field(DTYP, "asynInt32")
+    field(VAL,  "1")
+    field(OUT,  "@asyn($(PORT) 0)QE_READ_STATUS")
 }
 
 record(mbbo,"$(P)$(R)Geometry") {
