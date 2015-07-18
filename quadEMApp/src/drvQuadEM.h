@@ -36,9 +36,11 @@
 #define P_BiasStateString          "QE_BIAS_STATE"              /* asynInt32,    r/w */
 #define P_BiasVoltageString        "QE_BIAS_VOLTAGE"            /* asynFloat64,  r/w */
 #define P_BiasInterlockString      "QE_BIAS_INTERLOCK"          /* asynInt32,    r/w */
+#define P_HVSReadbackString        "QE_HVS_READBACK"            /* asynInt32,    r/w */
 #define P_HVVReadbackString        "QE_HVV_READBACK"            /* asynFloat64,  r/w */
 #define P_HVIReadbackString        "QE_HVI_READBACK"            /* asynFloat64,  r/w */
 #define P_TemperatureString        "QE_TEMPERATURE"             /* asynFloat64,  r/w */
+#define P_ReadStatusString         "QE_READ_STATUS"             /* asynInt32,    r/w */
 #define P_ResolutionString         "QE_RESOLUTION"              /* asynInt32,    r/w */
 #define P_ValuesPerReadString      "QE_VALUES_PER_READ"         /* asynInt32,    r/w */
 #define P_AveragingTimeString      "QE_AVERAGING_TIME"          /* asynFloat64,  r/w */
@@ -132,9 +134,11 @@ protected:
     int P_BiasState;
     int P_BiasVoltage;
     int P_BiasInterlock;
+    int P_HVSReadback;
     int P_HVVReadback;
     int P_HVIReadback;
     int P_Temperature;
+    int P_ReadStatus;
     int P_Resolution;
     int P_ValuesPerRead;
     int P_AveragingTime;
@@ -150,6 +154,7 @@ protected:
     int valuesPerRead_;
     int readingsAveraged_;
     int ringCount_;
+    int acquiring_;
     epicsRingBytesId  ringBuffer_;
     epicsEventId ringEvent_;
 
@@ -166,7 +171,7 @@ protected:
     virtual asynStatus setBiasInterlock(epicsInt32 value);
     virtual asynStatus setResolution(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
-    virtual asynStatus getSettings()=0;
+    virtual asynStatus readStatus()=0;
     virtual asynStatus reset()=0;
 };
 
