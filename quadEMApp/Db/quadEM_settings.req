@@ -30,3 +30,4 @@ $(P)$(R)PositionOffsetY
 $(P)$(R)PositionScaleX
 $(P)$(R)PositionScaleY
 $(P)$(R)NDAttributesFile
+$(P)$(R)ReadStatus.SCAN
