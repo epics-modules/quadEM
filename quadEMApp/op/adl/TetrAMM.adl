@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=1145
-		y=911
-		width=380
-		height=200
+		x=785
+		y=334
+		width=430
+		height=225
 	}
 	clr=14
 	bclr=4
@@ -87,199 +87,148 @@ display {
 		1a7309,
 	}
 }
-composite {
+"text update" {
+	object {
+		x=280
+		y=0
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumChannels_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+menu {
+	object {
+		x=195
+		y=0
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)NumChannels"
+		clr=14
+		bclr=51
+	}
+}
+text {
 	object {
 		x=0
 		y=0
-		width=350
-		height=195
+		width=190
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Channels"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=195
+		y=25
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)TriggerMode"
+		clr=14
+		bclr=51
+	}
+}
+text {
+	object {
+		x=70
+		y=25
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger mode"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=280
+		y=25
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TriggerMode_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=280
+		y=75
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)BiasVoltage_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=195
+		y=75
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)BiasVoltage"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=70
+		y=75
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Bias voltage"
+}
+composite {
+	object {
+		x=90
+		y=50
+		width=290
+		height=20
 	}
 	"composite name"=""
 	children {
 		"text update" {
 			object {
-				x=250
-				y=0
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)NumChannels_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=165
-				y=0
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)NumChannels"
-				clr=14
-				bclr=51
-			}
-		}
-		text {
-			object {
-				x=80
-				y=0
-				width=80
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Channels"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=165
-				y=25
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)TriggerMode"
-				clr=14
-				bclr=51
-			}
-		}
-		text {
-			object {
-				x=40
-				y=25
-				width=120
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Trigger mode"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=250
-				y=25
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TriggerMode_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=250
-				y=75
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)BiasVoltage_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=165
-				y=75
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)BiasVoltage"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=40
-				y=75
-				width=120
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Bias voltage"
-		}
-		composite {
-			object {
-				x=60
+				x=280
 				y=50
-				width=290
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text update" {
-					object {
-						x=250
-						y=50
-						width=100
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)BiasState_RBV"
-						clr=54
-						bclr=3
-					}
-					limits {
-					}
-				}
-				menu {
-					object {
-						x=165
-						y=50
-						width=80
-						height=20
-					}
-					control {
-						chan="$(P)$(R)BiasState"
-						clr=14
-						bclr=51
-					}
-				}
-				text {
-					object {
-						x=60
-						y=50
-						width=100
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Bias state"
-				}
-			}
-		}
-		"text update" {
-			object {
-				x=250
-				y=100
 				width=100
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)BiasInterlock_RBV"
+				chan="$(P)$(R)BiasState_RBV"
 				clr=54
 				bclr=3
 			}
@@ -288,124 +237,181 @@ composite {
 		}
 		menu {
 			object {
-				x=165
-				y=100
+				x=195
+				y=50
 				width=80
 				height=20
 			}
 			control {
-				chan="$(P)$(R)BiasInterlock"
+				chan="$(P)$(R)BiasState"
 				clr=14
 				bclr=51
 			}
 		}
 		text {
 			object {
-				x=20
-				y=100
-				width=140
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Bias interlock"
-			align="horiz. right"
-		}
-		composite {
-			object {
-				x=0
-				y=125
-				width=265
-				height=20
-			}
-			"composite name"=""
-			children {
-				text {
-					object {
-						x=0
-						y=125
-						width=160
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Voltage readback"
-					align="horiz. right"
-				}
-				"text update" {
-					object {
-						x=165
-						y=125
-						width=100
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)HVVReadback"
-						clr=54
-						bclr=3
-					}
-					limits {
-					}
-				}
-			}
-		}
-		text {
-			object {
-				x=0
-				y=150
-				width=160
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Current readback"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=165
-				y=150
+				x=90
+				y=50
 				width=100
 				height=20
 			}
-			monitor {
-				chan="$(P)$(R)HVIReadback"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=50
-				y=175
-				width=110
-				height=20
-			}
 			"basic attribute" {
 				clr=14
 			}
-			textix="Temperature"
-			align="horiz. right"
+			textix="Bias state"
 		}
-		"text update" {
-			object {
-				x=165
-				y=175
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)Temperature"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
+	}
+}
+"text update" {
+	object {
+		x=280
+		y=100
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)BiasInterlock_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+menu {
+	object {
+		x=195
+		y=100
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)BiasInterlock"
+		clr=14
+		bclr=51
+	}
+}
+text {
+	object {
+		x=50
+		y=100
+		width=140
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Bias interlock"
+	align="horiz. right"
+}
+text {
+	object {
+		x=30
+		y=175
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Current readback"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=195
+		y=175
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)HVIReadback"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=80
+		y=200
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Temperature"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=195
+		y=200
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Temperature"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=30
+		y=150
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Voltage readback"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=195
+		y=150
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)HVVReadback"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=60
+		y=125
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Bias readback"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=195
+		y=125
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)HVSReadback"
+		clr=54
+		bclr=3
+	}
+	limits {
 	}
 }
