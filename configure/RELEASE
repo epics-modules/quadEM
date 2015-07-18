@@ -28,7 +28,7 @@ BUSY=$(SUPPORT)/busy-1-6-1
 IPUNIDIG=$(SUPPORT)/ipUnidig-2-10
 
 # quadEM_SNL uses the sequencer
-SNCSEQ=$(SUPPORT)/seq-2-2-2
+SNCSEQ=$(SUPPORT)/seq-2-2-snapshot-2015-05-21
 
 # save_restore
 AUTOSAVE=$(SUPPORT)/autosave-5-6-2
