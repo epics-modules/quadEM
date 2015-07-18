@@ -183,9 +183,9 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
      * when the database initializes */
     reset();
     
-    /* Calling getSettings() will compute the sampleTime, which must be done before iocInit
+    /* Calling readStatus() will compute the sampleTime, which must be done before iocInit
      * or fast feedback won't work. */
-    getSettings();
+    readStatus();
     
     error:
     return;
@@ -327,7 +327,7 @@ asynStatus drvAPS_EM::reset()
 /** Reads the settings back from the electrometer.
   * On the APS_EM this just computes the SampleTime based on the IntegrationTime and valuesPerRead. 
   */
-asynStatus drvAPS_EM::getSettings() 
+asynStatus drvAPS_EM::readStatus() 
 {
     double integrationTime, sampleTime, averagingTime;
     int numAverage;
