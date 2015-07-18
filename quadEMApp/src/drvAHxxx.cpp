@@ -535,7 +535,7 @@ asynStatus drvAHxxx::setResolution(epicsInt32 value)
 
 /** Reads all the settings back from the electrometer.
   */
-asynStatus drvAHxxx::getSettings() 
+asynStatus drvAHxxx::readStatus() 
 {
     // Reads the values of all the meter parameters, sets them in the parameter library
     int range, resolution, pingPong, numChannels, biasState, numAverage;
