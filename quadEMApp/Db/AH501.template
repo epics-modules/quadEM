@@ -25,7 +25,7 @@ record(mbbi,"$(P)$(R)Range_RBV") {
 record(mbbo,"$(P)$(R)TriggerMode") {
     field(ZRVL, "0")
     field(ZRST, "Internal")
-    field(ONVL, "1")
-    field(ONST, "Ext. trigger")
+    field(ONVL, "2")
+    field(ONST, "Ext. gate")
 }
 
