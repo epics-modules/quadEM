@@ -4,6 +4,10 @@ x-ray beam position monitors, or split ion chambers. They can also be used for a
 low-current measurement that requires high speed digital input. There is support
 for two models:</p>
 
+* The TetrAMM picoammeter from [CAENels](http://www.caenels.com/products).
+This device communicates using TCP/IP over 1 Gbit/s Ethernet. 
+It provides 4-channel current measurements at up to 20000 Hz.
+
 * The AH401B, AH401D, AH501, AH501C, and AH501D picoammeters originally designed
 [Synchrotron Trieste (elettra)](http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en)
 They are now sold commercially by [CAENels](http://www.caenels.com/products).
