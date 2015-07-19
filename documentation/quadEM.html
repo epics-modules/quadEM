@@ -20,6 +20,9 @@
     low-current measurement that requires high speed digital input. There is support
     for two models:</p>
   <ol>
+    <li>The TetrAMM picoammeter sold by <a href="http://www.caenels.com/caenels/products.php">
+      CAENels</a>. This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides
+      4-channel current measurements at up to 20 kHz.</li>
     <li>The AH401B, AH401D, AH501, AH501C, and AH501D picoammeters originally designed
       by <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
         Synchrotron Trieste (elettra)</a>. They are now sold commercially by <a href="http://www.caenels.com/caenels/products.php">
@@ -34,9 +37,9 @@
   <p>
     The AH401 series and the APS_EM are based on the same principle of an op-amp run
     as a current amplifier with a large feedback capacitor, and a high resolution ADC.
-    The AH501 series are based on a transimpedance input stage for current sensing,
-    combined with analog signal conditioning and filtering stages. The AH501C/D have
-    an integrated programmable bias supply.
+    The AH501 series and TetrAMM are based on a transimpedance input stage for current
+    sensing, combined with analog signal conditioning and filtering stages. The AH501C/D
+    and TetrAMM have an integrated programmable bias supply.
   </p>
   <p>
     The quadEM driver derives from the asynNDArrayDriver base class from the <a href="areaDetector.html">
@@ -63,17 +66,17 @@
       would update with every reading from the device. This is likely to overwhelm the
       EPICS IOC if the electrometer is run at very fast integration times.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
-      at speeds up to 6510 Hz (AH501 series), 1000 Hz (AH401 series) or 813 Hz (APS_EM).
-      The data is available in standard EPICS waveform records, using the drvFastSweep
-      asyn driver from the synApps "mca" module. The time per point can be greater, in
-      which case it does averaging.</li>
+      at speeds up to 20000 Hz (TetrAMM), 6510 Hz (AH501 series), 1000 Hz (AH401 series)
+      or 813 Hz (APS_EM). The data is available in standard EPICS waveform records, using
+      the drvFastSweep asyn driver from the synApps "mca" module. The time per point can
+      be greater, in which case it does averaging.</li>
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
       EPICS waveform record.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
-      dac128V) also at speeds up to 6510Hz, 1000Hz or 813Hz. If it is run slower it does
-      signal averaging. This support is provided in the synApps "std" module. The quadEM
-      drivers do the callbacks on the asynFloat64 interface required to use the epics
-      fast feedback device support.</li>
+      dac128V) also at speeds up to 20000 Hz, 6510Hz, 1000Hz or 813Hz. If it is run slower
+      it does signal averaging. This support is provided in the synApps "std" module.
+      The quadEM drivers do the callbacks on the asynFloat64 interface required to use
+      the epics fast feedback device support.</li>
   </ul>
   <p>
     Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">
@@ -97,6 +100,21 @@
           Release Notes</th>
         <th>
           Known Problems</th>
+      </tr>
+      <tr>
+        <td>
+          6-0</td>
+        <td>
+          xxx-July-2015</td>
+        <td>
+          <a href="http://cars.uchicago.edu/software/pub/quadEMR6-0.tgz">quadEMR6-0.tgz</a>
+        </td>
+        <td>
+          <a href="quadEMDoc.html">quadEMDoc.html</a></td>
+        <td>
+          <a href="quadEMReleaseNotes.html">Release notes</a></td>
+        <td>
+          See release notes</td>
       </tr>
       <tr>
         <td>
@@ -343,6 +361,72 @@
           Release needed</th>
         <th>
           Required for</th>
+      </tr>
+      <tr>
+        <td rowspan="11">
+          6-0</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.14.12.5</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-26</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+        <td>
+          areaDetector/ADCore</td>
+        <td>
+          2-2</td>
+        <td>
+          Used for NDArray plugins that compute statistics, stream data to disk, etc.</td>
+      </tr>
+      <tr>
+        <td>
+          mca</td>
+        <td>
+          7-6</td>
+        <td>
+          Fast sweep driver for time series</td>
+      </tr>
+      <tr>
+        <td>
+          busy</td>
+        <td>
+          1-6-1</td>
+        <td>
+          Busy record. Used in databases to support ca_put_callback.</td>
+      </tr>
+      <tr>
+        <td>
+          ipUnidig</td>
+        <td>
+          2-10</td>
+        <td>
+          Used in test application for interrupt callback support for APS_EM.</td>
+      </tr>
+      <tr>
+        <td>
+          ipac</td>
+        <td>
+          2-13</td>
+        <td>
+          Used in test application for Industry Pack support for ipUnidig.</td>
+      </tr>
+      <tr>
+        <td>
+          seq</td>
+        <td>
+          2-2</td>
+        <td>
+          Used by quadEM_TimeSeries to synchronize acquisition and to compute FFTs.</td>
       </tr>
       <tr>
         <td rowspan="11">
