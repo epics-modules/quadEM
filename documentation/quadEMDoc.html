@@ -30,6 +30,7 @@
     </li>
     <li><a href="#Performance">Performance</a></li>
     <li><a href="#Common_Setup">Common Setup</a></li>
+    <li><a href="#TetrAMM_Setup">TetrAMM Setup</a></li>
     <li><a href="#AHxxx_Setup">AH401 and AH501 series Setup</a></li>
     <li><a href="#APS_EM_Setup">APS Electrometer Setup</a></li>
   </ul>
@@ -970,7 +971,13 @@
           Scale factor that each reading is multiplied by when calculating the Current[1-4].
           The current is calculated as Current = Raw*CurrentScale - CurrentOffset, where Raw
           is the raw value from the device. This record provides a way to convert the current
-          readings into engineering units. </td>
+          readings into engineering units. All of the models except the TetrAMM transmit integer
+          data. This is converted to double precision float for averaging and statistics.
+          It is converted back to integer for the time series software, which requires integer
+          data. The TetrAMM transmits double precision data in units of amps, so the values
+          are typically between 1e-4 to 1e-12. It is convenient to use a CurrentScale of 1e9,
+          for example, so that the data are displayed in units of nano-amps. They are then
+          reasonable sized integers, and the time series software can be used.</td>
       </tr>
       <tr>
         <td>
@@ -2466,11 +2473,24 @@ pattern
     All of the device-dependent startup scripts invoke <a href="quadEM_commonPlugins_cmd.html">
       quadEM/iocBoot/iocTest/commonPlugins.cmd</a>. This file can be edited to add additional
     plugins, such as the TIFF, HDF5, or Nexus file writers, etc.</p>
+  <h2 id="TetrAMM_Setup">
+    TetrAMM Setup</h2>
+  <p>
+    These meters communicate via IP, so they must be configured with an IP address reachable
+    from the host IOC machine. The CAEN ELS Device Manager software must be used to
+    configure the device IP address and port number.</p>
+  <p>
+    An example startup script for Linux or Windows is provided in
+    <br />
+    <a href="quadEM_st_cmd_Tetra.html">quadEM/iocBoot/iocTest/st.cmd.Tetra</a>
+  </p>
+  <p>
+    This will need to be edited to set the correct IP address of the meter to be used.</p>
   <h2 id="AHxxx_Setup">
     AH401 and AH501 Series Setup</h2>
   <p>
-    These meters communicates via IP, so they must be configured with an IP address
-    reachable from the host IOC machine. The Lantronix module in the meters can be configured
+    These meters communicate via IP, so they must be configured with an IP address reachable
+    from the host IOC machine. The Lantronix module in the meters can be configured
     to use either UDP (recommended to reduce CPU load, particularly on AH501 series)
     or TCP. The startup script must include the UDP qualifier on the drvAsynIPPortConfigure
     command if UDP is selected.</p>
@@ -2505,8 +2525,8 @@ pattern
     <a href="quadEM_st_cmd_vxWorks.html">quadEM/iocBoot/iocTest/st.cmd.vxWorks</a>.
   </p>
   <p>
-    This example startup script can be edited to start either the APS_EM, the AH401B,
-    or the AH501. For the APS_EM this script invokes
+    This example startup script can be edited to start either the APS_EM, the TetrAMM,
+    the AH401B, or the AH501. For the APS_EM this script invokes
     <br />
     <a href="quadEM_st_cmd_APS_EM.html">quadEM/iocBoot/iocTest/st.cmd.APS_EM</a>.
   </p>
