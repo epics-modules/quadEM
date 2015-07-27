@@ -45,7 +45,7 @@ private:
     asynUser *pUInt32DAsynUser_;
     void *pUInt32RegistrarPvt_;
     PingPongValue_t pingPong_;
-    float64 rawData_[QE_MAX_INPUTS];
+    epicsFloat64 rawData_[QE_MAX_INPUTS];
     volatile unsigned short *baseAddress_;
     asynStatus setPulse();
     asynStatus setPeriod();
