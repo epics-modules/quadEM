@@ -1,7 +1,8 @@
 /*
  * drvTetrAMM.cpp
  * 
- * Asyn driver that inherits from the drvQuadEM class to control the CaenEls TetrAMM 4-channel picoammeter
+ * Asyn driver that inherits from the drvQuadEM class to control 
+ * the CaenEls TetrAMM 4-channel picoammeter
  *
  * Author: Mark Rivers
  *
@@ -22,6 +23,7 @@
 #include <epicsMutex.h>
 #include <epicsEvent.h>
 #include <epicsEndian.h>
+#include <epicsMath.h>
 #include <asynOctetSyncIO.h>
 #include <iocsh.h>
 
@@ -166,7 +168,8 @@ void drvTetrAMM::readThread(void)
     asynOctet *pasynOctet;
     void *octetPvt;
     epicsFloat64 data[5];
-    int64_t ltemp;
+    long long *i64data = (long long *)data;
+    long long lastValue;
     size_t nRequested;
     static const char *functionName = "readThread";
 
@@ -194,7 +197,7 @@ void drvTetrAMM::readThread(void)
         if (acquiring_ == 0) {
             readingActive_ = 0;
             unlock();
-            epicsEventWait(acquireStartEvent_);
+            (void)epicsEventWait(acquireStartEvent_);
             lock();
             readingActive_ = 1;
             numAcquired_ = 0;
@@ -214,19 +217,23 @@ void drvTetrAMM::readThread(void)
             if (EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE) {
                 for (i=0; i<=numChannels_; i++) swapDouble((char *)&data[i]);
             }
-            if (isnan(data[numChannels_])) {
-                for (i=numChannels_; i<4; i++) data[i] = 0.0;
-                computePositions(data);
-                numAcquired_++;
-                if ((acquireMode == QEAcquireModeOneShot) &&
-                    (numAcquired_ >= numAverage)) {
-                    acquiring_ = 0;
-                }
-            } else {
-                memcpy(&ltemp, &data[numChannels_], 8);
-                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                    "%s:%s: did not get S_NAN when expected, got=0x%lx\n", 
-                    driverName, functionName, ltemp);
+            lastValue = i64data[numChannels_];
+            switch(lastValue) {
+                case 0xfff40002ffffffffll:
+                    // This is a signalling Nan at the end of normal data
+                    for (i=numChannels_; i<4; i++) data[i] = 0.0;
+                    computePositions(data);
+                    numAcquired_++;
+                    if ((acquireMode == QEAcquireModeOneShot) &&
+                        (numAcquired_ >= numAverage)) {
+                        acquiring_ = 0;
+                    }
+                break;
+                default:
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                        "%s:%s: did not get S_NAN when expected, got=0x%llx\n", 
+                        driverName, functionName, (long long)lastValue);
+                    break;
             }
         } else if (status != asynTimeout) {
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
