@@ -108,12 +108,12 @@ ss mca_control {
     when(efTestAndClear(DwellTimeMon) || efTestAndClear(NumChannelsMon)) {
       if (AsynDebug) printf("quadEM_SNL.st: Computing time array\n");
       for (i=0; i<MAX_CHANNELS; i++) {
-        TimeArray[i] = i*DwellTime;
+        TimeArray[i] = (float)(i*DwellTime);
       }
       pvPut(TimeArray);
       freqStep = 1./DwellTime/(NumChannels-2);
       for (i=0; i<MAX_CHANNELS; i++) {
-        FreqArray[i] = i*freqStep;
+        FreqArray[i] = (float)(i*freqStep);
       }
       pvPut(FreqArray);
     } state monitor_changes
@@ -143,14 +143,14 @@ ss mca_control {
             pvGet(TimeSeriesData[i]);
             memset(tempData, 0, MAX_CHANNELS*4);
             for (j=0; j<NumChannels; j++) {
-              tempData[2*j] = TimeSeriesData[i][j];
+              tempData[2*j] = (float)TimeSeriesData[i][j];
               tempData[2*j+1] = 0.;
             }
             four1(tempData-1, NumChannels, 1);
             memset(FFTData[i], 0, MAX_CHANNELS*4);
             /* Start at 1 so we don't copy DC offset which messes up scaling of plots */
             for (j=1; j<NumChannels/2; j++) {
-              FFTData[i][j] = sqrt((tempData[2*j]*tempData[2*j] + 
+              FFTData[i][j] = (float)sqrt((tempData[2*j]*tempData[2*j] + 
                                     tempData[2*j+1]*tempData[2*j+1])
                                     / (NumChannels * NumChannels));
             }
