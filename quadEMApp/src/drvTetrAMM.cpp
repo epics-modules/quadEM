@@ -137,7 +137,8 @@ asynStatus drvTetrAMM::writeReadMeter()
   //const char *functionName="writeReadMeter";
   
   status = pasynOctetSyncIO->writeRead(pasynUserMeter_, outString_, strlen(outString_), 
-                                       inString_, sizeof(inString_), TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);                                      
+                                       inString_, sizeof(inString_), TetrAMM_TIMEOUT, 
+                                       &nwrite, &nread, &eomReason);      
   return status;
 }
 
@@ -228,7 +229,13 @@ void drvTetrAMM::readThread(void)
                         (numAcquired_ >= numAverage)) {
                         acquiring_ = 0;
                     }
-                break;
+                    break;
+                case 0xfff40000ffffffffll:
+                    // This is a signalling Nan on the rising edge of a trigger
+                    break;
+                case 0xfff40001ffffffffll:
+                    // This is a signalling Nan on the falling edge of a trigger
+                    break;
                 default:
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                         "%s:%s: did not get S_NAN when expected, got=0x%llx\n", 
@@ -239,7 +246,8 @@ void drvTetrAMM::readThread(void)
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                 "%s:%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
                 driverName, functionName, status, (unsigned long)nRead, eomReason);
-            // We got an error reading the meter, it is probably offline.  Wait 1 second before trying again.
+            // We got an error reading the meter, it is probably offline.  
+            // Wait 1 second before trying again.
             unlock();
             epicsThreadSleep(1.0);
             lock();
@@ -314,8 +322,9 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     }
 
     if (value == 0) {
-        // We assume that if acquiring_=0, readingActive_=0 and acquireMode=one shot that the meter stopped itself
-        // and we don't need to do anything further.  This really speeds things up.
+        // We assume that if acquiring_=0, readingActive_=0 and acquireMode=one shot 
+        // that the meter stopped itself and we don't need to do anything further.  
+        // This really speeds things up.
         if ((acquiring_ == 0) && (readingActive_ == 0) && (acquireMode == QEAcquireModeOneShot)) 
             return asynSuccess;
 
@@ -329,14 +338,8 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
         }
         while (1) {
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ:OFF", strlen("ACQ:OFF"), 
-                                             dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
-            // Also send TRG OFF because we don't know what mode the meter might be in when we start
-            status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG:OFF", strlen("TRG:OFF"), 
-                                             dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
-            // Also send GATE OFF because we don't know what mode the meter might be in when we start
-            status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "GATE:OFF", strlen("GATE:OFF"), 
-                                             dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
-            if (status) {
+                        dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
+           if (status) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                     "%s:%s: error calling pasynOctetSyncIO->writeRead, status=%d\n",
                     driverName, functionName, status);
@@ -345,7 +348,8 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             // Now do flush and read with short timeout to flush any responses
             nread = 0;
             readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
-            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .5, &nread, &eomReason);
+            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .5, 
+                                                &nread, &eomReason);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
     } else {
@@ -354,27 +358,13 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
         writeReadMeter();
         
         // If we are in one-shot mode then send NAQ to request specific number of samples
-        if (acquireMode == QEAcquireModeOneShot) {
-            sprintf(outString_, "NAQ:%d", numAverage);
-            writeReadMeter();
-        } 
-        else {       
-            // If we are in external trigger mode then send the TRG ON command
-            switch (triggerMode) {
-                case QETriggerModeInternal:    
-                    status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
-                                TetrAMM_TIMEOUT, &nwrite);
-                break;
-                case QETriggerModeExtTrigger:    
-                    status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG:ON", strlen("TRG:ON"), 
-                                dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
-                break;
-                case QETriggerModeExtGate:    
-                    status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "GATE:ON", strlen("GATE:ON"), 
-                                dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
-                break;
-            }
-        }
+        sprintf(outString_, "NAQ:%d", (acquireMode == QEAcquireModeOneShot) ? numAverage : 0);
+        writeReadMeter();
+        // Send the TRG:OFF or TRG:ON command
+        sprintf(outString_, "TRG:%s", (triggerMode == QETriggerModeInternal) ? "OFF" : "ON");
+        writeReadMeter();
+        status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
+                            TetrAMM_TIMEOUT, &nwrite);
         status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "", 0);
         // Notify the read thread if acquisition status has started
         epicsEventSignal(acquireStartEvent_);
