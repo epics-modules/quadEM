@@ -29,3 +29,10 @@ record(mbbo,"$(P)$(R)TriggerMode") {
     field(ONST, "Ext. gate")
 }
 
+record(mbbi,"$(P)$(R)TriggerMode_RBV") {
+    field(ZRVL, "0")
+    field(ZRST, "Internal")
+    field(ONVL, "2")
+    field(ONST, "Ext. gate")
+}
+
