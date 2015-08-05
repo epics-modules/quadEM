@@ -1,7 +1,7 @@
 
 file {
 	name="/home/epics/devel/quadEM/quadEMApp/op/adl/AH401B.adl"
-	version=030105
+	version=030107
 }
 display {
 	object {
@@ -99,19 +99,6 @@ text {
 	}
 	textix="Trigger"
 }
-menu {
-	object {
-		x=195
-		y=50
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Trigger"
-		clr=14
-		bclr=51
-	}
-}
 text {
 	object {
 		x=100
@@ -123,64 +110,6 @@ text {
 		clr=14
 	}
 	textix="Ping pong"
-}
-menu {
-	object {
-		x=195
-		y=25
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)PingPong"
-		clr=14
-		bclr=51
-	}
-}
-"text update" {
-	object {
-		x=280
-		y=25
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)PingPong_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=280
-		y=0
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)IntegrationTime_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-"text entry" {
-	object {
-		x=195
-		y=0
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)IntegrationTime"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
 }
 text {
 	object {
@@ -227,6 +156,99 @@ composite {
 				clr=14
 			}
 			textix="  "
+		}
+	}
+}
+composite {
+	object {
+		x=290
+		y=0
+		width=100
+		height=45
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=290
+				y=0
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)IntegrationTime_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=290
+				y=25
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PingPong_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=195
+		y=0
+		width=90
+		height=70
+	}
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=195
+				y=50
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Trigger"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=195
+				y=25
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)PingPong"
+				clr=14
+				bclr=51
+			}
+		}
+		"text entry" {
+			object {
+				x=195
+				y=0
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)IntegrationTime"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
 		}
 	}
 }

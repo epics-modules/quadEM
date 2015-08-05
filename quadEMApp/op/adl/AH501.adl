@@ -1,7 +1,7 @@
 
 file {
 	name="/home/epics/devel/quadEM/quadEMApp/op/adl/AH501.adl"
-	version=030105
+	version=030107
 }
 display {
 	object {
@@ -87,41 +87,11 @@ display {
 		1a7309,
 	}
 }
-"text update" {
-	object {
-		x=280
-		y=25
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)Resolution_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=280
-		y=0
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)NumChannels_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
 composite {
 	object {
 		x=195
 		y=0
-		width=80
+		width=90
 		height=70
 	}
 	"composite name"=""
@@ -130,7 +100,7 @@ composite {
 			object {
 				x=195
 				y=0
-				width=80
+				width=90
 				height=20
 			}
 			control {
@@ -143,7 +113,7 @@ composite {
 			object {
 				x=195
 				y=25
-				width=80
+				width=90
 				height=20
 			}
 			control {
@@ -156,7 +126,7 @@ composite {
 			object {
 				x=195
 				y=50
-				width=80
+				width=90
 				height=20
 			}
 			control {
@@ -236,6 +206,47 @@ composite {
 				clr=14
 			}
 			textix="  "
+		}
+	}
+}
+composite {
+	object {
+		x=290
+		y=0
+		width=100
+		height=45
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=290
+				y=0
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)NumChannels_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=290
+				y=25
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)Resolution_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
 		}
 	}
 }

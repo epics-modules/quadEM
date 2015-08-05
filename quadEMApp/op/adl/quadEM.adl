@@ -282,56 +282,17 @@ text {
 	textix="Firmware"
 	align="horiz. right"
 }
-composite {
+text {
 	object {
 		x=150
 		y=160
-		width=240
+		width=50
 		height=20
 	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=205
-				y=160
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Range"
-				clr=14
-				bclr=51
-			}
-		}
-		"text update" {
-			object {
-				x=290
-				y=160
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)Range_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=150
-				y=160
-				width=50
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Range"
-		}
+	"basic attribute" {
+		clr=14
 	}
+	textix="Range"
 }
 menu {
 	object {
@@ -344,21 +305,6 @@ menu {
 		chan="$(P)$(R)AcquireMode"
 		clr=14
 		bclr=51
-	}
-}
-"text update" {
-	object {
-		x=300
-		y=135
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)AcquireMode_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
 	}
 }
 text {
@@ -388,73 +334,17 @@ composite {
 		chan="$(P)$(R)Model"
 	}
 }
-composite {
+text {
 	object {
 		x=20
 		y=210
-		width=370
+		width=180
 		height=20
 	}
-	"composite name"=""
-	children {
-		"text update" {
-			object {
-				x=290
-				y=210
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValuesPerRead_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=20
-				y=210
-				width=180
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Values per reading"
-		}
-		"text entry" {
-			object {
-				x=205
-				y=210
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)ValuesPerRead"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
 	}
-}
-"text update" {
-	object {
-		x=290
-		y=235
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)AveragingTime_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
+	textix="Values per reading"
 }
 text {
 	object {
@@ -467,36 +357,6 @@ text {
 		clr=14
 	}
 	textix="Averaging time"
-}
-"text entry" {
-	object {
-		x=205
-		y=235
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)AveragingTime"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-"message button" {
-	object {
-		x=205
-		y=260
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)ReadData.PROC"
-		clr=14
-		bclr=51
-	}
-	label="Read"
-	press_msg="1"
 }
 text {
 	object {
@@ -611,63 +471,24 @@ text {
 	limits {
 	}
 }
-composite {
+text {
 	object {
 		x=120
 		y=185
-		width=270
+		width=80
 		height=20
 	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=205
-				y=185
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Geometry"
-				clr=14
-				bclr=51
-			}
-		}
-		"text update" {
-			object {
-				x=290
-				y=185
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)Geometry_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=120
-				y=185
-				width=80
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Geometry"
-		}
+	"basic attribute" {
+		clr=14
 	}
+	textix="Geometry"
 }
 composite {
 	object {
 		x=10
 		y=335
-		width=380
-		height=200
+		width=400
+		height=220
 	}
 	"composite name"=""
 	"composite file"="TetrAMM.adl"
@@ -1790,6 +1611,174 @@ composite {
 				clr=14
 			}
 			textix="Reset"
+		}
+	}
+}
+composite {
+	object {
+		x=300
+		y=135
+		width=100
+		height=120
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=300
+				y=160
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)Range_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=300
+				y=135
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)AcquireMode_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=300
+				y=210
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ValuesPerRead_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=300
+				y=235
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)AveragingTime_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=300
+				y=185
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)Geometry_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=205
+		y=160
+		width=90
+		height=120
+	}
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=205
+				y=160
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Range"
+				clr=14
+				bclr=51
+			}
+		}
+		"text entry" {
+			object {
+				x=205
+				y=210
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ValuesPerRead"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=205
+				y=235
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)AveragingTime"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"message button" {
+			object {
+				x=205
+				y=260
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ReadData.PROC"
+				clr=14
+				bclr=51
+			}
+			label="Read"
+			press_msg="1"
+		}
+		menu {
+			object {
+				x=205
+				y=185
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Geometry"
+				clr=14
+				bclr=51
+			}
 		}
 	}
 }
