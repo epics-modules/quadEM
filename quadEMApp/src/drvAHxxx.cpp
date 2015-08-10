@@ -198,7 +198,7 @@ void drvAHxxx::readThread(void)
         if (acquiring_ == 0) {
             readingActive_ = 0;
             unlock();
-            epicsEventWait(acquireStartEvent_);
+            (void)epicsEventWait(acquireStartEvent_);
             lock();
             readingActive_ = 1;
             numAcquired_ = 0;
