@@ -114,7 +114,6 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     for (i=0; i<QE_MAX_DATA; i++) {
         setDoubleParam(i, P_DoubleData, 0.0);
     }
-    readingsAveraged_ = 0;
     valuesPerRead_ = 1;
     
     if (ringBufferSize <= 0) ringBufferSize = QE_DEFAULT_RING_BUFFER_SIZE;
@@ -221,7 +220,7 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
     getIntegerParam(P_NumAverage, &numAverage);
     if (numAverage > 0) {
         if (ringCount_ >= numAverage) {
-            epicsEventSignal(ringEvent_);
+            triggerCallbacks();
         }
     }
 
@@ -235,6 +234,10 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
     doCallbacksInt32Array(intData, QE_MAX_DATA, P_IntArrayData, 0);
 }
 
+void drvQuadEM::triggerCallbacks()
+{
+    epicsEventSignal(ringEvent_);
+}
 
 asynStatus drvQuadEM::doDataCallbacks()
 {
@@ -323,7 +326,7 @@ void drvQuadEM::callbackTask()
     lock();
     while (1) {
         unlock();
-        epicsEventWait(ringEvent_);
+        (void)epicsEventWait(ringEvent_);
         lock();
         doDataCallbacks();
         getIntegerParam(P_AcquireMode, &acquireMode);
