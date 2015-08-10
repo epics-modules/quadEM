@@ -81,6 +81,8 @@ drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberCh
     asynStatus status;
     static const char *functionName = "drvAPS_EM";
     
+    readingsAveraged_ = 0;
+
     if ((unidigName != 0) && (strlen(unidigName) != 0) && (strcmp(unidigName, "0") != 0)) {
         /* Create asynUser */
         pUInt32DAsynUser_ = pasynManager->createAsynUser(0, 0);
