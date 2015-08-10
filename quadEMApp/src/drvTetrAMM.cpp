@@ -235,6 +235,8 @@ void drvTetrAMM::readThread(void)
                     break;
                 case 0xfff40001ffffffffll:
                     // This is a signalling Nan on the falling edge of a trigger
+                    // Trigger callbacks
+                    triggerCallbacks();
                     break;
                 default:
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
@@ -307,6 +309,9 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     int acquireMode;
     char dummyIn[MAX_COMMAND_LEN];
     static const char *functionName = "setAcquire";
+
+    // Return without doing anything if value=1 and already acquiring
+    if ((value == 1) && (acquiring_)) return asynSuccess;
     
     getIntegerParam(P_TriggerMode, &triggerMode);
     getIntegerParam(P_AcquireMode, &acquireMode);
@@ -464,7 +469,7 @@ asynStatus drvTetrAMM::setBiasInterlock(epicsInt32 value)
 asynStatus drvTetrAMM::readStatus() 
 {
     // Reads the values of all the meter parameters, sets them in the parameter library
-    int range, numChannels, numAverage, valuesPerRead;
+    int range, numChannels, numAverage, valuesPerRead, triggerMode;
     double biasVoltage, voltageReadback, currentReadback, temperature;
     int prevAcquiring;
     double sampleTime=0., averagingTime;
@@ -522,7 +527,12 @@ asynStatus drvTetrAMM::readStatus()
 
     // Compute the number of values that will be accumulated in the ring buffer before averaging
     getDoubleParam(P_AveragingTime, &averagingTime);
-    numAverage = (int)((averagingTime / sampleTime) + 0.5);
+    getIntegerParam(P_TriggerMode, &triggerMode);
+    if (triggerMode == QETriggerModeExtGate) {
+        numAverage = 0;
+    } else {
+        numAverage = (int)((averagingTime / sampleTime) + 0.5);
+    }
     setIntegerParam(P_NumAverage, numAverage);
 
     if (prevAcquiring) setAcquire(1);
