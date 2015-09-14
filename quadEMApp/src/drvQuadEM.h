@@ -84,7 +84,7 @@ typedef enum {
 
 /* Acquire modes */
 typedef enum {
-    QEAcquireModeContinous,
+    QEAcquireModeContinuous,
     QEAcquireModeOneShot
 } QEAcquireMode_t;
 
