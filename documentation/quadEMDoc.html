@@ -684,7 +684,7 @@
               which can transmit up to 26,040 packets per second!</li>
             <li>It reduces the frequency of callbacks to device support.</li>
           </ul>
-          The potential disadvantages of setting ValuesPerRead &gt; 1 are:
+          The potential disadvantages of larger values for ValuesPerRead are:
           <ul>
             <li>It will change the statistics computed by the NDPluginStats plugin because an
               initial averaging operation has already been performed, which reduces the standard
@@ -1041,6 +1041,102 @@
     <h3 style="text-align: center">
       quadEM.adl</h3>
     <img alt="quadEM.png" src="quadEM.png" /></div>
+  <h3 id="H1">
+    TetrAMM Acquisition Modes</h3>
+  <p>
+    The TetrAMM can be used in 6 different acquisition modes, depending on the values
+    of the TriggerMode and AcquireMode records. The following table describes these
+    modes.</p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <td align="center" colspan="4">
+          <b>TetrAMM Acquisition Modes</b></td>
+      </tr>
+      <tr>
+        <th>
+          TriggerMode</th>
+        <th>
+          AcquireMode</th>
+        <th>
+          Description</th>
+        <th>
+          TetrAMM commands</th>
+      </tr>
+      <tr>
+        <td>
+          Internal</td>
+        <td>
+          Continuous</td>
+        <td>
+          Values are acquired continuously and are averaged each time the AveragingTime is
+          reached. </td>
+        <td>
+          NRSAMP=ValuesPerRead, NAQ=0, TRG:OFF</td>
+      </tr>
+      <tr>
+        <td>
+          Internal</td>
+        <td>
+          One-shot</td>
+        <td>
+          A single set of data is acquired for the AveragingTime and then acquisition stops.
+          The plugins will be called only once when the the requested number of samples have
+          been received.</td>
+        <td>
+          NRSAMP=ValuesPerRead, NAQ=AveragingTime*10e6/ValuesPerRead, TRG:OFF</td>
+      </tr>
+      <tr>
+        <td>
+          Ext. Trig.</td>
+        <td>
+          Continuous</td>
+        <td>
+          A fixed number of samples is acquired starting on each rising edge of the external
+          trigger input. AveragingTime must be set to a value less than the time between trigger
+          pulses.</td>
+        <td>
+          NRSAMP=AveragingTime/10e6, NAQ=0, TRG:ON</td>
+      </tr>
+      <tr>
+        <td>
+          Ext. Trig.</td>
+        <td>
+          One-shot</td>
+        <td>
+          A fixed number of samples is acquired starting on the first rising edge of the external
+          trigger input and then acquisition stops. ValuesPerRead must be set to a value less
+          than AveragingTime/10e6.</td>
+        <td>
+          NRSAMP=ValuesPerRead, NAQ=AveragingTime*10e6/ValuesPerRead, TRG:ON</td>
+      </tr>
+      <tr>
+        <td>
+          Ext. Gate</td>
+        <td>
+          Continuous</td>
+        <td>
+          Samples are acquired while the external trigger input is high. On each falling edge
+          of the external trigger signal the plugins are called. ValuesPerRead must be set
+          to a value less than (external trigger high time * 100000).</td>
+        <td>
+          NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</td>
+      </tr>
+      <tr>
+        <td>
+          Ext. Gate</td>
+        <td>
+          One-shot</td>
+        <td>
+          Samples are acquired while the external trigger input is high. On the first falling
+          edge of the external trigger signal the plugins are called and acquisition stops.
+          ValuesPerRead must be set to a value less than (external trigger high time * 100000).
+        </td>
+        <td>
+          NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="Plugins">
     Plugins</h3>
   <p>
