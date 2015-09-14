@@ -49,7 +49,7 @@ PROD_LIBS += seq pv
 PROD_LIBS_vxWorks += $(EPICS_BASE_IOC_LIBS)
 
 include $(ADCORE)/ADApp/commonLibraryMakefile
-include $(ADCORE)/ADApp/commonDriverMakefile
+include $(ADEXAMPLE)/exampleApp/commonDriverMakefile
 
 #===========================
 
