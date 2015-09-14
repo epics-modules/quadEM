@@ -39,6 +39,7 @@ MCA=$(SUPPORT)/mca-7-6
 # areaDetector for plugins like NDPluginStats
 AREA_DETECTOR=$(SUPPORT)/areaDetector-2-3
 ADCORE=$(AREA_DETECTOR)/ADCore
+ADEXAMPLE=$(AREA_DETECTOR)/ADExample
 ADBINARIES=$(AREA_DETECTOR)/ADBinaries
 
 # SSCAN is needed for general scanning
