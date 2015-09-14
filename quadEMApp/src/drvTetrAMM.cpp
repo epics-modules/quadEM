@@ -69,6 +69,7 @@ drvTetrAMM::drvTetrAMM(const char *portName, const char *QEPortName, int ringBuf
     readingActive_ = 0;
     resolution_ = 24;
     setIntegerParam(P_Model, QE_ModelTetrAMM);
+    setIntegerParam(P_ValuesPerRead, 5);
 
     // Do everything that needs to be done when connecting to the meter initially.
     // Note that the meter could be offline when the IOC starts, so we put this in
@@ -142,10 +143,6 @@ asynStatus drvTetrAMM::writeReadMeter()
   return status;
 }
 
-/** Read thread to read the data from the electrometer when it is in continuous acquire mode.
-  * Reads the data, computes the sums and positions, and does callbacks.
-  */
-
 inline void swapDouble(char *in)
 {
     char temp;
@@ -155,6 +152,10 @@ inline void swapDouble(char *in)
     temp = in[3]; in[3] = in[4]; in[4] = temp;
 }
 
+/** Read thread to read the data from the electrometer when it is in continuous acquire mode.
+  * Reads the data, computes the sums and positions, and does callbacks.
+  */
+
 void drvTetrAMM::readThread(void)
 {
     asynStatus status;
@@ -162,6 +163,7 @@ void drvTetrAMM::readThread(void)
     int bytesPerValue=8;
     int eomReason;
     int acquireMode;
+    int triggerMode;
     int numAverage;
     int i;
     asynUser *pasynUser;
@@ -203,6 +205,7 @@ void drvTetrAMM::readThread(void)
             readingActive_ = 1;
             numAcquired_ = 0;
             getIntegerParam(P_AcquireMode, &acquireMode);
+            getIntegerParam(P_TriggerMode, &triggerMode);
             getIntegerParam(P_NumAverage, &numAverage);
         }
         nRequested = (numChannels_ + 1) * bytesPerValue;
@@ -226,8 +229,13 @@ void drvTetrAMM::readThread(void)
                     computePositions(data);
                     numAcquired_++;
                     if ((acquireMode == QEAcquireModeOneShot) &&
+                        (triggerMode == QETriggerModeInternal) &&
                         (numAcquired_ >= numAverage)) {
                         acquiring_ = 0;
+                    }
+                    if ((acquireMode == QEAcquireModeContinuous) &&
+                        (triggerMode == QETriggerModeExtTrigger)) {
+                        triggerCallbacks();
                     }
                     break;
                 case 0xfff40000ffffffffll:
@@ -236,7 +244,10 @@ void drvTetrAMM::readThread(void)
                 case 0xfff40001ffffffffll:
                     // This is a signalling Nan on the falling edge of a trigger
                     // Trigger callbacks
-                    triggerCallbacks();
+                    if (triggerMode == QETriggerModeExtGate) {
+                        acquiring_ = 0;
+                        triggerCallbacks();
+                    }
                     break;
                 default:
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
@@ -307,15 +318,19 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     int triggerMode;
     int numAverage;
     int acquireMode;
+    int valuesPerRead;
+    int nrsamp;
+    int naq;
     char dummyIn[MAX_COMMAND_LEN];
     static const char *functionName = "setAcquire";
 
     // Return without doing anything if value=1 and already acquiring
     if ((value == 1) && (acquiring_)) return asynSuccess;
     
-    getIntegerParam(P_TriggerMode, &triggerMode);
-    getIntegerParam(P_AcquireMode, &acquireMode);
-    getIntegerParam(P_NumAverage, &numAverage);
+    getIntegerParam(P_TriggerMode,   &triggerMode);
+    getIntegerParam(P_AcquireMode,   &acquireMode);
+    getIntegerParam(P_NumAverage,    &numAverage);
+    getIntegerParam(P_ValuesPerRead, &valuesPerRead);
 
     // Make sure the input EOS is set
     status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
@@ -330,44 +345,65 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
         // We assume that if acquiring_=0, readingActive_=0 and acquireMode=one shot 
         // that the meter stopped itself and we don't need to do anything further.  
         // This really speeds things up.
-        if ((acquiring_ == 0) && (readingActive_ == 0) && (acquireMode == QEAcquireModeOneShot)) 
-            return asynSuccess;
+//        if ((acquiring_ == 0) && (readingActive_ == 0) && (acquireMode == QEAcquireModeOneShot)) 
+//            return asynSuccess;
 
         // Setting this flag tells the read thread to stop
         acquiring_ = 0;
         // Wait for the read thread to stop
+asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "Waiting for read thread to stop\n");
         while (readingActive_) {
             unlock();
-            epicsThreadSleep(0.1);
+            epicsThreadSleep(0.01);
             lock();
         }
+asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "Read thread stopped\n");
         while (1) {
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ:OFF", strlen("ACQ:OFF"), 
                         dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
-           if (status) {
+            if (status) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                     "%s:%s: error calling pasynOctetSyncIO->writeRead, status=%d\n",
                     driverName, functionName, status);
                 break;
             }
             // Now do flush and read with short timeout to flush any responses
-            nread = 0;
-            readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
-            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .5, 
-                                                &nread, &eomReason);
-            if ((readStatus == asynTimeout) && (nread == 0)) break;
+//            nread = 0;
+//            readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
+//            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .5, 
+//                                                &nread, &eomReason);
+//            if ((readStatus == asynTimeout) && (nread == 0)) break;
+            break;
         }
     } else {
         // Make sure the meter is in binary mode
         strcpy(outString_, "ASCII:OFF");
         writeReadMeter();
         
-        // If we are in one-shot mode then send NAQ to request specific number of samples
-        sprintf(outString_, "NAQ:%d", (acquireMode == QEAcquireModeOneShot) ? numAverage : 0);
+        nrsamp = valuesPerRead;
+        if ((triggerMode == QETriggerModeExtTrigger) && 
+            (acquireMode == QEAcquireModeOneShot)) {
+            nrsamp = numAverage * valuesPerRead;
+        }
+        
+        // Send the NRSAMP command
+        sprintf(outString_, "NRSAMP:%d", nrsamp);
         writeReadMeter();
+        
         // Send the TRG:OFF or TRG:ON command
         sprintf(outString_, "TRG:%s", (triggerMode == QETriggerModeInternal) ? "OFF" : "ON");
         writeReadMeter();
+
+        // Send the NAQ command
+        naq = 0;
+        if (((triggerMode == QETriggerModeExtTrigger) || 
+             (triggerMode == QETriggerModeInternal)) && 
+             (acquireMode == QEAcquireModeOneShot)) {
+            naq = numAverage;
+        }        
+        sprintf(outString_, "NAQ:%d", naq);
+        writeReadMeter();
+
         status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
                             TetrAMM_TIMEOUT, &nwrite);
         status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "", 0);
