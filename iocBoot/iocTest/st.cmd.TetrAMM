@@ -28,6 +28,7 @@ asynOctetSetOutputEos("IP_$(PORT)", 0, "\r")
 asynSetTraceIOMask("IP_$(PORT)", 0, 6)
 #asynSetTraceFile("IP_$(PORT)",   0, "AHxxx.out")
 #asynSetTraceMask("IP_$(PORT)",   0,  9)
+asynSetTraceIOTruncateSize("IP_$(PORT)", 0, 4000)
 
 # Load asynRecord record
 dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=IP_$(PORT),ADDR=0,OMAX=256,IMAX=256")
