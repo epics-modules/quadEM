@@ -12,6 +12,7 @@ LIBRARY_IOC += quadEM
 
 DBD += drvAPS_EM.dbd
 DBD += drvAHxxx.dbd
+DBD += drvTetrAMM.dbd
 DBD += quadEMTestApp.dbd
 DBD += quadEMTestAppVx.dbd
 
