@@ -93,6 +93,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     createParam(P_ReadStatusString,         asynParamInt32,         &P_ReadStatus);
     createParam(P_ResolutionString,         asynParamInt32,         &P_Resolution);
     createParam(P_ValuesPerReadString,      asynParamInt32,         &P_ValuesPerRead);
+    createParam(P_ReadFormatString,         asynParamInt32,         &P_ReadFormat);
     createParam(P_AveragingTimeString,      asynParamFloat64,       &P_AveragingTime);
     createParam(P_NumAverageString,         asynParamInt32,         &P_NumAverage);
     createParam(P_NumAveragedString,        asynParamInt32,         &P_NumAveraged);
@@ -111,6 +112,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     setDoubleParam(P_BiasVoltage, 0.);
     setIntegerParam(P_Resolution, 16);
     setIntegerParam(P_ValuesPerRead, 1);
+    setIntegerParam(P_ReadFormat, 0);
     for (i=0; i<QE_MAX_DATA; i++) {
         setDoubleParam(i, P_DoubleData, 0.0);
     }

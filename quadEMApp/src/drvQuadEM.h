@@ -43,6 +43,7 @@
 #define P_ReadStatusString         "QE_READ_STATUS"             /* asynInt32,    r/w */
 #define P_ResolutionString         "QE_RESOLUTION"              /* asynInt32,    r/w */
 #define P_ValuesPerReadString      "QE_VALUES_PER_READ"         /* asynInt32,    r/w */
+#define P_ReadFormatString         "QE_READ_FORMAT"             /* asynInt32,    r/w */
 #define P_AveragingTimeString      "QE_AVERAGING_TIME"          /* asynFloat64,  r/w */
 #define P_NumAverageString         "QE_NUM_AVERAGE"             /* asynInt32,    r/o */
 #define P_NumAveragedString        "QE_NUM_AVERAGED"            /* asynInt32,    r/o */
@@ -95,6 +96,13 @@ typedef enum {
     QETriggerModeExtGate
 } QETriggerMode_t;
 
+/* Read format */
+typedef enum {
+    QEReadFormatBinary,
+    QEReadFormatASCII
+} QEReadFormat_t;
+
+
 #define QE_MAX_DATA (QEPositionY+1)
 #define QE_MAX_INPUTS 4
 #define QE_DEFAULT_RING_BUFFER_SIZE 2048
@@ -141,6 +149,7 @@ protected:
     int P_ReadStatus;
     int P_Resolution;
     int P_ValuesPerRead;
+    int P_ReadFormat;
     int P_AveragingTime;
     int P_NumAverage;
     int P_NumAveraged;
