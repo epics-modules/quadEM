@@ -290,6 +290,24 @@ record(longin,"$(P)$(R)ValuesPerRead_RBV") {
     field(SCAN, "I/O Intr")
 }
 
+record(bo,"$(P)$(R)ReadFormat") {
+    field(DESC, "Read format")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)QE_READ_FORMAT")
+    field(ZNAM, "Binary")
+    field(ONAM, "ASCII")
+}
+
+record(bi,"$(P)$(R)ReadFormat_RBV") {
+    field(DESC, "Read format")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)QE_READ_FORMAT")
+    field(ZNAM, "Binary")
+    field(ONAM, "ASCII")
+    field(SCAN, "I/O Intr")
+}
+
 record(ao,"$(P)$(R)AveragingTime") {
     field(DESC, "Averaging time")
     field(PINI, "YES")
