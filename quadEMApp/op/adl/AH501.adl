@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/AH501.adl"
+	name="/home/epics/devel/quadEM-5-0/quadEMApp/op/adl/AH501.adl"
 	version=030107
 }
 display {
@@ -87,54 +87,17 @@ display {
 		1a7309,
 	}
 }
-composite {
+menu {
 	object {
 		x=195
 		y=0
 		width=90
-		height=70
+		height=20
 	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=195
-				y=0
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)NumChannels"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=195
-				y=25
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Resolution"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=195
-				y=50
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Trigger"
-				clr=14
-				bclr=51
-			}
-		}
+	control {
+		chan="$(P)$(R)NumChannels"
+		clr=14
+		bclr=51
 	}
 }
 text {
@@ -149,30 +112,6 @@ text {
 	}
 	textix="Channels"
 	align="horiz. right"
-}
-text {
-	object {
-		x=90
-		y=25
-		width=100
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Resolution"
-}
-text {
-	object {
-		x=120
-		y=50
-		width=70
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Trigger"
 }
 composite {
 	object {
@@ -209,34 +148,136 @@ composite {
 		}
 	}
 }
-composite {
+"text update" {
 	object {
 		x=290
 		y=0
 		width=100
-		height=45
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumChannels_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+composite {
+	object {
+		x=70
+		y=25
+		width=320
+		height=20
 	}
 	"composite name"=""
 	children {
+		text {
+			object {
+				x=70
+				y=25
+				width=120
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Read format"
+			align="horiz. right"
+		}
 		"text update" {
 			object {
 				x=290
-				y=0
+				y=25
 				width=100
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)NumChannels_RBV"
+				chan="$(P)$(R)ReadFormat_RBV"
 				clr=54
 				bclr=3
 			}
 			limits {
 			}
 		}
+		menu {
+			object {
+				x=195
+				y=25
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ReadFormat"
+				clr=14
+				bclr=51
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=90
+		y=50
+		width=300
+		height=45
+	}
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=195
+				y=50
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Resolution"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=195
+				y=75
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Trigger"
+				clr=14
+				bclr=51
+			}
+		}
+		text {
+			object {
+				x=90
+				y=50
+				width=100
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Resolution"
+		}
+		text {
+			object {
+				x=120
+				y=75
+				width=70
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Trigger"
+		}
 		"text update" {
 			object {
 				x=290
-				y=25
+				y=50
 				width=100
 				height=20
 			}

@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/AH501C.adl"
+	name="/home/epics/devel/quadEM-5-0/quadEMApp/op/adl/AH501C.adl"
 	version=030107
 }
 display {
 	object {
-		x=689
-		y=745
+		x=429
+		y=448
 		width=430
-		height=125
+		height=150
 	}
 	clr=14
 	bclr=4
@@ -100,67 +100,95 @@ text {
 	textix="Channels"
 	align="horiz. right"
 }
-text {
-	object {
-		x=90
-		y=25
-		width=100
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Resolution"
-}
-text {
-	object {
-		x=120
-		y=50
-		width=70
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Trigger"
-}
-text {
-	object {
-		x=90
-		y=75
-		width=100
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Bias state"
-}
-text {
-	object {
-		x=70
-		y=100
-		width=120
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Bias voltage"
-}
-composite {
+"text update" {
 	object {
 		x=290
 		y=0
 		width=100
-		height=120
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumChannels_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+menu {
+	object {
+		x=195
+		y=0
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)NumChannels"
+		clr=14
+		bclr=51
+	}
+}
+composite {
+	object {
+		x=70
+		y=50
+		width=320
+		height=95
 	}
 	"composite name"=""
 	children {
+		text {
+			object {
+				x=90
+				y=50
+				width=100
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Resolution"
+		}
+		text {
+			object {
+				x=120
+				y=75
+				width=70
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Trigger"
+		}
+		text {
+			object {
+				x=90
+				y=100
+				width=100
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Bias state"
+		}
+		text {
+			object {
+				x=70
+				y=125
+				width=120
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Bias voltage"
+		}
 		"text update" {
 			object {
 				x=290
-				y=25
+				y=50
 				width=100
 				height=20
 			}
@@ -175,22 +203,7 @@ composite {
 		"text update" {
 			object {
 				x=290
-				y=0
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)NumChannels_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=290
-				y=75
+				y=100
 				width=100
 				height=20
 			}
@@ -205,7 +218,7 @@ composite {
 		"text update" {
 			object {
 				x=290
-				y=100
+				y=125
 				width=100
 				height=20
 			}
@@ -217,34 +230,10 @@ composite {
 			limits {
 			}
 		}
-	}
-}
-composite {
-	object {
-		x=195
-		y=0
-		width=90
-		height=120
-	}
-	"composite name"=""
-	children {
 		menu {
 			object {
 				x=195
-				y=0
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)NumChannels"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=195
-				y=25
+				y=50
 				width=90
 				height=20
 			}
@@ -257,7 +246,7 @@ composite {
 		menu {
 			object {
 				x=195
-				y=50
+				y=75
 				width=90
 				height=20
 			}
@@ -270,7 +259,7 @@ composite {
 		menu {
 			object {
 				x=195
-				y=75
+				y=100
 				width=90
 				height=20
 			}
@@ -283,7 +272,7 @@ composite {
 		"text entry" {
 			object {
 				x=195
-				y=100
+				y=125
 				width=90
 				height=20
 			}
@@ -293,6 +282,58 @@ composite {
 				bclr=51
 			}
 			limits {
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=70
+		y=25
+		width=320
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=70
+				y=25
+				width=120
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Read format"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=290
+				y=25
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ReadFormat_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		menu {
+			object {
+				x=195
+				y=25
+				width=90
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ReadFormat"
+				clr=14
+				bclr=51
 			}
 		}
 	}
