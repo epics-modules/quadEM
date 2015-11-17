@@ -8,7 +8,7 @@ display {
 		x=214
 		y=152
 		width=840
-		height=635
+		height=660
 	}
 	clr=14
 	bclr=3
@@ -192,7 +192,7 @@ composite {
 composite {
 	object {
 		x=20
-		y=560
+		y=585
 		width=350
 		height=60
 	}
@@ -323,7 +323,7 @@ composite {
 	object {
 		x=10
 		y=335
-		width=380
+		width=390
 		height=120
 	}
 	"composite name"=""
@@ -375,7 +375,7 @@ composite {
 	object {
 		x=10
 		y=335
-		width=380
+		width=390
 		height=120
 	}
 	"composite name"=""
@@ -390,7 +390,7 @@ composite {
 	object {
 		x=10
 		y=335
-		width=380
+		width=390
 		height=120
 	}
 	"composite name"=""
@@ -405,8 +405,8 @@ composite {
 	object {
 		x=10
 		y=335
-		width=380
-		height=120
+		width=390
+		height=145
 	}
 	"composite name"=""
 	"composite file"="AH501C.adl"
@@ -487,8 +487,8 @@ composite {
 	object {
 		x=10
 		y=335
-		width=400
-		height=220
+		width=392
+		height=245
 	}
 	"composite name"=""
 	"composite file"="TetrAMM.adl"
