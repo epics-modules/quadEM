@@ -285,7 +285,7 @@ void drvTetrAMM::readThread(void)
             lock();
 
             if ((status != asynSuccess) || 
-                (eomReason == ASYN_EOM_EOS)) {
+                (eomReason != ASYN_EOM_EOS)) {
                 if (status != asynTimeout) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                         "%s:%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
@@ -477,7 +477,9 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
 
         status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
                             TetrAMM_TIMEOUT, &nwrite);
-        status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "", 0);
+        if (readFormat == QEReadFormatBinary) {
+            status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "", 0);
+        }
         // Notify the read thread if acquisition status has started
         epicsEventSignal(acquireStartEvent_);
         acquiring_ = 1;
