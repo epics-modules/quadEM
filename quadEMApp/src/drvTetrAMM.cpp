@@ -378,7 +378,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     size_t nread;
     size_t nwrite;
     asynStatus status=asynSuccess;
-    //asynStatus readStatus;
+    asynStatus readStatus;
     int eomReason;
     int triggerMode;
     int numAverage;
@@ -418,29 +418,30 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
         // Setting this flag tells the read thread to stop
         acquiring_ = 0;
         // Wait for the read thread to stop
-        asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, "Waiting for read thread to stop\n");
         while (readingActive_) {
             unlock();
             epicsThreadSleep(0.01);
             lock();
         }
-        asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, "Read thread stopped\n");
         while (1) {
-            status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ:OFF", strlen("ACQ:OFF"), 
-                        dummyIn, MAX_COMMAND_LEN, TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
+            status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:OFF", strlen("ACQ:OFF"), 
+                TetrAMM_TIMEOUT, &nwrite);
             if (status) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                    "%s:%s: error calling pasynOctetSyncIO->writeRead, status=%d, error=\"%s\"\n",
+                    "%s:%s: error calling pasynOctetSyncIO->write, status=%d, error=\"%s\"\n",
                     driverName, functionName, status, pasynUserMeter_->errorMessage);
-                break;
+                return asynError;
             }
+            epicsThreadSleep(0.01);
             // Now do flush and read with short timeout to flush any responses
-//            nread = 0;
-//            readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
-//            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .5, 
-//                                                &nread, &eomReason);
-//            if ((readStatus == asynTimeout) && (nread == 0)) break;
-            break;
+            nread = 0;
+            readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
+            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, 0.01, 
+                                                &nread, &eomReason);
+            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+                "%s::%s readStatus=%d, nread=%d\n", 
+                driverName, functionName, readStatus, nread);
+            if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
     } else {
         // Set the desired read format
