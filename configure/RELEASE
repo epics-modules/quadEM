@@ -43,10 +43,10 @@ ADEXAMPLE=$(AREA_DETECTOR)/ADExample
 ADBINARIES=$(AREA_DETECTOR)/ADBinaries
 
 # SSCAN is needed for general scanning
-SSCAN=$(SUPPORT)/sscan-2-10-1
+SSCAN=$(SUPPORT)/sscan-2-10-2
 
 # calc
-CALC=$(SUPPORT)/calc-3-4-2-1
+CALC=$(SUPPORT)/calc-3-6-1
 
 # devIocStats needed by areaDetector
 DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-14
