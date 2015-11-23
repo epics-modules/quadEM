@@ -13,6 +13,11 @@ include $(TOP)/configure/CONFIG
 #DB += dbExample1.db
 #DB += dbExample2.db
 #DB += dbSubExample.db
+DB += quadEM.template
+DB += AH501.template
+DB += AH401B.template
+DB += quadEM_TimeSeries.template
+DB += TetrAMM.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

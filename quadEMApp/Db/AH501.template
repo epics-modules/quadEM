@@ -2,6 +2,14 @@
 #   Mark Rivers
 #   June 3, 2012
 
+# Macros:
+#% macro, P, Device Prefix
+#% macro, R, Device Suffix
+#% macro, PORT, Asyn Port name
+
+# This associates the template with an edm screen
+# % guiTODO, $(PORT), edmtab, AH501.edl, P=$(P),R=$(R)
+
 # We replace the choices for the Range
 record(mbbo,"$(P)$(R)Range") {
     field(ZRVL,"0")

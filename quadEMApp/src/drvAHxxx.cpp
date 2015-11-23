@@ -57,8 +57,9 @@ drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferS
     const char *functionName = "drvAHxxx";
     
     QEPortName_ = epicsStrDup(QEPortName);
-    
+
     acquireStartEvent_ = epicsEventCreate(epicsEventEmpty);
+
 
     // Connect to the server
     status = pasynOctetSyncIO->connect(QEPortName, 0, &pasynUserMeter_, NULL);
@@ -67,7 +68,9 @@ drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferS
                driverName, functionName, status, pasynUserMeter_->errorMessage);
         return;
     }
-    
+    status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
+    status = pasynOctetSyncIO->setOutputEos(pasynUserMeter_, "\r", 1);
+
     acquiring_ = 0;
     readingActive_ = 0;
     resolution_ = 24;

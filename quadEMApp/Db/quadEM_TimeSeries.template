@@ -82,14 +82,16 @@ record(bi,"$(P)$(R)HardwareAcquiring") {
   field(INP,  "@asyn($(PORT),0)MCA_ACQUIRING")
   field(ZNAM, "Done")
   field(ONAM, "Acquiring")
-  field(SCAN, "I/O Intr")
+#  field(SCAN, "I/O Intr")
+  field(SCAN, ".1 second")
 }
 
 record(ai,"$(P)$(R)ElapsedReal") {
   field(DTYP, "asynFloat64")
   field(INP,  "@asyn($(PORT),0)MCA_ELAPSED_REAL")
   field(PREC, "2")
-  field(SCAN, "I/O Intr")
+#  field(SCAN, "I/O Intr")
+  field(SCAN, ".5 second")
 }
 
 record(bo,"$(P)$(R)ReadAll") {
@@ -126,8 +128,9 @@ record(longin,"$(P)$(R)CurrentChannel") {
 
 record(longin,"$(P)$(R)MaxChannels") {
   field(PINI, "YES")
-  field(DTYP, "asynInt32")
-  field(INP,  "@asyn($(PORT),0)FAST_SWEEP_MAX_CHANNELS")
+#  field(DTYP, "asynInt32")
+#  field(INP,  "@asyn($(PORT),0)FAST_SWEEP_MAX_CHANNELS")
+  field(INP,  "$(NUM_TS)")
 }
 
 record(ao,"$(P)$(R)Dwell") {
@@ -142,7 +145,8 @@ record(ai,"$(P)$(R)Dwell_RBV") {
   field(DTYP, "asynFloat64")
   field(INP,  "@asyn($(PORT),0)MCA_DWELL_TIME")
   field(PREC, "3")
-  field(SCAN, "I/O Intr")
+#  field(SCAN, "I/O Intr")
+  field(SCAN, ".5 second")
 }
 
 record(ao,"$(P)$(R)PresetReal") {
