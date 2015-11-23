@@ -9,15 +9,31 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
-    Release 6-0 (July XXX, 2015)</h2>
+    Release 6-0 (November 23, 2015)</h2>
   <ul>
     <li>Added support for the CaenEls TetrAMM picoammeter. This device uses Gbit Ethernet
       without a built-in Ethernet to serial converter, so it is significantly faster than
       the AH501 and AH401 series. It supports on-board digital averaging.</li>
     <li>The base class and derived classes have changed somewhat to add this TetrAMM support,
       some of the database record names and types have changed, and changes are required
-      to startup scripts. This is thus a new major release number.</li>
-    <li>This release requires areaDetector ADCore R2-2 or later.</li>
+      to startup scripts. This is thus a new major release number. Some of the changes
+      include
+      <ul>
+        <li>The Trigger record has been renamed to TriggerMode.</li>
+        <li>The TriggerMode record choices are now device-dependent.</li>
+        <li>The Firmware record changed from stringin to waveform to handle longer strings.</li>
+        <li>New records were added for the TetrAMM (BiasInterlock, HVSReadback, HVVReadback,
+          HVIReadback, and Temperature).</li>
+      </ul>
+    </li>
+    <li>The CurrentScaleN and ReadStatus.SCAN records were added to save/restore, they
+      were previously missing.</li>
+    <li>Added support for reading the AH401, AH501, and TetrAMM meters in ASCII mode,
+      as well as the binary mode that was previously supported. Binary mode can occassionally
+      get out of sync, because there are no terminators between readings. ASCII mode is
+      slower, but should not have a problem getting out of sync. The new ReadFormat record
+      is used to select Binary or ASCII.</li>
+    <li>This release requires areaDetector ADCore R2-4 or later.</li>
   </ul>
   <h2 style="text-align: center">
     Release 5-0 (October 14, 2014)</h2>
