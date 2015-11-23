@@ -6,6 +6,9 @@ errlogInit(5000)
 dbLoadDatabase("../../dbd/quadEMTestApp.dbd")
 quadEMTestApp_registerRecordDeviceDriver(pdbbase)
 
-#< st.cmd.AH401B
+# The search path for database files
+epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
+
+< st.cmd.AH401B
 #< st.cmd.AH501
-< st.cmd.TetrAMM
+#< st.cmd.TetrAMM
