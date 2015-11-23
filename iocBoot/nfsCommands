@@ -1,5 +1,5 @@
 # Set the default gateway 
-routec "add default 164.54.160.1"
+routec "-n add default 164.54.160.1"
 
 # Set the UNIX uid/gid to the EPICS account
 nfsAuthUnixSet("corvette",401,400,0,0)
