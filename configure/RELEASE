@@ -11,7 +11,7 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 SUPPORT=/corvette/home/epics/devel
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 # This module
-QUADEM=$(SUPPORT)/quadEM-5-0
+QUADEM=$(SUPPORT)/quadEM-6-0
 
 # ASYN - for device/driver support
 ASYN=$(SUPPORT)/asyn-4-26
