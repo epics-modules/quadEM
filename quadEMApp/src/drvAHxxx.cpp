@@ -294,7 +294,6 @@ void drvAHxxx::readThread(void)
         }
         else {  // ASCII mode
             nRequested = sizeof(ASCIIData);
-            nExpected = (resolution_/4)*numChannels_ + (numChannels_-1);
             for (i=0; i<valuesPerRead_; i++) {
                 unlock();
                 pasynManager->lockPort(pasynUser);
@@ -316,22 +315,32 @@ void drvAHxxx::readThread(void)
                     }
                     continue;
                 }
-                if (strstr(ASCIIData, "ACK") != 0) {
-                    // The requested number of trigger samples has been received
-                    break;
-                } 
-                if (nRead != nExpected) {
-                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                        "%s:%s: error reading meter nRead=%lu, expected %lu, input=%s\n", 
-                        driverName, functionName, (unsigned long)nRead, (unsigned long)nExpected, ASCIIData);
-                    continue;
+                if (AH501Series_) {
+                    nExpected = (resolution_/4)*numChannels_ + (numChannels_-1);
+                    if (strstr(ASCIIData, "ACK") != 0) {
+                        // The requested number of trigger samples has been received
+                        break;
+                    } 
+                    if (nRead != nExpected) {
+                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                            "%s:%s: error reading meter nRead=%lu, expected %lu, input=%s\n", 
+                            driverName, functionName, (unsigned long)nRead, (unsigned long)nExpected, ASCIIData);
+                        continue;
+                    }
+                    inPtr = ASCIIData;
+                    for (j=0; j<numChannels_; j++) {
+                        value = strtol(inPtr, &inPtr, 16);
+                        if ((resolution_ == 24) && (value & 0x800000)) value |= ~0xffffff;
+                        else if ((resolution_ == 16) && (value & 0x8000)) value |= ~0xffff;
+                        raw[j] += value;
+                    }
                 }
-                inPtr = ASCIIData;
-                for (j=0; j<numChannels_; j++) {
-                    value = strtol(inPtr, &inPtr, 16);
-                    if ((resolution_ == 24) && (value & 0x800000)) value |= ~0xffffff;
-                    else if ((resolution_ == 16) && (value & 0x8000)) value |= ~0xffff;
-                    raw[j] += value;
+                else if (AH401Series_) {
+                    inPtr = ASCIIData;
+                    for (j=0; j<numChannels_; j++) {
+                        value = strtol(inPtr, &inPtr, 10);
+                        raw[j] += value;
+                    }
                 }
             }  // end for valuesPerRead
         }  // end if ASCII mode
