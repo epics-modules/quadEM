@@ -436,7 +436,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             // Now do flush and read with short timeout to flush any responses
             nread = 0;
             readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
-            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, 0.01, 
+            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, 0.1, 
                                                 &nread, &eomReason);
             asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
                 "%s::%s readStatus=%d, nread=%lu\n", 
