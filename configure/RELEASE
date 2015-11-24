@@ -16,6 +16,11 @@ QUADEM=$(SUPPORT)/quadEM-6-0
 # ASYN - for device/driver support
 ASYN=$(SUPPORT)/asyn-4-26
 
+# areaDetector for asynNDArrayDriver
+AREA_DETECTOR=$(SUPPORT)/areaDetector-2-4
+ADCORE=$(AREA_DETECTOR)/ADCore
+ADBINARIES=$(AREA_DETECTOR)/ADBinaries
+
 ### The following are needed only for the test application
 
 # For ipUnidig for APS_EM
@@ -36,12 +41,6 @@ AUTOSAVE=$(SUPPORT)/autosave-5-7-1
 # MCA is used for time series
 MCA=$(SUPPORT)/mca-7-6
 
-# areaDetector for plugins like NDPluginStats
-AREA_DETECTOR=$(SUPPORT)/areaDetector-2-4
-ADCORE=$(AREA_DETECTOR)/ADCore
-ADEXAMPLE=$(AREA_DETECTOR)/ADExample
-ADBINARIES=$(AREA_DETECTOR)/ADBinaries
-
 # SSCAN is needed for general scanning
 SSCAN=$(SUPPORT)/sscan-2-10-2
 
@@ -51,7 +50,7 @@ CALC=$(SUPPORT)/calc-3-6-1
 # devIocStats needed by areaDetector
 DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-14
 
-# E usually appears last so other apps can override stuff:
+# EPICS_BASE usually appears last so other apps can override stuff:
 EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.5
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
