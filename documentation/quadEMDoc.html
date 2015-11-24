@@ -12,7 +12,7 @@
     <h2>
       R6-0</h2>
     <h2>
-      July XXX, 2015</h2>
+      November 23, 2015</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -332,6 +332,44 @@
           that the statistics plugins be set to have CallbacksBlock=Yes so that the driver
           waits for the statistics plugins to compute before it sets Acquire back to 0.
         </td>
+      </tr>
+      <tr>
+        <td>
+          QE_READ_FORMAT</td>
+        <td>
+          $(P)$(R)ReadFormat<br />
+          $(P)$(R)ReadFormat_RBV</td>
+        <td>
+          bo<br />
+          bi</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          All except ASP_EM</td>
+        <td>
+          Read format from the device. Values are:
+          <ul>
+            <li>0: Binary </li>
+            <li>1: ASCII </li>
+          </ul>
+          In binary mode the AH401 and AH501 send integer data with no delimiters or terminators.
+          This can lead to problems if the data stream is somehow corrupted because there
+          is no way to know where a set of readings begin. This should not happen under normal
+          conditions because the devices use TCP, which guarantees retransmission of dropped
+          packets. However, it has been observed to occur. In binary mode the TetrAMM sends
+          IEEE 754 double-precision values for each channel, followed by a Signalling NaN.
+          The NaN is thus effectively a terminator that can be used to synchronize the data
+          stream if it is somehow corrupted, though the driver does not currently do this.
+          ASCII mode is robust against the synchronization problem, since each reading ends
+          with terminator characters. However, ASCII mode is generally slower. On the AH401
+          ASCII mode appears to be able to do 500 reading/s, which is sufficient except for
+          the single case when IntegrationTime=.001 and PingPong=Yes. On the AH501 ASCII mode
+          ranges from 7 to 10 times slower than binary mode. On the TetrAMM ASCII mode requires
+          a minimum value of ValuesPerRead of 500, which limits the update rate to 200 Hz.
+          In binary mode the minimum value of ValuesPerRead is 5, which is an update date
+          of 20 kHz. </td>
       </tr>
       <tr>
         <td>
