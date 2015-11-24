@@ -439,8 +439,8 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, 0.01, 
                                                 &nread, &eomReason);
             asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
-                "%s::%s readStatus=%d, nread=%d\n", 
-                driverName, functionName, readStatus, nread);
+                "%s::%s readStatus=%d, nread=%lu\n", 
+                driverName, functionName, readStatus, (unsigned long)nread);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
     } else {
