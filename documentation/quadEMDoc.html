@@ -112,9 +112,9 @@
     for the TetrAMM (<a href="quadEMDoxygenHTML/classdrv_tetr_a_m_m.html">(drvTetrAMM.cpp)</a>,
     AH401 and AH501 series <a href="quadEMDoxygenHTML/classdrv_a_hxxx.html">(drvAHxxx.cpp)</a>
     and the APS electrometer <a href="quadEMDoxygenHTML/classdrv_a_p_s___e_m.html">(drvAPS_EM.cpp)</a>.
-    There is an EPICS State Notation Language (SNL) program (quadEM_SNL.st) is used
-    to synchronize acquisition of time-series data, and to compute FFT power-spectra
-    of the time-series data.</p>
+    The EPICS State Notation Language (SNL) program (quadEM_SNL.st) is used to synchronize
+    acquisition of time-series data, and to compute FFT power-spectra of the time-series
+    data.</p>
   <p>
     The quadEM driver works as follows:</p>
   <ul>
@@ -356,20 +356,20 @@
           </ul>
           In binary mode the AH401 and AH501 send integer data with no delimiters or terminators.
           This can lead to problems if the data stream is somehow corrupted because there
-          is no way to know where a set of readings begin. This should not happen under normal
-          conditions because the devices use TCP, which guarantees retransmission of dropped
-          packets. However, it has been observed to occur. In binary mode the TetrAMM sends
-          IEEE 754 double-precision values for each channel, followed by a Signalling NaN.
-          The NaN is thus effectively a terminator that can be used to synchronize the data
-          stream if it is somehow corrupted, though the driver does not currently do this.
-          ASCII mode is robust against the synchronization problem, since each reading ends
-          with terminator characters. However, ASCII mode is generally slower. On the AH401
-          ASCII mode appears to be able to do 500 reading/s, which is sufficient except for
-          the single case when IntegrationTime=.001 and PingPong=Yes. On the AH501 ASCII mode
-          ranges from 7 to 10 times slower than binary mode. On the TetrAMM ASCII mode requires
-          a minimum value of ValuesPerRead of 500, which limits the update rate to 200 Hz.
-          In binary mode the minimum value of ValuesPerRead is 5, which is an update date
-          of 20 kHz. </td>
+          is no way to know where one set of readings end and the next set begins. This should
+          not happen under normal conditions because the devices use TCP, which guarantees
+          retransmission of dropped packets. However, it has been observed to occur. In binary
+          mode the TetrAMM sends IEEE 754 double-precision values for each channel, followed
+          by a Signalling NaN. The NaN is thus effectively a terminator that can be used to
+          synchronize the data stream if it is somehow corrupted, though the driver does not
+          currently do this. ASCII mode is robust against the synchronization problem, since
+          each reading ends with terminator characters. However, ASCII mode is generally slower.
+          On the AH401 ASCII mode appears to be able to do 500 reading/s, which is sufficient
+          except for the case when IntegrationTime=.001 and PingPong=Yes. On the AH501 ASCII
+          mode ranges from 7 to 10 times slower than binary mode. On the TetrAMM ASCII mode
+          requires a minimum value of ValuesPerRead of 500, which limits the update rate to
+          200 Hz. In binary mode the minimum value of ValuesPerRead is 5, which is an update
+          date of 20 kHz, or 100 times faster than ASCII mode. </td>
       </tr>
       <tr>
         <td>
@@ -714,12 +714,12 @@
           <br />
           Increasing ValuesPerRead will reduce the CPU time because:
           <ul>
-            <li>On the TetrAMM it reduces the number of packets per second sent, from the maximum
+            <li>On the TetrAMM it reduces the number of readings per second sent, from the maximum
               of 20000, to 100000/ValuesPerRead.</li>
             <li>On the AH401 and AH501 series the driver reduces the frequency of asynOctet-&gt;read()
               calls by a factor of ValuesPerRead, because it can obtain multiple readings from
               the meter in a single call. This is particularly significant on the AH501 series,
-              which can transmit up to 26,040 packets per second!</li>
+              which can transmit up to 26,040 readings per second!</li>
             <li>It reduces the frequency of callbacks to device support.</li>
           </ul>
           The potential disadvantages of larger values for ValuesPerRead are:
@@ -1013,9 +1013,10 @@
           data. This is converted to double precision float for averaging and statistics.
           It is converted back to integer for the time series software, which requires integer
           data. The TetrAMM transmits double precision data in units of amps, so the values
-          are typically between 1e-4 to 1e-12. It is convenient to use a CurrentScale of 1e9,
-          for example, so that the data are displayed in units of nano-amps. They are then
-          reasonable sized integers, and the time series software can be used.</td>
+          are typically between 1e-4 to 1e-12. It is convenient to use a CurrentScale of 1e9
+          or 1e12, for example, so that the data are displayed in units of nano-amps or pico-amps.
+          They are then reasonable sized integers, and the time series software can be used.
+        </td>
       </tr>
       <tr>
         <td>
@@ -1122,7 +1123,7 @@
           The plugins will be called only once when the the requested number of samples have
           been received.</td>
         <td>
-          NRSAMP=ValuesPerRead, NAQ=AveragingTime*10e6/ValuesPerRead, TRG:OFF</td>
+          NRSAMP=ValuesPerRead, NAQ=AveragingTime*1e5/ValuesPerRead, TRG:OFF</td>
       </tr>
       <tr>
         <td>
@@ -1134,7 +1135,7 @@
           trigger input. AveragingTime must be set to a value less than the time between trigger
           pulses.</td>
         <td>
-          NRSAMP=AveragingTime/10e6, NAQ=0, TRG:ON</td>
+          NRSAMP=AveragingTime/1e5, NAQ=0, TRG:ON</td>
       </tr>
       <tr>
         <td>
@@ -1144,9 +1145,9 @@
         <td>
           A fixed number of samples is acquired starting on the first rising edge of the external
           trigger input and then acquisition stops. ValuesPerRead must be set to a value less
-          than AveragingTime/10e6.</td>
+          than AveragingTime/1e5.</td>
         <td>
-          NRSAMP=ValuesPerRead, NAQ=AveragingTime*10e6/ValuesPerRead, TRG:ON</td>
+          NRSAMP=ValuesPerRead, NAQ=AveragingTime*1e5/ValuesPerRead, TRG:ON</td>
       </tr>
       <tr>
         <td>
@@ -1156,7 +1157,7 @@
         <td>
           Samples are acquired while the external trigger input is high. On each falling edge
           of the external trigger signal the plugins are called. ValuesPerRead must be set
-          to a value less than (external trigger high time * 100000).</td>
+          to a value less than (external trigger high time * 1e5).</td>
         <td>
           NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</td>
       </tr>
@@ -1168,7 +1169,7 @@
         <td>
           Samples are acquired while the external trigger input is high. On the first falling
           edge of the external trigger signal the plugins are called and acquisition stops.
-          ValuesPerRead must be set to a value less than (external trigger high time * 100000).
+          ValuesPerRead must be set to a value less than (external trigger high time * 1e5).
         </td>
         <td>
           NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</td>
@@ -1290,13 +1291,13 @@
     Time Series</h3>
   <p>
     The quadEM_TimeSeries.template database provides a time-history (like a digital
-    scope) of the current, sum, difference and position at speeds up to 6510 Hz (AH501
-    series), 1000Hz (AH401 series) or 813 Hz (APS_EM). The time per point can be greater
-    than the sampling time, in which case it does averaging. It also optionally uses
-    FFTs to compute the frequency power-spectrum of each signal. The time-series support
-    requires the drvFastSweep driver from the synApps mca module, and also the quadEM_SNL
-    SNL program in this quadEM module. The time-series and frequency spectra are contained
-    in standard EPICS waveform records.</p>
+    scope) of the current, sum, difference and position at speeds up to 20000Hz (TetrAMM),
+    6510 Hz (AH501 series), 1000Hz (AH401 series) or 813 Hz (APS_EM). The time per point
+    can be greater than the sampling time, in which case it does averaging. It also
+    optionally uses FFTs to compute the frequency power-spectrum of each signal. The
+    time-series support requires the drvFastSweep driver from the synApps mca module,
+    and also the quadEM_SNL SNL program in this quadEM module. The time-series and frequency
+    spectra are contained in standard EPICS waveform records.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
       <tr>
@@ -2625,9 +2626,10 @@ pattern
   <p>
     These meters communicate via IP, so they must be configured with an IP address reachable
     from the host IOC machine. The Lantronix module in the meters can be configured
-    to use either UDP (recommended to reduce CPU load, particularly on AH501 series)
-    or TCP. The startup script must include the UDP qualifier on the drvAsynIPPortConfigure
-    command if UDP is selected.</p>
+    to use either UDP or TCP. UDP can reduce CPU load, however it is more susceptible
+    to synchronization problems since it does not retransmit dropped packets. The startup
+    script must include the UDP qualifier on the drvAsynIPPortConfigure command if UDP
+    is selected.</p>
   <p>
     Example startup scripts for Linux or Windows are provided in
     <br />
