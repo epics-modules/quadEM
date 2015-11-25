@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<components arch="linux-x86">
+	<!--<asyn.AsynIP name="QEport" port="10.108.8.1:10001"/>-->
+	<!--<quadEM.AH501 IPPORTNAME="QEport" P="TS-TS-QEM-01" PORT="QE1" R=":QE:" RINGBUFFERSIZE="10000"/>-->
+	<quadEM.TetrAMM P="TS-TS-QEM-01" PORT="QE1" R=":QE:"/>
+	<quadEM.statPlugins NDARRAY_PORT="QE1" P="TS-TS-QEM-01" PORTPREFIX="STATS" STAT_NCHAN="1000" STAT_XSIZE="10000" name="QE1STATS"/>
+	<quadEM.quadEM_TimeSeries NUM_FREQ="1024" NUM_TS="2048" P="TS-TS-QEM-01" PORT="QE1TS" QEPORTNAME="QE1" R=":QE:"/>
+	<ADCore.NDFileHDF5 ADDR="0" NDARRAY_ADDR="11" NDARRAY_PORT="QE1" P="TS-TS-QEM-01" PORT="HDF" R=":HDF5:" TIMEOUT="1"/>
+	<!--<EPICS_BASE.StartupCommand command="asynOctetSetInputEos(&quot;QEport&quot;,-1,&quot;\\r\\n&quot;)"/>-->
+	<!--<EPICS_BASE.StartupCommand command="asynOctetSetOutputEos(&quot;QEport&quot;,-1,&quot;\\r&quot;)"/>-->
+	<!--<EPICS_BASE.StartupCommand command="asynSetTraceMask(&quot;QEport&quot;,-1,0x9)"/>-->
+	<!--<EPICS_BASE.StartupCommand command="asynSetTraceIOMask(&quot;QEport&quot;,-1,2)"/>-->
+</components>

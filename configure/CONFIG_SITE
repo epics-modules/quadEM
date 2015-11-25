@@ -6,4 +6,5 @@ CROSS_COMPILER_TARGET_ARCHS =
 
 # Use site-specific definitions from areaDetector to find HDF5, etc.
 -include $(ADCORE)/configure/CONFIG_SITE
+-include $(EPICS_BASE)/configure/CONFIG.Dls
 
