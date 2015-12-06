@@ -2,6 +2,8 @@
 #   Mark Rivers
 #   July 15, 2015
 
+include "quadEM.template"
+
 # We replace the choices for the Range
 record(mbbo,"$(P)$(R)Range") {
     field(ZRVL,"0")

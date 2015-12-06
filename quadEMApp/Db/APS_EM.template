@@ -2,6 +2,8 @@
 #   Mark Rivers
 #   June 3, 2012
 
+include "quadEM.template"
+
 # We replace the choices for the Range and PingPong, and the range of the IntegrationTime
 record(mbbo,"$(P)$(R)Range") {
     field(ZRVL,"0")
