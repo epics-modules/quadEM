@@ -10,9 +10,13 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------------------
 # Create and install (or just install)
 # databases, templates, substitutions like this
-#DB += dbExample1.db
-#DB += dbExample2.db
-#DB += dbSubExample.db
+DB += AH401B.template
+DB += AH501.template
+DB += APS_EM.template
+DB += NSLS_EM.template
+DB += TetrAMM.template
+DB += quadEM.template
+DB += quadEM_TimeSeries.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
