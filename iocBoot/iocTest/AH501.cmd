@@ -9,7 +9,7 @@ epicsEnvSet("TSPOINTS",  "1000")
 epicsEnvSet("IP",        "164.54.160.240:10001")
 
 < AHxxx.cmd
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/AH501.template", "P=$(PREFIX), R=$(RECORD):, PORT=$(PORT)")
+dbLoadRecords("$(QUADEM)/db/AH501.template", "P=$(PREFIX), R=$(RECORD):, PORT=$(PORT)")
 
 < saveRestore.cmd
 

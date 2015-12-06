@@ -29,7 +29,7 @@ initIpUnidig("Unidig1", 0, 1, 2000, 116, 0xfffffe, 0xfffffe)
 #  unidigDrvInfo = drvInfo string for digital input parameter
 # The Quad-EM input is on IP-Unidig input 0
 drvAPS_EMConfigure("$(MODEL)", 0xf000, 0, "Unidig1", 0, "DIGITAL_INPUT")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD):, PORT=$(PORT)")
+dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD):, PORT=$(PORT)")
 
 # initFastSweep(portName, inputName, maxSignals, maxPoints)
 #  portName = asyn port name for this new port (string)
@@ -40,7 +40,7 @@ dbLoadRecords("$(QUADEM)/quadEMApp/Db/$(TEMPLATE).template", "P=$(PREFIX), R=$(R
 #  intervalString  = drvInfo string for time interval per point
 initFastSweep("$(PORT)TS", "$(PORT)", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
 
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM_TimeSeries.template", "P=$(PREFIX),R=$(RECORD)_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=$(PORT)TS")
+dbLoadRecords("$(QUADEM)/db/quadEM_TimeSeries.template", "P=$(PREFIX),R=$(RECORD)_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=$(PORT)TS")
 
 # Fast feedback using EPID record
 # We don't actually load this, because that requires the synApps "std" and "dac128V" modules 
