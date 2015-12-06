@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM-5-0/quadEMApp/op/adl/quadEMTestApp.adl"
+	name="/home/epics/devel/quadEM-6-0/quadEMApp/op/adl/quadEMTestApp.adl"
 	version=030107
 }
 display {
@@ -125,6 +125,11 @@ text {
 		label="TetrAMM"
 		name="quadEM.adl"
 		args="P=quadEMTest:, R=TetrAMM:,P_TS=quadEMTest:TetrAMM_TS:,P_FFT=quadEMTest:TetrAMM_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
+	}
+	display[4] {
+		label="NSLS_EM"
+		name="quadEM.adl"
+		args="P=quadEMTest:, R=NSLS_EM:,P_TS=quadEMTest:NSLS_EM_TS:,P_FFT=quadEMTest:NSLS_EM_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
 	}
 	clr=14
 	bclr=4
