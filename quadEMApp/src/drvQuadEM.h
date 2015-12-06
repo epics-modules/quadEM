@@ -60,7 +60,8 @@ typedef enum {
     QE_ModelAH501,
     QE_ModelAH501C,
     QE_ModelAH501D,
-    QE_ModelTetrAMM
+    QE_ModelTetrAMM,
+    QE_ModelNSLS_EM
 } QEModel_t;
 
 /* These enums give the offsets into the data array for each value */
