@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM-4-0/quadEMApp/op/adl/quadEM_TimeSeries.adl"
+	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM_TimeSeries.adl"
 	version=030107
 }
 display {
@@ -627,7 +627,7 @@ text {
 	"basic attribute" {
 		clr=14
 	}
-	textix="Plots Y"
+	textix="Plots X"
 }
 "related display" {
 	object {
