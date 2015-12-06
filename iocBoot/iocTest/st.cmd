@@ -9,7 +9,7 @@ quadEMTestApp_registerRecordDeviceDriver(pdbbase)
 # The search path for database files
 epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db:$(QUADEM)/db")
 
-#< st.cmd.AH401B
-#< st.cmd.AH501
-#< st.cmd.TetrAMM
-< st.cmd.NSLS_EM
+#< AH401B.cmd
+#< AH501.cmd
+#< TetrAMM.cmd
+< NSLS_EM.cmd
