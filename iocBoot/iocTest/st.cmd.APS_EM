@@ -29,7 +29,6 @@ initIpUnidig("Unidig1", 0, 1, 2000, 116, 0xfffffe, 0xfffffe)
 #  unidigDrvInfo = drvInfo string for digital input parameter
 # The Quad-EM input is on IP-Unidig input 0
 drvAPS_EMConfigure("$(MODEL)", 0xf000, 0, "Unidig1", 0, "DIGITAL_INPUT")
-dbLoadRecords("$(QUADEM)/quadEMApp/Db/quadEM.template",      "P=$(PREFIX), R=$(RECORD):, PORT=$(PORT)")
 dbLoadRecords("$(QUADEM)/quadEMApp/Db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD):, PORT=$(PORT)")
 
 # initFastSweep(portName, inputName, maxSignals, maxPoints)
