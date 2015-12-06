@@ -22,6 +22,8 @@ record(mbbi,"$(P)$(R)Model") {
     field(SXST, "AH501D")
     field(SVVL, "7")
     field(SVST, "TetrAMM")
+    field(EIVL, "8")
+    field(EIST, "NSLS_EM")
     field(SCAN, "I/O Intr")
 }
 
