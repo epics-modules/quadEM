@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ ! -z "$1" ]; then
+ bcast="$1";
+else
+ bcast=`ifconfig | grep "Bcast:" | awk '{print $3}' FS=':' | awk '{print $1}'`;
+fi
+if [ ! -z "$bcast" ]; then
+ echo i | socat - udp-datagram:$bcast:37747,broadcast
+else
+ echo "*** can't determine broadcast address,  please supply it..."
+fi
