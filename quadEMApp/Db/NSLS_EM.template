@@ -55,19 +55,22 @@ record(ai,"$(P)$(R)IntegrationTime_RBV") {
     field(HOPR,"1")
 }
 
-# We replace the choices for the TriggerMode
-record(mbbo,"$(P)$(R)TriggerMode") {
-    field(ZRVL, "0")
-    field(ZRST, "Free run")
-    field(ONVL, "1")
-    field(ONST, "Triggered")
+record(mbbo,"$(P)$(R)PingPong") {
+    field(ZRVL,"0")
+    field(ZRST,"Phase 0")
+    field(ONVL,"1")
+    field(ONST,"Phase 1")
+    field(TWVL,"2")
+    field(TWST,"Both")
 }
 
-record(mbbi,"$(P)$(R)TriggerMode_RBV") {
-    field(ZRVL, "0")
-    field(ZRST, "Free run")
-    field(ONVL, "1")
-    field(ONST, "Triggered")
+record(mbbi,"$(P)$(R)PingPong_RBV") {
+    field(ZRVL,"0")
+    field(ZRST,"Phase 0")
+    field(ONVL,"1")
+    field(ONST,"Phase 1")
+    field(TWVL,"2")
+    field(TWST,"Both")
 }
 
 
