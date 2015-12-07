@@ -16,7 +16,7 @@ drvNSLS_EMConfigure("$(PORT)", "$(BROADCAST)", $(MODULE_ID), $(RING_SIZE))
 asynSetTraceIOMask("UDP_$(PORT)", 0, 2)
 asynSetTraceMask("UDP_$(PORT)", 0, 9)
 asynSetTraceIOMask("TCP_Command_$(PORT)", 0, 2)
-asynSetTraceMask("TCP_Command_$(PORT)", 0, 9)
+#asynSetTraceMask("TCP_Command_$(PORT)", 0, 9)
 asynSetTraceIOMask("TCP_Data_$(PORT)", 0, 2)
 #asynSetTraceMask("TCP_Data_$(PORT)", 0, 9)
 
