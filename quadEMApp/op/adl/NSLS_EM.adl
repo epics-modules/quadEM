@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/APS_EM.adl"
+	name="/home/epics/devel/quadEM-6-0/quadEMApp/op/adl/NSLS_EM.adl"
 	version=030107
 }
 display {
@@ -111,41 +111,6 @@ text {
 	}
 	textix="Integration time"
 	align="horiz. right"
-}
-composite {
-	object {
-		x=120
-		y=50
-		width=70
-		height=70
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=120
-				y=50
-				width=70
-				height=31
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="  "
-		}
-		text {
-			object {
-				x=120
-				y=89
-				width=70
-				height=31
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="  "
-		}
-	}
 }
 composite {
 	object {
