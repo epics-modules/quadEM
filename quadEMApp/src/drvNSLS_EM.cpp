@@ -575,8 +575,20 @@ void drvNSLS_EM::exitHandler()
   */
 void drvNSLS_EM::report(FILE *fp, int details)
 {
-    fprintf(fp, "%s: port=%s, IP address=%s, module ID=%d, firmware version=%s\n",
-            driverName, portName, ipAddress_, moduleID_, firmwareVersion_);
+    int i;
+    
+    fprintf(fp, "%s: port=%s\n", driverName, portName);
+    if (details > 0) {
+        fprintf(fp, "  IP address:       %s\n", ipAddress_);
+        fprintf(fp, "  Module ID:        %d\n", moduleID_);
+        fprintf(fp, "  Firmware version: %s\n", firmwareVersion_);
+    }
+    fprintf(fp, "  Number of modules found on network=%d\n", numModules_);
+    for (i=0; i<numModules_; i++) {
+        fprintf(fp, "    Module %d\n", i);
+        fprintf(fp, "      Module ID:  %d\n", moduleInfo_[i].moduleID);
+        fprintf(fp, "      IP address: %s\n", moduleInfo_[i].moduleIP);
+    }
     drvQuadEM::report(fp, details);
 }
 
@@ -587,8 +599,8 @@ extern "C" {
 
 /** EPICS iocsh callable function to call constructor for the drvNSLS_EM class.
   * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] QEPortName The name of the asyn communication port to the NSLS_EM 
-  *            created with drvAsynIPPortConfigure or drvAsynSerialPortConfigure.
+  * \param[in] broadcastAddress The broadcast address of the network with this module
+  * \param[in] moduleID The module ID of this module, set with rotary switch on module
   * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
   *            This should be large enough to hold all the samples between reads of the
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
