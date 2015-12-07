@@ -37,9 +37,9 @@
 #define MAX_INTEGRATION_TIME 1.0
 
 typedef enum {
-  PingValue, 
-  PongValue, 
-  PingPongBoth
+  Phase0, 
+  Phase1, 
+  PhaseBoth
 } PingPongValue_t;
 
 static const char *driverName="drvNSLS_EM";
@@ -309,8 +309,9 @@ void drvNSLS_EM::readThread(void)
     size_t nRead;
     int eomReason;
     int acquireMode;
-    int triggerMode;
     int numAverage;
+    int valuesPerRead;
+    int pingPong;
     int i;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
@@ -351,9 +352,11 @@ void drvNSLS_EM::readThread(void)
             lock();
             readingActive_ = 1;
             numAcquired_ = 0;
-            getIntegerParam(P_AcquireMode, &acquireMode);
-            getIntegerParam(P_TriggerMode, &triggerMode);
-            getIntegerParam(P_NumAverage, &numAverage);
+            getIntegerParam(P_AcquireMode,   &acquireMode);
+            getIntegerParam(P_NumAverage,    &numAverage);
+            getIntegerParam(P_PingPong,      &pingPong);
+            getIntegerParam(P_ValuesPerRead, &valuesPerRead);
+            status = pasynOctet->flush(octetPvt, pasynUser);
         }
         nRequested = sizeof(ASCIIData);
         unlock();
@@ -383,19 +386,24 @@ void drvNSLS_EM::readThread(void)
         } else {
             sscanf(ASCIIData, "%d %d %d %d", &raw[0], &raw[1], &raw[2], &raw[3]);
         }
-        for (i=0; i<4; i++) {
-            data[i] = raw[i];
-        }         
-        computePositions(data);
-        numAcquired_++;
-        if ((acquireMode == QEAcquireModeOneShot) &&
-            (triggerMode == QETriggerModeInternal) &&
-            (numAcquired_ >= numAverage)) {
-            acquiring_ = 0;
-        }
-        if ((acquireMode == QEAcquireModeContinuous) &&
-            (triggerMode == QETriggerModeExtTrigger)) {
-            triggerCallbacks();
+        if (((phase == 0) && (pingPong == Phase0)) ||
+            ((phase == 1) && (pingPong == Phase1)) ||
+            (pingPong == PhaseBoth)                ||
+            (valuesPerRead > 1)) {
+            for (i=0; i<4; i++) {
+                data[i] = (double)raw[i]/valuesPerRead;
+            }         
+            computePositions(data);
+            numAcquired_++;
+            if ((acquireMode == QEAcquireModeOneShot) &&
+                (numAcquired_ >= numAverage)) {
+                strcpy(outString_, "m 1");
+                writeReadMeter();
+                acquiring_ = 0;
+            }
+            if (acquireMode == QEAcquireModeContinuous) {
+                triggerCallbacks();
+            }
         }
     }
 }
@@ -434,15 +442,12 @@ asynStatus drvNSLS_EM::setAcquire(epicsInt32 value)
   */
 asynStatus drvNSLS_EM::setMode()
 {
-    int triggerMode;
     int pingPong;
     int mode;
 
-    getIntegerParam(P_TriggerMode, &triggerMode);
-    getIntegerParam(P_PingPong,    &pingPong);
+    getIntegerParam(P_PingPong, &pingPong);
     mode = 0;
-    if (triggerMode != QETriggerModeInternal) mode |= 0x01;
-    if (pingPong != PingPongBoth)             mode |= 0x80;
+    if (pingPong != PhaseBoth) mode |= 0x80;
     // Send the mode command
     sprintf(outString_, "m %d", mode);
     writeReadMeter();
@@ -508,6 +513,7 @@ asynStatus drvNSLS_EM::readStatus()
     int mode, valuesPerRead, range;
     double period;
     int numAverage;
+    int pingPong;
     int numItems;
     double sampleTime, averagingTime;
     static const char *functionName = "getStatus";
@@ -531,6 +537,8 @@ asynStatus drvNSLS_EM::readStatus()
     period = period / 1.e6;
     setDoubleParam(P_IntegrationTime, period);
     sampleTime = period*valuesPerRead;
+    getIntegerParam(P_PingPong, &pingPong);
+    if (pingPong != PhaseBoth) sampleTime *= 2.0;
     setDoubleParam(P_SampleTime, sampleTime);
     setStringParam(P_Firmware, firmwareVersion_);
 
