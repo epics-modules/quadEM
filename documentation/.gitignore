@@ -1,8 +1,10 @@
 quadEMDoxygenHTML
-quadEM_st_cmd_AH401B.html
-quadEM_st_cmd_AH501.html
-quadEM_st_cmd_AHxxx.html
-quadEM_st_cmd_APS_EM.html
+quadEM_cmd_AH401B.html
+quadEM_cmd_AH501.html
+quadEM_cmd_AHxxx.html
+quadEM_cmd_APS_EM.html
+quadEM_cmd_TetrAMM.html
+quadEM_cmd_NSLS_EM.html
 quadEM_st_cmd_vxWorks.html
 quadEM_commonPlugins_cmd.html
 
