@@ -4,5 +4,5 @@ txt2html --outfile quadEM_cmd_AH401B.html -pb 0           ../iocBoot/iocTest/AH4
 txt2html --outfile quadEM_cmd_AH501.html -pb 0            ../iocBoot/iocTest/AH501.cmd
 txt2html --outfile quadEM_cmd_AHxxx.html -pb 0            ../iocBoot/iocTest/AHxxx.cmd
 txt2html --outfile quadEM_cmd_TetrAMM.html -pb 0          ../iocBoot/iocTest/TetrAMM.cmd
-txt2html --outfile quadEM_cmd_TetrAMM.html -pb 0          ../iocBoot/iocTest/NSLS_EM.cmd
+txt2html --outfile quadEM_cmd_NSLS_EM.html -pb 0          ../iocBoot/iocTest/NSLS_EM.cmd
 txt2html --outfile quadEM_commonPlugins_cmd.html -pb 0    ../iocBoot/iocTest/commonPlugins.cmd
