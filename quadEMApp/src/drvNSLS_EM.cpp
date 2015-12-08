@@ -151,6 +151,89 @@ asynStatus drvNSLS_EM::findModule()
     status = pasynOctetSyncIO->write(pasynUserUDP_, "i\n", 2, 1.0, &nwrite);
     epicsTimeGetCurrent(&start);
 
+struct mod_info
+{
+ int id;
+ char ip[16];
+};
+
+int get_ids (struct mod_info *mod)
+{
+ int32_t usock;
+ int32_t status;
+ int32_t urecv;
+ uint32_t umsg;
+ uint32_t arg;
+ double btime;
+ struct timeval bstart, bcurr;
+ uint32_t local_addr;
+ char *bcast_addr;
+ int32_t rem_len;
+ static struct sockaddr_in rem;
+ char rbuff[1024];
+ int i;
+
+ usock = socket( AF_INET, SOCK_DGRAM, 0);
+ arg=1;
+ ioctl (usock,FIONBIO,&arg );      // set non-blocking socket
+
+ status=setsockopt(usock,SOL_SOCKET,SO_SNDBUF,&arg,sizeof(arg));
+ status=setsockopt(usock,SOL_SOCKET,SO_BROADCAST,&arg,sizeof(arg));
+
+ rem.sin_family = AF_INET;
+ rem.sin_addr.s_addr =  local_addr;    // boardcast address
+ rem.sin_port = htons((uint16_t)(IDPORT));
+ rem_len = sizeof(rem);
+
+ sendto(usock,"i\r",2,MSG_NOSIGNAL,(struct sockaddr *) &rem,sizeof(rem));
+ gettimeofday(&bstart,NULL);
+
+ while (1)
+ {
+  gettimeofday(&bcurr,NULL);
+  btime = (bcurr.tv_sec + ((double)bcurr.tv_usec) / 1000000.0)
+   - (bstart.tv_sec + ((double)bstart.tv_usec) / 1000000.0);
+  if (btime > ID_TIMEOUT) break;
+
+  if((status = ioctl(usock,FIONREAD,&umsg)) == 0 && umsg > 0)
+  {
+   if (status==0)
+   {
+    urecv=recvfrom(usock,&rbuff[i],BUFFSIZE,0,(struct sockaddr *) &rem, (uint32_t*) &rem_len);
+
+    if (urecv > 0)
+    {
+     i = i+urecv;
+     rbuff[i] = 0;
+    }
+    else
+     return -1;
+    gettimeofday(&bstart,NULL);
+   }
+   else
+    return -1;
+  }
+  else
+  {
+   if (!status && umsg == 0)
+    usleep(1000);
+   else
+    return -1;
+  }
+ }
+ rbuff[i] = 0;
+
+ char *ie, *ptr = rbuff;
+ for (i=0;i<16;i++)
+ {
+  if ((ie = strstr(ptr, "\r\n\r\n")))
+  {
+   sscanf(ptr,"%*s%d%*s%s%*s%*s",&mod->id,mod->ip);
+   ptr = ie+4;
+   mod++;
+  }
+
+
     while (1)
     {
         epicsTimeGetCurrent(&now);
