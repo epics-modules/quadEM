@@ -67,6 +67,8 @@ drvNSLS_EM::drvNSLS_EM(const char *portName, const char *broadcastAddress, int m
     
     numModules_ = 0;
     moduleID_ = moduleID;
+    ipAddress_[0] = 0;
+    firmwareVersion_[0] = 0;
     broadcastAddress_ = epicsStrDup(broadcastAddress);
     
     acquireStartEvent_ = epicsEventCreate(epicsEventEmpty);
@@ -92,14 +94,22 @@ drvNSLS_EM::drvNSLS_EM(const char *portName, const char *broadcastAddress, int m
     // Connect to the broadcast port
     status = pasynOctetSyncIO->connect(udpPortName_, 0, &pasynUserUDP_, NULL);
     if (status) {
-        printf("%s:%s: error connecting to UDP port, status=%d, error=%s\n", 
-               driverName, functionName, status, pasynUserUDP_->errorMessage);
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s::%s error connecting to UDP port, status=%d, error=%s\n", 
+            driverName, functionName, status, pasynUserUDP_->errorMessage);
         return;
     }
     
     // Find module on network
-    findModule();
-    
+    status = findModule();
+    if (status) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s::%s error finding module, running asynReport to list modules found\n", 
+            driverName, functionName);
+        report(stdout, 1);
+        return;
+    }
+   
     acquiring_ = 0;
     readingActive_ = 0;
     setIntegerParam(P_Model, QE_ModelNSLS_EM);
