@@ -28,11 +28,12 @@
 #include <epicsExport.h>
 #include "drvNSLS_EM.h"
 
-#define BROADCAST_TIMEOUT 2.0
-#define NSLS_EM_TIMEOUT .01
+#define BROADCAST_TIMEOUT 0.2
+#define NSLS_EM_TIMEOUT   .01
 
-#define COMMAND_PORT 4747
-#define DATA_PORT 5757
+#define COMMAND_PORT    4747
+#define DATA_PORT       5757
+#define BROADCAST_PORT 37747
 #define MIN_INTEGRATION_TIME 400e-6
 #define MAX_INTEGRATION_TIME 1.0
 
@@ -64,6 +65,7 @@ drvNSLS_EM::drvNSLS_EM(const char *portName, const char *broadcastAddress, int m
     const char *functionName = "drvNSLS_EM";
     char tempString[256];
     
+    numModules_ = 0;
     moduleID_ = moduleID;
     broadcastAddress_ = epicsStrDup(broadcastAddress);
     
@@ -141,140 +143,35 @@ asynStatus drvNSLS_EM::findModule()
     epicsFloat64 deltaTime;
     int status;
     int eomReason;
-    char rbuff[1024];
+    char buffer[1024];
+    char *ptr;
+    int count;
     char tempString[256];
-    int i=0;
+    int i;
     static const char *functionName="findModules";
-
-    rbuff[0] = 0;
 
     status = pasynOctetSyncIO->write(pasynUserUDP_, "i\n", 2, 1.0, &nwrite);
     epicsTimeGetCurrent(&start);
 
-struct mod_info
-{
- int id;
- char ip[16];
-};
-
-int get_ids (struct mod_info *mod)
-{
- int32_t usock;
- int32_t status;
- int32_t urecv;
- uint32_t umsg;
- uint32_t arg;
- double btime;
- struct timeval bstart, bcurr;
- uint32_t local_addr;
- char *bcast_addr;
- int32_t rem_len;
- static struct sockaddr_in rem;
- char rbuff[1024];
- int i;
-
- usock = socket( AF_INET, SOCK_DGRAM, 0);
- arg=1;
- ioctl (usock,FIONBIO,&arg );      // set non-blocking socket
-
- status=setsockopt(usock,SOL_SOCKET,SO_SNDBUF,&arg,sizeof(arg));
- status=setsockopt(usock,SOL_SOCKET,SO_BROADCAST,&arg,sizeof(arg));
-
- rem.sin_family = AF_INET;
- rem.sin_addr.s_addr =  local_addr;    // boardcast address
- rem.sin_port = htons((uint16_t)(IDPORT));
- rem_len = sizeof(rem);
-
- sendto(usock,"i\r",2,MSG_NOSIGNAL,(struct sockaddr *) &rem,sizeof(rem));
- gettimeofday(&bstart,NULL);
-
- while (1)
- {
-  gettimeofday(&bcurr,NULL);
-  btime = (bcurr.tv_sec + ((double)bcurr.tv_usec) / 1000000.0)
-   - (bstart.tv_sec + ((double)bstart.tv_usec) / 1000000.0);
-  if (btime > ID_TIMEOUT) break;
-
-  if((status = ioctl(usock,FIONREAD,&umsg)) == 0 && umsg > 0)
-  {
-   if (status==0)
-   {
-    urecv=recvfrom(usock,&rbuff[i],BUFFSIZE,0,(struct sockaddr *) &rem, (uint32_t*) &rem_len);
-
-    if (urecv > 0)
-    {
-     i = i+urecv;
-     rbuff[i] = 0;
-    }
-    else
-     return -1;
-    gettimeofday(&bstart,NULL);
-   }
-   else
-    return -1;
-  }
-  else
-  {
-   if (!status && umsg == 0)
-    usleep(1000);
-   else
-    return -1;
-  }
- }
- rbuff[i] = 0;
-
- char *ie, *ptr = rbuff;
- for (i=0;i<16;i++)
- {
-  if ((ie = strstr(ptr, "\r\n\r\n")))
-  {
-   sscanf(ptr,"%*s%d%*s%s%*s%*s",&mod->id,mod->ip);
-   ptr = ie+4;
-   mod++;
-  }
-
-
-    while (1)
-    {
+    while (1) {
         epicsTimeGetCurrent(&now);
         deltaTime = epicsTimeDiffInSeconds(&now, &start);
         if (deltaTime > BROADCAST_TIMEOUT) break;
-        status = pasynOctetSyncIO->read(pasynUserUDP_, &rbuff[i], sizeof(rbuff), 0.0, &nread, &eomReason);
-
-asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-"%s::%s read, status=%d, nread=%d, eomReason=%d\n",
-driverName, functionName, status, (int)nread, eomReason);
-        if ((status == asynSuccess) && (nread > 0)) {
-            i = i + nread;
-            rbuff[i] = 0;
-            epicsTimeGetCurrent(&start);
-        }
-        else if (status == asynTimeout) {
-            epicsThreadSleep(1.0);
-        }
-        else {
+        status = pasynOctetSyncIO->read(pasynUserUDP_, buffer, sizeof(buffer), 0.01, &nread, &eomReason);
+        if ((status == asynTimeout) && (nread > 0)) {
+            ptr = buffer;
+            while (1) {
+                ptr = strstr(ptr, "id:");
+                if (!ptr) break;
+                sscanf(ptr, "id: %d%n", &moduleInfo_[numModules_].moduleID, &count);
+                ptr += count;
+                sscanf(ptr, " ip: %s%n", moduleInfo_[numModules_].moduleIP, &count);
+                ptr += count;
+                numModules_++;
+            }
+        } else if (status != asynTimeout) {
             return asynError;
         }
-    }
-    rbuff[i] = 0;
-
-    char *ie, *ptr = rbuff;
-    for (i=0; i<MAX_MODULES; i++)  {
-        if ((ie = strstr(ptr, "\r\n\r\n"))) {
-            sscanf(ptr,"%*s%d%*s%s%*s%*s", &moduleInfo_[i].moduleID, &moduleInfo_[i].moduleIP[0]);
-            ptr = ie+4;
-        }
-        else
-            break;
-    }
-
-    //  For now if the module search did not work then just hardcode the know module information
-    // so we can test the rest of the software
-    numModules_ = i;
-    if (numModules_ == 0) {
-        numModules_ = 1;
-        moduleInfo_[0].moduleID = 0;
-        strcpy(moduleInfo_[0].moduleIP, "164.54.160.201");
     }
 
     // See if the specified module was found
@@ -290,9 +187,7 @@ driverName, functionName, status, (int)nread, eomReason);
     }
     
     // Create TCP command port
-    strcpy(tempString, moduleInfo_[i].moduleIP);
-//    strcat(tempString, ":4747 HTTP");
-    strcat(tempString, ":4747");
+    epicsSnprintf(tempString, sizeof(tempString), "%s:%d", moduleInfo_[i].moduleIP, COMMAND_PORT);
     // Set noAutoConnect, we will handle connecion management
     status = drvAsynIPPortConfigure(tcpCommandPortName_, tempString, 0, 1, 0);
     if (status) {
@@ -319,8 +214,7 @@ driverName, functionName, status, (int)nread, eomReason);
     }
 
     // Create TCP data port
-    strcpy(tempString, moduleInfo_[i].moduleIP);
-    strcat(tempString, ":5757");
+    epicsSnprintf(tempString, sizeof(tempString), "%s:%d", moduleInfo_[i].moduleIP, DATA_PORT);
     status = drvAsynIPPortConfigure(tcpDataPortName_, tempString, 0, 0, 0);
     if (status) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
@@ -374,10 +268,6 @@ asynStatus drvNSLS_EM::writeReadMeter()
       status = asynError;
   }
   pasynCommonSyncIO->disconnectDevice(pasynUserTCPCommandConnect_);
-  // On HTTP-type connections it is necessary to do an additional read operation to force the driver
-  // to detect the disconnect
-//  pasynOctetSyncIO->read(pasynUserTCPCommand_, tempString, sizeof(tempString)-1, 0.01, 
-//                         &nread, &eomReason);
   
   return status;
 }
