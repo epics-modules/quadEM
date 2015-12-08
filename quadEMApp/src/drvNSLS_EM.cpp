@@ -148,7 +148,7 @@ asynStatus drvNSLS_EM::findModule()
 
     rbuff[0] = 0;
 
-    status = pasynOctetSyncIO->write(pasynUserUDP_, "i", 1, 1.0, &nwrite);
+    status = pasynOctetSyncIO->write(pasynUserUDP_, "i\n", 2, 1.0, &nwrite);
     epicsTimeGetCurrent(&start);
 
     while (1)
@@ -160,7 +160,7 @@ asynStatus drvNSLS_EM::findModule()
 
 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
 "%s::%s read, status=%d, nread=%d, eomReason=%d\n",
-driverName, functionName, status, nread, eomReason);
+driverName, functionName, status, (int)nread, eomReason);
         if ((status == asynSuccess) && (nread > 0)) {
             i = i + nread;
             rbuff[i] = 0;
@@ -282,7 +282,7 @@ asynStatus drvNSLS_EM::writeReadMeter()
   if (status) {
       asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
           "%s:%s: error calling writeRead, outString=%s status=%d, nread=%d, eomReason=%d, inString=%s\n",
-          driverName, functionName, outString_, status, nread, eomReason, inString_);
+          driverName, functionName, outString_, status, (int)nread, eomReason, inString_);
   }
   else if (strncmp(inString_, "OK>", 3) != 0) {
       asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
