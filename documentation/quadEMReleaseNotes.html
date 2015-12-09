@@ -26,12 +26,11 @@
           HVIReadback, and Temperature).</li>
       </ul>
     </li>
-    <li>Added support for the NSLS electrometer from Peter Siddons.  It is called NSLS_EM
-      in this software.  It is quite similar to
-      the AH401B and APS electrometer, using a similar current integrator chip.  It has a
-      minimum integration time of 400 microseconds, and thus a maximum sample rate of
-      2500 Hz.  It uses Ethernet communication, UDP to search for modules on the subnet
-      and TCP to send commands and read data.</li>
+    <li>Added support for the NSLS electrometer from Peter Siddons. It is called NSLS_EM
+      in this software. It is quite similar to the AH401B and APS electrometer, using
+      a similar current integrator chip. It has a minimum integration time of 400 microseconds,
+      and thus a maximum sample rate of 2500 Hz. It uses Ethernet communication, UDP to
+      search for modules on the subnet and TCP to send commands and read data.</li>
     <li>The CurrentScaleN and ReadStatus.SCAN records were added to save/restore, they
       were previously missing.</li>
     <li>Added support for reading the AH401, AH501, and TetrAMM meters in ASCII mode,
@@ -40,11 +39,10 @@
       slower, but should not have a problem getting out of sync. The new ReadFormat record
       is used to select Binary or ASCII.</li>
     <li>Template files in $(TOP)/quadEMApp/Db are now installed into $(TOP)/db when building
-     and the example IOC now loads them from the install directory.</li>
+      and the example IOC now loads them from the install directory.</li>
     <li>The device-specific template files now load the base class quadEM.template file
-     using an "include" statement, so the base file no longer needs to be explicitly loaded
-     in the startup script.  This means that $(QUADEM)/db must be added to 
-     EPICS_DB_INCLUDE_PATH.</li>
+      using an "include" statement, so the base file no longer needs to be explicitly
+      loaded in the startup script. This means that $(QUADEM)/db must be added to EPICS_DB_INCLUDE_PATH.</li>
     <li>This release requires areaDetector ADCore R2-4 or later.</li>
   </ul>
   <h2 style="text-align: center">
