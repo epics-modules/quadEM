@@ -12,7 +12,7 @@
     <h2>
       R6-0</h2>
     <h2>
-      November 23, 2015</h2>
+      December XXX, 2015</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -52,20 +52,20 @@
     <li>The TetrAMM picoammeter sold by <a href="http://www.caenels.com/caenels/products.php">
       CAENels</a>. This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides
       4-channel current measurements at up to 20 kHz.</li>
-    <li>The NSLS Quad Electrometer (called NSLS_EM in this document). This device consists of a 4-channel
-      digital electrometer unit with Ethernet communication. The device provides 4-channel current 
-      measurements at up to 2500 Hz.</li>
+    <li>The NSLS Quad Electrometer (called NSLS_EM in this document). This device consists
+      of a 4-channel digital electrometer unit with Ethernet communication. The device
+      provides 4-channel current measurements at up to 2500 Hz.</li>
     <li>The Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">Steve Ross</a>
       from the APS (called APS_EM in this document). This device consists of a 4-channel
       digital electrometer unit and 2 VME boards. The device provides 2 readings per diode
       at up to 813 Hz.</li>
   </ol>
   <p>
-    The AH401 series, NSLS_EM, and APS_EM are based on the same principle of an op-amp run
-    as a current amplifier with a large feedback capacitor, and a high resolution ADC.
-    The AH501 series and TetrAMM are based on a transimpedance input stage for current
-    sensing, combined with analog signal conditioning and filtering stages. The AH501C,
-    AH501D, and TetrAMM have an integrated programmable bias supply.</p>
+    The AH401 series, NSLS_EM, and APS_EM are based on the same principle of an op-amp
+    run as a current amplifier with a large feedback capacitor, and a high resolution
+    ADC. The AH501 series and TetrAMM are based on a transimpedance input stage for
+    current sensing, combined with analog signal conditioning and filtering stages.
+    The AH501C, AH501D, and TetrAMM have an integrated programmable bias supply.</p>
   <p>
     The <b>quadEM</b> software includes asyn drivers and an SNL program that provide
     support for the following:</p>
@@ -86,17 +86,19 @@
       file plugins from areaDetector.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
       at speeds up to 20000 Hz (TetrAMM), 6510 Hz (AH501 series), 1000 Hz (AH401 series)
-      2500 Hz (NSLS_EM), or 813 Hz (APS_EM). The data is available in standard EPICS waveform records, using
-      the drvFastSweep asyn driver from the synApps <a href="mca.html">mca</a> module.
-      The time per point can be greater, in which case it does averaging. The quadEM drivers
-      do the callbacks on the asynInt32Array interface required to use this support.</li>
+      2500 Hz (NSLS_EM), or 813 Hz (APS_EM). The data is available in standard EPICS waveform
+      records, using the drvFastSweep asyn driver from the synApps <a href="mca.html">mca</a>
+      module. The time per point can be greater, in which case it does averaging. The
+      quadEM drivers do the callbacks on the asynInt32Array interface required to use
+      this support.</li>
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
       EPICS waveform record.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
-      dac128V), also at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If it is run
-      slower it does signal averaging. This support is provided in the synApps <a href="www.aps.anl.gov/bcda/synApps/std/std.html">
-        std</a> module. The quadEM drivers do the callbacks on the asynFloat64 interface
-      required to use the epid fast feedback device support.</li>
+      dac128V), also at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If
+      it is run slower it does signal averaging. This support is provided in the synApps
+      <a href="www.aps.anl.gov/bcda/synApps/std/std.html">std</a> module. The quadEM drivers
+      do the callbacks on the asynFloat64 interface required to use the epid fast feedback
+      device support.</li>
   </ul>
   <p>
     The following manuals provide detailed information on these devices:</p>
@@ -416,8 +418,8 @@
             <li>100 pC</li>
             <li>50 pC</li>
           </ul>
-          For the NSLS_EM this selects the feedback capacitor, which controls the gain
-          of the device. There are 8 capacitor choices in units of saturation charge:
+          For the NSLS_EM this selects the feedback capacitor, which controls the gain of
+          the device. There are 8 capacitor choices in units of saturation charge:
           <ul>
             <li>350 pC</li>
             <li>300 pC</li>
@@ -470,21 +472,22 @@
         <td>
           AH401 series, NSLS_EM, APS_EM</td>
         <td>
-          The AH401 series, NSLS_EM, and the APS_EM have 2 input channels, which we call Ping and
-          Pong here. This doubles the speed of the unit, because one channel is being digitized
-          while the other is integrating. This record selects how the two channels are treated.<br />
+          The AH401 series, NSLS_EM, and the APS_EM have 2 input channels, which we call Ping
+          and Pong here. This doubles the speed of the unit, because one channel is being
+          digitized while the other is integrating. This record selects how the two channels
+          are treated.<br />
           On the AH401 series the choices are "Off" (0) and "On" (1). "Off" only returns the
           data from the Ping channel. This reduces noise because only a single integration
           capacitor is used, but it reduces the data rate by a factor of two, because data
           are only returned on every other integration time. "On" returns the data from both
           channels, which doubles the data rate at some expense in noise.<br />
-          On the NSLS_EM and APS_EM both values are always transmitted from the device.  
-          On the APS_EM and the choices are #1 (Ping), #2 (Pong), and Avg. which averages the values 
-          from the Ping and Pong channels. Note that if Range=External and the two external capacitors are different,
-          then one should not use Avg. because that will mix data from two different gains.
-          On the NSLS_EM and the choices are Phase0, Phase1, and Both. These are really 
-          the same as the choices
-          on the APS_EM, but using the nomenclature that the NSLS_EM documentation uses.</td>
+          On the NSLS_EM and APS_EM both values are always transmitted from the device. On
+          the APS_EM and the choices are #1 (Ping), #2 (Pong), and Avg. which averages the
+          values from the Ping and Pong channels. Note that if Range=External and the two
+          external capacitors are different, then one should not use Avg. because that will
+          mix data from two different gains. On the NSLS_EM and the choices are Phase0, Phase1,
+          and Both. These are really the same as the choices on the APS_EM, but using the
+          nomenclature that the NSLS_EM documentation uses.</td>
       </tr>
       <tr>
         <td>
@@ -507,8 +510,9 @@
           decreased.<br />
           For the AH401 series values range from 0.001s to 1.000s. The data are sent after
           one integration time if PingPong="On" or after 2 integration times if PingPong="Off".<br />
-          For the NSLS_EM the values range from .0004s to 1.0 s.  Both the Phase0 (Ping) and Phase1 (Pong)
-          values are sent at after a time period equal to IntegrationTime * ValuesPerRead.<br />
+          For the NSLS_EM the values range from .0004s to 1.0 s. Both the Phase0 (Ping) and
+          Phase1 (Pong) values are sent at after a time period equal to IntegrationTime *
+          ValuesPerRead.<br />
           For the APS_EM the values range from .000615s to 0.1311s. The data are sent to the
           VME card from the amplifier after 2 integration times, one value in the Ping channel
           and one value in the Pong channel. The data period is thus 0.00123 to 0.02622 s,
@@ -720,9 +724,9 @@
         <td>
           All</td>
         <td>
-          On the TetrAMM this record controls the number of readings that are averaged in the
-          TetrAMM using the NRSAMP command. The TetrAMM always digitizes at 100 kHz
-          (10 microseconds per sample). The minimum value of NRSAMP (and hence ValuesPerRead)
+          On the TetrAMM this record controls the number of readings that are averaged in
+          the TetrAMM using the NRSAMP command. The TetrAMM always digitizes at 100 kHz (10
+          microseconds per sample). The minimum value of NRSAMP (and hence ValuesPerRead)
           is 5, which means the maximum number of values per second is 20000. Setting ValuesPerRead
           to 100, for example, will average 100 readings in the TetrAMM, and thus result in
           a 1000 values per second sent from the TetrAMM to EPICS.<br />
@@ -737,8 +741,8 @@
           <br />
           Increasing ValuesPerRead will reduce the CPU time because:
           <ul>
-            <li>On the TetrAMM and NSLS_EM it reduces the number of readings per second sent, from the maximum
-              of 20000, to 100000/ValuesPerRead.</li>
+            <li>On the TetrAMM and NSLS_EM it reduces the number of readings per second sent,
+              from the maximum of 20000, to 100000/ValuesPerRead.</li>
             <li>On the AH401 and AH501 series the driver reduces the frequency of asynOctet-&gt;read()
               calls by a factor of ValuesPerRead, because it can obtain multiple readings from
               the meter in a single call. This is particularly significant on the AH501 series,
@@ -750,7 +754,7 @@
             <li>It will change the statistics computed by the NDPluginStats plugin because an
               initial averaging operation has already been performed, which reduces the standard
               deviation, changes the histogram, etc.</li>
-            <li>On the NSLS_EM it prevents selecting only Phase0 or Phase1 with the PingPong record.
+            <li>On the NSLS_EM it prevents selecting only Phase0 or Phase1 with the PingPong record.</li>
             <li>It will reduce the sampling frequency of the TimeSeries support</li>
             <li>It will reduce the update frequency of the EPID fast feedback support.</li>
           </ul>
@@ -809,9 +813,10 @@
             <li>If PingPong != Both then SampleTime = SampleTime * 2</li>
           </ul>
           The minimum sample time is 0.00041 seconds, or 2.5 kHz sampling frequency. The maximum
-          sampling time (PingPong!=Both) is 2 seconds, or 0.5 Hz sampling frequency. Setting ValuesPerRead
-          &gt; 1 will increase the sample time and reduce the sampling frequency proportionally.<br />
-          <br /> 
+          sampling time (PingPong!=Both) is 2 seconds, or 0.5 Hz sampling frequency. Setting
+          ValuesPerRead &gt; 1 will increase the sample time and reduce the sampling frequency
+          proportionally.<br />
+          <br />
           For the APS_EM the sample time is controlled only by ValuesPerRead and the IntegrationTime.
           For ValuesPerRead=1 it ranges from 0.00123 to 0.02622 s, or a sampling frequency
           range of about 813 Hz to 38.1 Hz. Setting ValuesPerRead &gt; 1 will increase the
@@ -2641,10 +2646,12 @@ pattern
     All of the device-dependent startup scripts invoke <a href="quadEM_commonPlugins_cmd.html">
       quadEM/iocBoot/iocTest/commonPlugins.cmd</a>. This file can be edited to add additional
     plugins, such as the TIFF, HDF5, or Nexus file writers, etc.</p>
-  <p>The example iocBoot directory, iocBoot/iocTest, contains an example startup script for
-    Linux and Windows (st.cmd) and another for vxWorks (st.cmd.vxWorks).  Each of these
-    startup scripts invokes the device-dependent startup script(s), 
-    e.g. TetrAMM.cmd, NSLS_EM.cmd, etc. </p>
+  <p>
+    The example iocBoot directory, iocBoot/iocTest, contains an example startup script
+    for Linux and Windows (st.cmd) and another for vxWorks (st.cmd.vxWorks). Each of
+    these startup scripts invokes the device-dependent startup script(s), e.g. TetrAMM.cmd,
+    NSLS_EM.cmd, etc.
+  </p>
   <h2 id="TetrAMM_Setup">
     TetrAMM Setup</h2>
   <p>
@@ -2654,7 +2661,7 @@ pattern
   <p>
     An example startup script for Linux or Windows is provided in
     <br />
-    <a href="quadEM_cmd_TetraAMM.html">quadEM/iocBoot/iocTest/TetraAMM.cmd</a>
+    <a href="quadEM_cmd_TetrAMM.html">quadEM/iocBoot/iocTest/TetraAMM.cmd</a>
   </p>
   <p>
     This will need to be edited to set the correct IP address of the meter to be used.</p>
@@ -2684,19 +2691,20 @@ pattern
   <h2 id="NSLS_EM_Setup">
     NSLS_EM Setup</h2>
   <p>
-    These meters communicate via IP.  They only support DHCP, they cannot be given a static
-    IP address.  Each module on the subnet must have a unique Module ID, which is set by a 16-position
-    rotary switch on the device front panel.  The driver sends a broadcast message on the subnet to determine
-    the Module ID and current IP address of all NSLS_EM modules.  If the specified module ID is found then
-    it configures communication to that module by calling drvAsynIPPortConfigure internally.</p>
+    These meters communicate via IP. They only support DHCP, they cannot be given a
+    static IP address. Each module on the subnet must have a unique Module ID, which
+    is set by a 16-position rotary switch on the device front panel. The driver sends
+    a broadcast message on the subnet to determine the Module ID and current IP address
+    of all NSLS_EM modules. If the specified module ID is found then it configures communication
+    to that module by calling drvAsynIPPortConfigure internally.</p>
   <p>
     An example startup script for Linux or Windows is provided in
     <br />
     <a href="quadEM_cmd_NSLS_EM.html">quadEM/iocBoot/iocTest/NSLS_EM.cmd</a>
   </p>
   <p>
-    This will need to be edited to set the broadcast address of the network the device is
-    connected to, and the Module ID of the device.</p>
+    This will need to be edited to set the broadcast address of the network the device
+    is connected to, and the Module ID of the device.</p>
   <h2 id="APS_EM_Setup">
     APS Electrometer Setup</h2>
   <p>
