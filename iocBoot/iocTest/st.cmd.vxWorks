@@ -16,7 +16,7 @@ quadEMTestAppVx_registerRecordDeviceDriver(pdbbase)
 iocsh
 
 # The search path for database files
-epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
+epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db:$(QUADEM)/db")
 
 #< APS_EM.cmd
 #< AH401B.cmd
