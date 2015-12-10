@@ -29,7 +29,7 @@
 #include "drvNSLS_EM.h"
 
 #define BROADCAST_TIMEOUT 0.2
-#define NSLS_EM_TIMEOUT   .01
+#define NSLS_EM_TIMEOUT   0.1
 
 #define COMMAND_PORT    4747
 #define DATA_PORT       5757
