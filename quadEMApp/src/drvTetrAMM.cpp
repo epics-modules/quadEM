@@ -378,7 +378,6 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     size_t nread;
     size_t nwrite;
     asynStatus status=asynSuccess;
-    asynStatus readStatus;
     int eomReason;
     int triggerMode;
     int numAverage;
@@ -387,7 +386,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     int readFormat;
     int nrsamp;
     int naq;
-    char dummyIn[MAX_COMMAND_LEN];
+    char response[MAX_COMMAND_LEN];
     static const char *functionName = "setAcquire";
 
     // Return without doing anything if value=1 and already acquiring
@@ -424,24 +423,12 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             lock();
         }
         while (1) {
-            status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:OFF", strlen("ACQ:OFF"), 
-                TetrAMM_TIMEOUT, &nwrite);
-            if (status) {
-                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                    "%s:%s: error calling pasynOctetSyncIO->write, status=%d, error=\"%s\"\n",
-                    driverName, functionName, status, pasynUserMeter_->errorMessage);
-                return asynError;
-            }
-            epicsThreadSleep(0.01);
-            // Now do flush and read with short timeout to flush any responses
-            nread = 0;
-            readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
-            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, 0.1, 
-                                                &nread, &eomReason);
+            status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ:OFF", strlen("ACQ:OFF"), 
+                response, sizeof(response), TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
+            if ((status == asynSuccess) && (nread==3) && (strcmp(response, "ACK") == 0)) break;
             asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
-                "%s::%s readStatus=%d, nread=%lu\n", 
-                driverName, functionName, readStatus, (unsigned long)nread);
-            if ((readStatus == asynTimeout) && (nread == 0)) break;
+                "%s::%s readStatus=%d, nread=%lu, response=%s\n", 
+                driverName, functionName, status, (unsigned long)nread, response);
         }
     } else {
         // Set the desired read format
