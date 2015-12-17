@@ -433,6 +433,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
                                                 TetrAMM_TIMEOUT, &nread, &eomReason);
                 if ((status == asynSuccess) && (eomReason == ASYN_EOM_EOS) &&
                     (nread >= 3) && (strncmp(&response[nread-3], "ACK", 3) == 0)) break;
+                if (status == asynTimeout) break;
             }
         }
     } else {
