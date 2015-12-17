@@ -422,13 +422,18 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             epicsThreadSleep(0.01);
             lock();
         }
-        while (1) {
-            status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ:OFF", strlen("ACQ:OFF"), 
-                response, sizeof(response), TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
-            if ((status == asynSuccess) && (nread==3) && (strcmp(response, "ACK") == 0)) break;
-            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
-                "%s::%s readStatus=%d, nread=%lu, response=%s\n", 
-                driverName, functionName, status, (unsigned long)nread, response);
+        status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ:OFF", strlen("ACQ:OFF"), 
+            response, sizeof(response), TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
+        if ((status != asynSuccess) || (nread != 3) || (strcmp(response, "ACK") != 0)) {
+            while (1) {
+                // Read until the read terminated on EOS (\r\n) and last 3 characters of the response
+                // are ACK or until we get a timeout.  
+                // A timeout should only happen if the ACK\r\n response spanned the response array size
+                status = pasynOctetSyncIO->read(pasynUserMeter_, response, sizeof(response), 
+                                                TetrAMM_TIMEOUT, &nread, &eomReason);
+                if ((status == asynSuccess) && (eomReason == ASYN_EOM_EOS) &&
+                    (nread >= 3) && (strncmp(&response[nread-3], "ACK", 3) == 0)) break;
+            }
         }
     } else {
         // Set the desired read format
