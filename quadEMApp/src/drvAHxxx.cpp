@@ -330,8 +330,20 @@ void drvAHxxx::readThread(void)
                     inPtr = ASCIIData;
                     for (j=0; j<numChannels_; j++) {
                         value = strtol(inPtr, &inPtr, 16);
-                        if ((resolution_ == 24) && (value & 0x800000)) value |= ~0xffffff;
-                        else if ((resolution_ == 16) && (value & 0x8000)) value |= ~0xffff;
+                        if (resolution_ == 16) {
+                            if (value <= 32767) {
+                                value = -value;
+                            } else {
+                                value = 65536 - value;
+                            }
+                        }
+                        else {
+                           if (value <= 8388607) {
+                                value = -value;
+                            } else {
+                                value = 16777216 - value;
+                            }
+                        }
                         raw[j] += value;
                     }
                 }
