@@ -1,0 +1,22 @@
+# Example vxWorks startup file
+
+< ../nfsCommands
+< cdCommands
+
+cd topbin
+load("quadEMTestApp.munch")
+
+cd startup
+
+# Tell EPICS all about the record types, device-support modules, drivers,
+# etc. in this build
+dbLoadDatabase("../../dbd/quadEMTestAppVx.dbd")
+quadEMTestAppVx_registerRecordDeviceDriver(pdbbase)
+
+iocsh
+
+# The search path for database files
+epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db:$(QUADEM)/db")
+
+< APS_EM.cmd
+
