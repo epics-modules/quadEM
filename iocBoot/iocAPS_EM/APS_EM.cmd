@@ -47,7 +47,7 @@ dbLoadRecords("$(QUADEM)/db/quadEM_TimeSeries.template", "P=$(PREFIX),R=$(RECORD
 # which we don't include in this example application
 #dbLoadTemplate("quadEM_pid.substitutions")
 
-< commonPlugins.cmd
+< ../commonPlugins.cmd
 
 asynSetTraceIOMask("$(PORT)",0,2)
 #asynSetTraceMask("$(PORT)",  0,9)
@@ -62,7 +62,7 @@ asynSetTraceIOMask("$(PORT)",0,2)
 initFastSweep("$(PORT)TS", "$(PORT)", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
 dbLoadRecords("$(QUADEM)/db/quadEM_TimeSeries.template", "P=$(PREFIX),R=$(RECORD)_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=$(PORT)TS")
 
-< saveRestore.cmd
+< ../saveRestore.cmd
 
 iocInit()
 
