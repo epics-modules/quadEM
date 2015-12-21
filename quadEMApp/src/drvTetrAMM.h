@@ -33,6 +33,7 @@ protected:
     virtual asynStatus setBiasState(epicsInt32 value);
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
     virtual asynStatus setBiasInterlock(epicsInt32 value);
+    virtual asynStatus setReadFormat(epicsInt32 value);
     virtual asynStatus readStatus();
     virtual asynStatus reset();
  
