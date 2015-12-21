@@ -619,6 +619,23 @@ asynStatus drvAHxxx::setResolution(epicsInt32 value)
     return status;
 }
 
+/** Sets the read format
+  * \param[in] value Read format (QEReadFormatBinary or QEReadFormatASCII).
+  */
+asynStatus drvAHxxx::setReadFormat(epicsInt32 value) 
+{
+    asynStatus status;
+    
+    // Put the device in the appropriate mode
+    if (value == QEReadFormatBinary) {
+        strcpy(outString_, "BIN ON");
+    } else {
+        strcpy(outString_, "BIN OFF");
+    }
+    status = sendCommand();
+    return status;
+}
+
 /** Reads all the settings back from the electrometer.
   */
 asynStatus drvAHxxx::readStatus() 
