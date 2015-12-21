@@ -335,12 +335,12 @@ void drvNSLS_EM::readThread(void)
             lock();
             readingActive_ = 1;
             numAcquired_ = 0;
-            getIntegerParam(P_AcquireMode,   &acquireMode);
-            getIntegerParam(P_NumAverage,    &numAverage);
-            getIntegerParam(P_PingPong,      &pingPong);
-            getIntegerParam(P_ValuesPerRead, &valuesPerRead);
             status = pasynOctet->flush(octetPvt, pasynUser);
         }
+        getIntegerParam(P_AcquireMode,   &acquireMode);
+        getIntegerParam(P_NumAverage,    &numAverage);
+        getIntegerParam(P_PingPong,      &pingPong);
+        getIntegerParam(P_ValuesPerRead, &valuesPerRead);
         nRequested = sizeof(ASCIIData);
         unlock();
         pasynManager->lockPort(pasynUser);
@@ -383,9 +383,6 @@ void drvNSLS_EM::readThread(void)
                 strcpy(outString_, "m 1");
                 writeReadMeter();
                 acquiring_ = 0;
-            }
-            if (acquireMode == QEAcquireModeContinuous) {
-                triggerCallbacks();
             }
         }
     }
