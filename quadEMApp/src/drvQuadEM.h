@@ -177,6 +177,7 @@ protected:
     virtual asynStatus setBiasInterlock(epicsInt32 value);
     virtual asynStatus setResolution(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
+    virtual asynStatus setReadFormat(epicsInt32 value);
     virtual void       triggerCallbacks();
     virtual asynStatus readStatus()=0;
     virtual asynStatus reset()=0;
