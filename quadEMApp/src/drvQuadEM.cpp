@@ -408,6 +408,10 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         status |= setValuesPerRead(value);
         status |= readStatus();
     }
+    else if (function == P_ReadFormat) {
+        status |= setReadFormat(value);
+        status |= readStatus();
+    }
     else if (function == P_ReadStatus) {
         // We don't do this if we are acquiring, too disruptive
         if (!acquiring_) {
@@ -520,6 +524,9 @@ asynStatus drvQuadEM::reset()
     
     getIntegerParam(P_Resolution, &iValue);
     setResolution(iValue);
+
+    getIntegerParam(P_ReadFormat, &iValue);
+    setReadFormat(iValue);
     
     getDoubleParam(P_IntegrationTime, &dValue);
     setIntegrationTime(dValue);
@@ -545,3 +552,4 @@ asynStatus drvQuadEM::setBiasVoltage(epicsFloat64 value)     {return asynSuccess
 asynStatus drvQuadEM::setBiasInterlock(epicsInt32 value)     {return asynSuccess;}
 asynStatus drvQuadEM::setResolution(epicsInt32 value)        {return asynSuccess;}
 asynStatus drvQuadEM::setValuesPerRead(epicsInt32 value)     {return asynSuccess;}
+asynStatus drvQuadEM::setReadFormat(epicsInt32 value)        {return asynSuccess;}
