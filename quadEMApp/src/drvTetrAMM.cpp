@@ -520,6 +520,23 @@ asynStatus drvTetrAMM::setValuesPerRead(epicsInt32 value)
     return status;
 }
 
+/** Sets the read format
+  * \param[in] value Read format (QEReadFormatBinary or QEReadFormatASCII).
+  */
+asynStatus drvTetrAMM::setReadFormat(epicsInt32 value) 
+{
+    asynStatus status;
+    
+    // Put the device in the appropriate mode
+    if (value == QEReadFormatBinary) {
+        strcpy(outString_, "ASCII:OFF");
+    } else {
+        strcpy(outString_, "ASCII:ON");
+    }
+    status = sendCommand();
+    return status;
+}
+
 /** Sets the bias state.
   * \param[in] value Bias state.
   */
