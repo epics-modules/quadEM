@@ -434,6 +434,9 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
                 if ((status == asynSuccess) && (eomReason == ASYN_EOM_EOS) &&
                     (nread >= 3) && (strncmp(&response[nread-3], "ACK", 3) == 0)) break;
                 if (status == asynTimeout) break;
+                asynPrint(pasynUserSelf, ASYN_TRACE_WARNING, 
+                  "%s::%s waiting for ACK response, nread=%d\n",
+                  driverName, functionName, nread);
             }
         }
     } else {
