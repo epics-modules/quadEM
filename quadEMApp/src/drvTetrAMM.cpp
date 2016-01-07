@@ -436,7 +436,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
                 if (status == asynTimeout) break;
                 asynPrint(pasynUserSelf, ASYN_TRACE_WARNING, 
                   "%s::%s waiting for ACK response, nread=%d\n",
-                  driverName, functionName, nread);
+                  driverName, functionName, (int)nread);
             }
         }
     } else {
