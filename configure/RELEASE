@@ -8,50 +8,64 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # define INSTALL_LOCATION_APP here
 #INSTALL_LOCATION_APP=<fullpathname>
 
-SUPPORT=/corvette/home/epics/devel
+#SUPPORT=/corvette/home/epics/devel
+SUPPORT=/epics/support2
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 # This module
-QUADEM=$(SUPPORT)/quadEM-6-0
+#QUADEM=$(SUPPORT)/quadEM-6-0
+QUADEM=$(SUPPORT)/quadEM
 
 # ASYN - for device/driver support
-ASYN=$(SUPPORT)/asyn-4-26
+#ASYN=$(SUPPORT)/asyn-4-26
+ASYN=$(SUPPORT)/asyn
 
 # areaDetector for asynNDArrayDriver
-AREA_DETECTOR=$(SUPPORT)/areaDetector-2-4
+#AREA_DETECTOR=$(SUPPORT)/areaDetector-2-4
+AREA_DETECTOR=$(SUPPORT)/areaDetector
 ADCORE=$(AREA_DETECTOR)/ADCore
 ADBINARIES=$(AREA_DETECTOR)/ADBinaries
 
 ### The following are needed only for the test application
 
 # For ipUnidig for APS_EM
-IPAC=$(SUPPORT)/ipac-2-13
+#IPAC=$(SUPPORT)/ipac-2-13
+IPAC=$(SUPPORT)/ipac
 
 # Busy record 
-BUSY=$(SUPPORT)/busy-1-6-1
+#BUSY=$(SUPPORT)/busy-1-6-1
+BUSY=$(SUPPORT)/busy
 
 # IpUnidig for APS_EM
-IPUNIDIG=$(SUPPORT)/ipUnidig-2-10
+#IPUNIDIG=$(SUPPORT)/ipUnidig-2-10
+IPUNIDIG=$(SUPPORT)/ipUnidig
 
 # quadEM_SNL uses the sequencer
-SNCSEQ=$(SUPPORT)/seq-2-2-3
+#SNCSEQ=$(SUPPORT)/seq-2-2-3
+SNCSEQ=$(SUPPORT)/seq
 
 # save_restore
-AUTOSAVE=$(SUPPORT)/autosave-5-7-1
+#AUTOSAVE=$(SUPPORT)/autosave-5-7-1
+AUTOSAVE=$(SUPPORT)/autosave
 
 # MCA is used for time series
-MCA=$(SUPPORT)/mca-7-6
+#MCA=$(SUPPORT)/mca-7-6
+MCA=$(SUPPORT)/mca
 
 # SSCAN is needed for general scanning
-SSCAN=$(SUPPORT)/sscan-2-10-2
+#SSCAN=$(SUPPORT)/sscan-2-10-2
+SSCAN=$(SUPPORT)/sscan
 
 # calc
-CALC=$(SUPPORT)/calc-3-6-1
+#CALC=$(SUPPORT)/calc-3-6-1
+CALC=$(SUPPORT)/calc
 
 # devIocStats needed by areaDetector
-DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-14
+#DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-14
+DEVIOCSTATS=$(SUPPORT)/devIocStats
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.5
+#EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.5
+EPICS_BASE=/epics/support2/base
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
 #Capfast users may need the following definitions
