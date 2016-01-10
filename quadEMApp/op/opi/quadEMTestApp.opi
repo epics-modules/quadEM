@@ -1,126 +1,130 @@
-<display typeId="org.csstudio.opibuilder.Display" version="1.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
+  <show_close_button>true</show_close_button>
+  <rules />
+  <wuid>39872d87:13e14015f61:5320</wuid>
+  <show_grid>false</show_grid>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
+  <scripts />
+  <height>41</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <wuid>39872d87:13e14015f61:5320</wuid>
-  <boy_version>3.1.2.20120830</boy_version>
-  <scripts />
-  <show_ruler>true</show_ruler>
-  <height>41</height>
-  <name>quadEMTestApp</name>
-  <snap_to_geometry>false</snap_to_geometry>
-  <show_grid>false</show_grid>
-  <background_color>
-    <color name="Gray_4" red="187" green="187" blue="187" />
-  </background_color>
-  <foreground_color>
-    <color name="Gray_14" red="0" green="0" blue="0" />
-  </foreground_color>
-  <widget_type>Display</widget_type>
-  <show_close_button>true</show_close_button>
-  <width>159</width>
-  <rules />
+  <boy_version>4.0.103.201508281950</boy_version>
   <show_edit_range>true</show_edit_range>
-  <grid_space>5</grid_space>
+  <widget_type>Display</widget_type>
   <auto_scale_widgets>
     <auto_scale_widgets>false</auto_scale_widgets>
     <min_width>-1</min_width>
     <min_height>-1</min_height>
   </auto_scale_widgets>
-  <actions hook="false" hook_all="false" />
-  <y>45</y>
+  <background_color>
+    <color name="Gray_4" red="187" green="187" blue="187" />
+  </background_color>
+  <width>159</width>
   <x>308</x>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
-    <visible>true</visible>
-    <vertical_alignment>1</vertical_alignment>
+  <name>quadEMTestApp</name>
+  <grid_space>5</grid_space>
+  <show_ruler>true</show_ruler>
+  <y>45</y>
+  <snap_to_geometry>false</snap_to_geometry>
+  <foreground_color>
+    <color name="Gray_14" red="0" green="0" blue="0" />
+  </foreground_color>
+  <actions hook="false" hook_all="false" />
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <border_style>0</border_style>
+    <tooltip></tooltip>
+    <horizontal_alignment>0</horizontal_alignment>
+    <rules />
+    <enabled>true</enabled>
     <wuid>39872d87:13e14015f61:5321</wuid>
+    <transparent>true</transparent>
     <auto_size>false</auto_size>
+    <text>Start</text>
     <scripts />
     <height>20</height>
-    <name>Label</name>
+    <border_width>1</border_width>
     <scale_options>
       <width_scalable>true</width_scalable>
       <height_scalable>true</height_scalable>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
-    <transparent>true</transparent>
-    <show_scrollbar>false</show_scrollbar>
+    <visible>true</visible>
+    <vertical_alignment>1</vertical_alignment>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <widget_type>Label</widget_type>
+    <wrap_words>true</wrap_words>
     <background_color>
       <color red="255" green="255" blue="255" />
     </background_color>
+    <width>50</width>
+    <x>9</x>
+    <name>Label</name>
+    <y>10</y>
     <foreground_color>
       <color name="Gray_14" red="0" green="0" blue="0" />
     </foreground_color>
-    <widget_type>Label</widget_type>
-    <enabled>true</enabled>
-    <text>Start</text>
+    <actions hook="false" hook_all="false" />
+    <show_scrollbar>false</show_scrollbar>
     <font>
       <fontdata fontName="Sans" height="11" style="0" />
     </font>
-    <width>50</width>
-    <border_style>0</border_style>
-    <rules />
-    <border_width>1</border_width>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <horizontal_alignment>0</horizontal_alignment>
-    <actions hook="false" hook_all="false" />
-    <y>10</y>
-    <wrap_words>true</wrap_words>
-    <tooltip></tooltip>
-    <x>9</x>
   </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0">
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <visible>true</visible>
-    <actions_from_pv>false</actions_from_pv>
-    <wuid>39872d87:13e14015f61:5322</wuid>
-    <scripts />
-    <height>20</height>
-    <name>Menu Button</name>
+  <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
+    <border_style>6</border_style>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <actions_from_pv>false</actions_from_pv>
+    <alarm_pulsing>false</alarm_pulsing>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <rules />
+    <enabled>true</enabled>
+    <wuid>39872d87:13e14015f61:5322</wuid>
+    <transparent>false</transparent>
+    <pv_value />
+    <scripts />
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <height>20</height>
+    <border_width>1</border_width>
     <scale_options>
       <width_scalable>true</width_scalable>
       <height_scalable>true</height_scalable>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
-    <transparent>false</transparent>
+    <visible>true</visible>
     <pv_name></pv_name>
-    <background_color>
-      <color name="Gray_4" red="187" green="187" blue="187" />
-    </background_color>
-    <foreground_color>
-      <color name="Gray_14" red="0" green="0" blue="0" />
-    </foreground_color>
-    <widget_type>Menu Button</widget_type>
-    <enabled>true</enabled>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <font>
-      <opifont.name fontName="Sans" height="10" style="0">Default</opifont.name>
-    </font>
-    <width>66</width>
-    <border_style>6</border_style>
-    <label></label>
-    <rules />
-    <pv_value />
-    <border_width>1</border_width>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
+    <label></label>
+    <widget_type>Menu Button</widget_type>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color name="Gray_4" red="187" green="187" blue="187" />
+    </background_color>
+    <width>66</width>
+    <x>66</x>
+    <name>Menu Button</name>
     <y>11</y>
+    <foreground_color>
+      <color name="Gray_14" red="0" green="0" blue="0" />
+    </foreground_color>
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
         <path>quadEM.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <P>quadEMTest:</P>
-          <R>AH401B:</R>
-          <P_TS>quadEMTest:AH401B_TS:</P_TS>
-          <P_FFT>quadEMTest:AH401B_FFT:</P_FFT>
-          <T12>Horizontal_BPM</T12>
-          <T34>Vertical_BPM</T34>
+          <Sys>quadEMTest:</Sys>
+          <Dev>AH401B:</Dev>
+          <P>$(Sys)</P>
+          <R>$(Dev)</R>
+          <P_TS>$(P)$(R)_TS:</P_TS>
+          <P_FFT>$(P)$(R)_FFT:</P_FFT>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
         </macros>
         <replace>0</replace>
         <description>AH401B</description>
@@ -129,12 +133,14 @@
         <path>quadEM.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <P>quadEMTest:</P>
-          <R>AH501:</R>
-          <P_TS>quadEMTest:AH501_TS:</P_TS>
-          <P_FFT>quadEMTest:AH501_FFT:</P_FFT>
-          <T12>Horizontal_BPM</T12>
-          <T34>Vertical_BPM</T34>
+          <Sys>quadEMTest:</Sys>
+          <Dev>AH501:</Dev>
+          <P>$(Sys)</P>
+          <R>$(Dev)</R>
+          <P_TS>$(P)$(R)_TS:</P_TS>
+          <P_FFT>$(P)$(R)_FFT:</P_FFT>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
         </macros>
         <replace>0</replace>
         <description>AH501</description>
@@ -143,19 +149,52 @@
         <path>quadEM.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <P>quadEMTest:</P>
+          <Sys>quadEMTest:</Sys>
+          <P>$(Sys)</P>
           <R>APS_EM:</R>
-          <P_TS>quadEMTest:APS_EM_TS:</P_TS>
-          <P_FFT>quadEMTest:APS_EM_FFT:</P_FFT>
-          <T12>Horizontal_BPM</T12>
-          <T34>Vertical_BPM</T34>
+          <P_TS>$(P)APS_EM_TS:</P_TS>
+          <P_FFT>$(P)APS_EM_FFT:</P_FFT>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
         </macros>
         <replace>0</replace>
         <description>APS_EM</description>
       </action>
+      <action type="OPEN_DISPLAY">
+        <path>quadEM.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <Sys>quadEMTest:</Sys>
+          <Dev>TetrAMM:</Dev>
+          <P>$(Sys)</P>
+          <R>$(Dev)</R>
+          <P_TS>$(P)$(R)_TS:</P_TS>
+          <P_FFT>$(P)$(R)_FFT:</P_FFT>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <replace>0</replace>
+        <description>TetrAMM</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>quadEM.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <Sys>quadEMTest:</Sys>
+          <Dev>NSLS_EM:</Dev>
+          <P>$(Sys)</P>
+          <R>$(Dev)</R>
+          <P_TS>$(P)$(R)_TS:</P_TS>
+          <P_FFT>$(P)$(R)_FFT:</P_FFT>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <replace>0</replace>
+        <description>NSLS_EM</description>
+      </action>
     </actions>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <x>66</x>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0">Default</opifont.name>
+    </font>
   </widget>
 </display>
