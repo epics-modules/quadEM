@@ -49,6 +49,7 @@ private:
     char inString_[MAX_COMMAND_LEN];
     asynStatus sendCommand();
     asynStatus writeReadMeter();
+    asynStatus setAcquireParams();
     asynStatus getFirmwareVersion();
 };
 
