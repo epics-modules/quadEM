@@ -31,6 +31,9 @@
 #include "drvTetrAMM.h"
 
 #define TetrAMM_TIMEOUT 1.0
+#define MIN_VALUES_PER_READ_BINARY 5
+#define MIN_VALUES_PER_READ_ASCII 500
+#define MAX_VALUES_PER_READ 100000
 
 static const char *driverName="drvTetrAMM";
 static void readThread(void *drvPvt);
@@ -379,25 +382,13 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     size_t nwrite;
     asynStatus status=asynSuccess;
     int eomReason;
-    int triggerMode;
-    int numAverage;
-    int acquireMode;
-    int valuesPerRead;
     int readFormat;
-    int nrsamp;
-    int naq;
     char response[MAX_COMMAND_LEN];
     static const char *functionName = "setAcquire";
 
     // Return without doing anything if value=1 and already acquiring
     if ((value == 1) && (acquiring_)) return asynSuccess;
     
-    getIntegerParam(P_TriggerMode,   &triggerMode);
-    getIntegerParam(P_AcquireMode,   &acquireMode);
-    getIntegerParam(P_NumAverage,    &numAverage);
-    getIntegerParam(P_ValuesPerRead, &valuesPerRead);
-    getIntegerParam(P_ReadFormat,    &readFormat);
-
     // Make sure the input EOS is set
     status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
     if (status) {
@@ -440,40 +431,9 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             }
         }
     } else {
-        // Set the desired read format
-        if (readFormat == QEReadFormatBinary) {
-            strcpy(outString_, "ASCII:OFF");
-        } else {
-            strcpy(outString_, "ASCII:ON");
-        }
-        writeReadMeter();
-        
-        nrsamp = valuesPerRead;
-        if ((triggerMode == QETriggerModeExtTrigger) && 
-            (acquireMode == QEAcquireModeOneShot)) {
-            nrsamp = numAverage * valuesPerRead;
-        }
-        
-        // Send the NRSAMP command
-        sprintf(outString_, "NRSAMP:%d", nrsamp);
-        writeReadMeter();
-        
-        // Send the TRG:OFF or TRG:ON command
-        sprintf(outString_, "TRG:%s", (triggerMode == QETriggerModeInternal) ? "OFF" : "ON");
-        writeReadMeter();
-
-        // Send the NAQ command
-        naq = 0;
-        if (((triggerMode == QETriggerModeExtTrigger) || 
-             (triggerMode == QETriggerModeInternal)) && 
-             (acquireMode == QEAcquireModeOneShot)) {
-            naq = numAverage;
-        }        
-        sprintf(outString_, "NAQ:%d", naq);
-        writeReadMeter();
-
         status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
                             TetrAMM_TIMEOUT, &nwrite);
+        getIntegerParam(P_ReadFormat, &readFormat);
         if (readFormat == QEReadFormatBinary) {
             status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "", 0);
         }
@@ -487,57 +447,114 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     return status;
 }
 
+
+asynStatus drvTetrAMM::setAcquireParams()
+{
+    int numAverage;
+    int acquireMode;
+    int valuesPerRead;
+    int readFormat;
+    int nrsamp;
+    int naq;
+    int range;
+    int numChannels;
+    int triggerMode;
+    int prevAcquiring;
+
+    prevAcquiring = acquiring_;
+    if (prevAcquiring) setAcquire(0);
+
+    getIntegerParam(P_Range,         &range);
+    getIntegerParam(P_NumChannels,   &numChannels);
+    getIntegerParam(P_TriggerMode,   &triggerMode);
+    getIntegerParam(P_AcquireMode,   &acquireMode);
+    getIntegerParam(P_NumAverage,    &numAverage);
+    getIntegerParam(P_ValuesPerRead, &valuesPerRead);
+    getIntegerParam(P_ReadFormat,    &readFormat);
+
+    epicsSnprintf(outString_, sizeof(outString_), "RNG:%d", range);
+    writeReadMeter();
+
+    epicsSnprintf(outString_, sizeof(outString_), "CHN:%d", numChannels);
+    writeReadMeter();
+
+    // Set the desired read format
+    if (readFormat == QEReadFormatBinary) {
+        strcpy(outString_, "ASCII:OFF");
+    } else {
+        strcpy(outString_, "ASCII:ON");
+    }
+    writeReadMeter();
+
+    if (valuesPerRead > MAX_VALUES_PER_READ ) valuesPerRead = MAX_VALUES_PER_READ;
+    if (readFormat == QEReadFormatBinary) {
+        if (valuesPerRead < MIN_VALUES_PER_READ_BINARY) valuesPerRead = MIN_VALUES_PER_READ_BINARY;
+    } else {
+        if (valuesPerRead < MIN_VALUES_PER_READ_ASCII) valuesPerRead = MIN_VALUES_PER_READ_ASCII;
+    }
+
+    nrsamp = valuesPerRead;
+    if ((triggerMode == QETriggerModeExtTrigger) && 
+        (acquireMode == QEAcquireModeOneShot)) {
+        nrsamp = numAverage * valuesPerRead;
+        if (nrsamp > MAX_VALUES_PER_READ) nrsamp = MAX_VALUES_PER_READ;
+    }
+
+    setIntegerParam(P_ValuesPerRead, valuesPerRead);
+
+    // Send the NRSAMP command
+    sprintf(outString_, "NRSAMP:%d", nrsamp);
+    writeReadMeter();
+
+    // Send the TRG:OFF or TRG:ON command
+    sprintf(outString_, "TRG:%s", (triggerMode == QETriggerModeInternal) ? "OFF" : "ON");
+    writeReadMeter();
+
+    // Send the NAQ command
+    naq = 0;
+    if (((triggerMode == QETriggerModeExtTrigger) || 
+         (triggerMode == QETriggerModeInternal)) && 
+         (acquireMode == QEAcquireModeOneShot)) {
+        naq = numAverage;
+    }        
+    sprintf(outString_, "NAQ:%d", naq);
+    writeReadMeter();
+    
+    if (prevAcquiring) setAcquire(1);    
+    return asynSuccess;
+}
+
+
 /** Sets the range 
   * \param[in] value The desired range.
   */
 asynStatus drvTetrAMM::setRange(epicsInt32 value) 
 {
-    asynStatus status;
-    
-    epicsSnprintf(outString_, sizeof(outString_), "RNG:%d", value);
-    status = sendCommand();
-    return status;
+    return setAcquireParams();
 }
 
 /** Sets the number of channels.
   * \param[in] value Number of channels to measure (1, 2, or 4).
   */
 asynStatus drvTetrAMM::setNumChannels(epicsInt32 value) 
-{
-    asynStatus status;
-    
-    epicsSnprintf(outString_, sizeof(outString_), "CHN:%d", value);
-    status = sendCommand();
-    return status;
+{    
+    return setAcquireParams();
 }
 
 /** Sets the values per read.
   * \param[in] value Values per read. Minimum depends on number of channels.
   */
 asynStatus drvTetrAMM::setValuesPerRead(epicsInt32 value) 
-{
-    asynStatus status;
-    
-    epicsSnprintf(outString_, sizeof(outString_), "NRSAMP:%d", value);
-    status = sendCommand();
-    return status;
+{    
+    return setAcquireParams();
 }
 
 /** Sets the read format
   * \param[in] value Read format (QEReadFormatBinary or QEReadFormatASCII).
   */
 asynStatus drvTetrAMM::setReadFormat(epicsInt32 value) 
-{
-    asynStatus status;
-    
-    // Put the device in the appropriate mode
-    if (value == QEReadFormatBinary) {
-        strcpy(outString_, "ASCII:OFF");
-    } else {
-        strcpy(outString_, "ASCII:ON");
-    }
-    status = sendCommand();
-    return status;
+{    
+    return setAcquireParams();
 }
 
 /** Sets the bias state.
