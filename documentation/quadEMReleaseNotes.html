@@ -13,7 +13,9 @@
   <ul>
     <li>Added support for the CaenEls TetrAMM picoammeter. This device uses Gbit Ethernet
       without a built-in Ethernet to serial converter, so it is significantly faster than
-      the AH501 and AH401 series. It supports on-board digital averaging.</li>
+      the AH501 and AH401 series. It supports on-board digital averaging. Note that TetrAMM
+      firmware 2.0.09 or later is required because earlier versions have problems with the 
+      network stack.</li>
     <li>The base class and derived classes have changed somewhat to add this TetrAMM support,
       some of the database record names and types have changed, and changes are required
       to startup scripts. This is thus a new major release number. Some of the changes
