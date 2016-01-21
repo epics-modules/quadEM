@@ -14,7 +14,7 @@ SUPPORT=/corvette/home/epics/devel
 QUADEM=$(SUPPORT)/quadEM-6-0
 
 # ASYN - for device/driver support
-ASYN=$(SUPPORT)/asyn-4-26
+ASYN=$(SUPPORT)/asyn-4-28
 
 # areaDetector for asynNDArrayDriver
 AREA_DETECTOR=$(SUPPORT)/areaDetector-2-4
