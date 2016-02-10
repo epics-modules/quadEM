@@ -34,6 +34,11 @@
 #define MIN_VALUES_PER_READ_BINARY 5
 #define MIN_VALUES_PER_READ_ASCII 500
 #define MAX_VALUES_PER_READ 100000
+// Size of read buffer for binary data.  The max required for data is 40 bytes (4 doubles + NaN)
+// We make it twice this size for doing synchonization so it is guaranteed to contain intact NaN
+#define BINARY_BUFFER_SIZE 80
+// Size of read buffer for ASCII data in units of char
+#define ASCII_BUFFER_SIZE 150
 
 static const char *driverName="drvTetrAMM";
 static void readThread(void *drvPvt);
@@ -59,6 +64,7 @@ drvTetrAMM::drvTetrAMM(const char *portName, const char *QEPortName, int ringBuf
     QEPortName_ = epicsStrDup(QEPortName);
     
     acquireStartEvent_ = epicsEventCreate(epicsEventEmpty);
+    numResync_ = 0;
 
     // Connect to the server
     status = pasynOctetSyncIO->connect(QEPortName, 0, &pasynUserMeter_, NULL);
@@ -174,10 +180,12 @@ void drvTetrAMM::readThread(void)
     asynInterface *pasynInterface;
     asynOctet *pasynOctet;
     void *octetPvt;
-    epicsFloat64 data[5];
-    long long *i64data = (long long *)data;
+    char charData[BINARY_BUFFER_SIZE];
+    epicsFloat64 *f64Data = (epicsFloat64 *)charData;
+    long long *i64Data = (long long *)charData;
+    unsigned char *pc;
     long long lastValue;
-    char ASCIIData[150];
+    char ASCIIData[ASCII_BUFFER_SIZE];
     char *inPtr;
     size_t nRequested;
     static const char *functionName = "readThread";
@@ -219,7 +227,7 @@ void drvTetrAMM::readThread(void)
             nRequested = (numChannels_ + 1) * bytesPerValue;
             unlock();
             pasynManager->lockPort(pasynUser);
-            status = pasynOctet->read(octetPvt, pasynUser, (char*)data, nRequested, 
+            status = pasynOctet->read(octetPvt, pasynUser, charData, nRequested, 
                                       &nRead, &eomReason);
             pasynManager->unlockPort(pasynUser);
             lock();
@@ -241,14 +249,14 @@ void drvTetrAMM::readThread(void)
             }
             // If we are on a little-endian machine we need to swap the byte order
             if (EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE) {
-                for (i=0; i<=numChannels_; i++) swapDouble((char *)&data[i]);
+                for (i=0; i<=numChannels_; i++) swapDouble(charData + i*bytesPerValue);
             }
-            lastValue = i64data[numChannels_];
+            lastValue = i64Data[numChannels_];
             switch(lastValue) {
                 case 0xfff40002ffffffffll:
                     // This is a signalling Nan at the end of normal data
-                    for (i=numChannels_; i<4; i++) data[i] = 0.0;
-                    computePositions(data);
+                    for (i=numChannels_; i<4; i++) f64Data[i] = 0.0;
+                    computePositions(f64Data);
                     numAcquired_++;
                     if ((acquireMode == QEAcquireModeOneShot) &&
                         (triggerMode == QETriggerModeInternal) &&
@@ -271,10 +279,37 @@ void drvTetrAMM::readThread(void)
                         triggerCallbacks();
                     }
                     break;
-                default:
-                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                        "%s:%s: did not get S_NAN when expected, got=0x%llx\n", 
-                        driverName, functionName, (long long)lastValue);
+                default: 
+                    // We have lost sync, probably due to a dropped packet.
+                    // Recover sync by reading 2 times length per sample, which is enough to guarantee that
+                    // it will contain a NaN unless we are losing many packets
+                    unlock();
+                    pasynManager->lockPort(pasynUser);
+                    nRequested = ((numChannels_ + 1) * bytesPerValue)*2;
+                    status = pasynOctet->read(octetPvt, pasynUser, charData, nRequested, 
+                                              &nRead, &eomReason);
+                    for (i=0; i<(BINARY_BUFFER_SIZE-bytesPerValue); i++) {
+                        pc = (unsigned char *)charData + i;
+                        if (pc[0]==0xff && pc[1]==0xf4 && pc[2]==0x00 && pc[3]==0x02 &&
+                            pc[4]==0xff && pc[5]==0xff && pc[6]==0xff && pc[7]==0xff) {
+                            // We need to read (BINARY_BUFFER_SIZE - bytesPerValue - i) bytes
+                            nRequested = nRequested - bytesPerValue - i;
+                            status = pasynOctet->read(octetPvt, pasynUser, charData, nRequested, 
+                                                      &nRead, &eomReason);
+                            numResync_++;
+                            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+                                "%s:%s: found NaN at position %d, read %d bytes\n", 
+                                driverName, functionName, i, (int)nRequested);
+                            break;
+                         }
+                    }
+                    if (i == (BINARY_BUFFER_SIZE-bytesPerValue)) {
+                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                            "%s:%s: ERROR, did not find NaN\n", 
+                            driverName, functionName);
+                    }
+                    pasynManager->unlockPort(pasynUser);
+                    lock();
                     break;
             }
         }
@@ -316,10 +351,10 @@ void drvTetrAMM::readThread(void)
             else {
                 inPtr = ASCIIData;
                 for (i=0; i<numChannels_; i++) {
-                    data[i] = strtod(inPtr, &inPtr);
+                    f64Data[i] = strtod(inPtr, &inPtr);
                 }
-                for (i=numChannels_; i<4; i++) data[i] = 0.0;
-                computePositions(data);
+                for (i=numChannels_; i<4; i++) f64Data[i] = 0.0;
+                computePositions(f64Data);
                 numAcquired_++;
                 if ((acquireMode == QEAcquireModeOneShot) &&
                     (triggerMode == QETriggerModeInternal) &&
@@ -700,8 +735,25 @@ void drvTetrAMM::exitHandler()
   */
 void drvTetrAMM::report(FILE *fp, int details)
 {
-    fprintf(fp, "%s: port=%s, IP port=%s, firmware version=%s\n",
-            driverName, portName, QEPortName_, firmwareVersion_);
+    fprintf(fp, "%s: port=%s, IP port=%s, firmware version=%s, numResync=%d\n",
+            driverName, portName, QEPortName_, firmwareVersion_, numResync_);
+    if (details > 5) {
+        int prevAcquiring = acquiring_;
+        setAcquire(0);
+        sprintf(outString_, "%s", "IFCONFIG");
+        writeReadMeter();
+        fprintf(fp, "IFCONFIG response from meter:\n");
+        fprintf(fp, "%s\n", inString_);
+        sprintf(outString_, "%s", "IFCONFIG:LINK");
+        writeReadMeter();
+        fprintf(fp, "IFCONFIG:LINK: response from meter:\n");
+        fprintf(fp, "%s\n", inString_);
+        sprintf(outString_, "%s", "IFCONFIG:ICMP");
+        writeReadMeter();
+        fprintf(fp, "IFCONFIG:ICMP: response from meter:\n");
+        fprintf(fp, "%s\n", inString_);
+        if (prevAcquiring) setAcquire(1);
+    }   
     drvQuadEM::report(fp, details);
 }
 
