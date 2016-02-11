@@ -28,6 +28,7 @@ protected:
     /* These are the methods we implement from quadEM */
     virtual asynStatus setAcquire(epicsInt32 value);
     virtual asynStatus setRange(epicsInt32 value);
+    virtual asynStatus setTriggerMode(epicsInt32 value);
     virtual asynStatus setNumChannels(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
     virtual asynStatus setBiasState(epicsInt32 value);
