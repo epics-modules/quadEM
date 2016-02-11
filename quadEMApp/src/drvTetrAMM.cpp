@@ -568,6 +568,17 @@ asynStatus drvTetrAMM::setRange(epicsInt32 value)
     return setAcquireParams();
 }
 
+/** Sets the trigger mode
+  * \param[in] value 0 = internal,
+  *                  1 = external trigger (with predefined nr of samples)
+  *                  2 = external gate.
+  */
+asynStatus drvTetrAMM::setTriggerMode(epicsInt32 value)
+{
+    return setAcquireParams();
+}
+
+
 /** Sets the number of channels.
   * \param[in] value Number of channels to measure (1, 2, or 4).
   */
