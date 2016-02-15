@@ -69,7 +69,7 @@ drvTetrAMM::drvTetrAMM(const char *portName, const char *QEPortName, int ringBuf
     // Connect to the server
     status = pasynOctetSyncIO->connect(QEPortName, 0, &pasynUserMeter_, NULL);
     if (status) {
-        printf("%s:%s: error calling pasynOctetSyncIO->connect, status=%d, error=%s\n", 
+        printf("%s::%s: error calling pasynOctetSyncIO->connect, status=%d, error=%s\n", 
                driverName, functionName, status, pasynUserMeter_->errorMessage);
         return;
     }
@@ -85,7 +85,7 @@ drvTetrAMM::drvTetrAMM(const char *portName, const char *QEPortName, int ringBuf
     // the reset() function which can be done later when the meter is online.
     lock();
     getFirmwareVersion();
-    drvQuadEM::reset();
+//    drvQuadEM::reset();
     unlock();
 
     /* Create the thread that reads the meter */
@@ -95,7 +95,7 @@ drvTetrAMM::drvTetrAMM(const char *portName, const char *QEPortName, int ringBuf
                           (EPICSTHREADFUNC)::readThread,
                           this) == NULL);
     if (status) {
-        printf("%s:%s: epicsThreadCreate failure, status=%d\n", driverName, functionName, status);
+        printf("%s::%s: epicsThreadCreate failure, status=%d\n", driverName, functionName, status);
         return;
     }
     callParamCallbacks();
@@ -126,7 +126,7 @@ asynStatus drvTetrAMM::sendCommand()
   if (status) goto error;
   if (strcmp(inString_, "ACK") != 0) {
       asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-          "%s:%s: error, outString=%s expected ACK, received %s\n",
+          "%s::%s: error, outString=%s expected ACK, received %s\n",
           driverName, functionName, outString_, inString_);
       status = asynError;
       goto error;
@@ -196,13 +196,13 @@ void drvTetrAMM::readThread(void)
     status = pasynManager->connectDevice(pasynUser, QEPortName_, 0);
     if(status!=asynSuccess) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-            "%s:%s: connectDevice failed, status=%d\n",
+            "%s::%s: connectDevice failed, status=%d\n",
             driverName, functionName, status);
     }
     pasynInterface = pasynManager->findInterface(pasynUser, asynOctetType, 1);
     if(!pasynInterface) {;
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-            "%s:%s: findInterface failed for asynOctet, status=%d\n",
+            "%s::%s: findInterface failed for asynOctet, status=%d\n",
             driverName, functionName, status);
     }
     pasynOctet = (asynOctet *)pasynInterface->pinterface;
@@ -216,12 +216,13 @@ void drvTetrAMM::readThread(void)
             unlock();
             (void)epicsEventWait(acquireStartEvent_);
             lock();
-            readingActive_ = 1;
+            acquiring_ = 1;
             numAcquired_ = 0;
             getIntegerParam(P_AcquireMode, &acquireMode);
             getIntegerParam(P_TriggerMode, &triggerMode);
             getIntegerParam(P_NumAverage, &numAverage);
             getIntegerParam(P_ReadFormat, &readFormat);
+            readingActive_ = 1;
         }
         if (readFormat == QEReadFormatBinary) {
             nRequested = (numChannels_ + 1) * bytesPerValue;
@@ -237,7 +238,7 @@ void drvTetrAMM::readThread(void)
                 (eomReason != ASYN_EOM_CNT)) {
                 if (status != asynTimeout) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                        "%s:%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
+                        "%s::%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
                         driverName, functionName, status, (unsigned long)nRead, eomReason);
                     // We got an error reading the meter, it is probably offline.  
                     // Wait 1 second before trying again.
@@ -283,6 +284,9 @@ void drvTetrAMM::readThread(void)
                     // We have lost sync, probably due to a dropped packet.
                     // Recover sync by reading 2 times length per sample, which is enough to guarantee that
                     // it will contain a NaN unless we are losing many packets
+                    asynPrint(pasynUserSelf, ASYN_TRACE_WARNING, 
+                            "%s::%s: warning, lost sync, no NaN where expected; resynchronizing\n", 
+                            driverName, functionName);
                     unlock();
                     pasynManager->lockPort(pasynUser);
                     nRequested = ((numChannels_ + 1) * bytesPerValue)*2;
@@ -298,14 +302,17 @@ void drvTetrAMM::readThread(void)
                                                       &nRead, &eomReason);
                             numResync_++;
                             asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
-                                "%s:%s: found NaN at position %d, read %d bytes\n", 
+                                "%s::%s: found NaN at position %d, read %d bytes\n", 
                                 driverName, functionName, i, (int)nRequested);
                             break;
                          }
                     }
                     if (i == (BINARY_BUFFER_SIZE-bytesPerValue)) {
                         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                            "%s:%s: ERROR, did not find NaN\n", 
+                            "%s::%s: ERROR, did not find NaN\n", 
+                            driverName, functionName);
+                        asynPrintIO(pasynUserSelf, ASYN_TRACE_ERROR, charData, nRead,
+                            "%s::%s: buffer read when resynchronizing\n", 
                             driverName, functionName);
                     }
                     pasynManager->unlockPort(pasynUser);
@@ -326,7 +333,7 @@ void drvTetrAMM::readThread(void)
                 (eomReason != ASYN_EOM_EOS)) {
                 if (status != asynTimeout) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                        "%s:%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
+                        "%s::%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
                         driverName, functionName, status, (unsigned long)nRead, eomReason);
                     // We got an error reading the meter, it is probably offline.  
                     // Wait 1 second before trying again.
@@ -428,7 +435,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
     status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "\r\n", 2);
     if (status) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-            "%s:%s: error calling pasynOctetSyncIO->setInputEos, status=%d\n",
+            "%s::%s: error calling pasynOctetSyncIO->setInputEos, status=%d\n",
             driverName, functionName, status);
         return asynError;
     }
@@ -466,6 +473,8 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             }
         }
     } else {
+        // Flush any stale input from the device
+        status = pasynOctetSyncIO->flush(pasynUserMeter_);
         status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
                             TetrAMM_TIMEOUT, &nwrite);
         getIntegerParam(P_ReadFormat, &readFormat);
@@ -474,7 +483,12 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
         }
         // Notify the read thread if acquisition status has started
         epicsEventSignal(acquireStartEvent_);
-        acquiring_ = 1;
+        // Wait for the read thread to start
+        while (!readingActive_) {
+            unlock();
+            epicsThreadSleep(0.01);
+            lock();
+        }
     }
     if (status) {
         acquiring_ = 0;
@@ -494,6 +508,8 @@ asynStatus drvTetrAMM::setAcquireParams()
     int range;
     int numChannels;
     int triggerMode;
+    double sampleTime;
+    double averagingTime;
     int prevAcquiring;
 
     prevAcquiring = acquiring_;
@@ -503,9 +519,21 @@ asynStatus drvTetrAMM::setAcquireParams()
     getIntegerParam(P_NumChannels,   &numChannels);
     getIntegerParam(P_TriggerMode,   &triggerMode);
     getIntegerParam(P_AcquireMode,   &acquireMode);
-    getIntegerParam(P_NumAverage,    &numAverage);
     getIntegerParam(P_ValuesPerRead, &valuesPerRead);
     getIntegerParam(P_ReadFormat,    &readFormat);
+    getDoubleParam (P_AveragingTime, &averagingTime);
+
+    // Compute the sample time.  This is 10 microseconds times valuesPerRead. 
+    sampleTime = 10e-6 * valuesPerRead;
+    setDoubleParam(P_SampleTime, sampleTime);
+
+    // Compute the number of values that will be accumulated in the ring buffer before averaging
+    if (triggerMode == QETriggerModeExtGate) {
+        numAverage = 0;
+    } else {
+        numAverage = (int)((averagingTime / sampleTime) + 0.5);
+    }
+    setIntegerParam(P_NumAverage, numAverage);
 
     epicsSnprintf(outString_, sizeof(outString_), "RNG:%d", range);
     writeReadMeter();
@@ -727,7 +755,7 @@ asynStatus drvTetrAMM::readStatus()
 
     error:
     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-        "%s:%s: error, outString=%s, inString=%s\n",
+        "%s::%s: error, outString=%s, inString=%s\n",
         driverName, functionName, outString_, inString_);
     return asynError;
 }
@@ -748,7 +776,7 @@ void drvTetrAMM::report(FILE *fp, int details)
 {
     fprintf(fp, "%s: port=%s, IP port=%s, firmware version=%s, numResync=%d\n",
             driverName, portName, QEPortName_, firmwareVersion_, numResync_);
-    if (details > 5) {
+    if (details > 0) {
         int prevAcquiring = acquiring_;
         setAcquire(0);
         sprintf(outString_, "%s", "IFCONFIG");
