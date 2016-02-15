@@ -262,6 +262,18 @@ void drvTetrAMM::readThread(void)
                         (triggerMode == QETriggerModeInternal) &&
                         (numAcquired_ >= numAverage)) {
                         acquiring_ = 0;
+                        status = pasynOctet->read(octetPvt, pasynUser, charData,
+                                                  sizeof("ACK\r\n")-1, &nRead, &eomReason);
+
+                        if (status == asynSuccess) {
+                            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+                                "%s:%s: found ACK at the end of packet (with NAQ != 0)\n",
+                                driverName, functionName);
+                        } else {
+                            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                                "%s:%s: error: ACK not found at end of packet(status=%d, nRead=%lu, eomReason=%d)\n",
+                                driverName, functionName, status, (unsigned long)nRead, eomReason);
+                        }
                     }
                     if ((acquireMode == QEAcquireModeContinuous) &&
                         (triggerMode == QETriggerModeExtTrigger)) {
