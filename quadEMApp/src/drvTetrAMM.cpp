@@ -276,7 +276,9 @@ void drvTetrAMM::readThread(void)
                     // This is a signalling Nan on the falling edge of a trigger
                     // Trigger callbacks
                     if (triggerMode == QETriggerModeExtGate) {
-                        acquiring_ = 0;
+                        if (acquireMode == QEAcquireModeOneShot) {
+                            acquiring_ = 0;
+                        }
                         triggerCallbacks();
                     }
                     break;
