@@ -93,6 +93,8 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     createParam(P_ReadStatusString,         asynParamInt32,         &P_ReadStatus);
     createParam(P_ResolutionString,         asynParamInt32,         &P_Resolution);
     createParam(P_ValuesPerReadString,      asynParamInt32,         &P_ValuesPerRead);
+    createParam(P_NumTriggersString,        asynParamInt32,         &P_NumTriggers);
+    createParam(P_NumTrigsRecvdString,      asynParamInt32,         &P_NumTrigsRecvd);
     createParam(P_ReadFormatString,         asynParamInt32,         &P_ReadFormat);
     createParam(P_AveragingTimeString,      asynParamFloat64,       &P_AveragingTime);
     createParam(P_NumAverageString,         asynParamInt32,         &P_NumAverage);
@@ -467,6 +469,7 @@ asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
         status |= readStatus();
     }
     if (function == P_AveragingTime) {
+        status |= setAveragingTime(value);
         epicsRingBytesFlush(ringBuffer_);
         ringCount_ = 0;
         status |= readStatus();
@@ -506,6 +509,9 @@ asynStatus drvQuadEM::reset()
 
     getIntegerParam(P_ValuesPerRead, &iValue);
     setValuesPerRead(iValue);
+
+    getDoubleParam(P_AveragingTime, &dValue);
+    setAveragingTime(dValue);
 
     getIntegerParam(P_TriggerMode, &iValue);
     setTriggerMode(iValue);
@@ -552,4 +558,6 @@ asynStatus drvQuadEM::setBiasVoltage(epicsFloat64 value)     {return asynSuccess
 asynStatus drvQuadEM::setBiasInterlock(epicsInt32 value)     {return asynSuccess;}
 asynStatus drvQuadEM::setResolution(epicsInt32 value)        {return asynSuccess;}
 asynStatus drvQuadEM::setValuesPerRead(epicsInt32 value)     {return asynSuccess;}
+asynStatus drvQuadEM::setNumTriggers(epicsInt32 value)       {return asynSuccess;}
+asynStatus drvQuadEM::setAveragingTime(epicsFloat64 value)   {return asynSuccess;}
 asynStatus drvQuadEM::setReadFormat(epicsInt32 value)        {return asynSuccess;}
