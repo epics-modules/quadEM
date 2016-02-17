@@ -175,6 +175,8 @@ void drvTetrAMM::readThread(void)
     int acquireMode;
     int triggerMode;
     int numAverage;
+    int numTriggers;
+    int numTrigsRecvd=0;
     int i;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
@@ -218,11 +220,16 @@ void drvTetrAMM::readThread(void)
             lock();
             acquiring_ = 1;
             numAcquired_ = 0;
+            numTrigsRecvd = 0;
             getIntegerParam(P_AcquireMode, &acquireMode);
             getIntegerParam(P_TriggerMode, &triggerMode);
             getIntegerParam(P_NumAverage, &numAverage);
             getIntegerParam(P_ReadFormat, &readFormat);
+            getIntegerParam(P_NumTriggers, &numTriggers);
             readingActive_ = 1;
+            numTrigsRecvd = 0;
+            setIntegerParam(P_NumTrigsRecvd, numTrigsRecvd);
+            callParamCallbacks();
         }
         if (readFormat == QEReadFormatBinary) {
             nRequested = (numChannels_ + 1) * bytesPerValue;
@@ -275,8 +282,12 @@ void drvTetrAMM::readThread(void)
                 case 0xfff40001ffffffffll:
                     // This is a signalling Nan on the falling edge of a trigger
                     // Trigger callbacks
-                    if (triggerMode == QETriggerModeExtGate) {
-                        if (acquireMode == QEAcquireModeOneShot) {
+                    numTrigsRecvd++;
+                    setIntegerParam(P_NumTrigsRecvd, numTrigsRecvd);
+                    if (triggerMode == QETriggerModeExtBulb) {
+                        if ((acquireMode == QEAcquireModeOneShot) ||
+                            ((acquireMode == QEAcquireModeMultiple) && 
+                             (numTrigsRecvd == numTriggers))) {
                             acquiring_ = 0;
                         }
                         triggerCallbacks();
@@ -376,6 +387,7 @@ void drvTetrAMM::readThread(void)
                 }
             }
         }
+        callParamCallbacks();
     }
 }
 
@@ -530,7 +542,7 @@ asynStatus drvTetrAMM::setAcquireParams()
     setDoubleParam(P_SampleTime, sampleTime);
 
     // Compute the number of values that will be accumulated in the ring buffer before averaging
-    if (triggerMode == QETriggerModeExtGate) {
+    if (triggerMode == QETriggerModeExtBulb) {
         numAverage = 0;
     } else {
         numAverage = (int)((averagingTime / sampleTime) + 0.5);
@@ -621,6 +633,22 @@ asynStatus drvTetrAMM::setNumChannels(epicsInt32 value)
   * \param[in] value Values per read. Minimum depends on number of channels.
   */
 asynStatus drvTetrAMM::setValuesPerRead(epicsInt32 value) 
+{    
+    return setAcquireParams();
+}
+
+/** Sets the averaging time.
+  * \param[in] value Averaging time.
+  */
+asynStatus drvTetrAMM::setAveragingTime(epicsFloat64 value) 
+{    
+    return setAcquireParams();
+}
+
+/** Sets the number of triggers.
+  * \param[in] value Number of triggers. 
+  */
+asynStatus drvTetrAMM::setNumTriggers(epicsInt32 value) 
 {    
     return setAcquireParams();
 }
@@ -744,7 +772,7 @@ asynStatus drvTetrAMM::readStatus()
     // Compute the number of values that will be accumulated in the ring buffer before averaging
     getDoubleParam(P_AveragingTime, &averagingTime);
     getIntegerParam(P_TriggerMode, &triggerMode);
-    if (triggerMode == QETriggerModeExtGate) {
+    if (triggerMode == QETriggerModeExtBulb) {
         numAverage = 0;
     } else {
         numAverage = (int)((averagingTime / sampleTime) + 0.5);
