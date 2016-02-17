@@ -47,6 +47,8 @@
 #define P_AveragingTimeString      "QE_AVERAGING_TIME"          /* asynFloat64,  r/w */
 #define P_NumAverageString         "QE_NUM_AVERAGE"             /* asynInt32,    r/o */
 #define P_NumAveragedString        "QE_NUM_AVERAGED"            /* asynInt32,    r/o */
+#define P_NumTriggersString        "QE_NUM_TRIGGERS"            /* asynInt32,    r/o */
+#define P_NumTrigsRecvdString      "QE_NUM_TRIGS_RECVD"         /* asynInt32,    r/o */
 #define P_ModelString              "QE_MODEL"                   /* asynInt32,    r/w */
 #define P_FirmwareString           "QE_FIRMWARE"                /* asynOctet,    r/w */
 
@@ -87,6 +89,7 @@ typedef enum {
 /* Acquire modes */
 typedef enum {
     QEAcquireModeContinuous,
+    QEAcquireModeMultiple,
     QEAcquireModeOneShot
 } QEAcquireMode_t;
 
@@ -94,7 +97,8 @@ typedef enum {
 typedef enum {
     QETriggerModeInternal,
     QETriggerModeExtTrigger,
-    QETriggerModeExtGate
+    QETriggerModeExtBulb,
+    QETriggerModeExtGate,
 } QETriggerMode_t;
 
 /* Read format */
@@ -154,6 +158,8 @@ protected:
     int P_AveragingTime;
     int P_NumAverage;
     int P_NumAveraged;
+    int P_NumTriggers;
+    int P_NumTrigsRecvd;
     int P_Model;
     int P_Firmware;
     #define LAST_QE_COMMAND P_Firmware
@@ -177,6 +183,8 @@ protected:
     virtual asynStatus setBiasInterlock(epicsInt32 value);
     virtual asynStatus setResolution(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
+    virtual asynStatus setNumTriggers(epicsInt32 value);
+    virtual asynStatus setAveragingTime(epicsFloat64 value);
     virtual asynStatus setReadFormat(epicsInt32 value);
     virtual void       triggerCallbacks();
     virtual asynStatus readStatus()=0;
