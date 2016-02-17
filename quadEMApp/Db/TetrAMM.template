@@ -26,7 +26,9 @@ record(mbbo,"$(P)$(R)TriggerMode") {
     field(ONVL, "1")
     field(ONST, "Ext. trig.")
     field(TWVL, "2")
-    field(TWST, "Ext. gate")
+    field(TWST, "Ext. bulb")
+    field(THVL, "3")
+    field(THST, "Ext. gate")
 }
 
 record(mbbi,"$(P)$(R)TriggerMode_RBV") {
@@ -35,5 +37,7 @@ record(mbbi,"$(P)$(R)TriggerMode_RBV") {
     field(ONVL, "1")
     field(ONST, "Ext. trig.")
     field(TWVL, "2")
-    field(TWST, "Ext. gate")
+    field(TWST, "Ext. bulb")
+    field(THVL, "3")
+    field(THST, "Ext. gate")
 }
