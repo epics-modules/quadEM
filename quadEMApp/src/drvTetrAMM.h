@@ -31,6 +31,8 @@ protected:
     virtual asynStatus setTriggerMode(epicsInt32 value);
     virtual asynStatus setNumChannels(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
+    virtual asynStatus setNumTriggers(epicsInt32 value);
+    virtual asynStatus setAveragingTime(epicsFloat64 value);
     virtual asynStatus setBiasState(epicsInt32 value);
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
     virtual asynStatus setBiasInterlock(epicsInt32 value);
