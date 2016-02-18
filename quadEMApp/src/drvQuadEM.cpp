@@ -232,8 +232,6 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
         intData[i] = (epicsInt32)doubleData[i];
         setDoubleParam(i, P_DoubleData, doubleData[i]);
         callParamCallbacks(i);
-        asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
-               "  data[%d]=%f\n", i, doubleData[i]);
     }
     doCallbacksInt32Array(intData, QE_MAX_DATA, P_IntArrayData, 0);
 }
