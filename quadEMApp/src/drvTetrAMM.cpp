@@ -275,13 +275,19 @@ void drvTetrAMM::readThread(void)
                     computePositions(f64Data);
                     numAcquired_++;
                     if ((acquireMode == QEAcquireModeOneShot) &&
-                        (triggerMode == QETriggerModeInternal) &&
+                        ((triggerMode == QETriggerModeInternal) ||
+                         (triggerMode == QETriggerModeExtTrigger) ||
+                         (triggerMode == QETriggerModeExtGate)) &&
                         (numAcquired_ >= numAverage)) {
+                        triggerCallbacks();
                         acquiring_ = 0;
                     }
-                    if ((acquireMode == QEAcquireModeContinuous) &&
-                        (triggerMode == QETriggerModeExtTrigger)) {
+                    else if ((acquireMode == QEAcquireModeMultiple) &&
+                             ((triggerMode == QETriggerModeInternal) ||
+                              (triggerMode == QETriggerModeExtGate)) &&
+                             (numAcquired_ >= numAverage*numTriggers)) {
                         triggerCallbacks();
+                        acquiring_ = 0;
                     }
                     break;
                 case 0xfff40000ffffffffll:
@@ -508,8 +514,9 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             }
         }
     } else {
-        // Flush any stale input from the device
-        status = pasynOctetSyncIO->flush(pasynUserMeter_);
+        // For now we call setAcquireParams().  This seems to be necessary when sending NAQ, and only takes 20 ms.
+        // It also has the effect of flusing any stale input
+        setAcquireParams();
         status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
                             TetrAMM_TIMEOUT, &nwrite);
         getIntegerParam(P_ReadFormat, &readFormat);
@@ -538,7 +545,6 @@ asynStatus drvTetrAMM::setAcquireParams()
     int acquireMode;
     int valuesPerRead;
     int readFormat;
-    int nrsamp;
     int naq;
     int range;
     int numChannels;
@@ -546,6 +552,7 @@ asynStatus drvTetrAMM::setAcquireParams()
     double sampleTime;
     double averagingTime;
     int prevAcquiring;
+    static const char *functionName = "setAcquireParams";
 
     prevAcquiring = acquiring_;
     if (prevAcquiring) setAcquire(0);
@@ -557,6 +564,16 @@ asynStatus drvTetrAMM::setAcquireParams()
     getIntegerParam(P_ValuesPerRead, &valuesPerRead);
     getIntegerParam(P_ReadFormat,    &readFormat);
     getDoubleParam (P_AveragingTime, &averagingTime);
+
+    // Certain combinations are not yet supported
+    if ((triggerMode == QETriggerModeExtTrigger) &&
+        ((acquireMode == QEAcquireModeContinuous) ||
+         (acquireMode == QEAcquireModeMultiple))) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s::%s Error, TriggerMode=External Trigger is currently only supported for AcquireMode=One-Shot\n",
+            driverName, functionName);
+        return asynError;
+    }
 
     // Compute the sample time.  This is 10 microseconds times valuesPerRead. 
     sampleTime = 10e-6 * valuesPerRead;
@@ -591,17 +608,8 @@ asynStatus drvTetrAMM::setAcquireParams()
         if (valuesPerRead < MIN_VALUES_PER_READ_ASCII) valuesPerRead = MIN_VALUES_PER_READ_ASCII;
     }
 
-    nrsamp = valuesPerRead;
-    if ((triggerMode == QETriggerModeExtTrigger) && 
-        (acquireMode == QEAcquireModeOneShot)) {
-        nrsamp = numAverage * valuesPerRead;
-        if (nrsamp > MAX_VALUES_PER_READ) nrsamp = MAX_VALUES_PER_READ;
-    }
-
-    setIntegerParam(P_ValuesPerRead, valuesPerRead);
-
     // Send the NRSAMP command
-    sprintf(outString_, "NRSAMP:%d", nrsamp);
+    sprintf(outString_, "NRSAMP:%d", valuesPerRead);
     writeReadMeter();
 
     // Send the TRG:OFF or TRG:ON command
@@ -623,37 +631,10 @@ asynStatus drvTetrAMM::setAcquireParams()
 }
 
 
-/** Sets the range 
-  * \param[in] value The desired range.
+/** Sets the acquire mode.
+  * \param[in] value Acquire mode.
   */
-asynStatus drvTetrAMM::setRange(epicsInt32 value) 
-{
-    return setAcquireParams();
-}
-
-/** Sets the trigger mode
-  * \param[in] value 0 = internal,
-  *                  1 = external trigger (with predefined nr of samples)
-  *                  2 = external gate.
-  */
-asynStatus drvTetrAMM::setTriggerMode(epicsInt32 value)
-{
-    return setAcquireParams();
-}
-
-
-/** Sets the number of channels.
-  * \param[in] value Number of channels to measure (1, 2, or 4).
-  */
-asynStatus drvTetrAMM::setNumChannels(epicsInt32 value) 
-{    
-    return setAcquireParams();
-}
-
-/** Sets the values per read.
-  * \param[in] value Values per read. Minimum depends on number of channels.
-  */
-asynStatus drvTetrAMM::setValuesPerRead(epicsInt32 value) 
+asynStatus drvTetrAMM::setAcquireMode(epicsInt32 value) 
 {    
     return setAcquireParams();
 }
@@ -662,22 +643,6 @@ asynStatus drvTetrAMM::setValuesPerRead(epicsInt32 value)
   * \param[in] value Averaging time.
   */
 asynStatus drvTetrAMM::setAveragingTime(epicsFloat64 value) 
-{    
-    return setAcquireParams();
-}
-
-/** Sets the number of triggers.
-  * \param[in] value Number of triggers. 
-  */
-asynStatus drvTetrAMM::setNumTriggers(epicsInt32 value) 
-{    
-    return setAcquireParams();
-}
-
-/** Sets the read format
-  * \param[in] value Read format (QEReadFormatBinary or QEReadFormatASCII).
-  */
-asynStatus drvTetrAMM::setReadFormat(epicsInt32 value) 
 {    
     return setAcquireParams();
 }
@@ -727,6 +692,56 @@ asynStatus drvTetrAMM::setBiasInterlock(epicsInt32 value)
     epicsSnprintf(outString_, sizeof(outString_), "INTERLOCK:%s",  value ? "ON" : "OFF");
     status = sendCommand();
     return status;
+}
+
+/** Sets the number of channels.
+  * \param[in] value Number of channels to measure (1, 2, or 4).
+  */
+asynStatus drvTetrAMM::setNumChannels(epicsInt32 value) 
+{    
+    return setAcquireParams();
+}
+
+/** Sets the number of triggers.
+  * \param[in] value Number of triggers. 
+  */
+asynStatus drvTetrAMM::setNumTriggers(epicsInt32 value) 
+{    
+    return setAcquireParams();
+}
+
+/** Sets the range 
+  * \param[in] value The desired range.
+  */
+asynStatus drvTetrAMM::setRange(epicsInt32 value) 
+{
+    return setAcquireParams();
+}
+
+/** Sets the read format
+  * \param[in] value Read format (QEReadFormatBinary or QEReadFormatASCII).
+  */
+asynStatus drvTetrAMM::setReadFormat(epicsInt32 value) 
+{    
+    return setAcquireParams();
+}
+
+/** Sets the trigger mode
+  * \param[in] value 0 = internal,
+  *                  1 = external trigger (with predefined nr of samples)
+  *                  2 = external gate.
+  */
+asynStatus drvTetrAMM::setTriggerMode(epicsInt32 value)
+{
+    return setAcquireParams();
+}
+
+/** Sets the values per read.
+  * \param[in] value Values per read. Minimum depends on number of channels.
+  */
+asynStatus drvTetrAMM::setValuesPerRead(epicsInt32 value) 
+{    
+    return setAcquireParams();
 }
 
 /** Reads all the settings back from the electrometer.
