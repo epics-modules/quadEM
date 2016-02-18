@@ -172,23 +172,24 @@ protected:
 
     void computePositions(epicsFloat64 raw[QE_MAX_INPUTS]);
     virtual asynStatus doDataCallbacks();
+    virtual asynStatus readStatus()=0;
+    virtual asynStatus reset()=0;
     virtual asynStatus setAcquire(epicsInt32 value)=0;
-    virtual asynStatus setPingPong(epicsInt32 value);
-    virtual asynStatus setIntegrationTime(epicsFloat64 value);
-    virtual asynStatus setRange(epicsInt32 value);
-    virtual asynStatus setTriggerMode(epicsInt32 value);
-    virtual asynStatus setNumChannels(epicsInt32 value);
+    virtual asynStatus setAcquireMode(epicsInt32 value);
+    virtual asynStatus setAveragingTime(epicsFloat64 value);
     virtual asynStatus setBiasState(epicsInt32 value);
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
     virtual asynStatus setBiasInterlock(epicsInt32 value);
-    virtual asynStatus setResolution(epicsInt32 value);
-    virtual asynStatus setValuesPerRead(epicsInt32 value);
+    virtual asynStatus setPingPong(epicsInt32 value);
+    virtual asynStatus setIntegrationTime(epicsFloat64 value);
+    virtual asynStatus setNumChannels(epicsInt32 value);
     virtual asynStatus setNumTriggers(epicsInt32 value);
-    virtual asynStatus setAveragingTime(epicsFloat64 value);
+    virtual asynStatus setRange(epicsInt32 value);
     virtual asynStatus setReadFormat(epicsInt32 value);
+    virtual asynStatus setResolution(epicsInt32 value);
+    virtual asynStatus setTriggerMode(epicsInt32 value);
+    virtual asynStatus setValuesPerRead(epicsInt32 value);
     virtual void       triggerCallbacks();
-    virtual asynStatus readStatus()=0;
-    virtual asynStatus reset()=0;
     
 private:
     int ringCount_;
