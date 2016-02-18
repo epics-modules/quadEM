@@ -176,7 +176,9 @@ void drvTetrAMM::readThread(void)
     int triggerMode;
     int numAverage;
     int numTriggers;
-    int numTrigsRecvd=0;
+    int nextExpectedEdge=0;
+    int numTrigStarts=0;
+    int numTrigEnds=0;
     int i;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
@@ -216,19 +218,25 @@ void drvTetrAMM::readThread(void)
         if (acquiring_ == 0) {
             readingActive_ = 0;
             unlock();
+            // When we get back into this state we should turn off acquisition
+            // and set the busy record back to 0
+            setAcquire(0);  // This step will not be necessary when the TetrAMM does this automatically
+            setIntegerParam(P_Acquire, 0);
+            callParamCallbacks();
             (void)epicsEventWait(acquireStartEvent_);
             lock();
             acquiring_ = 1;
             numAcquired_ = 0;
-            numTrigsRecvd = 0;
+            numTrigEnds = 0;
+            numTrigStarts = 0;
+            nextExpectedEdge = 0;
             getIntegerParam(P_AcquireMode, &acquireMode);
             getIntegerParam(P_TriggerMode, &triggerMode);
             getIntegerParam(P_NumAverage, &numAverage);
             getIntegerParam(P_ReadFormat, &readFormat);
             getIntegerParam(P_NumTriggers, &numTriggers);
             readingActive_ = 1;
-            numTrigsRecvd = 0;
-            setIntegerParam(P_NumTrigsRecvd, numTrigsRecvd);
+            setIntegerParam(P_NumTrigsRecvd, numTrigEnds);
             callParamCallbacks();
         }
         if (readFormat == QEReadFormatBinary) {
@@ -278,20 +286,33 @@ void drvTetrAMM::readThread(void)
                     break;
                 case 0xfff40000ffffffffll:
                     // This is a signalling Nan on the rising edge of a trigger
+                    numTrigStarts++;
+                    if (nextExpectedEdge != 0) {
+                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                            "%s::%s Extra trigger start, numTrigStarts=%d, numTrigsEnds=%d, numAcquired=%d\n", 
+                             driverName, functionName, numTrigStarts, numTrigEnds, numAcquired_);
+                    }
+                    nextExpectedEdge = 1;
                     break;
                 case 0xfff40001ffffffffll:
                     // This is a signalling Nan on the falling edge of a trigger
                     // Trigger callbacks
-                    numTrigsRecvd++;
-                    setIntegerParam(P_NumTrigsRecvd, numTrigsRecvd);
+                    numTrigEnds++;
+                    setIntegerParam(P_NumTrigsRecvd, numTrigEnds);
                     if (triggerMode == QETriggerModeExtBulb) {
                         if ((acquireMode == QEAcquireModeOneShot) ||
                             ((acquireMode == QEAcquireModeMultiple) && 
-                             (numTrigsRecvd == numTriggers))) {
+                             (numTrigEnds == numTriggers))) {
                             acquiring_ = 0;
                         }
                         triggerCallbacks();
                     }
+                    if (nextExpectedEdge != 1) {
+                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                            "%s::%s Extra trigger end, numTrigStarts=%d, numTrigsEnds=%d, numAcquired=%d\n", 
+                             driverName, functionName, numTrigStarts, numTrigEnds, numAcquired_);
+                    }
+                    nextExpectedEdge = 0;
                     break;
                 default: 
                     // We have lost sync, probably due to a dropped packet.
