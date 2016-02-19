@@ -235,8 +235,13 @@ void drvTetrAMM::readThread(void)
             getIntegerParam(P_NumAverage, &numAverage);
             getIntegerParam(P_ReadFormat, &readFormat);
             getIntegerParam(P_NumTriggers, &numTriggers);
+            // For simplicity we convert QEAcquireModeSingle to QEAcquireModeMultiple with mumTriggers=1
+            if (acquireMode == QEAcquireModeSingle) {
+                acquireMode = QEAcquireModeMultiple;
+                numTriggers = 1;
+            }
             readingActive_ = 1;
-            setIntegerParam(P_NumTrigsRecvd, numTrigEnds);
+            setIntegerParam(P_NumTrigsRecvd, 0);
             callParamCallbacks();
         }
         if (readFormat == QEReadFormatBinary) {
@@ -274,18 +279,11 @@ void drvTetrAMM::readThread(void)
                     for (i=numChannels_; i<4; i++) f64Data[i] = 0.0;
                     computePositions(f64Data);
                     numAcquired_++;
-                    if ((acquireMode == QEAcquireModeOneShot) &&
-                        ((triggerMode == QETriggerModeInternal) ||
-                         (triggerMode == QETriggerModeExtTrigger) ||
-                         (triggerMode == QETriggerModeExtGate)) &&
-                        (numAcquired_ >= numAverage)) {
-                        triggerCallbacks();
-                        acquiring_ = 0;
-                    }
-                    else if ((acquireMode == QEAcquireModeMultiple) &&
-                             ((triggerMode == QETriggerModeInternal) ||
-                              (triggerMode == QETriggerModeExtGate)) &&
-                             (numAcquired_ >= numAverage*numTriggers)) {
+                    if ((acquireMode == QEAcquireModeMultiple)     &&
+                        ((triggerMode == QETriggerModeFreeRun) ||
+                         (triggerMode == QETriggerModeExtTrigger)  ||
+                         (triggerMode == QETriggerModeExtGate))    &&
+                        (numAcquired_ >= numAverage*numTriggers)) {
                         triggerCallbacks();
                         acquiring_ = 0;
                     }
@@ -306,9 +304,8 @@ void drvTetrAMM::readThread(void)
                     numTrigEnds++;
                     setIntegerParam(P_NumTrigsRecvd, numTrigEnds);
                     if (triggerMode == QETriggerModeExtBulb) {
-                        if ((acquireMode == QEAcquireModeOneShot) ||
-                            ((acquireMode == QEAcquireModeMultiple) && 
-                             (numTrigEnds == numTriggers))) {
+                        if ((acquireMode == QEAcquireModeMultiple) && 
+                            (numTrigEnds == numTriggers)) {
                             acquiring_ = 0;
                         }
                         triggerCallbacks();
@@ -403,8 +400,8 @@ void drvTetrAMM::readThread(void)
                 for (i=numChannels_; i<4; i++) f64Data[i] = 0.0;
                 computePositions(f64Data);
                 numAcquired_++;
-                if ((acquireMode == QEAcquireModeOneShot) &&
-                    (triggerMode == QETriggerModeInternal) &&
+                if ((acquireMode == QEAcquireModeSingle) &&
+                    (triggerMode == QETriggerModeFreeRun) &&
                     (numAcquired_ >= numAverage)) {
                     acquiring_ = 0;
                 }
@@ -613,14 +610,14 @@ asynStatus drvTetrAMM::setAcquireParams()
     writeReadMeter();
 
     // Send the TRG:OFF or TRG:ON command
-    sprintf(outString_, "TRG:%s", (triggerMode == QETriggerModeInternal) ? "OFF" : "ON");
+    sprintf(outString_, "TRG:%s", (triggerMode == QETriggerModeFreeRun) ? "OFF" : "ON");
     writeReadMeter();
 
     // Send the NAQ command
     naq = 0;
     if (((triggerMode == QETriggerModeExtTrigger) || 
-         (triggerMode == QETriggerModeInternal)) && 
-         (acquireMode == QEAcquireModeOneShot)) {
+         (triggerMode == QETriggerModeFreeRun)) && 
+         (acquireMode == QEAcquireModeSingle)) {
         naq = numAverage;
     }        
     sprintf(outString_, "NAQ:%d", naq);
