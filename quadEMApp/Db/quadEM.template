@@ -55,7 +55,7 @@ record(mbbo,"$(P)$(R)AcquireMode") {
     field(ONVL, "1")
     field(ONST, "Multiple")
     field(TWVL, "2")
-    field(TWST, "One-shot")
+    field(TWST, "Single")
 }
 
 record(mbbi,"$(P)$(R)AcquireMode_RBV") {
@@ -67,7 +67,7 @@ record(mbbi,"$(P)$(R)AcquireMode_RBV") {
     field(ONVL, "1")
     field(ONST, "Multiple")
     field(TWVL, "2")
-    field(TWST, "One-shot")
+    field(TWST, "Single")
     field(SCAN, "I/O Intr")
 }
 
@@ -134,6 +134,7 @@ record(ai,"$(P)$(R)SampleTime_RBV") {
     field(SCAN, "I/O Intr")
 }
 
+# Each model defines these differently
 record(mbbo,"$(P)$(R)TriggerMode") {
     field(DESC, "Trigger mode")
     field(PINI, "YES")
