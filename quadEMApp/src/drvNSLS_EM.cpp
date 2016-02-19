@@ -378,7 +378,7 @@ void drvNSLS_EM::readThread(void)
             }         
             computePositions(data);
             numAcquired_++;
-            if ((acquireMode == QEAcquireModeOneShot) &&
+            if ((acquireMode == QEAcquireModeSingle) &&
                 (numAcquired_ >= numAverage)) {
                 strcpy(outString_, "m 1");
                 writeReadMeter();
