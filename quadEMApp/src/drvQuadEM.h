@@ -90,12 +90,13 @@ typedef enum {
 typedef enum {
     QEAcquireModeContinuous,
     QEAcquireModeMultiple,
-    QEAcquireModeOneShot
+    QEAcquireModeSingle
 } QEAcquireMode_t;
 
 /* Trigger modes */
 typedef enum {
-    QETriggerModeInternal,
+    QETriggerModeFreeRun,
+    QETriggerModeSoftware,
     QETriggerModeExtTrigger,
     QETriggerModeExtBulb,
     QETriggerModeExtGate,
