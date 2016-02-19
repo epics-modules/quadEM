@@ -364,7 +364,7 @@ void drvAHxxx::readThread(void)
         }
         computePositions(raw);
         numAcquired_++;
-        if ((acquireMode == QEAcquireModeOneShot) &&
+        if ((acquireMode == QEAcquireModeSingle) &&
             (numAcquired_ >= numAverage)) {
             acquiring_ = 0;
         }
@@ -446,7 +446,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
     if (value == 0) {
         // We assume that if acquiring_=0, readingActive_=0 and acquireMode=one shot that the meter stopped itself
         // and we don't need to do anything further.  This really speeds things up.
-        if ((acquiring_ == 0) && (readingActive_ == 0) && (acquireMode == QEAcquireModeOneShot)) 
+        if ((acquiring_ == 0) && (readingActive_ == 0) && (acquireMode == QEAcquireModeSingle)) 
             return asynSuccess;
 
         // Setting this flag tells the read thread to stop
@@ -488,7 +488,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         writeReadMeter();
         
         // If we are in one-shot mode then send NAQ to request specific number of samples
-        if (acquireMode == QEAcquireModeOneShot) {
+        if (acquireMode == QEAcquireModeSingle) {
             numAcquire = numAverage;
         } else {
             numAcquire = 0;
