@@ -324,22 +324,12 @@ asynStatus drvQuadEM::doDataCallbacks()
 
 void drvQuadEM::callbackTask()
 {
-    int acquireMode;
-    int triggerMode;
     lock();
     while (1) {
         unlock();
         (void)epicsEventWait(ringEvent_);
         lock();
         doDataCallbacks();
-        getIntegerParam(P_AcquireMode, &acquireMode);
-        getIntegerParam(P_TriggerMode, &triggerMode);
-        if ((acquireMode == QEAcquireModeOneShot) &&
-            (triggerMode == QETriggerModeInternal)) {
-            setAcquire(0);
-            setIntegerParam(P_Acquire, 0);
-            callParamCallbacks();
-        }
     }
 }
 
