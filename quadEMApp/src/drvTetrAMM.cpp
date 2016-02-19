@@ -300,7 +300,6 @@ void drvTetrAMM::readThread(void)
                     break;
                 case 0xfff40001ffffffffll:
                     // This is a signalling Nan on the falling edge of a trigger
-                    // Trigger callbacks
                     numTrigEnds++;
                     setIntegerParam(P_NumTrigsRecvd, numTrigEnds);
                     if (triggerMode == QETriggerModeExtBulb) {
@@ -382,15 +381,32 @@ void drvTetrAMM::readThread(void)
             }
 
             if (strstr(ASCIIData, "SEQNR") != 0) {
-                // This is a signalling Nan on the rising edge of a trigger
+                // This is the rising edge of a trigger
+                numTrigStarts++;
+                if (nextExpectedEdge != 0) {
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                        "%s::%s Extra trigger start, numTrigStarts=%d, numTrigsEnds=%d, numAcquired=%d\n", 
+                         driverName, functionName, numTrigStarts, numTrigEnds, numAcquired_);
+                }
+                nextExpectedEdge = 1;
             } 
             else if (strstr(ASCIIData, "EOTRG") != 0) {
-                // This is a signalling Nan on the falling edge of a trigger
-                // Trigger callbacks
-                if (triggerMode == QETriggerModeExtGate) {
-                    acquiring_ = 0;
+                // This is the falling edge of a trigger
+                numTrigEnds++;
+                setIntegerParam(P_NumTrigsRecvd, numTrigEnds);
+                if (triggerMode == QETriggerModeExtBulb) {
+                    if ((acquireMode == QEAcquireModeMultiple) && 
+                        (numTrigEnds == numTriggers)) {
+                        acquiring_ = 0;
+                    }
                     triggerCallbacks();
                 }
+                if (nextExpectedEdge != 1) {
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                        "%s::%s Extra trigger end, numTrigStarts=%d, numTrigsEnds=%d, numAcquired=%d\n", 
+                         driverName, functionName, numTrigStarts, numTrigEnds, numAcquired_);
+                }
+                nextExpectedEdge = 0;
             }
             else {
                 inPtr = ASCIIData;
@@ -400,14 +416,13 @@ void drvTetrAMM::readThread(void)
                 for (i=numChannels_; i<4; i++) f64Data[i] = 0.0;
                 computePositions(f64Data);
                 numAcquired_++;
-                if ((acquireMode == QEAcquireModeSingle) &&
-                    (triggerMode == QETriggerModeFreeRun) &&
-                    (numAcquired_ >= numAverage)) {
-                    acquiring_ = 0;
-                }
-                if ((acquireMode == QEAcquireModeContinuous) &&
-                    (triggerMode == QETriggerModeExtTrigger)) {
+                if ((acquireMode == QEAcquireModeMultiple)     &&
+                    ((triggerMode == QETriggerModeFreeRun) ||
+                     (triggerMode == QETriggerModeExtTrigger)  ||
+                     (triggerMode == QETriggerModeExtGate))    &&
+                    (numAcquired_ >= numAverage*numTriggers)) {
                     triggerCallbacks();
+                    acquiring_ = 0;
                 }
             }
         }
