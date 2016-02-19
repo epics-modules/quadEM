@@ -10,9 +10,9 @@
     <h1>
       quadEM Driver</h1>
     <h2>
-      R6-0</h2>
+      R7-0</h2>
     <h2>
-      Janauary 21, 2016</h2>
+      February XXX, 2016</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -76,8 +76,10 @@
       record described below. The quadEM drivers do the callbacks on the asynGenericPointer
       interface for NDArray objects required to use the areaDetector plugins. The NDPluginStats
       module is used to compute the averaged readings. It also provides additional statistics
-      including standard deviation, min, max, a histogram of values, time-series of the
-      statistics, etc.</li>
+      including standard deviation, min, max, and a histogram of values.</li>
+    <li>The NDPluginStats provide time-series of the statistics. These can be used to
+      for on-the-fly data acquisition applications, where the meter is triggered by an
+      external pulse source, such as one derived from a motor motion.</li>
     <li>One could also use the standard asynFloat64 device support with ai records and
       scan=I/O Intr, in which case the record would update with every reading from the
       device. This is likely to overwhelm the EPICS IOC if the electrometer is run at
@@ -152,16 +154,11 @@
       in the mca module for time-series acquisition.</li>
   </ul>
   <p>
-    Note: For the AH501D firmware version 2.0 fixes two problems with previous versions:</p>
+    Note: This version of the driver requires a minimum firmware version on some models</p>
   <ul>
-    <li>The NAQ command caused data to be sent immediately, it did not wait for a "TRG
-      ON" or "ACQ ON" command as it should.</li>
-    <li>The "TRG ON" command sent extra characters on the trailing edge of each gate pulse.
-      This would corrupt the data if multiple trigger pulses were received.</li>
+    <li>AH501D Firmware version 2.0.</li>
+    <li>TetrAMM Firmware version XXXXX</li>
   </ul>
-  <p>
-    The AH501D must be updated to firmware 2.0 for proper operation with quadEM R4-1
-    or later.</p>
   <p>
     Prior to R5-0 the quadEM driver assumed the following geometry for the 4 current
     inputs:</p>
@@ -178,9 +175,9 @@
     as 2-1 and 4-3, which would correspond to Position12 being positive to the right
     and Position34 being positive up in the above diagram.</p>
   <p>
-    For R5-0 two geometries are supported, and the names of the Sum, Diff and Position
-    PVs were changed. The computed quantities are called SumX, SumY, SumAll, DiffX,
-    DiffY, PositionX, and PositionY.</p>
+    For R5-0 and later two geometries are supported, and the names of the Sum, Diff
+    and Position PVs were changed. The computed quantities are called SumX, SumY, SumAll,
+    DiffX, DiffY, PositionX, and PositionY.</p>
   <p>
     The first geometry is the same as that illustrated above, and is called Diamond.
     For this geometry only 2 diodes are used for the position calculation in each direction.
@@ -305,18 +302,17 @@
           Acquire mode. Values are:
           <ul>
             <li>0: Continuous </li>
-            <li>1: One-shot </li>
+            <li>1: Multiple </li>
+            <li>2: Single </li>
           </ul>
           In continuous mode setting Acquire=1 acquires data continuously until Acquire is
           set back to 0.<br />
-          In one-shot mode setting Acquire=1 will acquire a data for a single AveragingTime
-          time period. This will result in a single call to the plugins, and thus a single
-          set of averaged values. The driver will then set Acquire back to 0. This mode is
-          intended for data acquisition, for example with the sscan record. With the AH401
-          and AH501 series One-shot works in triggered mode as well. When Acquire is set to
-          1 it will wait for the trigger to acquire NumAverage_RBV samples. This may require
-          multiple trigger pulses depending on the length of the pulses, the AveragingTime
-          and the SampleTime_RBV.<br />
+          Multiple mode will acquire NumTriggers acquisitions and then stop acquisition, setting
+          Acquire back to 0.<br />
+          Single is a convenience. It is identical to Multiple with NumTriggers=1.<br />
+          Multiple and Single mode are typically used for data acquisition, for example with
+          the sscan record. See the tables below for an explanation of the behavior for all
+          combinations of AcquireMode and TriggerMode for each model.<br />
         </td>
       </tr>
       <tr>
@@ -334,8 +330,9 @@
           All</td>
         <td>
           Acquire command. This command turns acquisition from the device on (1) and off (0)
-          Since it is a "busy" record the device can be used with the sscan record when AcquireMode=One-shot.<br />
-          <b>Important note:</b> Operation in One-shot mode with the sscan record also requires
+          Since it is a "busy" record the device can be used for step-scanning with the sscan
+          record when AcquireMode=Single<br />
+          <b>Important note:</b> Operation in Single mode with the sscan record also requires
           that the statistics plugins be set to have CallbacksBlock=Yes so that the driver
           waits for the statistics plugins to compute before it sets Acquire back to 0.
         </td>
@@ -368,15 +365,15 @@
           retransmission of dropped packets. However, it has been observed to occur. In binary
           mode the TetrAMM sends IEEE 754 double-precision values for each channel, followed
           by a Signalling NaN. The NaN is thus effectively a terminator that can be used to
-          synchronize the data stream if it is somehow corrupted, though the driver does not
-          currently do this. ASCII mode is robust against the synchronization problem, since
-          each reading ends with terminator characters. However, ASCII mode is generally slower.
-          On the AH401 ASCII mode appears to be able to do 500 reading/s, which is sufficient
-          except for the case when IntegrationTime=.001 and PingPong=Yes. On the AH501 ASCII
-          mode ranges from 7 to 10 times slower than binary mode. On the TetrAMM ASCII mode
-          requires a minimum value of ValuesPerRead of 500, which limits the update rate to
-          200 Hz. In binary mode the minimum value of ValuesPerRead is 5, which is an update
-          date of 20 kHz, or 100 times faster than ASCII mode. </td>
+          synchronize the data stream if it is somehow corrupted. ASCII mode is robust against
+          the synchronization problem, since each reading ends with terminator characters.
+          However, ASCII mode is generally slower. On the AH401 ASCII mode appears to be able
+          to do 500 reading/s, which is sufficient except for the case when IntegrationTime=.001
+          and PingPong=Yes. On the AH501 ASCII mode ranges from 7 to 10 times slower than
+          binary mode. On the TetrAMM ASCII mode requires a minimum value of ValuesPerRead
+          of 500, which limits the update rate to 200 Hz. In binary mode the minimum value
+          of ValuesPerRead is 5, which is an update date of 20 kHz, or 100 times faster than
+          ASCII mode. </td>
       </tr>
       <tr>
         <td>
@@ -727,9 +724,9 @@
           On the TetrAMM this record controls the number of readings that are averaged in
           the TetrAMM using the NRSAMP command. The TetrAMM always digitizes at 100 kHz (10
           microseconds per sample). The minimum value of NRSAMP (and hence ValuesPerRead)
-          is 5, which means the maximum number of values per second is 20000. Setting ValuesPerRead
-          to 100, for example, will average 100 readings in the TetrAMM, and thus result in
-          a 1000 values per second sent from the TetrAMM to EPICS.<br />
+          in Binary mode is 5, which means the maximum number of values per second is 20000.
+          Setting ValuesPerRead to 100, for example, will average 100 readings in the TetrAMM,
+          and thus result in a 1000 values per second sent from the TetrAMM to EPICS.<br />
           <br />
           On the NSLS_EM this record controls the number of readings that are summed in the
           NSLS_EM using the "n" command.<br />
@@ -741,12 +738,14 @@
           <br />
           Increasing ValuesPerRead will reduce the CPU time because:
           <ul>
-            <li>On the TetrAMM and NSLS_EM it reduces the number of readings per second sent,
-              from the maximum of 20000, to 100000/ValuesPerRead.</li>
+            <li>On the TetrAMM it reduces the number of readings per second sent, from the maximum
+              of 20000, to 100000/ValuesPerRead.</li>
+            <li>On the NSLS_EM it reduces the number of readings per second sent, from the maximum
+              of 2500 (depending on IntegrationTime, to a maximum of 2500/ValuesPerRead.</li>
             <li>On the AH401 and AH501 series the driver reduces the frequency of asynOctet-&gt;read()
               calls by a factor of ValuesPerRead, because it can obtain multiple readings from
               the meter in a single call. This is particularly significant on the AH501 series,
-              which can transmit up to 26,040 readings per second!</li>
+              which can transmit up to 26,040 readings per second.</li>
             <li>It reduces the frequency of callbacks to device support.</li>
           </ul>
           The potential disadvantages of larger values for ValuesPerRead are:
@@ -847,9 +846,10 @@
           automatic callbacks to areaDetector plugins. In this case data will only be read
           from the ring buffer when the ReadData record is processed. This will read out all
           available data from ring buffer, and the actual number of values read will be NumAveraged_RBV.
-          This mode is useful when the quadEM is being used for data acquisition, for example
-          in a scan. In this case processing the ReadData record will read all values that
-          have accumulated in the ring buffer since ReadData was last processed.</td>
+          This mode could be useful when the quadEM is being used for data acquisition, for
+          example in a scan. In this case processing the ReadData record will read all values
+          that have accumulated in the ring buffer since ReadData was last processed. ReadData
+          must be processed frequently enough to avoid ring-buffer overflow.</td>
       </tr>
       <tr>
         <td>
@@ -867,7 +867,11 @@
         <td>
           Provides the number of values that will be accumulated in the ring buffer before
           they are read out into NDArray objects and any registered plugins are called. NumAverage_RBV
-          is computed as (int)((AveragingTime / SampleTime_RBV) + 0.5).</td>
+          is computed as (int)((AveragingTime / SampleTime_RBV) + 0.5).
+          <br />
+          On the TetrAMM when TriggerMode=ExternalBulb the AveragingTime is ignored and NumAverage_RBV
+          will be 0. The averaging is done on all samples collected when the external gate
+          signal is asserted</td>
       </tr>
       <tr>
         <td>
@@ -887,7 +891,8 @@
           before they were read out into NDArray objects and any registered plugins were called.
           If AveragingTime&gt;0 then NumAveraged_RBV will be the same as NumAverage_RBV. However,
           if AveragingTime=0. then NumAverage_RBV=0 and NumAveraged_RBV gives the actual number
-          of values read from the ring buffer when the ReadData record was processed.</td>
+          of values read from the ring buffer when the ReadData record was processed. This
+          is also true on the TetrAMM when TriggerMode=ExternalBulb.</td>
       </tr>
       <tr>
         <td>
@@ -947,13 +952,29 @@
         <td>
           TetrAMM, AH501 and AH401 series</td>
         <td>
-          Controls whether acquisition is free-running ("Internal") or triggered by an external
-          pulse ("Ext. Trigger") or an external gate ("Ext. Gate"). All models support "Internal".
-          The TetrAMM also supports "Ext. Trigger" and "Ext. Gate". The AH401B supports "Ext.
-          Trigger", and the AH501D supports "Ext. Gate". In "Ext. Gate" mode the meter acquires
-          data only when the trigger is in the logic high state. This allows it to be controlled
-          by a scaler gate output signal, so that the meter is acquiring for the same time
-          period as the scaler, for example.</td>
+          Allowed choices are:
+          <ul>
+            <li>0: "Free Run" (all models). Ignores any external gate or trigger signal.</li>
+            <li>1: "Software" (possible future choice for TetrAMM) This will trigger a single
+              acquisition each time a software trigger command is sent.</li>
+            <li>2: "Ext. Trigger" (AH401B, TetrAMM) This is an edge-sensitive trigger. On the
+              TetrAMM this will collect samples for the AveragingTime and then wait for the next
+              trigger. NOTE: This currently only works if AcquireMode=Single. Future TetrAMM firmware
+              should support this.</li>
+            <li>3: "Ext. Bulb" (AH501D, TetrAMM) This is a level-sensitive trigger. It acquires
+              data while the external gate signal is asserted. On the trailing edge of the gate
+              signal the callbacks will be called. In this mode the AveragingTime is ignored and
+              the averaging is done for all samples received between the leading and trailing
+              edge of a single gate pulse.</li>
+            <li>4: "Ext. Gate" (TetrAMM) This is a level sensitive gate. It acquires data while
+              the external gate signal is asserted. However, unlike Ext. Bulb the trailing edge
+              of the gate signal is ignored, and the averaging is done for NumAverage_RBV samples
+              as with Free Run mode. The difference is that the actual averaging time will be
+              longer than AveragingTime, and is controlled by the duty cycle of the external gate
+              pulse. If the external gate pulse is asserted 40% of the time, then the actual averaging
+              time will be AveragingTime * 2.5</li>
+          </ul>
+        </td>
       </tr>
       <tr>
         <td>
@@ -1112,16 +1133,14 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="AcquisitionModes">
+    Acquisition Modes</h3>
   <p>
-    This is the medm screen to control the quadEM with the records in quadEM.template.</p>
-  <div style="text-align: center">
-    <h3 style="text-align: center">
-      quadEM.adl</h3>
-    <img alt="quadEM.png" src="quadEM.png" /></div>
-  <h3 id="H1">
-    TetrAMM Acquisition Modes</h3>
+    The following tables describe the behavior of the different models for combinations
+    of AcquireMode and TriggerMode. Note that AcquireMode=Single is completely equivalent
+    to AcquireMode=Multiple and NumTriggers=1, so the tables do not list AcquireMode=Single.</p>
   <p>
-    The TetrAMM can be used in 6 different acquisition modes, depending on the values
+    The TetrAMM can be used in 8 different acquisition modes, depending on the values
     of the TriggerMode and AcquireMode records. The following table describes these
     modes.</p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
@@ -1142,7 +1161,7 @@
       </tr>
       <tr>
         <td>
-          Internal</td>
+          Free Run</td>
         <td>
           Continuous</td>
         <td>
@@ -1153,15 +1172,15 @@
       </tr>
       <tr>
         <td>
-          Internal</td>
+          Free Run</td>
         <td>
-          One-shot</td>
+          Multiple</td>
         <td>
-          A single set of data is acquired for the AveragingTime and then acquisition stops.
-          The plugins will be called only once when the the requested number of samples have
-          been received.</td>
+          Data is acquired for the AveragingTime. This is repeated NumTriggers times and then
+          acquisition stops. The plugins will be called NumTriggers times, each time with
+          NumAverage samples.</td>
         <td>
-          NRSAMP=ValuesPerRead, NAQ=AveragingTime*1e5/ValuesPerRead, TRG:OFF</td>
+          NRSAMP=ValuesPerRead, NAQ=0, TRG:OFF</td>
       </tr>
       <tr>
         <td>
@@ -1171,21 +1190,55 @@
         <td>
           A fixed number of samples is acquired starting on each rising edge of the external
           trigger input. AveragingTime must be set to a value less than the time between trigger
-          pulses.</td>
+          pulses.
+          <br />
+          NOTE: This does not work in the current firmware version because once NAQ samples
+          are acquired the TetrAMM stops acquisition.</td>
         <td>
-          NRSAMP=AveragingTime/1e5, NAQ=0, TRG:ON</td>
+          NRSAMP=ValuesPerRead, NAQ=AveragingTime/1e5/ValuesPerRead, TRG:ON</td>
       </tr>
       <tr>
         <td>
           Ext. Trig.</td>
         <td>
-          One-shot</td>
+          Multiple</td>
         <td>
           A fixed number of samples is acquired starting on the first rising edge of the external
-          trigger input and then acquisition stops. ValuesPerRead must be set to a value less
-          than AveragingTime/1e5.</td>
+          trigger input. This repeats NumTriggers times and then acquisition stops. ValuesPerRead
+          must be set to a value less than AveragingTime/1e5.
+          <br />
+          NOTE: This only works for AcquireMode=Single in the current firmware version because
+          once NAQ samples are acquired the TetrAMM stops acquisition. That is OK for AcquireMode=Single,
+          but not when NumTriggers &gt; 1.</td>
         <td>
           NRSAMP=ValuesPerRead, NAQ=AveragingTime*1e5/ValuesPerRead, TRG:ON</td>
+      </tr>
+      <tr>
+        <td>
+          Ext. Bulb</td>
+        <td>
+          Continuous</td>
+        <td>
+          Samples are acquired while the external trigger input is asserted. On each trailing
+          edge of the external trigger signal the plugins are called. ValuesPerRead must be
+          set to a value less than (external trigger asserted time * 1e5). AveragingTime is
+          ignored in this mode.</td>
+        <td>
+          NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</td>
+      </tr>
+      <tr>
+        <td>
+          Ext. Bulb</td>
+        <td>
+          Multiple</td>
+        <td>
+          Samples are acquired while the external trigger input is asserted. On each trailing
+          edge of the external trigger signal the plugins are called. This is repeated NumTriggers
+          times and then acquisition is stopped. ValuesPerRead must be set to a value less
+          than (external trigger asserted time * 1e5). AveragingTime is ignored in this mode.
+        </td>
+        <td>
+          NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</td>
       </tr>
       <tr>
         <td>
@@ -1193,9 +1246,12 @@
         <td>
           Continuous</td>
         <td>
-          Samples are acquired while the external trigger input is high. On each falling edge
-          of the external trigger signal the plugins are called. ValuesPerRead must be set
-          to a value less than (external trigger high time * 1e5).</td>
+          Samples are acquired while the external trigger input is asserted. When NumAverage
+          samples have been acquired the plugins are called. The actual averaging time between
+          calling the plugins will be longer than AverageTime, and is controlled by the duty
+          cycle of the external gate signal. The trailing edge of the gate pulse is ignored
+          in this mode. ValuesPerRead must be set to a value less than (external trigger asserted
+          time * 1e5).</td>
         <td>
           NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</td>
       </tr>
@@ -1203,17 +1259,27 @@
         <td>
           Ext. Gate</td>
         <td>
-          One-shot</td>
+          Multiple</td>
         <td>
-          Samples are acquired while the external trigger input is high. On the first falling
-          edge of the external trigger signal the plugins are called and acquisition stops.
-          ValuesPerRead must be set to a value less than (external trigger high time * 1e5).
-        </td>
+          Samples are acquired while the external trigger input is asserted. When NumAverage
+          samples have been acquired the plugins are called. The actual averaging time between
+          calling the plugins will be longer than AverageTime, and is controlled by the duty
+          cycle of the external gate signal. When the plugins have been called NumTriggers
+          times then acquisition is stopped. Note that the actual number of gate pulses received
+          will be &gt; NumTriggers, and is also controlled by the duty cycle of the external
+          gate signal. The trailing edge of the gate pulse is ignored in this mode. ValuesPerRead
+          must be set to a value less than (external trigger asserted time * 1e5).</td>
         <td>
           NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</td>
       </tr>
     </tbody>
   </table>
+  <p>
+    This is the medm screen to control the quadEM with the records in quadEM.template.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      quadEM.adl</h3>
+    <img alt="quadEM.png" src="quadEM.png" /></div>
   <h3 id="Plugins">
     Plugins</h3>
   <p>
