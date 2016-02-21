@@ -301,25 +301,25 @@ record(longin,"$(P)$(R)ValuesPerRead_RBV") {
     field(SCAN, "I/O Intr")
 }
 
-record(longout,"$(P)$(R)NumTriggers") {
-    field(DESC, "Number of triggers")
+record(longout,"$(P)$(R)NumAcquire") {
+    field(DESC, "Number of acquisitions")
     field(PINI, "YES")
     field(DTYP, "asynInt32")
     field(VAL,  "1")
-    field(OUT,  "@asyn($(PORT) 0)QE_NUM_TRIGGERS")
+    field(OUT,  "@asyn($(PORT) 0)QE_NUM_ACQUIRE")
 }
 
-record(longin,"$(P)$(R)NumTriggers_RBV") {
-    field(DESC, "Number of triggers")
+record(longin,"$(P)$(R)NumAcquire_RBV") {
+    field(DESC, "Number of acquisitions")
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT) 0)QE_NUM_TRIGGERS")
+    field(INP,  "@asyn($(PORT) 0)QE_NUM_ACQUIRE")
     field(SCAN, "I/O Intr")
 }
 
-record(longin,"$(P)$(R)NumTrigsRecvd") {
-    field(DESC, "Number of triggers received")
+record(longin,"$(P)$(R)NumAcquired") {
+    field(DESC, "Number of acquisitions complete")
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT) 0)QE_NUM_TRIGS_RECVD")
+    field(INP,  "@asyn($(PORT) 0)QE_NUM_ACQUIRED")
     field(SCAN, "I/O Intr")
 }
 
