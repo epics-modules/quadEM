@@ -218,15 +218,12 @@ void drvTetrAMM::readThread(void)
             (void)epicsEventWait(acquireStartEvent_);
             lock();
             acquiring_ = 1;
-            numAcquired_ = 0;
             numTrigEnds = 0;
             numTrigStarts = 0;
             nextExpectedEdge = 0;
             getIntegerParam(P_TriggerMode, &triggerMode);
             getIntegerParam(P_ReadFormat, &readFormat);
             readingActive_ = 1;
-            setIntegerParam(P_NumAcquired, 0);
-            callParamCallbacks();
         }
         if (readFormat == QEReadFormatBinary) {
             nRequested = (numChannels_ + 1) * bytesPerValue;
@@ -481,7 +478,12 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
                   driverName, functionName, (int)nread);
             }
         }
+        // Call the base class function in case anything needs to be done there.
+        drvQuadEM::setAcquire(0);
     } else {
+        // Call the base class function because it handles some common tasks.
+        drvQuadEM::setAcquire(1);
+
         // For now we call setAcquireParams().  This seems to be necessary when sending NAQ, and only takes 20 ms.
         // It also has the effect of flusing any stale input
         setAcquireParams();
