@@ -47,8 +47,8 @@
 #define P_AveragingTimeString      "QE_AVERAGING_TIME"          /* asynFloat64,  r/w */
 #define P_NumAverageString         "QE_NUM_AVERAGE"             /* asynInt32,    r/o */
 #define P_NumAveragedString        "QE_NUM_AVERAGED"            /* asynInt32,    r/o */
-#define P_NumTriggersString        "QE_NUM_TRIGGERS"            /* asynInt32,    r/o */
-#define P_NumTrigsRecvdString      "QE_NUM_TRIGS_RECVD"         /* asynInt32,    r/o */
+#define P_NumAcquireString         "QE_NUM_ACQUIRE"             /* asynInt32,    r/o */
+#define P_NumAcquiredString        "QE_NUM_ACQUIRED"            /* asynInt32,    r/o */
 #define P_ModelString              "QE_MODEL"                   /* asynInt32,    r/w */
 #define P_FirmwareString           "QE_FIRMWARE"                /* asynOctet,    r/w */
 
@@ -159,8 +159,8 @@ protected:
     int P_AveragingTime;
     int P_NumAverage;
     int P_NumAveraged;
-    int P_NumTriggers;
-    int P_NumTrigsRecvd;
+    int P_NumAcquire;
+    int P_NumAcquired;
     int P_Model;
     int P_Firmware;
     #define LAST_QE_COMMAND P_Firmware
@@ -170,6 +170,7 @@ protected:
     int numChannels_;
     int valuesPerRead_;
     int acquiring_;
+    int numAcquired_;
 
     void computePositions(epicsFloat64 raw[QE_MAX_INPUTS]);
     virtual asynStatus doDataCallbacks();
@@ -184,7 +185,7 @@ protected:
     virtual asynStatus setPingPong(epicsInt32 value);
     virtual asynStatus setIntegrationTime(epicsFloat64 value);
     virtual asynStatus setNumChannels(epicsInt32 value);
-    virtual asynStatus setNumTriggers(epicsInt32 value);
+    virtual asynStatus setNumAcquire(epicsInt32 value);
     virtual asynStatus setRange(epicsInt32 value);
     virtual asynStatus setReadFormat(epicsInt32 value);
     virtual asynStatus setResolution(epicsInt32 value);
