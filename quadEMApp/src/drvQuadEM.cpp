@@ -507,6 +507,26 @@ asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
     return (asynStatus)status;
 }
 
+/** Starts and stops the electrometer.
+  * \param[in] value 1 to start the electrometer, 0 to stop it.
+  * This base class method must be called at the beginning of the derived class when value=1
+  * and at the end of the derived class when value=0.
+  */
+
+asynStatus drvQuadEM::setAcquire(epicsInt32 value)
+{
+    if (value == 1) {
+        numAcquired_ = 0;
+        setIntegerParam(P_NumAcquired, 0);
+        callParamCallbacks();
+    } 
+    else {
+
+    }
+    return asynSuccess;
+}
+
+
 /** Downloads all of the current EPICS settings to the electrometer.  
   * Typically used after the electrometer is power-cycled.
   */
