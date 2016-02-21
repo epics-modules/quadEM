@@ -35,7 +35,7 @@ protected:
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
     virtual asynStatus setBiasInterlock(epicsInt32 value);
     virtual asynStatus setNumChannels(epicsInt32 value);
-    virtual asynStatus setNumTriggers(epicsInt32 value);
+    virtual asynStatus setNumAcquire(epicsInt32 value);
     virtual asynStatus setRange(epicsInt32 value);
     virtual asynStatus setReadFormat(epicsInt32 value);
     virtual asynStatus setTriggerMode(epicsInt32 value);
@@ -46,7 +46,6 @@ private:
     asynUser *pasynUserMeter_;
     epicsEventId acquireStartEvent_;
     int readingActive_;
-    int numAcquired_;
     int numResync_;
     char *QEPortName_;
     char firmwareVersion_[MAX_COMMAND_LEN];
