@@ -258,14 +258,13 @@ asynStatus drvNSLS_EM::writeReadMeter()
   // The meter has a strange behavior.  Commands that take no arguments succeed on the first write/read
   // but commands that take arguments fail on the first write read, must do it again.
   pasynCommonSyncIO->connectDevice(pasynUserTCPCommandConnect_);
-  status = pasynOctetSyncIO->writeRead(pasynUserTCPCommand_, outString_, strlen(outString_), 
-                                       inString_, sizeof(inString_), NSLS_EM_TIMEOUT, 
-                                       &nwrite, &nread, &eomReason);
   if (strlen(outString_) > 1) {
-      status = pasynOctetSyncIO->writeRead(pasynUserTCPCommand_, outString_, strlen(outString_), 
+      status = pasynOctetSyncIO->write(pasynUserTCPCommand_, outString_, strlen(outString_), 
+                                       NSLS_EM_TIMEOUT, &nwrite);
+  }
+  status = pasynOctetSyncIO->writeRead(pasynUserTCPCommand_, outString_, strlen(outString_), 
                                           inString_, sizeof(inString_), NSLS_EM_TIMEOUT, 
                                           &nwrite, &nread, &eomReason);
-  }
   if (status) {
       asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
           "%s:%s: error calling writeRead, outString=%s status=%d, nread=%d, eomReason=%d, inString=%s\n",
@@ -291,8 +290,6 @@ void drvNSLS_EM::readThread(void)
     asynStatus status;
     size_t nRead;
     int eomReason;
-    int acquireMode;
-    int numAverage;
     int valuesPerRead;
     int pingPong;
     int i;
@@ -334,14 +331,11 @@ void drvNSLS_EM::readThread(void)
             (void)epicsEventWait(acquireStartEvent_);
             lock();
             readingActive_ = 1;
-            numAcquired_ = 0;
             status = pasynOctet->flush(octetPvt, pasynUser);
+            getIntegerParam(P_PingPong,      &pingPong);
+            getIntegerParam(P_ValuesPerRead, &valuesPerRead);
+            nRequested = sizeof(ASCIIData);
         }
-        getIntegerParam(P_AcquireMode,   &acquireMode);
-        getIntegerParam(P_NumAverage,    &numAverage);
-        getIntegerParam(P_PingPong,      &pingPong);
-        getIntegerParam(P_ValuesPerRead, &valuesPerRead);
-        nRequested = sizeof(ASCIIData);
         unlock();
         pasynManager->lockPort(pasynUser);
         status = pasynOctet->read(octetPvt, pasynUser, ASCIIData, nRequested, 
@@ -377,13 +371,6 @@ void drvNSLS_EM::readThread(void)
                 data[i] = (double)raw[i]/valuesPerRead;
             }         
             computePositions(data);
-            numAcquired_++;
-            if ((acquireMode == QEAcquireModeSingle) &&
-                (numAcquired_ >= numAverage)) {
-                strcpy(outString_, "m 1");
-                writeReadMeter();
-                acquiring_ = 0;
-            }
         }
     }
 }
@@ -409,7 +396,11 @@ asynStatus drvNSLS_EM::setAcquire(epicsInt32 value)
         }
         strcpy(outString_, "m 1");
         writeReadMeter();
+        // Call the base class function in case anything needs to be done there.
+        drvQuadEM::setAcquire(0);
     } else {
+        // Call the base class function because it handles some common tasks.
+        drvQuadEM::setAcquire(1);
         setMode();
         // Notify the read thread if acquisition status has started
         epicsEventSignal(acquireStartEvent_);
