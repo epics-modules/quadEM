@@ -1769,7 +1769,7 @@ text {
 	"basic attribute" {
 		clr=14
 	}
-	textix="# Triggers"
+	textix="# Acquisitions"
 	align="horiz. right"
 }
 "text update" {
@@ -1780,7 +1780,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)NumTriggers_RBV"
+		chan="$(P)$(R)NumAcquire_RBV"
 		clr=54
 		bclr=3
 	}
@@ -1795,7 +1795,7 @@ text {
 		height=20
 	}
 	control {
-		chan="$(P)$(R)NumTriggers"
+		chan="$(P)$(R)NumAcquire"
 		clr=14
 		bclr=51
 	}
@@ -1850,7 +1850,7 @@ text {
 	"basic attribute" {
 		clr=14
 	}
-	textix="# Triggers received"
+	textix="# Acquisitions done"
 }
 "text update" {
 	object {
@@ -1860,7 +1860,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)NumTrigsRecvd"
+		chan="$(P)$(R)NumAcquired"
 		clr=54
 		bclr=3
 	}
