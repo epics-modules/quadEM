@@ -12,7 +12,7 @@ $(P)$(R)BiasState
 $(P)$(R)BiasVoltage
 $(P)$(R)BiasInterlock
 $(P)$(R)ValuesPerRead
-$(P)$(R)NumTriggers
+$(P)$(R)NumAcquire
 $(P)$(R)ReadFormat
 $(P)$(R)Geometry
 $(P)$(R)CurrentName1
