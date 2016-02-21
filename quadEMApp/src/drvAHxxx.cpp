@@ -162,9 +162,7 @@ void drvAHxxx::readThread(void)
     size_t nRead;
     int numBytes;
     int eomReason;
-    int acquireMode;
     int readFormat;
-    int numAverage;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
     asynOctet *pasynOctet;
@@ -205,9 +203,6 @@ void drvAHxxx::readThread(void)
             (void)epicsEventWait(acquireStartEvent_);
             lock();
             readingActive_ = 1;
-            numAcquired_ = 0;
-            getIntegerParam(P_AcquireMode, &acquireMode);
-            getIntegerParam(P_NumAverage, &numAverage);
             getIntegerParam(P_ReadFormat, &readFormat);
         }
         if (valuesPerRead_ < 1) valuesPerRead_ = 1;
@@ -363,11 +358,6 @@ void drvAHxxx::readThread(void)
             }
         }
         computePositions(raw);
-        numAcquired_++;
-        if ((acquireMode == QEAcquireModeSingle) &&
-            (numAcquired_ >= numAverage)) {
-            acquiring_ = 0;
-        }
     } //end while(1)
 }
 
@@ -478,7 +468,12 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
             readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .5, &nread, &eomReason);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
+        // Call the base class function in case anything needs to be done there.
+        drvQuadEM::setAcquire(0);        
     } else {
+        // Call the base class function because it handles some common tasks.
+        drvQuadEM::setAcquire(1);
+
         // Put the device in the appropriate mode
         if (readFormat == QEReadFormatBinary) {
             strcpy(outString_, "BIN ON");
