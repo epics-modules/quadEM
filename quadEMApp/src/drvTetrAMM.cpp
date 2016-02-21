@@ -30,7 +30,7 @@
 #include <epicsExport.h>
 #include "drvTetrAMM.h"
 
-#define TetrAMM_TIMEOUT 1.0
+#define TetrAMM_TIMEOUT 0.05
 #define MIN_VALUES_PER_READ_BINARY 5
 #define MIN_VALUES_PER_READ_ASCII 500
 #define MAX_VALUES_PER_READ 100000
@@ -172,10 +172,7 @@ void drvTetrAMM::readThread(void)
     int bytesPerValue=8;
     int readFormat;
     int eomReason;
-    int acquireMode;
     int triggerMode;
-    int numAverage;
-    int numTriggers;
     int nextExpectedEdge=0;
     int numTrigStarts=0;
     int numTrigEnds=0;
@@ -218,11 +215,6 @@ void drvTetrAMM::readThread(void)
         if (acquiring_ == 0) {
             readingActive_ = 0;
             unlock();
-            // When we get back into this state we should turn off acquisition
-            // and set the busy record back to 0
-            setAcquire(0);  // This step will not be necessary when the TetrAMM does this automatically
-            setIntegerParam(P_Acquire, 0);
-            callParamCallbacks();
             (void)epicsEventWait(acquireStartEvent_);
             lock();
             acquiring_ = 1;
@@ -230,18 +222,10 @@ void drvTetrAMM::readThread(void)
             numTrigEnds = 0;
             numTrigStarts = 0;
             nextExpectedEdge = 0;
-            getIntegerParam(P_AcquireMode, &acquireMode);
             getIntegerParam(P_TriggerMode, &triggerMode);
-            getIntegerParam(P_NumAverage, &numAverage);
             getIntegerParam(P_ReadFormat, &readFormat);
-            getIntegerParam(P_NumTriggers, &numTriggers);
-            // For simplicity we convert QEAcquireModeSingle to QEAcquireModeMultiple with mumTriggers=1
-            if (acquireMode == QEAcquireModeSingle) {
-                acquireMode = QEAcquireModeMultiple;
-                numTriggers = 1;
-            }
             readingActive_ = 1;
-            setIntegerParam(P_NumTrigsRecvd, 0);
+            setIntegerParam(P_NumAcquired, 0);
             callParamCallbacks();
         }
         if (readFormat == QEReadFormatBinary) {
@@ -278,41 +262,27 @@ void drvTetrAMM::readThread(void)
                     // This is a signalling Nan at the end of normal data
                     for (i=numChannels_; i<4; i++) f64Data[i] = 0.0;
                     computePositions(f64Data);
-                    numAcquired_++;
-                    if ((acquireMode == QEAcquireModeMultiple)     &&
-                        ((triggerMode == QETriggerModeFreeRun) ||
-                         (triggerMode == QETriggerModeExtTrigger)  ||
-                         (triggerMode == QETriggerModeExtGate))    &&
-                        (numAcquired_ >= numAverage*numTriggers)) {
-                        triggerCallbacks();
-                        acquiring_ = 0;
-                    }
-                    break;
+                   break;
                 case 0xfff40000ffffffffll:
                     // This is a signalling Nan on the rising edge of a trigger
                     numTrigStarts++;
                     if (nextExpectedEdge != 0) {
                         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                            "%s::%s Extra trigger start, numTrigStarts=%d, numTrigsEnds=%d, numAcquired=%d\n", 
-                             driverName, functionName, numTrigStarts, numTrigEnds, numAcquired_);
+                            "%s::%s Extra trigger start, numTrigStarts=%d, numTrigsEnds=%d\n", 
+                             driverName, functionName, numTrigStarts, numTrigEnds);
                     }
                     nextExpectedEdge = 1;
                     break;
                 case 0xfff40001ffffffffll:
                     // This is a signalling Nan on the falling edge of a trigger
                     numTrigEnds++;
-                    setIntegerParam(P_NumTrigsRecvd, numTrigEnds);
                     if (triggerMode == QETriggerModeExtBulb) {
-                        if ((acquireMode == QEAcquireModeMultiple) && 
-                            (numTrigEnds == numTriggers)) {
-                            acquiring_ = 0;
-                        }
                         triggerCallbacks();
                     }
                     if (nextExpectedEdge != 1) {
                         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                            "%s::%s Extra trigger end, numTrigStarts=%d, numTrigsEnds=%d, numAcquired=%d\n", 
-                             driverName, functionName, numTrigStarts, numTrigEnds, numAcquired_);
+                            "%s::%s Extra trigger end, numTrigStarts=%d, numTrigsEnds=%d\n", 
+                             driverName, functionName, numTrigStarts, numTrigEnds);
                     }
                     nextExpectedEdge = 0;
                     break;
@@ -385,26 +355,21 @@ void drvTetrAMM::readThread(void)
                 numTrigStarts++;
                 if (nextExpectedEdge != 0) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                        "%s::%s Extra trigger start, numTrigStarts=%d, numTrigsEnds=%d, numAcquired=%d\n", 
-                         driverName, functionName, numTrigStarts, numTrigEnds, numAcquired_);
+                        "%s::%s Extra trigger start, numTrigStarts=%d, numTrigsEnds=%d\n", 
+                         driverName, functionName, numTrigStarts, numTrigEnds);
                 }
                 nextExpectedEdge = 1;
             } 
             else if (strstr(ASCIIData, "EOTRG") != 0) {
                 // This is the falling edge of a trigger
                 numTrigEnds++;
-                setIntegerParam(P_NumTrigsRecvd, numTrigEnds);
                 if (triggerMode == QETriggerModeExtBulb) {
-                    if ((acquireMode == QEAcquireModeMultiple) && 
-                        (numTrigEnds == numTriggers)) {
-                        acquiring_ = 0;
-                    }
                     triggerCallbacks();
                 }
                 if (nextExpectedEdge != 1) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                        "%s::%s Extra trigger end, numTrigStarts=%d, numTrigsEnds=%d, numAcquired=%d\n", 
-                         driverName, functionName, numTrigStarts, numTrigEnds, numAcquired_);
+                        "%s::%s Extra trigger end, numTrigStarts=%d, numTrigsEnds=%d\n", 
+                         driverName, functionName, numTrigStarts, numTrigEnds);
                 }
                 nextExpectedEdge = 0;
             }
@@ -415,15 +380,6 @@ void drvTetrAMM::readThread(void)
                 }
                 for (i=numChannels_; i<4; i++) f64Data[i] = 0.0;
                 computePositions(f64Data);
-                numAcquired_++;
-                if ((acquireMode == QEAcquireModeMultiple)     &&
-                    ((triggerMode == QETriggerModeFreeRun) ||
-                     (triggerMode == QETriggerModeExtTrigger)  ||
-                     (triggerMode == QETriggerModeExtGate))    &&
-                    (numAcquired_ >= numAverage*numTriggers)) {
-                    triggerCallbacks();
-                    acquiring_ = 0;
-                }
             }
         }
         callParamCallbacks();
@@ -717,7 +673,7 @@ asynStatus drvTetrAMM::setNumChannels(epicsInt32 value)
 /** Sets the number of triggers.
   * \param[in] value Number of triggers. 
   */
-asynStatus drvTetrAMM::setNumTriggers(epicsInt32 value) 
+asynStatus drvTetrAMM::setNumAcquire(epicsInt32 value) 
 {    
     return setAcquireParams();
 }
