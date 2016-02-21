@@ -1,4 +1,4 @@
-# Database for Elettra AH401B picoammeter
+# Database for CaenEls AH401B electrometer
 #   Mark Rivers
 #   June 3, 2012
 
@@ -58,15 +58,15 @@ record(ai,"$(P)$(R)IntegrationTime_RBV") {
 # We replace the choices for the TriggerMode
 record(mbbo,"$(P)$(R)TriggerMode") {
     field(ZRVL, "0")
-    field(ZRST, "Internal")
-    field(ONVL, "1")
+    field(ZRST, "Free run")
+    field(ONVL, "2")
     field(ONST, "Ext. trig.")
 }
 
 record(mbbi,"$(P)$(R)TriggerMode_RBV") {
     field(ZRVL, "0")
-    field(ZRST, "Internal")
-    field(ONVL, "1")
+    field(ZRST, "Free run")
+    field(ONVL, "2")
     field(ONST, "Ext. trig.")
 }
 
