@@ -93,8 +93,8 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     createParam(P_ReadStatusString,         asynParamInt32,         &P_ReadStatus);
     createParam(P_ResolutionString,         asynParamInt32,         &P_Resolution);
     createParam(P_ValuesPerReadString,      asynParamInt32,         &P_ValuesPerRead);
-    createParam(P_NumTriggersString,        asynParamInt32,         &P_NumTriggers);
-    createParam(P_NumTrigsRecvdString,      asynParamInt32,         &P_NumTrigsRecvd);
+    createParam(P_NumAcquireString,         asynParamInt32,         &P_NumAcquire);
+    createParam(P_NumAcquiredString,        asynParamInt32,         &P_NumAcquired);
     createParam(P_ReadFormatString,         asynParamInt32,         &P_ReadFormat);
     createParam(P_AveragingTimeString,      asynParamFloat64,       &P_AveragingTime);
     createParam(P_NumAverageString,         asynParamInt32,         &P_NumAverage);
@@ -325,11 +325,24 @@ asynStatus drvQuadEM::doDataCallbacks()
 void drvQuadEM::callbackTask()
 {
     lock();
+    int numAcquire;
+    int acquireMode;
+    
     while (1) {
         unlock();
         (void)epicsEventWait(ringEvent_);
         lock();
+        getIntegerParam(P_AcquireMode, &acquireMode);
+        getIntegerParam(P_NumAcquire, &numAcquire);
         doDataCallbacks();
+        numAcquired_++;
+        setIntegerParam(P_NumAcquired, numAcquired_);
+        if ( (acquireMode == QEAcquireModeSingle) ||
+            ((acquireMode == QEAcquireModeMultiple) && (numAcquired_ >= numAcquire))) {
+            setAcquire(0);
+            setIntegerParam(P_Acquire, 0);
+        }
+        callParamCallbacks();
     }
 }
 
@@ -379,8 +392,8 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         status |= setNumChannels(value);
         status |= readStatus();
     }
-    else if (function == P_NumTriggers) {
-        status |= setNumTriggers(value);
+    else if (function == P_NumAcquire) {
+        status |= setNumAcquire(value);
         status |= readStatus();
     }
     else if (function == P_PingPong) {
@@ -553,7 +566,7 @@ asynStatus drvQuadEM::setBiasVoltage(epicsFloat64 value)     {return asynSuccess
 asynStatus drvQuadEM::setBiasInterlock(epicsInt32 value)     {return asynSuccess;}
 asynStatus drvQuadEM::setIntegrationTime(epicsFloat64 value) {return asynSuccess;}
 asynStatus drvQuadEM::setNumChannels(epicsInt32 value)       {return asynSuccess;}
-asynStatus drvQuadEM::setNumTriggers(epicsInt32 value)       {return asynSuccess;}
+asynStatus drvQuadEM::setNumAcquire(epicsInt32 value)        {return asynSuccess;}
 asynStatus drvQuadEM::setPingPong(epicsInt32 value)          {return asynSuccess;}
 asynStatus drvQuadEM::setRange(epicsInt32 value)             {return asynSuccess;}
 asynStatus drvQuadEM::setReadFormat(epicsInt32 value)        {return asynSuccess;}
