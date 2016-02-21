@@ -176,7 +176,7 @@ protected:
     virtual asynStatus doDataCallbacks();
     virtual asynStatus readStatus()=0;
     virtual asynStatus reset()=0;
-    virtual asynStatus setAcquire(epicsInt32 value)=0;
+    virtual asynStatus setAcquire(epicsInt32 value);
     virtual asynStatus setAcquireMode(epicsInt32 value);
     virtual asynStatus setAveragingTime(epicsFloat64 value);
     virtual asynStatus setBiasState(epicsInt32 value);
