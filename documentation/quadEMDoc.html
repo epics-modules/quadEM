@@ -301,18 +301,15 @@
         <td>
           Acquire mode. Values are:
           <ul>
-            <li>0: Continuous </li>
-            <li>1: Multiple </li>
-            <li>2: Single </li>
+            <li>0: "Continuous" Acquires data continuously until Acquire is set back to 0.</li>
+            <li>1: "Multiple" Acquires NumAcquire acquisitions and then automatically stops acquisition,
+              setting Acquire back to 0.</li>
+            <li>2: "Single" Acquires a single acquisition. This is a convenience, it is identical
+              to Multiple with NumAcquire=1.</li>
           </ul>
-          In continuous mode setting Acquire=1 acquires data continuously until Acquire is
-          set back to 0.<br />
-          Multiple mode will acquire NumTriggers acquisitions and then stop acquisition, setting
-          Acquire back to 0.<br />
-          Single is a convenience. It is identical to Multiple with NumTriggers=1.<br />
-          Multiple and Single mode are typically used for data acquisition, for example with
-          the sscan record. See the tables below for an explanation of the behavior for all
-          combinations of AcquireMode and TriggerMode for each model.<br />
+          Multiple and Single mode are typically used for data acquisition. See the tables
+          below for an explanation of the behavior for all combinations of AcquireMode and
+          TriggerMode for each model.<br />
         </td>
       </tr>
       <tr>
@@ -896,6 +893,45 @@
       </tr>
       <tr>
         <td>
+          QE_NUM_ACQUIRE</td>
+        <td>
+          $(P)$(R)NumAcquire
+          <br />
+          $(P)$(R)NumAcquire_RBV</td>
+        <td>
+          longout
+          <br />
+          longin</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          The number of acquisitions to acquire when AcquireMode=Multiple. An acquisition
+          is complete when the callbacks are called. This normally occurs when the AveragingTime
+          has elapsed. However when TriggerMode=Ext. Bulb then the callbacks are called and
+          an acquisition is complete on the trailing edge of each external gate pulse.</td>
+      </tr>
+      <tr>
+        <td>
+          QE_NUM_ACQUIRED</td>
+        <td>
+          $(P)$(R)NumAcquired</td>
+        <td>
+          longin</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          The number of acquisitions completed since Acquire was set to 1.</td>
+      </tr>
+      <tr>
+        <td>
           QE_READ_DATA</td>
         <td>
           $(P)$(R)ReadData</td>
@@ -1138,7 +1174,7 @@
   <p>
     The following tables describe the behavior of the different models for combinations
     of AcquireMode and TriggerMode. Note that AcquireMode=Single is completely equivalent
-    to AcquireMode=Multiple and NumTriggers=1, so the tables do not list AcquireMode=Single.</p>
+    to AcquireMode=Multiple and NumAcquire=1, so the tables do not list AcquireMode=Single.</p>
   <p>
     The TetrAMM can be used in 8 different acquisition modes, depending on the values
     of the TriggerMode and AcquireMode records. The following table describes these
@@ -1176,9 +1212,9 @@
         <td>
           Multiple</td>
         <td>
-          Data is acquired for the AveragingTime. This is repeated NumTriggers times and then
-          acquisition stops. The plugins will be called NumTriggers times, each time with
-          NumAverage samples.</td>
+          Data is acquired for the AveragingTime. This is repeated NumAcquire times and then
+          acquisition stops. The plugins will be called NumAcquire times, each time with NumAverage
+          samples.</td>
         <td>
           NRSAMP=ValuesPerRead, NAQ=0, TRG:OFF</td>
       </tr>
@@ -1204,12 +1240,12 @@
           Multiple</td>
         <td>
           A fixed number of samples is acquired starting on the first rising edge of the external
-          trigger input. This repeats NumTriggers times and then acquisition stops. ValuesPerRead
+          trigger input. This repeats NumAcquire times and then acquisition stops. ValuesPerRead
           must be set to a value less than AveragingTime/1e5.
           <br />
           NOTE: This only works for AcquireMode=Single in the current firmware version because
           once NAQ samples are acquired the TetrAMM stops acquisition. That is OK for AcquireMode=Single,
-          but not when NumTriggers &gt; 1.</td>
+          but not when NumAcquire &gt; 1.</td>
         <td>
           NRSAMP=ValuesPerRead, NAQ=AveragingTime*1e5/ValuesPerRead, TRG:ON</td>
       </tr>
@@ -1233,7 +1269,7 @@
           Multiple</td>
         <td>
           Samples are acquired while the external trigger input is asserted. On each trailing
-          edge of the external trigger signal the plugins are called. This is repeated NumTriggers
+          edge of the external trigger signal the plugins are called. This is repeated NumAcquire
           times and then acquisition is stopped. ValuesPerRead must be set to a value less
           than (external trigger asserted time * 1e5). AveragingTime is ignored in this mode.
         </td>
@@ -1264,9 +1300,9 @@
           Samples are acquired while the external trigger input is asserted. When NumAverage
           samples have been acquired the plugins are called. The actual averaging time between
           calling the plugins will be longer than AverageTime, and is controlled by the duty
-          cycle of the external gate signal. When the plugins have been called NumTriggers
+          cycle of the external gate signal. When the plugins have been called NumAcquire
           times then acquisition is stopped. Note that the actual number of gate pulses received
-          will be &gt; NumTriggers, and is also controlled by the duty cycle of the external
+          will be &gt; NumAcquire, and is also controlled by the duty cycle of the external
           gate signal. The trailing edge of the gate pulse is ignored in this mode. ValuesPerRead
           must be set to a value less than (external trigger asserted time * 1e5).</td>
         <td>
@@ -2710,13 +2746,13 @@ pattern
     Common Setup</h2>
   <p>
     All of the device-dependent startup scripts invoke <a href="quadEM_commonPlugins_cmd.html">
-      quadEM/iocBoot/iocTest/commonPlugins.cmd</a>. This file can be edited to add additional
+      quadEM/iocBoot/commonPlugins.cmd</a>. This file can be edited to add additional
     plugins, such as the TIFF, HDF5, or Nexus file writers, etc.</p>
   <p>
-    The example iocBoot directory, iocBoot/iocTest, contains an example startup script
-    for Linux and Windows (st.cmd) and another for vxWorks (st.cmd.vxWorks). Each of
-    these startup scripts invokes the device-dependent startup script(s), e.g. TetrAMM.cmd,
-    NSLS_EM.cmd, etc.
+    Each iocBoot/iocXXX directory, e.g. iocBoot/iocTetrAMM, contains an example startup
+    script for Linux and Windows (st.cmd) and another for vxWorks (st.cmd.vxWorks).
+    Each of these startup scripts invokes the device-dependent startup script(s), e.g.
+    TetrAMM.cmd, NSLS_EM.cmd, etc.
   </p>
   <h2 id="TetrAMM_Setup">
     TetrAMM Setup</h2>
@@ -2727,7 +2763,7 @@ pattern
   <p>
     An example startup script for Linux or Windows is provided in
     <br />
-    <a href="quadEM_cmd_TetrAMM.html">quadEM/iocBoot/iocTest/TetraAMM.cmd</a>
+    <a href="quadEM_cmd_TetrAMM.html">quadEM/iocBoot/iocTetrAMM/TetraAMM.cmd</a>
   </p>
   <p>
     This will need to be edited to set the correct IP address of the meter to be used.</p>
@@ -2743,16 +2779,16 @@ pattern
   <p>
     Example startup scripts for Linux or Windows are provided in
     <br />
-    <a href="quadEM_cmd_AH401B.html">quadEM/iocBoot/iocTest/AH401B.cmd</a> and
+    <a href="quadEM_cmd_AH401B.html">quadEM/iocBoot/iocAH401B/AH401B.cmd</a> and
     <br />
-    <a href="quadEM_cmd_AH501.html">quadEM/iocBoot/iocTest/AH501.cmd</a>
+    <a href="quadEM_cmd_AH501.html">quadEM/iocBoot/iocAH501/AH501.cmd</a>
   </p>
   <p>
     These will need to be edited to set the correct IP address of the meters to be used.</p>
   <p>
     These scripts each invoke a generic script:
     <br />
-    <a href="quadEM_cmd_AHxxx.html">quadEM/iocBoot/iocTest/AHxxx.cmd</a>.
+    <a href="quadEM_cmd_AHxxx.html">quadEM/iocBoot/AHxxx.cmd</a>.
   </p>
   <h2 id="NSLS_EM_Setup">
     NSLS_EM Setup</h2>
@@ -2766,7 +2802,7 @@ pattern
   <p>
     An example startup script for Linux or Windows is provided in
     <br />
-    <a href="quadEM_cmd_NSLS_EM.html">quadEM/iocBoot/iocTest/NSLS_EM.cmd</a>
+    <a href="quadEM_cmd_NSLS_EM.html">quadEM/iocBoot/iocNSLS_EM/NSLS_EM.cmd</a>
   </p>
   <p>
     This will need to be edited to set the broadcast address of the network the device
@@ -2785,13 +2821,13 @@ pattern
   <p>
     An example startup script for vxWorks is provided in
     <br />
-    <a href="quadEM_st_cmd_vxWorks.html">quadEM/iocBoot/iocTest/st.cmd.vxWorks</a>.
+    <a href="quadEM_st_cmd_vxWorks.html">quadEM/iocBoot/iocAPS_EM/st.cmd.vxWorks</a>.
   </p>
   <p>
     This example startup script can be edited to start either the APS_EM, the TetrAMM,
     the AH401B, or the AH501. For the APS_EM this script invokes
     <br />
-    <a href="quadEM_cmd_APS_EM.html">quadEM/iocBoot/iocTest/APS_EM.cmd</a>.
+    <a href="quadEM_cmd_APS_EM.html">quadEM/iocBoot/iocAPS_EM/APS_EM.cmd</a>.
   </p>
 </body>
 </html>
