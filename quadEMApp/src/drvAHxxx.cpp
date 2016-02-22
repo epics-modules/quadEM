@@ -28,7 +28,7 @@
 #include <epicsExport.h>
 #include "drvAHxxx.h"
 
-#define AHxxx_TIMEOUT 1.0
+#define AHxxx_TIMEOUT 0.02
 #define MIN_INTEGRATION_TIME 0.001
 #define MAX_INTEGRATION_TIME 1.0
 
@@ -444,7 +444,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         // Wait for the read thread to stop
         while (readingActive_) {
             unlock();
-            epicsThreadSleep(0.1);
+            epicsThreadSleep(0.01);
             lock();
         }
         while (1) {
@@ -465,7 +465,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
             // Now do flush and read with short timeout to flush any responses
             nread = 0;
             readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
-            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .5, &nread, &eomReason);
+            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nread, &eomReason);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
         // Call the base class function in case anything needs to be done there.
