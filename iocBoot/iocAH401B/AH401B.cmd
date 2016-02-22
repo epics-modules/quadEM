@@ -1,7 +1,7 @@
 epicsEnvSet("PREFIX",    "quadEMTest:")
 epicsEnvSet("RECORD",    "AH401B")
 epicsEnvSet("PORT",      "AH401B")
-epicsEnvSet("TEMPLATE,   "AH401B")
+epicsEnvSet("TEMPLATE",  "AH401B")
 epicsEnvSet("MODEL",     "AH401B")
 epicsEnvSet("QSIZE",     "20")
 epicsEnvSet("RING_SIZE", "10000")
