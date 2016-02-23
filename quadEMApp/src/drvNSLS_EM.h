@@ -57,7 +57,6 @@ private:
     int numModules_;
     moduleInfo_t moduleInfo_[MAX_MODULES];
     int readingActive_;
-    int numAcquired_;
     char firmwareVersion_[MAX_COMMAND_LEN];
     char ipAddress_[MAX_IPNAME_LEN];
     char outString_[MAX_COMMAND_LEN];

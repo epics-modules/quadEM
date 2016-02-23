@@ -43,7 +43,6 @@ private:
     asynUser *pasynUserMeter_;
     epicsEventId acquireStartEvent_;
     int readingActive_;
-    int numAcquired_;
     char *QEPortName_;
     bool AH501Series_;
     bool AH401Series_;

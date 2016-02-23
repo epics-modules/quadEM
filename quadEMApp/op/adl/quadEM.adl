@@ -8,7 +8,7 @@ display {
 		x=214
 		y=152
 		width=840
-		height=660
+		height=710
 	}
 	clr=14
 	bclr=3
@@ -189,16 +189,6 @@ composite {
 		}
 	}
 }
-composite {
-	object {
-		x=20
-		y=585
-		width=350
-		height=60
-	}
-	"composite name"=""
-	"composite file"="ADAttrFile.adl"
-}
 "choice button" {
 	object {
 		x=205
@@ -319,21 +309,6 @@ text {
 	}
 	textix="Acquire mode"
 }
-composite {
-	object {
-		x=10
-		y=335
-		width=390
-		height=120
-	}
-	"composite name"=""
-	"composite file"="AH501.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=4"
-		chan="$(P)$(R)Model"
-	}
-}
 text {
 	object {
 		x=20
@@ -348,131 +323,6 @@ text {
 }
 text {
 	object {
-		x=60
-		y=235
-		width=140
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Averaging time"
-}
-text {
-	object {
-		x=50
-		y=260
-		width=150
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Read data"
-	align="horiz. right"
-}
-composite {
-	object {
-		x=10
-		y=335
-		width=390
-		height=120
-	}
-	"composite name"=""
-	"composite file"="APS_EM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=1"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=335
-		width=390
-		height=120
-	}
-	"composite name"=""
-	"composite file"="AH401B.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="(A=2) || (A=3)"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=335
-		width=390
-		height=145
-	}
-	"composite name"=""
-	"composite file"="AH501C.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="(A=5)||(A=6)"
-		chan="$(P)$(R)Model"
-	}
-}
-text {
-	object {
-		x=90
-		y=310
-		width=110
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# Averaged"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=205
-		y=310
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)NumAveraged_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=80
-		y=285
-		width=120
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# To Average"
-}
-"text update" {
-	object {
-		x=205
-		y=285
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)NumAverage_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
 		x=120
 		y=185
 		width=80
@@ -482,21 +332,6 @@ text {
 		clr=14
 	}
 	textix="Geometry"
-}
-composite {
-	object {
-		x=10
-		y=335
-		width=392
-		height=245
-	}
-	"composite name"=""
-	"composite file"="TetrAMM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=7"
-		chan="$(P)$(R)Model"
-	}
 }
 text {
 	object {
@@ -1614,59 +1449,283 @@ composite {
 		}
 	}
 }
-composite {
+"text update" {
+	object {
+		x=300
+		y=160
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Range_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+"text update" {
 	object {
 		x=300
 		y=135
 		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)AcquireMode_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=300
+		y=210
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValuesPerRead_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=300
+		y=185
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Geometry_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+menu {
+	object {
+		x=205
+		y=160
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Range"
+		clr=14
+		bclr=51
+	}
+}
+"text entry" {
+	object {
+		x=205
+		y=210
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)ValuesPerRead"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+menu {
+	object {
+		x=205
+		y=185
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Geometry"
+		clr=14
+		bclr=51
+	}
+}
+composite {
+	object {
+		x=20
+		y=635
+		width=350
+		height=60
+	}
+	"composite name"=""
+	"composite file"="ADAttrFile.adl"
+}
+composite {
+	object {
+		x=10
+		y=385
+		width=390
 		height=120
 	}
 	"composite name"=""
+	"composite file"="AH501.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=4"
+		chan="$(P)$(R)Model"
+	}
+}
+text {
+	object {
+		x=50
+		y=310
+		width=150
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Read data"
+	align="horiz. right"
+}
+composite {
+	object {
+		x=10
+		y=385
+		width=390
+		height=120
+	}
+	"composite name"=""
+	"composite file"="APS_EM.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=1"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=385
+		width=390
+		height=120
+	}
+	"composite name"=""
+	"composite file"="AH401B.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="(A=2) || (A=3)"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=385
+		width=390
+		height=145
+	}
+	"composite name"=""
+	"composite file"="AH501C.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="(A=5)||(A=6)"
+		chan="$(P)$(R)Model"
+	}
+}
+text {
+	object {
+		x=90
+		y=360
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# Averaged"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=205
+		y=360
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumAveraged_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+composite {
+	object {
+		x=10
+		y=385
+		width=392
+		height=245
+	}
+	"composite name"=""
+	"composite file"="TetrAMM.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=7"
+		chan="$(P)$(R)Model"
+	}
+}
+"message button" {
+	object {
+		x=205
+		y=310
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)ReadData.PROC"
+		clr=14
+		bclr=51
+	}
+	label="Read"
+	press_msg="1"
+}
+composite {
+	object {
+		x=10
+		y=385
+		width=390
+		height=45
+	}
+	"composite name"=""
+	"composite file"="NSLS_EM.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=8"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=60
+		y=235
+		width=340
+		height=20
+	}
+	"composite name"=""
 	children {
-		"text update" {
+		text {
 			object {
-				x=300
-				y=160
-				width=100
+				x=60
+				y=235
+				width=140
 				height=20
 			}
-			monitor {
-				chan="$(P)$(R)Range_RBV"
-				clr=54
-				bclr=3
+			"basic attribute" {
+				clr=14
 			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=300
-				y=135
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)AcquireMode_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=300
-				y=210
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValuesPerRead_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
+			textix="Averaging time"
 		}
 		"text update" {
 			object {
@@ -1679,60 +1738,6 @@ composite {
 				chan="$(P)$(R)AveragingTime_RBV"
 				clr=54
 				bclr=3
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=300
-				y=185
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)Geometry_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-	}
-}
-composite {
-	object {
-		x=205
-		y=160
-		width=90
-		height=120
-	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=205
-				y=160
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Range"
-				clr=14
-				bclr=51
-			}
-		}
-		"text entry" {
-			object {
-				x=205
-				y=210
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)ValuesPerRead"
-				clr=14
-				bclr=51
 			}
 			limits {
 			}
@@ -1752,48 +1757,113 @@ composite {
 			limits {
 			}
 		}
-		"message button" {
-			object {
-				x=205
-				y=260
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)ReadData.PROC"
-				clr=14
-				bclr=51
-			}
-			label="Read"
-			press_msg="1"
-		}
-		menu {
-			object {
-				x=205
-				y=185
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Geometry"
-				clr=14
-				bclr=51
-			}
-		}
+	}
+}
+text {
+	object {
+		x=60
+		y=260
+		width=140
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# Acquisitions"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=300
+		y=260
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumAcquire_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=205
+		y=260
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)NumAcquire"
+		clr=14
+		bclr=51
+	}
+	limits {
 	}
 }
 composite {
 	object {
-		x=10
+		x=80
 		y=335
-		width=390
-		height=120
+		width=225
+		height=20
 	}
 	"composite name"=""
-	"composite file"="NSLS_EM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=8"
-		chan="$(P)$(R)Model"
+	children {
+		text {
+			object {
+				x=80
+				y=335
+				width=120
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="# To Average"
+		}
+		"text update" {
+			object {
+				x=205
+				y=335
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)NumAverage_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+	}
+}
+text {
+	object {
+		x=10
+		y=285
+		width=190
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# Acquisitions done"
+}
+"text update" {
+	object {
+		x=205
+		y=285
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumAcquired"
+		clr=54
+		bclr=3
+	}
+	limits {
 	}
 }

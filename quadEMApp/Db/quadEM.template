@@ -45,21 +45,29 @@ record(busy,"$(P)$(R)Acquire") {
     field(ONAM, "Acquire")
 }
 
-record(bo,"$(P)$(R)AcquireMode") {
+record(mbbo,"$(P)$(R)AcquireMode") {
     field(DESC, "Acquire Mode")
     field(PINI, "YES")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT) 0)QE_ACQUIRE_MODE")
-    field(ZNAM, "Continuous")
-    field(ONAM, "One-shot")
+    field(ZRVL, "0")
+    field(ZRST, "Continuous")
+    field(ONVL, "1")
+    field(ONST, "Multiple")
+    field(TWVL, "2")
+    field(TWST, "Single")
 }
 
-record(bi,"$(P)$(R)AcquireMode_RBV") {
+record(mbbi,"$(P)$(R)AcquireMode_RBV") {
     field(DESC, "AcquireMode")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT) 0)QE_ACQUIRE_MODE")
-    field(ZNAM, "Continuous")
-    field(ONAM, "One-shot")
+    field(ZRVL, "0")
+    field(ZRST, "Continuous")
+    field(ONVL, "1")
+    field(ONST, "Multiple")
+    field(TWVL, "2")
+    field(TWST, "Single")
     field(SCAN, "I/O Intr")
 }
 
@@ -126,6 +134,7 @@ record(ai,"$(P)$(R)SampleTime_RBV") {
     field(SCAN, "I/O Intr")
 }
 
+# Each model defines these differently
 record(mbbo,"$(P)$(R)TriggerMode") {
     field(DESC, "Trigger mode")
     field(PINI, "YES")
@@ -289,6 +298,28 @@ record(longin,"$(P)$(R)ValuesPerRead_RBV") {
     field(DESC, "Values per read")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT) 0)QE_VALUES_PER_READ")
+    field(SCAN, "I/O Intr")
+}
+
+record(longout,"$(P)$(R)NumAcquire") {
+    field(DESC, "Number of acquisitions")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(VAL,  "1")
+    field(OUT,  "@asyn($(PORT) 0)QE_NUM_ACQUIRE")
+}
+
+record(longin,"$(P)$(R)NumAcquire_RBV") {
+    field(DESC, "Number of acquisitions")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)QE_NUM_ACQUIRE")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin,"$(P)$(R)NumAcquired") {
+    field(DESC, "Number of acquisitions complete")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)QE_NUM_ACQUIRED")
     field(SCAN, "I/O Intr")
 }
 

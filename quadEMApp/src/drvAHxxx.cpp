@@ -28,7 +28,7 @@
 #include <epicsExport.h>
 #include "drvAHxxx.h"
 
-#define AHxxx_TIMEOUT 1.0
+#define AHxxx_TIMEOUT 0.02
 #define MIN_INTEGRATION_TIME 0.001
 #define MAX_INTEGRATION_TIME 1.0
 
@@ -162,9 +162,7 @@ void drvAHxxx::readThread(void)
     size_t nRead;
     int numBytes;
     int eomReason;
-    int acquireMode;
     int readFormat;
-    int numAverage;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
     asynOctet *pasynOctet;
@@ -205,9 +203,6 @@ void drvAHxxx::readThread(void)
             (void)epicsEventWait(acquireStartEvent_);
             lock();
             readingActive_ = 1;
-            numAcquired_ = 0;
-            getIntegerParam(P_AcquireMode, &acquireMode);
-            getIntegerParam(P_NumAverage, &numAverage);
             getIntegerParam(P_ReadFormat, &readFormat);
         }
         if (valuesPerRead_ < 1) valuesPerRead_ = 1;
@@ -363,11 +358,6 @@ void drvAHxxx::readThread(void)
             }
         }
         computePositions(raw);
-        numAcquired_++;
-        if ((acquireMode == QEAcquireModeOneShot) &&
-            (numAcquired_ >= numAverage)) {
-            acquiring_ = 0;
-        }
     } //end while(1)
 }
 
@@ -446,7 +436,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
     if (value == 0) {
         // We assume that if acquiring_=0, readingActive_=0 and acquireMode=one shot that the meter stopped itself
         // and we don't need to do anything further.  This really speeds things up.
-        if ((acquiring_ == 0) && (readingActive_ == 0) && (acquireMode == QEAcquireModeOneShot)) 
+        if ((acquiring_ == 0) && (readingActive_ == 0) && (acquireMode == QEAcquireModeSingle)) 
             return asynSuccess;
 
         // Setting this flag tells the read thread to stop
@@ -454,7 +444,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         // Wait for the read thread to stop
         while (readingActive_) {
             unlock();
-            epicsThreadSleep(0.1);
+            epicsThreadSleep(0.01);
             lock();
         }
         while (1) {
@@ -475,10 +465,15 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
             // Now do flush and read with short timeout to flush any responses
             nread = 0;
             readStatus = pasynOctetSyncIO->flush(pasynUserMeter_);
-            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, .5, &nread, &eomReason);
+            readStatus = pasynOctetSyncIO->read(pasynUserMeter_, dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nread, &eomReason);
             if ((readStatus == asynTimeout) && (nread == 0)) break;
         }
+        // Call the base class function in case anything needs to be done there.
+        drvQuadEM::setAcquire(0);        
     } else {
+        // Call the base class function because it handles some common tasks.
+        drvQuadEM::setAcquire(1);
+
         // Put the device in the appropriate mode
         if (readFormat == QEReadFormatBinary) {
             strcpy(outString_, "BIN ON");
@@ -488,7 +483,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         writeReadMeter();
         
         // If we are in one-shot mode then send NAQ to request specific number of samples
-        if (acquireMode == QEAcquireModeOneShot) {
+        if (acquireMode == QEAcquireModeSingle) {
             numAcquire = numAverage;
         } else {
             numAcquire = 0;
