@@ -3,11 +3,11 @@ errlogInit(5000)
 
 # Tell EPICS all about the record types, device-support modules, drivers,
 # etc. in this build
-dbLoadDatabase("../../dbd/quadEMTestApp.dbd")
+dbLoadDatabase("$(QUADEM)/dbd/quadEMTestApp.dbd")
 quadEMTestApp_registerRecordDeviceDriver(pdbbase)
 
 # The search path for database files
 # Note: the separator between the path entries needs to be changed to a semicolon (;) on Windows
 epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db:$(QUADEM)/db")
 
-< NSLS_EM.cmd
+< $(QUADEM)/iocBoot/iocNSLS_EM/NSLS_EM.cmd
