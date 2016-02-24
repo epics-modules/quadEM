@@ -334,13 +334,23 @@ void drvQuadEM::callbackTask()
         lock();
         getIntegerParam(P_AcquireMode, &acquireMode);
         getIntegerParam(P_NumAcquire, &numAcquire);
-        doDataCallbacks();
-        numAcquired_++;
-        setIntegerParam(P_NumAcquired, numAcquired_);
-        if ( (acquireMode == QEAcquireModeSingle) ||
-            ((acquireMode == QEAcquireModeMultiple) && (numAcquired_ >= numAcquire))) {
-            setAcquire(0);
-            setIntegerParam(P_Acquire, 0);
+        if (acquireMode == QEAcquireModeSingle) numAcquire = 1;
+
+        if (acquireMode == QEAcquireModeContinuous) {
+            doDataCallbacks();
+            numAcquired_++;
+            setIntegerParam(P_NumAcquired, numAcquired_);
+        } 
+        else {
+            if (numAcquired_ < numAcquire) {
+                doDataCallbacks();
+                numAcquired_++;
+                setIntegerParam(P_NumAcquired, numAcquired_);
+                if (numAcquired_ == numAcquire) {
+                    setAcquire(0);
+                    setIntegerParam(P_Acquire, 0);
+                }
+            }
         }
         callParamCallbacks();
     }
