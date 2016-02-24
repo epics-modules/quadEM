@@ -30,7 +30,7 @@
 #include <epicsExport.h>
 #include "drvTetrAMM.h"
 
-#define TetrAMM_TIMEOUT 0.05
+#define TetrAMM_TIMEOUT 0.01
 #define MIN_VALUES_PER_READ_BINARY 5
 #define MIN_VALUES_PER_READ_ASCII 500
 #define MAX_VALUES_PER_READ 100000
@@ -472,7 +472,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
                                                 TetrAMM_TIMEOUT, &nread, &eomReason);
                 if ((status == asynSuccess) && (eomReason == ASYN_EOM_EOS) &&
                     (nread >= 3) && (strncmp(&response[nread-3], "ACK", 3) == 0)) break;
-                if (status == asynTimeout) break;
+                if (status == asynTimeout) continue;
                 asynPrint(pasynUserSelf, ASYN_TRACE_WARNING, 
                   "%s::%s waiting for ACK response, nread=%d\n",
                   driverName, functionName, (int)nread);
