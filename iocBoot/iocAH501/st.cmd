@@ -1,5 +1,5 @@
 errlogInit(5000)
-< envPaths
+< $(QUADEM)/iocBoot/iocAH501/envPaths
 
 # Tell EPICS all about the record types, device-support modules, drivers,
 # etc. in this build
