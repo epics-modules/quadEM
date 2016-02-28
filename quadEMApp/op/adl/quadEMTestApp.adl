@@ -124,7 +124,7 @@ text {
 	display[3] {
 		label="TetrAMM"
 		name="quadEM.adl"
-		args="P=quadEMTest:, R=TetrAMM:,P_TS=quadEMTest:TetrAMM_TS:,P_FFT=quadEMTest:TetrAMM_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
+		args="P=quadEMTest:, R=TetrAMM:,TX=Horizontal_BPM,TY=Vertical_BPM"
 	}
 	display[4] {
 		label="NSLS_EM"
