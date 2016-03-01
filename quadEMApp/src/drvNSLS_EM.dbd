@@ -2,4 +2,3 @@
 # Register global functions
 ################
 registrar(drvNSLS_EMRegister)
-registrar("quadEM_SNLRegistrar")

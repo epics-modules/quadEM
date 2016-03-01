@@ -2,4 +2,3 @@
 # Register global functions
 ################
 registrar(drvAHxxxRegister)
-registrar("quadEM_SNLRegistrar")
