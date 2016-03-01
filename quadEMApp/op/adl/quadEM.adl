@@ -5,8 +5,8 @@ file {
 }
 display {
 	object {
-		x=214
-		y=152
+		x=86
+		y=238
 		width=840
 		height=710
 	}
@@ -1389,8 +1389,13 @@ text {
 		height=20
 	}
 	display[0] {
-		label="Time series"
-		name="quadEM_TimeSeries.adl"
+		label="Time series control"
+		name="NDPluginTimeSeries.adl"
+		args="P=$(P)$(R),R=TS:,TX=$(TX),TY=$(TY)"
+	}
+	display[1] {
+		label="Time series plots"
+		name="quadEM_TimeSeriesPlots.adl"
 		args="P=$(P)$(R),R=TS:,TX=$(TX),TY=$(TY)"
 	}
 	clr=14
