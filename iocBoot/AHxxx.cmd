@@ -13,19 +13,9 @@ asynSetTraceIOMask("IP_$(PORT)", 0, 6)
 dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=IP_$(PORT),ADDR=0,OMAX=256,IMAX=256")
 
 drvAHxxxConfigure("$(PORT)", "IP_$(PORT)", $(RING_SIZE), $(MODEL))
-dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD):, PORT=$(PORT)")
+dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT)")
 
 < $(QUADEM)/iocBoot/commonPlugins.cmd
 
 asynSetTraceIOMask("$(PORT)",0,2)
 #asynSetTraceMask("$(PORT)",  0,9)
-
-# initFastSweep(portName, inputName, maxSignals, maxPoints)
-#  portName = asyn port name for this new port (string)
-#  inputName = name of asynPort providing data
-#  maxSignals  = maximum number of signals (spectra)
-#  maxPoints  = maximum number of channels per spectrum
-#  dataString  = drvInfo string for current and position data
-#  intervalString  = drvInfo string for time interval per point
-initFastSweep("$(PORT)TS", "$(PORT)", 11, 2048, "QE_INT_ARRAY_DATA", "QE_SAMPLE_TIME")
-dbLoadRecords("$(QUADEM)/db/quadEM_TimeSeries.template", "P=$(PREFIX),R=$(RECORD)_TS:,NUM_TS=2048,NUM_FREQ=1024,PORT=$(PORT)TS")
