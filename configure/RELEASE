@@ -32,14 +32,11 @@ BUSY=$(SUPPORT)/busy-1-6-1
 # IpUnidig for APS_EM
 IPUNIDIG=$(SUPPORT)/ipUnidig-2-10
 
-# quadEM_SNL uses the sequencer
+# CALC uses the sequencer
 SNCSEQ=$(SUPPORT)/seq-2-2-3
-
+ 
 # save_restore
 AUTOSAVE=$(SUPPORT)/autosave-5-7-1
-
-# MCA is used for time series
-MCA=$(SUPPORT)/mca-7-6
 
 # SSCAN is needed for general scanning
 SSCAN=$(SUPPORT)/sscan-2-10-2
