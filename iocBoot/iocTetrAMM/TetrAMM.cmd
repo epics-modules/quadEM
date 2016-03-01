@@ -1,5 +1,5 @@
 epicsEnvSet("PREFIX",    "quadEMTest:")
-epicsEnvSet("RECORD",    "TetrAMM")
+epicsEnvSet("RECORD",    "TetrAMM:")
 epicsEnvSet("PORT",      "TetrAMM")
 epicsEnvSet("TEMPLATE",  "TetrAMM")
 epicsEnvSet("QSIZE",     "20")
@@ -23,7 +23,7 @@ asynSetTraceIOTruncateSize("IP_$(PORT)", 0, 4000)
 dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=IP_$(PORT),ADDR=0,OMAX=256,IMAX=256")
 
 drvTetrAMMConfigure("$(PORT)", "IP_$(PORT)", $(RING_SIZE))
-dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD):, PORT=$(PORT)")
+dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT)")
 
 < $(QUADEM)/iocBoot/commonPlugins.cmd
 
@@ -35,4 +35,4 @@ asynSetTraceIOMask("$(PORT)",0,2)
 iocInit()
 
 # save settings every thirty seconds
-create_monitor_set("auto_settings.req",30,"P=$(PREFIX), R=$(RECORD):, R_TS=$(RECORD)_TS:")
+create_monitor_set("auto_settings.req",30,"P=$(PREFIX), R=$(RECORD)")
