@@ -283,6 +283,12 @@ void drvTetrAMM::readThread(void)
                     }
                     nextExpectedEdge = 0;
                     break;
+                case 0xfff40003ffffffffll:
+                    // This is a signaling Nan when the acquistion was stopped
+                    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+                            "%s::%s: seen acq done sNaN (0xfff40003ffffffffll)\n",
+                            driverName, functionName);
+                    break;
                 default: 
                     // We have lost sync, probably due to a dropped packet.
                     // Recover sync by reading 2 times length per sample, which is enough to guarantee that
