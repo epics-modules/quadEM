@@ -12,4 +12,25 @@ file "NDStats_settings.req",           P=$(P), R=$(R)PosY:
 file "NDFileNetCDF_settings.req",      P=$(P), R=$(R)netCDF1:
 file "NDStdArrays_settings.req",       P=$(P), R=$(R)image1:
 file "NDTimeSeries_settings.req",      P=$(P), R=$(R)TS:
-
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:Current1:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:Current2:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:Current3:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:Current4:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:SumX:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:SumY:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:SumAll:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:DiffX:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:DiffY:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:PosX:
+file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:PosY:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:Current1:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:Current2:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:Current3:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:Current4:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:SumX:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:SumY:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:SumAll:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:DiffX:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:DiffY:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:PosX:
+file "NDFFT_settings.req",             P=$(P), R=$(R)FFT:PosY:
