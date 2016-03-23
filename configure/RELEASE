@@ -11,13 +11,13 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 SUPPORT=/corvette/home/epics/devel
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 # This module
-QUADEM=$(SUPPORT)/quadEM-6-0
+QUADEM=$(SUPPORT)/quadEM-7-0
 
 # ASYN - for device/driver support
 ASYN=$(SUPPORT)/asyn-4-28
 
 # areaDetector for asynNDArrayDriver
-AREA_DETECTOR=$(SUPPORT)/areaDetector-2-4
+AREA_DETECTOR=$(SUPPORT)/areaDetector-2-5
 ADCORE=$(AREA_DETECTOR)/ADCore
 ADBINARIES=$(AREA_DETECTOR)/ADBinaries
 
