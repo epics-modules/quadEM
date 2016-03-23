@@ -28,7 +28,7 @@
 #include <epicsExport.h>
 #include "drvAHxxx.h"
 
-#define AHxxx_TIMEOUT 0.02
+#define AHxxx_TIMEOUT 0.05
 #define MIN_INTEGRATION_TIME 0.001
 #define MAX_INTEGRATION_TIME 1.0
 
