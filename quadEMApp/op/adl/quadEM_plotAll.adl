@@ -140,7 +140,7 @@ composite {
 	erase_oldest="plot last n pts"
 	trace[0] {
 		xdata="$(P)$(XAXIS)"
-		ydata="$(P)$(CURR1).VAL"
+		ydata="$(P)$(CURR1)"
 		data_clr=27
 	}
 	x_axis {
@@ -183,7 +183,7 @@ text {
 	erase_oldest="plot last n pts"
 	trace[0] {
 		xdata="$(P)$(XAXIS)"
-		ydata="$(P)$(CURR2).VAL"
+		ydata="$(P)$(CURR2)"
 		data_clr=27
 	}
 	x_axis {
@@ -226,7 +226,7 @@ text {
 	erase_oldest="plot last n pts"
 	trace[0] {
 		xdata="$(P)$(XAXIS)"
-		ydata="$(P)$(SUM).VAL"
+		ydata="$(P)$(SUM)"
 		data_clr=27
 	}
 	x_axis {
@@ -269,7 +269,7 @@ text {
 	erase_oldest="plot last n pts"
 	trace[0] {
 		xdata="$(P)$(XAXIS)"
-		ydata="$(P)$(POS).VAL"
+		ydata="$(P)$(POS)"
 		data_clr=27
 	}
 	x_axis {
