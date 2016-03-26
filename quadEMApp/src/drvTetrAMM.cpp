@@ -283,6 +283,12 @@ void drvTetrAMM::readThread(void)
                     }
                     nextExpectedEdge = 0;
                     break;
+                case 0xfff40003ffffffffll:
+                    // This is a signaling Nan when the acquistion was stopped
+                    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+                            "%s::%s: seen acq done sNaN (0xfff40003ffffffffll)\n",
+                            driverName, functionName);
+                    break;
                 default: 
                     // We have lost sync, probably due to a dropped packet.
                     // Recover sync by reading 2 times length per sample, which is enough to guarantee that
@@ -522,6 +528,7 @@ asynStatus drvTetrAMM::setAcquireParams()
     double sampleTime;
     double averagingTime;
     int prevAcquiring;
+    int numAcquire;
     static const char *functionName = "setAcquireParams";
 
     prevAcquiring = acquiring_;
@@ -534,16 +541,7 @@ asynStatus drvTetrAMM::setAcquireParams()
     getIntegerParam(P_ValuesPerRead, &valuesPerRead);
     getIntegerParam(P_ReadFormat,    &readFormat);
     getDoubleParam (P_AveragingTime, &averagingTime);
-
-    // Certain combinations are not yet supported
-    if ((triggerMode == QETriggerModeExtTrigger) &&
-        ((acquireMode == QEAcquireModeContinuous) ||
-         (acquireMode == QEAcquireModeMultiple))) {
-        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-            "%s::%s Error, TriggerMode=External Trigger is currently only supported for AcquireMode=One-Shot\n",
-            driverName, functionName);
-        return asynError;
-    }
+    getIntegerParam(P_NumAcquire,    &numAcquire);
 
     // Compute the sample time.  This is 10 microseconds times valuesPerRead. 
     sampleTime = 10e-6 * valuesPerRead;
@@ -596,6 +594,10 @@ asynStatus drvTetrAMM::setAcquireParams()
     sprintf(outString_, "NAQ:%d", naq);
     writeReadMeter();
     
+    // Send the NTRG command (NTRG command does not affect continuous mode)
+    sprintf(outString_, "NTRG:%d", (acquireMode == QEAcquireModeSingle) ? 1 : numAcquire);
+    writeReadMeter();
+
     if (prevAcquiring) setAcquire(1);    
     return asynSuccess;
 }
