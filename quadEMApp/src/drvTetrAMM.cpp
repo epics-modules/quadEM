@@ -522,6 +522,7 @@ asynStatus drvTetrAMM::setAcquireParams()
     int valuesPerRead;
     int readFormat;
     int naq;
+    int ntrg;
     int range;
     int numChannels;
     int triggerMode;
@@ -529,7 +530,7 @@ asynStatus drvTetrAMM::setAcquireParams()
     double averagingTime;
     int prevAcquiring;
     int numAcquire;
-    static const char *functionName = "setAcquireParams";
+    //static const char *functionName = "setAcquireParams";
 
     prevAcquiring = acquiring_;
     if (prevAcquiring) setAcquire(0);
@@ -586,16 +587,19 @@ asynStatus drvTetrAMM::setAcquireParams()
 
     // Send the NAQ command
     naq = 0;
-    if (((triggerMode == QETriggerModeExtTrigger) || 
-         (triggerMode == QETriggerModeFreeRun)) && 
-         (acquireMode == QEAcquireModeSingle)) {
+    if ((triggerMode == QETriggerModeExtTrigger) || 
+       ((triggerMode == QETriggerModeFreeRun) && 
+        (acquireMode == QEAcquireModeSingle))) {
         naq = numAverage;
     }        
     sprintf(outString_, "NAQ:%d", naq);
     writeReadMeter();
     
     // Send the NTRG command (NTRG command does not affect continuous mode)
-    sprintf(outString_, "NTRG:%d", (acquireMode == QEAcquireModeSingle) ? 1 : numAcquire);
+    ntrg = 0;
+    if (acquireMode == QEAcquireModeSingle) ntrg = 1;
+    else if (acquireMode == QEAcquireModeMultiple) ntrg = numAcquire;
+    sprintf(outString_, "NTRG:%d", ntrg);
     writeReadMeter();
 
     if (prevAcquiring) setAcquire(1);    
