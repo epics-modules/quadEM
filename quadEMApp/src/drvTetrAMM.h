@@ -39,6 +39,7 @@ protected:
     virtual asynStatus setRange(epicsInt32 value);
     virtual asynStatus setReadFormat(epicsInt32 value);
     virtual asynStatus setTriggerMode(epicsInt32 value);
+    virtual asynStatus setTriggerPolarity(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
  
 private:
