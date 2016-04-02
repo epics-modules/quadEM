@@ -32,6 +32,7 @@
 #define P_RangeString              "QE_RANGE"                   /* asynInt32,    r/w */
 #define P_ResetString              "QE_RESET"                   /* asynInt32,    r/w */
 #define P_TriggerModeString        "QE_TRIGGER_MODE"            /* asynInt32,    r/w */
+#define P_TriggerPolarityString    "QE_TRIGGER_POLARITY"        /* asynInt32,    r/w */
 #define P_NumChannelsString        "QE_NUM_CHANNELS"            /* asynInt32,    r/w */
 #define P_BiasStateString          "QE_BIAS_STATE"              /* asynInt32,    r/w */
 #define P_BiasVoltageString        "QE_BIAS_VOLTAGE"            /* asynFloat64,  r/w */
@@ -102,6 +103,14 @@ typedef enum {
     QETriggerModeExtGate,
 } QETriggerMode_t;
 
+/* Trigger polarity */
+typedef enum {
+    QETriggerPolarityPositive,
+    QETriggerPolarityNegative
+
+} QETriggerPolarity_t;
+
+
 /* Read format */
 typedef enum {
     QEReadFormatBinary,
@@ -144,6 +153,7 @@ protected:
     int P_Range;
     int P_Reset;
     int P_TriggerMode;
+    int P_TriggerPolarity;
     int P_NumChannels;
     int P_BiasState;
     int P_BiasVoltage;
@@ -190,6 +200,7 @@ protected:
     virtual asynStatus setReadFormat(epicsInt32 value);
     virtual asynStatus setResolution(epicsInt32 value);
     virtual asynStatus setTriggerMode(epicsInt32 value);
+    virtual asynStatus setTriggerPolarity(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
     virtual void       triggerCallbacks();
     
