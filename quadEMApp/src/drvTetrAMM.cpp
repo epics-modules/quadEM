@@ -30,7 +30,7 @@
 #include <epicsExport.h>
 #include "drvTetrAMM.h"
 
-#define TetrAMM_TIMEOUT 0.01
+#define TetrAMM_TIMEOUT 0.05
 #define MIN_VALUES_PER_READ_BINARY 5
 #define MIN_VALUES_PER_READ_ASCII 500
 #define MAX_VALUES_PER_READ 100000
@@ -526,6 +526,7 @@ asynStatus drvTetrAMM::setAcquireParams()
     int range;
     int numChannels;
     int triggerMode;
+    int triggerPolarity;
     double sampleTime;
     double averagingTime;
     int prevAcquiring;
@@ -535,14 +536,15 @@ asynStatus drvTetrAMM::setAcquireParams()
     prevAcquiring = acquiring_;
     if (prevAcquiring) setAcquire(0);
 
-    getIntegerParam(P_Range,         &range);
-    getIntegerParam(P_NumChannels,   &numChannels);
-    getIntegerParam(P_TriggerMode,   &triggerMode);
-    getIntegerParam(P_AcquireMode,   &acquireMode);
-    getIntegerParam(P_ValuesPerRead, &valuesPerRead);
-    getIntegerParam(P_ReadFormat,    &readFormat);
-    getDoubleParam (P_AveragingTime, &averagingTime);
-    getIntegerParam(P_NumAcquire,    &numAcquire);
+    getIntegerParam(P_Range,            &range);
+    getIntegerParam(P_NumChannels,      &numChannels);
+    getIntegerParam(P_TriggerMode,      &triggerMode);
+    getIntegerParam(P_TriggerPolarity,  &triggerPolarity);
+    getIntegerParam(P_AcquireMode,      &acquireMode);
+    getIntegerParam(P_ValuesPerRead,    &valuesPerRead);
+    getIntegerParam(P_ReadFormat,       &readFormat);
+    getDoubleParam (P_AveragingTime,    &averagingTime);
+    getIntegerParam(P_NumAcquire,       &numAcquire);
 
     // Compute the sample time.  This is 10 microseconds times valuesPerRead. 
     sampleTime = 10e-6 * valuesPerRead;
@@ -583,6 +585,10 @@ asynStatus drvTetrAMM::setAcquireParams()
 
     // Send the TRG:OFF or TRG:ON command
     sprintf(outString_, "TRG:%s", (triggerMode == QETriggerModeFreeRun) ? "OFF" : "ON");
+    writeReadMeter();
+
+    // Send the TRGPOL:POS or TRGPOL:NEG command
+    sprintf(outString_, "TRGPOL:%s", (triggerPolarity == QETriggerPolarityPositive) ? "POS" : "NEG");
     writeReadMeter();
 
     // Send the NAQ command
@@ -708,6 +714,15 @@ asynStatus drvTetrAMM::setReadFormat(epicsInt32 value)
   *                  2 = external gate.
   */
 asynStatus drvTetrAMM::setTriggerMode(epicsInt32 value)
+{
+    return setAcquireParams();
+}
+
+/** Sets the trigger polarity
+  * \param[in] value 0 = rising edge,
+  *                  1 = falling edge
+  */
+asynStatus drvTetrAMM::setTriggerPolarity(epicsInt32 value)
 {
     return setAcquireParams();
 }
