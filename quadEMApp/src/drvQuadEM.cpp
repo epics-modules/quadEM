@@ -82,6 +82,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     createParam(P_RangeString,              asynParamInt32,         &P_Range);
     createParam(P_ResetString,              asynParamInt32,         &P_Reset);
     createParam(P_TriggerModeString,        asynParamInt32,         &P_TriggerMode);
+    createParam(P_TriggerPolarityString,    asynParamInt32,         &P_TriggerPolarity);
     createParam(P_NumChannelsString,        asynParamInt32,         &P_NumChannels);
     createParam(P_BiasStateString,          asynParamInt32,         &P_BiasState);
     createParam(P_BiasVoltageString,        asynParamFloat64,       &P_BiasVoltage);
@@ -425,6 +426,10 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         status |= setTriggerMode(value);
         status |= readStatus();
     }
+    else if (function == P_TriggerPolarity) {
+        status |= setTriggerPolarity(value);
+        status |= readStatus();
+    }
     else if (function == P_ValuesPerRead) {
         valuesPerRead_ = value;
         status |= setValuesPerRead(value);
@@ -602,4 +607,5 @@ asynStatus drvQuadEM::setRange(epicsInt32 value)             {return asynSuccess
 asynStatus drvQuadEM::setReadFormat(epicsInt32 value)        {return asynSuccess;}
 asynStatus drvQuadEM::setResolution(epicsInt32 value)        {return asynSuccess;}
 asynStatus drvQuadEM::setTriggerMode(epicsInt32 value)       {return asynSuccess;}
+asynStatus drvQuadEM::setTriggerPolarity(epicsInt32 value)   {return asynSuccess;}
 asynStatus drvQuadEM::setValuesPerRead(epicsInt32 value)     {return asynSuccess;}
