@@ -10,7 +10,7 @@
 
 #include <epicsExit.h>
 #include <epicsRingBytes.h>
-#include <epicsEvent.h>
+#include <epicsMessageQueue.h>
 #include "asynNDArrayDriver.h"
 
 /* These are the drvInfo strings that are used to identify the parameters.
@@ -183,7 +183,6 @@ protected:
     int numAcquired_;
 
     void computePositions(epicsFloat64 raw[QE_MAX_INPUTS]);
-    virtual asynStatus doDataCallbacks();
     virtual asynStatus readStatus()=0;
     virtual asynStatus reset()=0;
     virtual asynStatus setAcquire(epicsInt32 value);
@@ -202,12 +201,14 @@ protected:
     virtual asynStatus setTriggerMode(epicsInt32 value);
     virtual asynStatus setTriggerPolarity(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
-    virtual void       triggerCallbacks();
+    virtual asynStatus triggerCallbacks();
     
 private:
+    virtual asynStatus doDataCallbacks(int numRead);
     int ringCount_;
+    int rawCount_;
     epicsRingBytesId ringBuffer_;
-    epicsEventId ringEvent_;
+    epicsMessageQueueId msgQId_;
 
 };
 
