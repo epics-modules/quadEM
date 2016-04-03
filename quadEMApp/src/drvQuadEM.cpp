@@ -124,7 +124,7 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     if (ringBufferSize <= 0) ringBufferSize = QE_DEFAULT_RING_BUFFER_SIZE;
     
     ringBuffer_ = epicsRingBytesCreate(ringBufferSize * QE_MAX_DATA * sizeof(epicsFloat64));
-    ringEvent_ = epicsEventCreate(epicsEventEmpty);
+    msgQId_ = epicsMessageQueueCreate(ringBufferSize, sizeof(int));
 
     /* Create the thread that does callbacks when the ring buffer has numAverage samples */
     status = (asynStatus)(epicsThreadCreate("drvQuadEMCallbackTask",
@@ -216,6 +216,7 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
 
     count = epicsRingBytesPut(ringBuffer_, (char *)&doubleData, sizeof(doubleData));
     ringCount_++;
+    rawCount_++;
     if (count != sizeof(doubleData)) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                "%s:%s: error writing ring buffer, count=%d, should be %d\n", 
@@ -224,7 +225,7 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
 
     getIntegerParam(P_NumAverage, &numAverage);
     if (numAverage > 0) {
-        if (ringCount_ >= numAverage) {
+        if (rawCount_ >= numAverage) {
             triggerCallbacks();
         }
     }
@@ -237,18 +238,27 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
     doCallbacksInt32Array(intData, QE_MAX_DATA, P_IntArrayData, 0);
 }
 
-void drvQuadEM::triggerCallbacks()
+asynStatus drvQuadEM::triggerCallbacks()
 {
-    epicsEventSignal(ringEvent_);
+    int status;
+    static const char *functionName = "triggerCallbacks";
+
+    status = epicsMessageQueueSend(msgQId_, &rawCount_, sizeof(rawCount_));
+    if (status) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s, error calling epicsMessageQueueTrySend\n",
+            driverName, functionName);
+    }
+    rawCount_ = 0;
+    return (status ? asynError : asynSuccess);
 }
 
-asynStatus drvQuadEM::doDataCallbacks()
+asynStatus drvQuadEM::doDataCallbacks(int numRead)
 {
     epicsFloat64 doubleData[QE_MAX_DATA];
     epicsFloat64 *pIn, *pOut;
-    int numAverage;
-    int numAveraged;
     int sampleSize = sizeof(doubleData);
+    int ringSize;
     int count;
     epicsTimeStamp now;
     epicsFloat64 timeStamp;
@@ -258,66 +268,60 @@ asynStatus drvQuadEM::doDataCallbacks()
     NDArray *pArrayAll, *pArraySingle;
     static const char *functionName = "doDataCallbacks";
     
-    getIntegerParam(P_NumAverage, &numAverage);
-    while (1) {
-        numAveraged = epicsRingBytesUsedBytes(ringBuffer_) / sampleSize;
-        if (numAverage > 0) {
-            if (numAveraged < numAverage) break;
-            numAveraged = numAverage;
-            setIntegerParam(P_NumAveraged, numAveraged);
-        } else {
-            setIntegerParam(P_NumAveraged, numAveraged);
-            if (numAveraged < 1) break;
+    ringSize = epicsRingBytesUsedBytes(ringBuffer_) / sampleSize;
+    if (ringSize < numRead) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s::%s: not enough bytes in ring buffer, expecting %d actually %d\n",
+            driverName, functionName, numRead, ringSize);
+        return asynError;
+    }
+
+    dims[0] = QE_MAX_DATA;
+    dims[1] = numRead;
+    setIntegerParam(P_NumAveraged, numRead);
+
+    epicsTimeGetCurrent(&now);
+    getIntegerParam(NDArrayCounter, &arrayCounter);
+    arrayCounter++;
+    setIntegerParam(NDArrayCounter, arrayCounter);
+
+    pArrayAll = pNDArrayPool->alloc(2, dims, NDFloat64, 0, 0);
+    pArrayAll->uniqueId = arrayCounter;
+    timeStamp = now.secPastEpoch + now.nsec / 1.e9;
+    pArrayAll->timeStamp = timeStamp;
+    getAttributes(pArrayAll->pAttributeList);
+
+    count = epicsRingBytesGet(ringBuffer_, (char *)pArrayAll->pData, numRead * sampleSize);
+    if (count != numRead * sampleSize) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s::%s ring read failed\n",
+            driverName, functionName);
+        return asynError;
+    }
+    ringCount_ -= numRead;
+    unlock();
+    doCallbacksGenericPointer(pArrayAll, NDArrayData, QE_MAX_DATA);
+    lock();
+    // Copy data to arrays for each type of data, do callbacks on that.
+    dims[0] = numRead;
+    for (i=0; i<QE_MAX_DATA; i++) {
+        pArraySingle = pNDArrayPool->alloc(1, dims, NDFloat64, 0, 0);
+        pArraySingle->uniqueId = arrayCounter;
+        pArraySingle->timeStamp = timeStamp;
+        getAttributes(pArraySingle->pAttributeList);
+        pIn = (epicsFloat64 *)pArrayAll->pData;
+        pOut = (epicsFloat64 *)pArraySingle->pData;
+        for (j=0; j<numRead; j++) {
+            pOut[j] = pIn[i];
+            pIn += QE_MAX_DATA;
         }
-
-        dims[0] = QE_MAX_DATA;
-        dims[1] = numAveraged;
-
-        epicsTimeGetCurrent(&now);
-        getIntegerParam(NDArrayCounter, &arrayCounter);
-        arrayCounter++;
-        setIntegerParam(NDArrayCounter, arrayCounter);
-
-        pArrayAll = pNDArrayPool->alloc(2, dims, NDFloat64, 0, 0);
-        pArrayAll->uniqueId = arrayCounter;
-        timeStamp = now.secPastEpoch + now.nsec / 1.e9;
-        pArrayAll->timeStamp = timeStamp;
-        getAttributes(pArrayAll->pAttributeList);
-
-        count = epicsRingBytesGet(ringBuffer_, (char *)pArrayAll->pData, numAveraged * sampleSize);
-        if (count != numAveraged * sampleSize) {
-            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                "%s:%s: ring read failed\n",
-                driverName, functionName);
-            return asynError;
-        }
-        ringCount_ -= numAveraged;
         unlock();
-        doCallbacksGenericPointer(pArrayAll, NDArrayData, QE_MAX_DATA);
+        doCallbacksGenericPointer(pArraySingle, NDArrayData, i);
         lock();
-        // Copy data to arrays for each type of data, do callbacks on that.
-        dims[0] = numAveraged;
-        for (i=0; i<QE_MAX_DATA; i++) {
-            pArraySingle = pNDArrayPool->alloc(1, dims, NDFloat64, 0, 0);
-            pArraySingle->uniqueId = arrayCounter;
-            pArraySingle->timeStamp = timeStamp;
-            getAttributes(pArraySingle->pAttributeList);
-            pIn = (epicsFloat64 *)pArrayAll->pData;
-            pOut = (epicsFloat64 *)pArraySingle->pData;
-            for (j=0; j<numAveraged; j++) {
-                pOut[j] = pIn[i];
-                pIn += QE_MAX_DATA;
-            }
-            unlock();
-            doCallbacksGenericPointer(pArraySingle, NDArrayData, i);
-            lock();
-            pArraySingle->release();
-        }   
-        pArrayAll->release();
-        callParamCallbacks();
-        // We only loop once if numAverage==0
-        if (numAverage == 0) break;
-    }    
+        pArraySingle->release();
+    }   
+    pArrayAll->release();
+    callParamCallbacks();
     setIntegerParam(P_RingOverflows, 0);
     callParamCallbacks();
     return asynSuccess;
@@ -328,23 +332,24 @@ void drvQuadEM::callbackTask()
     lock();
     int numAcquire;
     int acquireMode;
+    int numRead;
     
     while (1) {
         unlock();
-        (void)epicsEventWait(ringEvent_);
+        epicsMessageQueueReceive(msgQId_, &numRead, sizeof(numRead));
         lock();
         getIntegerParam(P_AcquireMode, &acquireMode);
         getIntegerParam(P_NumAcquire, &numAcquire);
         if (acquireMode == QEAcquireModeSingle) numAcquire = 1;
 
         if (acquireMode == QEAcquireModeContinuous) {
-            doDataCallbacks();
+            doDataCallbacks(numRead);
             numAcquired_++;
             setIntegerParam(P_NumAcquired, numAcquired_);
         } 
         else {
             if (numAcquired_ < numAcquire) {
-                doDataCallbacks();
+                doDataCallbacks(numRead);
                 numAcquired_++;
                 setIntegerParam(P_NumAcquired, numAcquired_);
                 if (numAcquired_ == numAcquire) {
@@ -380,6 +385,7 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         if (value) {
             epicsRingBytesFlush(ringBuffer_);
             ringCount_ = 0;
+            rawCount_ = 0;
         }
         status |= setAcquire(value);
     } 
@@ -416,7 +422,7 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         status |= readStatus();
     }
     else if (function == P_ReadData) {
-        status |= doDataCallbacks();
+        status |= triggerCallbacks();
     }
     else if (function == P_Resolution) {
         status |= setResolution(value);
@@ -493,6 +499,7 @@ asynStatus drvQuadEM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
         status |= setAveragingTime(value);
         epicsRingBytesFlush(ringBuffer_);
         ringCount_ = 0;
+        rawCount_ = 0;
         status |= readStatus();
     }
     else if (function == P_BiasVoltage) {
