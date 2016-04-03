@@ -159,15 +159,15 @@ record(bo,"$(P)$(R)TriggerPolarity") {
     field(ZNAM, "Positive")
     field(ONAM, "Negative")
     field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT) 0)TRIGGER_POLARITY")
+    field(OUT,  "@asyn($(PORT) 0)QE_TRIGGER_POLARITY")
 }
 
-record(bi,"$(P)$(R)TriggerPolarity") {
+record(bi,"$(P)$(R)TriggerPolarity_RBV") {
     field(DESC, "Trigger polarity")
     field(ZNAM, "Positive")
     field(ONAM, "Negative")
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT) 0)TRIGGER_POLARITY")
+    field(INP,  "@asyn($(PORT) 0)QE_TRIGGER_POLARITY")
     field(SCAN, "I/O Intr")
 }
 
