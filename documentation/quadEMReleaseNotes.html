@@ -11,20 +11,20 @@
   <h2 style="text-align: center">
     Release 7-0 (April XXX, 2016)</h2>
   <ul>
-    <li>Changed the time-series and FFT support.  Previously the time-series used the
-      drvFastSweep driver from the synApps "mca" module.  FFTs were done by an SNL
-      program in the quadEM module.  Now the time-series is done by the NDPluginTimeSeries
-      plugin in areaDetector/ADCore.  The FFT is now done by the NDPluginFFT plugin, 
-      also in ADCore.  These changes mean that quadEM no longer depends on the mca or
-      seq modules.  They also add some significant new capabilities.  For example the drvFastSweep
-      driver is limited to epicsInt32 data, while the NDPluginTimeSeries plugin can handle
-      any data type, include epicsFloat64 which is what the quadEM driver produces.</li>
+    <li>Changed the time-series and FFT support. Previously the time-series used the drvFastSweep
+      driver from the synApps "mca" module. FFTs were done by an SNL program in the quadEM
+      module. Now the time-series is done by the NDPluginTimeSeries plugin in areaDetector/ADCore.
+      The FFT is now done by the NDPluginFFT plugin, also in ADCore. These changes mean
+      that quadEM no longer depends on the mca or seq modules. They also add some significant
+      new capabilities. For example the drvFastSweep driver is limited to epicsInt32 data,
+      while the NDPluginTimeSeries plugin can handle any data type, including epicsFloat64
+      which is what the quadEM driver produces.</li>
     <li>Added support for TriggerPolarity on the TetrAMM.</li>
     <li>Improved the support for data acquisition applications, such as step-scan and
       on-the-fly scans using ion-chamber and photodiode detectors. This is particularly
-      true for the TetrAMM model, using the new firmware version XXXXX.  This firmware version
-      or later is required, because it adds features and fixes bugs present in earlier
-      versions.</li>
+      true for the TetrAMM model, using the new firmware version 2.9.XXX. This firmware
+      version or later is required, because it adds features and fixes bugs present in
+      earlier versions.</li>
     <li>Changed the AcquireMode choices from Continuous/One-shot to Continuous/Multiple/Single.
       Multiple will collect NumAcquire acquisitions and then stop. Single is the same
       as the previous One-shot, but using the same terminology as areaDeector.</li>
