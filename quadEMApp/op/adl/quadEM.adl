@@ -1299,7 +1299,7 @@ composite {
 					display[10] {
 						label="Position Y"
 						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:PoxY:,S=FFTAbsValue"
+						args="P=$(P)$(R),RTS=TS:,R=FFT:PosY:,S=FFTAbsValue"
 					}
 					clr=14
 					bclr=51
