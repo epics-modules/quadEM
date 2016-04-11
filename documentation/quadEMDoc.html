@@ -1554,6 +1554,8 @@ pattern
 </pre>
   <h2 id="Performance">
     Performance</h2>
+  <h3>
+    AH401B</h3>
   <p>
     The following table shows the CPU utilization of a Linux machine (Xeon E5630 2.53GHz,
     8 cores), and vxWorks MVME5100, with the AH401B electometer. The CPU load was measured
@@ -1607,6 +1609,8 @@ pattern
     It can be seen that the load on the Linux machine is only 6% of a single core, while
     the load on the MVME5100 is 15%.
   </p>
+  <h3>
+    TetrAMM</h3>
   <p>
     The following table shows the CPU utilization of the Linux machine and vxWorks MVME5100,
     with the TetrAMM electometer. The CPU load was measured under the following conditions.
@@ -1749,7 +1753,7 @@ pattern
     from the host IOC machine. The CAEN ELS Device Manager software must be used to
     configure the device IP address and port number.</p>
   <p>
-    An example startup script for Linux or Windows is provided in
+    An example startup script is provided in
     <br />
     <a href="quadEM_cmd_TetrAMM.html">quadEM/iocBoot/iocTetrAMM/TetraAMM.cmd</a>
   </p>
@@ -1765,7 +1769,7 @@ pattern
     script must include the UDP qualifier on the drvAsynIPPortConfigure command if UDP
     is selected.</p>
   <p>
-    Example startup scripts for Linux or Windows are provided in
+    Example startup scripts are provided in
     <br />
     <a href="quadEM_cmd_AH401B.html">quadEM/iocBoot/iocAH401B/AH401B.cmd</a> and
     <br />
@@ -1788,7 +1792,7 @@ pattern
     of all NSLS_EM modules. If the specified module ID is found then it configures communication
     to that module by calling drvAsynIPPortConfigure internally.</p>
   <p>
-    An example startup script for Linux or Windows is provided in
+    An example startup script is provided in
     <br />
     <a href="quadEM_cmd_NSLS_EM.html">quadEM/iocBoot/iocNSLS_EM/NSLS_EM.cmd</a>
   </p>
@@ -1807,15 +1811,12 @@ pattern
     If an Ip-Unidig or other interrupt source is not being used then the APS_EM driver
     will poll for new data at the system clock rate, typically 60Hz.</p>
   <p>
-    An example startup script for vxWorks is provided in
+    An example startup script is provided in
+    <br />
+    <a href="quadEM_cmd_APS_EM.html">quadEM/iocBoot/iocAPS_EM/APS_EM.cmd</a>.<br />
+    and
     <br />
     <a href="quadEM_st_cmd_vxWorks.html">quadEM/iocBoot/iocAPS_EM/st.cmd.vxWorks</a>.
-  </p>
-  <p>
-    This example startup script can be edited to start either the APS_EM, the TetrAMM,
-    the AH401B, or the AH501. For the APS_EM this script invokes
-    <br />
-    <a href="quadEM_cmd_APS_EM.html">quadEM/iocBoot/iocAPS_EM/APS_EM.cmd</a>.
   </p>
 </body>
 </html>
