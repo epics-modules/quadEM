@@ -7,7 +7,7 @@ display {
 	object {
 		x=133
 		y=126
-		width=925
+		width=915
 		height=760
 	}
 	clr=14
@@ -91,7 +91,7 @@ rectangle {
 	object {
 		x=0
 		y=0
-		width=895
+		width=915
 		height=26
 	}
 	"basic attribute" {
@@ -102,7 +102,7 @@ polyline {
 	object {
 		x=0
 		y=27
-		width=894
+		width=914
 		height=3
 	}
 	"basic attribute" {
@@ -112,7 +112,7 @@ polyline {
 	}
 	points {
 		(1,28)
-		(892,28)
+		(912,28)
 	}
 }
 composite {
@@ -156,7 +156,7 @@ composite {
 }
 composite {
 	object {
-		x=287
+		x=297
 		y=5
 		width=320
 		height=20
@@ -165,7 +165,7 @@ composite {
 	children {
 		text {
 			object {
-				x=287
+				x=297
 				y=5
 				width=170
 				height=20
@@ -177,7 +177,7 @@ composite {
 		}
 		text {
 			object {
-				x=467
+				x=477
 				y=5
 				width=140
 				height=20
@@ -550,7 +550,7 @@ composite {
 		x=10
 		y=385
 		width=392
-		height=245
+		height=270
 	}
 	"composite name"=""
 	"composite file"="TetrAMM.adl"
@@ -751,631 +751,337 @@ text {
 	limits {
 	}
 }
+rectangle {
+	object {
+		x=420
+		y=655
+		width=490
+		height=100
+	}
+	"basic attribute" {
+		clr=14
+		fill="outline"
+		width=1
+	}
+}
+rectangle {
+	object {
+		x=420
+		y=490
+		width=490
+		height=160
+	}
+	"basic attribute" {
+		clr=14
+		fill="outline"
+		width=1
+	}
+}
 composite {
 	object {
-		x=405
-		y=595
-		width=260
-		height=160
+		x=440
+		y=551
+		width=209
+		height=95
 	}
 	"composite name"=""
 	children {
-		composite {
-			object {
-				x=443
-				y=726
-				width=195
-				height=20
-			}
-			"composite name"=""
-			children {
-				"related display" {
-					object {
-						x=558
-						y=726
-						width=80
-						height=20
-					}
-					display[0] {
-						label="asyn record"
-						name="asynRecord.adl"
-						args="P=$(P), R=$(R)Asyn"
-					}
-					clr=14
-					bclr=51
-				}
-				text {
-					object {
-						x=443
-						y=726
-						width=110
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Asyn record"
-				}
-			}
-		}
-		composite {
-			object {
-				x=413
-				y=626
-				width=245
-				height=95
-			}
-			"composite name"=""
-			children {
-				text {
-					object {
-						x=413
-						y=626
-						width=140
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Ring overflows"
-					align="horiz. right"
-				}
-				"text update" {
-					object {
-						x=558
-						y=626
-						width=100
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)RingOverflows"
-						clr=54
-						bclr=3
-					}
-					limits {
-					}
-				}
-				menu {
-					object {
-						x=558
-						y=651
-						width=80
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ReadStatus.SCAN"
-						clr=14
-						bclr=51
-					}
-				}
-				text {
-					object {
-						x=443
-						y=651
-						width=110
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Status rate"
-					align="horiz. right"
-				}
-				"message button" {
-					object {
-						x=558
-						y=676
-						width=80
-						height=20
-					}
-					control {
-						chan="$(P)$(R)Reset.PROC"
-						clr=14
-						bclr=51
-					}
-					label="Reset"
-					press_msg="1"
-				}
-				text {
-					object {
-						x=503
-						y=676
-						width=50
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Reset"
-				}
-				composite {
-					object {
-						x=483
-						y=701
-						width=155
-						height=20
-					}
-					"composite name"=""
-					children {
-						text {
-							object {
-								x=483
-								y=701
-								width=70
-								height=20
-							}
-							"basic attribute" {
-								clr=14
-							}
-							textix="Plugins"
-							align="horiz. right"
-						}
-						"related display" {
-							object {
-								x=558
-								y=701
-								width=80
-								height=20
-							}
-							display[0] {
-								label="Stats plugins"
-								name="QECommonPlugins.adl"
-								args="P=$(P),R=$(R)"
-							}
-							display[1] {
-								label="FFT plugins"
-								name="QEFFTPlugins.adl"
-								args="P=$(P),R=$(R)FFT:,RTS=$(R)TS:"
-							}
-							clr=14
-							bclr=51
-						}
-					}
-				}
-			}
-		}
-		rectangle {
-			object {
-				x=409
-				y=598
-				width=250
-				height=25
-			}
-			"basic attribute" {
-				clr=2
-				width=1
-			}
-		}
 		text {
 			object {
-				x=504
-				y=600
-				width=60
+				x=479
+				y=551
+				width=170
 				height=20
 			}
 			"basic attribute" {
 				clr=54
 			}
-			textix="Status"
-			align="horiz. centered"
+			textix="Time domain plots"
 		}
-		rectangle {
+		"related display" {
 			object {
-				x=405
-				y=595
-				width=260
-				height=160
+				x=440
+				y=576
+				width=80
+				height=20
+			}
+			display[0] {
+				label="X (current, sum, pos)"
+				name="quadEM_plotAll.adl"
+				args="P=$(P)$(R)TS:, CURR1=Current1:TimeSeries, CURR2=Current2:TimeSeries, SUM=SumX:TimeSeries, POS=PosX:TimeSeries, XAXIS=TSTimeAxis, TITLE=$(TX), XTITLE=Time (sec), YTITLE=Counts"
+			}
+			clr=14
+			bclr=51
+		}
+		"related display" {
+			object {
+				x=440
+				y=626
+				width=80
+				height=20
+			}
+			display[0] {
+				label="Current 1"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:Current1:"
+			}
+			display[1] {
+				label="Current 2"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:Current2:"
+			}
+			display[2] {
+				label="Current 3"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:Current3:"
+			}
+			display[3] {
+				label="Current 4"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:Current4:"
+			}
+			display[4] {
+				label="Sum X"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:SumX:"
+			}
+			display[5] {
+				label="Sum Y"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:SumY:"
+			}
+			display[6] {
+				label="Sum All"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:SumAll:"
+			}
+			display[7] {
+				label="Difference X"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:DiffX:"
+			}
+			display[8] {
+				label="Difference Y"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:DiffY:"
+			}
+			display[9] {
+				label="Position X"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:PosX:"
+			}
+			display[10] {
+				label="Position Y"
+				name="NDTimeSeriesPlot.adl"
+				args="P=$(P)$(R),R=TS:,RN=TS:PosY:"
+			}
+			clr=14
+			bclr=51
+		}
+		"related display" {
+			object {
+				x=440
+				y=601
+				width=80
+				height=20
+			}
+			display[0] {
+				label="Y (current, sum, pos)"
+				name="quadEM_plotAll.adl"
+				args="P=$(P)$(R)TS:, CURR1=Current3:TimeSeries, CURR2=Current4:TimeSeries, SUM=SumY:TimeSeries, POS=PosY:TimeSeries, XAXIS=TSTimeAxis, TITLE=$(TY), XTITLE=Time (sec), YTITLE=Counts"
+			}
+			clr=14
+			bclr=51
+		}
+		text {
+			object {
+				x=525
+				y=576
+				width=100
+				height=20
 			}
 			"basic attribute" {
 				clr=14
-				fill="outline"
-				width=1
 			}
+			textix="X combined"
+		}
+		text {
+			object {
+				x=525
+				y=601
+				width=100
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Y combined"
+		}
+		text {
+			object {
+				x=525
+				y=626
+				width=100
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Individual"
 		}
 	}
 }
 composite {
 	object {
-		x=670
-		y=490
-		width=250
-		height=265
+		x=675
+		y=550
+		width=234
+		height=95
 	}
 	"composite name"=""
 	children {
-		rectangle {
+		text {
 			object {
-				x=670
-				y=490
-				width=250
-				height=265
+				x=689
+				y=550
+				width=220
+				height=20
+			}
+			"basic attribute" {
+				clr=54
+			}
+			textix="Frequency domain plots"
+		}
+		"related display" {
+			object {
+				x=675
+				y=575
+				width=80
+				height=20
+			}
+			display[0] {
+				label="X (current, sum, pos)"
+				name="quadEM_plotAll.adl"
+				args="P=$(P)$(R)FFT:, CURR1=Current1:FFTAbsValue, CURR2=Current2:FFTAbsValue, SUM=SumX:FFTAbsValue, POS=PosX:FFTAbsValue, XAXIS=PosX:FFTFreqAxis, TITLE=$(TX), XTITLE=Frequency (Hz), YTITLE=Counts"
+			}
+			clr=14
+			bclr=51
+		}
+		"related display" {
+			object {
+				x=675
+				y=600
+				width=80
+				height=20
+			}
+			display[0] {
+				label="X (current, sum, pos)"
+				name="quadEM_plotAll.adl"
+				args="P=$(P)$(R)FFT:, CURR1=Current3:FFTAbsValue, CURR2=Current4:FFTAbsValue, SUM=SumY:FFTAbsValue, POS=PosY:FFTAbsValue, XAXIS=PosY:FFTFreqAxis, TITLE=$(TY), XTITLE=Frequency (Hz), YTITLE=Counts"
+			}
+			clr=14
+			bclr=51
+		}
+		"related display" {
+			object {
+				x=675
+				y=625
+				width=80
+				height=20
+			}
+			display[0] {
+				label="Current 1"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:Current1:,S=FFTAbsValue"
+			}
+			display[1] {
+				label="Current 2"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:Current2:,S=FFTAbsValue"
+			}
+			display[2] {
+				label="Current 3"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:Current3:,S=FFTAbsValue"
+			}
+			display[3] {
+				label="Current 4"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:Current4:,S=FFTAbsValue"
+			}
+			display[4] {
+				label="Sum X"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:SumX:,S=FFTAbsValue"
+			}
+			display[5] {
+				label="Sum Y"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:SumY:,S=FFTAbsValue"
+			}
+			display[6] {
+				label="Sum All"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:SumAll:,S=FFTAbsValue"
+			}
+			display[7] {
+				label="Difference X"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:DiffX:,S=FFTAbsValue"
+			}
+			display[8] {
+				label="Difference Y"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:DiffY:,S=FFTAbsValue"
+			}
+			display[9] {
+				label="Position X"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:PosX:,S=FFTAbsValue"
+			}
+			display[10] {
+				label="Position Y"
+				name="NDFFTFreqSpectrumPlot.adl"
+				args="P=$(P)$(R),RTS=TS:,R=FFT:PosY:,S=FFTAbsValue"
+			}
+			clr=14
+			bclr=51
+		}
+		text {
+			object {
+				x=760
+				y=575
+				width=100
+				height=20
 			}
 			"basic attribute" {
 				clr=14
-				fill="outline"
-				width=1
 			}
+			textix="X combined"
 		}
-		composite {
+		text {
 			object {
-				x=678
-				y=526
-				width=225
-				height=21
+				x=760
+				y=600
+				width=100
+				height=20
 			}
-			"composite name"=""
-			children {
-				"related display" {
-					object {
-						x=678
-						y=526
-						width=80
-						height=20
-					}
-					display[0] {
-						label="Time series control"
-						name="NDPluginTimeSeries.adl"
-						args="P=$(P)$(R),R=TS:,R1=TS:Current1:,T1=Current1,R2=TS:Current2:,T2=Current2,R3=TS:Current3:,T3=Current3,R4=TS:Current4:,T4=Current4,R5=TS:SumX:,T5=SumX,R6=TS:SumY:,T6=SumY,R7=TS:SumAll:,T7=SumAll,R8=TS:PosX:,T8=PosX,R9=TS:PosY:,T9=PosY"
-					}
-					clr=14
-					bclr=51
-				}
-				text {
-					object {
-						x=763
-						y=527
-						width=140
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Plugin control"
-				}
+			"basic attribute" {
+				clr=14
 			}
+			textix="Y combined"
 		}
-		composite {
+		text {
 			object {
-				x=678
-				y=552
-				width=209
-				height=95
+				x=760
+				y=625
+				width=100
+				height=20
 			}
-			"composite name"=""
-			children {
-				text {
-					object {
-						x=717
-						y=552
-						width=170
-						height=20
-					}
-					"basic attribute" {
-						clr=54
-					}
-					textix="Time domain plots"
-				}
-				"related display" {
-					object {
-						x=678
-						y=577
-						width=80
-						height=20
-					}
-					display[0] {
-						label="X (current, sum, pos)"
-						name="quadEM_plotAll.adl"
-						args="P=$(P)$(R)TS:, CURR1=Current1:TimeSeries, CURR2=Current2:TimeSeries, SUM=SumX:TimeSeries, POS=PosX:TimeSeries, XAXIS=TSTimeAxis, TITLE=$(TX), XTITLE=Time (sec), YTITLE=Counts"
-					}
-					clr=14
-					bclr=51
-				}
-				"related display" {
-					object {
-						x=678
-						y=627
-						width=80
-						height=20
-					}
-					display[0] {
-						label="Current 1"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:Current1:"
-					}
-					display[1] {
-						label="Current 2"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:Current2:"
-					}
-					display[2] {
-						label="Current 3"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:Current3:"
-					}
-					display[3] {
-						label="Current 4"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:Current4:"
-					}
-					display[4] {
-						label="Sum X"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:SumX:"
-					}
-					display[5] {
-						label="Sum Y"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:SumY:"
-					}
-					display[6] {
-						label="Sum All"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:SumAll:"
-					}
-					display[7] {
-						label="Difference X"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:DiffX:"
-					}
-					display[8] {
-						label="Difference Y"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:DiffY:"
-					}
-					display[9] {
-						label="Position X"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:PosX:"
-					}
-					display[10] {
-						label="Position Y"
-						name="NDTimeSeriesPlot.adl"
-						args="P=$(P)$(R),R=TS:,RN=TS:PosY:"
-					}
-					clr=14
-					bclr=51
-				}
-				"related display" {
-					object {
-						x=678
-						y=602
-						width=80
-						height=20
-					}
-					display[0] {
-						label="Y (current, sum, pos)"
-						name="quadEM_plotAll.adl"
-						args="P=$(P)$(R)TS:, CURR1=Current3:TimeSeries, CURR2=Current4:TimeSeries, SUM=SumY:TimeSeries, POS=PosY:TimeSeries, XAXIS=TSTimeAxis, TITLE=$(TY), XTITLE=Time (sec), YTITLE=Counts"
-					}
-					clr=14
-					bclr=51
-				}
-				text {
-					object {
-						x=763
-						y=577
-						width=100
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="X combined"
-				}
-				text {
-					object {
-						x=763
-						y=602
-						width=100
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Y combined"
-				}
-				text {
-					object {
-						x=763
-						y=627
-						width=100
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Individual"
-				}
+			"basic attribute" {
+				clr=14
 			}
-		}
-		composite {
-			object {
-				x=678
-				y=652
-				width=234
-				height=95
-			}
-			"composite name"=""
-			children {
-				text {
-					object {
-						x=692
-						y=652
-						width=220
-						height=20
-					}
-					"basic attribute" {
-						clr=54
-					}
-					textix="Frequency domain plots"
-				}
-				"related display" {
-					object {
-						x=678
-						y=677
-						width=80
-						height=20
-					}
-					display[0] {
-						label="X (current, sum, pos)"
-						name="quadEM_plotAll.adl"
-						args="P=$(P)$(R)FFT:, CURR1=Current1:FFTAbsValue, CURR2=Current2:FFTAbsValue, SUM=SumX:FFTAbsValue, POS=PosX:FFTAbsValue, XAXIS=PosX:FFTFreqAxis, TITLE=$(TX), XTITLE=Frequency (Hz), YTITLE=Counts"
-					}
-					clr=14
-					bclr=51
-				}
-				"related display" {
-					object {
-						x=678
-						y=702
-						width=80
-						height=20
-					}
-					display[0] {
-						label="X (current, sum, pos)"
-						name="quadEM_plotAll.adl"
-						args="P=$(P)$(R)FFT:, CURR1=Current3:FFTAbsValue, CURR2=Current4:FFTAbsValue, SUM=SumY:FFTAbsValue, POS=PosY:FFTAbsValue, XAXIS=PosY:FFTFreqAxis, TITLE=$(TY), XTITLE=Frequency (Hz), YTITLE=Counts"
-					}
-					clr=14
-					bclr=51
-				}
-				"related display" {
-					object {
-						x=678
-						y=727
-						width=80
-						height=20
-					}
-					display[0] {
-						label="Current 1"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:Current1:,S=FFTAbsValue"
-					}
-					display[1] {
-						label="Current 2"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:Current2:,S=FFTAbsValue"
-					}
-					display[2] {
-						label="Current 3"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:Current3:,S=FFTAbsValue"
-					}
-					display[3] {
-						label="Current 4"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:Current4:,S=FFTAbsValue"
-					}
-					display[4] {
-						label="Sum X"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:SumX:,S=FFTAbsValue"
-					}
-					display[5] {
-						label="Sum Y"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:SumY:,S=FFTAbsValue"
-					}
-					display[6] {
-						label="Sum All"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:SumAll:,S=FFTAbsValue"
-					}
-					display[7] {
-						label="Difference X"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:DiffX:,S=FFTAbsValue"
-					}
-					display[8] {
-						label="Difference Y"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:DiffY:,S=FFTAbsValue"
-					}
-					display[9] {
-						label="Position X"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:PosX:,S=FFTAbsValue"
-					}
-					display[10] {
-						label="Position Y"
-						name="NDFFTFreqSpectrumPlot.adl"
-						args="P=$(P)$(R),RTS=TS:,R=FFT:PosY:,S=FFTAbsValue"
-					}
-					clr=14
-					bclr=51
-				}
-				text {
-					object {
-						x=763
-						y=677
-						width=100
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="X combined"
-				}
-				text {
-					object {
-						x=763
-						y=702
-						width=100
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Y combined"
-				}
-				text {
-					object {
-						x=763
-						y=727
-						width=100
-						height=20
-					}
-					"basic attribute" {
-						clr=14
-					}
-					textix="Individual"
-				}
-			}
-		}
-		composite {
-			object {
-				x=675
-				y=496
-				width=240
-				height=25
-			}
-			"composite name"=""
-			children {
-				rectangle {
-					object {
-						x=675
-						y=496
-						width=240
-						height=25
-					}
-					"basic attribute" {
-						clr=2
-						width=1
-					}
-				}
-				text {
-					object {
-						x=740
-						y=498
-						width=110
-						height=20
-					}
-					"basic attribute" {
-						clr=54
-					}
-					textix="Time series"
-				}
-			}
+			textix="Individual"
 		}
 	}
 }
@@ -2292,6 +1998,326 @@ composite {
 				clr=14
 			}
 			textix="Scale"
+		}
+	}
+}
+"related display" {
+	object {
+		x=785
+		y=525
+		width=120
+		height=20
+	}
+	display[0] {
+		label="Time series control"
+		name="NDPluginTimeSeries.adl"
+		args="P=$(P)$(R),R=TS:,R1=TS:Current1:,T1=Current1,R2=TS:Current2:,T2=Current2,R3=TS:Current3:,T3=Current3,R4=TS:Current4:,T4=Current4,R5=TS:SumX:,T5=SumX,R6=TS:SumY:,T6=SumY,R7=TS:SumAll:,T7=SumAll,R8=TS:PosX:,T8=PosX,R9=TS:PosY:,T9=PosY"
+	}
+	clr=14
+	bclr=51
+	label="Plugin control"
+}
+"text update" {
+	object {
+		x=680
+		y=526
+		width=100
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)TS:TSAcquiring"
+		clr=54
+		bclr=12
+	}
+	clrmod="alarm"
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=425
+		y=525
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Acquire"
+}
+"message button" {
+	object {
+		x=500
+		y=525
+		width=85
+		height=20
+	}
+	control {
+		chan="$(P)$(R)TS:TSAcquire"
+		clr=14
+		bclr=51
+	}
+	label="Erase/Start"
+	press_msg="1"
+}
+"message button" {
+	object {
+		x=590
+		y=525
+		width=85
+		height=20
+	}
+	control {
+		chan="$(P)$(R)TS:TSAcquire"
+		clr=14
+		bclr=51
+	}
+	label="Stop"
+	press_msg="0"
+}
+composite {
+	object {
+		x=590
+		y=660
+		width=150
+		height=25
+	}
+	"composite name"=""
+	children {
+		rectangle {
+			object {
+				x=590
+				y=660
+				width=150
+				height=25
+			}
+			"basic attribute" {
+				clr=2
+				width=1
+			}
+		}
+		text {
+			object {
+				x=647
+				y=662
+				width=36
+				height=20
+			}
+			"basic attribute" {
+				clr=54
+			}
+			textix="Status"
+			align="horiz. centered"
+		}
+	}
+}
+text {
+	object {
+		x=750
+		y=705
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Plugins"
+	align="horiz. right"
+}
+"related display" {
+	object {
+		x=825
+		y=705
+		width=80
+		height=20
+	}
+	display[0] {
+		label="Common plugins"
+		name="QECommonPlugins.adl"
+		args="P=$(P),R=$(R)"
+	}
+	display[1] {
+		label="FFT plugins"
+		name="QEFFTPlugins.adl"
+		args="P=$(P),R=$(R)FFT:,RTS=$(R)TS:"
+	}
+	clr=14
+	bclr=51
+}
+composite {
+	object {
+		x=770
+		y=680
+		width=135
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
+			object {
+				x=825
+				y=680
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Reset.PROC"
+				clr=14
+				bclr=51
+			}
+			label="Reset"
+			press_msg="1"
+		}
+		text {
+			object {
+				x=770
+				y=680
+				width=50
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Reset"
+		}
+	}
+}
+composite {
+	object {
+		x=710
+		y=730
+		width=195
+		height=20
+	}
+	"composite name"=""
+	children {
+		"related display" {
+			object {
+				x=825
+				y=730
+				width=80
+				height=20
+			}
+			display[0] {
+				label="asyn record"
+				name="asynRecord.adl"
+				args="P=$(P), R=$(R)Asyn"
+			}
+			clr=14
+			bclr=51
+		}
+		text {
+			object {
+				x=710
+				y=730
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Asyn record"
+		}
+	}
+}
+composite {
+	object {
+		x=590
+		y=495
+		width=150
+		height=25
+	}
+	"composite name"=""
+	children {
+		rectangle {
+			object {
+				x=590
+				y=495
+				width=150
+				height=25
+			}
+			"basic attribute" {
+				clr=2
+				width=1
+			}
+		}
+		text {
+			object {
+				x=610
+				y=497
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=54
+			}
+			textix="Time series"
+		}
+	}
+}
+composite {
+	object {
+		x=425
+		y=705
+		width=245
+		height=45
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=425
+				y=705
+				width=140
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Ring overflows"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=570
+				y=705
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)RingOverflows"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		menu {
+			object {
+				x=570
+				y=730
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ReadStatus.SCAN"
+				clr=14
+				bclr=51
+			}
+		}
+		text {
+			object {
+				x=455
+				y=730
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Status rate"
+			align="horiz. right"
 		}
 	}
 }
