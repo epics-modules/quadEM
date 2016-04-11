@@ -12,7 +12,7 @@
     <h2>
       R7-0</h2>
     <h2>
-      February XXX, 2016</h2>
+      April 11, 2016</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -45,20 +45,21 @@
   <ol>
     <li>The AH401 series (AH401B, AH401D) and AH501 series (AH501, AH501C, AH501D) picoammeters
       originally designed by <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
-        Synchrotron Trieste (elettra)</a>. They are now sold commerically by <a href="http://www.caenels.com/caenels/products.php">
+        Synchrotron Trieste (elettra)</a>. They are now sold commerically by <a href="http://www.caenels.com/products">
           CAENels</a>. These devices communicate using TCP or UDP over 100 Mbit/s Ethernet
       or high-speed serial. They provide 4-channel current measurements at up to 6510
       Hz (AH501 series) or 1000 Hz (AH401 series).</li>
-    <li>The TetrAMM picoammeter sold by <a href="http://www.caenels.com/caenels/products.php">
-      CAENels</a>. This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides
-      4-channel current measurements at up to 20 kHz.</li>
+    <li>The TetrAMM picoammeter sold by <a href="http://www.caenels.com/products">CAENels</a>.
+      This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides 4-channel
+      current measurements at up to 20 kHz.</li>
     <li>The NSLS Quad Electrometer (called NSLS_EM in this document). This device consists
       of a 4-channel digital electrometer unit with Ethernet communication. The device
       provides 4-channel current measurements at up to 2500 Hz.</li>
-    <li>The Quad Electrometer built by <a href="mailto:skross@aps.anl.gov">Steve Ross</a>
-      from the APS (called APS_EM in this document). This device consists of a 4-channel
-      digital electrometer unit and 2 VME boards. The device provides 2 readings per diode
-      at up to 813 Hz.</li>
+    <li>The Quad Electrometer built by Steve Ross from the APS (called APS_EM in this
+      document). This device consists of a 4-channel digital electrometer unit and 2 VME
+      boards. The device provides 2 readings per diode at up to 813 Hz. This device appears
+      to no longer be in use on any APS beamlines, so the support is now deprecated and
+      will be removed in a future release.</li>
   </ol>
   <p>
     The AH401 series, NSLS_EM, and APS_EM are based on the same principle of an op-amp
@@ -67,8 +68,7 @@
     current sensing, combined with analog signal conditioning and filtering stages.
     The AH501C, AH501D, and TetrAMM have an integrated programmable bias supply.</p>
   <p>
-    The <b>quadEM</b> software includes asyn drivers and an SNL program that provide
-    support for the following:</p>
+    The <b>quadEM</b> software includes asyn drivers that provide support for the following:</p>
   <ul>
     <li>Analog input records using the NDPluginStats plugin from the synApps <a href="areaDetector.html">
       areaDetector</a> module. This provides digitally averaged readings of the current,
@@ -89,18 +89,19 @@
     <li>Time series data (like a digital scope) of the current, sum, difference and position
       at speeds up to 20000 Hz (TetrAMM), 6510 Hz (AH501 series), 1000 Hz (AH401 series)
       2500 Hz (NSLS_EM), or 813 Hz (APS_EM). The data is available in standard EPICS waveform
-      records, using the drvFastSweep asyn driver from the synApps <a href="mca.html">mca</a>
-      module. The time per point can be greater, in which case it does averaging. The
-      quadEM drivers do the callbacks on the asynInt32Array interface required to use
-      this support.</li>
+      records, using the <a href="NDPluginTimeSeries.html">NDPluginTimeSeries plugin</a>
+      from areaDetector/ADCore. The time per point can be greater, in which case it does
+      averaging. The quadEM drivers do the callbacks on the asynInt32Array interface required
+      to use this support.</li>
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
-      EPICS waveform record.</li>
+      EPICS waveform record. This uses the <a href="NDPluginFFT.html">NDPluginFFT plugin</a>
+      from areaDetector/ADCore.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
       dac128V), also at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If
       it is run slower it does signal averaging. This support is provided in the synApps
-      <a href="www.aps.anl.gov/bcda/synApps/std/std.html">std</a> module. The quadEM drivers
-      do the callbacks on the asynFloat64 interface required to use the epid fast feedback
-      device support.</li>
+      <a href="http://www.aps.anl.gov/bcda/synApps/std/std.html">std</a> module. The quadEM
+      drivers do the callbacks on the asynFloat64 interface required to use the epid fast
+      feedback device support.</li>
   </ul>
   <p>
     The following manuals provide detailed information on these devices:</p>
@@ -117,7 +118,7 @@
     The support is based on asynNDArray driver from areaDetector, which in turn is based
     on asynPortDriver. It consists of a base class <a href="quadEMDoxygenHTML/classdrv_quad_e_m.html">
       (drvQuadEM.cpp)</a> which is device-independent. There are device-dependent classes
-    for the TetrAMM (<a href="quadEMDoxygenHTML/classdrv_tetr_a_m_m.html">(drvTetrAMM.cpp)</a>,
+    for the TetrAMM <a href="quadEMDoxygenHTML/classdrv_tetr_a_m_m.html">(drvTetrAMM.cpp)</a>,
     AH401 and AH501 series <a href="quadEMDoxygenHTML/classdrv_a_hxxx.html">(drvAHxxx.cpp)</a>
     and the APS electrometer <a href="quadEMDoxygenHTML/classdrv_a_p_s___e_m.html">(drvAPS_EM.cpp)</a>.
     The EPICS State Notation Language (SNL) program (quadEM_SNL.st) is used to synchronize
@@ -150,14 +151,14 @@
     <li>In addition to placing the data from each time point into the ring buffer, the
       driver does callbacks on the asynFloat64 interface for each data value. This is
       typically used for fast feedback support with the epid record. It also does callbacks
-      on the asynInt32Array interface, which is typically used for the drvFastSweep support
-      in the mca module for time-series acquisition.</li>
+      on the asynFloat64Array interface, which is used by the NDPluginTimeSeries for time-series
+      acquisition.</li>
   </ul>
   <p>
     Note: This version of the driver requires a minimum firmware version on some models</p>
   <ul>
     <li>AH501D Firmware version 2.0.</li>
-    <li>TetrAMM Firmware version XXXXX</li>
+    <li>TetrAMM Firmware version 2.9.11</li>
   </ul>
   <p>
     Prior to R5-0 the quadEM driver assumed the following geometry for the 4 current
@@ -1430,292 +1431,64 @@
   <h3 id="quadEM_TimeSeries">
     Time Series</h3>
   <p>
-    The quadEM_TimeSeries.template database provides a time-history (like a digital
-    scope) of the current, sum, difference and position at speeds up to 20000Hz (TetrAMM),
-    6510 Hz (AH501 series), 1000Hz (AH401 series) or 813 Hz (APS_EM). The time per point
-    can be greater than the sampling time, in which case it does averaging. It also
-    optionally uses FFTs to compute the frequency power-spectrum of each signal. The
-    time-series support requires the drvFastSweep driver from the synApps mca module,
-    and also the quadEM_SNL SNL program in this quadEM module. The time-series and frequency
-    spectra are contained in standard EPICS waveform records.</p>
-  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
-    <tbody>
-      <tr>
-        <td align="center" colspan="3">
-          <b>Records in quadEM_TimeSeries.template</b></td>
-      </tr>
-      <tr>
-        <th>
-          EPICS record name</th>
-        <th>
-          EPICS record type</th>
-        <th>
-          Description</th>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)SNL_Connected</td>
-        <td>
-          bi</td>
-        <td>
-          Indicates whether the SNL program has successfully connected to all required records
-          in quadEM_TimeSeries.template.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)EraseAll</td>
-        <td>
-          bo</td>
-        <td>
-          Erases all time-series waveform records.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)EraseStart</td>
-        <td>
-          bo</td>
-        <td>
-          Erases and starts time series data acquisition.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)StartAll</td>
-        <td>
-          bo</td>
-        <td>
-          Re-starts acquisition without erasing the data first.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)StopAll</td>
-        <td>
-          bo</td>
-        <td>
-          Stops time-series data acquisition.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Acquiring</td>
-        <td>
-          busy</td>
-        <td>
-          Indicates if tacquisition is Done or Acquiring.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)MaxChannels</td>
-        <td>
-          longin</td>
-        <td>
-          The maximum number of time-series points that can be acquired. Controlled by the
-          value specified when the quadEM_TimeSeries.template file and quadEM_SNL SNL program
-          were loaded.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)NuseAll</td>
-        <td>
-          longout</td>
-        <td>
-          Controls the number of time-series points to acquire before acquisition stops automatically.
-        </td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)CurrentChannel</td>
-        <td>
-          longin</td>
-        <td>
-          The current time-series data point being acquired.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)ReadAll</td>
-        <td>
-          bo</td>
-        <td>
-          Forces all the time-series waveform records to process and read the current time-series
-          data. This record can be periodically processed to read the time-series data as
-          it is being acquired. Even if this record is Passive the time-series data will be
-          read once when time-series data acquisition is complete.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Dwell</td>
-        <td>
-          ao</td>
-        <td>
-          The dwell time per point. This time is constrained to be an integer multiple of
-          the SampleTime, whose range is discussed above. The readback value of $(P)$(R)Dwell_RBV
-          gives the actual dwell time per point.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Dwell_RBV</td>
-        <td>
-          ai</td>
-        <td>
-          The actual dwell time per point, which may differ from Dwell, because the time per
-          point is constrained to be a multiple of the sampling time.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)ElapsedReal</td>
-        <td>
-          ao</td>
-        <td>
-          The elapsed real time since time-series data acquisition started.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)PresetReal</td>
-        <td>
-          dfanout</td>
-        <td>
-          The preset real time. Time-series acquisition will stop if this value is reached.
-          If this value is 0 then there is no preset real time.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)AutoRestartTS</td>
-        <td>
-          bo</td>
-        <td>
-          Controls whether time-series data acquisition is automatically restarted as soon
-          as it completes. Choices are "No" and "Yes". This can be useful for producing a
-          continuously updating display of frequency power-spectra, for example.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Current[1-4]TS</td>
-        <td>
-          waveform</td>
-        <td>
-          The time-series values for the diode currents.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Sum[X,Y,All]TS</td>
-        <td>
-          waveform</td>
-        <td>
-          The time-series values for the diode sums.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Diff[X,Y]TS</td>
-        <td>
-          waveform</td>
-        <td>
-          The time-series values for the diode differences.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Position[X,Y]TS</td>
-        <td>
-          waveform</td>
-        <td>
-          The time-series values for the diode positions.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)TimeAxis</td>
-        <td>
-          waveform</td>
-        <td>
-          An array of the times for the x-axis of time series plots.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)ComputeFFT</td>
-        <td>
-          bo</td>
-        <td>
-          Controls whether FFTs power-spectra are computed when time-series data acquisition
-          completes. Choices are "No" and "Yes". The FFT calculations are done in the SNL
-          program using the Numerical Recipes "four1" function.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Current[1-4]FFT</td>
-        <td>
-          waveform</td>
-        <td>
-          The frequency power-spectra for the diode currents.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Sum[X,Y,All]FFT</td>
-        <td>
-          waveform</td>
-        <td>
-          The frequency power-spectra for the diode sums.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Diff[X,Y]FFT</td>
-        <td>
-          waveform</td>
-        <td>
-          The frequency power-spectra for the diode differences.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)Position[X,Y]FFT</td>
-        <td>
-          waveform</td>
-        <td>
-          The frequency power-spectra for the diode positions.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)FreqAxis</td>
-        <td>
-          waveform</td>
-        <td>
-          An array of the frequencies for the x-axis of frequency power-spectrum plots.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)EnableClientWait</td>
-        <td>
-          bo</td>
-        <td>
-          A flag to control whether time-series data acquisition waits for a client to reset
-          the ClientWait record.</td>
-      </tr>
-      <tr>
-        <td>
-          $(P)$(R)ClientWait</td>
-        <td>
-          busy</td>
-        <td>
-          A busy record which a client must set back to 0 to enable time-series data acquisition
-          to continue if EnableClientWait is "Enable".</td>
-      </tr>
-    </tbody>
-  </table>
+    The quadEM module uses the <a href="NDPluginTimeSeries.html">NDPluginTimeSeries plugin</a>
+    from areaDetector/ADCore to provide a time-history (like a digital scope) of the
+    current, sum, difference and position at speeds up to 20000Hz (TetrAMM), 6510 Hz
+    (AH501 series), 1000Hz (AH401 series) or 813 Hz (APS_EM). The time per point can
+    be greater than the sampling time, in which case it does averaging. The time series
+    can operate in a fixed-length mode where acquisition stops after the specified number
+    of time points have been collected. This mode is suited for data-acquisition applications,
+    such as on-the-fly scanning. The time series plugin can also operate in a circular
+    buffer mode with continuous acquisition and display of the most recent time points.
+    This mode is suited for continuous monitoring.</p>
   <p>
-    This is the medm screen to control the records in quadEM_TimeSeries.template.</p>
+    The quadEM module also uses the <a href="NDPluginFFT.html">NDPluginFFT plugin</a>
+    from areaDetector/ADCore to compute the frequency power-spectrum of each signal.
+  </p>
+  <p>
+    This is the medm screen to control the NDPluginTimeSeries plugin. In this example
+    the time per point from the TetrAMM is 50 microseconds, and averaging time for the
+    time series plugin is 1 millisecond, or 20 points. The plugin has 2000 time points,
+    and is operating in circular buffer mode.</p>
   <div style="text-align: center">
     <h3 style="text-align: center">
-      quadEM_TimeSeries.adl</h3>
+      NDPluginTimeSeries.adl</h3>
     <img alt="quadEM_TimeSeries.png" src="quadEM_TimeSeries.png" /></div>
   <p>
-    This is the medm screen for the first 2 channels. It contains the currents, sum
-    and position as a function of time. The dwell time was 0.002s, and there are 2048
-    channels (time points), so the total time is 4.096 seconds.</p>
+    This is a plot of the time series for Current 1. It shows the last 2 seconds of
+    data in circular buffer mode.</p>
   <div style="text-align: center">
     <h3 style="text-align: center">
-      quadEM_PlotAll.adl</h3>
+      NDTimeSeriesPlot.adl</h3>
     <img alt="quadEM_TimeSeriesPlot.png" src="quadEM_TimeSeriesPlot.png" /></div>
   <p>
+    This is a plot of the time series for the horizontal currents, sum, and position.
+    It shows the last 2 seconds of data in circular buffer mode.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      quadEM_plogAll.adl</h3>
+    <img alt="quadEM_HorizontalTimeSeriesPlot.png" src="quadEM_HorizontalTimeSeriesPlot.png" /></div>
+  <p>
+    This is a plot of the FFT for Current 1. DC offset suppression is enabled and 10
+    FFTs are being averaged to improve the signal/noise ratio.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      NDFFTFreqSpectrumPlot.adl</h3>
+    <img alt="quadEM_NDFFTFreqSpectrumPlot.png" src="quadEM_NDFFTFreqSpectrumPlot.png" /></div>
+  <p>
+    This is an medm screen for control of all 11 FFT plugins.</p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      QEFFTPlugins.adl</h3>
+    <img alt="QEFFTPlugins.png" src="QEFFTPlugins.png" /></div>
+  <p>
     This is an medm screen that displays the FFTs of the Current, Sum, and Position
-    for the time-series data above.</p>
+    for the time-series data above. 100 FFTs are being averaged to improve the signal/noise
+    ratio.</p>
   <div style="text-align: center">
     <h3 style="text-align: center">
       quadEM_plotAll.adl</h3>
-    <img alt="quadEM_FFTPlot.png" src="quadEM_FFTPlot.png" /></div>
+    <img alt="quadEM_HorizontalFFTPlot.png" src="quadEM_HorizontalFFTPlot.png" /></div>
   <h3 id="fast_pid_control">
     fast_pid_control.db
   </h3>
@@ -1782,48 +1555,37 @@ pattern
   <h2 id="Performance">
     Performance</h2>
   <p>
-    The following table shows the CPU utilization of a Linux machine (Xeon E5630 2.53GHz),
-    vxWorks MVME5100, and vxWorks MVME2100 with the AH501 electometer. The CPU load
-    was measured as a function of the parameters that control the SampleTime (ValuesPerRead,
-    NumChannels, Resolution). The CPU load also depends on the AveragingTime, since
-    that controls the rate of callbacks to the statistics and other plugins. The AveragingTime
-    was mostly held constant at 0.1 seconds on vxWorks, but was changed between 0.1
-    second and 0.01 seconds on Linux. Measurements were also done with all of the plugins
-    set to CallbacksBlock=Yes and CallbacksBlock=No. When CallbacksBlock=No then each
-    plugin runs in its own thread. On a multi-core system this can improve performance
-    because each plugin runs in its own core. On a single-core system CallbacksBlock=Yes
-    can improve performance because a single thread runs all of the the plugin code,
-    and thread context switches are avoided.</p>
-  <p>
-    It can be seen that the load on Linux is less than 10% when the AveragingTime is
-    0.1 second, and less than 25% when it is 0.01 second. Tests on a Windows 7 64-bit
-    machine (Intel Core i7-2820QM 2.3GHz) gave very similar results to Linux. Note that
-    the Linux (and Windows CPU) values listed are the percent of a <b>single</b> CPU
-    core. These are 8-core systems, so the percent of the total system CPU is 8 times
-    less. The load on the MVME5100 is significant, but it can handle NumChannels=4 with
-    ValuesPerRead=1 for either resolution. The MVME2100 on the other hand cannot run
-    with ValuesPerRead=1 at all, it completely saturates the system. It does work with
-    ValuesPerRead=4 or 10. On the MVME 2100 setting CallbacksBlock=Yes does signficantly
-    reduce the CPU load.</p>
+    The following table shows the CPU utilization of a Linux machine (Xeon E5630 2.53GHz,
+    8 cores), and vxWorks MVME5100, with the AH401B electometer. The CPU load was measured
+    under the following conditions. This is the maximum data rate of the AH401B and
+    the time series waveform records and FFTs are processing at 1 Hz.</p>
+  <ul>
+    <li>ValuesPerRead=1</li>
+    <li>IntegrationTime=0.001</li>
+    <li>PingPoing=Yes</li>
+    <li>AveragingTime=0.1</li>
+    <li>NumChannels=4</li>
+    <li>ReadFormat=Binary4</li>
+    <li>Time series plugin
+      <ul>
+        <li>Plugin enabled</li>
+        <li>TSNumPoints=2048</li>
+        <li>TSAveragingTime=0.001</li>
+        <li>TSRead.SCAN=1 second</li>
+        <li>TSAcquireMode=Circular Buffer</li>
+      </ul>
+    </li>
+    <li>FFT plugins enabled</li>
+  </ul>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
     <tbody>
       <tr>
         <td align="center" colspan="7">
-          <b>Performance of AH501 using TCP</b></td>
+          <b>Performance of AH401B</b></td>
       </tr>
       <tr>
         <th>
           System</th>
-        <th>
-          ValuesPerRead</th>
-        <th>
-          NumChannels</th>
-        <th>
-          Resolution</th>
-        <th>
-          AveragingTime</th>
-        <th>
-          CallbacksBlock</th>
         <th>
           %CPU time</th>
       </tr>
@@ -1831,127 +1593,76 @@ pattern
         <td>
           Linux Xeon</td>
         <td>
-          1</td>
+          6%</td>
+      </tr>
+      <tr>
         <td>
-          4</td>
+          MVME5100</td>
         <td>
-          16</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          5%</td>
+          15%</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    It can be seen that the load on the Linux machine is only 6% of a single core, while
+    the load on the MVME5100 is 15%.
+  </p>
+  <p>
+    The following table shows the CPU utilization of the Linux machine and vxWorks MVME5100,
+    with the TetrAMM electometer. The CPU load was measured under the following conditions.
+    ValuesPerRead=5 is the maximum data rate of the AH401B and the time series waveform
+    records and FFTs are processing at 1 Hz.</p>
+  <ul>
+    <li>ValuesPerRead=5, 10, 20, 50, 100</li>
+    <li>AveragingTime=0.1</li>
+    <li>NumChannels=4</li>
+    <li>ReadFormat=Binary4</li>
+    <li>Time series plugin
+      <ul>
+        <li>Plugin enabled</li>
+        <li>TSNumPoints=2048</li>
+        <li>TSAveragingTime=0.001</li>
+        <li>TSRead.SCAN=1 second</li>
+        <li>TSAcquireMode=Circular Buffer</li>
+      </ul>
+    </li>
+    <li>FFT plugins enabled</li>
+  </ul>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
+    <tbody>
+      <tr>
+        <td align="center" colspan="7">
+          <b>Performance of TetrAMM</b></td>
+      </tr>
+      <tr>
+        <th>
+          System</th>
+        <th>
+          ValuesPerRead</th>
+        <th>
+          %CPU time</th>
       </tr>
       <tr>
         <td>
           Linux Xeon</td>
         <td>
-          1</td>
+          5</td>
         <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          4%</td>
+          14%</td>
       </tr>
       <tr>
         <td>
           Linux Xeon</td>
         <td>
-          1</td>
+          10</td>
         <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          0.01</td>
-        <td>
-          No</td>
-        <td>
-          25%</td>
+          9%</td>
       </tr>
       <tr>
         <td>
           Linux Xeon</td>
         <td>
-          1</td>
-        <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          0.01</td>
-        <td>
-          Yes</td>
-        <td>
-          19%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          1</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.01</td>
-        <td>
-          No</td>
-        <td>
-          25%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          1</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.01</td>
-        <td>
-          Yes</td>
-        <td>
-          18%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          1</td>
-        <td>
-          2</td>
-        <td>
-          16</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          7%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          1</td>
-        <td>
-          2</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
+          20</td>
         <td>
           6%</td>
       </tr>
@@ -1959,95 +1670,39 @@ pattern
         <td>
           Linux Xeon</td>
         <td>
-          1</td>
+          50</td>
         <td>
-          1</td>
-        <td>
-          16</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          10%</td>
+          4%</td>
       </tr>
       <tr>
         <td>
           Linux Xeon</td>
         <td>
-          1</td>
+          100</td>
         <td>
-          1</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          8%</td>
-      </tr>
-      <tr>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
+          4%</td>
       </tr>
       <tr>
         <td>
           MVME5100</td>
         <td>
-          1</td>
+          5</td>
         <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          28%</td>
+          100%</td>
       </tr>
       <tr>
         <td>
           MVME5100</td>
         <td>
-          1</td>
+          10</td>
         <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          29%</td>
+          49%</td>
       </tr>
       <tr>
         <td>
           MVME5100</td>
         <td>
-          1</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
+          20</td>
         <td>
           22%</td>
       </tr>
@@ -2055,31 +1710,7 @@ pattern
         <td>
           MVME5100</td>
         <td>
-          1</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          23%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          2</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
+          50</td>
         <td>
           11%</td>
       </tr>
@@ -2087,661 +1718,18 @@ pattern
         <td>
           MVME5100</td>
         <td>
-          1</td>
+          100</td>
         <td>
-          2</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          32%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          1</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          55%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          2</td>
-        <td>
-          1</td>
-        <td>
-          16</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          45%</td>
-      </tr>
-      <tr>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          4</td>
-        <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          65%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          4</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          55%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          4</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          45%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          10</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          31%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          10</td>
-        <td>
-          4</td>
-        <td>
-          24</td>
-        <td>
-          0.2</td>
-        <td>
-          Yes</td>
-        <td>
-          22%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          10</td>
-        <td>
-          2</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          35%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          10</td>
-        <td>
-          1</td>
-        <td>
-          24</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          42%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          10</td>
-        <td>
-          4</td>
-        <td>
-          16</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          46%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          10</td>
-        <td>
-          1</td>
-        <td>
-          16</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          54%</td>
+          5%</td>
       </tr>
     </tbody>
   </table>
   <p>
-    The following table shows the CPU utilization of the Linux machine, vxWorks MVME5100,
-    and vxWorks MVME2100 with the AH401B electometer as a function of the AveragingTime
-    and CallbacksBlock at the shortest integration time (0.001 seconds). It can be seen
-    that the load on Linux and on the MVME5100 are both less than 10% when AveragingTime=0.1
-    second. The MVME2100 uses about 50% of the CPU under these conditions, but increasing
-    ValuesPerRead and/or AveragingTime reduces this.</p>
-  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
-    <tbody>
-      <tr>
-        <td align="center" colspan="6">
-          <b>Performance of AH401B using TCP</b></td>
-      </tr>
-      <tr>
-        <th>
-          System</th>
-        <th>
-          ValuesPerRead</th>
-        <th>
-          IntegrationTime</th>
-        <th>
-          AveragingTime</th>
-        <th>
-          CallbacksBlock</th>
-        <th>
-          %CPU time</th>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          4%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          3%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.01</td>
-        <td>
-          No</td>
-        <td>
-          13%</td>
-      </tr>
-      <tr>
-        <td>
-          Linux Xeon</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.01</td>
-        <td>
-          Yes</td>
-        <td>
-          14%</td>
-      </tr>
-      <tr>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          7%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          9%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.01</td>
-        <td>
-          No</td>
-        <td>
-          56%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.01</td>
-        <td>
-          Yes</td>
-        <td>
-          36%</td>
-      </tr>
-      <tr>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          55%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          50%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.2</td>
-        <td>
-          No</td>
-        <td>
-          20%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          4</td>
-        <td>
-          0.001</td>
-        <td>
-          0.2</td>
-        <td>
-          Yes</td>
-        <td>
-          15%</td>
-      </tr>
-    </tbody>
-  </table>
-  <p>
-    The following table shows the CPU utilization of vxWorks MVME5100 and vxWorks MVME2100
-    with the APS electometer as a function of the ValuesPerRead, IntegrationTime, AveragingTime,
-    and CallbacksBlock. The MVME5100 uses less than 10% of the CPU under the conditions
-    measured. The MVME2100 uses almost 70% of the CPU at the fastest sampling time,
-    but doubling ValuesPerRead and AveragingTime reduces this to less than 25%.</p>
-  <table border="1" cellpadding="2" cellspacing="2" style="text-align: right">
-    <tbody>
-      <tr>
-        <td align="center" colspan="6">
-          <b>Performance of APS Electometer</b></td>
-      </tr>
-      <tr>
-        <th>
-          System</th>
-        <th>
-          ValuesPerRead</th>
-        <th>
-          IntegrationTime</th>
-        <th>
-          AveragingTime</th>
-        <th>
-          CallbacksBlock</th>
-        <th>
-          %CPU time</th>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          0.0006</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          10%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          0.0006</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          9%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          2</td>
-        <td>
-          0.0006</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          5%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          2</td>
-        <td>
-          0.0006</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          7%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          6%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME5100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          5%</td>
-      </tr>
-      <tr>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          1</td>
-        <td>
-          0.0006</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          68%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          1</td>
-        <td>
-          0.0006</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          55%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          2</td>
-        <td>
-          0.0006</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          53%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          2</td>
-        <td>
-          0.0006</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          41%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          No</td>
-        <td>
-          50%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          1</td>
-        <td>
-          0.001</td>
-        <td>
-          0.1</td>
-        <td>
-          Yes</td>
-        <td>
-          40%</td>
-      </tr>
-      <tr>
-        <td>
-          MVME2100</td>
-        <td>
-          2</td>
-        <td>
-          0.001</td>
-        <td>
-          0.2</td>
-        <td>
-          Yes</td>
-        <td>
-          22%</td>
-      </tr>
-    </tbody>
-  </table>
+    It can be seen that the worst-case load on the Linux machine is only 14% of a single
+    core, while the load on the MVME5100 is 100% when ValuesPerRead=5. Using ValuesPerRead=20
+    or greater uses less than 22% of the CPU on the MVME5100, which is probably reasonable
+    in practice. That value still produces 5 kHz updates for time-series and fast feedback.
+  </p>
   <h2 id="Common_Setup">
     Common Setup</h2>
   <p>
