@@ -5,7 +5,7 @@ epicsEnvSet("TEMPLATE",  "TetrAMM")
 epicsEnvSet("QSIZE",     "20")
 epicsEnvSet("RING_SIZE", "10000")
 epicsEnvSet("TSPOINTS",  "2048")
-epicsEnvSet("IP",        "gse-tetramm2:10001")
+epicsEnvSet("IP",        "164.54.160.165:10001")
 
 #drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,
 #                        noProcessEos)
