@@ -255,9 +255,8 @@ asynStatus drvQuadEM::triggerCallbacks()
 
 asynStatus drvQuadEM::doDataCallbacks(int numRead)
 {
-    epicsFloat64 doubleData[QE_MAX_DATA];
     epicsFloat64 *pIn, *pOut;
-    int sampleSize = sizeof(doubleData);
+    int sampleSize = QE_MAX_DATA * sizeof(epicsFloat64);
     int ringSize;
     int count;
     epicsTimeStamp now;
