@@ -107,6 +107,8 @@ drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize)
     setIntegerParam(P_RingOverflows, 0);
     setIntegerParam(P_PingPong, 0);
     setDoubleParam(P_IntegrationTime, 0.);
+    // Need to define something for the SampleTime or else drvEpidFast gets an error
+    setDoubleParam(P_SampleTime, 0.1);
     setIntegerParam(P_Range, 0);
     setIntegerParam(P_TriggerMode, 0);
     setIntegerParam(P_NumChannels, 4);
