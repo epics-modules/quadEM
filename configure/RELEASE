@@ -8,13 +8,13 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # define INSTALL_LOCATION_APP here
 #INSTALL_LOCATION_APP=<fullpathname>
 
-SUPPORT=/corvette/home/epics/devel
+SUPPORT=/corvette/home/epics/support
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 # This module
 QUADEM=$(SUPPORT)/quadEM-7-0
 
 # ASYN - for device/driver support
-ASYN=$(SUPPORT)/asyn-4-28
+ASYN=$(SUPPORT)/asyn-4-29
 
 # areaDetector for asynNDArrayDriver
 AREA_DETECTOR=$(SUPPORT)/areaDetector-2-5
