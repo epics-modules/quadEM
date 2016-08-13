@@ -15,7 +15,7 @@ $AUTOSAVE/asApp/op \
 $SSCAN/sscanApp/Db \
 $SSCAN/sscanApp/op \
 $ADBINARIES/bin \
-$ADCORE/ADApp/Db \
+$ADCORE/db \
 $ADCORE/ADApp/op \
 $QUADEM/documentation \
 $QUADEM/quadEMApp/Db \
