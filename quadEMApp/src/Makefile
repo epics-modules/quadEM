@@ -48,10 +48,20 @@ PROD_LIBS_vxWorks += $(EPICS_BASE_IOC_LIBS)
 
 include $(ADCORE)/ADApp/commonLibraryMakefile
 include $(ADCORE)/ADApp/commonDriverMakefile
+$(PROD_NAME)_DBD += drvAsynIPPort.dbd
+$(PROD_NAME)_DBD += drvAHxxx.dbd
+$(PROD_NAME)_DBD += drvTetrAMM.dbd
+$(PROD_NAME)_DBD += drvNSLS_EM.dbd
 
+PROD_NAME = quadEMTestApp
+quadEMTestAppVx_DBD += $(PROD_NAME).dbd
+quadEMTestAppVx_DBD += drvIpac.dbd
+quadEMTestAppVx_DBD += ipUnidigSupport.dbd
+quadEMTestAppVx_DBD += drvAPS_EM.dbd
 #===========================
 
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
+quadEMTestAppVx.dbd : quadEMTestApp.dbd
