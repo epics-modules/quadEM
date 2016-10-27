@@ -14,6 +14,7 @@
 #define MAX_MODULES 16
 #define MAX_IPNAME_LEN 16
 #define MAX_PORTNAME_LEN 32
+#define MAX_RANGES 8
 
 typedef struct {
     int moduleID;
@@ -55,6 +56,7 @@ private:
     epicsEventId acquireStartEvent_;
     int moduleID_;
     int numModules_;
+    double ranges_[MAX_RANGES];
     moduleInfo_t moduleInfo_[MAX_MODULES];
     int readingActive_;
     char firmwareVersion_[MAX_COMMAND_LEN];
