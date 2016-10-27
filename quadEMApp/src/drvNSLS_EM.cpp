@@ -36,7 +36,9 @@
 #define BROADCAST_PORT 37747
 #define MIN_INTEGRATION_TIME 400e-6
 #define MAX_INTEGRATION_TIME 1.0
-
+#define FREQUENCY 1e6
+// 2^20 is maximum counts for 20-bit ADC
+#define MAX_COUNTS 1048576.0
 typedef enum {
   Phase0, 
   Phase1, 
@@ -69,6 +71,15 @@ drvNSLS_EM::drvNSLS_EM(const char *portName, const char *broadcastAddress, int m
     moduleID_ = moduleID;
     ipAddress_[0] = 0;
     firmwareVersion_[0] = 0;
+    // Integration capacitors in pF
+    ranges_[0]=12;
+    ranges_[1]=50;
+    ranges_[2]=100;
+    ranges_[3]=150;
+    ranges_[4]=200;
+    ranges_[5]=250;
+    ranges_[6]=300;
+    ranges_[7]=350;
     broadcastAddress_ = epicsStrDup(broadcastAddress);
     
     acquireStartEvent_ = epicsEventCreate(epicsEventEmpty);
@@ -292,6 +303,9 @@ void drvNSLS_EM::readThread(void)
     int eomReason;
     int valuesPerRead;
     int pingPong;
+    int range;
+    double integrationTime;
+    double scaleFactor=1.0;
     int i;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
@@ -332,8 +346,12 @@ void drvNSLS_EM::readThread(void)
             lock();
             readingActive_ = 1;
             status = pasynOctet->flush(octetPvt, pasynUser);
-            getIntegerParam(P_PingPong,      &pingPong);
-            getIntegerParam(P_ValuesPerRead, &valuesPerRead);
+            getIntegerParam(P_PingPong,       &pingPong);
+            getIntegerParam(P_ValuesPerRead,  &valuesPerRead);
+            getIntegerParam(P_Range,          &range);
+            getDoubleParam(P_IntegrationTime, &integrationTime);
+            scaleFactor = ranges_[range]*1e-12 * FREQUENCY / (integrationTime * 1e6)
+                          / MAX_COUNTS / (double)valuesPerRead;
             nRequested = sizeof(ASCIIData);
         }
         unlock();
@@ -365,10 +383,9 @@ void drvNSLS_EM::readThread(void)
         }
         if (((phase == 0) && (pingPong == Phase0)) ||
             ((phase == 1) && (pingPong == Phase1)) ||
-            (pingPong == PhaseBoth)                ||
-            (valuesPerRead > 1)) {
+            (pingPong == PhaseBoth)) {
             for (i=0; i<4; i++) {
-                data[i] = (double)raw[i]/valuesPerRead;
+                data[i] = raw[i] * scaleFactor;
             }         
             computePositions(data);
         }
