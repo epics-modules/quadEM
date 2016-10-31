@@ -12,7 +12,7 @@
     <h2>
       R7-0</h2>
     <h2>
-      April 11, 2016</h2>
+      October 31, 2016</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -55,7 +55,8 @@
       current measurements at up to 20 kHz.</li>
     <li>The NSLS Quad Electrometer (called NSLS_EM in this document). This device consists
       of a 4-channel digital electrometer unit with Ethernet communication. The device
-      provides 4-channel current measurements at up to 2500 Hz.</li>
+      provides 4-channel current measurements at up to 2500 Hz. The <a href="http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf">
+        Sydor SI-EP-B4</a> is based on this design and is software comptabible.</li>
     <li>The Quad Electrometer built by Steve Ross from the APS (called APS_EM in this
       document). This device consists of a 4-channel digital electrometer unit and 2 VME
       boards. The device provides 2 readings per diode at up to 813 Hz. This device appears
@@ -1115,6 +1116,24 @@
       </tr>
       <tr>
         <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)CurrentPrec[1-4]</td>
+        <td>
+          mbbo</td>
+        <td>
+          N.A.</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Precision (# digits) to use to display the current for this channel. Choices are
+          0-9. CurrentPrec1 also controls SumX and DiffX. CurrentPrec3 also controls SumY
+          and DiffY. CurrentPrec2 also controls SumAll. </td>
+      </tr>
+      <tr>
+        <td>
           QE_POSITION_OFFSET</td>
         <td>
           $(P)$(R)PositionOffset[X,Y]</td>
@@ -1166,6 +1185,23 @@
         <td>
           Scale that will be used when calculating the Position[X,Y]. The position is calculated
           as Position = Diff/Sum * PositionScale - PositionOffset.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)PositionPrec[X,Y]</td>
+        <td>
+          mbbo</td>
+        <td>
+          N.A.</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Precision (# digits) to use to display the position in X or Y. Choices are 0-9.
+        </td>
       </tr>
     </tbody>
   </table>
