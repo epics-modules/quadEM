@@ -28,9 +28,15 @@ $(P)$(R)CurrentScale1
 $(P)$(R)CurrentScale2
 $(P)$(R)CurrentScale3
 $(P)$(R)CurrentScale4
+$(P)$(R)CurrentPrec1
+$(P)$(R)CurrentPrec2
+$(P)$(R)CurrentPrec3
+$(P)$(R)CurrentPrec4
 $(P)$(R)PositionOffsetX
 $(P)$(R)PositionOffsetY
 $(P)$(R)PositionScaleX
 $(P)$(R)PositionScaleY
+$(P)$(R)PositionPrecX
+$(P)$(R)PositionPrecY
 $(P)$(R)NDAttributesFile
 $(P)$(R)ReadStatus.SCAN
