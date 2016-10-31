@@ -1130,7 +1130,10 @@
         <td>
           Precision (# digits) to use to display the current for this channel. Choices are
           0-9. CurrentPrec1 also controls SumX and DiffX. CurrentPrec3 also controls SumY
-          and DiffY. CurrentPrec2 also controls SumAll. </td>
+          and DiffY. CurrentPrec2 also controls SumAll. Note that when using medm and other
+          display clients it is necessary to close and re-open the quadEM screen for the displayed
+          precision to be changed. This is a limitation of the Channel Access protocol which
+          does not send monitor events when the precision is changed.</td>
       </tr>
       <tr>
         <td>
