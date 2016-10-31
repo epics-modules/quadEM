@@ -453,6 +453,78 @@ record(ao,"$(P)$(R)CurrentOffset1") {
     field(OUT,  "@asyn($(PORT) 0)QE_CURRENT_OFFSET")
 }
 
+record(mbbo,"$(P)$(R)CurrentPrec1") {
+    field(DESC, "Precision")
+    field(OUT, "$(P)$(R)CurrentPrecFanout1 PP")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "0")
+    field(ONVL, "1")
+    field(ONST, "1")
+    field(TWVL, "2")
+    field(TWST, "2")
+    field(THVL, "3")
+    field(THST, "3")
+    field(FRVL, "4")
+    field(FRST, "4")
+    field(FVVL, "5")
+    field(FVST, "5")
+    field(SXVL, "6")
+    field(SXST, "6")
+    field(SVVL, "7")
+    field(SVST, "7")
+    field(EIVL, "8")
+    field(EIST, "8")
+    field(NIVL, "9")
+    field(NIST, "9")
+}
+
+record(dfanout,"$(P)$(R)CurrentPrecFanout1") {
+    field(DESC, "Precision fanout")
+    field(OUTA, "$(P)$(R)Current1:MeanValue_RBV.PREC NPP")
+    field(OUTB, "$(P)$(R)Current1:Sigma_RBV.PREC NPP")
+    field(OUTC, "$(P)$(R)SumX:MeanValue_RBV.PREC NPP")
+    field(OUTD, "$(P)$(R)SumX:Sigma_RBV.PREC NPP")
+    field(OUTE, "$(P)$(R)DiffX:MeanValue_RBV.PREC NPP")
+    field(OUTF, "$(P)$(R)DiffX:Sigma_RBV.PREC NPP")
+    field(OUTG, "$(P)$(R)CurrentOffset1.PREC NPP")
+}
+
+record(mbbo,"$(P)$(R)CurrentPrec2") {
+    field(DESC, "Precision")
+    field(OUT, "$(P)$(R)CurrentPrecFanout2 PP")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "0")
+    field(ONVL, "1")
+    field(ONST, "1")
+    field(TWVL, "2")
+    field(TWST, "2")
+    field(THVL, "3")
+    field(THST, "3")
+    field(FRVL, "4")
+    field(FRST, "4")
+    field(FVVL, "5")
+    field(FVST, "5")
+    field(SXVL, "6")
+    field(SXST, "6")
+    field(SVVL, "7")
+    field(SVST, "7")
+    field(EIVL, "8")
+    field(EIST, "8")
+    field(NIVL, "9")
+    field(NIST, "9")
+}
+
+record(dfanout,"$(P)$(R)CurrentPrecFanout2") {
+    field(DESC, "Precision fanout")
+    field(OUTA, "$(P)$(R)Current2:MeanValue_RBV.PREC NPP")
+    field(OUTB, "$(P)$(R)Current2:Sigma_RBV.PREC NPP")
+    field(OUTC, "$(P)$(R)CurrentOffset2.PREC NPP")
+    field(OUTC, "$(P)$(R)SumAll:MeanValue_RBV.PREC NPP")
+    field(OUTD, "$(P)$(R)SumAll:Sigma_RBV.PREC NPP")
+}
+
 record(ao,"$(P)$(R)CurrentOffset2") {
     field(DESC, "Offset")
     field(PINI, "YES")
@@ -460,11 +532,81 @@ record(ao,"$(P)$(R)CurrentOffset2") {
     field(OUT,  "@asyn($(PORT) 1)QE_CURRENT_OFFSET")
 }
 
+record(mbbo,"$(P)$(R)CurrentPrec3") {
+    field(DESC, "Precision")
+    field(OUT, "$(P)$(R)CurrentPrecFanout3 PP")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "0")
+    field(ONVL, "1")
+    field(ONST, "1")
+    field(TWVL, "2")
+    field(TWST, "2")
+    field(THVL, "3")
+    field(THST, "3")
+    field(FRVL, "4")
+    field(FRST, "4")
+    field(FVVL, "5")
+    field(FVST, "5")
+    field(SXVL, "6")
+    field(SXST, "6")
+    field(SVVL, "7")
+    field(SVST, "7")
+    field(EIVL, "8")
+    field(EIST, "8")
+    field(NIVL, "9")
+    field(NIST, "9")
+}
+
+record(dfanout,"$(P)$(R)CurrentPrecFanout3") {
+    field(DESC, "Precision fanout")
+    field(OUTA, "$(P)$(R)Current3:MeanValue_RBV.PREC NPP")
+    field(OUTB, "$(P)$(R)Current3:Sigma_RBV.PREC NPP")
+    field(OUTC, "$(P)$(R)SumY:MeanValue_RBV.PREC NPP")
+    field(OUTD, "$(P)$(R)SumY:Sigma_RBV.PREC NPP")
+    field(OUTE, "$(P)$(R)DiffY:MeanValue_RBV.PREC NPP")
+    field(OUTF, "$(P)$(R)DiffY:Sigma_RBV.PREC NPP")
+    field(OUTG, "$(P)$(R)CurrentOffset3.PREC NPP")
+}
+
 record(ao,"$(P)$(R)CurrentOffset3") {
     field(DESC, "Offset")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 2)QE_CURRENT_OFFSET")
+}
+
+record(mbbo,"$(P)$(R)CurrentPrec4") {
+    field(DESC, "Precision")
+    field(OUT, "$(P)$(R)CurrentPrecFanout4 PP")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "0")
+    field(ONVL, "1")
+    field(ONST, "1")
+    field(TWVL, "2")
+    field(TWST, "2")
+    field(THVL, "3")
+    field(THST, "3")
+    field(FRVL, "4")
+    field(FRST, "4")
+    field(FVVL, "5")
+    field(FVST, "5")
+    field(SXVL, "6")
+    field(SXST, "6")
+    field(SVVL, "7")
+    field(SVST, "7")
+    field(EIVL, "8")
+    field(EIST, "8")
+    field(NIVL, "9")
+    field(NIST, "9")
+}
+
+record(dfanout,"$(P)$(R)CurrentPrecFanout4") {
+    field(DESC, "Precision fanout")
+    field(OUTA, "$(P)$(R)Current4:MeanValue_RBV.PREC NPP")
+    field(OUTB, "$(P)$(R)Current4:Sigma_RBV.PREC NPP")
+    field(OUTC, "$(P)$(R)CurrentOffset4.PREC NPP")
 }
 
 record(ao,"$(P)$(R)CurrentOffset4") {
@@ -512,6 +654,8 @@ record(ao,"$(P)$(R)CurrentScale1") {
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 0)QE_CURRENT_SCALE")
     field(VAL,  "1.0")
+    field(PREC, "3")
+    field(PREC, "3")
 }
 
 record(ao,"$(P)$(R)CurrentScale2") {
@@ -520,6 +664,7 @@ record(ao,"$(P)$(R)CurrentScale2") {
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 1)QE_CURRENT_SCALE")
     field(VAL,  "1.0")
+    field(PREC, "3")
 }
 
 record(ao,"$(P)$(R)CurrentScale3") {
@@ -528,6 +673,7 @@ record(ao,"$(P)$(R)CurrentScale3") {
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 2)QE_CURRENT_SCALE")
     field(VAL,  "1.0")
+    field(PREC, "3")
 }
 
 record(ao,"$(P)$(R)CurrentScale4") {
@@ -536,6 +682,40 @@ record(ao,"$(P)$(R)CurrentScale4") {
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 3)QE_CURRENT_SCALE")
     field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(mbbo,"$(P)$(R)PositionPrecX") {
+    field(DESC, "Precision")
+    field(OUT, "$(P)$(R)PositionPrecFanoutX PP")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "0")
+    field(ONVL, "1")
+    field(ONST, "1")
+    field(TWVL, "2")
+    field(TWST, "2")
+    field(THVL, "3")
+    field(THST, "3")
+    field(FRVL, "4")
+    field(FRST, "4")
+    field(FVVL, "5")
+    field(FVST, "5")
+    field(SXVL, "6")
+    field(SXST, "6")
+    field(SVVL, "7")
+    field(SVST, "7")
+    field(EIVL, "8")
+    field(EIST, "8")
+    field(NIVL, "9")
+    field(NIST, "9")
+}
+
+record(dfanout,"$(P)$(R)PositionPrecFanoutX") {
+    field(DESC, "Precision fanout")
+    field(OUTA, "$(P)$(R)PosX:MeanValue_RBV.PREC NPP")
+    field(OUTB, "$(P)$(R)PosX:Sigma_RBV.PREC NPP")
+    field(OUTC, "$(P)$(R)PositionOffsetX.PREC NPP")
 }
 
 record(ao,"$(P)$(R)PositionOffsetX") {
@@ -543,6 +723,39 @@ record(ao,"$(P)$(R)PositionOffsetX") {
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT) 0)QE_POSITION_OFFSET")
+}
+
+record(mbbo,"$(P)$(R)PositionPrecY") {
+    field(DESC, "Precision")
+    field(OUT, "$(P)$(R)PositionPrecFanoutY PP")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "0")
+    field(ONVL, "1")
+    field(ONST, "1")
+    field(TWVL, "2")
+    field(TWST, "2")
+    field(THVL, "3")
+    field(THST, "3")
+    field(FRVL, "4")
+    field(FRST, "4")
+    field(FVVL, "5")
+    field(FVST, "5")
+    field(SXVL, "6")
+    field(SXST, "6")
+    field(SVVL, "7")
+    field(SVST, "7")
+    field(EIVL, "8")
+    field(EIST, "8")
+    field(NIVL, "9")
+    field(NIST, "9")
+}
+
+record(dfanout,"$(P)$(R)PositionPrecFanoutY") {
+    field(DESC, "Precision fanout")
+    field(OUTA, "$(P)$(R)PosY:MeanValue_RBV.PREC NPP")
+    field(OUTB, "$(P)$(R)PosY:Sigma_RBV.PREC NPP")
+    field(OUTC, "$(P)$(R)PositionOffsetY.PREC NPP")
 }
 
 record(ao,"$(P)$(R)PositionOffsetY") {
@@ -573,6 +786,7 @@ record(ao,"$(P)$(R)PositionScaleX") {
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(VAL,  "1000000.")
+    field(PREC, "3")
     field(OUT,  "@asyn($(PORT) 0)QE_POSITION_SCALE")
 }
 
@@ -581,6 +795,7 @@ record(ao,"$(P)$(R)PositionScaleY") {
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field(VAL,  "1000000.")
+    field(PREC, "3")
     field(OUT,  "@asyn($(PORT) 1)QE_POSITION_SCALE")
 }
 
