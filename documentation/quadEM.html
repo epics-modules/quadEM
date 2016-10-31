@@ -59,27 +59,39 @@
       any Channel Access client.</li>
   </ul>
   <p>
-    The <b>quadEM</b> software includes asyn drivers and an SNL program that provide
-    support for the following:</p>
+    The <b>quadEM</b> software includes asyn drivers that provide support for the following:</p>
   <ul>
-    <li>Analog input records that provide digitally averaged readings of the current,
-      sum, difference and position. These are computed using the NDPluginStats statistics
-      plugin, which also provides additional statistics. One could also use the standard
-      asynInt32 device support with ai records and scan=I/O Intr, in which case the record
-      would update with every reading from the device. This is likely to overwhelm the
-      EPICS IOC if the electrometer is run at very fast integration times.</li>
+    <li>Analog input records using the NDPluginStats plugin from the synApps <a href="areaDetector.html">
+      areaDetector</a> module. This provides digitally averaged readings of the current,
+      sum, difference and position at speeds that are determined by the AveragingTime
+      record described below. The quadEM drivers do the callbacks on the asynGenericPointer
+      interface for NDArray objects required to use the areaDetector plugins. The NDPluginStats
+      module is used to compute the averaged readings. It also provides additional statistics
+      including standard deviation, min, max, and a histogram of values.</li>
+    <li>The NDPluginStats provide time-series of the statistics. These can be used to
+      for on-the-fly data acquisition applications, where the meter is triggered by an
+      external pulse source, such as one derived from a motor motion.</li>
+    <li>One could also use the standard asynFloat64 device support with ai records and
+      scan=I/O Intr, in which case the record would update with every reading from the
+      device. This is likely to overwhelm the EPICS IOC if the electrometer is run at
+      very fast sampling times.</li>
+    <li>Streaming data to disk at the full rate from the device. This is done using the
+      file plugins from areaDetector.</li>
     <li>Time series data (like a digital scope) of the current, sum, difference and position
       at speeds up to 20000 Hz (TetrAMM), 6510 Hz (AH501 series), 1000 Hz (AH401 series)
       2500 Hz (NSLS_EM), or 813 Hz (APS_EM). The data is available in standard EPICS waveform
-      records, using the drvFastSweep asyn driver from the synApps "mca" module. The time
-      per point can be greater, in which case it does averaging.</li>
+      records, using the <a href="NDPluginTimeSeries.html">NDPluginTimeSeries plugin</a>
+      from areaDetector/ADCore. The time per point can be greater, in which case it does
+      averaging.</li>
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
-      EPICS waveform record.</li>
+      EPICS waveform record. This uses the <a href="NDPluginFFT.html">NDPluginFFT plugin</a>
+      from areaDetector/ADCore.</li>
     <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
-      dac128V) also at speeds up to 20000 Hz, 6510Hz, 1000Hz, 2500 Hz, or 813Hz. If it
-      is run slower it does signal averaging. This support is provided in the synApps
-      "std" module. The quadEM drivers do the callbacks on the asynFloat64 interface required
-      to use the epics fast feedback device support.</li>
+      dac128V), also at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If
+      it is run slower it does signal averaging. This support is provided in the synApps
+      <a href="http://www.aps.anl.gov/bcda/synApps/std/std.html">std</a> module. The quadEM
+      drivers do the callbacks on the asynFloat64 interface required to use the epid fast
+      feedback device support.</li>
   </ul>
   <p>
     Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">
@@ -410,14 +422,6 @@
       </tr>
       <tr>
         <td>
-          mca</td>
-        <td>
-          7-6</td>
-        <td>
-          Fast sweep driver for time series</td>
-      </tr>
-      <tr>
-        <td>
           busy</td>
         <td>
           1-6-1</td>
@@ -439,14 +443,6 @@
           2-13</td>
         <td>
           Used in test application for Industry Pack support for ipUnidig.</td>
-      </tr>
-      <tr>
-        <td>
-          seq</td>
-        <td>
-          2-2-3</td>
-        <td>
-          Used by quadEM_TimeSeries to synchronize acquisition and to compute FFTs.</td>
       </tr>
       <tr>
         <td>
