@@ -19,7 +19,7 @@
       new capabilities. For example the drvFastSweep driver is limited to epicsInt32 data,
       while the NDPluginTimeSeries plugin can handle any data type, including epicsFloat64
       which is what the quadEM driver produces.</li>
-    <li>This release requires at least R2-5 of ADCore because the NDPluginFFT and NDPluginRimeSeries
+    <li>This release requires at least R2-5 of ADCore because the NDPluginFFT and NDPluginTimeSeries
       were not present in previous releases.</li>
     <li>Added support for TriggerPolarity on the TetrAMM.</li>
     <li>Improved the support for data acquisition applications, such as step-scan and
@@ -29,7 +29,7 @@
       earlier versions.</li>
     <li>Changed the AcquireMode choices from Continuous/One-shot to Continuous/Multiple/Single.
       Multiple will collect NumAcquire acquisitions and then stop. Single is the same
-      as the previous One-shot, but using the same terminology as areaDeector.</li>
+      as the previous One-shot, but using the same terminology as areaDetector.</li>
     <li>Changed the TriggerMode choices from Internal/ExternalTrigger/ExternalGate to
       FreeRun/Software/ExternalTrigger/ExternalBulb/ExternalGate. These are explained
       in the <a href="quadEMDoc.html">quadEMDoc documentation.</a></li>
