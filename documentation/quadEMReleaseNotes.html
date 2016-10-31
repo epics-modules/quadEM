@@ -9,7 +9,7 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
-    Release 7-0 (April XXX, 2016)</h2>
+    Release 7-0 (October 31, 2016)</h2>
   <ul>
     <li>Changed the time-series and FFT support. Previously the time-series used the drvFastSweep
       driver from the synApps "mca" module. FFTs were done by an SNL program in the quadEM
@@ -19,6 +19,8 @@
       new capabilities. For example the drvFastSweep driver is limited to epicsInt32 data,
       while the NDPluginTimeSeries plugin can handle any data type, including epicsFloat64
       which is what the quadEM driver produces.</li>
+    <li>This release requires at least R2-5 of ADCore because the NDPluginFFT and NDPluginRimeSeries
+      were not present in previous releases.</li>
     <li>Added support for TriggerPolarity on the TetrAMM.</li>
     <li>Improved the support for data acquisition applications, such as step-scan and
       on-the-fly scans using ion-chamber and photodiode detectors. This is particularly
@@ -31,6 +33,12 @@
     <li>Changed the TriggerMode choices from Internal/ExternalTrigger/ExternalGate to
       FreeRun/Software/ExternalTrigger/ExternalBulb/ExternalGate. These are explained
       in the <a href="quadEMDoc.html">quadEMDoc documentation.</a></li>
+    <li>Changed the units of the current values on the NSLS_EM from A/D units to amperes.
+      This is the same as the TetrAMM. The AH401 and AH501 are still in A/D units, but
+      these may also be changed to amperes in a future release.</li>
+    <li>Added Precision PVs to control the number of digits displayed for each current,
+      sum, difference, and position. Current1 controls SumX, Current2 controls SumAll,
+      and Current3 controls SumY.</li>
   </ul>
   <h2 style="text-align: center">
     Release 6-0 (January 21, 2016)</h2>
