@@ -24,6 +24,7 @@ quadEM_SRCS         += drvQuadEM.cpp
 quadEM_SRCS         += drvAHxxx.cpp
 quadEM_SRCS         += drvTetrAMM.cpp
 quadEM_SRCS         += drvNSLS_EM.cpp
+quadEM_SRCS         += drvNSLS2_EM.cpp
 quadEM_SRCS_vxWorks += drvAPS_EM.cpp
 
 quadEM_LIBS_vxWorks += Ipac
