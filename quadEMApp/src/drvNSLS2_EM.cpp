@@ -44,25 +44,42 @@
 #define AVG_D 47
 #define DACS 72 
 
+static const char *driverName = "drvNSLS2_EM";
 
-int memfd, intfd;
+// Global variable containing pointer to your driver object
+class drvNSLS2_EM *pdrvNSLS2_EM;
+
 
 /*******************************************
 * Read ADC
 *
 *
 *********************************************/
-int drvNSLS2_EM::readMeter(int *adcbuf)
+asynStatus drvNSLS2_EM::readMeter(int *adcbuf)
 {
 
     int i, val;
+    static const char *functionName = "readMeter";
 
     for (i=0;i<=3;i++) {
-        val = fpgabase[AVG+i];  
-        //printf("i=%d\tval=%d\n",i,val);
+        val = fpgabase_[AVG+i];  
+        asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+            "%s::%s i=%d val=%d\n",
+            driverName, functionName, i, val);
         *adcbuf++ = val;
     } 
-    return(0);
+    return(asynSuccess);
+}
+
+asynStatus drvNSLS2_EM::setDAC(int channel, int value)
+{
+    static const char *functionName = "setDAC";
+
+    fpgabase_[DACS+channel] = value;  
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+        "%s::%s channel=%d val=%d\n",
+        driverName, functionName, channel, value);
+     return(asynSuccess);
 }
 
 /*******************************************
@@ -72,28 +89,28 @@ int drvNSLS2_EM::readMeter(int *adcbuf)
 ********************************************/
 void drvNSLS2_EM::mmap_fpga()
 {
-   int fd;
+    int fd;
 
 
-   fd = open("/dev/mem",O_RDWR|O_SYNC);
-   if (fd < 0) {
-      printf("Can't open /dev/mem\n");
-      exit(1);
-   }
+    fd = open("/dev/mem",O_RDWR|O_SYNC);
+    if (fd < 0) {
+        printf("Can't open /dev/mem\n");
+        exit(1);
+    }
 
-   fpgabase = (unsigned int *) mmap(0,255,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0x43C00000);
+    fpgabase_ = (unsigned int *) mmap(0,255,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0x43C00000);
 
-   if (fpgabase == NULL) {
-      printf("Can't map FPGA space\n");
-      exit(1);
-   }
+    if (fpgabase_ == NULL) {
+        printf("Can't map FPGA space\n");
+        exit(1);
+    }
 
 }
 
 
 // C callback function called by Linux when an interrupt occurs.  
 // It calls the callbackFunc in your C++ driver.
-static void frame_done()
+static void frame_done(int signum)
 {
     pdrvNSLS2_EM->callbackFunc();
 }
@@ -102,33 +119,71 @@ static void frame_done()
 drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize) : drvQuadEM(portName, 0, ringBufferSize)
 {
 // Set the global pointer
- pdrvNSLS2_EM = this;      
+    pdrvNSLS2_EM = this;      
  
- asynStatus status;
- const char *functionName = "drvNSLS2_EM";
+    //const char *functionName = "drvNSLS2_EM";
 
-// Current ranges in microamps
- ranges_[0]=1;
- ranges_[1]=10;
- ranges_[2]=100;
- ranges_[3]=1000;
- ranges_[4]=50000;
-
-// Initialize Linux driver, set callback function
- pl_open(&intfd);
- signal(SIGIO, &frame_done);
- fcntl(intfd, F_SETOWN, getpid());
- int oflags = fcntl(intfd, F_GETFL);
- fcntl(intfd, F_SETFL, oflags | FASYNC);
-
-// set up register memory map
- mmap_fpga();
-
- callParamCallbacks();
+    // Current ranges in microamps
+    ranges_[0]=1;
+    ranges_[1]=10;
+    ranges_[2]=100;
+    ranges_[3]=1000;
+    ranges_[4]=50000;
+  
+    // Initialize Linux driver, set callback function
+    pl_open(&intfd_);
+    signal(SIGIO, &frame_done);
+    fcntl(intfd_, F_SETOWN, getpid());
+    int oflags = fcntl(intfd_, F_GETFL);
+    fcntl(intfd_, F_SETFL, oflags | FASYNC);
+   
+    // set up register memory map
+    mmap_fpga();
+  
+    // Create new parameter for DACs
+    createParam(P_DACString, asynParamInt32, &P_DAC);
+  
+    callParamCallbacks();
 }
 
-// Global variable containing pointer to your driver object
-class drvNLS2_EM *pdrvNSLS2_EM;
+/** Called when asyn clients call pasynInt32->write().
+  * \param[in] pasynUser pasynUser structure that encodes the reason and address.
+  * \param[in] value Value to write. */
+asynStatus drvNSLS2_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
+{
+    int function = pasynUser->reason;
+    asynStatus status = asynSuccess;
+    int channel;
+    const char *paramName;
+    const char* functionName = "writeInt32";
+
+    //  If this is a base class parameter then call the base class
+    if (function < FIRST_NSLS2_COMMAND) {
+        return drvQuadEM::writeInt32(pasynUser, value);
+    }
+    
+    getAddress(pasynUser, &channel);
+    
+    /* Set the parameter in the parameter library. */
+    setIntegerParam(channel, function, value);
+    
+    if (function == P_DAC) {
+        status = setDAC(channel, value);
+    }
+    
+    /* Do callbacks so higher layers see any changes */
+    callParamCallbacks();
+    
+    if (status) 
+        epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
+                  "%s:%s: status=%d, function=%d, name=%s, value=%d", 
+                  driverName, functionName, status, function, paramName, value);
+    else        
+        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
+              "%s:%s: function=%d, name=%s, value=%d\n", 
+              driverName, functionName, function, paramName, value);
+    return (asynStatus)status;
+}
 
 
 //  Callback function in driver
@@ -136,7 +191,7 @@ void drvNSLS2_EM::callbackFunc()
 {
     int input[QE_MAX_INPUTS];
     int i;
-    static const char *functionName="callbackFunc";
+    //static const char *functionName="callbackFunc";
 
     lock();
     /* Read the new data as integers */
@@ -156,30 +211,31 @@ void drvNSLS2_EM::callbackFunc()
     unlock();
 }
 
+
 // Other functions
 
 asynStatus drvNSLS2_EM::setAcquire(epicsInt32 value)
 {
-	// 1=start acquire, 0=stop.
-	fpgabase[IRQ_ENABLE]=value;
-	return(asynSuccess);
+    // 1=start acquire, 0=stop.
+    fpgabase_[IRQ_ENABLE]=value;
+    return(asynSuccess);
 }
 
 asynStatus drvNSLS2_EM::setAveragingTime(epicsFloat64 value)
 {
-	return(asynSuccess);
+    return(asynSuccess);
 }
 
 asynStatus drvNSLS2_EM::setBiasVoltage(epicsFloat64 value)
 {
-	fpgabase[HV_BIAS] = (int) (value *50.0/65535);
-	return(asynSuccess);
+    fpgabase_[HV_BIAS] = (int) (value *50.0/65535);
+    return(asynSuccess);
 }
 
 asynStatus drvNSLS2_EM::setRange(epicsInt32 value)
 {
-	fpgabase[GAINREG] = value;     
-	return(asynSuccess);
+    fpgabase_[GAINREG] = value;     
+    return(asynSuccess);
 }
 
 /* That's all you need to send the data to the quadEM base class.  
