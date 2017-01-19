@@ -16,6 +16,8 @@
 #define MAX_PORTNAME_LEN 32
 #define MAX_RANGES 5
 
+#define P_DACString            "QE_DAC"                 /* asynInt32,    r/w */
+
 /** Class to control the NSLS Precision Integrator */
 class drvNSLS2_EM : public drvQuadEM {
 public:
@@ -26,9 +28,12 @@ public:
                  
     /* These are the methods that are new to this class */
     virtual void exitHandler();
+    /* This should be private but we call it from C so it needs to be public */
+    void callbackFunc();
 
 protected:
     /* These are the methods we implement from quadEM */
+    virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus setAcquire(epicsInt32 value);
     virtual asynStatus setRange(epicsInt32 value);
     virtual asynStatus setAveragingTime(epicsFloat64 value);  
@@ -36,6 +41,9 @@ protected:
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
     virtual asynStatus readStatus();
     virtual asynStatus reset();
+    
+    int P_DAC;
+    #define FIRST_NSLS2_COMMAND P_DAC
  
 private:
     /* Our data */
@@ -44,12 +52,14 @@ private:
     int readingsAveraged_;
     int readingActive_;
     int firmwareVersion_;
-    volatile unsigned int *fpgabase;  //mmap'd fpga registers
+    volatile unsigned int *fpgabase_;  //mmap'd fpga registers
+    int memfd_;
+    int intfd_;
 
     /* our functions */
     asynStatus getFirmwareVersion();
-    void callbackFunc();
-    int readMeter(int *adcbuf);
+    asynStatus readMeter(int *adcbuf);
+    asynStatus setDAC(int channel, int value);
     void mmap_fpga();
 };
 
