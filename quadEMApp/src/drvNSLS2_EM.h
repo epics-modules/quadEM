@@ -9,6 +9,7 @@
  */
 
 #include "drvQuadEM.h"
+#include "pl_lib.h"
 
 #define MAX_COMMAND_LEN 256
 #define MAX_MODULES 1
@@ -39,6 +40,8 @@ protected:
 private:
     /* Our data */
     double ranges_[MAX_RANGES];
+    epicsFloat64 rawData_[QE_MAX_INPUTS];
+    int readingsAveraged_;
     int readingActive_;
     int firmwareVersion_;
     volatile unsigned int *fpgabase;  //mmap'd fpga registers

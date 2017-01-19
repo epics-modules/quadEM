@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <sys/mman.h>
 #include <fcntl.h>
+#include <signal.h>
 #include <sys/stat.h>
 #include <math.h>
 
@@ -43,8 +44,6 @@
 #define AVG_D 47
 #define DACS 72 
 
-// Global variable containing pointer to your driver object
-class drvNLS2_EM *pdrvNSLS2_EM;
 
 int memfd, intfd;
 
@@ -128,6 +127,10 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
  callParamCallbacks();
 }
 
+// Global variable containing pointer to your driver object
+class drvNLS2_EM *pdrvNSLS2_EM;
+
+
 //  Callback function in driver
 void drvNSLS2_EM::callbackFunc()
 {
@@ -138,6 +141,13 @@ void drvNSLS2_EM::callbackFunc()
     lock();
     /* Read the new data as integers */
     readMeter(input);
+    if (readingsAveraged_ == 0) {
+        for (i=0; i<QE_MAX_INPUTS; i++) {
+            rawData_[i] = 0;
+        }
+    }
+
+    
    /* Convert to double) */
     for (i=0; i<QE_MAX_INPUTS; i++) {
         rawData_[i] += input[i];
