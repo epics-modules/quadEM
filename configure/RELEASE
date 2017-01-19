@@ -8,29 +8,29 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # define INSTALL_LOCATION_APP here
 #INSTALL_LOCATION_APP=<fullpathname>
 
-SUPPORT=/corvette/home/epics/support
+SUPPORT=/root/synApps_5_8/support
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
 # quadEM requires areaDetector, and areaDetector/configure already defines
 # ASYN, EV4_BASE, libraries needed for plugins, etc.
-AREA_DETECTOR=$(SUPPORT)/areaDetector-2-6
+AREA_DETECTOR=$(SUPPORT)/areaDetector-R2-5
 -include $(AREA_DETECTOR)/configure/RELEASE_PATHS.local
 
 # Unfortunately RELEASE_PATHS.local above redefines SUPPORT and AREA_DETECTOR
 # and this messes things up on Windows building on a Linux host.
 # Need to redefine them as above.
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
-AREA_DETECTOR=$(SUPPORT)/areaDetector-2-6
+AREA_DETECTOR=$(SUPPORT)/areaDetector-R2-5
 -include $(AREA_DETECTOR)/configure/RELEASE_PATHS.local.$(EPICS_HOST_ARCH)
 -include $(AREA_DETECTOR)/configure/RELEASE_PRODS.local
 
 # This module
-QUADEM=$(SUPPORT)/quadEM-7-0
+QUADEM=$(SUPPORT)/quadEM
 
 ### The following are needed only for the test application
 
 # For ipUnidig for APS_EM
-IPAC=$(SUPPORT)/ipac-2-14
+IPAC=$(SUPPORT)/ipac-2-13
 
 # Busy record 
 BUSY=$(SUPPORT)/busy-1-6-1
@@ -39,22 +39,22 @@ BUSY=$(SUPPORT)/busy-1-6-1
 IPUNIDIG=$(SUPPORT)/ipUnidig-2-10
 
 # CALC uses the sequencer
-SNCSEQ=$(SUPPORT)/seq-2-2-4
+SNCSEQ=$(SUPPORT)/seq-2-2-1
  
 # save_restore
-AUTOSAVE=$(SUPPORT)/autosave-5-7-1
+AUTOSAVE=$(SUPPORT)/autosave-5-6-1
 
 # SSCAN is needed for general scanning
-SSCAN=$(SUPPORT)/sscan-2-10-2
+SSCAN=$(SUPPORT)/sscan-2-10-1
 
 # calc
-CALC=$(SUPPORT)/calc-3-6-1
+CALC=$(SUPPORT)/calc-3-4-2-1
 
 # devIocStats needed by areaDetector
-DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-14
+DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-13
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/corvette/usr/local/epics/base-3.15.5
+EPICS_BASE=/usr/local/epics/base
 -include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
 #Capfast users may need the following definitions

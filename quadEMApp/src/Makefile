@@ -20,6 +20,7 @@ DBD += quadEMTestAppVx.dbd
 INC += drvQuadEM.h
 
 # The following are compiled and added to the Support library
+quadEM_SRCS         += pl_lib.c
 quadEM_SRCS         += drvQuadEM.cpp
 quadEM_SRCS         += drvAHxxx.cpp
 quadEM_SRCS         += drvTetrAMM.cpp
@@ -38,6 +39,7 @@ PROD_IOC += $(PROD_NAME)
 PROD_SRCS_DEFAULT += $(PROD_NAME)_registerRecordDeviceDriver.cpp quadEMTestAppMain.cpp
 PROD_SRCS_vxWorks += $(PROD_NAME)Vx_registerRecordDeviceDriver.cpp
 
+PROD_LIBS += pl_lib
 PROD_LIBS += quadEM
 PROD_LIBS_vxWorks += Ipac
 PROD_LIBS_vxWorks += ipUnidig

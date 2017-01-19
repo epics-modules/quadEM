@@ -1,71 +1,52 @@
 /*
  * drvNSLS2_EM.h
  * 
- * Asyn driver that inherits from the drvQuadEM class to control the NSLS Precision Integrator
+ * Asyn driver that inherits from the drvQuadEM class to control the NSLS2 electrometer / XBPM
  *
- * Author: Mark Rivers
+ * Author: Mark Rivers, Pete Siddons
  *
- * Created December 4, 2015
+ * Created January 18th, 2016
  */
 
 #include "drvQuadEM.h"
 
 #define MAX_COMMAND_LEN 256
-#define MAX_MODULES 16
-#define MAX_IPNAME_LEN 16
+#define MAX_MODULES 1
 #define MAX_PORTNAME_LEN 32
-#define MAX_RANGES 8
-
-typedef struct {
-    int moduleID;
-    char moduleIP[MAX_IPNAME_LEN];
-} moduleInfo_t;
+#define MAX_RANGES 5
 
 /** Class to control the NSLS Precision Integrator */
 class drvNSLS2_EM : public drvQuadEM {
 public:
-    drvNSLS2_EM(const char *portName, const char *broadcastAddress, int moduleID, int ringBufferSize);
+    drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize);
     
     /* These are the methods we implement from asynPortDriver */
     void report(FILE *fp, int details);
                  
     /* These are the methods that are new to this class */
-    void readThread(void);
     virtual void exitHandler();
 
 protected:
     /* These are the methods we implement from quadEM */
     virtual asynStatus setAcquire(epicsInt32 value);
-    virtual asynStatus setPingPong(epicsInt32 value);
-    virtual asynStatus setIntegrationTime(epicsFloat64 value);
     virtual asynStatus setRange(epicsInt32 value);
+    virtual asynStatus setAveragingTime(epicsFloat64 value);  
     virtual asynStatus setValuesPerRead(epicsInt32 value);
+    virtual asynStatus setBiasVoltage(epicsFloat64 value);
     virtual asynStatus readStatus();
     virtual asynStatus reset();
  
 private:
     /* Our data */
-    char *broadcastAddress_;
-    char udpPortName_[MAX_PORTNAME_LEN];
-    char tcpCommandPortName_[MAX_PORTNAME_LEN];
-    char tcpDataPortName_[MAX_PORTNAME_LEN];
-    asynUser *pasynUserUDP_;
-    asynUser *pasynUserTCPCommand_;
-    asynUser *pasynUserTCPCommandConnect_;
-    asynUser *pasynUserTCPData_;
-    epicsEventId acquireStartEvent_;
-    int moduleID_;
-    int numModules_;
     double ranges_[MAX_RANGES];
-    moduleInfo_t moduleInfo_[MAX_MODULES];
     int readingActive_;
-    char firmwareVersion_[MAX_COMMAND_LEN];
-    char ipAddress_[MAX_IPNAME_LEN];
-    char outString_[MAX_COMMAND_LEN];
-    char inString_[MAX_COMMAND_LEN];
-    asynStatus findModule();
-    asynStatus writeReadMeter();
+    int firmwareVersion_;
+    volatile unsigned int *fpgabase;  //mmap'd fpga registers
+
+    /* our functions */
     asynStatus getFirmwareVersion();
-    asynStatus setMode();
+    void callbackFunc();
+    int readMeter(int *adcbuf);
+    void mmap_fpga();
 };
 
