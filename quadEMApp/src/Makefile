@@ -14,6 +14,7 @@ DBD += drvAPS_EM.dbd
 DBD += drvAHxxx.dbd
 DBD += drvTetrAMM.dbd
 DBD += drvNSLS_EM.dbd
+DBD += drvNSLS2_EM.dbd
 DBD += quadEMTestApp.dbd
 DBD += quadEMTestAppVx.dbd
 
@@ -53,6 +54,7 @@ $(PROD_NAME)_DBD += drvAsynIPPort.dbd
 $(PROD_NAME)_DBD += drvAHxxx.dbd
 $(PROD_NAME)_DBD += drvTetrAMM.dbd
 $(PROD_NAME)_DBD += drvNSLS_EM.dbd
+$(PROD_NAME)_DBD += drvNSLS2_EM.dbd
 
 PROD_NAME = quadEMTestApp
 quadEMTestAppVx_DBD += $(PROD_NAME).dbd
