@@ -21,6 +21,7 @@
 class drvNSLS2_EM : public drvQuadEM {
 public:
     drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize);
+    ~drvNSLS2_EM();
     
     /* These are the methods we implement from asynPortDriver */
     void report(FILE *fp, int details);
@@ -36,7 +37,6 @@ protected:
     virtual asynStatus setAcquire(epicsInt32 value);
     virtual asynStatus setRange(epicsInt32 value);
     virtual asynStatus setAveragingTime(epicsFloat64 value);  
-    virtual asynStatus setValuesPerRead(epicsInt32 value);
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
     virtual asynStatus readStatus();
     virtual asynStatus reset();
