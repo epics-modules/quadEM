@@ -160,6 +160,13 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
     callParamCallbacks();
 }
 
+drvNSLS2_EM::~drvNSLS2_EM()
+{
+    // This is your object's destructor
+    // Free any resources that your object has allocated
+}
+
+
 /** Called when asyn clients call pasynInt32->write().
   * \param[in] pasynUser pasynUser structure that encodes the reason and address.
   * \param[in] value Value to write. */
@@ -178,6 +185,9 @@ asynStatus drvNSLS2_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     
     getAddress(pasynUser, &channel);
     
+   /* Fetch the parameter string name for possible use in debugging */
+    getParamName(function, &paramName);
+
     /* Set the parameter in the parameter library. */
     setIntegerParam(channel, function, value);
     
@@ -232,7 +242,7 @@ asynStatus drvNSLS2_EM::setAcquire(epicsInt32 value)
 {
     // 1=start acquire, 0=stop.
     fpgabase_[IRQ_ENABLE]=value;
-    return(asynSuccess);
+    return asynSuccess;
 }
 
 asynStatus drvNSLS2_EM::setAveragingTime(epicsFloat64 value)
@@ -243,13 +253,37 @@ asynStatus drvNSLS2_EM::setAveragingTime(epicsFloat64 value)
 asynStatus drvNSLS2_EM::setBiasVoltage(epicsFloat64 value)
 {
     fpgabase_[HV_BIAS] = (int) (value *50.0/65535);
-    return(asynSuccess);
+    return asynSuccess ;
 }
 
 asynStatus drvNSLS2_EM::setRange(epicsInt32 value)
 {
     fpgabase_[GAINREG] = value;     
-    return(asynSuccess);
+    return asynSuccess;
+}
+
+
+asynStatus drvNSLS2_EM::readStatus()
+{
+    return asynSuccess;
+}
+
+asynStatus drvNSLS2_EM::reset()
+{
+    return asynSuccess;
+}
+
+void drvNSLS2_EM::report(FILE *fp, int details)
+{
+    // Print any information you want about your driver
+    
+    // Call the base class report method
+    drvQuadEM::report(fp, details);
+}
+
+void drvNSLS2_EM::exitHandler()
+{
+    // Do anything that needs to be done when the EPICS is shutting down
 }
 
 /* That's all you need to send the data to the quadEM base class.  
@@ -257,9 +291,6 @@ You need to write a readMeter() function (or some other name)
 to actually read the ADC registers.  You also need to implement 
 any of these quadEM base class functions that apply to your device: */
 
-//    virtual asynStatus readStatus()=0;
-//    virtual asynStatus reset()=0;
-//    virtual asynStatus setAcquire(epicsInt32 value);
 //    virtual asynStatus setAcquireMode(epicsInt32 value);
 //    virtual asynStatus setAveragingTime(epicsFloat64 value);
 //    virtual asynStatus setBiasState(epicsInt32 value);
@@ -269,7 +300,6 @@ any of these quadEM base class functions that apply to your device: */
 //    virtual asynStatus setIntegrationTime(epicsFloat64 value);
 //    virtual asynStatus setNumChannels(epicsInt32 value);
 //    virtual asynStatus setNumAcquire(epicsInt32 value);
-//    virtual asynStatus setRange(epicsInt32 value);
 //    virtual asynStatus setReadFormat(epicsInt32 value);
 //    virtual asynStatus setResolution(epicsInt32 value);
 //    virtual asynStatus setTriggerMode(epicsInt32 value);
