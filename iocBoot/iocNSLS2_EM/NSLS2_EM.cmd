@@ -12,19 +12,14 @@ dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=TCP_Command
 
 drvNSLS2_EMConfigure("$(PORT)", "$(BROADCAST)", $(MODULE_ID), $(RING_SIZE))
 
-asynSetTraceIOMask("UDP_$(PORT)", 0, 2)
-asynSetTraceMask("UDP_$(PORT)", 0, 9)
-asynSetTraceIOMask("TCP_Command_$(PORT)", 0, 2)
-#asynSetTraceMask("TCP_Command_$(PORT)", 0, 9)
-asynSetTraceIOMask("TCP_Data_$(PORT)", 0, 2)
-#asynSetTraceMask("TCP_Data_$(PORT)", 0, 9)
+asynSetTraceIOMask("$(PORT)", 0, 2)
+# Uncomment this line to enable asynPrint statements with ASYN_TRACEIO_DRIVER
+#asynSetTraceMask("$(PORT)", 0, 9)
 
 dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT)")
 
+# Comment out this line to suppress loading the plugins
 < $(QUADEM)/iocBoot/commonPlugins.cmd
-
-asynSetTraceIOMask("$(PORT)",0,2)
-#asynSetTraceMask("$(PORT)",  0,9)
 
 #< $(QUADEM)/iocBoot/saveRestore.cmd
 
