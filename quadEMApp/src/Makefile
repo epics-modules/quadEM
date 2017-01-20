@@ -54,7 +54,9 @@ $(PROD_NAME)_DBD += drvAsynIPPort.dbd
 $(PROD_NAME)_DBD += drvAHxxx.dbd
 $(PROD_NAME)_DBD += drvTetrAMM.dbd
 $(PROD_NAME)_DBD += drvNSLS_EM.dbd
-$(PROD_NAME)_DBD_Linux += drvNSLS2_EM.dbd
+ifeq (Linux, $(OS_CLASS))
+  $(PROD_NAME)_DBD += drvNSLS2_EM.dbd
+endif
 
 PROD_NAME = quadEMTestApp
 quadEMTestAppVx_DBD += $(PROD_NAME).dbd
