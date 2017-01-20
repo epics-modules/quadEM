@@ -83,6 +83,20 @@ asynStatus drvNSLS2_EM::setDAC(int channel, int value)
 }
 
 /*******************************************
+* open interrupt driver 
+*
+********************************************/
+asynStatus drvNSLS2_EM::pl_open(int *fd) {
+    if ( (*fd = open(DEVNAME, O_RDWR)) <= 0 ) {
+        perror(__func__);
+        return(asynError);
+    }
+
+    return(asynSuccess);
+}
+
+
+/*******************************************
 * mmap fpga register space
 * returns pointer fpgabase
 *
@@ -98,7 +112,7 @@ void drvNSLS2_EM::mmap_fpga()
         exit(1);
     }
 
-    fpgabase_ = (unsigned int *) mmap(0,255,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0x43C00000);
+    fpgabase_ = (unsigned int *) mmap(0, 255, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0x43C00000);
 
     if (fpgabase_ == NULL) {
         printf("Can't map FPGA space\n");

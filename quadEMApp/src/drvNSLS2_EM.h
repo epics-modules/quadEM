@@ -9,13 +9,12 @@
  */
 
 #include "drvQuadEM.h"
-#include "pl_lib.h"
 
 #define MAX_COMMAND_LEN 256
 #define MAX_MODULES 1
 #define MAX_PORTNAME_LEN 32
 #define MAX_RANGES 5
-
+#define DEVNAME "/dev/vipic"
 #define P_DACString            "QE_DAC"                 /* asynInt32,    r/w */
 
 /** Class to control the NSLS Precision Integrator */
@@ -61,5 +60,6 @@ private:
     asynStatus readMeter(int *adcbuf);
     asynStatus setDAC(int channel, int value);
     void mmap_fpga();
+    asynStatus pl_open(int *fd);
 };
 
