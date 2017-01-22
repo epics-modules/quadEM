@@ -245,6 +245,8 @@ asynStatus drvQuadEM::triggerCallbacks()
     int status;
     static const char *functionName = "triggerCallbacks";
 
+    // If rawCount_ < 1 there is nothing to do.  This can happen if users presses Read when not acquiring
+    if (rawCount_ < 1) return asynSuccess;
     status = epicsMessageQueueSend(msgQId_, &rawCount_, sizeof(rawCount_));
     if (status) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
