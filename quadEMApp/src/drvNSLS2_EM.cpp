@@ -270,7 +270,6 @@ asynStatus drvNSLS2_EM::setValuesPerRead(epicsInt32 value)
 {
     epicsFloat64 averagingTime;
     
-    setIntegerParam(P_ValuesPerRead, value);    
     fpgabase_[SA_RATE] = value;
     averagingTime = value/FREQ;
     setDoubleParam(P_AveragingTime, averagingTime);
