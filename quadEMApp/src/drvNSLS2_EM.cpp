@@ -44,6 +44,8 @@
 #define AVG_D 47
 #define DACS 72 
 
+#define FREQ 1000
+
 static const char *driverName = "drvNSLS2_EM";
 
 // Global variable containing pointer to your driver object
@@ -62,7 +64,7 @@ asynStatus drvNSLS2_EM::readMeter(int *adcbuf)
     static const char *functionName = "readMeter";
 
     for (i=0;i<=3;i++) {
-        val = fpgabase_[AVG+i];  
+        val = fpgabase_[RAW+i];  
         asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
             "%s::%s i=%d val=%d\n",
             driverName, functionName, i, val);
@@ -132,6 +134,10 @@ static void frame_done(int signum)
 // The constructor for your driver
 drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize) : drvQuadEM(portName, 0, ringBufferSize)
 {
+    double sampleTime;
+//    double averagingTime;
+
+
 // Set the global pointer
     pdrvNSLS2_EM = this;      
  
@@ -156,7 +162,10 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
   
     // Create new parameter for DACs
     createParam(P_DACString, asynParamInt32, &P_DAC);
-  
+    fpgabase_[SA_RATE_DIV] = (int)(50e6/FREQ + 0.5); /* set for a 1kHz interrupr rate */
+    sampleTime = 1.0/FREQ;
+    setDoubleParam(P_SampleTime, sampleTime);
+    
     callParamCallbacks();
 }
 
@@ -247,12 +256,33 @@ asynStatus drvNSLS2_EM::setAcquire(epicsInt32 value)
 
 asynStatus drvNSLS2_EM::setAveragingTime(epicsFloat64 value)
 {
+    int valuesPerRead;
+    valuesPerRead=(int)(value*FREQ+0.5); /* value in seconds, FREQ is for now 1kHz */
+    setIntegerParam(P_ValuesPerRead, valuesPerRead);    
+    fpgabase_[SA_RATE] = valuesPerRead;
     return(asynSuccess);
 }
 
+/** Sets the values per read.
+  * \param[in] value Values per read. Minimum depends on number of channels.
+  */
+asynStatus drvNSLS2_EM::setValuesPerRead(epicsInt32 value) 
+{
+    epicsFloat64 averagingTime;
+    
+    setIntegerParam(P_ValuesPerRead, value);    
+    fpgabase_[SA_RATE] = value;
+    averagingTime = value/FREQ;
+    setDoubleParam(P_AveragingTime, averagingTime);
+    return(asynSuccess);
+}
+
+
+
 asynStatus drvNSLS2_EM::setBiasVoltage(epicsFloat64 value)
 {
-    fpgabase_[HV_BIAS] = (int) (value *50.0/65535);
+    fpgabase_[HV_BIAS] = (int) (value *65535.0/50.0);
+    printf("Setting bias voltage\n");
     return asynSuccess ;
 }
 
@@ -265,6 +295,19 @@ asynStatus drvNSLS2_EM::setRange(epicsInt32 value)
 
 asynStatus drvNSLS2_EM::readStatus()
 {
+    return asynSuccess;
+}
+
+asynStatus drvNSLS2_EM::getFirmwareVersion()
+{
+ int fver;
+ char tmpstr[32];
+ 
+     fver = fpgabase_[FPGAVER];
+     sprintf(tmpstr,"%i",fver);
+     printf("FPGA version=%s\n",tmpstr);
+     strncpy(firmwareVersion_,tmpstr, strlen(tmpstr));
+     setStringParam(P_Firmware, firmwareVersion_);
     return asynSuccess;
 }
 

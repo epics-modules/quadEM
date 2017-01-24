@@ -36,6 +36,7 @@ protected:
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus setAcquire(epicsInt32 value);
     virtual asynStatus setRange(epicsInt32 value);
+    virtual asynStatus setValuesPerRead(epicsInt32 value);
     virtual asynStatus setAveragingTime(epicsFloat64 value);  
     virtual asynStatus setBiasVoltage(epicsFloat64 value);
     virtual asynStatus readStatus();
@@ -50,7 +51,7 @@ private:
     epicsFloat64 rawData_[QE_MAX_INPUTS];
     int readingsAveraged_;
     int readingActive_;
-    int firmwareVersion_;
+    char firmwareVersion_[MAX_COMMAND_LEN];
     volatile unsigned int *fpgabase_;  //mmap'd fpga registers
     int memfd_;
     int intfd_;

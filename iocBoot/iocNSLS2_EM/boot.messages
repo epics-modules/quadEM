@@ -1,0 +1,116 @@
+errlogInit(5000)
+< envPaths
+epicsEnvSet("ARCH","linux-arm")
+epicsEnvSet("IOC","iocNSLS2_EM")
+epicsEnvSet("TOP","/root/synApps_5_8/support/quadEM")
+epicsEnvSet("SUPPORT","/root/synApps_5_8/support")
+epicsEnvSet("AREA_DETECTOR","/root/synApps_5_8/support/areaDetector-R2-5")
+epicsEnvSet("EPICS_BASE","/usr/local/epics/base")
+epicsEnvSet("ASYN","/root/synApps_5_8/support/asyn-4-30")
+epicsEnvSet("ADSUPPORT","/root/synApps_5_8/support/areaDetector-R2-5/ADSupport")
+epicsEnvSet("ADCORE","/root/synApps_5_8/support/areaDetector-R2-5/ADCore")
+epicsEnvSet("AUTOSAVE","/root/synApps_5_8/support/autosave-5-6-1")
+epicsEnvSet("BUSY","/root/synApps_5_8/support/busy-1-6-1")
+epicsEnvSet("CALC","/root/synApps_5_8/support/calc-3-4-2-1")
+epicsEnvSet("SNCSEQ","/root/synApps_5_8/support/seq-2-2-1")
+epicsEnvSet("SSCAN","/root/synApps_5_8/support/sscan-2-10-1")
+epicsEnvSet("DEVIOCSTATS","/root/synApps_5_8/support/devIocStats-3-1-13")
+epicsEnvSet("QUADEM","/root/synApps_5_8/support/quadEM")
+epicsEnvSet("IPAC","/root/synApps_5_8/support/ipac-2-13")
+epicsEnvSet("IPUNIDIG","/root/synApps_5_8/support/ipUnidig-2-10")
+# Tell EPICS all about the record types, device-support modules, drivers,
+# etc. in this build
+dbLoadDatabase("/root/synApps_5_8/support/quadEM/dbd/quadEMTestApp.dbd")
+quadEMTestApp_registerRecordDeviceDriver(pdbbase)
+# The search path for database files
+# Note: the separator between the path entries needs to be changed to a semicolon (;) on Windows
+epicsEnvSet("EPICS_DB_INCLUDE_PATH", "/root/synApps_5_8/support/areaDetector-R2-5/ADCore/db:/root/synApps_5_8/support/quadEM/db")
+< /root/synApps_5_8/support/quadEM/iocBoot/iocNSLS2_EM/NSLS2_EM.cmd
+epicsEnvSet("PREFIX",    "quadEMTest:")
+epicsEnvSet("RECORD",    "NSLS2_EM:")
+epicsEnvSet("PORT",      "NSLS2_EM")
+epicsEnvSet("TEMPLATE",  "NSLS2_EM")
+epicsEnvSet("QSIZE",     "20")
+epicsEnvSet("RING_SIZE", "10000")
+epicsEnvSet("TSPOINTS",  "1000")
+epicsEnvSet("MODULE_ID", "0")
+# Load asynRecord record
+dbLoadRecords("/root/synApps_5_8/support/asyn-4-30/db/asynRecord.db", "P=quadEMTest:, R=asyn1,PORT=TCP_Command_NSLS2_EM,ADDR=0,OMAX=256,IMAX=256")
+drvNSLS2_EMConfigure("NSLS2_EM", 0, 10000)
+asynSetTraceIOMask("NSLS2_EM", 0, 2)
+asynManager:connectDevice port NSLS2_EM not found
+# Uncomment this line to enable asynPrint statements with ASYN_TRACEIO_DRIVER
+asynSetTraceMask("NSLS2_EM", 0, 9)
+asynManager:connectDevice port NSLS2_EM not found
+dbLoadRecords("/root/synApps_5_8/support/quadEM/db/NSLS2_EM.template", "P=quadEMTest:, R=NSLS2_EM:, PORT=NSLS2_EM")
+# Comment out this line to suppress loading the plugins
+#< $(QUADEM)/iocBoot/commonPlugins.cmd
+#< $(QUADEM)/iocBoot/saveRestore.cmd
+iocInit()
+############################################################################
+## EPICS R3.14.12.5 $Date: Tue 2015-03-24 09:57:35 -0500$
+## EPICS Base built Apr 16 2015
+############################################################################
+quadEMTest:NSLS2_EM:AveragingTime_RBV devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:BiasVoltage_RBV devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:HVIReadback devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:HVVReadback devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:IntegrationTime_RBV devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:SampleTime_RBV devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Temperature devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:AveragingTime devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:BiasVoltage devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:CurrentOffset1 devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:CurrentOffset2 devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:CurrentOffset3 devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:CurrentOffset4 devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:CurrentScale1 devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:CurrentScale2 devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:CurrentScale3 devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:CurrentScale4 devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:IntegrationTime devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:PositionOffsetX devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:PositionOffsetY devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:PositionScaleX devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:PositionScaleY devAsynFloat64::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:BiasInterlock_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:BiasState_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:HVSReadback devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:ReadFormat_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:TriggerPolarity_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:BiasInterlock devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:BiasState devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:ReadFormat devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:ReadStatus devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Reset devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:TriggerPolarity devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:NumAcquire_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:NumAcquired devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:NumAverage_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:NumAveraged_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:RingOverflows devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:ValuesPerRead_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:NumAcquire devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:ValuesPerRead devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:AcquireMode_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Geometry_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Model devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:NumChannels_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:PingPong_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Range_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Resolution_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:TriggerMode_RBV devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:AcquireMode devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Geometry devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:NumChannels devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:PingPong devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Range devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Resolution devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:TriggerMode devAsynInt32::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Firmware devAsynOctet::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:NDAttributesFile devAsynOctet::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:Acquire devAsynBusy::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+quadEMTest:NSLS2_EM:ReadData devAsynBusy::initCommon connectDevice failed asynManager:connectDevice port NSLS2_EM not found
+# save settings every thirty seconds
+#create_monitor_set("auto_settings.req",30,"P=$(PREFIX), R=$(RECORD)")
+epics> epics> 
