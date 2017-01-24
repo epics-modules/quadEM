@@ -264,7 +264,6 @@ asynStatus drvNSLS2_EM::setAcquireParams()
 
     getIntegerParam(P_ValuesPerRead,    &valuesPerRead);
     getDoubleParam (P_AveragingTime,    &averagingTime);
-    getIntegerParam(P_NumAcquire,       &numAcquire);
 
     // Program valuesPerRead in the FPGA
     fpgabase_[SA_RATE] = valuesPerRead;
