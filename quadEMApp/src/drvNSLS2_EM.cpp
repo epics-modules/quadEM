@@ -44,7 +44,7 @@
 #define AVG_D 47
 #define DACS 72 
 
-#define FREQ 1000
+#define FREQ 1000.0
 
 static const char *driverName = "drvNSLS2_EM";
 
@@ -254,13 +254,34 @@ asynStatus drvNSLS2_EM::setAcquire(epicsInt32 value)
     return asynSuccess;
 }
 
+asynStatus drvNSLS2_EM::setAcquireParams()
+{
+    int numAverage;
+    int valuesPerRead;
+    double sampleTime;
+    double averagingTime;
+    //static const char *functionName = "setAcquireParams";
+
+    getIntegerParam(P_ValuesPerRead,    &valuesPerRead);
+    getDoubleParam (P_AveragingTime,    &averagingTime);
+    getIntegerParam(P_NumAcquire,       &numAcquire);
+
+    // Program valuesPerRead in the FPGA
+    fpgabase_[SA_RATE] = valuesPerRead;
+
+    // Compute the sample time.  This is valuesPerRead / FREQ. 
+    sampleTime = valuesPerRead / FREQ;
+    setDoubleParam(P_SampleTime, sampleTime);
+
+    numAverage = (int)((averagingTime / sampleTime) + 0.5);
+    setIntegerParam(P_NumAverage, numAverage);
+
+    return asynSuccess;
+}
+
 asynStatus drvNSLS2_EM::setAveragingTime(epicsFloat64 value)
 {
-    int valuesPerRead;
-    valuesPerRead=(int)(value*FREQ+0.5); /* value in seconds, FREQ is for now 1kHz */
-    setIntegerParam(P_ValuesPerRead, valuesPerRead);    
-    fpgabase_[SA_RATE] = valuesPerRead;
-    return(asynSuccess);
+    return setAcquireParams();
 }
 
 /** Sets the values per read.
@@ -268,12 +289,7 @@ asynStatus drvNSLS2_EM::setAveragingTime(epicsFloat64 value)
   */
 asynStatus drvNSLS2_EM::setValuesPerRead(epicsInt32 value) 
 {
-    epicsFloat64 averagingTime;
-    
-    fpgabase_[SA_RATE] = value;
-    averagingTime = value/FREQ;
-    setDoubleParam(P_AveragingTime, averagingTime);
-    return(asynSuccess);
+    return setAcquireParams();
 }
 
 

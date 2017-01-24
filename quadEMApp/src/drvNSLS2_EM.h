@@ -62,5 +62,6 @@ private:
     asynStatus setDAC(int channel, int value);
     void mmap_fpga();
     asynStatus pl_open(int *fd);
+    asynStatus setAcquireParams();
 };
 
