@@ -1,7 +1,7 @@
 
 file {
-	name="/home/epics/devel/quadEM-7-0/quadEMApp/op/adl/quadEM.adl"
-	version=030107
+	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM.adl"
+	version=030109
 }
 display {
 	object {
@@ -2421,5 +2421,20 @@ menu {
 		chan="$(P)$(R)PositionPrecY"
 		clr=14
 		bclr=51
+	}
+}
+composite {
+	object {
+		x=10
+		y=385
+		width=350
+		height=140
+	}
+	"composite name"=""
+	"composite file"="NSLS2_EM.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="(A=9)"
+		chan="$(P)$(R)Model"
 	}
 }
