@@ -76,7 +76,8 @@ asynStatus drvNSLS2_EM::readMeter(int *adcbuf)
 
     for (i=0;i<=3;i++) {
 #ifdef SIMULATION_MODE
-        val = (int)fpgabase_[DACS+i] + NOISE * ((double)rand() / (double)(RAND_MAX) -  0.5);  
+        getIntegerParam(i, P_DAC, &val)
+        val =  val + NOISE * ((double)rand() / (double)(RAND_MAX) -  0.5);  
 #else
         val = fpgabase_[AVG+i];  
 #endif
@@ -90,13 +91,24 @@ asynStatus drvNSLS2_EM::readMeter(int *adcbuf)
 
 asynStatus drvNSLS2_EM::setDAC(int channel, int value)
 {
+    int dacVolts;
     static const char *functionName = "setDAC";
 
-    fpgabase_[DACS+channel] = value;  
-    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+    //append which of the 4 dacs to bits 18-16 (see data sheet)
+    dacVolts = (channel << 16) | value; 
+    // First must write the Power Control Register to turn on DAC outputs
+    fpgabase_[DACS] = 0x10001F;  //see data sheet for bit def.
+    epicsThreadSleep(0.001); 
+    // Set Output Select Range to -10v to +10v
+    fpgabase_[DACS] = 0x0C0004;   //see data sheet for bit def.
+    epicsThreadSleep(0.001); 
+    // Write the DAC voltage
+    fpgabase_[DACS] = dacVolts;
+
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
         "%s::%s channel=%d val=%d\n",
         driverName, functionName, channel, value);
-     return(asynSuccess);
+    return(asynSuccess);
 }
 
 /*******************************************
@@ -141,7 +153,13 @@ void drvNSLS2_EM::mmap_fpga()
 }
 
 
-#ifndef POLLING_MODE
+#ifdef POLLING_MODE
+static void pollerThreadC(void *pPvt)
+{
+    drvNSLS2_EM *pdrvNSLS2_EM = (drvNSLS2_EM*)pPvt;;
+    pdrvNSLS2_EM->pollerThread();
+}
+#else
 // C callback function called by Linux when an interrupt occurs.  
 // It calls the callbackFunc in your C++ driver.
 static void frame_done(int signum)
@@ -150,11 +168,6 @@ static void frame_done(int signum)
 }
 #endif
 
-static void pollerThreadC(void *pPvt)
-{
-    drvNSLS2_EM *pdrvNSLS2_EM = (drvNSLS2_EM*)pPvt;;
-    pdrvNSLS2_EM->pollerThread();
-}
 
 void drvNSLS2_EM::pollerThread()
 {
