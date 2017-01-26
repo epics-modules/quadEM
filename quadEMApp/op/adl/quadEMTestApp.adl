@@ -134,7 +134,7 @@ text {
 	display[5] {
 		label="NSLS2_EM"
 		name="quadEM.adl"
-		args="P=quadEMTest:, R=NSLS_EM:,P_TS=quadEMTest:NSLS2_EM_TS:,P_FFT=quadEMTest:NSLS_EM_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
+		args="P=quadEMTest:, R=NSLS2_EM:,P_TS=quadEMTest:NSLS2_EM_TS:,P_FFT=quadEMTest:NSLS2_EM_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
 	}
 	clr=14
 	bclr=4
