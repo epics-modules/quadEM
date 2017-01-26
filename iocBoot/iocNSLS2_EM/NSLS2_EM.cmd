@@ -14,6 +14,7 @@ asynSetTraceIOMask("$(PORT)", 0, 2)
 #asynSetTraceMask("$(PORT)", 0, 9)
 
 dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT)")
+dbLoadTemplate("DACs.substitutions")
 
 # Comment out this line to suppress loading the plugins
 < $(QUADEM)/iocBoot/commonPlugins.cmd
