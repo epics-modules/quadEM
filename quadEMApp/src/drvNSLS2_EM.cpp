@@ -44,7 +44,7 @@
 #define AVG_D 47
 #define DACS 72 
 
-#define FREQ 1000.0
+#define FREQ 500000.0
 
 static const char *driverName = "drvNSLS2_EM";
 
@@ -64,7 +64,7 @@ asynStatus drvNSLS2_EM::readMeter(int *adcbuf)
     static const char *functionName = "readMeter";
 
     for (i=0;i<=3;i++) {
-        val = fpgabase_[RAW+i];  
+        val = fpgabase_[AVG+i];  
         asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
             "%s::%s i=%d val=%d\n",
             driverName, functionName, i, val);
@@ -131,9 +131,11 @@ static void frame_done(int signum)
     pdrvNSLS2_EM->callbackFunc();
 }
 
+
 // The constructor for your driver
 drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize) : drvQuadEM(portName, 0, ringBufferSize)
 {
+    int i;
     double sampleTime;
 //    double averagingTime;
 
@@ -162,10 +164,17 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
   
     // Create new parameter for DACs
     createParam(P_DACString, asynParamInt32, &P_DAC);
-    fpgabase_[SA_RATE_DIV] = (int)(50e6/FREQ + 0.5); /* set for a 1kHz interrupr rate */
-    sampleTime = 1.0/FREQ;
-    setDoubleParam(P_SampleTime, sampleTime);
-    
+    fpgabase_[SA_RATE_DIV] = (int)(50e6/FREQ + 0.5); /* set for a FREQ interrupr rate */
+//    sampleTime = 1.0/FREQ;
+//    setDoubleParam(P_SampleTime, sampleTime);
+    for(i=0;i<QE_MAX_INPUTS;i++){
+         scaleFactor[i][0] = 1.0/((2^17)-1);
+	 scaleFactor[i][1] = 10.0/((2^17)-1);
+	 scaleFactor[i][2] = 100.0/((2^17)-1);
+         scaleFactor[i][3] = 1000.0/((2^17)-1);
+	 scaleFactor[i][4] = 50000.0/((2^17)-1);
+	 }
+	 
     callParamCallbacks();
 }
 
@@ -223,23 +232,25 @@ asynStatus drvNSLS2_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
 void drvNSLS2_EM::callbackFunc()
 {
     int input[QE_MAX_INPUTS];
-    int i;
+    int i, range, nvalues;
     //static const char *functionName="callbackFunc";
 
     lock();
     /* Read the new data as integers */
     readMeter(input);
-    if (readingsAveraged_ == 0) {
-        for (i=0; i<QE_MAX_INPUTS; i++) {
-            rawData_[i] = 0;
-        }
-    }
+//    if (readingsAveraged_ == 0) {
+//        for (i=0; i<QE_MAX_INPUTS; i++) {
+//            rawData_[i] = 0;
+//        }
+//    }
 
-    
+     getIntegerParam(P_Range, &range);  
+     getIntegerParam(P_ValuesPerRead, &nvalues);  
    /* Convert to double) */
     for (i=0; i<QE_MAX_INPUTS; i++) {
-        rawData_[i] += input[i];
+        rawData_[i] = input[i] * 16.0 / nvalues * scaleFactor[i][range];
     }
+    
     computePositions(rawData_);
     unlock();
 }
@@ -274,7 +285,11 @@ asynStatus drvNSLS2_EM::setAcquireParams()
 
     numAverage = (int)((averagingTime / sampleTime) + 0.5);
     setIntegerParam(P_NumAverage, numAverage);
-
+    if(numAverage > 1){ 
+        readingsAveraged_=1;
+	}
+    else readingsAveraged_=0;
+    printf("ReadingsAveraged = %i\n", readingsAveraged_);
     return asynSuccess;
 }
 
@@ -302,7 +317,25 @@ asynStatus drvNSLS2_EM::setBiasVoltage(epicsFloat64 value)
 
 asynStatus drvNSLS2_EM::setRange(epicsInt32 value)
 {
-    fpgabase_[GAINREG] = value;     
+    printf("Gain: %i\n",value);
+    switch(value){
+       case 0:
+         fpgabase_[GAINREG] = 1;
+	 break;
+       case 1:
+         fpgabase_[GAINREG] = 2;
+	 break;
+       case 2:
+         fpgabase_[GAINREG] = 4;
+	 break;
+       case 3:
+         fpgabase_[GAINREG] = 8;
+	 break;
+       case 4:
+         fpgabase_[GAINREG] = 16;
+	 break;
+	 }
+	      
     return asynSuccess;
 }
 

@@ -53,6 +53,7 @@ private:
     int readingActive_;
     char firmwareVersion_[MAX_COMMAND_LEN];
     volatile unsigned int *fpgabase_;  //mmap'd fpga registers
+    epicsFloat64 scaleFactor[QE_MAX_INPUTS][MAX_RANGES];
     int memfd_;
     int intfd_;
 
