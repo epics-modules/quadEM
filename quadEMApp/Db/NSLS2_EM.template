@@ -1,0 +1,6 @@
+# Database for NSLS2 electrometer
+#   Mark Rivers
+#   Jan. 26, 2017
+
+include "quadEM.template"
+
