@@ -76,7 +76,7 @@ asynStatus drvNSLS2_EM::readMeter(int *adcbuf)
 
     for (i=0;i<=3;i++) {
 #ifdef SIMULATION_MODE
-        getIntegerParam(i, P_DAC, &val)
+        getIntegerParam(i, P_DAC, &val);
         val =  val + NOISE * ((double)rand() / (double)(RAND_MAX) -  0.5);  
 #else
         val = fpgabase_[AVG+i];  
