@@ -10,11 +10,8 @@
 
 #include "drvQuadEM.h"
 
-#define MAX_COMMAND_LEN 256
-#define MAX_MODULES 1
-#define MAX_PORTNAME_LEN 32
+#define MAX_FIRMWARE_LEN 64
 #define MAX_RANGES 5
-#define DEVNAME "/dev/vipic"
 #define P_DACString            "QE_DAC"                 /* asynInt32,    r/w */
 
 /** Class to control the NSLS Precision Integrator */
@@ -30,6 +27,7 @@ public:
     virtual void exitHandler();
     /* This should be private but we call it from C so it needs to be public */
     void callbackFunc();
+    virtual void pollerThread();
 
 protected:
     /* These are the methods we implement from quadEM */
@@ -51,7 +49,7 @@ private:
     epicsFloat64 rawData_[QE_MAX_INPUTS];
     int readingsAveraged_;
     int readingActive_;
-    char firmwareVersion_[MAX_COMMAND_LEN];
+    char firmwareVersion_[MAX_FIRMWARE_LEN];
     volatile unsigned int *fpgabase_;  //mmap'd fpga registers
     epicsFloat64 scaleFactor[QE_MAX_INPUTS][MAX_RANGES];
     int memfd_;
