@@ -46,6 +46,17 @@
 
 #define FREQ 500000.0
 
+#define DEVNAME "/dev/vipic"
+
+// Define SIMULATION_MODE to run on a system without the FPGA
+//#define SIMULATION_MODE 1
+
+// Define POLLING_MODE to poll the ADCs rather than using interrupts
+//#define POLLING_MODE 1
+#define POLL_TIME 0.001 
+#define NOISE 1000.
+
+
 static const char *driverName = "drvNSLS2_EM";
 
 // Global variable containing pointer to your driver object
@@ -64,7 +75,11 @@ asynStatus drvNSLS2_EM::readMeter(int *adcbuf)
     static const char *functionName = "readMeter";
 
     for (i=0;i<=3;i++) {
+#ifdef SIMULATION_MODE
+        val = (int)fpgabase_[DACS+i] + NOISE * ((double)rand() / (double)(RAND_MAX) -  0.5);  
+#else
         val = fpgabase_[AVG+i];  
+#endif
         asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
             "%s::%s i=%d val=%d\n",
             driverName, functionName, i, val);
@@ -105,9 +120,11 @@ asynStatus drvNSLS2_EM::pl_open(int *fd) {
 ********************************************/
 void drvNSLS2_EM::mmap_fpga()
 {
+
+#ifdef SIMULATION_MODE
+    fpgabase_ = (unsigned int *) calloc(256, sizeof(unsigned int));
+#else    
     int fd;
-
-
     fd = open("/dev/mem",O_RDWR|O_SYNC);
     if (fd < 0) {
         printf("Can't open /dev/mem\n");
@@ -120,25 +137,37 @@ void drvNSLS2_EM::mmap_fpga()
         printf("Can't map FPGA space\n");
         exit(1);
     }
-
+#endif
 }
 
 
+#ifndef POLLING_MODE
 // C callback function called by Linux when an interrupt occurs.  
 // It calls the callbackFunc in your C++ driver.
 static void frame_done(int signum)
 {
     pdrvNSLS2_EM->callbackFunc();
 }
+#endif
 
+static void pollerThreadC(void *pPvt)
+{
+    drvNSLS2_EM *pdrvNSLS2_EM = (drvNSLS2_EM*)pPvt;;
+    pdrvNSLS2_EM->pollerThread();
+}
+
+void drvNSLS2_EM::pollerThread()
+{
+    while(1) { /* Do forever */
+        if (acquiring_) callbackFunc();
+        epicsThreadSleep(POLL_TIME);
+    }
+}
 
 // The constructor for your driver
 drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize) : drvQuadEM(portName, 0, ringBufferSize)
 {
     int i;
-    double sampleTime;
-//    double averagingTime;
-
 
 // Set the global pointer
     pdrvNSLS2_EM = this;      
@@ -153,28 +182,35 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
     ranges_[4]=50000;
   
     // Initialize Linux driver, set callback function
+#ifdef POLLING_MODE
+    epicsThreadCreate("NSLS2_EMPoller",
+                      epicsThreadPriorityMedium,
+                      epicsThreadGetStackSize(epicsThreadStackMedium),
+                      (EPICSTHREADFUNC)pollerThreadC,
+                      this);
+#else
     pl_open(&intfd_);
     signal(SIGIO, &frame_done);
     fcntl(intfd_, F_SETOWN, getpid());
     int oflags = fcntl(intfd_, F_GETFL);
     fcntl(intfd_, F_SETFL, oflags | FASYNC);
-   
+#endif   
     // set up register memory map
     mmap_fpga();
   
     // Create new parameter for DACs
     createParam(P_DACString, asynParamInt32, &P_DAC);
     fpgabase_[SA_RATE_DIV] = (int)(50e6/FREQ + 0.5); /* set for a FREQ interrupr rate */
-//    sampleTime = 1.0/FREQ;
-//    setDoubleParam(P_SampleTime, sampleTime);
-    for(i=0;i<QE_MAX_INPUTS;i++){
-         scaleFactor[i][0] = 1.0/((2^17)-1);
-	 scaleFactor[i][1] = 10.0/((2^17)-1);
-	 scaleFactor[i][2] = 100.0/((2^17)-1);
-         scaleFactor[i][3] = 1000.0/((2^17)-1);
-	 scaleFactor[i][4] = 50000.0/((2^17)-1);
-	 }
-	 
+    for (i=0;i<QE_MAX_INPUTS;i++){
+        scaleFactor[i][0] = 1.0/((2^17)-1);
+        scaleFactor[i][1] = 10.0/((2^17)-1);
+        scaleFactor[i][2] = 100.0/((2^17)-1);
+        scaleFactor[i][3] = 1000.0/((2^17)-1);
+        scaleFactor[i][4] = 50000.0/((2^17)-1);
+    }
+ 
+    setStringParam(P_Firmware, "Version 1");
+    setIntegerParam(P_Model, QE_ModelNSLS2_EM);
     callParamCallbacks();
 }
 
@@ -228,6 +264,20 @@ asynStatus drvNSLS2_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
 }
 
 
+asynStatus drvNSLS2_EM::getBounds(asynUser *pasynUser, epicsInt32 *low, epicsInt32 *high)
+{
+    int function = pasynUser->reason;
+
+    if (function == P_DAC) {
+        *low = -32768;
+        *high = 32767;
+    }
+    else {
+        return drvQuadEM::getBounds(pasynUser, low, high);
+    }
+    return asynSuccess;
+}
+
 //  Callback function in driver
 void drvNSLS2_EM::callbackFunc()
 {
@@ -238,15 +288,10 @@ void drvNSLS2_EM::callbackFunc()
     lock();
     /* Read the new data as integers */
     readMeter(input);
-//    if (readingsAveraged_ == 0) {
-//        for (i=0; i<QE_MAX_INPUTS; i++) {
-//            rawData_[i] = 0;
-//        }
-//    }
 
-     getIntegerParam(P_Range, &range);  
-     getIntegerParam(P_ValuesPerRead, &nvalues);  
-   /* Convert to double) */
+    getIntegerParam(P_Range, &range);  
+    getIntegerParam(P_ValuesPerRead, &nvalues);  
+    /* Convert to double) */
     for (i=0; i<QE_MAX_INPUTS; i++) {
         rawData_[i] = input[i] * 16.0 / nvalues * scaleFactor[i][range];
     }
@@ -261,6 +306,7 @@ void drvNSLS2_EM::callbackFunc()
 asynStatus drvNSLS2_EM::setAcquire(epicsInt32 value)
 {
     // 1=start acquire, 0=stop.
+    acquiring_ = value;
     fpgabase_[IRQ_ENABLE]=value;
     return asynSuccess;
 }
@@ -279,15 +325,19 @@ asynStatus drvNSLS2_EM::setAcquireParams()
     // Program valuesPerRead in the FPGA
     fpgabase_[SA_RATE] = valuesPerRead;
 
+#ifdef POLLING_MODE
+    sampleTime = POLL_TIME;
+#else
     // Compute the sample time.  This is valuesPerRead / FREQ. 
     sampleTime = valuesPerRead / FREQ;
+#endif
     setDoubleParam(P_SampleTime, sampleTime);
 
     numAverage = (int)((averagingTime / sampleTime) + 0.5);
     setIntegerParam(P_NumAverage, numAverage);
     if(numAverage > 1){ 
         readingsAveraged_=1;
-	}
+    }
     else readingsAveraged_=0;
     printf("ReadingsAveraged = %i\n", readingsAveraged_);
     return asynSuccess;
@@ -318,24 +368,7 @@ asynStatus drvNSLS2_EM::setBiasVoltage(epicsFloat64 value)
 asynStatus drvNSLS2_EM::setRange(epicsInt32 value)
 {
     printf("Gain: %i\n",value);
-    switch(value){
-       case 0:
-         fpgabase_[GAINREG] = 1;
-	 break;
-       case 1:
-         fpgabase_[GAINREG] = 2;
-	 break;
-       case 2:
-         fpgabase_[GAINREG] = 4;
-	 break;
-       case 3:
-         fpgabase_[GAINREG] = 8;
-	 break;
-       case 4:
-         fpgabase_[GAINREG] = 16;
-	 break;
-	 }
-	      
+    fpgabase_[GAINREG] = value;
     return asynSuccess;
 }
 
