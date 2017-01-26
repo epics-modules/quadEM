@@ -19,7 +19,7 @@ record(mbbo,"$(P)$(R)Range") {
 }
 
 record(mbbi,"$(P)$(R)Range_RBV") {
-     field(ZRVL,"1")
+    field(ZRVL,"1")
     field(ZRST,"1 uA")
     field(ONVL,"2")
     field(ONST,"10 uA")
@@ -29,4 +29,9 @@ record(mbbi,"$(P)$(R)Range_RBV") {
     field(THST,"1000 uA")
     field(FRVL,"16")
     field(FRST,"5000 uA")
+}
+
+record(ao,"$(P)$(R)BiasVoltage") {
+    field(DRVL, "0")
+    field(DRVH, "50")
 }
