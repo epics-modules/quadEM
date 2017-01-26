@@ -24,6 +24,8 @@ record(mbbi,"$(P)$(R)Model") {
     field(SVST, "TetrAMM")
     field(EIVL, "8")
     field(EIST, "NSLS_EM")
+    field(NIVL, "9")
+    field(NIST, "NSLS2_EM")
     field(SCAN, "I/O Intr")
 }
 
