@@ -1,0 +1,20 @@
+# Database for NSLS2 electrometer
+#   Mark Rivers
+#   January 25, 2017
+
+include "quadEM.template"
+
+record(ao,"$(P)$(R)DAC$(N)") {
+    field(DESC, "DAC output")
+    field(PREC, "$(PREC)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) $(N))QE_DAC")
+    field(EGUL,"$(EGUL)")
+    field(DRVL,"$(DRVL)")
+    field(LOPR,"$(LOPR)")
+    field(EGUF,"$(EGUF)")
+    field(DRVH,"$(DRVH)")
+    field(HOPR,"$(HOPR)")
+    field(PREC,"$(PREC)")
+    field(LINR,"$(LINR)")
+}
