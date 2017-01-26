@@ -14,6 +14,7 @@ DB += AH401B.template
 DB += AH501.template
 DB += APS_EM.template
 DB += NSLS_EM.template
+DB += NSLS2_EM.template
 DB += TetrAMM.template
 DB += quadEM.template
 DB += quadEM_TimeSeries.template
