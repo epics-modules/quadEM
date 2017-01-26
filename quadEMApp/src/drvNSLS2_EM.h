@@ -32,6 +32,7 @@ public:
 protected:
     /* These are the methods we implement from quadEM */
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+    virtual asynStatus getBounds(asynUser *pasynUser, epicsInt32 *low, epicsInt32 *high);
     virtual asynStatus setAcquire(epicsInt32 value);
     virtual asynStatus setRange(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
