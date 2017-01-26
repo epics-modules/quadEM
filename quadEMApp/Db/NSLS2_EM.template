@@ -4,3 +4,29 @@
 
 include "quadEM.template"
 
+# We replace the choices for the Range
+record(mbbo,"$(P)$(R)Range") {
+    field(ZRVL,"1")
+    field(ZRST,"1 uA")
+    field(ONVL,"2")
+    field(ONST,"10 uA")
+    field(TWVL,"4")
+    field(TWST,"100 uA")
+    field(THVL,"8")
+    field(THST,"1000 uA")
+    field(FRVL,"16")
+    field(FRST,"5000 uA")
+}
+
+record(mbbi,"$(P)$(R)Range_RBV") {
+     field(ZRVL,"1")
+    field(ZRST,"1 uA")
+    field(ONVL,"2")
+    field(ONST,"10 uA")
+    field(TWVL,"4")
+    field(TWST,"100 uA")
+    field(THVL,"8")
+    field(THST,"1000 uA")
+    field(FRVL,"16")
+    field(FRST,"5000 uA")
+}
