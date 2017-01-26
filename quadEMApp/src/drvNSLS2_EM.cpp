@@ -168,11 +168,11 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
 //    sampleTime = 1.0/FREQ;
 //    setDoubleParam(P_SampleTime, sampleTime);
     for(i=0;i<QE_MAX_INPUTS;i++){
-         scaleFactor[i][0] = 1e-6/(2^18-1);
-	 scaleFactor[i][1] = 1e-5/(2^18-1);
-	 scaleFactor[i][2] = 1e-4/(2^18-1);
-         scaleFactor[i][3] = 1e-3/(2^18-1);
-	 scaleFactor[i][4] = 5e-2/(2^18-1);
+         scaleFactor[i][0] = 1.0/((2^17)-1);
+	 scaleFactor[i][1] = 10.0/((2^17)-1);
+	 scaleFactor[i][2] = 100.0/((2^17)-1);
+         scaleFactor[i][3] = 1000.0/((2^17)-1);
+	 scaleFactor[i][4] = 50000.0/((2^17)-1);
 	 }
 	 
     callParamCallbacks();
@@ -232,7 +232,7 @@ asynStatus drvNSLS2_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
 void drvNSLS2_EM::callbackFunc()
 {
     int input[QE_MAX_INPUTS];
-    int i, range;
+    int i, range, nvalues;
     //static const char *functionName="callbackFunc";
 
     lock();
@@ -244,11 +244,11 @@ void drvNSLS2_EM::callbackFunc()
 //        }
 //    }
 
-//     getIntegerParam(P_Range, &range);  
+     getIntegerParam(P_Range, &range);  
+     getIntegerParam(P_ValuesPerRead, &nvalues);  
    /* Convert to double) */
     for (i=0; i<QE_MAX_INPUTS; i++) {
-        rawData_[i] = input[i];
-       // rawData_[i] = rawData_[i] * scaleFactor[i][range];
+        rawData_[i] = input[i] * 16.0 / nvalues * scaleFactor[i][range];
     }
     
     computePositions(rawData_);
