@@ -94,8 +94,10 @@ asynStatus drvNSLS2_EM::setDAC(int channel, int value)
     int dacVolts;
     static const char *functionName = "setDAC";
 
+    
+    printf("DAC %i; Value %i\n",channel, value); 
     //append which of the 4 dacs to bits 18-16 (see data sheet)
-    dacVolts = (channel << 16) | value; 
+    dacVolts = (channel << 16) | (value & 0xffff); 
     // First must write the Power Control Register to turn on DAC outputs
     fpgabase_[DACS] = 0x10001F;  //see data sheet for bit def.
     epicsThreadSleep(0.001); 
@@ -103,6 +105,7 @@ asynStatus drvNSLS2_EM::setDAC(int channel, int value)
     fpgabase_[DACS] = 0x0C0004;   //see data sheet for bit def.
     epicsThreadSleep(0.001); 
     // Write the DAC voltage
+    printf("dacVolts=%0x\n",dacVolts);
     fpgabase_[DACS] = dacVolts;
 
     asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
