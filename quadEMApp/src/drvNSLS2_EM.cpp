@@ -384,7 +384,23 @@ asynStatus drvNSLS2_EM::setBiasVoltage(epicsFloat64 value)
 asynStatus drvNSLS2_EM::setRange(epicsInt32 value)
 {
     printf("Gain: %i\n",value);
-    fpgabase_[GAINREG] = value;
+    switch(value){
+       case 0:
+         fpgabase_[GAINREG] = 1;
+        break;
+       case 1:
+         fpgabase_[GAINREG] = 2;
+         break;
+       case 2:
+         fpgabase_[GAINREG] = 4;
+         break;
+       case 3:
+         fpgabase_[GAINREG] = 8;
+         break;
+       case 4:
+         fpgabase_[GAINREG] = 16;
+         break;
+    }
     return asynSuccess;
 }
 
