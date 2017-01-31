@@ -197,6 +197,9 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
     ranges_[2]=100;
     ranges_[3]=1000;
     ranges_[4]=50000;
+    
+    calibrationMode_ = false;
+    for (i=0; i<QE_MAX_INPUTS; i++) ADCOffset_[i] = 0;
   
     // Initialize Linux driver, set callback function
 #ifdef POLLING_MODE
@@ -216,17 +219,20 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
     mmap_fpga();
   
     // Create new parameter for DACs
-    createParam(P_DACString, asynParamInt32, &P_DAC);
+    createParam(P_DACString,             asynParamInt32, &P_DAC);
+    createParam(P_CalibrationModeString, asynParamInt32, &P_CalibrationMode);
+    createParam(P_ADCOffsetString,       asynParamInt32, &P_ADCOffset);
+
     fpgabase_[SA_RATE_DIV] = (int)(50e6/FREQ + 0.5); /* set for a FREQ interrupr rate */
     fsd=(pow(2.0,17)-1.0);
     for (i=0;i<QE_MAX_INPUTS;i++){
-        scaleFactor[i][0] = 1.0/fsd;
-        scaleFactor[i][1] = 10.0/fsd;
-        scaleFactor[i][2] = 100.0/fsd;
-        scaleFactor[i][3] = 1000.0/fsd;
-        scaleFactor[i][4] = 50000.0/fsd;
+        scaleFactor_[i][0] = 1.0/fsd;
+        scaleFactor_[i][1] = 10.0/fsd;
+        scaleFactor_[i][2] = 100.0/fsd;
+        scaleFactor_[i][3] = 1000.0/fsd;
+        scaleFactor_[i][4] = 50000.0/fsd;
     }
-//    printf("scaleFactors: %g  %g  %g  %g\n", scaleFactor[0][0], scaleFactor[0][1], scaleFactor[0][2],scaleFactor[0][3] );
+//    printf("scaleFactors: %g  %g  %g  %g\n", scaleFactor_[0][0], scaleFactor_[0][1], scaleFactor_[0][2],scaleFactor_[0][3] );
  
     setStringParam(P_Firmware, "Version 1");
     setIntegerParam(P_Model, QE_ModelNSLS2_EM);
@@ -266,6 +272,12 @@ asynStatus drvNSLS2_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     
     if (function == P_DAC) {
         status = setDAC(channel, value);
+    }
+    else if (function == P_CalibrationMode) {
+        calibrationMode_ = (value != 0);
+    }
+    else if (function == P_ADCOffset) {
+        ADCOffset_[channel] = value;
     }
     
     /* Do callbacks so higher layers see any changes */
@@ -313,7 +325,10 @@ void drvNSLS2_EM::callbackFunc()
 
     /* Convert to double) */
     for (i=0; i<QE_MAX_INPUTS; i++) {
-        rawData_[i] = (double)input[i] * 16.0 / (double)nvalues * scaleFactor[i][range];
+        rawData_[i] = (double)input[i] * 16.0 / (double)nvalues;
+        if (!calibrationMode_) {
+            rawData_[i] = (rawData_[i] - ADCOffset_[i]) * scaleFactor_[i][range];;
+        }
     }
 
     computePositions(rawData_);
