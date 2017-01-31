@@ -60,7 +60,6 @@ record(longout,"$(P)$(R)ADCOffset1") {
     field(DESC, "ADC Offset channel 1")
     field(PINI, "YES")
     field(DTYP, "asynInt32")
-    field(VAL,  "1")
     field(OUT,  "@asyn($(PORT) 0)QE_ADC_OFFSET")
     info(asyn:READBACK, "1")
 }
@@ -69,7 +68,6 @@ record(longout,"$(P)$(R)ADCOffset2") {
     field(DESC, "ADC Offset channel 2")
     field(PINI, "YES")
     field(DTYP, "asynInt32")
-    field(VAL,  "1")
     field(OUT,  "@asyn($(PORT) 1)QE_ADC_OFFSET")
     info(asyn:READBACK, "1")
 }
@@ -78,7 +76,6 @@ record(longout,"$(P)$(R)ADCOffset3") {
     field(DESC, "ADC Offset channel 3")
     field(PINI, "YES")
     field(DTYP, "asynInt32")
-    field(VAL,  "1")
     field(OUT,  "@asyn($(PORT) 2)QE_ADC_OFFSET")
     info(asyn:READBACK, "1")
 }
@@ -87,7 +84,6 @@ record(longout,"$(P)$(R)ADCOffset4") {
     field(DESC, "ADC Offset channel 4")
     field(PINI, "YES")
     field(DTYP, "asynInt32")
-    field(VAL,  "1")
     field(OUT,  "@asyn($(PORT) 3)QE_ADC_OFFSET")
     info(asyn:READBACK, "1")
 }
