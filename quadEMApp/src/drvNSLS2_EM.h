@@ -12,7 +12,9 @@
 
 #define MAX_FIRMWARE_LEN 64
 #define MAX_RANGES 5
-#define P_DACString            "QE_DAC"                 /* asynInt32,    r/w */
+#define P_DACString               "QE_DAC"                 /* asynInt32,    r/w */
+#define P_CalibrationModeString   "QE_CALIBRATION_MODE"    /* asynInt32,    r/w */
+#define P_ADCOffsetString         "QE_ADC_OFFSET"          /* asynInt32,    r/w */
 
 /** Class to control the NSLS Precision Integrator */
 class drvNSLS2_EM : public drvQuadEM {
@@ -43,6 +45,8 @@ protected:
     
     int P_DAC;
     #define FIRST_NSLS2_COMMAND P_DAC
+    int P_CalibrationMode;
+    int P_ADCOffset;
  
 private:
     /* Our data */
@@ -50,9 +54,11 @@ private:
     epicsFloat64 rawData_[QE_MAX_INPUTS];
     int readingsAveraged_;
     int readingActive_;
+    bool calibrationMode_;
+    int ADCOffset_[QE_MAX_INPUTS];
     char firmwareVersion_[MAX_FIRMWARE_LEN];
     volatile unsigned int *fpgabase_;  //mmap'd fpga registers
-    epicsFloat64 scaleFactor[QE_MAX_INPUTS][MAX_RANGES];
+    epicsFloat64 scaleFactor_[QE_MAX_INPUTS][MAX_RANGES];
     int memfd_;
     int intfd_;
 
