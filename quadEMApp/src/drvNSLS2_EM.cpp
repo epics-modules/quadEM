@@ -184,6 +184,7 @@ void drvNSLS2_EM::pollerThread()
 drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize) : drvQuadEM(portName, 0, ringBufferSize)
 {
     int i;
+    float fsd;
 
 // Set the global pointer
     pdrvNSLS2_EM = this;      
@@ -217,13 +218,15 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
     // Create new parameter for DACs
     createParam(P_DACString, asynParamInt32, &P_DAC);
     fpgabase_[SA_RATE_DIV] = (int)(50e6/FREQ + 0.5); /* set for a FREQ interrupr rate */
+    fsd=(pow(2.0,17)-1.0);
     for (i=0;i<QE_MAX_INPUTS;i++){
-        scaleFactor[i][0] = 1.0/((2^17)-1);
-        scaleFactor[i][1] = 10.0/((2^17)-1);
-        scaleFactor[i][2] = 100.0/((2^17)-1);
-        scaleFactor[i][3] = 1000.0/((2^17)-1);
-        scaleFactor[i][4] = 50000.0/((2^17)-1);
+        scaleFactor[i][0] = 1.0/fsd;
+        scaleFactor[i][1] = 10.0/fsd;
+        scaleFactor[i][2] = 100.0/fsd;
+        scaleFactor[i][3] = 1000.0/fsd;
+        scaleFactor[i][4] = 50000.0/fsd;
     }
+//    printf("scaleFactors: %g  %g  %g  %g\n", scaleFactor[0][0], scaleFactor[0][1], scaleFactor[0][2],scaleFactor[0][3] );
  
     setStringParam(P_Firmware, "Version 1");
     setIntegerParam(P_Model, QE_ModelNSLS2_EM);
@@ -306,12 +309,13 @@ void drvNSLS2_EM::callbackFunc()
     readMeter(input);
 
     getIntegerParam(P_Range, &range);  
-    getIntegerParam(P_ValuesPerRead, &nvalues);  
+    getIntegerParam(P_ValuesPerRead, &nvalues); 
+
     /* Convert to double) */
     for (i=0; i<QE_MAX_INPUTS; i++) {
-        rawData_[i] = input[i] * 16.0 / nvalues * scaleFactor[i][range];
+        rawData_[i] = (double)input[i] * 16.0 / (double)nvalues * scaleFactor[i][range];
     }
-    
+
     computePositions(rawData_);
     unlock();
 }
