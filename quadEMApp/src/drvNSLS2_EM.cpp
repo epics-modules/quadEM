@@ -155,12 +155,18 @@ void drvNSLS2_EM::mmap_fpga()
 #endif
 }
 
+bool drvNSLS2_EM::isAcquiring()
+{
+  return acquiring_;
+}
 
 #ifdef POLLING_MODE
-static void pollerThreadC(void *pPvt)
+static void pollerThread(void *pPvt)
 {
-    drvNSLS2_EM *pdrvNSLS2_EM = (drvNSLS2_EM*)pPvt;;
-    pdrvNSLS2_EM->pollerThread();
+    while(1) { /* Do forever */
+        if (pdrvNSLS2_EM->isAcquiring()) pdrvNSLS2_EM->callbackFunc();
+        epicsThreadSleep(POLL_TIME);
+    }
 }
 #else
 // C callback function called by Linux when an interrupt occurs.  
@@ -171,14 +177,6 @@ static void frame_done(int signum)
 }
 #endif
 
-
-void drvNSLS2_EM::pollerThread()
-{
-    while(1) { /* Do forever */
-        if (acquiring_) callbackFunc();
-        epicsThreadSleep(POLL_TIME);
-    }
-}
 
 // The constructor for your driver
 drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize) : drvQuadEM(portName, 0, ringBufferSize)
@@ -206,7 +204,7 @@ drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize)
     epicsThreadCreate("NSLS2_EMPoller",
                       epicsThreadPriorityMedium,
                       epicsThreadGetStackSize(epicsThreadStackMedium),
-                      (EPICSTHREADFUNC)pollerThreadC,
+                      (EPICSTHREADFUNC)pollerThread,
                       this);
 #else
     pl_open(&intfd_);
