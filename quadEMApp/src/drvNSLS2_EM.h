@@ -29,7 +29,7 @@ public:
     virtual void exitHandler();
     /* This should be private but we call it from C so it needs to be public */
     void callbackFunc();
-    virtual void pollerThread();
+    bool isAcquiring();
 
 protected:
     /* These are the methods we implement from quadEM */
