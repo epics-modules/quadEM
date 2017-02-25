@@ -1,10 +1,17 @@
+// Define SIMULATION_MODE to run on a system without the FPGA
+//#define SIMULATION_MODE 1
+
+// Define POLLING_MODE to poll the ADCs rather than using interrupts
+//#define POLLING_MODE 1
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <unistd.h>
-#include <netinet/in.h>
-#include <sys/mman.h>
+#ifndef _WIN32
+  #include <unistd.h>
+  #include <sys/mman.h>
+#endif
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/stat.h>
@@ -48,11 +55,6 @@
 
 #define DEVNAME "/dev/vipic"
 
-// Define SIMULATION_MODE to run on a system without the FPGA
-//#define SIMULATION_MODE 1
-
-// Define POLLING_MODE to poll the ADCs rather than using interrupts
-//#define POLLING_MODE 1
 #define POLL_TIME 0.001 
 #define NOISE 1000.
 
@@ -114,19 +116,6 @@ asynStatus drvNSLS2_EM::setDAC(int channel, int value)
     return(asynSuccess);
 }
 
-/*******************************************
-* open interrupt driver 
-*
-********************************************/
-asynStatus drvNSLS2_EM::pl_open(int *fd) {
-    if ( (*fd = open(DEVNAME, O_RDWR)) <= 0 ) {
-        perror(__func__);
-        return(asynError);
-    }
-
-    return(asynSuccess);
-}
-
 
 /*******************************************
 * mmap fpga register space
@@ -169,6 +158,19 @@ static void pollerThread(void *pPvt)
     }
 }
 #else
+/*******************************************
+* open interrupt driver 
+*
+********************************************/
+asynStatus drvNSLS2_EM::pl_open(int *fd) {
+    if ( (*fd = open(DEVNAME, O_RDWR)) <= 0 ) {
+        perror(__func__);
+        return(asynError);
+    }
+
+    return(asynSuccess);
+}
+
 // C callback function called by Linux when an interrupt occurs.  
 // It calls the callbackFunc in your C++ driver.
 static void frame_done(int signum)
