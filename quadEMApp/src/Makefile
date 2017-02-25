@@ -25,11 +25,17 @@ quadEM_SRCS         += drvQuadEM.cpp
 quadEM_SRCS         += drvAHxxx.cpp
 quadEM_SRCS         += drvTetrAMM.cpp
 quadEM_SRCS         += drvNSLS_EM.cpp
-quadEM_SRCS_Linux   += drvNSLS2_EM.cpp
+quadEM_SRCS         += drvNSLS2_EM.cpp
 quadEM_SRCS_vxWorks += drvAPS_EM.cpp
 
 quadEM_LIBS_vxWorks += Ipac
 quadEM_LIBS_vxWorks += ipUnidig
+
+# Can only build drvNSLS2_EM for Windows and vxWorks in simulation mode
+drvNSLS2_EM_CXXFLAGS_WIN32   += -DSIMULATION_MODE -DPOLLING_MODE
+drvNSLS2_EM_CXXFLAGS_vxWorks += -DSIMULATION_MODE -DPOLLING_MODE
+# If not building for the embedded system on Linux then uncomment the following line to also use simulation mode
+#drvNSLS2_EM_CXXFLAGS_Linux  += -DSIMULATION_MODE -DPOLLING_MODE
 
 # The following builds a test application
 #==================================
@@ -54,9 +60,7 @@ $(PROD_NAME)_DBD += drvAsynIPPort.dbd
 $(PROD_NAME)_DBD += drvAHxxx.dbd
 $(PROD_NAME)_DBD += drvTetrAMM.dbd
 $(PROD_NAME)_DBD += drvNSLS_EM.dbd
-ifeq (Linux, $(OS_CLASS))
-  $(PROD_NAME)_DBD += drvNSLS2_EM.dbd
-endif
+$(PROD_NAME)_DBD += drvNSLS2_EM.dbd
 
 PROD_NAME = quadEMTestApp
 quadEMTestAppVx_DBD += $(PROD_NAME).dbd
