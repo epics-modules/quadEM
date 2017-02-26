@@ -17,7 +17,7 @@ for several models:
     The device provides 4-channel current measurements at up to 2500 Hz. 
     The [Sydor SI-EP-B4](http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf)
     is based on this design and is software comptabible.
-  * The NSLS2 Quad Electrometer (called NSLS2_EM in the documentaiton).
+  * The NSLS2 Quad Electrometer (called NSLS2_EM in the documentation).
     This device consists of a 4-channel digital electrometer unit 
     using a transconductance amplifier and built-in EPICS IOC running this software. 
     The device provides 4-channel current measurements at up to 250 Hz. This model is capable
