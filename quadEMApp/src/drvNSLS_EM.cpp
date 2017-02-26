@@ -209,7 +209,7 @@ asynStatus drvNSLS_EM::findModule()
     
     // Create TCP command port
     epicsSnprintf(tempString, sizeof(tempString), "%s:%d", moduleInfo_[i].moduleIP, COMMAND_PORT);
-    // Set noAutoConnect, we will handle connecion management
+    // Set noAutoConnect, we will handle connection management
     status = drvAsynIPPortConfigure(tcpCommandPortName_, tempString, 0, 1, 0);
     if (status) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
@@ -301,11 +301,7 @@ void drvNSLS_EM::readThread(void)
     asynStatus status;
     size_t nRead;
     int eomReason;
-    int valuesPerRead;
     int pingPong;
-    int range;
-    double integrationTime;
-    double scaleFactor=1.0;
     int i;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
@@ -347,11 +343,6 @@ void drvNSLS_EM::readThread(void)
             readingActive_ = 1;
             status = pasynOctet->flush(octetPvt, pasynUser);
             getIntegerParam(P_PingPong,       &pingPong);
-            getIntegerParam(P_ValuesPerRead,  &valuesPerRead);
-            getIntegerParam(P_Range,          &range);
-            getDoubleParam(P_IntegrationTime, &integrationTime);
-            scaleFactor = ranges_[range]*1e-12 * FREQUENCY / (integrationTime * 1e6)
-                          / MAX_COUNTS / (double)valuesPerRead;
             nRequested = sizeof(ASCIIData);
         }
         unlock();
@@ -385,7 +376,7 @@ void drvNSLS_EM::readThread(void)
             ((phase == 1) && (pingPong == Phase1)) ||
             (pingPong == PhaseBoth)) {
             for (i=0; i<4; i++) {
-                data[i] = raw[i] * scaleFactor;
+                data[i] = raw[i] * scaleFactor_;
             }         
             computePositions(data);
         }
@@ -456,6 +447,7 @@ asynStatus drvNSLS_EM::setIntegrationTime(epicsFloat64 value)
     }
     epicsSnprintf(outString_, sizeof(outString_), "p %d", (int)(value * 1e6));
     status = writeReadMeter();
+    computeScaleFactor();
     return status;
 }
 
@@ -468,6 +460,7 @@ asynStatus drvNSLS_EM::setRange(epicsInt32 value)
     
     epicsSnprintf(outString_, sizeof(outString_), "r %d", value);
     status = writeReadMeter();
+    computeScaleFactor();
     return status;
 }
 
@@ -481,6 +474,7 @@ asynStatus drvNSLS_EM::setValuesPerRead(epicsInt32 value)
     
     epicsSnprintf(outString_, sizeof(outString_), "n %d", value);
     status = writeReadMeter();
+    computeScaleFactor();
     return status;
 }
 
@@ -490,6 +484,23 @@ asynStatus drvNSLS_EM::setValuesPerRead(epicsInt32 value)
 asynStatus drvNSLS_EM::setPingPong(epicsInt32 value) 
 {
     return setMode();
+}
+
+asynStatus drvNSLS_EM::computeScaleFactor()
+{
+    int range;
+    int valuesPerRead;
+    double integrationTime;
+    static const char *functionName = "computeScaleFactor";
+
+    getIntegerParam(P_ValuesPerRead,  &valuesPerRead);
+    getIntegerParam(P_Range,          &range);
+    getDoubleParam(P_IntegrationTime, &integrationTime);
+    scaleFactor_ = ranges_[range]*1e-12 * FREQUENCY / (integrationTime * 1e6)
+                  / MAX_COUNTS / (double)valuesPerRead;
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+        "%s::%s scaleFactor=%e\n", driverName, functionName, scaleFactor_);
+    return asynSuccess;
 }
 
 
@@ -570,6 +581,7 @@ void drvNSLS_EM::report(FILE *fp, int details)
         fprintf(fp, "  IP address:       %s\n", ipAddress_);
         fprintf(fp, "  Module ID:        %d\n", moduleID_);
         fprintf(fp, "  Firmware version: %s\n", firmwareVersion_);
+        fprintf(fp, "  Scale factor:     %e\n", scaleFactor_);
     }
     fprintf(fp, "  Number of modules found on network=%d\n", numModules_);
     for (i=0; i<numModules_; i++) {
