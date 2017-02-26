@@ -57,6 +57,7 @@ private:
     int moduleID_;
     int numModules_;
     double ranges_[MAX_RANGES];
+    double scaleFactor_;
     moduleInfo_t moduleInfo_[MAX_MODULES];
     int readingActive_;
     char firmwareVersion_[MAX_COMMAND_LEN];
@@ -67,5 +68,6 @@ private:
     asynStatus writeReadMeter();
     asynStatus getFirmwareVersion();
     asynStatus setMode();
+    asynStatus computeScaleFactor();
 };
 
