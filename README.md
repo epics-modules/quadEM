@@ -17,7 +17,7 @@ for several models:
     The [Sydor SI-EP-B4](http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf)
     is based on this design and is software comptabible.
   * The NSLS-2 Quad Electrometer. This device consists of a 4-channel digital electrometer unit 
-    using a transconductance amplifier and built-in EPICS IOC running this software.    
+    using a transconductance amplifier and built-in EPICS IOC running this software. 
     The device provides 4-channel current measurements at up to 250 Hz. This model is capable
     of measuring larger currents than the NSLS Quad Electrometer above.
   * The Quad Electrometer built by Steve Ross from the APS (called APS_EM in this document). 
