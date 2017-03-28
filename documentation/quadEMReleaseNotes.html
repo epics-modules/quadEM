@@ -9,6 +9,27 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 7-1 (April XXX, 2017)</h2>
+  <ul>
+    <li>Added support for a new electrometer from Brookhaven National Laboratory. This
+      is called NSLS2_EM in the documentation. This device consists of a 4-channel digital
+      electrometer unit using a transconductance amplifier and built-in EPICS IOC running
+      this software. The device provides 4-channel current measurements at up to 10 kHz.
+      This model is capable of measuring larger currents than the NSLS Quad Electrometer
+      (NSLS_EM). By compiling drvNSLS2_EM.cpp with the flags "-DSIMULATION_MODE -DPOLLING_MODE"
+      the driver is simulator for quadEM, allowing testing with no hardware.</li>
+    <li>Changed configure/CONFIG_SITE to not force static build on Linux.</li>
+    <li>Added new testBusyAsynApp which is designed to test some problems with the asyn
+      device support with the busy record. This does not really belong in quadEM, but
+      it cannot be put in the busy or asyn modules because those don't include autosave,
+      which is required to test the problem.</li>
+    <li>Fixed a bug in External Gate mode for the AH501. External Gate mode previously
+      did not work.</li>
+    <li>Fixed a problem with the NSLS_EM. Recompute scaleFactor whenever integration time,
+      range, or values per read change; previously it was only computed when acquisition
+      started, which is not intuitive and led to amperes values that were incorrect.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 7-0 (October 31, 2016)</h2>
   <ul>
     <li>Changed the time-series and FFT support. Previously the time-series used the drvFastSweep
