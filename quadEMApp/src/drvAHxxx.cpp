@@ -492,7 +492,7 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         writeReadMeter();
 
         // If we are in external trigger mode then send the TRG ON command
-        if (triggerMode == QETriggerModeExtTrigger) {    
+        if ((triggerMode == QETriggerModeExtTrigger) || (triggerMode == QETriggerModeExtGate)) {    
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "TRG ON", strlen("TRG ON"), 
                         dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
         }
