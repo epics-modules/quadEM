@@ -181,7 +181,7 @@ static void frame_done(int signum)
 
 
 // The constructor for your driver
-drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize) : drvQuadEM(portName, 0, ringBufferSize)
+drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize) : drvQuadEM(portName, ringBufferSize)
 {
     int i;
     float fsd;

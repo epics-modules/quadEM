@@ -126,7 +126,7 @@ typedef enum {
 /** Base class to control the quad electrometer */
 class drvQuadEM : public asynNDArrayDriver {
 public:
-    drvQuadEM(const char *portName, int numParams, int ringBufferSize);
+    drvQuadEM(const char *portName, int ringBufferSize);
                  
     /* These are the methods that we override from asynPortDriver */
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
@@ -174,7 +174,6 @@ protected:
     int P_NumAcquired;
     int P_Model;
     int P_Firmware;
-    #define LAST_QE_COMMAND P_Firmware
     // We cache these values so we don't need to call getIntegerParam inside the
     // fast data reading loop
     int resolution_;
@@ -212,7 +211,3 @@ private:
     epicsMessageQueueId msgQId_;
 
 };
-
-
-#define NUM_QE_PARAMS ((int)(&LAST_QE_COMMAND - &FIRST_QE_COMMAND + 1))
-

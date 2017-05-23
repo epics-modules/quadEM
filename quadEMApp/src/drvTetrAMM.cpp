@@ -55,7 +55,7 @@ static void readThread(void *drvPvt);
   *            If 0 then default of 2048 is used.
   */
 drvTetrAMM::drvTetrAMM(const char *portName, const char *QEPortName, int ringBufferSize) 
-   : drvQuadEM(portName, 0, ringBufferSize)
+   : drvQuadEM(portName, ringBufferSize)
   
 {
     asynStatus status;

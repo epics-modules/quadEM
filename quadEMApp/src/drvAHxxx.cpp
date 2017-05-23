@@ -50,7 +50,7 @@ static void readThread(void *drvPvt);
   *            "AH401B", "AH401D", "AH501", "AH501C", and "AH501D".
   */
 drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferSize, const char *modelName) 
-   : drvQuadEM(portName, 0, ringBufferSize)
+   : drvQuadEM(portName, ringBufferSize)
   
 {
     asynStatus status;

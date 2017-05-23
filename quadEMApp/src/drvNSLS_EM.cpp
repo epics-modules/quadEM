@@ -60,7 +60,7 @@ static void readThread(void *drvPvt);
   *            If 0 then default of 2048 is used.
   */
 drvNSLS_EM::drvNSLS_EM(const char *portName, const char *broadcastAddress, int moduleID, int ringBufferSize) 
-   : drvQuadEM(portName, 0, ringBufferSize)
+   : drvQuadEM(portName, ringBufferSize)
   
 {
     asynStatus status;

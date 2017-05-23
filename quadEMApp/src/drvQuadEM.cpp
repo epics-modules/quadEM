@@ -48,10 +48,9 @@ static void callbackTaskC(void *pPvt)
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
   *            If 0 then default of 2048 is used.
   */
-drvQuadEM::drvQuadEM(const char *portName, int numParams, int ringBufferSize) 
+drvQuadEM::drvQuadEM(const char *portName, int ringBufferSize) 
    : asynNDArrayDriver(portName, 
                     QE_MAX_DATA+1, /* maxAddr */ 
-                    NUM_QE_PARAMS + numParams,
                     0, 0,        /* maxBuffers, maxMemory, no limits */
                     asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynGenericPointerMask | asynDrvUserMask, /* Interface mask */
                     asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynGenericPointerMask,                   /* Interrupt mask */

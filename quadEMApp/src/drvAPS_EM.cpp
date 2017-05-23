@@ -69,7 +69,7 @@ static void callbackFuncC(void *pPvt, asynUser *pasynUser, epicsUInt32 mask)
   */
 drvAPS_EM::drvAPS_EM(const char *portName, unsigned short *baseAddr, int fiberChannel,
                      const char *unidigName, int unidigChan, char *unidigDrvInfo, int ringBufferSize)
-   : drvQuadEM(portName, 0, ringBufferSize),
+   : drvQuadEM(portName, ringBufferSize),
     unidigChan_(unidigChan),
     pUInt32DigitalPvt_(NULL),
     pUInt32RegistrarPvt_(NULL)
