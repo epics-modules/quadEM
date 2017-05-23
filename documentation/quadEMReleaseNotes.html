@@ -8,8 +8,15 @@
 <body>
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
+ <h2 style="text-align: center">
+    Release 8-0 (May 23, 2017)</h2>
+  <ul>
+    <li>Minor changes to be compatible with areaDetector/ADCore R3-0.  The quadEM base class
+      constructor has changed its arguments, so this is a major release.  There are no
+      changes required to startup scripts or OPI displays.</li>
+  </ul>
   <h2 style="text-align: center">
-    Release 7-1 (April XXX, 2017)</h2>
+    Release 7-1 (May 23, 2017)</h2>
   <ul>
     <li>Added support for a new electrometer from Brookhaven National Laboratory. This
       is called NSLS2_EM in the documentation. This device consists of a 4-channel digital
@@ -28,6 +35,7 @@
     <li>Fixed a problem with the NSLS_EM. Recompute scaleFactor whenever integration time,
       range, or values per read change; previously it was only computed when acquisition
       started, which is not intuitive and led to amperes values that were incorrect.</li>
+    <li>This release is compatible with ADCore R2-6.
   </ul>
   <h2 style="text-align: center">
     Release 7-0 (October 31, 2016)</h2>
