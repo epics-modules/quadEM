@@ -2,6 +2,8 @@
 #   Mark Rivers
 #   June 3, 2012
 
+include "NDArrayBase.template"
+ 
 record(mbbi,"$(P)$(R)Model") {
     field(DESC, "Model")
     field(DTYP, "asynInt32")
