@@ -402,19 +402,14 @@ asynStatus drvNSLS_EM::setAcquire(epicsInt32 value)
             epicsThreadSleep(0.01);
             lock();
         }
-        strcpy(outString_, "m 1");
-        writeReadMeter();
-        // Call the base class function in case anything needs to be done there.
-        drvQuadEM::setAcquire(0);
     } else {
-        // Call the base class function because it handles some common tasks.
-        drvQuadEM::setAcquire(1);
-        setMode();
         // Notify the read thread if acquisition status has started
         epicsEventSignal(acquireStartEvent_);
         acquiring_ = 1;
     }
-    return asynSuccess;
+    // Call the base class function in case anything needs to be done there.
+    drvQuadEM::setAcquire(value);
+    return setMode();
 }
 
 /** Set the acquisition mode
@@ -422,10 +417,19 @@ asynStatus drvNSLS_EM::setAcquire(epicsInt32 value)
 asynStatus drvNSLS_EM::setMode()
 {
     int pingPong;
+    int valuesPerRead;
+    int acquire;
     int mode;
 
     getIntegerParam(P_PingPong, &pingPong);
-    mode = 0;
+    getIntegerParam(P_ValuesPerRead, &valuesPerRead);
+    getIntegerParam(P_Acquire, &acquire);
+    mode = P_Acquire ? 0 : 1;
+    // The phase information is only valid when ValuesPerRead=1.  Set to PhaseBoth if !=1.
+    if ((valuesPerRead != 1) && (pingPong != PhaseBoth)) {
+        pingPong = PhaseBoth;
+        setIntegerParam(P_PingPong, PhaseBoth);
+    }
     if (pingPong != PhaseBoth) mode |= 0x80;
     // Send the mode command
     sprintf(outString_, "m %d", mode);
@@ -475,7 +479,7 @@ asynStatus drvNSLS_EM::setValuesPerRead(epicsInt32 value)
     epicsSnprintf(outString_, sizeof(outString_), "n %d", value);
     status = writeReadMeter();
     computeScaleFactor();
-    return status;
+    return setMode();
 }
 
  /** Sets the ping-pong setting. 
