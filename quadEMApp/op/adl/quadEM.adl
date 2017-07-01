@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM.adl"
+	name="/home/epics/devel/quadEM-7-0/quadEMApp/op/adl/quadEM.adl"
 	version=030109
 }
 display {
@@ -437,9 +437,9 @@ menu {
 composite {
 	object {
 		x=20
-		y=745
+		y=695
 		width=350
-		height=60
+		height=110
 	}
 	"composite name"=""
 	"composite file"="ADAttrFile.adl"
@@ -2427,8 +2427,8 @@ composite {
 	object {
 		x=10
 		y=385
-		width=350
-		height=140
+		width=390
+		height=269
 	}
 	"composite name"=""
 	"composite file"="NSLS2_EM.adl"
