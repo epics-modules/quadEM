@@ -33,6 +33,13 @@
       of a 4-channel digital electrometer unit with Ethernet communication. The device
       provides 4-channel current measurements at up to 2500 Hz. The <a href="http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf">
         Sydor SI-EP-B4</a> is based on this design and is software comptabible.</li>
+    <li>The NSLS2 Quad Electrometer (called NSLS2_EM in this document). This device consists
+      of a 4-channel digital electrometer unit with Ethernet communication. The device
+      provides 4-channel current measurements at up to 10,000 Hz. This design is based
+      on a transconductance amplifier and can measure currents into the mA range, unlike
+      the NSLS_EM which is based on a current integration chip and is limited to currents
+      less than about 1 micro-amp. This unit is packaged with a Zynq processing and run
+      this EPICS IOC software internally.</li>
     <li>The Quad Electrometer built by Steve Ross from the APS (called APS_EM in this
       document). This device consists of a 4-channel digital electrometer unit and 2 VME
       boards. The device provides 2 readings per diode at up to 813 Hz.</li>
@@ -117,6 +124,51 @@
           Release Notes</th>
         <th>
           Known Problems</th>
+      </tr>
+      <tr>
+        <td>
+          9-0</td>
+        <td>
+          July 2, 2017</td>
+        <td>
+          <a href="https://github.com/epics-modules/quadEM/releases/tag/R9-0">R9-0 tar and zip
+            files</a> </td>
+        <td>
+          <a href="quadEMDoc.html">quadEMDoc.html</a></td>
+        <td>
+          <a href="quadEMReleaseNotes.html">Release notes</a></td>
+        <td>
+          See release notes</td>
+      </tr>
+      <tr>
+        <td>
+          8-0</td>
+        <td>
+          23-May-2017</td>
+        <td>
+          <a href="https://github.com/epics-modules/quadEM/releases/tag/R8-0">R8-0 tar and zip
+            files</a> </td>
+        <td>
+          <a href="quadEMDoc.html">quadEMDoc.html</a></td>
+        <td>
+          <a href="quadEMReleaseNotes.html">Release notes</a></td>
+        <td>
+          See release notes</td>
+      </tr>
+      <tr>
+        <td>
+          7-1</td>
+        <td>
+          28-March-2017</td>
+        <td>
+          <a href="https://github.com/epics-modules/quadEM/releases/tag/R7-1">R7-1 tar and zip
+            files</a> </td>
+        <td>
+          <a href="quadEMDoc.html">quadEMDoc.html</a></td>
+        <td>
+          <a href="quadEMReleaseNotes.html">Release notes</a></td>
+        <td>
+          See release notes</td>
       </tr>
       <tr>
         <td>
@@ -395,14 +447,235 @@
           Required for</th>
       </tr>
       <tr>
-        <td rowspan="11">
-          7-0</td>
+        <td rowspan="9">
+          9-0</td>
         <td>
           EPICS base</td>
         <td>
-          3.14.12.5</td>
+          3.15.5</td>
         <td>
           Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-31</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+        <td>
+          areaDetector/ADCore</td>
+        <td>
+          3-0</td>
+        <td>
+          Used for NDArray plugins that compute statistics, stream data to disk, etc.</td>
+      </tr>
+      <tr>
+        <td>
+          busy</td>
+        <td>
+          1-6-1</td>
+        <td>
+          Busy record. Used in databases to support ca_put_callback.</td>
+      </tr>
+      <tr>
+        <td>
+          ipUnidig</td>
+        <td>
+          2-10</td>
+        <td>
+          Used in test application for interrupt callback support for APS_EM.</td>
+      </tr>
+      <tr>
+        <td>
+          ipac</td>
+        <td>
+          2-14</td>
+        <td>
+          Used in test application for Industry Pack support for ipUnidig.</td>
+      </tr>
+      <tr>
+        <td>
+          autosave</td>
+        <td>
+          5-7-1</td>
+        <td>
+          Used in test application for save/restore.</td>
+      </tr>
+      <tr>
+        <td>
+          sscan</td>
+        <td>
+          2-10-2</td>
+        <td>
+          Used in test application for scanning.</td>
+      </tr>
+      <tr>
+        <td>
+          calc</td>
+        <td>
+          3-6-1</td>
+        <td>
+          Used in test application for sscan.</td>
+      </tr>
+      <tr>
+        <td rowspan="9">
+          8-0</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.15.5</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-31</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+        <td>
+          areaDetector/ADCore</td>
+        <td>
+          3-0</td>
+        <td>
+          Used for NDArray plugins that compute statistics, stream data to disk, etc.</td>
+      </tr>
+      <tr>
+        <td>
+          busy</td>
+        <td>
+          1-6-1</td>
+        <td>
+          Busy record. Used in databases to support ca_put_callback.</td>
+      </tr>
+      <tr>
+        <td>
+          ipUnidig</td>
+        <td>
+          2-10</td>
+        <td>
+          Used in test application for interrupt callback support for APS_EM.</td>
+      </tr>
+      <tr>
+        <td>
+          ipac</td>
+        <td>
+          2-14</td>
+        <td>
+          Used in test application for Industry Pack support for ipUnidig.</td>
+      </tr>
+      <tr>
+        <td>
+          autosave</td>
+        <td>
+          5-7-1</td>
+        <td>
+          Used in test application for save/restore.</td>
+      </tr>
+      <tr>
+        <td>
+          sscan</td>
+        <td>
+          2-10-2</td>
+        <td>
+          Used in test application for scanning.</td>
+      </tr>
+      <tr>
+        <td>
+          calc</td>
+        <td>
+          3-6-1</td>
+        <td>
+          Used in test application for sscan.</td>
+      </tr>
+      <tr>
+        <td rowspan="9">
+          7-1</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.15.5</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-31</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+        <td>
+          areaDetector/ADCore</td>
+        <td>
+          2-6</td>
+        <td>
+          Used for NDArray plugins that compute statistics, stream data to disk, etc.</td>
+      </tr>
+      <tr>
+        <td>
+          busy</td>
+        <td>
+          1-6-1</td>
+        <td>
+          Busy record. Used in databases to support ca_put_callback.</td>
+      </tr>
+      <tr>
+        <td>
+          ipUnidig</td>
+        <td>
+          2-10</td>
+        <td>
+          Used in test application for interrupt callback support for APS_EM.</td>
+      </tr>
+      <tr>
+        <td>
+          ipac</td>
+        <td>
+          2-14</td>
+        <td>
+          Used in test application for Industry Pack support for ipUnidig.</td>
+      </tr>
+      <tr>
+        <td>
+          autosave</td>
+        <td>
+          5-7-1</td>
+        <td>
+          Used in test application for save/restore.</td>
+      </tr>
+      <tr>
+        <td>
+          sscan</td>
+        <td>
+          2-10-2</td>
+        <td>
+          Used in test application for scanning.</td>
+      </tr>
+      <tr>
+        <td>
+          calc</td>
+        <td>
+          3-6-1</td>
+        <td>
+          Used in test application for sscan.</td>
+      </tr>
+      <td rowspan="9">
+        7-0</td>
+      <td>
+        EPICS base</td>
+      <td>
+        3.14.12.5</td>
+      <td>
+        Base support</td>
       </tr>
       <tr>
         <td>

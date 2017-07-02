@@ -10,9 +10,9 @@
     <h1>
       quadEM Driver</h1>
     <h2>
-      R7-0</h2>
+      R9-0</h2>
     <h2>
-      October 31, 2016</h2>
+      July 2, 2017</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -57,6 +57,13 @@
       of a 4-channel digital electrometer unit with Ethernet communication. The device
       provides 4-channel current measurements at up to 2500 Hz. The <a href="http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf">
         Sydor SI-EP-B4</a> is based on this design and is software comptabible.</li>
+    <li>The NSLS2 Quad Electrometer (called NSLS2_EM in this document). This device consists
+      of a 4-channel digital electrometer unit with Ethernet communication. The device
+      provides 4-channel current measurements at up to 10,000 Hz. This design is based
+      on a transconductance amplifier and can measure currents into the mA range, unlike
+      the NSLS_EM which is based on a current integration chip and is limited to currents
+      less than about 1 micro-amp. This unit is packaged with a Zynq processing and run
+      this EPICS IOC software internally.</li>
     <li>The Quad Electrometer built by Steve Ross from the APS (called APS_EM in this
       document). This device consists of a 4-channel digital electrometer unit and 2 VME
       boards. The device provides 2 readings per diode at up to 813 Hz. This device appears
@@ -66,9 +73,9 @@
   <p>
     The AH401 series, NSLS_EM, and APS_EM are based on the same principle of an op-amp
     run as a current amplifier with a large feedback capacitor, and a high resolution
-    ADC. The AH501 series and TetrAMM are based on a transimpedance input stage for
-    current sensing, combined with analog signal conditioning and filtering stages.
-    The AH501C, AH501D, and TetrAMM have an integrated programmable bias supply.</p>
+    ADC. The AH501 series, TetrAMM, and NSLS2_EM are based on a transimpedance input
+    stage for current sensing, combined with analog signal conditioning and filtering
+    stages. The AH501C, AH501D, and TetrAMM have an integrated programmable bias supply.</p>
   <p>
     The <b>quadEM</b> software includes asyn drivers that provide support for the following:</p>
   <ul>
@@ -267,6 +274,7 @@
             <li>6: AH501D</li>
             <li>7: TetrAMM</li>
             <li>8: NSLS_EM</li>
+            <li>9: NSLS2_EM</li>
           </ul>
         </td>
       </tr>
@@ -350,7 +358,7 @@
         <td>
           r/w</td>
         <td>
-          All except APS_EM and NSLS_EM</td>
+          All except APS_EM, NSLS_EM, and NSLS2_EM</td>
         <td>
           Read format from the device. Values are:
           <ul>
@@ -426,6 +434,14 @@
             <li>50 pC</li>
             <li>12 pC</li>
           </ul>
+          For the NSLS2_EM this there are 5 ranges:
+          <ul>
+            <li>1 uA</li>
+            <li>10 uA</li>
+            <li>100 uA</li>
+            <li>1000 uA</li>
+            <li>5000 uA</li>
+          </ul>
           For the APS_EM this selects the feedback capacitor, which controls the gain of the
           device. There are 8 capacitor choices:
           <ul>
@@ -477,13 +493,16 @@
           capacitor is used, but it reduces the data rate by a factor of two, because data
           are only returned on every other integration time. "On" returns the data from both
           channels, which doubles the data rate at some expense in noise.<br />
-          On the NSLS_EM and APS_EM both values are always transmitted from the device. On
-          the APS_EM and the choices are #1 (Ping), #2 (Pong), and Avg. which averages the
-          values from the Ping and Pong channels. Note that if Range=External and the two
-          external capacitors are different, then one should not use Avg. because that will
-          mix data from two different gains. On the NSLS_EM and the choices are Phase0, Phase1,
-          and Both. These are really the same as the choices on the APS_EM, but using the
-          nomenclature that the NSLS_EM documentation uses.</td>
+          On the NSLS_EM the choices are "Phase0" (0), "Phase1" (1), and "Both (2). "Phase0"
+          only returns the data from the Phase0 channel, Phase1 from the Phase1 channel, and
+          Both from both Phase0 and Phase1. The device can only return Phase0 and Phase1 correctly
+          when ValuesPerRead=1. The driver automatically sets PingPong=Both if ValuesPerRead
+          is not 1.<br />
+          On the APS_EM both values are always transmitted from the device. The choices are
+          #1 (Ping), #2 (Pong), and Avg. which averages the values from the Ping and Pong
+          channels. Note that if Range=External and the two external capacitors are different,
+          then one should not use Avg. because that will mix data from two different gains.
+        </td>
       </tr>
       <tr>
         <td>
@@ -668,7 +687,7 @@
         <td>
           r/w</td>
         <td>
-          TetrAMM, AH501C and AH501D</td>
+          TetrAMM, AH501C, AH501D, and NSLS2_EM</td>
         <td>
           Controls the voltage of the bias supply output.</td>
       </tr>
@@ -727,9 +746,8 @@
           Setting ValuesPerRead to 100, for example, will average 100 readings in the TetrAMM,
           and thus result in a 1000 values per second sent from the TetrAMM to EPICS.<br />
           <br />
-          On the NSLS_EM this record controls the number of readings that are summed in the
-          NSLS_EM using the "n" command.<br />
-          <br />
+          On the NSLS_EM and NSLS2_EM this record controls the number of readings that are
+          summed in the hardware.<br />
           For all other models ValuesPerRead controls the number of values that are read from
           the meter in a single call. These values are averaged in the driver before it does
           any callbacks. The default is 1 (no averaging).
@@ -741,6 +759,8 @@
               of 20000, to 100000/ValuesPerRead.</li>
             <li>On the NSLS_EM it reduces the number of readings per second sent, from the maximum
               of 2500 (depending on IntegrationTime, to a maximum of 2500/ValuesPerRead.</li>
+            <li>On the NSLS2_EM it reduces the number of readings per second sent, from the maximum
+              of 10000 (depending on internal setting of ADC rate)to 10000/ValuesPerRead.</li>
             <li>On the AH401 and AH501 series the driver reduces the frequency of asynOctet-&gt;read()
               calls by a factor of ValuesPerRead, because it can obtain multiple readings from
               the meter in a single call. This is particularly significant on the AH501 series,
@@ -1205,6 +1225,57 @@
         <td>
           Precision (# digits) to use to display the position in X or Y. Choices are 0-9.
         </td>
+      </tr>
+      <tr>
+        <td>
+          QE_CALIBRATION_MODE</td>
+        <td>
+          $(P)$(R)CalibrationMode</td>
+        <td>
+          bo</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          NSLS2_EM</td>
+        <td>
+          Puts driver in calibration mode where ADC offsets can be computed. Choices are Off
+          (0) and On (1). The Calibration mode is used to compute the ADC offsets.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)ADCOffset[1-4]</td>
+        <td>
+          longout</td>
+        <td>
+          N.A.</td>
+        <td>
+          r/w</td>
+        <td>
+          NSLS2_EM</td>
+        <td>
+          ADC offset for this channel. </td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)CopyADCOffsets</td>
+        <td>
+          transform</td>
+        <td>
+          N.A.</td>
+        <td>
+          r/w</td>
+        <td>
+          NSLS2_EM</td>
+        <td>
+          Processing this record will copy the current reading from each channel into the
+          ADCOffset[1-4] records. This should only be done when CalibrationMode=On. This does
+          an ADC offset calibration that is independent of the Range of the device.</td>
       </tr>
     </tbody>
   </table>

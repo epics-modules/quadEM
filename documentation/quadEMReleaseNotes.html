@@ -8,12 +8,26 @@
 <body>
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
- <h2 style="text-align: center">
+  <h2 style="text-align: center">
+    Release 9-0 (July 2, 2017)</h2>
+  <ul>
+    <li>Fixed a problem with PingPong on the NSLS_EM. If ValuesPerRead&gt;1 then it now
+      forces PingPong=Both. Previously if ValuesPerRead was even and PingPong was Phase0
+      or Phase1 then the driver might not update because the device was only sending the
+      other phase. Even if ValuesPerRead was odd the phase information was not correct.</li>
+    <li>Changed the quadEM.template file to load NDArrayDriver.template, i.e. the database
+      for the asynNDArrayDriver base class. This ensures that records for the base class
+      are present. This change requires changing the startup scripts to pass ADDR=0 and
+      TIMEOUT=1 when loading the device template file, because these macros are required
+      by NDArrayDriver.template. Because this is not backwards compatible this is major
+      release.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 8-0 (May 23, 2017)</h2>
   <ul>
-    <li>Minor changes to be compatible with areaDetector/ADCore R3-0.  The quadEM base class
-      constructor has changed its arguments, so this is a major release.  There are no
-      changes required to startup scripts or OPI displays.</li>
+    <li>Minor changes to be compatible with areaDetector/ADCore R3-0. The quadEM base
+      class constructor has changed its arguments, so this is a major release. There are
+      no changes required to startup scripts or OPI displays.</li>
   </ul>
   <h2 style="text-align: center">
     Release 7-1 (May 23, 2017)</h2>
@@ -35,7 +49,8 @@
     <li>Fixed a problem with the NSLS_EM. Recompute scaleFactor whenever integration time,
       range, or values per read change; previously it was only computed when acquisition
       started, which is not intuitive and led to amperes values that were incorrect.</li>
-    <li>This release is compatible with ADCore R2-6.
+    <li>
+    This release is compatible with ADCore R2-6.
   </ul>
   <h2 style="text-align: center">
     Release 7-0 (October 31, 2016)</h2>
