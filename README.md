@@ -20,7 +20,7 @@ for several models:
   * The NSLS2 Quad Electrometer (called NSLS2_EM in the documentation).
     This device consists of a 4-channel digital electrometer unit 
     using a transconductance amplifier and built-in EPICS IOC running this software. 
-    The device provides 4-channel current measurements at up to 250 Hz. This model is capable
+    The device provides 4-channel current measurements at up to 10,000 Hz. This model is capable
     of measuring larger currents than the NSLS Quad Electrometer above.
   * The Quad Electrometer built by Steve Ross from the APS (called APS_EM in the documentation). 
     This device consists of a 4-channel digital electrometer unit and 2 VME boards. 
