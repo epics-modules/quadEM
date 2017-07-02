@@ -9,7 +9,7 @@ epicsEnvSet("TSPOINTS",  "1000")
 epicsEnvSet("IP",        "164.54.160.11:10001")
 
 < $(QUADEM)/iocBoot/AHxxx.cmd
-dbLoadRecords("$(QUADEM)/db/AH501.template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT)")
+dbLoadRecords("$(QUADEM)/db/AH501.template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT), ADDR=0, TIMEOUT=1")
 
 < $(QUADEM)/iocBoot/saveRestore.cmd
 

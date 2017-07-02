@@ -11,7 +11,7 @@ epicsEnvSet("IP",        "164.54.160.242:10001")
 
 < ../AHxxx.cmd
 
-dbLoadRecords("$(QUADEM)/db/AH401B.template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT)")
+dbLoadRecords("$(QUADEM)/db/AH401B.template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT), ADDR=0, TIMEOUT=1")
 
 < ../saveRestore.cmd
 

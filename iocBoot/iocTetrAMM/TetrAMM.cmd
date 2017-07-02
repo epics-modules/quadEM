@@ -23,7 +23,7 @@ asynSetTraceIOTruncateSize("IP_$(PORT)", 0, 4000)
 dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=IP_$(PORT),ADDR=0,OMAX=256,IMAX=256")
 
 drvTetrAMMConfigure("$(PORT)", "IP_$(PORT)", $(RING_SIZE))
-dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT)")
+dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT), ADDR=0, TIMEOUT=1")
 
 < $(QUADEM)/iocBoot/commonPlugins.cmd
 

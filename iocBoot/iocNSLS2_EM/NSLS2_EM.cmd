@@ -13,7 +13,7 @@ asynSetTraceIOMask("$(PORT)", 0, 2)
 # Uncomment this line to enable asynPrint statements with ASYN_TRACEIO_DRIVER
 #asynSetTraceMask("$(PORT)", 0, 9)
 
-dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT)")
+dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT), ADDR=0, TIMEOUT=1")
 dbLoadTemplate("DACs.substitutions")
 
 # Comment out this line to suppress loading the plugins

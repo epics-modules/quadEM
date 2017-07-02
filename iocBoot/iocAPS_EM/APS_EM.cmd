@@ -37,7 +37,7 @@ initIpUnidig("Unidig1", 0, 1, 2000, 116, 0xfffffe, 0xfffffe)
 #  unidigDrvInfo = drvInfo string for digital input parameter
 # The Quad-EM input is on IP-Unidig input 0
 drvAPS_EMConfigure("$PORT)", 0xf000, 0, "Unidig1", 0, "DIGITAL_INPUT")
-dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT)")
+dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT), ADDR=0, TIMEOUT=1")
 
 # Fast feedback using EPID record
 # We don't actually load this, because that requires the synApps "std" and "dac128V" modules 
