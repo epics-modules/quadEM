@@ -22,20 +22,9 @@
       TIMEOUT=1 when loading the device template file, because these macros are required
       by NDArrayDriver.template. Because this is not backwards compatible this is major
       release.</li>
-  </ul>
-  <h3>
-    quadEMTestAppMain.cpp</h3>
-  <ul>
-    <li>Updated to the version in the template files in EPICS base 3.15.5. This includes
-      a call to epicsExit() after the iocsh() returns. This is needed for epicsAtExit
-      to work correctly on some platforms, including Windows.</li>
-  </ul>
-  <h3>
-    Files in configure/ directoriy</h3>
-  <ul>
-    <li>The Makefile, CONFIG, CONFIG_SITE, and RULES* files in configure/, have been updated
-      to the versions in the template files in EPICS base 3.15.5. The new versions are
-      better suited to site-specific customization.</li>
+    <li>Updated quadEMTestAppMain.cpp to the version in the template files in EPICS base
+      3.15.5. This includes a call to epicsExit() after the iocsh() returns. This is needed
+      for epicsAtExit to work correctly on some platforms, including Windows.</li>
   </ul>
   <h2 style="text-align: center">
     Release 8-0 (May 23, 2017)</h2>
