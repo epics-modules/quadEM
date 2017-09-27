@@ -181,6 +181,7 @@ protected:
     int valuesPerRead_;
     int acquiring_;
     int numAcquired_;
+    int rawCount_;
 
     void computePositions(epicsFloat64 raw[QE_MAX_INPUTS]);
     virtual asynStatus readStatus()=0;
@@ -206,7 +207,6 @@ protected:
 private:
     virtual asynStatus doDataCallbacks(int numRead);
     int ringCount_;
-    int rawCount_;
     epicsRingBytesId ringBuffer_;
     epicsMessageQueueId msgQId_;
 
