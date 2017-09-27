@@ -163,6 +163,7 @@ void drvAHxxx::readThread(void)
     int numBytes;
     int eomReason;
     int readFormat;
+    int triggerMode;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
     asynOctet *pasynOctet;
@@ -204,6 +205,7 @@ void drvAHxxx::readThread(void)
             lock();
             readingActive_ = 1;
             getIntegerParam(P_ReadFormat, &readFormat);
+            getIntegerParam(P_TriggerMode, &triggerMode);
         }
         if (valuesPerRead_ < 1) valuesPerRead_ = 1;
         for (i=0; i<QE_MAX_INPUTS; i++) {
@@ -358,6 +360,18 @@ void drvAHxxx::readThread(void)
             }
         }
         computePositions(raw);
+        // The AH501 in Trigger mode is problematic.  
+        // It gives no indication of the trailing edge of the gate signal,
+        // but users may want to be averaging counts each time signal is high.
+        // If computePositions() set rawCount_ to 0 (i.e. averaging period done)
+        // then flush the input buffer so we don't get any extra counts
+        if (AH501Series_ && (rawCount_ == 0) && (triggerMode == QETriggerModeExtGate)) {
+            unlock();
+            pasynManager->lockPort(pasynUser);
+            status = pasynOctet->flush(octetPvt, pasynUser);
+            pasynManager->unlockPort(pasynUser);
+            lock();
+        }
     } //end while(1)
 }
 
