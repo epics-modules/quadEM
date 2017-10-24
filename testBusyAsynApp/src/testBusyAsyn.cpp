@@ -39,29 +39,63 @@
 #define P_P2_String "P2"  /* asynInt32,    r/w */
 #define P_P3_String "P3"  /* asynInt32,    r/w */
 #define P_P4_String "P4"  /* asynInt32,    r/w */
+#define P_P5_String "P5"  /* asynInt32,    r/w */
 
 class testBusyAsyn : public asynPortDriver {
 public:
     testBusyAsyn(const char *portName);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-
+    void callbackTask();
 protected:
     int P_P1;
     int P_P2;
     int P_P3;
     int P_P4;
+    int P_P5;
  
 private:
+    epicsEventId callbackEventId_;
     /* Our data */
 };
 
 
 static const char *driverName="testBusyAsyn";
 
+static void callbackTaskC(void *drvPvt)
+{
+    testBusyAsyn *pPvt = (testBusyAsyn *)drvPvt;
+
+    pPvt->callbackTask();
+}
+
+void testBusyAsyn::callbackTask()
+{
+    static const char* functionName = "callbackTask";    
+
+    this->lock();
+    /* Loop forever */
+    while (1) {
+        this->unlock();
+        epicsEventWait(callbackEventId_);
+        this->lock();
+        asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+              "%s::%s doing callbacks 0 1 0 1\n", 
+              driverName, functionName);
+        setIntegerParam(P_P5, 0);
+        callParamCallbacks();
+        setIntegerParam(P_P5, 1);
+        callParamCallbacks();
+        setIntegerParam(P_P5, 0);
+        callParamCallbacks();
+        setIntegerParam(P_P5, 1);
+        callParamCallbacks();
+    }
+}        
+
+
 testBusyAsyn::testBusyAsyn(const char *portName) 
    : asynPortDriver(portName, 
                     1, /* maxAddr */ 
-                    0, /* Number of parameters, no longer needed with asyn R4-31 */
                     asynInt32Mask | asynDrvUserMask, /* Interface mask */
                     asynInt32Mask,                   /* Interrupt mask */
                     ASYN_CANBLOCK, /* asynFlags */
@@ -73,10 +107,18 @@ testBusyAsyn::testBusyAsyn(const char *portName)
     createParam(P_P2_String, asynParamInt32, &P_P2);
     createParam(P_P3_String, asynParamInt32, &P_P3);
     createParam(P_P4_String, asynParamInt32, &P_P4);
+    createParam(P_P5_String, asynParamInt32, &P_P5);
     setIntegerParam(P_P1, 0);
     setIntegerParam(P_P2, 0);
     setIntegerParam(P_P3, 0);
     setIntegerParam(P_P4, 0);
+    setIntegerParam(P_P5, 0);
+    callbackEventId_ = epicsEventCreate(epicsEventEmpty);
+    epicsThreadCreate("callbackTask",
+                      epicsThreadPriorityMedium,
+                      epicsThreadGetStackSize(epicsThreadStackMedium),
+                      (EPICSTHREADFUNC)callbackTaskC,
+                      this);
 }
 
 
@@ -105,6 +147,11 @@ asynStatus testBusyAsyn::writeInt32(asynUser *pasynUser, epicsInt32 value)
               "%s::%s function=%d, P4 input=%d, setting to 0\n", 
               driverName, functionName, function, value);
         setIntegerParam(P_P4, 0);
+    } else if (function == P_P5) {
+        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
+              "%s::%s function=%d, P5 input=%d, signaling callback thread\n", 
+              driverName, functionName, function, value);
+        epicsEventSignal(callbackEventId_);
     } 
     /* Do callbacks so higher layers see any changes */
     callParamCallbacks();
