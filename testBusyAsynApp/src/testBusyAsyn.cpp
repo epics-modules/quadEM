@@ -1,7 +1,7 @@
 /*
  * testBusyAsyn.cpp
  * 
- * This is an asyn driver that is intended to test 2 problems with the devBusyAsyn device support.
+ * This is an asyn driver that is intended to test 3 problems with the devBusyAsyn device support.
  * Problem 1: 
  *  Busy record has a value of 1 autosave file.  
  *  It is not sufficient to have 1 in the .db file, because device support reads the value from the driver,
@@ -19,6 +19,16 @@
  *  Busy record is stuck in the 1 state, it ignores the callback value of 0 because PACT=1 when callback
  *  occurs.
  *  This occurs in devBusyAsyn.c commit a04e121da0acd71226fbe722fbf1b9551b21fe00.
+ *
+ * Problem 3:
+ *  Driver does rapid callbacks to device support with new values.
+ *  When the record processes it should not send these values to the driver, but it should process the record with each new value.
+ *  There were 2 problems:
+ *    - No buffering of callback values, so the record was always processed with the most recent callback value.
+ *    - The flag indicating this was a driver callback was set to 0 the next time the record processed, rather than being decremented.
+ *  Additional record processing due to driver callbacks were not properly detected, resulting in the values being sent to the driver again.
+ *  This occurs in devBusyAsyn.c starting with commit 2c1cfca916767651b92d90bc8ef81f07b1212b79 and was fixed in 
+ *  c434de1a1bbb89109585cdb6e987b537fdddab41.
  *
  * Author: Mark Rivers
  *
