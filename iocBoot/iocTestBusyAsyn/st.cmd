@@ -12,6 +12,7 @@ dbLoadRecords("./busyTest.db","P=$(PREFIX),R=busy1,PORT=$(PORT),PARAM=P1")
 dbLoadRecords("./busyTest.db","P=$(PREFIX),R=busy2,PORT=$(PORT),PARAM=P2")
 dbLoadRecords("./busyTest.db","P=$(PREFIX),R=busy3,PORT=$(PORT),PARAM=P3")
 dbLoadRecords("./busyTest.db","P=$(PREFIX),R=busy4,PORT=$(PORT),PARAM=P4")
+dbLoadRecords("./busyTest.db","P=$(PREFIX),R=busy5,PORT=$(PORT),PARAM=P5")
 dbLoadRecords("$(ASYN)/db/asynRecord.db","P=$(PREFIX):,R=asyn1,PORT=$(PORT),ADDR=0,OMAX=80,IMAX=80")
 asynSetTraceIOMask("$(PORT)",0,2)
 asynSetTraceMask("$(PORT)",0,255)
@@ -46,3 +47,6 @@ dbpr $(PREFIX)busy3
 dbpr $(PREFIX)busy4
 asynReport 1 $(PORT)
 
+epicsThreadSleep(3)
+date
+dbpf $(PREFIX)busy5 1
