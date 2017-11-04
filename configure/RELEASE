@@ -13,19 +13,19 @@ SUPPORT=/corvette/home/epics/devel
 
 # quadEM requires areaDetector, and areaDetector/configure already defines
 # ASYN, EV4_BASE, libraries needed for plugins, etc.
-AREA_DETECTOR=$(SUPPORT)/areaDetector-3-0
+AREA_DETECTOR=$(SUPPORT)/areaDetector-3-1
 -include $(AREA_DETECTOR)/configure/RELEASE_PATHS.local
 
 # Unfortunately RELEASE_PATHS.local above redefines SUPPORT and AREA_DETECTOR
 # and this messes things up on Windows building on a Linux host.
 # Need to redefine them as above.
 -include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
-AREA_DETECTOR=$(SUPPORT)/areaDetector-3-0
+AREA_DETECTOR=$(SUPPORT)/areaDetector-3-1
 -include $(AREA_DETECTOR)/configure/RELEASE_PATHS.local.$(EPICS_HOST_ARCH)
 -include $(AREA_DETECTOR)/configure/RELEASE_PRODS.local
 
 # This module
-QUADEM=$(SUPPORT)/quadEM-7-0
+QUADEM=$(SUPPORT)/quadEM-9-0
 
 ### The following are needed only for the test application
 
@@ -33,16 +33,16 @@ QUADEM=$(SUPPORT)/quadEM-7-0
 IPAC=$(SUPPORT)/ipac-2-14
 
 # Busy record 
-BUSY=$(SUPPORT)/busy-1-6-1
+BUSY=$(SUPPORT)/busy-1-7
 
 # IpUnidig for APS_EM
-IPUNIDIG=$(SUPPORT)/ipUnidig-2-10
+IPUNIDIG=$(SUPPORT)/ipUnidig-2-11
 
 # CALC uses the sequencer
 SNCSEQ=$(SUPPORT)/seq-2-2-4
  
 # save_restore
-AUTOSAVE=$(SUPPORT)/autosave-5-7-1
+AUTOSAVE=$(SUPPORT)/autosave-5-8
 
 # SSCAN is needed for general scanning
 SSCAN=$(SUPPORT)/sscan-2-10-2
@@ -51,7 +51,7 @@ SSCAN=$(SUPPORT)/sscan-2-10-2
 CALC=$(SUPPORT)/calc-3-6-1
 
 # devIocStats needed by areaDetector
-DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-14
+DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-15
 
 # EPICS_BASE usually appears last so other apps can override stuff:
 EPICS_BASE=/corvette/usr/local/epics-devel/base-3.15.5
