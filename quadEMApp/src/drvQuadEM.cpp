@@ -301,9 +301,7 @@ asynStatus drvQuadEM::doDataCallbacks(int numRead)
         return asynError;
     }
     ringCount_ -= numRead;
-    unlock();
     doCallbacksGenericPointer(pArrayAll, NDArrayData, QE_MAX_DATA);
-    lock();
     // Copy data to arrays for each type of data, do callbacks on that.
     dims[0] = numRead;
     for (i=0; i<QE_MAX_DATA; i++) {
@@ -317,9 +315,7 @@ asynStatus drvQuadEM::doDataCallbacks(int numRead)
             pOut[j] = pIn[i];
             pIn += QE_MAX_DATA;
         }
-        unlock();
         doCallbacksGenericPointer(pArraySingle, NDArrayData, i);
-        lock();
         pArraySingle->release();
     }   
     pArrayAll->release();
