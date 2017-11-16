@@ -1,0 +1,25 @@
+# ### APS_EM.iocsh ###
+
+#- ###################################################
+#- PREFIX         - IOC Prefix
+#- INSTANCE       - Name of quadEM port instance to create
+#- ADDRESS        - Base address of VME card
+#- QUADEM         - Location of quadEM module
+#- INFO_1         - Optional: drvInfo string for digital input parameter on channel 1
+#- INFO_2         - Optional: drvInfo string for digital input parameter on channel 2
+#- INFO_3         - Optional: drvInfo string for digital input parameter on channel 3
+#- INFO_4         - Optional: drvInfo string for digital input parameter on channel 4
+#- 
+#- UNIDIG_NAME    - Optional: name of ipUnidig server used for interrups
+#-                  Default: 0 (no interrupts)
+#- 
+#- UNIDIG_CHAN    - Optional: IP-Unidig channel connected to quadEM pulse output
+#-                  Default: 0
+#- ###################################################
+
+drvAPS_EMConfigure("$(INSTANCE)", $(ADDRESS), 0, "$(UNIDIG_NAME=0)", $(UNIDIG_CHAN=0), "DIGITAL_INPUT")
+drvAPS_EMConfigure("$(INSTANCE)", $(ADDRESS), 1, "$(UNIDIG_NAME=0)", $(UNIDIG_CHAN=0), "DIGITAL_INPUT")
+drvAPS_EMConfigure("$(INSTANCE)", $(ADDRESS), 2, "$(UNIDIG_NAME=0)", $(UNIDIG_CHAN=0), "DIGITAL_INPUT")
+drvAPS_EMConfigure("$(INSTANCE)", $(ADDRESS), 3, "$(UNIDIG_NAME=0)", $(UNIDIG_CHAN=0), "DIGITAL_INPUT")
+
+dbLoadRecords("$(QUADEM)/db/APS_EM.template", "P=$(PREFIX), R=$(INSTANCE):, PORT=$(INSTANCE)")
