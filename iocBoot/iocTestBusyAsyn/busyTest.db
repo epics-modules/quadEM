@@ -1,8 +1,0 @@
-record(busy, "$(P)$(R)") {
-  field(PINI, "YES")
-  field(DTYP, "asynInt32")
-  field(OUT,  "@asyn($(PORT) 0 0)$(PARAM)")
-  field(ZNAM, "Stop")
-  field(ONAM, "Acquire")
-}
-
