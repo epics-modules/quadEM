@@ -9,6 +9,13 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 9-1 (November XXX, 2017)</h2>
+  <ul>
+    <li>Removed testBusyAsynApp which was added in R7-1. It never belonged in this module.
+      The busy module has now been made to optionally depend on autosave, so the equivalent
+      test application has been added to the busy module and is no longer needed here.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 9-0 (September 18, 2017)</h2>
   <ul>
     <li>Fixed a problem with PingPong on the NSLS_EM. If ValuesPerRead&gt;1 then it now
