@@ -73,4 +73,4 @@ include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
-$(COMMON_DIR)/quadEMTestAppVx.dbd : $(COMMON_DIR)/$(PROD_NAME).dbd
+quadEMTestAppVx.dbd$(DEP): $(COMMON_DIR)/quadEMTestApp.dbd
