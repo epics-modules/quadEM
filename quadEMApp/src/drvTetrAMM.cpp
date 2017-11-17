@@ -144,11 +144,14 @@ asynStatus drvTetrAMM::writeReadMeter()
   size_t nwrite;
   asynStatus status;
   int eomReason;
-  //const char *functionName="writeReadMeter";
+  static const char *functionName="writeReadMeter";
   
   status = pasynOctetSyncIO->writeRead(pasynUserMeter_, outString_, strlen(outString_), 
                                        inString_, sizeof(inString_), TetrAMM_TIMEOUT, 
-                                       &nwrite, &nread, &eomReason);      
+                                       &nwrite, &nread, &eomReason);
+  asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+      "%s::%s outString=\"%s\", inString=\"%s\", nwrite=%d, nread=%d, eomReason=%d, status=%d\n",
+      driverName, functionName, outString_, inString_, (int)nwrite, (int)nread, eomReason, status);     
   return status;
 }
 
@@ -410,16 +413,25 @@ asynStatus drvTetrAMM::reset()
 {
     asynStatus status;
     int i;
-    //static const char *functionName = "reset";
+    int waitLoops=20;
+    static const char *functionName = "reset";
 
+    // Try to turn off meter.  This will set the output EOS which may be needed.
+    setAcquire(0);
     strcpy(outString_, "HWRESET");
     status = sendCommand();
-    // Wait for meter to start communicating or max of 20 seconds
-    for (i=0; i<20; i++) {
+    // Wait for meter to start communicating or max of waitLoops seconds
+    for (i=0; i<waitLoops; i++) {
         epicsThreadSleep(1.0);
-        status = getFirmwareVersion();
+        strcpy(outString_, "VER:?");
+        status = writeReadMeter();
         if (status == asynSuccess) break;
-    } 
+    }
+    if (i == waitLoops) {
+         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s::%s: error, no response from meter after %d seconds\n",
+            driverName, functionName, waitLoops);
+    }
     // Call the base class method
     status = drvQuadEM::reset();
     return status;
@@ -478,7 +490,12 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
                                                 TetrAMM_TIMEOUT, &nread, &eomReason);
                 if ((status == asynSuccess) && (eomReason == ASYN_EOM_EOS) &&
                     (nread >= 3) && (strncmp(&response[nread-3], "ACK", 3) == 0)) break;
-                if (status == asynTimeout) continue;
+                if (status != asynSuccess) {
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                        "%s::%s error waiting for ACK response, status=%d\n",
+                        driverName, functionName, status);
+                    break;
+                }
                 asynPrint(pasynUserSelf, ASYN_TRACE_WARNING, 
                   "%s::%s waiting for ACK response, nread=%d\n",
                   driverName, functionName, (int)nread);
@@ -831,10 +848,12 @@ void drvTetrAMM::exitHandler()
   */
 void drvTetrAMM::report(FILE *fp, int details)
 {
+    int prevAcquiring = 0;
+
     fprintf(fp, "%s: port=%s, IP port=%s, firmware version=%s, numResync=%d\n",
             driverName, portName, QEPortName_, firmwareVersion_, numResync_);
     if (details > 0) {
-        int prevAcquiring = acquiring_;
+        prevAcquiring = acquiring_;
         setAcquire(0);
         sprintf(outString_, "%s", "IFCONFIG");
         writeReadMeter();
@@ -848,9 +867,9 @@ void drvTetrAMM::report(FILE *fp, int details)
         writeReadMeter();
         fprintf(fp, "IFCONFIG:ICMP: response from meter:\n");
         fprintf(fp, "%s\n", inString_);
-        if (prevAcquiring) setAcquire(1);
     }   
     drvQuadEM::report(fp, details);
+    if (prevAcquiring) setAcquire(1);
 }
 
 
