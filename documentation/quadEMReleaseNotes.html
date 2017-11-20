@@ -11,6 +11,16 @@
   <h2 style="text-align: center">
     Release 9-1 (November XXX, 2017)</h2>
   <ul>
+    <li>Fixed a bug in the drvQuadEM base class when ring buffer overflow occurred. It
+      was not decrementing a counter when it should, which would cause extra attempts
+      to read the ring buffer, generating error messages. This could cause the TetrAMM
+      to not recover from brief network outages, particularly on vxWorks.</li>
+    <li>Removed the unlock()/lock() calls around doCallbacksGenericPointer. These are
+      not needed and can cause problems because the thread needs to hold the lock here.</li>
+    <li>Fixed the Reset function on the TetrAMM. It could hang the IOC application.</li>
+    <li>Fixed turning acquisition off on the TetrAMM. It could get into an infinite loop
+      and hang the IOC if the TetrAMM was not responding.</li>
+    <li>Fixed vxWorks dbd dependency rule</li>
     <li>Removed testBusyAsynApp which was added in R7-1. It never belonged in this module.
       The busy module has now been made to optionally depend on autosave, so the equivalent
       test application has been added to the busy module and is no longer needed here.</li>
