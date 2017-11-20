@@ -175,8 +175,12 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
     getIntegerParam(P_Geometry, &geometry);
     // If the ring buffer is full then remove the oldest entry
     if (epicsRingBytesFreeBytes(ringBuffer_) < (int)sizeof(doubleData)) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+            "%s::%s warning ring buffer overflow\n",
+            driverName, functionName);
         count = epicsRingBytesGet(ringBuffer_, (char *)&doubleData, sizeof(doubleData));
         ringCount_--;
+        rawCount_--;
         getIntegerParam(P_RingOverflows, &ringOverflows);
         ringOverflows++;
         setIntegerParam(P_RingOverflows, ringOverflows);
@@ -249,7 +253,7 @@ asynStatus drvQuadEM::triggerCallbacks()
     status = epicsMessageQueueSend(msgQId_, &rawCount_, sizeof(rawCount_));
     if (status) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s::%s, error calling epicsMessageQueueTrySend\n",
+            "%s::%s, error calling epicsMessageQueueSend\n",
             driverName, functionName);
     }
     rawCount_ = 0;
@@ -273,8 +277,8 @@ asynStatus drvQuadEM::doDataCallbacks(int numRead)
     ringSize = epicsRingBytesUsedBytes(ringBuffer_) / sampleSize;
     if (ringSize < numRead) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-            "%s::%s: not enough bytes in ring buffer, expecting %d actually %d\n",
-            driverName, functionName, numRead, ringSize);
+            "%s::%s: not enough bytes in ring buffer, expecting %d actually %d, rawCount_=%d, ringCount_=%d\n",
+            driverName, functionName, numRead, ringSize, rawCount_, ringCount_);
         return asynError;
     }
 
@@ -327,15 +331,24 @@ asynStatus drvQuadEM::doDataCallbacks(int numRead)
 
 void drvQuadEM::callbackTask()
 {
-    lock();
     int numAcquire;
     int acquireMode;
     int numRead;
+    int readSize = sizeof(numRead);
+    int status;
+    static const char *functionName = "callbackTask";
     
+    lock();
     while (1) {
         unlock();
-        epicsMessageQueueReceive(msgQId_, &numRead, sizeof(numRead));
+        status = epicsMessageQueueReceive(msgQId_, &numRead, readSize);
         lock();
+        if (status != readSize) {
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                "%s::%s error calling epicsMessageQueueReceive expected %d bytes, actual=%d\n",
+                driverName, functionName, readSize, status);
+            continue;
+        } 
         getIntegerParam(P_AcquireMode, &acquireMode);
         getIntegerParam(P_NumAcquire, &numAcquire);
         if (acquireMode == QEAcquireModeSingle) numAcquire = 1;
