@@ -240,7 +240,12 @@ void drvTetrAMM::readThread(void)
             if ((status != asynSuccess) || 
                 (nRead  != nRequested)  || 
                 (eomReason != ASYN_EOM_CNT)) {
-                if (status != asynTimeout) {
+                if (status == asynTimeout) {
+                    asynPrint(pasynUserSelf, ASYN_TRACE_WARNING, 
+                        "%s::%s: timeout reading meter\n", 
+                        driverName, functionName);
+                }
+                else {
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                         "%s::%s: unexpected error reading meter status=%d, nRead=%lu, eomReason=%d\n", 
                         driverName, functionName, status, (unsigned long)nRead, eomReason);
@@ -313,7 +318,7 @@ void drvTetrAMM::readThread(void)
                             status = pasynOctet->read(octetPvt, pasynUser, charData, nRequested, 
                                                       &nRead, &eomReason);
                             numResync_++;
-                            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+                            asynPrint(pasynUserSelf, ASYN_TRACE_WARNING, 
                                 "%s::%s: found NaN at position %d, read %d bytes\n", 
                                 driverName, functionName, i, (int)nRequested);
                             break;
