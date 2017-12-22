@@ -47,7 +47,7 @@ static void readThread(void *drvPvt);
   *            If 0 then default of 2048 is used.
   * \param[in] modelName The model of electrometer.  It is too difficult to try to determine
   *            this from the firmware version number, so it must be specified. Allowed values are:
-  *            "AH401B", "AH401D", "AH501", "AH501C", and "AH501D".
+  *            "AH401B", "AH401D", "AH501", "AH501BE", "AH501C", and "AH501D".
   */
 drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferSize, const char *modelName) 
    : drvQuadEM(portName, ringBufferSize)
@@ -76,6 +76,7 @@ drvAHxxx::drvAHxxx(const char *portName, const char *QEPortName, int ringBufferS
     if      (strcmp(modelName, "AH401B") == 0) model_=QE_ModelAH401B;
     else if (strcmp(modelName, "AH401D") == 0) model_=QE_ModelAH401D;
     else if (strcmp(modelName, "AH501")  == 0) model_=QE_ModelAH501;
+    else if (strcmp(modelName, "AH501BE")== 0) model_=QE_ModelAH501BE;
     else if (strcmp(modelName, "AH501C") == 0) model_=QE_ModelAH501C;
     else if (strcmp(modelName, "AH501D") == 0) model_=QE_ModelAH501D;
     setIntegerParam(P_Model, model_);
@@ -488,8 +489,11 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         } else {
             numAcquire = 0;
         }
-        sprintf(outString_, "NAQ %d", numAcquire);
-        writeReadMeter();
+        // On the AH501BE the NAQ command starts acquisition and is not echoed so skip this here, do later.
+        if (model_ != QE_ModelAH501BE) {
+            sprintf(outString_, "NAQ %d", numAcquire);
+            writeReadMeter();
+        }
 
         // If we are in external trigger mode then send the TRG ON command
         if ((triggerMode == QETriggerModeExtTrigger) || (triggerMode == QETriggerModeExtGate)) {    
@@ -501,6 +505,11 @@ asynStatus drvAHxxx::setAcquire(epicsInt32 value)
         else if (AH401Series_) {
             status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ ON", strlen("ACQ ON"), 
                         dummyIn, MAX_COMMAND_LEN, AHxxx_TIMEOUT, &nwrite, &nread, &eomReason);
+        }
+        else if ((acquireMode == QEAcquireModeSingle) && (model_ == QE_ModelAH501BE)) {
+            sprintf(outString_, "NAQ %d", numAcquire);
+            status = pasynOctetSyncIO->write(pasynUserMeter_, outString_, strlen(outString_), 
+                        AHxxx_TIMEOUT, &nwrite);
         }
         else {
             status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ ON", strlen("ACQ ON"), 
@@ -721,7 +730,7 @@ asynStatus drvAHxxx::readStatus()
             }
         }
     }
-    if ((model_ == QE_ModelAH501C) || (model_ == QE_ModelAH501D)) {
+    if ((model_ == QE_ModelAH501BE) || (model_ == QE_ModelAH501C) || (model_ == QE_ModelAH501D)) {
         strcpy(outString_, "HVS ?");
         writeReadMeter();
         if (strcmp("HVS OFF", inString_) == 0) {
@@ -789,7 +798,7 @@ extern "C" {
   *            If 0 then default of 2048 is used.
   * \param[in] modelName The model of electrometer.  It is too difficult to try to determine
   *            this from the firmware version number, so it must be specified. Allowed values are:
-  *            "AH401B", "AH401D", "AH501", "AH501C", and "AH501D".
+  *            "AH401B", "AH401D", "AH501", "AH501BE", "AH501C", and "AH501D".
   */
 int drvAHxxxConfigure(const char *portName, const char *QEPortName, int ringBufferSize, const char *modelName)
 {
