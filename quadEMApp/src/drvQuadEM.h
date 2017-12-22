@@ -57,10 +57,11 @@
 /* Models */
 typedef enum {
     QE_ModelUnknown,
-    QE_ModelAPS_EM,
+    QE_ModelAPS_EM,  // Steve Ross' electrometer
     QE_ModelAH401B,
     QE_ModelAH401D,
     QE_ModelAH501,
+    QE_ModelAH501BE,  // Elettra version of AH501B.  Different firmware from CaenEls
     QE_ModelAH501C,
     QE_ModelAH501D,
     QE_ModelTetrAMM,
