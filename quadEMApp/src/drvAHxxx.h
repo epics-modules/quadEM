@@ -12,7 +12,7 @@
 
 #define MAX_COMMAND_LEN 256
 
-/** Class to control the Elettra AHxxx 4-Channel Picoammeter */
+/** Class to control the Elettra/CaenEls AHxxx 4-Channel Picoammeters */
 class drvAHxxx : public drvQuadEM {
 public:
     drvAHxxx(const char *portName, const char *QEPortName, int ringBufferSize, const char *modelName);
