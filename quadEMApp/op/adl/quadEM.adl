@@ -513,7 +513,7 @@ composite {
 	"composite file"="AH501C.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="(A=5)||(A=6)"
+		calc="(A=5)||(A=6)||(A=7)"
 		chan="$(P)$(R)Model"
 	}
 }
@@ -556,7 +556,7 @@ composite {
 	"composite file"="TetrAMM.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="A=7"
+		calc="A=8"
 		chan="$(P)$(R)Model"
 	}
 }
@@ -586,7 +586,7 @@ composite {
 	"composite file"="NSLS_EM.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="A=8"
+		calc="A=9"
 		chan="$(P)$(R)Model"
 	}
 }
@@ -2434,7 +2434,7 @@ composite {
 	"composite file"="NSLS2_EM.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="(A=9)"
+		calc="(A=10)"
 		chan="$(P)$(R)Model"
 	}
 }
