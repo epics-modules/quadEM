@@ -18,5 +18,5 @@ dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PO
 
 < $(QUADEM)/iocBoot/commonPlugins.cmd
 
-asynSetTraceIOMask("$(PORT)",0,2)
+asynSetTraceIOMask("$(PORT)",0,6)
 #asynSetTraceMask("$(PORT)",  0,9)
