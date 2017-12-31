@@ -124,7 +124,8 @@ asynStatus drvAHxxx::sendCommand()
   if (prevAcquiring) setAcquire(0);
   status = writeReadMeter();
   if (status) goto error;
-  if (strcmp(inString_, "ACK") != 0) {
+  // The AH501BE returns AK rather than ACK for HVS.  Probably a bug but work around it.
+  if ((strcmp(inString_, "ACK") != 0) && (strcmp(inString_, "AK") != 0)) {
       asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
           "%s:%s: error, outString=%s expected ACK, received %s\n",
           driverName, functionName, outString_, inString_);
@@ -164,6 +165,8 @@ void drvAHxxx::readThread(void)
     int numBytes;
     int eomReason;
     int readFormat;
+    int model;
+    int triggerMode;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
     asynOctet *pasynOctet;
@@ -195,6 +198,8 @@ void drvAHxxx::readThread(void)
     pasynOctet = (asynOctet *)pasynInterface->pinterface;
     octetPvt = pasynInterface->drvPvt;
     
+    getIntegerParam(P_Model, &model);
+    
     /* Loop forever */
     lock();
     while (1) {
@@ -205,6 +210,7 @@ void drvAHxxx::readThread(void)
             lock();
             readingActive_ = 1;
             getIntegerParam(P_ReadFormat, &readFormat);
+            getIntegerParam(P_TriggerMode, &triggerMode);
         }
         if (valuesPerRead_ < 1) valuesPerRead_ = 1;
         for (i=0; i<QE_MAX_INPUTS; i++) {
@@ -243,9 +249,40 @@ void drvAHxxx::readThread(void)
                     unlock();
                     epicsThreadSleep(1.0);
                     lock();
+                } else if ((model = QE_ModelAH501BE) && 
+                           (triggerMode = QETriggerModeExtGate) &&
+                           (nRead == 5) &&
+                           (strncmp((const char *)input, "ACK\r\n", 5) == 0)) {
+                    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+                        "%s::%s timeout with nRead=5, triggering callbacks\n", driverName, functionName);
+                    triggerCallbacks();
                 }
                 continue;
             }
+            // We successfully read the requested number of bytes
+            // However, on the AH501BE in Ext. Gate mode the first 5 bytes could be ACK\r\n.
+            // If so we need to trigger callbacks and read 5 more bytes
+            if ((model = QE_ModelAH501BE) && 
+                (triggerMode = QETriggerModeExtGate) &&
+                (strncmp((const char *)input, "ACK\r\n", 5) == 0)) {
+                asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+                    "%s::%s found ACK\\r\\n at start of data, triggering callbacks\n", driverName, functionName);
+                triggerCallbacks();
+                memcpy(input, input+5, nRead-5);
+                pasynManager->lockPort(pasynUser);
+                status = pasynOctet->read(octetPvt, pasynUser, (char *)input+nRead-5, 5, 
+                                          &nRead, &eomReason);
+                pasynManager->unlockPort(pasynUser);
+                if ((status != asynSuccess) || 
+                    (nRead  != nRequested-5)  || 
+                    (eomReason != ASYN_EOM_CNT)) {
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                        "%s:%s: unexpected error reading additional %lu bytes from meter status=%d, nRead=%lu, eomReason=%d\n", 
+                        driverName, functionName, (unsigned long)nRequested-5, status, (unsigned long)nRead, eomReason);
+                }
+            }
+            asynPrintIO(pasynUserSelf, ASYN_TRACEIO_DRIVER, (const char*)input, nRequested,
+                    "%s::%s buffer read\n", driverName, functionName);
             offset = 0;
             if (AH401Series_) {
                 // These models are little-endian byte order
