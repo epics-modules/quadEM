@@ -274,11 +274,11 @@ void drvAHxxx::readThread(void)
                                           &nRead, &eomReason);
                 pasynManager->unlockPort(pasynUser);
                 if ((status != asynSuccess) || 
-                    (nRead  != nRequested-5)  || 
+                    (nRead  != 5)  || 
                     (eomReason != ASYN_EOM_CNT)) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                        "%s:%s: unexpected error reading additional %lu bytes from meter status=%d, nRead=%lu, eomReason=%d\n", 
-                        driverName, functionName, (unsigned long)nRequested-5, status, (unsigned long)nRead, eomReason);
+                        "%s:%s: unexpected error reading additional 5 bytes from meter status=%d, nRead=%lu, eomReason=%d\n", 
+                        driverName, functionName, status, (unsigned long)nRead, eomReason);
                 }
             }
             asynPrintIO(pasynUserSelf, ASYN_TRACEIO_DRIVER, (const char*)input, nRequested,
