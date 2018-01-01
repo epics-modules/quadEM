@@ -9,7 +9,7 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
-    Release 9-1 (November XXX, 2017)</h2>
+    Release 9-1 (January XXX, 2018)</h2>
   <ul>
     <li>Fixed a bug in the drvQuadEM base class when ring buffer overflow occurred. It
       was not decrementing a counter when it should, which would cause extra attempts
@@ -20,10 +20,29 @@
     <li>Fixed the Reset function on the TetrAMM. It could hang the IOC application.</li>
     <li>Fixed turning acquisition off on the TetrAMM. It could get into an infinite loop
       and hang the IOC if the TetrAMM was not responding.</li>
+    <li>Improved support for the AH501B from Elettra. This model has different firmware
+      from the AH501B from CaenELS.
+      <ul>
+        <li>In External Gate mode it sends ACK\r\n on the falling edge of the gate signal.
+          The driver has been changed to look for this string in the data stream in External
+          Gate mode, and if it is found then it does callbacks immediately. This allows each
+          acquisition to just be the samples collected when the external gate is high. The
+          AveragingTime must be set to 0 in this mode.</li>
+        <li>The NAQ command used when AcquireMode=Single actually starts acquisition. The
+          driver therefore must not send ACQ because the acknowlegement of that command would
+          mess up the data stream.</li>
+        <li>It sends AK rather than ACK to acknowledge the HVS command. This is probably a
+          firmware bug, but the driver has been changed to accept it.</li>
+        <li>This model has been added to the list of available models, and is called AH501BE,
+          where the "E" mean Elettra. This model name is specified in the drvAHxxxConfigure
+          command.</li>
+      </ul>
+    </li>
     <li>Fixed vxWorks dbd dependency rule</li>
     <li>Removed testBusyAsynApp which was added in R7-1. It never belonged in this module.
       The busy module has now been made to optionally depend on autosave, so the equivalent
       test application has been added to the busy module and is no longer needed here.</li>
+    <li>Added .iocsh files to simplify startup scripts. Thanks to Keanan Lang for this.</li>
   </ul>
   <h2 style="text-align: center">
     Release 9-0 (September 18, 2017)</h2>
