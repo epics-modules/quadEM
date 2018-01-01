@@ -42,7 +42,6 @@ static void callbackTaskC(void *pPvt)
 /** Constructor for the drvQuadEM class.
   * Calls constructor for the asynPortDriver base class.
   * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] numParams The number of driver-specific parameters for the derived class
   * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
   *            This should be large enough to hold all the samples between reads of the
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.

@@ -492,6 +492,7 @@ extern "C" {
 
 /** EPICS iocsh callable function to call constructor for the drvNSLS_EM class.
   * \param[in] portName The name of the asyn port driver to be created.
+  * \param[in] moduleID Not currently used, reserved for future use.
   * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
   *            This should be large enough to hold all the samples between reads of the
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
