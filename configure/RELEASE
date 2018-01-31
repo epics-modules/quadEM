@@ -25,7 +25,7 @@ AREA_DETECTOR=$(SUPPORT)/areaDetector-3-2
 -include $(AREA_DETECTOR)/configure/RELEASE_PRODS.local
 
 # This module
-QUADEM=$(SUPPORT)/quadEM-9-0
+QUADEM=$(SUPPORT)/quadEM-9-1
 
 ### The following are needed only for the test application
 
@@ -39,7 +39,7 @@ BUSY=$(SUPPORT)/busy-1-7
 IPUNIDIG=$(SUPPORT)/ipUnidig-2-11
 
 # CALC uses the sequencer
-SNCSEQ=$(SUPPORT)/seq-2-2-4
+SNCSEQ=$(SUPPORT)/seq-2-2-5
  
 # save_restore
 AUTOSAVE=$(SUPPORT)/autosave-5-9
