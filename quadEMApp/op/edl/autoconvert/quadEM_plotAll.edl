@@ -1,0 +1,374 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 383
+y 221
+w 915
+h 630
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-8.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 4
+textColor index 14
+ctlFgColor1 index 30
+ctlFgColor2 index 32
+ctlBgColor1 index 34
+ctlBgColor2 index 35
+topShadowColor index 37
+botShadowColor index 44
+snapToGrid
+gridSize 5
+endScreenProperties
+
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 334
+y 9
+w 333
+h 41
+
+beginGroup
+
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 334
+y 9
+w 332
+h 39
+lineColor index 54
+fill
+fillColor index 54
+lineWidth 0
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 349
+y 10
+w 302
+h 40
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 0
+useDisplayBg
+value {
+ "$(TITLE)"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+
+# (X-Y Graph)
+object xyGraphClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 90
+w 450
+h 250
+# Appearance
+border
+graphTitle "$(P)$(CURR1)"
+xLabel "$(XTITLE)"
+yLabel "$(YTITLE)"
+fgColor index 14
+bgColor index 2
+gridColor index 14
+font "helvetica-medium-r-10.0"
+# Operating Modes
+plotMode "plotLastNPts"
+nPts 1
+#  X axis properties
+showXAxis
+xAxisSrc "AutoScale"
+xLablePrecision 1
+#  Y axis properties
+showYAxis
+yAxisSrc "AutoScale"
+#  Trace Properties
+numTraces 1
+xPv {
+  0 "$(P)$(XAXIS)"
+}
+yPv {
+  0 "$(P)$(CURR1)"
+}
+plotStyle {
+  0 "line"
+}
+plotUpdateMode {
+  0 "x"
+}
+plotSymbolType {
+  0 "circle"
+}
+plotColor {
+  0 index 27
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 185
+y 65
+w 90
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 54
+useDisplayBg
+value {
+ "Current 1"
+}
+endObjectProperties
+
+# (X-Y Graph)
+object xyGraphClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 460
+y 90
+w 450
+h 250
+# Appearance
+border
+graphTitle "$(P)$(CURR2)"
+xLabel "$(XTITLE)"
+yLabel "$(YTITLE)"
+fgColor index 14
+bgColor index 2
+gridColor index 14
+font "helvetica-medium-r-10.0"
+# Operating Modes
+plotMode "plotLastNPts"
+nPts 1
+#  X axis properties
+showXAxis
+xAxisSrc "AutoScale"
+xLablePrecision 1
+#  Y axis properties
+showYAxis
+yAxisSrc "AutoScale"
+#  Trace Properties
+numTraces 1
+xPv {
+  0 "$(P)$(XAXIS)"
+}
+yPv {
+  0 "$(P)$(CURR2)"
+}
+plotStyle {
+  0 "line"
+}
+plotUpdateMode {
+  0 "x"
+}
+plotSymbolType {
+  0 "circle"
+}
+plotColor {
+  0 index 27
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 640
+y 65
+w 90
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 54
+useDisplayBg
+value {
+ "Current 2"
+}
+endObjectProperties
+
+# (X-Y Graph)
+object xyGraphClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 375
+w 450
+h 250
+# Appearance
+border
+graphTitle "$(P)$(SUM)"
+xLabel "$(XTITLE)"
+yLabel "$(YTITLE)"
+fgColor index 14
+bgColor index 2
+gridColor index 14
+font "helvetica-medium-r-10.0"
+# Operating Modes
+plotMode "plotLastNPts"
+nPts 1
+#  X axis properties
+showXAxis
+xAxisSrc "AutoScale"
+xLablePrecision 1
+#  Y axis properties
+showYAxis
+yAxisSrc "AutoScale"
+#  Trace Properties
+numTraces 1
+xPv {
+  0 "$(P)$(XAXIS)"
+}
+yPv {
+  0 "$(P)$(SUM)"
+}
+plotStyle {
+  0 "line"
+}
+plotUpdateMode {
+  0 "x"
+}
+plotSymbolType {
+  0 "circle"
+}
+plotColor {
+  0 index 27
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 215
+y 350
+w 30
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 54
+useDisplayBg
+value {
+ "Sum"
+}
+endObjectProperties
+
+# (X-Y Graph)
+object xyGraphClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 460
+y 375
+w 450
+h 250
+# Appearance
+border
+graphTitle "$(P)$(POS)"
+xLabel "$(XTITLE)"
+yLabel "$(YTITLE)"
+fgColor index 14
+bgColor index 2
+gridColor index 14
+font "helvetica-medium-r-10.0"
+# Operating Modes
+plotMode "plotLastNPts"
+nPts 1
+#  X axis properties
+showXAxis
+xAxisSrc "AutoScale"
+xLablePrecision 1
+#  Y axis properties
+showYAxis
+yAxisSrc "AutoScale"
+#  Trace Properties
+numTraces 1
+xPv {
+  0 "$(P)$(XAXIS)"
+}
+yPv {
+  0 "$(P)$(POS)"
+}
+plotStyle {
+  0 "line"
+}
+plotUpdateMode {
+  0 "x"
+}
+plotSymbolType {
+  0 "circle"
+}
+plotColor {
+  0 index 27
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 645
+y 350
+w 80
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 54
+useDisplayBg
+value {
+ "Position"
+}
+endObjectProperties
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 334
+y 9
+w 333
+h 41
+
+beginGroup
+
+
+endGroup
+
+endObjectProperties
+
+
