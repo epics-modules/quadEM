@@ -1,0 +1,1311 @@
+<display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
+  <actions hook="false" hook_all="false" />
+  <auto_scale_widgets>
+    <auto_scale_widgets>false</auto_scale_widgets>
+    <min_width>-1</min_width>
+    <min_height>-1</min_height>
+  </auto_scale_widgets>
+  <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
+  <background_color>
+    <color red="187" green="187" blue="187" />
+  </background_color>
+  <boy_version>5.1.0.201801081728</boy_version>
+  <foreground_color>
+    <color red="0" green="0" blue="0" />
+  </foreground_color>
+  <grid_space>5</grid_space>
+  <height>290</height>
+  <macros>
+    <include_parent_macros>true</include_parent_macros>
+  </macros>
+  <name>quadEM_TimeSeriesPlots</name>
+  <rules />
+  <scripts />
+  <show_close_button>true</show_close_button>
+  <show_edit_range>true</show_edit_range>
+  <show_grid>false</show_grid>
+  <show_ruler>true</show_ruler>
+  <snap_to_geometry>false</snap_to_geometry>
+  <widget_type>Display</widget_type>
+  <width>260</width>
+  <x>878</x>
+  <y>96</y>
+  <widget typeId="org.csstudio.opibuilder.widgets.Rectangle" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <alpha>255</alpha>
+    <anti_alias>true</anti_alias>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="30" green="144" blue="255" />
+    </background_color>
+    <bg_gradient_color>
+      <color red="255" green="255" blue="255" />
+    </bg_gradient_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <fg_gradient_color>
+      <color red="255" green="255" blue="255" />
+    </fg_gradient_color>
+    <fill_level>0.0</fill_level>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <gradient>false</gradient>
+    <height>250</height>
+    <horizontal_fill>true</horizontal_fill>
+    <line_color>
+      <color red="0" green="0" blue="0" />
+    </line_color>
+    <line_style>0</line_style>
+    <line_width>1</line_width>
+    <name>Rectangle</name>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>true</transparent>
+    <visible>true</visible>
+    <widget_type>Rectangle</widget_type>
+    <width>250</width>
+    <x>5</x>
+    <y>37</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="187" green="187" blue="187" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <fc>false</fc>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>25</height>
+    <lock_children>false</lock_children>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+    </macros>
+    <name>Grouping Container</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <visible>true</visible>
+    <widget_type>Grouping Container</widget_type>
+    <width>250</width>
+    <x>5</x>
+    <y>5</y>
+    <widget typeId="org.csstudio.opibuilder.widgets.Rectangle" version="1.0.0">
+      <actions hook="false" hook_all="false" />
+      <alarm_pulsing>false</alarm_pulsing>
+      <alpha>255</alpha>
+      <anti_alias>true</anti_alias>
+      <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+      <background_color>
+        <color red="30" green="144" blue="255" />
+      </background_color>
+      <bg_gradient_color>
+        <color red="255" green="255" blue="255" />
+      </bg_gradient_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <border_style>0</border_style>
+      <border_width>1</border_width>
+      <enabled>true</enabled>
+      <fg_gradient_color>
+        <color red="255" green="255" blue="255" />
+      </fg_gradient_color>
+      <fill_level>100.0</fill_level>
+      <font>
+        <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+      </font>
+      <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+      <foreground_color>
+        <color red="10" green="0" blue="184" />
+      </foreground_color>
+      <gradient>false</gradient>
+      <height>25</height>
+      <horizontal_fill>true</horizontal_fill>
+      <line_color>
+        <color red="128" green="0" blue="255" />
+      </line_color>
+      <line_style>0</line_style>
+      <line_width>0</line_width>
+      <name>Rectangle</name>
+      <pv_name></pv_name>
+      <pv_value />
+      <rules />
+      <scale_options>
+        <width_scalable>true</width_scalable>
+        <height_scalable>true</height_scalable>
+        <keep_wh_ratio>false</keep_wh_ratio>
+      </scale_options>
+      <scripts />
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <transparent>false</transparent>
+      <visible>true</visible>
+      <widget_type>Rectangle</widget_type>
+      <width>250</width>
+      <x>0</x>
+      <y>0</y>
+    </widget>
+    <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+      <actions hook="false" hook_all="false" />
+      <auto_size>false</auto_size>
+      <background_color>
+        <color red="255" green="255" blue="255" />
+      </background_color>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <border_style>0</border_style>
+      <border_width>1</border_width>
+      <enabled>true</enabled>
+      <font>
+        <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+      </font>
+      <foreground_color>
+        <color red="255" green="255" blue="255" />
+      </foreground_color>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <name>Label</name>
+      <rules />
+      <scale_options>
+        <width_scalable>true</width_scalable>
+        <height_scalable>true</height_scalable>
+        <keep_wh_ratio>false</keep_wh_ratio>
+      </scale_options>
+      <scripts />
+      <show_scrollbar>false</show_scrollbar>
+      <text>quadEM Time Series Plots</text>
+      <tooltip></tooltip>
+      <transparent>true</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <visible>true</visible>
+      <widget_type>Label</widget_type>
+      <width>240</width>
+      <wrap_words>false</wrap_words>
+      <x>5</x>
+      <y>2</y>
+    </widget>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="10" green="0" blue="184" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <text>Time domain</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>110</width>
+    <wrap_words>false</wrap_words>
+    <x>72</x>
+    <y>40</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="10" green="0" blue="184" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <text>Frequency domain</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>160</width>
+    <wrap_words>false</wrap_words>
+    <x>47</x>
+    <y>150</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <text>Plots X</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>70</width>
+    <wrap_words>false</wrap_words>
+    <x>97</x>
+    <y>65</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <text>Plots Y</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>70</width>
+    <wrap_words>false</wrap_words>
+    <x>97</x>
+    <y>90</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <text>Single plots</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>120</width>
+    <wrap_words>false</wrap_words>
+    <x>97</x>
+    <y>115</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <text>Plots X</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>70</width>
+    <wrap_words>false</wrap_words>
+    <x>97</x>
+    <y>175</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <text>Plots Y</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>70</width>
+    <wrap_words>false</wrap_words>
+    <x>97</x>
+    <y>200</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <text>Single plots</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>120</width>
+    <wrap_words>false</wrap_words>
+    <x>97</x>
+    <y>225</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <text>Time series</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>110</width>
+    <wrap_words>false</wrap_words>
+    <x>97</x>
+    <y>260</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="OPEN_DISPLAY">
+        <path>quadEM_plotAll.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)TS:</P>
+          <CURR1>Current1:TimeSeries</CURR1>
+          <CURR2>Current2:TimeSeries</CURR2>
+          <SUM>SumX:TimeSeries</SUM>
+          <POS>PosX:TimeSeries</POS>
+          <XAXIS>TSTimeAxis</XAXIS>
+          <TITLE>$(TX)</TITLE>
+          <XTITLE>Time (sec)</XTITLE>
+          <YTITLE>Counts</YTITLE>
+        </macros>
+        <mode>1</mode>
+        <description>X (current, sum, pos)</description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="115" green="223" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <image></image>
+    <name>Action Button</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text></text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>80</width>
+    <x>12</x>
+    <y>65</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="OPEN_DISPLAY">
+        <path>NDPluginTimeSeries.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <R1>TS:Current1:</R1>
+          <T1>Current1</T1>
+          <R2>TS:Current2:</R2>
+          <T2>Current2</T2>
+          <R3>TS:Current3:</R3>
+          <T3>Current3</T3>
+          <R4>TS:Current4:</R4>
+          <T4>Current4</T4>
+          <R5>TS:SumX:</R5>
+          <T5>SumX</T5>
+          <R6>TS:SumY:</R6>
+          <T6>SumY</T6>
+          <R7>TS:SumAll:</R7>
+          <T7>SumAll</T7>
+          <R8>TS:PosX:</R8>
+          <T8>PosX</T8>
+          <R9>TS:PosY:</R9>
+          <T9>PosY</T9>
+        </macros>
+        <mode>1</mode>
+        <description>Time series control</description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="115" green="223" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <image></image>
+    <name>Action Button</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text></text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>80</width>
+    <x>12</x>
+    <y>259</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:Current1:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:Current1:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Current 1</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:Current2:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:Current2:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Current 2</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:Current3:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:Current3:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Current 3</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:Current4:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:Current4:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Current 4</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:SumX:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:SumX:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Sum X</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:SumY:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:SumY:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Sum Y</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:SumAll:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:SumAll:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Sum All</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:DiffX:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:DiffX:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Difference X</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:DiffY:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:DiffY:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Difference Y</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:PosX:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:PosX:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Position X</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:PosY:</RN>
+          <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <YAXIS>$(P)$(R)TS:PosY:TimeSeries</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Position Y</description>
+      </action>
+    </actions>
+    <actions_from_pv>false</actions_from_pv>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="115" green="223" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>6</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <label></label>
+    <name>Menu Button</name>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_down_arrow>false</show_down_arrow>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <visible>true</visible>
+    <widget_type>Menu Button</widget_type>
+    <width>80</width>
+    <x>12</x>
+    <y>115</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="OPEN_DISPLAY">
+        <path>quadEM_plotAll.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)TS:</P>
+          <CURR1>Current3:TimeSeries</CURR1>
+          <CURR2>Current4:TimeSeries</CURR2>
+          <SUM>SumY:TimeSeries</SUM>
+          <POS>PosY:TimeSeries</POS>
+          <XAXIS>TSTimeAxis</XAXIS>
+          <TITLE>$(TY)</TITLE>
+          <XTITLE>Time (sec)</XTITLE>
+          <YTITLE>Counts</YTITLE>
+        </macros>
+        <mode>1</mode>
+        <description>Y (current, sum, pos)</description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="115" green="223" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <image></image>
+    <name>Action Button</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text></text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>80</width>
+    <x>12</x>
+    <y>90</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="OPEN_DISPLAY">
+        <path>quadEM_plotAll.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)FFT:</P>
+          <CURR1>Current1:FFTAbsValue</CURR1>
+          <CURR2>Current2:FFTAbsValue</CURR2>
+          <SUM>SumX:FFTAbsValue</SUM>
+          <POS>PosX:FFTAbsValue</POS>
+          <XAXIS>PosX:FFTFreqAxis</XAXIS>
+          <TITLE>$(TX)</TITLE>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YTITLE>Counts</YTITLE>
+        </macros>
+        <mode>1</mode>
+        <description>X (current, sum, pos)</description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="115" green="223" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <image></image>
+    <name>Action Button</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text></text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>80</width>
+    <x>12</x>
+    <y>175</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="OPEN_DISPLAY">
+        <path>quadEM_plotAll.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)FFT:</P>
+          <CURR1>Current3:FFTAbsValue</CURR1>
+          <CURR2>Current4:FFTAbsValue</CURR2>
+          <SUM>SumY:FFTAbsValue</SUM>
+          <POS>PosY:FFTAbsValue</POS>
+          <XAXIS>PosY:FFTFreqAxis</XAXIS>
+          <TITLE>$(TY)</TITLE>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YTITLE>Counts</YTITLE>
+        </macros>
+        <mode>1</mode>
+        <description>X (current, sum, pos)</description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="115" green="223" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <image></image>
+    <name>Action Button</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text></text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>80</width>
+    <x>12</x>
+    <y>200</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:Current1:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:Current1:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:Current1:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Current 1</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:Current2:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:Current2:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:Current2:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Current 2</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:Current3:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:Current3:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:Current3:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Current 3</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:Current4:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:Current4:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:Current4:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Current 4</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:SumX:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:SumX:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:SumX:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Sum X</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:SumY:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:SumY:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:SumY:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Sum Y</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:SumAll:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:SumAll:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:SumAll:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Sum All</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:DiffX:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:DiffX:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:DiffX:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Difference X</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:DiffY:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:DiffY:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:DiffY:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Difference Y</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:PosX:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:PosX:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:PosX:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Position X</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDTimeSeriesPlot.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:PosY:</RN>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:PosY:FFTFreqAxis</XAXIS>
+          <YAXIS>$(P)$(R)FFT:PosY:FFTAbsValue</YAXIS>
+        </macros>
+        <mode>1</mode>
+        <description>Position Y</description>
+      </action>
+    </actions>
+    <actions_from_pv>false</actions_from_pv>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="115" green="223" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>6</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <label></label>
+    <name>Menu Button</name>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_down_arrow>false</show_down_arrow>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <visible>true</visible>
+    <widget_type>Menu Button</widget_type>
+    <width>80</width>
+    <x>12</x>
+    <y>225</y>
+  </widget>
+</display>
