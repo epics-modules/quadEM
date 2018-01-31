@@ -10,9 +10,9 @@
     <h1>
       quadEM Driver</h1>
     <h2>
-      R9-0</h2>
+      R9-1</h2>
     <h2>
-      July 2, 2017</h2>
+      January 31, 2018</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -868,7 +868,11 @@
           This mode could be useful when the quadEM is being used for data acquisition, for
           example in a scan. In this case processing the ReadData record will read all values
           that have accumulated in the ring buffer since ReadData was last processed. ReadData
-          must be processed frequently enough to avoid ring-buffer overflow.</td>
+          must be processed frequently enough to avoid ring-buffer overflow.<br />
+          On the TetrAMM in External Bulb mode and on the AH501BE in External Gate mode AveragingTime
+          should be set to 0. The driver will force the averaging to occur each time it detects
+          the falling edge of the gate pulse. This means that it will use the readings that
+          happened while the gate pulse was high.</td>
       </tr>
       <tr>
         <td>
@@ -888,9 +892,9 @@
           they are read out into NDArray objects and any registered plugins are called. NumAverage_RBV
           is computed as (int)((AveragingTime / SampleTime_RBV) + 0.5).
           <br />
-          On the TetrAMM when TriggerMode=ExternalBulb the AveragingTime is ignored and NumAverage_RBV
-          will be 0. The averaging is done on all samples collected when the external gate
-          signal is asserted</td>
+          On the TetrAMM when TriggerMode=External Bulb and on the AH501BE when TriggerMode=External
+          Gate the AveragingTime is ignored and NumAverage_RBV will be 0. The averaging is
+          done on all samples collected when the external gate signal is asserted.</td>
       </tr>
       <tr>
         <td>
