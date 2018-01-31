@@ -1,7 +1,7 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/APS_EM.adl"
-	version=030107
+	name="/home/epics/devel/quadEM-9-1/quadEMApp/op/adl/APS_EM.adl"
+	version=030109
 }
 display {
 	object {
@@ -147,45 +147,35 @@ composite {
 		}
 	}
 }
-composite {
+"text update" {
+	object {
+		x=290
+		y=25
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)PingPong_RBV"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
 	object {
 		x=290
 		y=0
 		width=100
-		height=45
+		height=20
 	}
-	"composite name"=""
-	children {
-		"text update" {
-			object {
-				x=290
-				y=25
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PingPong_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=290
-				y=0
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)IntegrationTime_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
+	monitor {
+		chan="$(P)$(R)IntegrationTime_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
 	}
 }
 composite {

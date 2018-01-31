@@ -1,12 +1,12 @@
 
 file {
-	name="/home/epics/devel/quadEM-7-0/quadEMApp/op/adl/QECommonPlugins.adl"
-	version=030107
+	name="/home/epics/devel/quadEM-9-1/quadEMApp/op/adl/QECommonPlugins.adl"
+	version=030109
 }
 display {
 	object {
-		x=76
-		y=88
+		x=100
+		y=172
 		width=915
 		height=420
 	}
@@ -100,9 +100,9 @@ rectangle {
 }
 text {
 	object {
-		x=207
+		x=0
 		y=6
-		width=500
+		width=915
 		height=25
 	}
 	"basic attribute" {
@@ -382,9 +382,9 @@ text {
 }
 text {
 	object {
-		x=682
+		x=694
 		y=40
-		width=70
+		width=40
 		height=20
 	}
 	"basic attribute" {
@@ -420,6 +420,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -528,6 +529,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -636,6 +638,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -744,6 +747,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -852,6 +856,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -960,6 +965,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -1068,6 +1074,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -1176,6 +1183,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -1284,6 +1292,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -1392,6 +1401,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -1500,6 +1510,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -1608,6 +1619,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -2119,6 +2131,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -2274,6 +2287,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }

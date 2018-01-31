@@ -1,12 +1,12 @@
 
 file {
-	name="/home/epics/devel/quadEM/2-4beta/quadEMApp/op/adl/quadEM_addition.adl"
-	version=030000
+	name="/home/epics/devel/quadEM-9-1/quadEMApp/op/adl/quadEM_less.adl"
+	version=030109
 }
 display {
 	object {
-		x=704
-		y=230
+		x=552
+		y=220
 		width=440
 		height=230
 	}
@@ -119,7 +119,7 @@ text {
 	object {
 		x=191
 		y=5
-		width=140
+		width=240
 		height=20
 	}
 	"basic attribute" {
@@ -156,7 +156,7 @@ text {
 	object {
 		x=199
 		y=30
-		width=20
+		width=10
 		height=20
 	}
 	"basic attribute" {
@@ -242,7 +242,7 @@ text {
 	object {
 		x=114
 		y=30
-		width=20
+		width=10
 		height=20
 	}
 	"basic attribute" {
@@ -285,7 +285,7 @@ text {
 	object {
 		x=284
 		y=30
-		width=20
+		width=10
 		height=20
 	}
 	"basic attribute" {
@@ -328,7 +328,7 @@ text {
 	object {
 		x=11
 		y=5
-		width=204
+		width=170
 		height=20
 	}
 	"basic attribute" {
@@ -412,204 +412,160 @@ menu {
 		bclr=51
 	}
 }
-composite {
+text {
 	object {
 		x=8
 		y=130
-		width=364
+		width=30
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=8
-				y=130
-				width=30
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Sum"
-		}
-		"text update" {
-			object {
-				x=131
-				y=130
-				width=70
-				height=20
-			}
-			monitor {
-				chan="$(P)$(EM)SumX"
-				clr=54
-				bclr=3
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=302
-				y=130
-				width=70
-				height=20
-			}
-			monitor {
-				chan="$(P)$(EM)SumY"
-				clr=54
-				bclr=3
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Sum"
+}
+"text update" {
+	object {
+		x=131
+		y=130
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(EM)SumX"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
 	}
 }
-composite {
+"text update" {
+	object {
+		x=302
+		y=130
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(EM)SumY"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+text {
 	object {
 		x=8
 		y=155
-		width=364
+		width=100
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=8
-				y=155
-				width=100
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Difference"
-		}
-		"text update" {
-			object {
-				x=131
-				y=155
-				width=70
-				height=20
-			}
-			monitor {
-				chan="$(P)$(EM)DiffX"
-				clr=54
-				bclr=3
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=302
-				y=155
-				width=70
-				height=20
-			}
-			monitor {
-				chan="$(P)$(EM)DiffY"
-				clr=54
-				bclr=3
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Difference"
+}
+"text update" {
+	object {
+		x=131
+		y=155
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(EM)DiffX"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
 	}
 }
-composite {
+"text update" {
+	object {
+		x=302
+		y=155
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(EM)DiffY"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+text {
 	object {
 		x=8
 		y=180
-		width=364
+		width=80
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=8
-				y=180
-				width=80
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Position"
-		}
-		"text update" {
-			object {
-				x=131
-				y=180
-				width=70
-				height=20
-			}
-			monitor {
-				chan="$(P)$(EM)PositionX"
-				clr=54
-				bclr=3
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=302
-				y=180
-				width=70
-				height=20
-			}
-			monitor {
-				chan="$(P)$(EM)PositionY"
-				clr=54
-				bclr=3
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Position"
+}
+"text update" {
+	object {
+		x=131
+		y=180
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(EM)PositionX"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
 	}
 }
-composite {
+"text update" {
+	object {
+		x=302
+		y=180
+		width=70
+		height=20
+	}
+	monitor {
+		chan="$(P)$(EM)PositionY"
+		clr=54
+		bclr=3
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+text {
 	object {
 		x=8
 		y=205
-		width=198
+		width=90
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=8
-				y=205
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Read rate"
-		}
-		menu {
-			object {
-				x=106
-				y=205
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(EM)Read.SCAN"
-				clr=14
-				bclr=51
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Read rate"
+}
+menu {
+	object {
+		x=106
+		y=205
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(EM)Read.SCAN"
+		clr=14
+		bclr=51
 	}
 }

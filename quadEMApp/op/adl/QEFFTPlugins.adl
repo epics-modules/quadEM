@@ -1,12 +1,12 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/QEFFTPlugins.adl"
-	version=030107
+	name="/home/epics/devel/quadEM-9-1/quadEMApp/op/adl/QEFFTPlugins.adl"
+	version=030109
 }
 display {
 	object {
-		x=76
-		y=88
+		x=100
+		y=172
 		width=1000
 		height=345
 	}
@@ -100,9 +100,9 @@ rectangle {
 }
 text {
 	object {
-		x=250
+		x=0
 		y=6
-		width=500
+		width=1000
 		height=25
 	}
 	"basic attribute" {
@@ -339,9 +339,9 @@ text {
 }
 text {
 	object {
-		x=682
+		x=712
 		y=40
-		width=70
+		width=40
 		height=20
 	}
 	"basic attribute" {
@@ -377,6 +377,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -440,6 +441,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -503,6 +505,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -566,6 +569,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -629,6 +633,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -692,6 +697,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -755,6 +761,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -818,6 +825,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -881,6 +889,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -944,6 +953,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -1007,6 +1017,7 @@ menu {
 	}
 	clrmod="alarm"
 	align="horiz. centered"
+	format="string"
 	limits {
 	}
 }
@@ -1544,171 +1555,160 @@ text {
 	}
 	textix="PosY"
 }
-composite {
+text {
 	object {
 		x=507
 		y=40
 		width=80
-		height=295
+		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=507
-				y=40
-				width=80
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Blocking"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=507
-				y=190
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SumY:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=215
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SumAll:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=240
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)DiffX:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=265
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)DiffY:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=290
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PosX:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=65
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Current1:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=90
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Current2:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=115
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Current3:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=140
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Current4:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=165
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SumX:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=507
-				y=315
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PosY:BlockingCallbacks"
-				clr=14
-				bclr=51
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Blocking"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=507
+		y=190
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SumY:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=215
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SumAll:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=240
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)DiffX:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=265
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)DiffY:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=290
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)PosX:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=65
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Current1:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=90
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Current2:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=115
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Current3:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=140
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Current4:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=165
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SumX:BlockingCallbacks"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=507
+		y=315
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)PosY:BlockingCallbacks"
+		clr=14
+		bclr=51
 	}
 }
 text {
@@ -1724,544 +1724,511 @@ text {
 	textix="Suppress DC"
 	align="horiz. right"
 }
-composite {
+text {
+	object {
+		x=782
+		y=40
+		width=40
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Rate"
+	align="horiz. right"
+}
+"text update" {
 	object {
 		x=762
-		y=40
+		y=191
 		width=80
-		height=294
+		height=18
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=782
-				y=40
-				width=40
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Rate"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=762
-				y=191
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)SumY:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=216
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)SumAll:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=241
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)DiffX:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=266
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)DiffY:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=291
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PosX:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=66
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)Current1:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=91
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)Current2:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=116
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)Current3:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=141
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)Current4:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=166
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)SumX:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=762
-				y=316
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PosY:ArrayRate_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
+	monitor {
+		chan="$(P)$(R)SumY:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
 	}
 }
-composite {
+"text update" {
+	object {
+		x=762
+		y=216
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)SumAll:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=762
+		y=241
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)DiffX:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=762
+		y=266
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)DiffY:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=762
+		y=291
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PosX:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=762
+		y=66
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)Current1:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=762
+		y=91
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)Current2:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=762
+		y=116
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)Current3:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=762
+		y=141
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)Current4:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=762
+		y=166
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)SumX:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=762
+		y=316
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PosY:ArrayRate_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+menu {
+	object {
+		x=847
+		y=190
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SumY:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=847
+		y=215
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SumAll:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=847
+		y=240
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)DiffX:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=847
+		y=265
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)DiffY:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=847
+		y=290
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)PosX:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+menu {
 	object {
 		x=847
 		y=65
 		width=80
-		height=270
+		height=20
 	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=847
-				y=190
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SumY:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=215
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SumAll:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=240
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)DiffX:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=265
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)DiffY:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=290
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PosX:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=65
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Current1:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=90
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Current2:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=115
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Current3:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=140
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Current4:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=165
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SumX:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=847
-				y=315
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PosY:FFTSuppressDC"
-				clr=14
-				bclr=51
-			}
-		}
+	control {
+		chan="$(P)$(R)Current1:FFTSuppressDC"
+		clr=14
+		bclr=51
 	}
 }
-composite {
+menu {
+	object {
+		x=847
+		y=90
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Current2:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=847
+		y=115
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Current3:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=847
+		y=140
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Current4:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=847
+		y=165
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SumX:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+menu {
+	object {
+		x=847
+		y=315
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)PosY:FFTSuppressDC"
+		clr=14
+		bclr=51
+	}
+}
+"related display" {
+	object {
+		x=932
+		y=190
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:SumY:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)SumY:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
+	object {
+		x=932
+		y=215
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:SumAll:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)SumAll:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
+	object {
+		x=932
+		y=240
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:DiffX:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)DiffX:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
+	object {
+		x=932
+		y=265
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:DiffY:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)DiffY:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
+	object {
+		x=932
+		y=290
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:PosX:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)PosX:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
 	object {
 		x=932
 		y=65
 		width=60
-		height=270
+		height=20
 	}
-	"composite name"=""
-	children {
-		"related display" {
-			object {
-				x=932
-				y=190
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:SumY:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)SumY:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=215
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:SumAll:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)SumAll:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=240
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:DiffX:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)DiffX:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=265
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:DiffY:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)DiffY:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=290
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:PosX:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)PosX:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=65
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:Current1:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)Current1:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=90
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:Current2:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)Current2:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=115
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:Current3:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)Current3:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=140
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:Current4:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)Current4:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=165
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:SumX:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)SumX:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
-		"related display" {
-			object {
-				x=932
-				y=315
-				width=60
-				height=20
-			}
-			display[0] {
-				label="$(R)FFT:PosY:"
-				name="NDFFT.adl"
-				args="P=$(P),R=$(R)PosY:,RTS=$(RTS)"
-			}
-			clr=14
-			bclr=51
-			label="More"
-		}
+	display[0] {
+		label="$(R)FFT:Current1:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)Current1:,RTS=$(RTS)"
 	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
+	object {
+		x=932
+		y=90
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:Current2:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)Current2:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
+	object {
+		x=932
+		y=115
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:Current3:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)Current3:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
+	object {
+		x=932
+		y=140
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:Current4:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)Current4:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
+	object {
+		x=932
+		y=165
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:SumX:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)SumX:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+"related display" {
+	object {
+		x=932
+		y=315
+		width=60
+		height=20
+	}
+	display[0] {
+		label="$(R)FFT:PosY:"
+		name="NDFFT.adl"
+		args="P=$(P),R=$(R)PosY:,RTS=$(RTS)"
+	}
+	clr=14
+	bclr=51
+	label="More"
 }

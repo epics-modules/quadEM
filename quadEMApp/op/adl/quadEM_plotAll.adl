@@ -1,12 +1,12 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM_plotAll.adl"
-	version=030105
+	name="/home/epics/devel/quadEM-9-1/quadEMApp/op/adl/quadEM_plotAll.adl"
+	version=030109
 }
 display {
 	object {
-		x=383
-		y=221
+		x=313
+		y=211
 		width=915
 		height=630
 	}
@@ -87,40 +87,29 @@ display {
 		1a7309,
 	}
 }
-composite {
+rectangle {
 	object {
-		x=334
+		x=0
 		y=9
-		width=333
-		height=41
+		width=915
+		height=40
 	}
-	"composite name"=""
-	children {
-		rectangle {
-			object {
-				x=334
-				y=9
-				width=333
-				height=40
-			}
-			"basic attribute" {
-				clr=54
-			}
-		}
-		text {
-			object {
-				x=349
-				y=10
-				width=302
-				height=40
-			}
-			"basic attribute" {
-				clr=0
-			}
-			textix="$(TITLE)"
-			align="horiz. centered"
-		}
+	"basic attribute" {
+		clr=54
 	}
+}
+text {
+	object {
+		x=0
+		y=10
+		width=915
+		height=40
+	}
+	"basic attribute" {
+		clr=0
+	}
+	textix="$(TITLE)"
+	align="horiz. centered"
 }
 "cartesian plot" {
 	object {
@@ -142,6 +131,7 @@ composite {
 		xdata="$(P)$(XAXIS)"
 		ydata="$(P)$(CURR1)"
 		data_clr=27
+		yaxis=0
 	}
 	x_axis {
 		rangeStyle="auto-scale"
@@ -185,6 +175,7 @@ text {
 		xdata="$(P)$(XAXIS)"
 		ydata="$(P)$(CURR2)"
 		data_clr=27
+		yaxis=0
 	}
 	x_axis {
 		rangeStyle="auto-scale"
@@ -228,6 +219,7 @@ text {
 		xdata="$(P)$(XAXIS)"
 		ydata="$(P)$(SUM)"
 		data_clr=27
+		yaxis=0
 	}
 	x_axis {
 		rangeStyle="auto-scale"
@@ -271,6 +263,7 @@ text {
 		xdata="$(P)$(XAXIS)"
 		ydata="$(P)$(POS)"
 		data_clr=27
+		yaxis=0
 	}
 	x_axis {
 		rangeStyle="auto-scale"
