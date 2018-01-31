@@ -67,20 +67,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 70
-y 50
-w 320
-h 95
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -170,7 +156,7 @@ fastUpdate
 fgColor index 54
 bgColor index 3
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -194,7 +180,7 @@ fastUpdate
 fgColor index 54
 bgColor index 3
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -251,34 +237,15 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 70
-y 25
-w 320
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 70
+x 80
 y 25
-w 120
+w 110
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -306,17 +273,12 @@ fastUpdate
 fgColor index 54
 bgColor index 3
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -337,19 +299,6 @@ controlPv "$(P)$(R)NumChannels"
 indicatorPv "$(P)$(R)NumChannels"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 70
-y 50
-w 320
-h 95
-
-beginGroup
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -411,24 +360,6 @@ indicatorPv "$(P)$(R)BiasState"
 font "helvetica-medium-r-10.0"
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 70
-y 25
-w 320
-h 20
-
-beginGroup
-
-
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
@@ -448,9 +379,4 @@ controlPv "$(P)$(R)ReadFormat"
 indicatorPv "$(P)$(R)ReadFormat"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 

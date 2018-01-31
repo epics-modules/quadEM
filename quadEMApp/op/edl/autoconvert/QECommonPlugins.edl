@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 76
-y 88
+x 100
+y 172
 w 915
 h 420
 font "helvetica-medium-r-18.0"
@@ -46,9 +46,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 207
+x 0
 y 6
-w 500
+w 915
 h 25
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -460,9 +460,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 682
+x 694
 y 40
-w 70
+w 40
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -492,7 +492,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -594,7 +594,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -696,7 +696,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -798,7 +798,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -900,7 +900,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1002,7 +1002,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1104,7 +1104,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1206,7 +1206,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1308,7 +1308,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1410,7 +1410,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1512,7 +1512,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1614,7 +1614,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -2403,7 +2403,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -2582,7 +2582,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"

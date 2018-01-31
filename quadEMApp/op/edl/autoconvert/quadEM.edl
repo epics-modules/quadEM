@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 131
-y 77
+x 125
+y 92
 w 915
 h 810
 font "helvetica-medium-r-18.0"
@@ -64,20 +64,6 @@ yPoints  {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 90
-y 85
-w 215
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -120,32 +106,13 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 297
-y 5
-w 320
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 297
+x 0
 y 5
 w 170
 h 20
@@ -163,22 +130,18 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 477
+x 200
 y 5
-w 140
+w 700
 h 20
 font "helvetica-medium-r-8.0"
+fontAlign "center"
 fgColor index 14
 useDisplayBg
 value {
  "($(P)$(R))"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -270,9 +233,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 150
+x 120
 y 60
-w 50
+w 80
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -372,7 +335,7 @@ fastUpdate
 fgColor index 54
 bgColor index 3
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -396,7 +359,7 @@ fastUpdate
 fgColor index 54
 bgColor index 3
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -444,7 +407,7 @@ fastUpdate
 fgColor index 54
 bgColor index 3
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -565,9 +528,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 50
+x 110
 y 310
-w 150
+w 90
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -707,9 +670,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 90
+x 100
 y 360
-w 110
+w 100
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -826,20 +789,6 @@ visMin "A=9"
 visMax "1"
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 60
-y 235
-w 340
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -907,11 +856,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -982,20 +926,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 80
-y 335
-w 225
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1038,11 +968,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1083,6 +1008,47 @@ nullColor index 32
 useHexPrefix
 objType "controls"
 newPos
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 385
+w 390
+h 269
+
+beginGroup
+
+# (Embedded Window)
+object activePipClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 385
+w 390
+h 269
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+noScroll
+displaySource "file"
+file "NSLS2_EM.edl"
+sizeOfs 5
+numDsps 0
+endObjectProperties
+
+endGroup
+
+visPv "$(P)$(R)Model"
+visMin "(A=10)"
+visMax "1"
 endObjectProperties
 
 # (Static Text)
@@ -1462,20 +1428,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 526
-y 160
-w 335
-h 20
-
-beginGroup
-
-
 # (Text Control)
 object activeXTextDspClass
 beginObjectProperties
@@ -1579,11 +1531,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Text Control)
 object activeXTextDspClass
@@ -1707,20 +1654,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 420
-y 540
-w 490
-h 265
-
-beginGroup
-
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
@@ -1748,20 +1681,6 @@ h 159
 lineColor index 14
 fillColor index 14
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 440
-y 601
-w 209
-h 95
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -1835,25 +1754,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 675
-y 600
-w 234
-h 95
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1926,11 +1826,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
 # (Text Control)
 object activeXTextDspClass
 beginObjectProperties
@@ -1974,20 +1869,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 590
-y 710
-w 150
-h 25
-
-beginGroup
-
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
@@ -2009,9 +1890,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 647
+x 635
 y 712
-w 36
+w 60
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -2021,11 +1902,6 @@ value {
  "Status"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -2046,20 +1922,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 770
-y 730
-w 135
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2078,25 +1940,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 710
-y 780
-w 195
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2114,25 +1957,6 @@ value {
  "Asyn record"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 590
-y 545
-w 150
-h 25
-
-beginGroup
-
 
 # (Rectangle)
 object activeRectangleClass
@@ -2166,25 +1990,6 @@ value {
  "Time series"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 425
-y 755
-w 245
-h 45
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -2248,25 +2053,15 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 692
+x 702
 y 262
-w 30
+w 10
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -2283,9 +2078,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 591
+x 601
 y 262
-w 30
+w 10
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -2302,9 +2097,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 767
+x 787
 y 262
-w 70
+w 30
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -2967,83 +2762,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 385
-w 390
-h 269
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 385
-w 390
-h 269
-fgColor index 14
-bgColor index 0
-topShadowColor index 0
-botShadowColor index 14
-noScroll
-displaySource "file"
-file "NSLS2_EM.edl"
-sizeOfs 5
-numDsps 0
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "(A=10)"
-visMax "1"
-endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 90
-y 85
-w 215
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 297
-y 5
-w 320
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
 # (Choice Button)
 object activeChoiceButtonClass
 beginObjectProperties
@@ -3149,42 +2867,6 @@ offLabel "Read"
 useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 60
-y 235
-w 340
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 80
-y 335
-w 225
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
 
 # (Message Button)
 object activeMessageButtonClass
@@ -3285,50 +2967,6 @@ offLabel "Compute"
 useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 526
-y 160
-w 335
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 420
-y 540
-w 490
-h 265
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 440
-y 601
-w 209
-h 95
-
-beginGroup
-
 
 # (Related Display)
 object relatedDisplayClass
@@ -3402,24 +3040,6 @@ menuLabel {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 675
-y 600
-w 234
-h 95
-
-beginGroup
-
-
 # (Related Display)
 object relatedDisplayClass
 beginObjectProperties
@@ -3491,11 +3111,6 @@ displayFileName {
 menuLabel {
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Related Display)
 object relatedDisplayClass
@@ -3571,24 +3186,6 @@ offLabel "Stop"
 useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 590
-y 710
-w 150
-h 25
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
 
 # (Related Display)
 object relatedDisplayClass
@@ -3613,19 +3210,6 @@ displayFileName {
 menuLabel {
 }
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 770
-y 730
-w 135
-h 20
-
-beginGroup
-
 
 # (Message Button)
 object activeMessageButtonClass
@@ -3652,24 +3236,6 @@ useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 710
-y 780
-w 195
-h 20
-
-beginGroup
-
-
 # (Related Display)
 object relatedDisplayClass
 beginObjectProperties
@@ -3694,42 +3260,6 @@ menuLabel {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 590
-y 545
-w 150
-h 25
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 425
-y 755
-w 245
-h 45
-
-beginGroup
-
-
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
@@ -3749,16 +3279,6 @@ controlPv "$(P)$(R)ReadStatus.SCAN"
 indicatorPv "$(P)$(R)ReadStatus.SCAN"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
 
 # (Message Button)
 object activeMessageButtonClass

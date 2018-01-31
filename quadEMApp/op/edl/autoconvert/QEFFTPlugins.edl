@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 76
-y 88
+x 100
+y 172
 w 1000
 h 345
 font "helvetica-medium-r-18.0"
@@ -46,9 +46,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 250
+x 0
 y 6
-w 500
+w 1000
 h 25
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -397,9 +397,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 682
+x 712
 y 40
-w 70
+w 40
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -429,7 +429,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -506,7 +506,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -583,7 +583,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -660,7 +660,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -737,7 +737,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -814,7 +814,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -891,7 +891,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -968,7 +968,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1045,7 +1045,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1122,7 +1122,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -1199,7 +1199,7 @@ fgColor index 54
 fgAlarm
 bgColor index 12
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -2084,20 +2084,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 507
-y 40
-w 80
-h 295
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2117,11 +2103,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2140,20 +2121,6 @@ value {
  "Suppress DC"
 }
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 762
-y 40
-w 80
-h 294
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -2449,49 +2416,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 847
-y 65
-w 80
-h 270
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 932
-y 65
-w 60
-h 270
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
@@ -2711,19 +2635,6 @@ controlPv "$(P)$(R)PosY:EnableCallbacks"
 indicatorPv "$(P)$(R)PosY:EnableCallbacks"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 507
-y 40
-w 80
-h 295
-
-beginGroup
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -2945,42 +2856,6 @@ indicatorPv "$(P)$(R)PosY:BlockingCallbacks"
 font "helvetica-medium-r-10.0"
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 762
-y 40
-w 80
-h 294
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 847
-y 65
-w 80
-h 270
-
-beginGroup
-
-
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
@@ -3201,24 +3076,6 @@ indicatorPv "$(P)$(R)PosY:FFTSuppressDC"
 font "helvetica-medium-r-10.0"
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 932
-y 65
-w 60
-h 270
-
-beginGroup
-
-
 # (Related Display)
 object relatedDisplayClass
 beginObjectProperties
@@ -3493,9 +3350,4 @@ displayFileName {
 menuLabel {
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 

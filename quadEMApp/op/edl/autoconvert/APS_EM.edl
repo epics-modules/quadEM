@@ -116,20 +116,6 @@ endGroup
 endObjectProperties
 
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 290
-y 0
-w 100
-h 45
-
-beginGroup
-
-
 # (Text Control)
 object activeXTextDspClass
 beginObjectProperties
@@ -147,7 +133,7 @@ fastUpdate
 fgColor index 54
 bgColor index 3
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
@@ -177,11 +163,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Group)
 object activeGroupClass
@@ -237,24 +218,6 @@ x 120
 y 50
 w 70
 h 70
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 290
-y 0
-w 100
-h 45
 
 beginGroup
 

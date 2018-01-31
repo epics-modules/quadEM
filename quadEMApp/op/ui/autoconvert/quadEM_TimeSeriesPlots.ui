@@ -297,267 +297,257 @@ border-radius: 2px;
                 <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
             </property>
         </widget>
-        <widget class="caFrame" name="caFrame_1">
+        <widget class="caLabel" name="caLabel_3">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="text">
+                <string>Plots X</string>
+            </property>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::WidthAndHeight</enum>
+            </property>
             <property name="geometry">
                 <rect>
                     <x>97</x>
                     <y>65</y>
-                    <width>122</width>
-                    <height>217</height>
+                    <width>70</width>
+                    <height>20</height>
                 </rect>
             </property>
-            <widget class="caLabel" name="caLabel_3">
-                <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                </property>
-                <property name="foreground">
-                    <color alpha="255">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="background">
-                    <color alpha="0">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="text">
-                    <string>Plots X</string>
-                </property>
-                <property name="fontScaleMode">
-                    <enum>ESimpleLabel::WidthAndHeight</enum>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>70</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-            </widget>
-            <widget class="caLabel" name="caLabel_4">
-                <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                </property>
-                <property name="foreground">
-                    <color alpha="255">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="background">
-                    <color alpha="0">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="text">
-                    <string>Plots Y</string>
-                </property>
-                <property name="fontScaleMode">
-                    <enum>ESimpleLabel::WidthAndHeight</enum>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>25</y>
-                        <width>70</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-            </widget>
-            <widget class="caLabel" name="caLabel_5">
-                <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                </property>
-                <property name="foreground">
-                    <color alpha="255">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="background">
-                    <color alpha="0">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="text">
-                    <string>Single plots</string>
-                </property>
-                <property name="fontScaleMode">
-                    <enum>ESimpleLabel::WidthAndHeight</enum>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>50</y>
-                        <width>120</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-            </widget>
-            <widget class="caLabel" name="caLabel_6">
-                <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                </property>
-                <property name="foreground">
-                    <color alpha="255">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="background">
-                    <color alpha="0">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="text">
-                    <string>Plots X</string>
-                </property>
-                <property name="fontScaleMode">
-                    <enum>ESimpleLabel::WidthAndHeight</enum>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>110</y>
-                        <width>70</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-            </widget>
-            <widget class="caLabel" name="caLabel_7">
-                <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                </property>
-                <property name="foreground">
-                    <color alpha="255">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="background">
-                    <color alpha="0">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="text">
-                    <string>Plots Y</string>
-                </property>
-                <property name="fontScaleMode">
-                    <enum>ESimpleLabel::WidthAndHeight</enum>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>135</y>
-                        <width>70</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-            </widget>
-            <widget class="caLabel" name="caLabel_8">
-                <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                </property>
-                <property name="foreground">
-                    <color alpha="255">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="background">
-                    <color alpha="0">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="text">
-                    <string>Single plots</string>
-                </property>
-                <property name="fontScaleMode">
-                    <enum>ESimpleLabel::WidthAndHeight</enum>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>160</y>
-                        <width>120</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-            </widget>
-            <widget class="caLabel" name="caLabel_9">
-                <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                </property>
-                <property name="foreground">
-                    <color alpha="255">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="background">
-                    <color alpha="0">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="text">
-                    <string>Time series</string>
-                </property>
-                <property name="fontScaleMode">
-                    <enum>ESimpleLabel::WidthAndHeight</enum>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>195</y>
-                        <width>110</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-            </widget>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="caLabel" name="caLabel_4">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="text">
+                <string>Plots Y</string>
+            </property>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::WidthAndHeight</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>97</x>
+                    <y>90</y>
+                    <width>70</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="caLabel" name="caLabel_5">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="text">
+                <string>Single plots</string>
+            </property>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::WidthAndHeight</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>97</x>
+                    <y>115</y>
+                    <width>120</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="caLabel" name="caLabel_6">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="text">
+                <string>Plots X</string>
+            </property>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::WidthAndHeight</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>97</x>
+                    <y>175</y>
+                    <width>70</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="caLabel" name="caLabel_7">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="text">
+                <string>Plots Y</string>
+            </property>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::WidthAndHeight</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>97</x>
+                    <y>200</y>
+                    <width>70</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="caLabel" name="caLabel_8">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="text">
+                <string>Single plots</string>
+            </property>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::WidthAndHeight</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>97</x>
+                    <y>225</y>
+                    <width>120</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="caLabel" name="caLabel_9">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="text">
+                <string>Time series</string>
+            </property>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::WidthAndHeight</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>97</x>
+                    <y>260</y>
+                    <width>110</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
         </widget>
         <widget class="caRelatedDisplay" name="caRelatedDisplay_0">
             <property name="geometry">
@@ -845,7 +835,6 @@ border-radius: 2px;
         <zorder>caLabel_7</zorder>
         <zorder>caLabel_8</zorder>
         <zorder>caLabel_9</zorder>
-        <zorder>caFrame_1</zorder>
         <zorder>caRelatedDisplay_0</zorder>
         <zorder>caRelatedDisplay_1</zorder>
         <zorder>caRelatedDisplay_2</zorder>

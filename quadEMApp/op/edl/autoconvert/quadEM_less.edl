@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 704
-y 230
+x 552
+y 220
 w 440
 h 230
 font "helvetica-medium-r-18.0"
@@ -72,7 +72,7 @@ minor 0
 release 0
 x 191
 y 5
-w 140
+w 240
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -127,7 +127,7 @@ minor 0
 release 0
 x 199
 y 30
-w 20
+w 10
 h 20
 font "helvetica-medium-r-8.0"
 fgColor index 14
@@ -265,7 +265,7 @@ minor 0
 release 0
 x 114
 y 30
-w 20
+w 10
 h 20
 font "helvetica-medium-r-8.0"
 fgColor index 14
@@ -334,7 +334,7 @@ minor 0
 release 0
 x 284
 y 30
-w 20
+w 10
 h 20
 font "helvetica-medium-r-8.0"
 fgColor index 14
@@ -403,7 +403,7 @@ minor 0
 release 0
 x 11
 y 5
-w 204
+w 170
 h 20
 font "helvetica-medium-r-8.0"
 fgColor index 14
@@ -448,20 +448,6 @@ value {
  "Channel"
 }
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 8
-y 130
-w 364
-h 20
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -531,25 +517,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 8
-y 155
-w 364
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -617,25 +584,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 8
-y 180
-w 364
-h 20
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -705,25 +653,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 8
-y 205
-w 198
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -741,11 +670,6 @@ value {
  "Read rate"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -826,73 +750,6 @@ controlPv "$(P)$(EM)PingPong4"
 indicatorPv "$(P)$(EM)PingPong4"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 8
-y 130
-w 364
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 8
-y 155
-w 364
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 8
-y 180
-w 364
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 8
-y 205
-w 198
-h 20
-
-beginGroup
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -913,9 +770,4 @@ controlPv "$(P)$(EM)Read.SCAN"
 indicatorPv "$(P)$(EM)Read.SCAN"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 

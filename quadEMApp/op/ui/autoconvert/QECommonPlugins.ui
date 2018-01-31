@@ -4,8 +4,8 @@
 <widget class="QMainWindow" name="MainWindow">
     <property name="geometry">
         <rect>
-            <x>76</x>
-            <y>88</y>
+            <x>100</x>
+            <y>172</y>
             <width>915</width>
             <height>420</height>
         </rect>
@@ -168,9 +168,9 @@ border-radius: 2px;
             </property>
             <property name="geometry">
                 <rect>
-                    <x>207</x>
+                    <x>0</x>
                     <y>6</y>
-                    <width>500</width>
+                    <width>915</width>
                     <height>25</height>
                 </rect>
             </property>
@@ -1032,9 +1032,9 @@ border-radius: 2px;
             </property>
             <property name="geometry">
                 <rect>
-                    <x>682</x>
+                    <x>694</x>
                     <y>40</y>
-                    <width>70</width>
+                    <width>40</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -1117,7 +1117,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -1435,7 +1435,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -1753,7 +1753,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -2071,7 +2071,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -2389,7 +2389,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -2707,7 +2707,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -3025,7 +3025,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -3343,7 +3343,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -3661,7 +3661,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -3979,7 +3979,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -4297,7 +4297,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -4615,7 +4615,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -6283,7 +6283,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>
@@ -6757,7 +6757,7 @@ border-radius: 2px;
                 <double>1.0</double>
             </property>
             <property name="formatType">
-                <enum>decimal</enum>
+                <enum>string</enum>
             </property>
             <property name="colorMode">
                 <enum>caLineEdit::Alarm_Static</enum>

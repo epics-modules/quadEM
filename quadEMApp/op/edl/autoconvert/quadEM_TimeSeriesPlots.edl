@@ -128,20 +128,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 97
-y 65
-w 120
-h 215
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -267,11 +253,6 @@ value {
  "Time series"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -282,24 +263,6 @@ x 5
 y 5
 w 250
 h 25
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 97
-y 65
-w 120
-h 215
 
 beginGroup
 

@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 464
-y 223
+x 371
+y 210
 w 430
 h 280
 font "helvetica-medium-r-18.0"
@@ -22,20 +22,6 @@ botShadowColor index 44
 snapToGrid
 gridSize 5
 endScreenProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 70
-y 130
-w 215
-h 95
-
-beginGroup
 
 
 # (Static Text)
@@ -217,25 +203,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 140
-y 5
-w 280
-h 95
-
-beginGroup
-
 
 # (Motif Slider)
 object activeMotifSliderClass
@@ -505,25 +472,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 30
-y 230
-w 360
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -560,31 +508,12 @@ fastUpdate
 fgColor index 54
 bgColor index 3
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 70
-y 104
-w 320
-h 20
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -655,25 +584,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 40
-y 254
-w 245
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -692,60 +602,6 @@ value {
  "Set ADC offsets"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 70
-y 130
-w 215
-h 95
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 140
-y 5
-w 280
-h 95
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 30
-y 230
-w 360
-h 20
-
-beginGroup
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -766,42 +622,6 @@ controlPv "$(P)$(R)CalibrationMode"
 indicatorPv "$(P)$(R)CalibrationMode"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 70
-y 104
-w 320
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 40
-y 254
-w 245
-h 20
-
-beginGroup
-
 
 # (Message Button)
 object activeMessageButtonClass
@@ -827,9 +647,4 @@ offLabel "Set offsets"
 useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 

@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 383
-y 221
+x 313
+y 211
 w 915
 h 630
 font "helvetica-medium-r-18.0"
@@ -24,29 +24,15 @@ gridSize 5
 endScreenProperties
 
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 334
-y 9
-w 333
-h 41
-
-beginGroup
-
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 334
+x 0
 y 9
-w 332
+w 914
 h 39
 lineColor index 54
 fill
@@ -60,9 +46,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 349
+x 0
 y 10
-w 302
+w 915
 h 40
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -72,11 +58,6 @@ value {
  "$(TITLE)"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (X-Y Graph)
 object xyGraphClass
@@ -353,22 +334,4 @@ value {
  "Position"
 }
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 334
-y 9
-w 333
-h 41
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
 
