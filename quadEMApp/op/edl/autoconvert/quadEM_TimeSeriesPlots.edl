@@ -1,28 +1,28 @@
-4 0 0
+4 0 1
 beginScreenProperties
 major 4
 minor 0
-release 0
+release 1
 x 878
 y 96
 w 260
 h 290
 font "helvetica-medium-r-18.0"
-ctlFont "helvetica-medium-r-8.0"
+ctlFont "helvetica-bold-r-10.0"
 btnFont "helvetica-medium-r-18.0"
-fgColor index 14
-bgColor index 4
-textColor index 14
-ctlFgColor1 index 30
-ctlFgColor2 index 32
-ctlBgColor1 index 34
-ctlBgColor2 index 35
-topShadowColor index 37
-botShadowColor index 44
+fgColor rgb 0 0 0
+bgColor rgb 47872 47872 47872
+textColor rgb 0 0 0
+ctlFgColor1 rgb 64256 62208 18944
+ctlFgColor2 rgb 60928 46592 11008
+ctlBgColor1 rgb 52480 24832 0
+ctlBgColor2 rgb 65280 45056 65280
+topShadowColor rgb 44544 19968 48128
+botShadowColor rgb 13312 13056 34304
+showGrid
 snapToGrid
-gridSize 5
+gridSize 4
 endScreenProperties
-
 
 # (Group)
 object activeGroupClass
@@ -37,7 +37,6 @@ h 25
 
 beginGroup
 
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
@@ -48,9 +47,9 @@ x 5
 y 5
 w 249
 h 24
-lineColor index 54
+lineColor rgb 2560 0 47104
 fill
-fillColor index 54
+fillColor rgb 2560 0 47104
 lineWidth 0
 endObjectProperties
 
@@ -58,18 +57,19 @@ endObjectProperties
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 10
 y 7
 w 240
 h 20
-font "helvetica-medium-r-8.0"
+font "helvetica-bold-r-12.0"
 fontAlign "center"
-fgColor index 0
+fgColor rgb 65280 65280 65280
+bgColor index 3
 useDisplayBg
 value {
- "quadEM Time Series Plots"
+  "quadEM Time Series Plots"
 }
 endObjectProperties
 
@@ -88,25 +88,26 @@ x 5
 y 37
 w 249
 h 249
-lineColor index 14
-fillColor index 14
+lineColor rgb 0 0 0
+fillColor rgb 0 0 0
 endObjectProperties
 
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 72
 y 40
 w 110
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 54
+font "helvetica-bold-r-12.0"
+fgColor rgb 2560 0 47104
+bgColor index 3
 useDisplayBg
 value {
- "Time domain"
+  "Time domain"
 }
 endObjectProperties
 
@@ -114,17 +115,18 @@ endObjectProperties
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 47
 y 150
 w 160
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 54
+font "helvetica-bold-r-12.0"
+fgColor rgb 2560 0 47104
+bgColor index 3
 useDisplayBg
 value {
- "Frequency domain"
+  "Frequency domain"
 }
 endObjectProperties
 
@@ -132,17 +134,18 @@ endObjectProperties
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 97
 y 65
 w 70
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 14
+font "helvetica-bold-r-12.0"
+fgColor rgb 0 0 0
+bgColor index 3
 useDisplayBg
 value {
- "Plots X"
+  "Plots X"
 }
 endObjectProperties
 
@@ -150,17 +153,18 @@ endObjectProperties
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 97
 y 90
 w 70
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 14
+font "helvetica-bold-r-12.0"
+fgColor rgb 0 0 0
+bgColor index 3
 useDisplayBg
 value {
- "Plots Y"
+  "Plots Y"
 }
 endObjectProperties
 
@@ -168,17 +172,18 @@ endObjectProperties
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 97
 y 115
 w 120
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 14
+font "helvetica-bold-r-12.0"
+fgColor rgb 0 0 0
+bgColor index 3
 useDisplayBg
 value {
- "Single plots"
+  "Single plots"
 }
 endObjectProperties
 
@@ -186,17 +191,18 @@ endObjectProperties
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 97
 y 175
 w 70
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 14
+font "helvetica-bold-r-12.0"
+fgColor rgb 0 0 0
+bgColor index 3
 useDisplayBg
 value {
- "Plots X"
+  "Plots X"
 }
 endObjectProperties
 
@@ -204,17 +210,18 @@ endObjectProperties
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 97
 y 200
 w 70
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 14
+font "helvetica-bold-r-12.0"
+fgColor rgb 0 0 0
+bgColor index 3
 useDisplayBg
 value {
- "Plots Y"
+  "Plots Y"
 }
 endObjectProperties
 
@@ -222,17 +229,18 @@ endObjectProperties
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 97
 y 225
 w 120
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 14
+font "helvetica-bold-r-12.0"
+fgColor rgb 0 0 0
+bgColor index 3
 useDisplayBg
 value {
- "Single plots"
+  "Single plots"
 }
 endObjectProperties
 
@@ -240,17 +248,18 @@ endObjectProperties
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 97
 y 260
 w 110
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 14
+font "helvetica-bold-r-12.0"
+fgColor rgb 0 0 0
+bgColor index 3
 useDisplayBg
 value {
- "Time series"
+  "Time series"
 }
 endObjectProperties
 # (Group)
@@ -265,7 +274,6 @@ w 250
 h 25
 
 beginGroup
-
 
 endGroup
 
@@ -282,17 +290,25 @@ x 12
 y 65
 w 80
 h 20
-fgColor index 14
-bgColor index 51
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
+fgColor rgb 0 0 0
+bgColor rgb 29440 57088 65280
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+font "helvetica-bold-r-12.0"
 icon
-numPvs 0
-numDsps 0
+numPvs 2
+numDsps 1
 displayFileName {
+  0 quadEM_plotAll.edl
 }
 menuLabel {
+  0 X (current, sum, pos)
+}
+symbols {
+  0 "P=$(P)$(R)TS:,CURR1=Current1:TimeSeries,CURR2=Current2:TimeSeries,SUM=SumX:TimeSeries,POS=PosX:TimeSeries,XAXIS=TSTimeAxis,TITLE=$(TX),XTITLE=Time(sec),YTITLE=Counts"
+}
+replaceSymbols {
+  0 1
 }
 endObjectProperties
 
@@ -306,17 +322,25 @@ x 12
 y 259
 w 80
 h 20
-fgColor index 14
-bgColor index 51
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
+fgColor rgb 0 0 0
+bgColor rgb 29440 57088 65280
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+font "helvetica-bold-r-12.0"
 icon
-numPvs 0
-numDsps 0
+numPvs 2
+numDsps 1
 displayFileName {
+  0 NDPluginTimeSeries.edl
 }
 menuLabel {
+  0 Time series control
+}
+symbols {
+  0 "P=$(P)$(R),R=TS:,R1=TS:Current1:,T1=Current1,R2=TS:Current2:,T2=Current2,R3=TS:Current3:,T3=Current3,R4=TS:Current4:,T4=Current4,R5=TS:SumX:,T5=SumX,R6=TS:SumY:,T6=SumY,R7=TS:SumAll:,T7=SumAll,R8=TS:PosX:,T8=PosX,R9=TS:PosY:,T9=PosY"
+}
+replaceSymbols {
+  0 1
 }
 endObjectProperties
 
@@ -330,17 +354,65 @@ x 12
 y 115
 w 80
 h 20
-fgColor index 14
-bgColor index 51
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
+fgColor rgb 0 0 0
+bgColor rgb 29440 57088 65280
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+font "helvetica-bold-r-12.0"
 icon
-numPvs 0
-numDsps 0
+numPvs 22
+numDsps 11
 displayFileName {
+  0 NDTimeSeriesPlot.edl
+  1 NDTimeSeriesPlot.edl
+  2 NDTimeSeriesPlot.edl
+  3 NDTimeSeriesPlot.edl
+  4 NDTimeSeriesPlot.edl
+  5 NDTimeSeriesPlot.edl
+  6 NDTimeSeriesPlot.edl
+  7 NDTimeSeriesPlot.edl
+  8 NDTimeSeriesPlot.edl
+  9 NDTimeSeriesPlot.edl
+  10 NDTimeSeriesPlot.edl
 }
 menuLabel {
+  0 Current 1
+  1 Current 2
+  2 Current 3
+  3 Current 4
+  4 Sum X
+  5 Sum Y
+  6 Sum All
+  7 Difference X
+  8 Difference Y
+  9 Position X
+  10 Position Y
+}
+symbols {
+  0 "P=$(P)$(R),R=TS:,RN=TS:Current1:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:Current1:TimeSeries"
+  1 "P=$(P)$(R),R=TS:,RN=TS:Current2:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:Current2:TimeSeries"
+  2 "P=$(P)$(R),R=TS:,RN=TS:Current3:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:Current3:TimeSeries"
+  3 "P=$(P)$(R),R=TS:,RN=TS:Current4:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:Current4:TimeSeries"
+  4 "P=$(P)$(R),R=TS:,RN=TS:SumX:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:SumX:TimeSeries"
+  5 "P=$(P)$(R),R=TS:,RN=TS:SumY:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:SumY:TimeSeries"
+  6 "P=$(P)$(R),R=TS:,RN=TS:SumAll:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:SumAll:TimeSeries"
+  7 "P=$(P)$(R),R=TS:,RN=TS:DiffX:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:DiffX:TimeSeries"
+  8 "P=$(P)$(R),R=TS:,RN=TS:DiffY:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:DiffY:TimeSeries"
+  9 "P=$(P)$(R),R=TS:,RN=TS:PosX:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:PosX:TimeSeries"
+  10 "P=$(P)$(R),R=TS:,RN=TS:PosY:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:PosY:TimeSeries"
+}
+replaceSymbols {
+  0 1
+  1 1
+  2 1
+  3 1
+  4 1
+  5 1
+  6 1
+  7 1
+  8 1
+  9 1
+  10 1
 }
 endObjectProperties
 
@@ -354,17 +426,25 @@ x 12
 y 90
 w 80
 h 20
-fgColor index 14
-bgColor index 51
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
+fgColor rgb 0 0 0
+bgColor rgb 29440 57088 65280
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+font "helvetica-bold-r-12.0"
 icon
-numPvs 0
-numDsps 0
+numPvs 2
+numDsps 1
 displayFileName {
+  0 quadEM_plotAll.edl
 }
 menuLabel {
+  0 Y (current, sum, pos)
+}
+symbols {
+  0 "P=$(P)$(R)TS:,CURR1=Current3:TimeSeries,CURR2=Current4:TimeSeries,SUM=SumY:TimeSeries,POS=PosY:TimeSeries,XAXIS=TSTimeAxis,TITLE=$(TY),XTITLE=Time(sec),YTITLE=Counts"
+}
+replaceSymbols {
+  0 1
 }
 endObjectProperties
 
@@ -378,17 +458,25 @@ x 12
 y 175
 w 80
 h 20
-fgColor index 14
-bgColor index 51
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
+fgColor rgb 0 0 0
+bgColor rgb 29440 57088 65280
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+font "helvetica-bold-r-12.0"
 icon
-numPvs 0
-numDsps 0
+numPvs 2
+numDsps 1
 displayFileName {
+  0 quadEM_plotAll.edl
 }
 menuLabel {
+  0 X (current, sum, pos)
+}
+symbols {
+  0 "P=$(P)$(R)FFT:,CURR1=Current1:FFTAbsValue,CURR2=Current2:FFTAbsValue,SUM=SumX:FFTAbsValue,POS=PosX:FFTAbsValue,XAXIS=PosX:FFTFreqAxis,TITLE=$(TX),XTITLE=Frequency(Hz),YTITLE=Counts"
+}
+replaceSymbols {
+  0 1
 }
 endObjectProperties
 
@@ -402,17 +490,25 @@ x 12
 y 200
 w 80
 h 20
-fgColor index 14
-bgColor index 51
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
+fgColor rgb 0 0 0
+bgColor rgb 29440 57088 65280
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+font "helvetica-bold-r-12.0"
 icon
-numPvs 0
-numDsps 0
+numPvs 2
+numDsps 1
 displayFileName {
+  0 quadEM_plotAll.edl
 }
 menuLabel {
+  0 X (current, sum, pos)
+}
+symbols {
+  0 "P=$(P)$(R)FFT:,CURR1=Current3:FFTAbsValue,CURR2=Current4:FFTAbsValue,SUM=SumY:FFTAbsValue,POS=PosY:FFTAbsValue,XAXIS=PosY:FFTFreqAxis,TITLE=$(TY),XTITLE=Frequency(Hz),YTITLE=Counts"
+}
+replaceSymbols {
+  0 1
 }
 endObjectProperties
 
@@ -426,17 +522,65 @@ x 12
 y 225
 w 80
 h 20
-fgColor index 14
-bgColor index 51
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
+fgColor rgb 0 0 0
+bgColor rgb 29440 57088 65280
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+font "helvetica-bold-r-12.0"
 icon
-numPvs 0
-numDsps 0
+numPvs 22
+numDsps 11
 displayFileName {
+  0 NDTimeSeriesPlot.edl
+  1 NDTimeSeriesPlot.edl
+  2 NDTimeSeriesPlot.edl
+  3 NDTimeSeriesPlot.edl
+  4 NDTimeSeriesPlot.edl
+  5 NDTimeSeriesPlot.edl
+  6 NDTimeSeriesPlot.edl
+  7 NDTimeSeriesPlot.edl
+  8 NDTimeSeriesPlot.edl
+  9 NDTimeSeriesPlot.edl
+  10 NDTimeSeriesPlot.edl
 }
 menuLabel {
+  0 Current 1
+  1 Current 2
+  2 Current 3
+  3 Current 4
+  4 Sum X
+  5 Sum Y
+  6 Sum All
+  7 Difference X
+  8 Difference Y
+  9 Position X
+  10 Position Y
+}
+symbols {
+  0 "P=$(P)$(R),R=TS:,RN=FFT:Current1:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:Current1:FFTFreqAxis,YAXIS=$(P)$(R)FFT:Current1:FFTAbsValue"
+  1 "P=$(P)$(R),R=TS:,RN=FFT:Current2:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:Current2:FFTFreqAxis,YAXIS=$(P)$(R)FFT:Current2:FFTAbsValue"
+  2 "P=$(P)$(R),R=TS:,RN=FFT:Current3:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:Current3:FFTFreqAxis,YAXIS=$(P)$(R)FFT:Current3:FFTAbsValue"
+  3 "P=$(P)$(R),R=TS:,RN=FFT:Current4:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:Current4:FFTFreqAxis,YAXIS=$(P)$(R)FFT:Current4:FFTAbsValue"
+  4 "P=$(P)$(R),R=TS:,RN=FFT:SumX:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:SumX:FFTFreqAxis,YAXIS=$(P)$(R)FFT:SumX:FFTAbsValue"
+  5 "P=$(P)$(R),R=TS:,RN=FFT:SumY:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:SumY:FFTFreqAxis,YAXIS=$(P)$(R)FFT:SumY:FFTAbsValue"
+  6 "P=$(P)$(R),R=TS:,RN=FFT:SumAll:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:SumAll:FFTFreqAxis,YAXIS=$(P)$(R)FFT:SumAll:FFTAbsValue"
+  7 "P=$(P)$(R),R=TS:,RN=FFT:DiffX:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:DiffX:FFTFreqAxis,YAXIS=$(P)$(R)FFT:DiffX:FFTAbsValue"
+  8 "P=$(P)$(R),R=TS:,RN=FFT:DiffY:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:DiffY:FFTFreqAxis,YAXIS=$(P)$(R)FFT:DiffY:FFTAbsValue"
+  9 "P=$(P)$(R),R=TS:,RN=FFT:PosX:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:PosX:FFTFreqAxis,YAXIS=$(P)$(R)FFT:PosX:FFTAbsValue"
+  10 "P=$(P)$(R),R=TS:,RN=FFT:PosY:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:PosY:FFTFreqAxis,YAXIS=$(P)$(R)FFT:PosY:FFTAbsValue"
+}
+replaceSymbols {
+  0 1
+  1 1
+  2 1
+  3 1
+  4 1
+  5 1
+  6 1
+  7 1
+  8 1
+  9 1
+  10 1
 }
 endObjectProperties
 

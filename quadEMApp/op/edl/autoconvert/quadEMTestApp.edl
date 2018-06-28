@@ -1,44 +1,45 @@
-4 0 0
+4 0 1
 beginScreenProperties
 major 4
 minor 0
-release 0
+release 1
 x 308
 y 45
 w 159
 h 41
 font "helvetica-medium-r-18.0"
-ctlFont "helvetica-medium-r-8.0"
+ctlFont "helvetica-bold-r-10.0"
 btnFont "helvetica-medium-r-18.0"
-fgColor index 14
-bgColor index 4
-textColor index 14
-ctlFgColor1 index 30
-ctlFgColor2 index 32
-ctlBgColor1 index 34
-ctlBgColor2 index 35
-topShadowColor index 37
-botShadowColor index 44
+fgColor rgb 0 0 0
+bgColor rgb 47872 47872 47872
+textColor rgb 0 0 0
+ctlFgColor1 rgb 64256 62208 18944
+ctlFgColor2 rgb 60928 46592 11008
+ctlBgColor1 rgb 52480 24832 0
+ctlBgColor2 rgb 65280 45056 65280
+topShadowColor rgb 44544 19968 48128
+botShadowColor rgb 13312 13056 34304
+showGrid
 snapToGrid
-gridSize 5
+gridSize 4
 endScreenProperties
-
 
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
-minor 0
-release 0
+minor 1
+release 1
 x 9
 y 10
 w 50
 h 20
-font "helvetica-medium-r-8.0"
-fgColor index 14
+font "helvetica-bold-r-12.0"
+fgColor rgb 0 0 0
+bgColor index 3
 useDisplayBg
 value {
- "Start"
+  "Start"
 }
 endObjectProperties
 
@@ -52,17 +53,45 @@ x 66
 y 11
 w 66
 h 20
-fgColor index 14
-bgColor index 4
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
+fgColor rgb 0 0 0
+bgColor rgb 47872 47872 47872
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+font "helvetica-bold-r-12.0"
 icon
-numPvs 0
-numDsps 0
+numPvs 12
+numDsps 6
 displayFileName {
+  0 quadEM.edl
+  1 quadEM.edl
+  2 quadEM.edl
+  3 quadEM.edl
+  4 quadEM.edl
+  5 quadEM.edl
 }
 menuLabel {
+  0 AH401B
+  1 AH501
+  2 APS_EM
+  3 TetrAMM
+  4 NSLS_EM
+  5 NSLS2_EM
+}
+symbols {
+  0 "P=quadEMTest:,R=AH401B:,P_TS=quadEMTest:AH401B_TS:,P_FFT=quadEMTest:AH401B_FFT:,TX=Horizontal_BPM,TY=Vertical_BPM"
+  1 "P=quadEMTest:,R=AH501:,P_TS=quadEMTest:AH501_TS:,P_FFT=quadEMTest:AH501_FFT:,TX=Horizontal_BPM,TY=Vertical_BPM"
+  2 "P=quadEMTest:,R=APS_EM:,P_TS=quadEMTest:APS_EM_TS:,P_FFT=quadEMTest:APS_EM_FFT:,TX=Horizontal_BPM,TY=Vertical_BPM"
+  3 "P=quadEMTest:,R=TetrAMM:,TX=Horizontal_BPM,TY=Vertical_BPM"
+  4 "P=quadEMTest:,R=NSLS_EM:,P_TS=quadEMTest:NSLS_EM_TS:,P_FFT=quadEMTest:NSLS_EM_FFT:,TX=Horizontal_BPM,TY=Vertical_BPM"
+  5 "P=quadEMTest:,R=NSLS2_EM:,P_TS=quadEMTest:NSLS2_EM_TS:,P_FFT=quadEMTest:NSLS2_EM_FFT:,TX=Horizontal_BPM,TY=Vertical_BPM"
+}
+replaceSymbols {
+  0 1
+  1 1
+  2 1
+  3 1
+  4 1
+  5 1
 }
 endObjectProperties
 
