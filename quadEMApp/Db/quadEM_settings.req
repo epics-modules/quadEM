@@ -5,6 +5,7 @@ $(P)$(R)Range
 $(P)$(R)PingPong
 $(P)$(R)IntegrationTime
 $(P)$(R)AveragingTime
+$(P)$(R)FastAveragingTime
 $(P)$(R)TriggerMode
 $(P)$(R)TriggerPolarity
 $(P)$(R)NumChannels
