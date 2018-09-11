@@ -494,6 +494,13 @@ record(dfanout,"$(P)$(R)CurrentPrecFanout1") {
     field(OUTE, "$(P)$(R)DiffX:MeanValue_RBV.PREC NPP")
     field(OUTF, "$(P)$(R)DiffX:Sigma_RBV.PREC NPP")
     field(OUTG, "$(P)$(R)CurrentOffset1.PREC NPP")
+    field(OUTH, "$(P)$(R)CurrentPrecFanout1Ave PP")
+}
+
+record(dfanout,"$(P)$(R)CurrentPrecFanout1Ave") {
+    field(OUTA, "$(P)$(R)Current1Ave.PREC NPP")
+    field(OUTB, "$(P)$(R)SumXAve.PREC NPP")
+    field(OUTC, "$(P)$(R)DiffXAve.PREC NPP")
 }
 
 record(mbbo,"$(P)$(R)CurrentPrec2") {
@@ -529,6 +536,8 @@ record(dfanout,"$(P)$(R)CurrentPrecFanout2") {
     field(OUTC, "$(P)$(R)CurrentOffset2.PREC NPP")
     field(OUTC, "$(P)$(R)SumAll:MeanValue_RBV.PREC NPP")
     field(OUTD, "$(P)$(R)SumAll:Sigma_RBV.PREC NPP")
+    field(OUTE, "$(P)$(R)Current2Ave.PREC NPP")
+    field(OUTF, "$(P)$(R)SumAllAve.PREC NPP")
 }
 
 record(ao,"$(P)$(R)CurrentOffset2") {
@@ -573,6 +582,13 @@ record(dfanout,"$(P)$(R)CurrentPrecFanout3") {
     field(OUTE, "$(P)$(R)DiffY:MeanValue_RBV.PREC NPP")
     field(OUTF, "$(P)$(R)DiffY:Sigma_RBV.PREC NPP")
     field(OUTG, "$(P)$(R)CurrentOffset3.PREC NPP")
+    field(OUTH, "$(P)$(R)CurrentPrecFanout3Ave PP")
+}
+
+record(dfanout,"$(P)$(R)CurrentPrecFanout3Ave") {
+    field(OUTA, "$(P)$(R)Current3Ave.PREC NPP")
+    field(OUTB, "$(P)$(R)SumYAve.PREC NPP")
+    field(OUTC, "$(P)$(R)DiffYAve.PREC NPP")
 }
 
 record(ao,"$(P)$(R)CurrentOffset3") {
@@ -613,6 +629,7 @@ record(dfanout,"$(P)$(R)CurrentPrecFanout4") {
     field(OUTA, "$(P)$(R)Current4:MeanValue_RBV.PREC NPP")
     field(OUTB, "$(P)$(R)Current4:Sigma_RBV.PREC NPP")
     field(OUTC, "$(P)$(R)CurrentOffset4.PREC NPP")
+    field(OUTD, "$(P)$(R)Current4Ave.PREC NPP")
 }
 
 record(ao,"$(P)$(R)CurrentOffset4") {
@@ -722,6 +739,7 @@ record(dfanout,"$(P)$(R)PositionPrecFanoutX") {
     field(OUTA, "$(P)$(R)PosX:MeanValue_RBV.PREC NPP")
     field(OUTB, "$(P)$(R)PosX:Sigma_RBV.PREC NPP")
     field(OUTC, "$(P)$(R)PositionOffsetX.PREC NPP")
+    field(OUTD, "$(P)$(R)PositionXAve.PREC NPP")
 }
 
 record(ao,"$(P)$(R)PositionOffsetX") {
@@ -762,6 +780,7 @@ record(dfanout,"$(P)$(R)PositionPrecFanoutY") {
     field(OUTA, "$(P)$(R)PosY:MeanValue_RBV.PREC NPP")
     field(OUTB, "$(P)$(R)PosY:Sigma_RBV.PREC NPP")
     field(OUTC, "$(P)$(R)PositionOffsetY.PREC NPP")
+    field(OUTD, "$(P)$(R)PositionYAve.PREC NPP")
 }
 
 record(ao,"$(P)$(R)PositionOffsetY") {
@@ -832,3 +851,125 @@ record(waveform, "$(P)$(R)NDAttributesFile")
 record(asyn, "$(P)$(R)Asyn") {
     field(PORT, "$(PORT)")
 }
+
+record(ai, "$(P)$(R)Current1Ave") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 0)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)Current2Ave") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 1)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)Current3Ave") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 2)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)Current4Ave") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 3)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)SumXAve") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 4)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)SumYAve") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 5)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)SumAllAve") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 6)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)DiffXAve") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 7)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)DiffYAve") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 8)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)PositionXAve") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 9)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)PositionYAve") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 10)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)FastAveragingTime") {
+    field(VAL, "0.1")
+    field(PREC, "3")
+    field(PINI, "YES")
+}
+
+record(transform, "$(P)$(R)FastAverageCalc") {
+    field(INPA, "$(P)$(R)FastAveragingTime CP")
+    field(INPB, "$(P)$(R)SampleTime_RBV CP")
+    field(CLCC, "FLOOR(A/B+0.5)")
+    field(OUTC, "$(P)$(R)NumFastAverage PP")
+    field(CLCD, "B*C")
+    field(OUTD, "$(P)$(R)FastAveragingTime_RBV PP")    
+    field(PREC, "3")
+}
+
+record(ao, "$(P)$(R)FastAveragingTime_RBV") {
+    field(PREC, "3")
+}
+
+record(longin, "$(P)$(R)NumFastAverage") {
+    field(FLNK, "$(P)$(R)ProcessAve")
+}
+
+record(seq, "$(P)$(R)ProcessAve") {
+    field(DOL1, "$(P)$(R)NumFastAverage")
+    field(LNK1, "$(P)$(R)Current1Ave.SVAL")
+    field(DOL2, "$(P)$(R)NumFastAverage")
+    field(LNK2, "$(P)$(R)Current2Ave.SVAL")
+    field(DOL3, "$(P)$(R)NumFastAverage")
+    field(LNK3, "$(P)$(R)Current3Ave.SVAL")
+    field(DOL4, "$(P)$(R)NumFastAverage")
+    field(LNK4, "$(P)$(R)Current4Ave.SVAL")
+    field(DOL5, "$(P)$(R)NumFastAverage")
+    field(LNK5, "$(P)$(R)SumXAve.SVAL")
+    field(DOL6, "$(P)$(R)NumFastAverage")
+    field(LNK6, "$(P)$(R)SumYAve.SVAL")
+    field(DOL7, "$(P)$(R)NumFastAverage")
+    field(LNK7, "$(P)$(R)SumAllAve.SVAL")
+    field(DOL8, "$(P)$(R)NumFastAverage")
+    field(LNK8, "$(P)$(R)DiffXAve.SVAL")
+    field(DOL9, "$(P)$(R)NumFastAverage")
+    field(LNK9, "$(P)$(R)DiffYAve.SVAL")
+    field(DOLA, "1")
+    field(LNKA, "$(P)$(R)ProcessAve2.PROC")
+}
+
+record(seq, "$(P)$(R)ProcessAve2") {
+    field(DOL1, "$(P)$(R)NumFastAverage")
+    field(LNK1, "$(P)$(R)PositionXAve.SVAL")
+    field(DOL2, "$(P)$(R)NumFastAverage")
+    field(LNK2, "$(P)$(R)PositionYAve.SVAL")
+}
+
+
