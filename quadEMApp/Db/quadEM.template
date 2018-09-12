@@ -972,4 +972,49 @@ record(seq, "$(P)$(R)ProcessAve2") {
     field(LNK2, "$(P)$(R)PositionYAve.SVAL")
 }
 
+# This record is a duplicate of Current1Ave, used to set the scan rate of all fast average records
+record(ai, "$(P)$(R)FastAverageScan") {
+    field(DTYP, "asynFloat64Average")
+    field(INP,  "@asyn($(PORT) 0)QE_DOUBLE_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(calcout, "$(P)$(R)FastScanCalc") {
+    field(INPA, "$(P)$(R)FastAverageScan.SCAN")
+    field(CALC, "A")
+    field(OOPT, "On Change")
+    field(OCAL, "1")
+    field(DOPT, "Use OCAL")
+    field(SCAN, ".1 second")
+    field(OUT,  "$(P)$(R)FastScanSeq.PROC PP")
+}
+
+record(seq, "$(P)$(R)FastScanSeq") {
+    field(DOL1, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK1, "$(P)$(R)Current1Ave.SCAN")
+    field(DOL2, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK2, "$(P)$(R)Current2Ave.SCAN")
+    field(DOL3, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK3, "$(P)$(R)Current3Ave.SCAN")
+    field(DOL4, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK4, "$(P)$(R)Current4Ave.SCAN")
+    field(DOL5, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK5, "$(P)$(R)SumXAve.SCAN")
+    field(DOL6, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK6, "$(P)$(R)SumYAve.SCAN")
+    field(DOL7, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK7, "$(P)$(R)SumAllAve.SCAN")
+    field(DOL8, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK8, "$(P)$(R)DiffXAve.SCAN")
+    field(DOL9, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK9, "$(P)$(R)DiffYAve.SCAN")
+    field(FLNK, "$(P)$(R)FastScanSeq2.PROC")
+}
+
+record(seq, "$(P)$(R)FastScanSeq2") {
+    field(DOL1, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK1, "$(P)$(R)PositionXAve.SCAN")
+    field(DOL2, "$(P)$(R)FastAverageScan.SCAN")
+    field(LNK2, "$(P)$(R)PositionYAve.SCAN")
+}
 
