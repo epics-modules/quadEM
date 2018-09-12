@@ -961,8 +961,7 @@ record(seq, "$(P)$(R)ProcessAve") {
     field(LNK8, "$(P)$(R)DiffXAve.SVAL")
     field(DOL9, "$(P)$(R)NumFastAverage")
     field(LNK9, "$(P)$(R)DiffYAve.SVAL")
-    field(DOLA, "1")
-    field(LNKA, "$(P)$(R)ProcessAve2.PROC")
+    field(FLNK, "$(P)$(R)ProcessAve2.PROC")
 }
 
 record(seq, "$(P)$(R)ProcessAve2") {
@@ -970,6 +969,8 @@ record(seq, "$(P)$(R)ProcessAve2") {
     field(LNK1, "$(P)$(R)PositionXAve.SVAL")
     field(DOL2, "$(P)$(R)NumFastAverage")
     field(LNK2, "$(P)$(R)PositionYAve.SVAL")
+    field(DOL3, "$(P)$(R)NumFastAverage")
+    field(LNK3, "$(P)$(R)FastAverageScan.SVAL")
 }
 
 # This record is a duplicate of Current1Ave, used to set the scan rate of all fast average records
