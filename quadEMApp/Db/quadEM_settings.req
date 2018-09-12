@@ -6,6 +6,7 @@ $(P)$(R)PingPong
 $(P)$(R)IntegrationTime
 $(P)$(R)AveragingTime
 $(P)$(R)FastAveragingTime
+$(P)$(R)FastAverageScan.SCAN
 $(P)$(R)TriggerMode
 $(P)$(R)TriggerPolarity
 $(P)$(R)NumChannels
