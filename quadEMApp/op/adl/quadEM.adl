@@ -306,19 +306,6 @@ text {
 	textix="Values per reading"
 	align="horiz. right"
 }
-text {
-	object {
-		x=120
-		y=185
-		width=80
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Geometry"
-	align="horiz. right"
-}
 "text update" {
 	object {
 		x=300
@@ -366,22 +353,6 @@ text {
 	limits {
 	}
 }
-"text update" {
-	object {
-		x=300
-		y=185
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)Geometry_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
 menu {
 	object {
 		x=205
@@ -408,19 +379,6 @@ menu {
 		bclr=51
 	}
 	limits {
-	}
-}
-menu {
-	object {
-		x=205
-		y=185
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Geometry"
-		clr=14
-		bclr=51
 	}
 }
 text {
@@ -498,105 +456,6 @@ text {
 }
 text {
 	object {
-		x=110
-		y=335
-		width=90
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Read data"
-	align="horiz. right"
-}
-"message button" {
-	object {
-		x=205
-		y=335
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)ReadData.PROC"
-		clr=14
-		bclr=51
-	}
-	label="Read"
-	press_msg="1"
-}
-text {
-	object {
-		x=60
-		y=285
-		width=140
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# Acquisitions"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=300
-		y=285
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)NumAcquire_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-"text entry" {
-	object {
-		x=205
-		y=285
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)NumAcquire"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=10
-		y=310
-		width=190
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# Acquisitions done"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=205
-		y=310
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)NumAcquired"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
 		x=60
 		y=235
 		width=140
@@ -632,49 +491,6 @@ text {
 	}
 	monitor {
 		chan="$(P)$(R)AveragingTime_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=10
-		y=260
-		width=190
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Fast averaging time"
-	align="horiz. right"
-}
-"text entry" {
-	object {
-		x=205
-		y=260
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)FastAveragingTime"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=300
-		y=260
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)FastAveragingTime_RBV"
 		clr=54
 		bclr=3
 	}
@@ -1407,227 +1223,6 @@ text {
 	}
 	align="horiz. right"
 	limits {
-	}
-}
-text {
-	object {
-		x=80
-		y=360
-		width=120
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# To average"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=205
-		y=360
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)NumAverage_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-composite {
-	object {
-		x=20
-		y=720
-		width=350
-		height=110
-	}
-	"composite name"=""
-	"composite file"="ADAttrFile.adl"
-}
-composite {
-	object {
-		x=10
-		y=435
-		width=390
-		height=120
-	}
-	"composite name"=""
-	"composite file"="AH501.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=4"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=435
-		width=390
-		height=120
-	}
-	"composite name"=""
-	"composite file"="APS_EM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=1"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=435
-		width=390
-		height=95
-	}
-	"composite name"=""
-	"composite file"="AH401B.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="(A=2) || (A=3)"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=435
-		width=390
-		height=145
-	}
-	"composite name"=""
-	"composite file"="AH501C.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="(A=5)||(A=6)||(A=7)"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=435
-		width=392
-		height=270
-	}
-	"composite name"=""
-	"composite file"="TetrAMM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=8"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=435
-		width=390
-		height=45
-	}
-	"composite name"=""
-	"composite file"="NSLS_EM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=9"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=435
-		width=390
-		height=269
-	}
-	"composite name"=""
-	"composite file"="NSLS2_EM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="(A=10)"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=30
-		y=410
-		width=275
-		height=20
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=30
-				y=410
-				width=170
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="# To average fast"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=205
-				y=410
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)NumFastAverage"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-	}
-}
-composite {
-	object {
-		x=100
-		y=385
-		width=205
-		height=20
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=100
-				y=385
-				width=100
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="# Averaged"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=205
-				y=385
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)NumAveraged_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
 	}
 }
 rectangle {
@@ -2646,5 +2241,436 @@ text {
 	}
 	align="horiz. right"
 	limits {
+	}
+}
+text {
+	object {
+		x=110
+		y=360
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Read data"
+	align="horiz. right"
+}
+"message button" {
+	object {
+		x=205
+		y=360
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)ReadData.PROC"
+		clr=14
+		bclr=51
+	}
+	label="Read"
+	press_msg="1"
+}
+text {
+	object {
+		x=60
+		y=310
+		width=140
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# Acquisitions"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=300
+		y=310
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumAcquire_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=205
+		y=310
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)NumAcquire"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=10
+		y=335
+		width=190
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# Acquisitions done"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=205
+		y=335
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumAcquired"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=10
+		y=285
+		width=190
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Fast averaging time"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=205
+		y=285
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)FastAveragingTime"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=300
+		y=285
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)FastAveragingTime_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=80
+		y=385
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# To average"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=205
+		y=385
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)NumAverage_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+composite {
+	object {
+		x=20
+		y=745
+		width=350
+		height=110
+	}
+	"composite name"=""
+	"composite file"="ADAttrFile.adl"
+}
+composite {
+	object {
+		x=10
+		y=460
+		width=390
+		height=120
+	}
+	"composite name"=""
+	"composite file"="AH501.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=4"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=460
+		width=390
+		height=120
+	}
+	"composite name"=""
+	"composite file"="APS_EM.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=1"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=460
+		width=390
+		height=95
+	}
+	"composite name"=""
+	"composite file"="AH401B.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="(A=2) || (A=3)"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=460
+		width=390
+		height=145
+	}
+	"composite name"=""
+	"composite file"="AH501C.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="(A=5)||(A=6)||(A=7)"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=460
+		width=392
+		height=270
+	}
+	"composite name"=""
+	"composite file"="TetrAMM.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=8"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=460
+		width=390
+		height=45
+	}
+	"composite name"=""
+	"composite file"="NSLS_EM.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="A=9"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=10
+		y=460
+		width=390
+		height=269
+	}
+	"composite name"=""
+	"composite file"="NSLS2_EM.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="(A=10)"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
+		x=30
+		y=435
+		width=275
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=30
+				y=435
+				width=170
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="# To average fast"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=205
+				y=435
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)NumFastAverage"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=100
+		y=410
+		width=205
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=100
+				y=410
+				width=100
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="# Averaged"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=205
+				y=410
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)NumAveraged_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+	}
+}
+text {
+	object {
+		x=120
+		y=185
+		width=80
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Geometry"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=300
+		y=185
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Geometry_RBV"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+menu {
+	object {
+		x=205
+		y=185
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Geometry"
+		clr=14
+		bclr=51
+	}
+}
+text {
+	object {
+		x=10
+		y=260
+		width=190
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Fast averaging scan"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=205
+		y=260
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)FastAverageScan.SCAN"
+		clr=14
+		bclr=51
 	}
 }
