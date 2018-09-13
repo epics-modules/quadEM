@@ -527,7 +527,7 @@ asynStatus drvNSLS_EM::readStatus()
         ipAddress_, &moduleID_, firmwareVersion_, &mode, &valuesPerRead, &range, &period);
     if (numItems != 7) {  
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s::%s errror, numItems=%d, ipAddress=%s, moduleID=%d, firmwareVersion=%s, mode=%d, "
+            "%s::%s error, numItems=%d, ipAddress=%s, moduleID=%d, firmwareVersion=%s, mode=%d, "
             "valuesPerRead=%d, range=%d, period=%f\n",
             driverName, functionName, numItems, ipAddress_, moduleID_, firmwareVersion_, mode, 
             valuesPerRead, range, period);
