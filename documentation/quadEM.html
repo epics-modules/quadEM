@@ -66,41 +66,6 @@
       any Channel Access client.</li>
   </ul>
   <p>
-    The <b>quadEM</b> software includes asyn drivers that provide support for the following:</p>
-  <ul>
-    <li>Analog input records using the NDPluginStats plugin from the synApps <a href="areaDetector.html">
-      areaDetector</a> module. This provides digitally averaged readings of the current,
-      sum, difference and position at speeds that are determined by the AveragingTime
-      record described below. The quadEM drivers do the callbacks on the asynGenericPointer
-      interface for NDArray objects required to use the areaDetector plugins. The NDPluginStats
-      module is used to compute the averaged readings. It also provides additional statistics
-      including standard deviation, min, max, and a histogram of values.</li>
-    <li>The NDPluginStats provide time-series of the statistics. These can be used to
-      for on-the-fly data acquisition applications, where the meter is triggered by an
-      external pulse source, such as one derived from a motor motion.</li>
-    <li>One could also use the standard asynFloat64 device support with ai records and
-      scan=I/O Intr, in which case the record would update with every reading from the
-      device. This is likely to overwhelm the EPICS IOC if the electrometer is run at
-      very fast sampling times.</li>
-    <li>Streaming data to disk at the full rate from the device. This is done using the
-      file plugins from areaDetector.</li>
-    <li>Time series data (like a digital scope) of the current, sum, difference and position
-      at speeds up to 20000 Hz (TetrAMM), 6510 Hz (AH501 series), 1000 Hz (AH401 series)
-      2500 Hz (NSLS_EM), or 813 Hz (APS_EM). The data is available in standard EPICS waveform
-      records, using the <a href="NDPluginTimeSeries.html">NDPluginTimeSeries plugin</a>
-      from areaDetector/ADCore. The time per point can be greater, in which case it does
-      averaging.</li>
-    <li>FFTs of the time series data, providing the power spectrum of each signal as another
-      EPICS waveform record. This uses the <a href="NDPluginFFT.html">NDPluginFFT plugin</a>
-      from areaDetector/ADCore.</li>
-    <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
-      dac128V), also at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If
-      it is run slower it does signal averaging. This support is provided in the synApps
-      <a href="http://www.aps.anl.gov/bcda/synApps/std/std.html">std</a> module. The quadEM
-      drivers do the callbacks on the asynFloat64 interface required to use the epid fast
-      feedback device support.</li>
-  </ul>
-  <p>
     Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">
       Mark Rivers</a> who is responsible for coordinating development and releases.</p>
   <h2>
@@ -113,17 +78,38 @@
     <tbody>
       <tr align="center">
         <th>
-          Module Version</th>
+          Module Version
+        </th>
         <th>
-          Release Date</th>
+          Release Date
+        </th>
         <th>
-          Filename</th>
+          Filename
+        </th>
         <th>
-          Documentation</th>
+          Documentation
+        </th>
         <th>
-          Release Notes</th>
+          Release Notes
+        </th>
         <th>
-          Known Problems</th>
+          Known Problems
+        </th>
+      </tr>
+      <tr>
+        <td>
+          9-2</td>
+        <td>
+          September 13, 2018</td>
+        <td>
+          <a href="https://github.com/epics-modules/quadEM/releases/tag/R9-2">R9-2 tar and zip
+            files</a></td>
+        <td>
+          <a href="quadEMDoc.html">quadEMDoc.html</a></td>
+        <td>
+          <a href="quadEMReleaseNotes.html">Release notes</a></td>
+        <td>
+          See release notes</td>
       </tr>
       <tr>
         <td>
@@ -132,7 +118,7 @@
           January 31, 2018</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R9-1">R9-1 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -140,19 +126,20 @@
         <td>
           See release notes</td>
       </tr>
-      <td>
-        9-0</td>
-      <td>
-        September 18, 2017</td>
-      <td>
-        <a href="https://github.com/epics-modules/quadEM/releases/tag/R9-0">R9-0 tar and zip
-          files</a> </td>
-      <td>
-        <a href="quadEMDoc.html">quadEMDoc.html</a></td>
-      <td>
-        <a href="quadEMReleaseNotes.html">Release notes</a></td>
-      <td>
-        See release notes</td>
+      <tr>
+        <td>
+          9-0</td>
+        <td>
+          September 18, 2017</td>
+        <td>
+          <a href="https://github.com/epics-modules/quadEM/releases/tag/R9-0">R9-0 tar and zip
+            files</a></td>
+        <td>
+          <a href="quadEMDoc.html">quadEMDoc.html</a></td>
+        <td>
+          <a href="quadEMReleaseNotes.html">Release notes</a></td>
+        <td>
+          See release notes</td>
       </tr>
       <tr>
         <td>
@@ -161,7 +148,7 @@
           23-May-2017</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R8-0">R8-0 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -176,7 +163,7 @@
           28-March-2017</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R7-1">R7-1 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -191,7 +178,7 @@
           31-October-2016</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R7-0">R7-0 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -206,7 +193,7 @@
           21-January-2016</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R6-0">R6-0 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -221,7 +208,7 @@
           14-October-2014</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R5-0">R5-0 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -236,7 +223,7 @@
           14-April-2014</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R4-1">R4-1 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -251,7 +238,7 @@
           12-March-2013</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R4-0">R4-0 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -266,7 +253,7 @@
           20-December-2012</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R3-3">R3-3 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -281,7 +268,7 @@
           6-December-2012</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R3-2">R3-2 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -296,7 +283,7 @@
           13-September-2012</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R3-1">R3-1 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -311,7 +298,7 @@
           6-September-2012</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R3-0">R3-0 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -326,7 +313,7 @@
           2-November-2011</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R2-6">R2-6 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -341,7 +328,7 @@
           9-September-2011</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R2-5">R2-5 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -356,7 +343,7 @@
           19-May-2008</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R2-4">R2-4 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -371,7 +358,7 @@
           6-Sep-2006</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R2-3">R2-3 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -386,7 +373,7 @@
           29-Mar-2005</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R2-2">R2-2 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -401,7 +388,7 @@
           24-Mar-2005</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R2-1">R2-1 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -416,7 +403,7 @@
           12-Nov-2003</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R2-0">R2-0 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -431,7 +418,7 @@
           20-June-2001</td>
         <td>
           <a href="https://github.com/epics-modules/quadEM/releases/tag/R1-1">R1-1 tar and zip
-            files</a> </td>
+            files</a></td>
         <td>
           <a href="quadEMDoc.html">quadEMDoc.html</a></td>
         <td>
@@ -452,13 +439,91 @@
     <tbody>
       <tr align="center">
         <th>
-          Module version</th>
+          Module version
+        </th>
         <th>
-          Requires module</th>
+          Requires module
+        </th>
         <th>
-          Release needed</th>
+          Release needed
+        </th>
         <th>
-          Required for</th>
+          Required for
+        </th>
+      </tr>
+      <tr>
+        <td rowspan="9">
+          9-2</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.15.5 or 7.0.1.1</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-34 (required for asynFloat64Average I/O Intr scan support)</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+        <td>
+          areaDetector/ADCore</td>
+        <td>
+          3-3-2</td>
+        <td>
+          Used for NDArray plugins that compute statistics, stream data to disk, etc.</td>
+      </tr>
+      <tr>
+        <td>
+          busy</td>
+        <td>
+          1-7</td>
+        <td>
+          Busy record. Used in databases to support ca_put_callback.</td>
+      </tr>
+      <tr>
+        <td>
+          ipUnidig</td>
+        <td>
+          2-11</td>
+        <td>
+          Used in test application for interrupt callback support for APS_EM.</td>
+      </tr>
+      <tr>
+        <td>
+          ipac</td>
+        <td>
+          2-15</td>
+        <td>
+          Used in test application for Industry Pack support for ipUnidig.</td>
+      </tr>
+      <tr>
+        <td>
+          autosave</td>
+        <td>
+          5-9</td>
+        <td>
+          Used in test application for save/restore.</td>
+      </tr>
+      <tr>
+        <td>
+          sscan</td>
+        <td>
+          2-11-1</td>
+        <td>
+          Used in test application for scanning.</td>
+      </tr>
+      <tr>
+        <td>
+          calc</td>
+        <td>
+          3-7</td>
+        <td>
+          Used in test application for sscan.</td>
       </tr>
       <tr>
         <td rowspan="9">
