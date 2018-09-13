@@ -10,9 +10,9 @@
     <h1>
       quadEM Driver</h1>
     <h2>
-      R9-1</h2>
+      R9-2</h2>
     <h2>
-      January 31, 2018</h2>
+      September 13, 2018</h2>
     <h2>
       Mark Rivers, University of Chicago</h2>
   </div>
@@ -85,7 +85,14 @@
       record described below. The quadEM drivers do the callbacks on the asynGenericPointer
       interface for NDArray objects required to use the areaDetector plugins. The NDPluginStats
       module is used to compute the averaged readings. It also provides additional statistics
-      including standard deviation, min, max, and a histogram of values.</li>
+      including standard deviation, min, max, and a histogram of values. This averaging
+      is termed the "primary averaging".</li>
+    <li>Analog input records using the asynFloat64Average device support from asyn. These
+      records can either process at the standard EPICS scan rates, normally 10Hz to 0.1
+      Hz. Beginning with asyn R4-34 they can also use SCAN=I/O Intr, which allows them
+      average and process at any integer divisor of the device sampling rate. This averaging
+      is termed "fast averaging", though it does not necessarily run faster than the primary
+      averaging described above.</li>
     <li>The NDPluginStats provide time-series of the statistics. These can be used to
       for on-the-fly data acquisition applications, where the meter is triggered by an
       external pulse source, such as one derived from a motor motion.</li>
@@ -104,12 +111,21 @@
     <li>FFTs of the time series data, providing the power spectrum of each signal as another
       EPICS waveform record. This uses the <a href="NDPluginFFT.html">NDPluginFFT plugin</a>
       from areaDetector/ADCore.</li>
-    <li>epid (fast feedback). This provides fast feedback via an asyn D/A converter (e.g.
-      dac128V), also at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If
-      it is run slower it does signal averaging. This support is provided in the synApps
-      <a href="http://www.aps.anl.gov/bcda/synApps/std/std.html">std</a> module. The quadEM
-      drivers do the callbacks on the asynFloat64 interface required to use the epid fast
-      feedback device support.</li>
+    <li>epid record support.
+      <p>
+        This can provide "fast feedback" via an asyn D/A converter (e.g. dac128V), also
+        at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If it is run slower
+        it does signal averaging. This support is provided in the synApps <a href="http://www.aps.anl.gov/bcda/synApps/std/std.html">
+          std</a> module. The quadEM drivers do the callbacks on the asynFloat64 interface
+        required to use the epid fast feedback device support. This fast feedback is limited
+        to controlling devices in the same IOC as the quadEM driver, because it uses asyn
+        links.</p>
+      <p>
+        The epid record can also be used in "slow feedback" mode using the averaging provided
+        by the primary averaging or fast averaging records described above. In this mode
+        it can use Channel Access links, and so it not constrained to controlling devices
+        in the same IOC.</p>
+    </li>
   </ul>
   <p>
     The following manuals provide detailed information on these devices:</p>
@@ -163,7 +179,17 @@
       running in a separate core on modern CPUs.</li>
     <li>In addition to placing the data from each time point into the ring buffer, the
       driver does callbacks on the asynFloat64 interface for each data value. This is
-      typically used for fast feedback support with the epid record.</li>
+      used for two things:
+      <ol>
+        <li>Fast feedback support with the epid record.</li>
+        <li>Fast averaging support with ai records. These records can be processed periodically
+          with SCAN=1 second, 0.1 second, etc., or they can have SCAN=I/O Intr. In this case
+          the ai record device support sums the callback readings until NumAverage readings
+          have been received, at which point the average is computed and the record is processed.
+          The quadEM database computes NumAverage from the FastAveragingTime record and writes
+          NumAverage to the .SVAL field in each ai record.</li>
+      </ol>
+    </li>
   </ul>
   <p>
     Note: This version of the driver requires a minimum firmware version on some models</p>
@@ -233,19 +259,26 @@
       </tr>
       <tr>
         <th>
-          drvInfo string</th>
+          drvInfo string
+        </th>
         <th>
-          EPICS record name</th>
+          EPICS record name
+        </th>
         <th>
-          EPICS record type</th>
+          EPICS record type
+        </th>
         <th>
-          asyn interface</th>
+          asyn interface
+        </th>
         <th>
-          Access</th>
+          Access
+        </th>
         <th>
-          Models supported</th>
+          Models supported
+        </th>
         <th>
-          Description</th>
+          Description
+        </th>
       </tr>
       <tr>
         <td>
@@ -320,7 +353,7 @@
             <li>2: "Single" Acquires a single acquisition. This is a convenience, it is identical
               to Multiple with NumAcquire=1.</li>
           </ul>
-          Multiple and Single mode are typically used for data acquisition. </td>
+          Multiple and Single mode are typically used for data acquisition.</td>
       </tr>
       <tr>
         <td>
@@ -380,7 +413,7 @@
           binary mode. On the TetrAMM ASCII mode requires a minimum value of ValuesPerRead
           of 500, which limits the update rate to 200 Hz. In binary mode the minimum value
           of ValuesPerRead is 5, which is an update date of 20 kHz, or 100 times faster than
-          ASCII mode. </td>
+          ASCII mode.</td>
       </tr>
       <tr>
         <td>
@@ -531,7 +564,7 @@
           For the APS_EM the values range from .000615s to 0.1311s. The data are sent to the
           VME card from the amplifier after 2 integration times, one value in the Ping channel
           and one value in the Pong channel. The data period is thus 0.00123 to 0.02622 s,
-          or a frequency range of about 813 Hz to 38.1 Hz. </td>
+          or a frequency range of about 813 Hz to 38.1 Hz.</td>
       </tr>
       <tr>
         <td>
@@ -919,6 +952,44 @@
       </tr>
       <tr>
         <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)FastAveragingTime<br />
+          $(P)$(R)FastAveragingTime_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          All</td>
+        <td>
+          Controls the time period over which values are averaged with the "fast averaging"
+          support when FastAverageScan.SCAN=I/O Intr. This value is converted to NumFastAverage,
+          which is then written to the .SVAL field of each ai record.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)NumFastAverage</td>
+        <td>
+          longin</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          Provides the number of values that will be averaged in the "fast averaging" support.
+          NumFastAverage is computed as (int)((FastAveragingTime / SampleTime_RBV) + 0.5).
+        </td>
+      </tr>
+      <tr>
+        <td>
           QE_NUM_ACQUIRE</td>
         <td>
           $(P)$(R)NumAcquire
@@ -998,7 +1069,7 @@
           in configuration command in the startup script. If the ring buffer is full when
           the driver tries to add a new value, then the oldest value in the buffer is discarded,
           the new value is added, and RingOverflows is incremented. RingOverflows is set to
-          0 the next time the ring buffer is read out. </td>
+          0 the next time the ring buffer is read out.</td>
       </tr>
       <tr>
         <td>
@@ -1073,7 +1144,71 @@
         <td>
           All</td>
         <td>
-          User-defined name to give each of the Current[1-4] inputs. </td>
+          User-defined name to give each of the Current[1-4] inputs.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)Current[1-4]Ave</td>
+        <td>
+          ai</td>
+        <td>
+          asynFloat64 (addr=0-3)</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          Average current computed by the fast averaging support.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)Sum[X,Y,All]Ave</td>
+        <td>
+          ai</td>
+        <td>
+          asynFloat64 (addr=4-6)</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          Average sum (X, Y, All) computed by the fast averaging support.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)Diff[X,Y]Ave</td>
+        <td>
+          ai</td>
+        <td>
+          asynFloat64 (addr=7-8)</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          Average difference (X, Y) computed by the fast averaging support.</td>
+      </tr>
+      <tr>
+        <td>
+          N.A.</td>
+        <td>
+          $(P)$(R)Position[X,Y]Ave</td>
+        <td>
+          ai</td>
+        <td>
+          asynFloat64 (addr=9-10)</td>
+        <td>
+          r/o</td>
+        <td>
+          All</td>
+        <td>
+          Average position (X, Y) computed by the fast averaging support.</td>
       </tr>
       <tr>
         <td>
@@ -1091,7 +1226,7 @@
         <td>
           Offset that will be subtracted from each reading when calculating the Current[1-4].
           The current is calculated as Current = Raw*CurrentScale - CurrentOffset, where Raw
-          is the raw value from the device. </td>
+          is the raw value from the device.</td>
       </tr>
       <tr>
         <td>
@@ -1110,7 +1245,7 @@
           Processing this record will compute a new value of CurrentOffset that will set value
           of the current to 0 under the current conditions. It computes CurrentOffset(new)
           = Current[1-3]:MeanValue_RBV + CurrentOffset(old). This record is provided to convenience
-          set the CurrentOffset when the input signal is 0. </td>
+          set the CurrentOffset when the input signal is 0.</td>
       </tr>
       <tr>
         <td>
@@ -1194,7 +1329,7 @@
           Processing this record will compute a new value of PositionOffset that will set
           value of the position to 0 under the current conditions. It computes PositionOffset(new)
           = Pos[X,Y]:MeanValue_RBV + PositionOffset(old). This record is provided to convenience
-          set the PositionOffset when the position should be defined as 0. </td>
+          set the PositionOffset when the position should be defined as 0.</td>
       </tr>
       <tr>
         <td>
@@ -1261,7 +1396,7 @@
         <td>
           NSLS2_EM</td>
         <td>
-          ADC offset for this channel. </td>
+          ADC offset for this channel.</td>
       </tr>
       <tr>
         <td>
@@ -1298,13 +1433,17 @@
       </tr>
       <tr>
         <th>
-          TriggerMode</th>
+          TriggerMode
+        </th>
         <th>
-          AcquireMode</th>
+          AcquireMode
+        </th>
         <th>
-          Description</th>
+          Description
+        </th>
         <th>
-          TetrAMM commands</th>
+          TetrAMM commands
+        </th>
       </tr>
       <tr>
         <td>
@@ -1313,7 +1452,7 @@
           Continuous</td>
         <td>
           Values are acquired continuously and are averaged each time the AveragingTime is
-          reached. </td>
+          reached.</td>
         <td>
           NRSAMP=ValuesPerRead, NAQ=0, TRG:OFF</td>
       </tr>
@@ -1435,11 +1574,14 @@
       </tr>
       <tr>
         <th>
-          Plugin type</th>
+          Plugin type
+        </th>
         <th>
-          Record prefixes</th>
+          Record prefixes
+        </th>
         <th>
-          Description</th>
+          Description
+        </th>
       </tr>
       <tr>
         <td>
@@ -1517,7 +1659,7 @@
           number of time points have been collected. This mode is suited for data-acquisition
           applications, such as on-the-fly scanning. The time series plugin can also operate
           in a circular buffer mode with continuous acquisition and display of the most recent
-          time points. This mode is suited for continuous monitoring. </td>
+          time points. This mode is suited for continuous monitoring.</td>
       </tr>
       <tr>
         <td>
@@ -1698,9 +1840,11 @@ pattern
       </tr>
       <tr>
         <th>
-          System</th>
+          System
+        </th>
         <th>
-          %CPU time</th>
+          %CPU time
+        </th>
       </tr>
       <tr>
         <td>
@@ -1751,11 +1895,14 @@ pattern
       </tr>
       <tr>
         <th>
-          System</th>
+          System
+        </th>
         <th>
-          ValuesPerRead</th>
+          ValuesPerRead
+        </th>
         <th>
-          %CPU time</th>
+          %CPU time
+        </th>
       </tr>
       <tr>
         <td>
