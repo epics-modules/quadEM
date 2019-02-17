@@ -34,7 +34,7 @@ x 9
 y 10
 w 50
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -57,7 +57,7 @@ fgColor rgb 0 0 0
 bgColor rgb 47872 47872 47872
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-8.0"
 icon
 numPvs 12
 numDsps 6

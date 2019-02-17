@@ -50,7 +50,7 @@ x 0
 y 6
 w 1000
 h 25
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-18.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor index 3
@@ -70,7 +70,7 @@ x 87
 y 40
 w 110
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -92,7 +92,7 @@ w 110
 h 18
 controlPv "$(P)$(R)SumY:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -116,7 +116,7 @@ w 110
 h 18
 controlPv "$(P)$(R)SumAll:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -140,7 +140,7 @@ w 110
 h 18
 controlPv "$(P)$(R)DiffX:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -164,7 +164,7 @@ w 110
 h 18
 controlPv "$(P)$(R)DiffY:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -188,7 +188,7 @@ w 110
 h 18
 controlPv "$(P)$(R)PosX:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -212,7 +212,7 @@ w 110
 h 18
 controlPv "$(P)$(R)Current1:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -236,7 +236,7 @@ w 110
 h 18
 controlPv "$(P)$(R)Current2:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -260,7 +260,7 @@ w 110
 h 18
 controlPv "$(P)$(R)Current3:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -284,7 +284,7 @@ w 110
 h 18
 controlPv "$(P)$(R)Current4:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -308,7 +308,7 @@ w 110
 h 18
 controlPv "$(P)$(R)SumX:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -332,7 +332,7 @@ w 110
 h 18
 controlPv "$(P)$(R)PosY:PortName_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -354,7 +354,7 @@ x 389
 y 40
 w 60
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -374,7 +374,7 @@ x 597
 y 40
 w 70
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -390,11 +390,11 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 712
+x 708
 y 40
-w 40
+w 44
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -416,7 +416,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumY:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -441,7 +441,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumY:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -465,7 +465,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumY:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -490,7 +490,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumAll:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -515,7 +515,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumAll:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -539,7 +539,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumAll:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -564,7 +564,7 @@ w 80
 h 18
 controlPv "$(P)$(R)DiffX:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -589,7 +589,7 @@ w 80
 h 18
 controlPv "$(P)$(R)DiffX:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -613,7 +613,7 @@ w 80
 h 18
 controlPv "$(P)$(R)DiffX:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -638,7 +638,7 @@ w 80
 h 18
 controlPv "$(P)$(R)DiffY:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -663,7 +663,7 @@ w 80
 h 18
 controlPv "$(P)$(R)DiffY:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -687,7 +687,7 @@ w 80
 h 18
 controlPv "$(P)$(R)DiffY:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -712,7 +712,7 @@ w 80
 h 18
 controlPv "$(P)$(R)PosX:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -737,7 +737,7 @@ w 80
 h 18
 controlPv "$(P)$(R)PosX:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -761,7 +761,7 @@ w 80
 h 18
 controlPv "$(P)$(R)PosX:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -786,7 +786,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current1:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -811,7 +811,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current1:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -835,7 +835,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current1:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -860,7 +860,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current2:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -885,7 +885,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current2:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -909,7 +909,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current2:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -934,7 +934,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current3:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -959,7 +959,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current3:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -983,7 +983,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current3:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -1008,7 +1008,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current4:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -1033,7 +1033,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current4:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -1057,7 +1057,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current4:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -1082,7 +1082,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumX:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -1107,7 +1107,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumX:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -1131,7 +1131,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumX:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -1156,7 +1156,7 @@ w 80
 h 18
 controlPv "$(P)$(R)PosY:EnableCallbacks_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -1181,7 +1181,7 @@ w 80
 h 18
 controlPv "$(P)$(R)PosY:DroppedArrays_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -1205,7 +1205,7 @@ w 80
 h 18
 controlPv "$(P)$(R)PosY:QueueFree"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 65535 0
 fgAlarm
@@ -1228,7 +1228,7 @@ x 217
 y 40
 w 40
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -1250,7 +1250,7 @@ w 60
 h 20
 controlPv "$(P)$(R)SumY:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1276,7 +1276,7 @@ w 60
 h 20
 controlPv "$(P)$(R)SumAll:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1302,7 +1302,7 @@ w 60
 h 20
 controlPv "$(P)$(R)DiffX:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1328,7 +1328,7 @@ w 60
 h 20
 controlPv "$(P)$(R)DiffY:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1354,7 +1354,7 @@ w 60
 h 20
 controlPv "$(P)$(R)PosX:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1380,7 +1380,7 @@ w 60
 h 20
 controlPv "$(P)$(R)Current1:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1406,7 +1406,7 @@ w 60
 h 20
 controlPv "$(P)$(R)Current2:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1432,7 +1432,7 @@ w 60
 h 20
 controlPv "$(P)$(R)Current3:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1458,7 +1458,7 @@ w 60
 h 20
 controlPv "$(P)$(R)Current4:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1484,7 +1484,7 @@ w 60
 h 20
 controlPv "$(P)$(R)SumX:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1510,7 +1510,7 @@ w 60
 h 20
 controlPv "$(P)$(R)PosY:NDArrayPort"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1530,11 +1530,11 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 283
+x 277
 y 40
-w 40
+w 46
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -1556,7 +1556,7 @@ w 60
 h 20
 controlPv "$(P)$(R)SumY:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1582,7 +1582,7 @@ w 60
 h 20
 controlPv "$(P)$(R)SumAll:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1608,7 +1608,7 @@ w 60
 h 20
 controlPv "$(P)$(R)DiffX:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1634,7 +1634,7 @@ w 60
 h 20
 controlPv "$(P)$(R)DiffY:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1660,7 +1660,7 @@ w 60
 h 20
 controlPv "$(P)$(R)PosX:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1686,7 +1686,7 @@ w 60
 h 20
 controlPv "$(P)$(R)Current1:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1712,7 +1712,7 @@ w 60
 h 20
 controlPv "$(P)$(R)Current2:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1738,7 +1738,7 @@ w 60
 h 20
 controlPv "$(P)$(R)Current3:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1764,7 +1764,7 @@ w 60
 h 20
 controlPv "$(P)$(R)Current4:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1790,7 +1790,7 @@ w 60
 h 20
 controlPv "$(P)$(R)SumX:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1816,7 +1816,7 @@ w 60
 h 20
 controlPv "$(P)$(R)PosY:NDArrayAddress"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -1840,7 +1840,7 @@ x 10
 y 40
 w 60
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -1858,9 +1858,9 @@ minor 1
 release 1
 x 10
 y 191
-w 32
+w 51
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -1877,9 +1877,9 @@ minor 1
 release 1
 x 10
 y 216
-w 48
+w 59
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -1896,9 +1896,9 @@ minor 1
 release 1
 x 10
 y 241
-w 40
+w 43
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -1915,9 +1915,9 @@ minor 1
 release 1
 x 10
 y 266
-w 40
+w 42
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -1934,9 +1934,9 @@ minor 1
 release 1
 x 10
 y 291
-w 32
+w 49
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -1953,9 +1953,9 @@ minor 1
 release 1
 x 10
 y 66
-w 64
+w 70
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -1972,9 +1972,9 @@ minor 1
 release 1
 x 10
 y 91
-w 64
+w 70
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -1991,9 +1991,9 @@ minor 1
 release 1
 x 10
 y 116
-w 64
+w 70
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -2010,9 +2010,9 @@ minor 1
 release 1
 x 10
 y 141
-w 64
+w 70
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -2029,9 +2029,9 @@ minor 1
 release 1
 x 10
 y 166
-w 32
+w 52
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -2048,9 +2048,9 @@ minor 1
 release 1
 x 10
 y 316
-w 32
+w 48
 h 18
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -2069,7 +2069,7 @@ x 507
 y 40
 w 80
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -2089,7 +2089,7 @@ x 847
 y 40
 w 110
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -2105,11 +2105,11 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 782
+x 779
 y 40
-w 40
+w 43
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -2131,7 +2131,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumY:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2155,7 +2155,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumAll:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2179,7 +2179,7 @@ w 80
 h 18
 controlPv "$(P)$(R)DiffX:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2203,7 +2203,7 @@ w 80
 h 18
 controlPv "$(P)$(R)DiffY:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2227,7 +2227,7 @@ w 80
 h 18
 controlPv "$(P)$(R)PosX:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2251,7 +2251,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current1:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2275,7 +2275,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current2:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2299,7 +2299,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current3:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2323,7 +2323,7 @@ w 80
 h 18
 controlPv "$(P)$(R)Current4:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2347,7 +2347,7 @@ w 80
 h 18
 controlPv "$(P)$(R)SumX:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2371,7 +2371,7 @@ w 80
 h 18
 controlPv "$(P)$(R)PosY:ArrayRate_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 2560 0 47104
 bgColor rgb 47872 47872 47872
@@ -2400,7 +2400,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)SumY:EnableCallbacks"
 indicatorPv "$(P)$(R)SumY:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2420,7 +2420,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)SumAll:EnableCallbacks"
 indicatorPv "$(P)$(R)SumAll:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2440,7 +2440,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)DiffX:EnableCallbacks"
 indicatorPv "$(P)$(R)DiffX:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2460,7 +2460,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)DiffY:EnableCallbacks"
 indicatorPv "$(P)$(R)DiffY:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2480,7 +2480,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)PosX:EnableCallbacks"
 indicatorPv "$(P)$(R)PosX:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2500,7 +2500,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current1:EnableCallbacks"
 indicatorPv "$(P)$(R)Current1:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2520,7 +2520,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current2:EnableCallbacks"
 indicatorPv "$(P)$(R)Current2:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2540,7 +2540,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current3:EnableCallbacks"
 indicatorPv "$(P)$(R)Current3:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2560,7 +2560,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current4:EnableCallbacks"
 indicatorPv "$(P)$(R)Current4:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2580,7 +2580,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)SumX:EnableCallbacks"
 indicatorPv "$(P)$(R)SumX:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2600,7 +2600,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)PosY:EnableCallbacks"
 indicatorPv "$(P)$(R)PosY:EnableCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2620,7 +2620,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)SumY:BlockingCallbacks"
 indicatorPv "$(P)$(R)SumY:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2640,7 +2640,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)SumAll:BlockingCallbacks"
 indicatorPv "$(P)$(R)SumAll:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2660,7 +2660,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)DiffX:BlockingCallbacks"
 indicatorPv "$(P)$(R)DiffX:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2680,7 +2680,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)DiffY:BlockingCallbacks"
 indicatorPv "$(P)$(R)DiffY:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2700,7 +2700,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)PosX:BlockingCallbacks"
 indicatorPv "$(P)$(R)PosX:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2720,7 +2720,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current1:BlockingCallbacks"
 indicatorPv "$(P)$(R)Current1:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2740,7 +2740,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current2:BlockingCallbacks"
 indicatorPv "$(P)$(R)Current2:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2760,7 +2760,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current3:BlockingCallbacks"
 indicatorPv "$(P)$(R)Current3:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2780,7 +2780,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current4:BlockingCallbacks"
 indicatorPv "$(P)$(R)Current4:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2800,7 +2800,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)SumX:BlockingCallbacks"
 indicatorPv "$(P)$(R)SumX:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2820,7 +2820,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)PosY:BlockingCallbacks"
 indicatorPv "$(P)$(R)PosY:BlockingCallbacks"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2840,7 +2840,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)SumY:FFTSuppressDC"
 indicatorPv "$(P)$(R)SumY:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2860,7 +2860,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)SumAll:FFTSuppressDC"
 indicatorPv "$(P)$(R)SumAll:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2880,7 +2880,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)DiffX:FFTSuppressDC"
 indicatorPv "$(P)$(R)DiffX:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2900,7 +2900,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)DiffY:FFTSuppressDC"
 indicatorPv "$(P)$(R)DiffY:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2920,7 +2920,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)PosX:FFTSuppressDC"
 indicatorPv "$(P)$(R)PosX:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2940,7 +2940,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current1:FFTSuppressDC"
 indicatorPv "$(P)$(R)Current1:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2960,7 +2960,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current2:FFTSuppressDC"
 indicatorPv "$(P)$(R)Current2:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2980,7 +2980,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current3:FFTSuppressDC"
 indicatorPv "$(P)$(R)Current3:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -3000,7 +3000,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Current4:FFTSuppressDC"
 indicatorPv "$(P)$(R)Current4:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -3020,7 +3020,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)SumX:FFTSuppressDC"
 indicatorPv "$(P)$(R)SumX:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -3040,7 +3040,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)PosY:FFTSuppressDC"
 indicatorPv "$(P)$(R)PosY:FFTSuppressDC"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Related Display)
@@ -3057,7 +3057,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3090,7 +3090,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3123,7 +3123,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3156,7 +3156,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3189,7 +3189,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3222,7 +3222,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3255,7 +3255,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3288,7 +3288,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3321,7 +3321,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3354,7 +3354,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2
@@ -3387,7 +3387,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 icon
 buttonLabel "More"
 numPvs 2

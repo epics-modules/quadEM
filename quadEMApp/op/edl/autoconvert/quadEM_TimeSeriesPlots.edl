@@ -63,7 +63,7 @@ x 10
 y 7
 w 240
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 65280 65280 65280
 bgColor index 3
@@ -102,7 +102,7 @@ x 72
 y 40
 w 110
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 2560 0 47104
 bgColor index 3
 useDisplayBg
@@ -121,7 +121,7 @@ x 47
 y 150
 w 160
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 2560 0 47104
 bgColor index 3
 useDisplayBg
@@ -140,7 +140,7 @@ x 97
 y 65
 w 70
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -159,7 +159,7 @@ x 97
 y 90
 w 70
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -178,7 +178,7 @@ x 97
 y 115
 w 120
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -197,7 +197,7 @@ x 97
 y 175
 w 70
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -216,7 +216,7 @@ x 97
 y 200
 w 70
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -235,7 +235,7 @@ x 97
 y 225
 w 120
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -254,7 +254,7 @@ x 97
 y 260
 w 110
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -294,7 +294,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-8.0"
 icon
 numPvs 2
 numDsps 1
@@ -326,7 +326,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-8.0"
 icon
 numPvs 2
 numDsps 1
@@ -358,7 +358,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-8.0"
 icon
 numPvs 22
 numDsps 11
@@ -430,7 +430,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-8.0"
 icon
 numPvs 2
 numDsps 1
@@ -462,7 +462,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-8.0"
 icon
 numPvs 2
 numDsps 1
@@ -494,7 +494,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-8.0"
 icon
 numPvs 2
 numDsps 1
@@ -526,7 +526,7 @@ fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
 topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-8.0"
 icon
 numPvs 22
 numDsps 11

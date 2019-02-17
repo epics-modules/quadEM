@@ -34,7 +34,7 @@ x 0
 y 0
 w 190
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -56,7 +56,7 @@ w 100
 h 20
 controlPv "$(P)$(R)NumChannels_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -78,7 +78,7 @@ x 90
 y 50
 w 100
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -97,7 +97,7 @@ x 120
 y 75
 w 70
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -116,7 +116,7 @@ x 90
 y 100
 w 100
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -135,7 +135,7 @@ x 70
 y 125
 w 120
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -156,7 +156,7 @@ w 100
 h 20
 controlPv "$(P)$(R)Resolution_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -180,7 +180,7 @@ w 100
 h 20
 controlPv "$(P)$(R)BiasState_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -204,7 +204,7 @@ w 100
 h 20
 controlPv "$(P)$(R)BiasVoltage_RBV"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -228,7 +228,7 @@ w 90
 h 20
 controlPv "$(P)$(R)BiasVoltage"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -252,7 +252,7 @@ x 80
 y 25
 w 110
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -274,7 +274,7 @@ w 100
 h 20
 controlPv "$(P)$(R)ReadFormat_RBV"
 format "string"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -303,7 +303,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)NumChannels"
 indicatorPv "$(P)$(R)NumChannels"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -323,7 +323,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)Resolution"
 indicatorPv "$(P)$(R)Resolution"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -343,7 +343,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)TriggerMode"
 indicatorPv "$(P)$(R)TriggerMode"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -363,7 +363,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)BiasState"
 indicatorPv "$(P)$(R)BiasState"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -383,6 +383,6 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)ReadFormat"
 indicatorPv "$(P)$(R)ReadFormat"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 

@@ -74,7 +74,7 @@ x 191
 y 5
 w 240
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "center"
 fgColor rgb 0 0 0
 bgColor index 3
@@ -94,7 +94,7 @@ x 8
 y 80
 w 70
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -113,7 +113,7 @@ x 8
 y 105
 w 60
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -130,9 +130,9 @@ minor 1
 release 1
 x 199
 y 30
-w 10
+w 22
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -153,7 +153,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)Current3"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -177,7 +177,7 @@ w 80
 h 20
 controlPv "$(P)$(EM)Offset3"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -199,9 +199,9 @@ minor 1
 release 1
 x 369
 y 30
-w 20
+w 26
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -222,7 +222,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)Current4"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -246,7 +246,7 @@ w 80
 h 20
 controlPv "$(P)$(EM)Offset4"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -268,9 +268,9 @@ minor 1
 release 1
 x 114
 y 30
-w 10
+w 22
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -291,7 +291,7 @@ w 80
 h 20
 controlPv "$(P)$(EM)Offset1"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -317,7 +317,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)Current1"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -337,9 +337,9 @@ minor 1
 release 1
 x 284
 y 30
-w 10
+w 22
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -360,7 +360,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)Current2"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -384,7 +384,7 @@ w 80
 h 20
 controlPv "$(P)$(EM)Offset2"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 fontAlign "left"
 fgColor rgb 0 0 0
 bgColor rgb 29440 57088 65280
@@ -408,7 +408,7 @@ x 11
 y 5
 w 170
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -427,7 +427,7 @@ x 8
 y 30
 w 70
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -446,7 +446,7 @@ x 7
 y 55
 w 70
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -463,9 +463,9 @@ minor 1
 release 1
 x 8
 y 130
-w 30
+w 42
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -486,7 +486,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)SumX"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -510,7 +510,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)SumY"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -532,7 +532,7 @@ x 8
 y 155
 w 100
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -553,7 +553,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)DiffX"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -577,7 +577,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)DiffY"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -599,7 +599,7 @@ x 8
 y 180
 w 80
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -620,7 +620,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)PositionX"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -644,7 +644,7 @@ w 70
 h 20
 controlPv "$(P)$(EM)PositionY"
 format "decimal"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fontAlign "right"
 fgColor rgb 2560 0 47104
 bgColor rgb 51200 51200 51200
@@ -666,7 +666,7 @@ x 8
 y 205
 w 90
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -692,7 +692,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(EM)PingPong1"
 indicatorPv "$(P)$(EM)PingPong1"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -712,7 +712,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(EM)PingPong3"
 indicatorPv "$(P)$(EM)PingPong3"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -732,7 +732,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(EM)PingPong2"
 indicatorPv "$(P)$(EM)PingPong2"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -752,7 +752,7 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(EM)PingPong4"
 indicatorPv "$(P)$(EM)PingPong4"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -772,6 +772,6 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(EM)Read.SCAN"
 indicatorPv "$(P)$(EM)Read.SCAN"
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-12.0"
 endObjectProperties
 

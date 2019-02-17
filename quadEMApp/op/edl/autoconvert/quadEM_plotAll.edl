@@ -50,7 +50,7 @@ x 0
 y 10
 w 915
 h 40
-font "helvetica-bold-r-12.0"
+font "utopia-medium-r-34.0"
 fontAlign "center"
 fgColor rgb 65280 65280 65280
 bgColor index 3
@@ -78,7 +78,7 @@ yLabel "$(YTITLE)"
 fgColor rgb 0 0 0
 bgColor rgb 55808 55808 55808
 gridColor rgb 0 0 0
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-10.0"
 # Operating Modes
 plotMode "plotLastNPts"
 nPts 1
@@ -121,7 +121,7 @@ x 185
 y 65
 w 90
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 2560 0 47104
 bgColor index 3
 useDisplayBg
@@ -148,7 +148,7 @@ yLabel "$(YTITLE)"
 fgColor rgb 0 0 0
 bgColor rgb 55808 55808 55808
 gridColor rgb 0 0 0
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-10.0"
 # Operating Modes
 plotMode "plotLastNPts"
 nPts 1
@@ -191,7 +191,7 @@ x 640
 y 65
 w 90
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 2560 0 47104
 bgColor index 3
 useDisplayBg
@@ -218,7 +218,7 @@ yLabel "$(YTITLE)"
 fgColor rgb 0 0 0
 bgColor rgb 55808 55808 55808
 gridColor rgb 0 0 0
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-10.0"
 # Operating Modes
 plotMode "plotLastNPts"
 nPts 1
@@ -259,9 +259,9 @@ minor 1
 release 1
 x 215
 y 350
-w 30
+w 42
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 2560 0 47104
 bgColor index 3
 useDisplayBg
@@ -288,7 +288,7 @@ yLabel "$(YTITLE)"
 fgColor rgb 0 0 0
 bgColor rgb 55808 55808 55808
 gridColor rgb 0 0 0
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-10.0"
 # Operating Modes
 plotMode "plotLastNPts"
 nPts 1
@@ -331,7 +331,7 @@ x 645
 y 350
 w 80
 h 20
-font "helvetica-bold-r-12.0"
+font "helvetica-medium-r-14.0"
 fgColor rgb 2560 0 47104
 bgColor index 3
 useDisplayBg
