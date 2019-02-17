@@ -51,8 +51,8 @@ PROD_LIBS_vxWorks += ipUnidig
 
 
 ifdef SNCSEQ
-	PROD_LIBS += seq
-	PROD_LIBS += pv
+    PROD_LIBS += seq
+    PROD_LIBS += pv
 endif
 
 # Need to put this in or there are missing symbols on vxWorks because Ipac and IpUnidig are linked
