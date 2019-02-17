@@ -48,7 +48,12 @@ PROD_SRCS_vxWorks += $(PROD_NAME)Vx_registerRecordDeviceDriver.cpp
 PROD_LIBS += quadEM
 PROD_LIBS_vxWorks += Ipac
 PROD_LIBS_vxWorks += ipUnidig
-PROD_LIBS += seq pv
+
+
+ifdef SNCSEQ
+	PROD_LIBS += seq
+	PROD_LIBS += pv
+endif
 
 # Need to put this in or there are missing symbols on vxWorks because Ipac and IpUnidig are linked
 # in after PROD_LIBS, which has EPICS_BASE_IOC_LIBS from commonDriverMakefile
