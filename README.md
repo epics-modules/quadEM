@@ -30,6 +30,6 @@ for several models:
 
 
 Additional information:
-* [Home page](http://cars.uchicago.edu/software/epics/quadEM.html)
-* [Documentation](http://cars.uchicago.edu/software/epics/quadEMDoc.html)
-* [Release notes](http://cars.uchicago.edu/software/epics/quadEMReleaseNotes.html)
+* [Home page](https://cars.uchicago.edu/software/epics/quadEM.html)
+* [Documentation](https://cars.uchicago.edu/software/epics/quadEMDoc.html)
+* [Release notes](https://cars.uchicago.edu/software/epics/quadEMReleaseNotes.html)
