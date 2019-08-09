@@ -9,26 +9,32 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 9-2-1 (August 9, 2019)</h2>
+  <ul>
+    <li>Updated autoconverted edl files.</li>
+    <li>Fixed Makefile to optionally build with SNCSEQ.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 9-2 (September 13, 2018)</h2>
   <ul>
     <li>Added support for an additional averaging method. The driver currently uses the
       NDPluginStats plugin to do the "primary averaging". The NDPluginStats plugin provides
-      additional statistics, such as sigma, skewness, histogram, etc. It is typically set
-      to run at a fairly long averaging time in the range of 0.1 - 1 second. It can be
-      run for much shorter times, but then the sigma and histogram calculations are less
-      useful. There is sometimes a need for an additional averaging mechanism that can
-      be run independently of the primary averaging, and this has now been added. One
-      use case is for running feedback at a faster rate than primary averaging is running.
-      The new averaging method is called "fast averaging", though there is actually no
-      requirement that it run faster than the primary averaging. The fast averaging computes
-      only the mean of each value (currents, sums, differences, and positions), and not
-      sigma, etc. It uses the drvAsynFloat64Average device support. asyn R4-34 or higher
-      is required because that is when I/O Intr scanning for this device support was added.
-      The FastAverageScan is typically set to "I/O Intr". In this case the FastAveragingTime
-      is used to compute the number of samples to average (NumFastAverage), and the
-      fast averaging records will process each time this number of readings has been received.
-      The records can also be processed periodically by setting FastAverageScan="1 second",
-      etc. If fast averaging is not needed it can be disabled by setting FastAverageScan="Passive".</li>
+      additional statistics, such as sigma, skewness, histogram, etc. It is typically
+      set to run at a fairly long averaging time in the range of 0.1 - 1 second. It can
+      be run for much shorter times, but then the sigma and histogram calculations are
+      less useful. There is sometimes a need for an additional averaging mechanism that
+      can be run independently of the primary averaging, and this has now been added.
+      One use case is for running feedback at a faster rate than primary averaging is
+      running. The new averaging method is called "fast averaging", though there is actually
+      no requirement that it run faster than the primary averaging. The fast averaging
+      computes only the mean of each value (currents, sums, differences, and positions),
+      and not sigma, etc. It uses the drvAsynFloat64Average device support. asyn R4-34
+      or higher is required because that is when I/O Intr scanning for this device support
+      was added. The FastAverageScan is typically set to "I/O Intr". In this case the
+      FastAveragingTime is used to compute the number of samples to average (NumFastAverage),
+      and the fast averaging records will process each time this number of readings has
+      been received. The records can also be processed periodically by setting FastAverageScan="1
+      second", etc. If fast averaging is not needed it can be disabled by setting FastAverageScan="Passive".</li>
     <li>Changed iocBoot/commonPlugins.cmd to be compatible with ADCore R3-3 where the
       time series support in NDPluginStats was changed. Also changed the port names so
       that multiple quadEM instances should be able to be run in the same IOC.</li>
