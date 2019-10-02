@@ -9,7 +9,6 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 #INSTALL_LOCATION_APP=<fullpathname>
 
 SUPPORT=/corvette/home/epics/devel
--include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
 
 # quadEM requires areaDetector, and areaDetector/configure already defines
 # ASYN, EV4_BASE, libraries needed for plugins, etc.
@@ -55,8 +54,12 @@ DEVIOCSTATS=$(SUPPORT)/devIocStats-3-1-16
 
 # EPICS_BASE usually appears last so other apps can override stuff:
 EPICS_BASE=/corvette/usr/local/epics-devel/base-7.0.3
--include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
 #Capfast users may need the following definitions
 #CAPFAST_TEMPLATES=
 #SCH2EDIF_PATH=
+
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
+-include $(TOP)/configure/RELEASE.local
+
