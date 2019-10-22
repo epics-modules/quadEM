@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/devel/quadEM-9-1/quadEMApp/op/adl/TetrAMM.adl"
-	version=030109
+	name="/home/omitto/Workspaces/epics/quadEM/quadEMApp/op/adl/TetrAMM.adl"
+	version=030111
 }
 display {
 	object {
-		x=785
-		y=334
+		x=775
+		y=326
 		width=430
-		height=275
+		height=302
 	}
 	clr=14
 	bclr=4
@@ -251,8 +251,8 @@ text {
 }
 text {
 	object {
-		x=30
-		y=225
+		x=31
+		y=249
 		width=160
 		height=20
 	}
@@ -264,8 +264,8 @@ text {
 }
 "text update" {
 	object {
-		x=195
-		y=225
+		x=196
+		y=249
 		width=100
 		height=20
 	}
@@ -279,8 +279,8 @@ text {
 }
 text {
 	object {
-		x=80
-		y=250
+		x=81
+		y=274
 		width=110
 		height=20
 	}
@@ -292,8 +292,8 @@ text {
 }
 "text update" {
 	object {
-		x=195
-		y=250
+		x=196
+		y=274
 		width=100
 		height=20
 	}
@@ -307,8 +307,8 @@ text {
 }
 text {
 	object {
-		x=30
-		y=200
+		x=31
+		y=224
 		width=160
 		height=20
 	}
@@ -320,8 +320,8 @@ text {
 }
 "text update" {
 	object {
-		x=195
-		y=200
+		x=196
+		y=224
 		width=100
 		height=20
 	}
@@ -335,8 +335,8 @@ text {
 }
 text {
 	object {
-		x=60
-		y=175
+		x=61
+		y=199
 		width=130
 		height=20
 	}
@@ -348,8 +348,8 @@ text {
 }
 "text update" {
 	object {
-		x=195
-		y=175
+		x=196
+		y=199
 		width=100
 		height=20
 	}
@@ -489,5 +489,33 @@ menu {
 		chan="$(P)$(R)TriggerPolarity"
 		clr=14
 		bclr=51
+	}
+}
+text {
+	object {
+		x=60
+		y=175
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Interlock readback"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=196
+		y=175
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)InterlockStatus_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
 	}
 }
