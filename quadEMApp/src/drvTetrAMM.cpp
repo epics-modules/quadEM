@@ -66,6 +66,8 @@ drvTetrAMM::drvTetrAMM(const char *portName, const char *QEPortName, int ringBuf
     acquireStartEvent_ = epicsEventCreate(epicsEventEmpty);
     numResync_ = 0;
 
+    createParam(P_InterlockStatusString, asynParamInt32,   &P_InterlockStatus);
+
     // Connect to the server
     status = pasynOctetSyncIO->connect(QEPortName, 0, &pasynUserMeter_, NULL);
     if (status) {
@@ -658,6 +660,8 @@ asynStatus drvTetrAMM::setBiasState(epicsInt32 value)
 {
     asynStatus status;
 
+    epicsSnprintf(outString_, sizeof(outString_), "STATUS:RESET");
+    status = sendCommand();
     epicsSnprintf(outString_, sizeof(outString_), "HVS:%s", value ? "ON" : "OFF");
     status = sendCommand();
     // If turning the bias on then we also need to send the bias voltage, 
@@ -764,6 +768,7 @@ asynStatus drvTetrAMM::readStatus()
     // Reads the values of all the meter parameters, sets them in the parameter library
     int range, numChannels, numAverage, valuesPerRead, triggerMode;
     double biasVoltage, voltageReadback, currentReadback, temperature;
+    unsigned long int unitStatus;
     int prevAcquiring;
     double sampleTime=0., averagingTime;
     static const char *functionName = "getStatus";
@@ -817,6 +822,12 @@ asynStatus drvTetrAMM::readStatus()
     writeReadMeter();
     if (sscanf(inString_, "TEMP:%lf", &temperature) != 1) goto error;
     setDoubleParam(P_Temperature, temperature);
+
+    strcpy(outString_, "STATUS:?");
+    writeReadMeter();
+    if (sscanf(inString_, "STATUS:%lx", &unitStatus) != 1) goto error;
+    //get general fault bit (tetramm user manual pg 40)
+    setIntegerParam(P_InterlockStatus, (unitStatus>>8)&0x80);
 
     // Compute the number of values that will be accumulated in the ring buffer before averaging
     getDoubleParam(P_AveragingTime, &averagingTime);
