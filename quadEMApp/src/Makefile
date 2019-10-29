@@ -26,6 +26,7 @@ quadEM_SRCS         += drvAHxxx.cpp
 quadEM_SRCS         += drvTetrAMM.cpp
 quadEM_SRCS         += drvNSLS_EM.cpp
 quadEM_SRCS         += drvNSLS2_EM.cpp
+quadEM_SRCS         += drvNSLS2_IC.cpp
 quadEM_SRCS_vxWorks += drvAPS_EM.cpp
 
 quadEM_LIBS_vxWorks += Ipac
@@ -35,7 +36,7 @@ quadEM_LIBS_vxWorks += ipUnidig
 drvNSLS2_EM_CXXFLAGS_WIN32   += -DSIMULATION_MODE -DPOLLING_MODE
 drvNSLS2_EM_CXXFLAGS_vxWorks += -DSIMULATION_MODE -DPOLLING_MODE
 # If not building for the embedded system on Linux then uncomment the following line to also use simulation mode
-#drvNSLS2_EM_CXXFLAGS_Linux  += -DSIMULATION_MODE -DPOLLING_MODE
+drvNSLS2_EM_CXXFLAGS_Linux  += -DSIMULATION_MODE -DPOLLING_MODE
 
 # The following builds a test application
 #==================================
