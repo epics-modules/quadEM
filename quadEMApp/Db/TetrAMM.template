@@ -45,8 +45,8 @@ record(mbbi,"$(P)$(R)TriggerMode_RBV") {
 record(bi,"$(P)$(R)InterlockStatus_RBV") {
     field(DESC, "Interlock status")
     field(DTYP, "asynInt32")
-    field(ZNAM, "OK")
-    field(ONAM, "Interlocked")
+    field(ZNAM, "HV Enabled")
+    field(ONAM, "HV Disabled")
     field(INP,  "@asyn($(PORT) 0) TETRAMM_INTERLOCK_STATUS")
     field(SCAN, "I/O Intr")
 }
