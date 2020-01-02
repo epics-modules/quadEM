@@ -10,15 +10,12 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------------------
 # Create and install (or just install)
 # databases, templates, substitutions like this
-DB += AH401B.template
-DB += AH501.template
-DB += APS_EM.template
-DB += NSLS_EM.template
-DB += NSLS2_EM.template
-DB += NSLS2_DAC.template
-DB += TetrAMM.template
-DB += quadEM.template
-DB += quadEM_TimeSeries.template
+
+DB += $(patsubst ../%, %, $(wildcard ../*.template))
+DB += $(patsubst ../%, %, $(wildcard ../*.db))
+DB += $(patsubst ../%, %, $(wildcard ../*.vdb))
+
+REQ += $(patsubst ../%, %, $(wildcard ../*.req))
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
