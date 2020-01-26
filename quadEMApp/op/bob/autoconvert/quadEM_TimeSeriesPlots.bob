@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>quadEM_TimeSeriesPlots</name>
+  <x>878</x>
+  <y>96</y>
+  <width>260</width>
+  <height>290</height>
+  <background_color>
+    <color red="187" green="187" blue="187">
+    </color>
+  </background_color>
+  <grid_visible>false</grid_visible>
+  <grid_step_x>5</grid_step_x>
+  <widget type="group" version="2.0.0">
+    <name>composite #6</name>
+    <x>5</x>
+    <y>5</y>
+    <width>250</width>
+    <height>25</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="rectangle" version="2.0.0">
+      <name>rectangle #9</name>
+      <width>250</width>
+      <height>25</height>
+      <line_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #12</name>
+      <text>quadEM Time Series Plots</text>
+      <x>5</x>
+      <y>2</y>
+      <width>240</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>rectangle #15</name>
+    <x>5</x>
+    <y>37</y>
+    <width>250</width>
+    <height>250</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="0" green="0" blue="0">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="0" green="0" blue="0">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #18</name>
+    <text>Time domain</text>
+    <x>72</x>
+    <y>40</y>
+    <width>110</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="10" green="0" blue="184">
+      </color>
+    </foreground_color>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #21</name>
+    <text>Frequency domain</text>
+    <x>47</x>
+    <y>150</y>
+    <width>160</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="10" green="0" blue="184">
+      </color>
+    </foreground_color>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #24</name>
+    <text>Plots X</text>
+    <x>97</x>
+    <y>65</y>
+    <width>70</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #27</name>
+    <text>Plots Y</text>
+    <x>97</x>
+    <y>90</y>
+    <width>70</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #30</name>
+    <text>Single plots</text>
+    <x>97</x>
+    <y>115</y>
+    <width>120</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #33</name>
+    <text>Plots X</text>
+    <x>97</x>
+    <y>175</y>
+    <width>70</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #36</name>
+    <text>Plots Y</text>
+    <x>97</x>
+    <y>200</y>
+    <width>70</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #39</name>
+    <text>Single plots</text>
+    <x>97</x>
+    <y>225</y>
+    <width>120</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #42</name>
+    <text>Time series</text>
+    <x>97</x>
+    <y>260</y>
+    <width>110</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #45</name>
+    <actions>
+      <action type="open_display">
+        <file>quadEM_plotAll.opi</file>
+        <macros>
+          <CURR1>Current1:TimeSeries</CURR1>
+          <CURR2>Current2:TimeSeries</CURR2>
+          <P>$(P)$(R)TS:</P>
+          <POS>PosX:TimeSeries</POS>
+          <SUM>SumX:TimeSeries</SUM>
+          <TITLE>$(TX)</TITLE>
+          <XAXIS>TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YTITLE>Counts</YTITLE>
+        </macros>
+        <target>tab</target>
+        <description>X (current, sum, pos)</description>
+      </action>
+    </actions>
+    <text></text>
+    <x>12</x>
+    <y>65</y>
+    <width>80</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #48</name>
+    <actions>
+      <action type="open_display">
+        <file>NDPluginTimeSeries.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <R1>TS:Current1:</R1>
+          <R2>TS:Current2:</R2>
+          <R3>TS:Current3:</R3>
+          <R4>TS:Current4:</R4>
+          <R5>TS:SumX:</R5>
+          <R6>TS:SumY:</R6>
+          <R7>TS:SumAll:</R7>
+          <R8>TS:PosX:</R8>
+          <R9>TS:PosY:</R9>
+          <T1>Current1</T1>
+          <T2>Current2</T2>
+          <T3>Current3</T3>
+          <T4>Current4</T4>
+          <T5>SumX</T5>
+          <T6>SumY</T6>
+          <T7>SumAll</T7>
+          <T8>PosX</T8>
+          <T9>PosY</T9>
+        </macros>
+        <target>tab</target>
+        <description>Time series control</description>
+      </action>
+    </actions>
+    <text></text>
+    <x>12</x>
+    <y>259</y>
+    <width>80</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #51</name>
+    <actions>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:Current1:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:Current1:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Current 1</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:Current2:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:Current2:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Current 2</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:Current3:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:Current3:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Current 3</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:Current4:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:Current4:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Current 4</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:SumX:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:SumX:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Sum X</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:SumY:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:SumY:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Sum Y</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:SumAll:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:SumAll:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Sum All</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:DiffX:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:DiffX:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Difference X</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:DiffY:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:DiffY:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Difference Y</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:PosX:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:PosX:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Position X</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>TS:PosY:</RN>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YAXIS>$(P)$(R)TS:PosY:TimeSeries</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Position Y</description>
+      </action>
+    </actions>
+    <text></text>
+    <x>12</x>
+    <y>115</y>
+    <width>80</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #64</name>
+    <actions>
+      <action type="open_display">
+        <file>quadEM_plotAll.opi</file>
+        <macros>
+          <CURR1>Current3:TimeSeries</CURR1>
+          <CURR2>Current4:TimeSeries</CURR2>
+          <P>$(P)$(R)TS:</P>
+          <POS>PosY:TimeSeries</POS>
+          <SUM>SumY:TimeSeries</SUM>
+          <TITLE>$(TY)</TITLE>
+          <XAXIS>TSTimeAxis</XAXIS>
+          <XTITLE>Time (sec)</XTITLE>
+          <YTITLE>Counts</YTITLE>
+        </macros>
+        <target>tab</target>
+        <description>Y (current, sum, pos)</description>
+      </action>
+    </actions>
+    <text></text>
+    <x>12</x>
+    <y>90</y>
+    <width>80</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #67</name>
+    <actions>
+      <action type="open_display">
+        <file>quadEM_plotAll.opi</file>
+        <macros>
+          <CURR1>Current1:FFTAbsValue</CURR1>
+          <CURR2>Current2:FFTAbsValue</CURR2>
+          <P>$(P)$(R)FFT:</P>
+          <POS>PosX:FFTAbsValue</POS>
+          <SUM>SumX:FFTAbsValue</SUM>
+          <TITLE>$(TX)</TITLE>
+          <XAXIS>PosX:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YTITLE>Counts</YTITLE>
+        </macros>
+        <target>tab</target>
+        <description>X (current, sum, pos)</description>
+      </action>
+    </actions>
+    <text></text>
+    <x>12</x>
+    <y>175</y>
+    <width>80</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #70</name>
+    <actions>
+      <action type="open_display">
+        <file>quadEM_plotAll.opi</file>
+        <macros>
+          <CURR1>Current3:FFTAbsValue</CURR1>
+          <CURR2>Current4:FFTAbsValue</CURR2>
+          <P>$(P)$(R)FFT:</P>
+          <POS>PosY:FFTAbsValue</POS>
+          <SUM>SumY:FFTAbsValue</SUM>
+          <TITLE>$(TY)</TITLE>
+          <XAXIS>PosY:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YTITLE>Counts</YTITLE>
+        </macros>
+        <target>tab</target>
+        <description>X (current, sum, pos)</description>
+      </action>
+    </actions>
+    <text></text>
+    <x>12</x>
+    <y>200</y>
+    <width>80</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #73</name>
+    <actions>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:Current1:</RN>
+          <XAXIS>$(P)$(R)FFT:Current1:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:Current1:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Current 1</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:Current2:</RN>
+          <XAXIS>$(P)$(R)FFT:Current2:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:Current2:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Current 2</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:Current3:</RN>
+          <XAXIS>$(P)$(R)FFT:Current3:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:Current3:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Current 3</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:Current4:</RN>
+          <XAXIS>$(P)$(R)FFT:Current4:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:Current4:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Current 4</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:SumX:</RN>
+          <XAXIS>$(P)$(R)FFT:SumX:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:SumX:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Sum X</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:SumY:</RN>
+          <XAXIS>$(P)$(R)FFT:SumY:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:SumY:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Sum Y</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:SumAll:</RN>
+          <XAXIS>$(P)$(R)FFT:SumAll:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:SumAll:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Sum All</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:DiffX:</RN>
+          <XAXIS>$(P)$(R)FFT:DiffX:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:DiffX:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Difference X</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:DiffY:</RN>
+          <XAXIS>$(P)$(R)FFT:DiffY:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:DiffY:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Difference Y</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:PosX:</RN>
+          <XAXIS>$(P)$(R)FFT:PosX:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:PosX:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Position X</description>
+      </action>
+      <action type="open_display">
+        <file>NDTimeSeriesPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <R>TS:</R>
+          <RN>FFT:PosY:</RN>
+          <XAXIS>$(P)$(R)FFT:PosY:FFTFreqAxis</XAXIS>
+          <XTITLE>Frequency (Hz)</XTITLE>
+          <YAXIS>$(P)$(R)FFT:PosY:FFTAbsValue</YAXIS>
+        </macros>
+        <target>tab</target>
+        <description>Position Y</description>
+      </action>
+    </actions>
+    <text></text>
+    <x>12</x>
+    <y>225</y>
+    <width>80</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+</display>
