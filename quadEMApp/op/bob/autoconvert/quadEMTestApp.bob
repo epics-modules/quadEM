@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>quadEMTestApp</name>
+  <x>308</x>
+  <y>45</y>
+  <width>159</width>
+  <height>41</height>
+  <background_color>
+    <color red="187" green="187" blue="187">
+    </color>
+  </background_color>
+  <grid_visible>false</grid_visible>
+  <grid_step_x>5</grid_step_x>
+  <widget type="label" version="2.0.0">
+    <name>text #6</name>
+    <text>Start</text>
+    <x>9</x>
+    <y>10</y>
+    <width>50</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #9</name>
+    <actions>
+      <action type="open_display">
+        <file>quadEM.opi</file>
+        <macros>
+          <P>quadEMTest:</P>
+          <P_FFT>quadEMTest:AH401B_FFT:</P_FFT>
+          <P_TS>quadEMTest:AH401B_TS:</P_TS>
+          <R>AH401B:</R>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <target>tab</target>
+        <description>AH401B</description>
+      </action>
+      <action type="open_display">
+        <file>quadEM.opi</file>
+        <macros>
+          <P>quadEMTest:</P>
+          <P_FFT>quadEMTest:AH501_FFT:</P_FFT>
+          <P_TS>quadEMTest:AH501_TS:</P_TS>
+          <R>AH501:</R>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <target>tab</target>
+        <description>AH501</description>
+      </action>
+      <action type="open_display">
+        <file>quadEM.opi</file>
+        <macros>
+          <P>quadEMTest:</P>
+          <P_FFT>quadEMTest:APS_EM_FFT:</P_FFT>
+          <P_TS>quadEMTest:APS_EM_TS:</P_TS>
+          <R>APS_EM:</R>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <target>tab</target>
+        <description>APS_EM</description>
+      </action>
+      <action type="open_display">
+        <file>quadEM.opi</file>
+        <macros>
+          <P>quadEMTest:</P>
+          <R>TetrAMM:</R>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <target>tab</target>
+        <description>TetrAMM</description>
+      </action>
+      <action type="open_display">
+        <file>quadEM.opi</file>
+        <macros>
+          <P>quadEMTest:</P>
+          <P_FFT>quadEMTest:NSLS_EM_FFT:</P_FFT>
+          <P_TS>quadEMTest:NSLS_EM_TS:</P_TS>
+          <R>NSLS_EM:</R>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <target>tab</target>
+        <description>NSLS_EM</description>
+      </action>
+      <action type="open_display">
+        <file>quadEM.opi</file>
+        <macros>
+          <P>quadEMTest:</P>
+          <P_FFT>quadEMTest:NSLS2_EM_FFT:</P_FFT>
+          <P_TS>quadEMTest:NSLS2_EM_TS:</P_TS>
+          <R>NSLS2_EM:</R>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <target>tab</target>
+        <description>NSLS2_EM</description>
+      </action>
+    </actions>
+    <text></text>
+    <x>66</x>
+    <y>11</y>
+    <width>66</width>
+    <height>20</height>
+    <background_color>
+      <color red="187" green="187" blue="187">
+      </color>
+    </background_color>
+  </widget>
+</display>
