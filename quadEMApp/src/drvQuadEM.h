@@ -15,7 +15,6 @@
 
 /* These are the drvInfo strings that are used to identify the parameters.
  * They are used by asyn clients, including standard asyn device support */
-#define P_AcquireString            "QE_ACQUIRE"                 /* asynInt32,    r/w */
 #define P_AcquireModeString        "QE_ACQUIRE_MODE"            /* asynInt32,    r/w */
 #define P_CurrentOffsetString      "QE_CURRENT_OFFSET"          /* asynFloat64,  r/w */
 #define P_CurrentScaleString       "QE_CURRENT_SCALE"           /* asynFloat64,  r/w */

@@ -63,7 +63,6 @@ drvQuadEM::drvQuadEM(const char *portName, int ringBufferSize)
     const char *functionName = "drvQuadEM";
     asynUser *pasynUser;
     
-    createParam(P_AcquireString,            asynParamInt32,         &P_Acquire);
     createParam(P_AcquireModeString,        asynParamInt32,         &P_AcquireMode);
     createParam(P_CurrentOffsetString,      asynParamFloat64,       &P_CurrentOffset);
     createParam(P_CurrentScaleString,       asynParamFloat64,       &P_CurrentScale);
@@ -101,7 +100,6 @@ drvQuadEM::drvQuadEM(const char *portName, int ringBufferSize)
     createParam(P_ModelString,              asynParamInt32,         &P_Model);
     createParam(P_FirmwareString,           asynParamOctet,         &P_Firmware);
     
-    setIntegerParam(P_Acquire, 0);
     setIntegerParam(P_RingOverflows, 0);
     setIntegerParam(P_PingPong, 0);
     setDoubleParam(P_IntegrationTime, 0.);
@@ -364,7 +362,7 @@ void drvQuadEM::callbackTask()
                 setIntegerParam(P_NumAcquired, numAcquired_);
                 if (numAcquired_ == numAcquire) {
                     setAcquire(0);
-                    setIntegerParam(P_Acquire, 0);
+                    setIntegerParam(ADAcquire, 0);
                 }
             }
         }
@@ -391,7 +389,7 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     /* Fetch the parameter string name for possible use in debugging */
     getParamName(function, &paramName);
 
-    if (function == P_Acquire) {
+    if (function == ADAcquire) {
         if (value) {
             epicsRingBytesFlush(ringBuffer_);
             ringCount_ = 0;
@@ -402,7 +400,7 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     else if (function == P_AcquireMode) {
         if (value != QEAcquireModeContinuous) {
             status |= setAcquire(0);
-            setIntegerParam(P_Acquire, 0);
+            setIntegerParam(ADAcquire, 0);
         } 
         status |= setAcquireMode(value);
         status |= readStatus();
@@ -602,7 +600,7 @@ asynStatus drvQuadEM::reset()
     
     readStatus();
     
-    getIntegerParam(P_Acquire, &iValue);
+    getIntegerParam(ADAcquire, &iValue);
     setAcquire(iValue);
 
     return asynSuccess;
