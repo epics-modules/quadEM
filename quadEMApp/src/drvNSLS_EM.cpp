@@ -423,8 +423,8 @@ asynStatus drvNSLS_EM::setMode()
 
     getIntegerParam(P_PingPong, &pingPong);
     getIntegerParam(P_ValuesPerRead, &valuesPerRead);
-    getIntegerParam(P_Acquire, &acquire);
-    mode = P_Acquire ? 0 : 1;
+    getIntegerParam(ADAcquire, &acquire);
+    mode = acquire ? 0 : 1;
     // The phase information is only valid when ValuesPerRead=1.  Set to PhaseBoth if !=1.
     if ((valuesPerRead != 1) && (pingPong != PhaseBoth)) {
         pingPong = PhaseBoth;
