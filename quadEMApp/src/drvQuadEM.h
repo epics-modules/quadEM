@@ -137,9 +137,8 @@ public:
 
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
-    int P_Acquire;
-    #define FIRST_QE_COMMAND P_Acquire
     int P_AcquireMode;
+    #define FIRST_QE_COMMAND P_AcquireMode
     int P_CurrentOffset;
     int P_CurrentScale;
     int P_PositionOffset;
