@@ -21,7 +21,7 @@ IPUNIDIG=$(SUPPORT)/ipUnidig-2-11
 
 # quadEM requires areaDetector, and areaDetector/configure already defines
 # ASYN, CALC, etc.
-AREA_DETECTOR=$(SUPPORT)/areaDetector-3-8
+AREA_DETECTOR=$(SUPPORT)/areaDetector-3-9
 -include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
 -include $(AREA_DETECTOR)/configure/RELEASE_PRODS.local
 
