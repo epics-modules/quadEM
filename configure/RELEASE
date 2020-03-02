@@ -11,7 +11,7 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 SUPPORT=/corvette/home/epics/devel
 
 # This module
-QUADEM=$(SUPPORT)/quadEM-9-2-1
+QUADEM=$(SUPPORT)/quadEM-9-3
 
 # For IpUnidig for APS_EM
 IPAC=$(SUPPORT)/ipac-2-15
