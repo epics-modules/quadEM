@@ -9,6 +9,20 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 9-3 (March 2, 2020)</h2>
+  <ul>
+    <li>This version of quadEM requires ADCore R3-8 or later.</li>
+    <li>Previous versions of quadEM will not work with ADCore R3-8 or later because the
+      Acquire parameter is now implemented in the asynNDArrayDriver base class, rather
+      than being local to quadEM.</li>
+    <li>Added a new drvNSLS2_IC driver which has independent control of each channel for
+      use with separate ion chambers, for example, rather than a quad electrometer.</li>
+    <li>drvNSLS_EM: Fixed logic error in turning off data transmission from meter when
+      not acquiring.</li>
+    <li>iocsh/commonPlugins.iocsh: Fixed names of FFT time series ports.</li>
+    <li>Added .bob autoconverted files for Phoebus Display Manager.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 9-2-1 (August 9, 2019)</h2>
   <ul>
     <li>Updated autoconverted edl files.</li>
