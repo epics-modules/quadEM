@@ -59,23 +59,25 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 font "helvetica-medium-r-8.0"
 icon
-numPvs 12
-numDsps 6
+numPvs 14
+numDsps 7
 displayFileName {
-  0 quadEM.edl
-  1 quadEM.edl
-  2 quadEM.edl
-  3 quadEM.edl
-  4 quadEM.edl
-  5 quadEM.edl
+  0 "quadEM.edl"
+  1 "quadEM.edl"
+  2 "quadEM.edl"
+  3 "quadEM.edl"
+  4 "quadEM.edl"
+  5 "quadEM.edl"
+  6 "quadEM.edl"
 }
 menuLabel {
-  0 AH401B
-  1 AH501
-  2 APS_EM
-  3 TetrAMM
-  4 NSLS_EM
-  5 NSLS2_EM
+  0 "AH401B"
+  1 "AH501"
+  2 "APS_EM"
+  3 "TetrAMM"
+  4 "NSLS_EM"
+  5 "NSLS2_EM"
+  6 "NSLS2_IC"
 }
 symbols {
   0 "P=quadEMTest:,R=AH401B:,P_TS=quadEMTest:AH401B_TS:,P_FFT=quadEMTest:AH401B_FFT:,TX=Horizontal_BPM,TY=Vertical_BPM"
@@ -84,6 +86,7 @@ symbols {
   3 "P=quadEMTest:,R=TetrAMM:,TX=Horizontal_BPM,TY=Vertical_BPM"
   4 "P=quadEMTest:,R=NSLS_EM:,P_TS=quadEMTest:NSLS_EM_TS:,P_FFT=quadEMTest:NSLS_EM_FFT:,TX=Horizontal_BPM,TY=Vertical_BPM"
   5 "P=quadEMTest:,R=NSLS2_EM:,P_TS=quadEMTest:NSLS2_EM_TS:,P_FFT=quadEMTest:NSLS2_EM_FFT:,TX=Horizontal_BPM,TY=Vertical_BPM"
+  6 "P=quadEMTest:,R=NSLS2_IC:,P_TS=quadEMTest:NSLS2_IC_TS:,P_FFT=quadEMTest:NSLS2_IC_FFT:,TX=Horizontal_BPM,TY=Vertical_BPM"
 }
 replaceSymbols {
   0 1
@@ -92,6 +95,7 @@ replaceSymbols {
   3 1
   4 1
   5 1
+  6 1
 }
 endObjectProperties
 

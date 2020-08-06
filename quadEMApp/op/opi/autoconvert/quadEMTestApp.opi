@@ -154,6 +154,20 @@
         <mode>1</mode>
         <description>NSLS2_EM</description>
       </action>
+      <action type="OPEN_DISPLAY">
+        <path>quadEM.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>quadEMTest:</P>
+          <R>NSLS2_IC:</R>
+          <P_TS>quadEMTest:NSLS2_IC_TS:</P_TS>
+          <P_FFT>quadEMTest:NSLS2_IC_FFT:</P_FFT>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <mode>1</mode>
+        <description>NSLS2_IC</description>
+      </action>
     </actions>
     <actions_from_pv>false</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>

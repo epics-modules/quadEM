@@ -102,6 +102,19 @@
         <target>tab</target>
         <description>NSLS2_EM</description>
       </action>
+      <action type="open_display">
+        <file>quadEM.opi</file>
+        <macros>
+          <P>quadEMTest:</P>
+          <P_FFT>quadEMTest:NSLS2_IC_FFT:</P_FFT>
+          <P_TS>quadEMTest:NSLS2_IC_TS:</P_TS>
+          <R>NSLS2_IC:</R>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <target>tab</target>
+        <description>NSLS2_IC</description>
+      </action>
     </actions>
     <text></text>
     <x>66</x>
