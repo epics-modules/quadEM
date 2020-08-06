@@ -16,7 +16,7 @@
 #define P_DACDoubleString         "QE_DAC_DOUBLE"          /* asynFloat64   r/w */
 #define P_CalibrationModeString   "QE_CALIBRATION_MODE"    /* asynInt32,    r/w */
 #define P_ADCOffsetString         "QE_ADC_OFFSET"          /* asynInt32,    r/w */
-
+#define P_FullScaleString         "QE_FULL_SCALE"          /* asynFloat64   r/w */
 /** Class to control the NSLS Precision Integrator */
 class drvNSLS2_IC : public drvQuadEM {
 public:
@@ -51,7 +51,7 @@ protected:
     int P_DACDouble;
     int P_CalibrationMode;
     int P_ADCOffset;
- 
+    int P_FullScale; 
 private:
     /* Our data */
     double ranges_[MAX_RANGES];
