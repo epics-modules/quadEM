@@ -15,6 +15,7 @@ DBD += drvAHxxx.dbd
 DBD += drvTetrAMM.dbd
 DBD += drvNSLS_EM.dbd
 DBD += drvNSLS2_EM.dbd
+DBD += drvNSLS2_IC.dbd
 DBD += quadEMTestApp.dbd
 DBD += quadEMTestAppVx.dbd
 
@@ -38,6 +39,12 @@ drvNSLS2_EM_CXXFLAGS_vxWorks += -DSIMULATION_MODE -DPOLLING_MODE
 # If not building for the embedded system on Linux then uncomment the following line to also use simulation mode
 drvNSLS2_EM_CXXFLAGS_Linux  += -DSIMULATION_MODE -DPOLLING_MODE
 
+# Can only build drvNSLS2_IC for Windows and vxWorks in simulation mode
+drvNSLS2_IC_CXXFLAGS_WIN32   += -DSIMULATION_MODE
+drvNSLS2_IC_CXXFLAGS_vxWorks += -DSIMULATION_MODE
+# If not building for the embedded system on Linux then uncomment the following line to also use simulation mode
+drvNSLS2_IC_CXXFLAGS_Linux  += -DSIMULATION_MODE
+
 # The following builds a test application
 #==================================
 PROD_NAME = quadEMTestApp
@@ -49,7 +56,6 @@ PROD_SRCS_vxWorks += $(PROD_NAME)Vx_registerRecordDeviceDriver.cpp
 PROD_LIBS += quadEM
 PROD_LIBS_vxWorks += Ipac
 PROD_LIBS_vxWorks += ipUnidig
-
 
 ifdef SNCSEQ
     PROD_LIBS += seq
@@ -67,6 +73,7 @@ $(PROD_NAME)_DBD += drvAHxxx.dbd
 $(PROD_NAME)_DBD += drvTetrAMM.dbd
 $(PROD_NAME)_DBD += drvNSLS_EM.dbd
 $(PROD_NAME)_DBD += drvNSLS2_EM.dbd
+$(PROD_NAME)_DBD += drvNSLS2_IC.dbd
 
 PROD_NAME = quadEMTestApp
 quadEMTestAppVx_DBD += $(PROD_NAME).dbd
