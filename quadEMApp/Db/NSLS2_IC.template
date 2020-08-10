@@ -1,0 +1,135 @@
+# Database for NSLS2 Ion Chamber
+#   D. P. Siddons
+#   Sept. 9, 2019
+# based on:
+# Database for NSLS2 electrometer
+#   Mark Rivers
+#   Jan. 26, 2017
+
+include "quadEM.template"
+
+# We replace the choices for the Range
+record(mbbo,"$(P)$(R)Range") {
+    field(ZRVL,"0")
+    field(ZRST,"1 nC")
+    field(ONVL,"1")
+    field(ONST,"50 pC")
+    field(TWVL,"2")
+    field(TWST,"100 pC")
+    field(THVL,"3")
+    field(THST,"150 pC")
+    field(FRVL,"4")
+    field(FRST,"200 pC")
+    field(FVVL,"5")
+    field(FVST,"250 pC")
+    field(SXVL,"6")
+    field(SXST,"300 pC")
+    field(SVVL,"7")
+    field(SVST,"350 pC")
+}
+
+record(mbbi,"$(P)$(R)Range_RBV") {
+    field(ZRVL,"0")
+    field(ZRST,"1 nC")
+    field(ONVL,"1")
+    field(ONST,"50 pC")
+    field(TWVL,"2")
+    field(TWST,"100 pC")
+    field(THVL,"3")
+    field(THST,"150 pC")
+    field(FRVL,"4")
+    field(FRST,"200 pC")
+    field(FVVL,"5")
+    field(FVST,"250 pC")
+    field(SXVL,"6")
+    field(SXST,"300 pC")
+    field(SVVL,"7")
+    field(SVST,"350 pC")
+}
+
+# Set Bias range
+record(ao,"$(P)$(R)BiasVoltage") {
+    field(DRVL, "0")
+    field(DRVH, "500")
+}
+
+# New records for NSLS2_IC
+record(bo,"$(P)$(R)CalibrationMode") {
+    field(DESC, "Calibration Mode")
+    field(PINI, "YES")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)QE_CALIBRATION_MODE")
+}
+
+record(bi,"$(P)$(R)CalibrationMode_RBV") {
+    field(DESC, "Calibration Mode")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)QE_CALIBRATION_MODE")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao,"$(P)$(R)IntegrationTime") {
+    field(DRVL,".000400")
+    field(LOPR,".000400")
+    field(DRVH,"1")
+    field(HOPR,"1")
+}
+
+record(ai,"$(P)$(R)IntegrationTime_RBV") {
+    field(LOPR,".000400")
+    field(HOPR,"1")
+}
+
+record(longout,"$(P)$(R)ADCOffset1") {
+    field(DESC, "ADC Offset channel 1")
+   field(PINI, "YES")
+    field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT) 0)QE_ADC_OFFSET")
+}
+
+record(longout,"$(P)$(R)ADCOffset2") {
+    field(DESC, "ADC Offset channel 2")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 1)QE_ADC_OFFSET")
+}
+
+record(longout,"$(P)$(R)ADCOffset3") {
+    field(DESC, "ADC Offset channel 3")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 2)QE_ADC_OFFSET")
+}
+
+record(longout,"$(P)$(R)ADCOffset4") {
+    field(DESC, "ADC Offset channel 4")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 3)QE_ADC_OFFSET")
+}
+
+record(transform, "$(P)$(R)CopyADCOffsets") {
+    field(INPA, "$(P)$(R)Current1:MeanValue_RBV NPP")
+    field(CLCB, "A")
+    field(OUTB, "$(P)$(R)ADCOffset1 PP")
+    field(INPC, "$(P)$(R)Current2:MeanValue_RBV NPP")
+    field(CLCD, "C")
+    field(OUTD, "$(P)$(R)ADCOffset2 PP")
+    field(INPE, "$(P)$(R)Current3:MeanValue_RBV NPP")
+    field(CLCF, "E")
+    field(OUTF, "$(P)$(R)ADCOffset3 PP")
+    field(INPG, "$(P)$(R)Current4:MeanValue_RBV NPP")
+    field(CLCH, "G")
+    field(OUTH, "$(P)$(R)ADCOffset4 PP")
+}
+
+record(ai,"$(P)$(R)FullScale_RBV"){
+    field(DESC, "Full-scale current")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT) 0)QE_FULL_SCALE")
+    field(SCAN, "I/O Intr")
+}
