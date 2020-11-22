@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 785
-y 334
+x 775
+y 326
 w 430
-h 275
+h 302
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-bold-r-10.0"
 btnFont "helvetica-medium-r-18.0"
@@ -220,8 +220,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 30
-y 225
+x 31
+y 249
 w 160
 h 20
 font "helvetica-medium-r-14.0"
@@ -240,8 +240,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 195
-y 225
+x 196
+y 249
 w 100
 h 20
 controlPv "$(P)$(R)HVIReadback"
@@ -264,8 +264,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 80
-y 250
+x 81
+y 274
 w 110
 h 20
 font "helvetica-medium-r-14.0"
@@ -284,8 +284,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 195
-y 250
+x 196
+y 274
 w 100
 h 20
 controlPv "$(P)$(R)Temperature"
@@ -308,8 +308,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 30
-y 200
+x 31
+y 224
 w 160
 h 20
 font "helvetica-medium-r-14.0"
@@ -328,8 +328,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 195
-y 200
+x 196
+y 224
 w 100
 h 20
 controlPv "$(P)$(R)HVVReadback"
@@ -352,8 +352,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 60
-y 175
+x 61
+y 199
 w 130
 h 20
 font "helvetica-medium-r-14.0"
@@ -372,8 +372,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 195
-y 175
+x 196
+y 199
 w 100
 h 20
 controlPv "$(P)$(R)HVSReadback"
@@ -520,6 +520,50 @@ w 100
 h 20
 controlPv "$(P)$(R)TriggerPolarity_RBV"
 format "string"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 56
+y 175
+w 134
+h 20
+font "helvetica-medium-r-14.0"
+fontAlign "right"
+fgColor rgb 0 0 0
+bgColor index 3
+useDisplayBg
+value {
+  "Interlock readback"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 196
+y 175
+w 100
+h 20
+controlPv "$(P)$(R)InterlockStatus_RBV"
+format "decimal"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
