@@ -41,3 +41,22 @@ record(mbbi,"$(P)$(R)TriggerMode_RBV") {
     field(THVL, "4")
     field(THST, "Ext. gate")
 }
+
+record(bi,"$(P)$(R)InterlockStatus_RBV") {
+    field(DESC, "Interlock status")
+    field(DTYP, "asynInt32")
+    field(ZNAM, "HV Enabled")
+    field(ONAM, "HV Disabled")
+    field(INP,  "@asyn($(PORT) 0) TETRAMM_INTERLOCK_STATUS")
+    field(SCAN, "I/O Intr")
+}
+
+record(calcout,"$(P)$(R)InterlockCheck"){
+    field(DESC, "Disable HV if Interlock trips")
+    field(INPA, "$(P)$(R)InterlockStatus_RBV CP")
+    field(CALC, "A")
+    field(OUT,  "$(P)$(R)BiasState PP")
+    field(OCAL, "0")
+    field(OOPT, "Transition To Non-zero")
+    field(DOPT, "Use OCAL")   
+}

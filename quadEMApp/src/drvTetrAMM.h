@@ -11,6 +11,7 @@
 #include "drvQuadEM.h"
 
 #define MAX_COMMAND_LEN 256
+#define P_InterlockStatusString  "TETRAMM_INTERLOCK_STATUS"             /* asynInt32,    r/w */
 
 /** Class to control the CaenEls TetrAMM 4-Channel Picoammeter */
 class drvTetrAMM : public drvQuadEM {
@@ -41,6 +42,7 @@ protected:
     virtual asynStatus setTriggerMode(epicsInt32 value);
     virtual asynStatus setTriggerPolarity(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
+    int P_InterlockStatus;
  
 private:
     /* Our data */
