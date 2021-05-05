@@ -87,6 +87,22 @@ display {
 		1a7309,
 	}
 }
+"related display" {
+	object {
+		x=24
+		y=184
+		width=90
+		height=22
+	}
+	display[0] {
+		name="customWeights.adl"
+		args="P=$(P),R=$(R)"
+	}
+	clr=14
+	bclr=35
+	label="Weights"
+	visual="a row of buttons"
+}
 rectangle {
 	object {
 		x=0
@@ -783,32 +799,6 @@ text {
 	}
 	textix="Scale"
 	align="horiz. right"
-}
-text {
-	object {
-		x=702
-		y=287
-		width=10
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Y"
-	align="horiz. centered"
-}
-text {
-	object {
-		x=601
-		y=287
-		width=10
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="X"
-	align="horiz. centered"
 }
 text {
 	object {
@@ -2492,8 +2482,8 @@ composite {
 	object {
 		x=10
 		y=460
-		width=390
-		height=45
+		width=392
+		height=294
 	}
 	"composite name"=""
 	"composite file"="NSLS_EM.adl"
@@ -2703,4 +2693,38 @@ composite {
 	}
 	"composite name"=""
 	"composite file"="ADBuffers.adl"
+}
+"text update" {
+	object {
+		x=552
+		y=287
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Xlabel"
+		clr=14
+		bclr=3
+	}
+	align="horiz. centered"
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=658
+		y=287
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Ylabel"
+		clr=14
+		bclr=3
+	}
+	align="horiz. centered"
+	format="string"
+	limits {
+	}
 }
