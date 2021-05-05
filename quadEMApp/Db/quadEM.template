@@ -408,6 +408,8 @@ record(mbbo,"$(P)$(R)Geometry") {
     field(ZRST, "Diamond")
     field(ONVL, "1")
     field(ONST, "Square")
+    field(TWVL, "2")
+    field(TWST, "Custom")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT) 0)QE_GEOMETRY")
 }
@@ -418,9 +420,23 @@ record(mbbi,"$(P)$(R)Geometry_RBV") {
     field(ZRST, "Diamond")
     field(ONVL, "1")
     field(ONST, "Square")
+    field(TWVL, "2")
+    field(TWST, "Custom")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT) 0)QE_GEOMETRY")
     field(SCAN, "I/O Intr")
+}
+
+record(stringin,"$(P)$(R)Xlabel") {
+    field(PINI, "YES")
+    field(DESC, "X label")
+    field(VAL,  "X")
+}
+
+record(stringin,"$(P)$(R)Ylabel") {
+    field(PINI, "YES")
+    field(DESC, "Y label")
+    field(VAL,  "Y")
 }
 
 record(stringin,"$(P)$(R)CurrentName1") {
@@ -699,6 +715,152 @@ record(ao,"$(P)$(R)CurrentScale4") {
     field(PREC, "3")
 }
 
+record(ao,"$(P)$(R)WeightXsum1") {
+    field(DESC, "Wxsum 1")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0)QE_WEIGHT_XSUM")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightXsum2") {
+    field(DESC, "Wxsum 2")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 1)QE_WEIGHT_XSUM")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightXsum3") {
+    field(DESC, "Wxsum 3")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 2)QE_WEIGHT_XSUM")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightXsum4") {
+    field(DESC, "Wxsum 4")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 3)QE_WEIGHT_XSUM")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightYsum1") {
+    field(DESC, "Wysum 1")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0)QE_WEIGHT_YSUM")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightYsum2") {
+    field(DESC, "Wysum 2")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 1)QE_WEIGHT_YSUM")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightYsum3") {
+    field(DESC, "Wysum 3")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 2)QE_WEIGHT_YSUM")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightYsum4") {
+    field(DESC, "Wysum 4")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 3)QE_WEIGHT_YSUM")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightXdelta1") {
+    field(DESC, "Wxdelta 1")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0)QE_WEIGHT_XDELTA")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightXdelta2") {
+    field(DESC, "Wxdelta 2")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 1)QE_WEIGHT_XDELTA")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightXdelta3") {
+    field(DESC, "Wxdelta 3")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 2)QE_WEIGHT_XDELTA")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightXdelta4") {
+    field(DESC, "Wxdelta 4")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 3)QE_WEIGHT_XDELTA")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightYdelta1") {
+    field(DESC, "Wydelta 1")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0)QE_WEIGHT_YDELTA")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightYdelta2") {
+    field(DESC, "Wydelta 2")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 1)QE_WEIGHT_YDELTA")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightYdelta3") {
+    field(DESC, "Wydelta 3")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 2)QE_WEIGHT_YDELTA")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
+
+record(ao,"$(P)$(R)WeightYdelta4") {
+    field(DESC, "Wydelta 4")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 3)QE_WEIGHT_YDELTA")
+    field(VAL,  "1.0")
+    field(PREC, "3")
+}
 record(mbbo,"$(P)$(R)PositionPrecX") {
     field(DESC, "Precision")
     field(OUT, "$(P)$(R)PositionPrecFanoutX PP")
