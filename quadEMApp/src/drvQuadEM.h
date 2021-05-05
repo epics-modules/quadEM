@@ -18,6 +18,10 @@
 #define P_AcquireModeString        "QE_ACQUIRE_MODE"            /* asynInt32,    r/w */
 #define P_CurrentOffsetString      "QE_CURRENT_OFFSET"          /* asynFloat64,  r/w */
 #define P_CurrentScaleString       "QE_CURRENT_SCALE"           /* asynFloat64,  r/w */
+#define P_WeightXsumString         "QE_WEIGHT_XSUM"             /* asynFloat64,  r/w */
+#define P_WeightYsumString         "QE_WEIGHT_YSUM"             /* asynFloat64,  r/w */
+#define P_WeightXdeltaString       "QE_WEIGHT_XDELTA"           /* asynFloat64,  r/w */
+#define P_WeightYdeltaString       "QE_WEIGHT_YDELTA"           /* asynFloat64,  r/w */
 #define P_PositionOffsetString     "QE_POSITION_OFFSET"         /* asynFloat64,  r/w */
 #define P_PositionScaleString      "QE_POSITION_SCALE"          /* asynFloat64,  r/w */
 #define P_GeometryString           "QE_GEOMETRY"                /* asynInt32,    r/w */
@@ -86,7 +90,8 @@ typedef enum {
 
 typedef enum {
     QEGeometryDiamond,
-    QEGeometrySquare
+    QEGeometrySquare,
+    QEGeometryCustom
 } QEGeometry_t;
 
 /* Acquire modes */
@@ -139,6 +144,10 @@ protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
     int P_AcquireMode;
     #define FIRST_QE_COMMAND P_AcquireMode
+    int P_WeightXsum;
+    int P_WeightYsum;
+    int P_WeightXdelta;
+    int P_WeightYdelta;
     int P_CurrentOffset;
     int P_CurrentScale;
     int P_PositionOffset;
