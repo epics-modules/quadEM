@@ -463,9 +463,8 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         status |= reset();
         status |= readStatus();
     }
-    else {
-        /* All other parameters just get set in parameter list, no need to
-         * act on them here */
+    else if (function < FIRST_QE_COMMAND) {
+        status = asynNDArrayDriver::writeInt32(pasynUser, value);
     }
     
     /* Do callbacks so higher layers see any changes */
