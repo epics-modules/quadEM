@@ -4,10 +4,10 @@
 <widget class="QMainWindow" name="MainWindow">
     <property name="geometry">
         <rect>
-            <x>125</x>
-            <y>92</y>
+            <x>332</x>
+            <y>33</y>
             <width>915</width>
-            <height>910</height>
+            <height>1025</height>
         </rect>
     </property>
     <property name="styleSheet">
@@ -295,7 +295,7 @@ border-radius: 2px;
             </property>
             <property name="geometry">
                 <rect>
-                    <x>0</x>
+                    <x>5</x>
                     <y>5</y>
                     <width>170</width>
                     <height>20</height>
@@ -6829,16 +6829,16 @@ border-radius: 2px;
         <widget class="caInclude" name="caInclude_0">
             <property name="geometry">
                 <rect>
-                    <x>20</x>
-                    <y>745</y>
+                    <x>490</x>
+                    <y>910</y>
                     <width>354</width>
                     <height>114</height>
                 </rect>
             </property>
             <property name="geometry">
                 <rect>
-                    <x>20</x>
-                    <y>745</y>
+                    <x>490</x>
+                    <y>910</y>
                     <width>352</width>
                     <height>112</height>
                 </rect>
@@ -6988,7 +6988,7 @@ border-radius: 2px;
                     <x>10</x>
                     <y>460</y>
                     <width>432</width>
-                    <height>277</height>
+                    <height>304</height>
                 </rect>
             </property>
             <property name="geometry">
@@ -6996,7 +6996,7 @@ border-radius: 2px;
                     <x>10</x>
                     <y>460</y>
                     <width>430</width>
-                    <height>275</height>
+                    <height>302</height>
                 </rect>
             </property>
             <property name="filename">
@@ -7467,6 +7467,30 @@ border-radius: 2px;
                 <enum>caMenu::Static</enum>
             </property>
         </widget>
+        <widget class="caInclude" name="caInclude_10">
+            <property name="geometry">
+                <rect>
+                    <x>30</x>
+                    <y>759</y>
+                    <width>354</width>
+                    <height>164</height>
+                </rect>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>30</x>
+                    <y>759</y>
+                    <width>352</width>
+                    <height>162</height>
+                </rect>
+            </property>
+            <property name="filename">
+                <string>ADBuffers.adl</string>
+            </property>
+            <property name="macro">
+                <string></string>
+            </property>
+        </widget>
         <zorder>caRectangle_0</zorder>
         <zorder>caPolyLine_0</zorder>
         <zorder>caLabel_0</zorder>
@@ -7541,6 +7565,7 @@ border-radius: 2px;
         <zorder>caFrame_9</zorder>
         <zorder>caLabel_56</zorder>
         <zorder>caLabel_57</zorder>
+        <zorder>caInclude_10</zorder>
         <zorder>caLineEdit_0</zorder>
         <zorder>caChoice_0</zorder>
         <zorder>caLineEdit_1</zorder>

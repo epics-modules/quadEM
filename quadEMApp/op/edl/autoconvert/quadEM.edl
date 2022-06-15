@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 125
-y 92
+x 332
+y 33
 w 915
-h 910
+h 1025
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-bold-r-10.0"
 btnFont "helvetica-medium-r-18.0"
@@ -114,7 +114,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 0
+x 5
 y 5
 w 170
 h 20
@@ -2823,8 +2823,8 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 20
-y 745
+x 490
+y 910
 w 350
 h 110
 
@@ -2836,8 +2836,8 @@ beginObjectProperties
 major 4
 minor 1
 release 0
-x 20
-y 745
+x 490
+y 910
 w 350
 h 110
 fgColor rgb 0 0 0
@@ -3045,7 +3045,7 @@ release 0
 x 10
 y 460
 w 392
-h 270
+h 294
 
 beginGroup
 
@@ -3058,7 +3058,7 @@ release 0
 x 10
 y 460
 w 392
-h 270
+h 294
 fgColor rgb 0 0 0
 bgColor rgb 65280 65280 65280
 topShadowColor rgb 65280 65280 65280
@@ -3356,6 +3356,49 @@ value {
 }
 endObjectProperties
 
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 30
+y 759
+w 350
+h 160
+
+beginGroup
+
+# (Embedded Window)
+object activePipClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 30
+y 759
+w 350
+h 160
+fgColor rgb 0 0 0
+bgColor rgb 65280 65280 65280
+topShadowColor rgb 65280 65280 65280
+botShadowColor rgb 0 0 0
+displaySource "file"
+file "ADBuffers.edl"
+sizeOfs 5
+numDsps 1
+displayFileName {
+  0 "ADBuffers.edl"
+}
+noScroll
+endObjectProperties
+
+endGroup
+
+visMin "A"
+visMax "1"
+endObjectProperties
+
 # (Choice Button)
 object activeChoiceButtonClass
 beginObjectProperties
@@ -3616,10 +3659,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 quadEM_plotAll.edl
+  0 "quadEM_plotAll.edl"
 }
 menuLabel {
-  0 X (current, sum, pos)
+  0 "X (current, sum, pos)"
 }
 symbols {
   0 "P=$(P)$(R)TS:,CURR1=Current1:TimeSeries,CURR2=Current2:TimeSeries,SUM=SumX:TimeSeries,POS=PosX:TimeSeries,XAXIS=TSTimeAxis,TITLE=$(TX),XTITLE=Time(sec),YTITLE=Counts"
@@ -3648,30 +3691,30 @@ icon
 numPvs 22
 numDsps 11
 displayFileName {
-  0 NDTimeSeriesPlot.edl
-  1 NDTimeSeriesPlot.edl
-  2 NDTimeSeriesPlot.edl
-  3 NDTimeSeriesPlot.edl
-  4 NDTimeSeriesPlot.edl
-  5 NDTimeSeriesPlot.edl
-  6 NDTimeSeriesPlot.edl
-  7 NDTimeSeriesPlot.edl
-  8 NDTimeSeriesPlot.edl
-  9 NDTimeSeriesPlot.edl
-  10 NDTimeSeriesPlot.edl
+  0 "NDTimeSeriesPlot.edl"
+  1 "NDTimeSeriesPlot.edl"
+  2 "NDTimeSeriesPlot.edl"
+  3 "NDTimeSeriesPlot.edl"
+  4 "NDTimeSeriesPlot.edl"
+  5 "NDTimeSeriesPlot.edl"
+  6 "NDTimeSeriesPlot.edl"
+  7 "NDTimeSeriesPlot.edl"
+  8 "NDTimeSeriesPlot.edl"
+  9 "NDTimeSeriesPlot.edl"
+  10 "NDTimeSeriesPlot.edl"
 }
 menuLabel {
-  0 Current 1
-  1 Current 2
-  2 Current 3
-  3 Current 4
-  4 Sum X
-  5 Sum Y
-  6 Sum All
-  7 Difference X
-  8 Difference Y
-  9 Position X
-  10 Position Y
+  0 "Current 1"
+  1 "Current 2"
+  2 "Current 3"
+  3 "Current 4"
+  4 "Sum X"
+  5 "Sum Y"
+  6 "Sum All"
+  7 "Difference X"
+  8 "Difference Y"
+  9 "Position X"
+  10 "Position Y"
 }
 symbols {
   0 "P=$(P)$(R),R=TS:,RN=TS:Current1:"
@@ -3720,10 +3763,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 quadEM_plotAll.edl
+  0 "quadEM_plotAll.edl"
 }
 menuLabel {
-  0 Y (current, sum, pos)
+  0 "Y (current, sum, pos)"
 }
 symbols {
   0 "P=$(P)$(R)TS:,CURR1=Current3:TimeSeries,CURR2=Current4:TimeSeries,SUM=SumY:TimeSeries,POS=PosY:TimeSeries,XAXIS=TSTimeAxis,TITLE=$(TY),XTITLE=Time(sec),YTITLE=Counts"
@@ -3752,10 +3795,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 quadEM_plotAll.edl
+  0 "quadEM_plotAll.edl"
 }
 menuLabel {
-  0 X (current, sum, pos)
+  0 "X (current, sum, pos)"
 }
 symbols {
   0 "P=$(P)$(R)FFT:,CURR1=Current1:FFTAbsValue,CURR2=Current2:FFTAbsValue,SUM=SumX:FFTAbsValue,POS=PosX:FFTAbsValue,XAXIS=PosX:FFTFreqAxis,TITLE=$(TX),XTITLE=Frequency(Hz),YTITLE=Counts"
@@ -3784,10 +3827,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 quadEM_plotAll.edl
+  0 "quadEM_plotAll.edl"
 }
 menuLabel {
-  0 X (current, sum, pos)
+  0 "X (current, sum, pos)"
 }
 symbols {
   0 "P=$(P)$(R)FFT:,CURR1=Current3:FFTAbsValue,CURR2=Current4:FFTAbsValue,SUM=SumY:FFTAbsValue,POS=PosY:FFTAbsValue,XAXIS=PosY:FFTFreqAxis,TITLE=$(TY),XTITLE=Frequency(Hz),YTITLE=Counts"
@@ -3816,30 +3859,30 @@ icon
 numPvs 22
 numDsps 11
 displayFileName {
-  0 NDFFTFreqSpectrumPlot.edl
-  1 NDFFTFreqSpectrumPlot.edl
-  2 NDFFTFreqSpectrumPlot.edl
-  3 NDFFTFreqSpectrumPlot.edl
-  4 NDFFTFreqSpectrumPlot.edl
-  5 NDFFTFreqSpectrumPlot.edl
-  6 NDFFTFreqSpectrumPlot.edl
-  7 NDFFTFreqSpectrumPlot.edl
-  8 NDFFTFreqSpectrumPlot.edl
-  9 NDFFTFreqSpectrumPlot.edl
-  10 NDFFTFreqSpectrumPlot.edl
+  0 "NDFFTFreqSpectrumPlot.edl"
+  1 "NDFFTFreqSpectrumPlot.edl"
+  2 "NDFFTFreqSpectrumPlot.edl"
+  3 "NDFFTFreqSpectrumPlot.edl"
+  4 "NDFFTFreqSpectrumPlot.edl"
+  5 "NDFFTFreqSpectrumPlot.edl"
+  6 "NDFFTFreqSpectrumPlot.edl"
+  7 "NDFFTFreqSpectrumPlot.edl"
+  8 "NDFFTFreqSpectrumPlot.edl"
+  9 "NDFFTFreqSpectrumPlot.edl"
+  10 "NDFFTFreqSpectrumPlot.edl"
 }
 menuLabel {
-  0 Current 1
-  1 Current 2
-  2 Current 3
-  3 Current 4
-  4 Sum X
-  5 Sum Y
-  6 Sum All
-  7 Difference X
-  8 Difference Y
-  9 Position X
-  10 Position Y
+  0 "Current 1"
+  1 "Current 2"
+  2 "Current 3"
+  3 "Current 4"
+  4 "Sum X"
+  5 "Sum Y"
+  6 "Sum All"
+  7 "Difference X"
+  8 "Difference Y"
+  9 "Position X"
+  10 "Position Y"
 }
 symbols {
   0 "P=$(P)$(R),RTS=TS:,R=FFT:Current1:,S=FFTAbsValue"
@@ -3889,10 +3932,10 @@ buttonLabel "Plugin control"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDPluginTimeSeries.edl
+  0 "NDPluginTimeSeries.edl"
 }
 menuLabel {
-  0 Time series control
+  0 "Time series control"
 }
 symbols {
   0 "P=$(P)$(R),R=TS:,R1=TS:Current1:,T1=Current1,R2=TS:Current2:,T2=Current2,R3=TS:Current3:,T3=Current3,R4=TS:Current4:,T4=Current4,R5=TS:SumX:,T5=SumX,R6=TS:SumY:,T6=SumY,R7=TS:SumAll:,T7=SumAll,R8=TS:PosX:,T8=PosX,R9=TS:PosY:,T9=PosY"
@@ -3971,12 +4014,12 @@ icon
 numPvs 4
 numDsps 2
 displayFileName {
-  0 QECommonPlugins.edl
-  1 QEFFTPlugins.edl
+  0 "QECommonPlugins.edl"
+  1 "QEFFTPlugins.edl"
 }
 menuLabel {
-  0 Common plugins
-  1 FFT plugins
+  0 "Common plugins"
+  1 "FFT plugins"
 }
 symbols {
   0 "P=$(P),R=$(R)"
@@ -4032,10 +4075,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 asynRecord.edl
+  0 "asynRecord.edl"
 }
 menuLabel {
-  0 asyn record
+  0 "asyn record"
 }
 symbols {
   0 "P=$(P),R=$(R)Asyn"

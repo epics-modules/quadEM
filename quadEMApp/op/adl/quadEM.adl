@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/support/quadEM-9-1/quadEMApp/op/adl/quadEM.adl"
-	version=030109
+	name="/home/epics/devel/quadEM-9-4/quadEMApp/op/adl/quadEM.adl"
+	version=030117
 }
 display {
 	object {
-		x=125
-		y=92
+		x=332
+		y=33
 		width=915
-		height=910
+		height=1025
 	}
 	clr=14
 	bclr=3
@@ -146,7 +146,7 @@ text {
 }
 text {
 	object {
-		x=0
+		x=5
 		y=5
 		width=170
 		height=20
@@ -2415,8 +2415,8 @@ text {
 }
 composite {
 	object {
-		x=20
-		y=745
+		x=490
+		y=910
 		width=350
 		height=110
 	}
@@ -2488,7 +2488,7 @@ composite {
 		x=10
 		y=460
 		width=392
-		height=270
+		height=294
 	}
 	"composite name"=""
 	"composite file"="TetrAMM.adl"
@@ -2673,4 +2673,14 @@ menu {
 		clr=14
 		bclr=51
 	}
+}
+composite {
+	object {
+		x=30
+		y=759
+		width=350
+		height=160
+	}
+	"composite name"=""
+	"composite file"="ADBuffers.adl"
 }
