@@ -29,9 +29,9 @@
       <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
-          <P>quadEMTest:</P>
-          <P_FFT>quadEMTest:AH401B_FFT:</P_FFT>
-          <P_TS>quadEMTest:AH401B_TS:</P_TS>
+          <P>QE1:</P>
+          <P_FFT>QE1:AH401B_FFT:</P_FFT>
+          <P_TS>QE1:AH401B_TS:</P_TS>
           <R>AH401B:</R>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
@@ -42,9 +42,9 @@
       <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
-          <P>quadEMTest:</P>
-          <P_FFT>quadEMTest:AH501_FFT:</P_FFT>
-          <P_TS>quadEMTest:AH501_TS:</P_TS>
+          <P>QE1:</P>
+          <P_FFT>QE1:AH501_FFT:</P_FFT>
+          <P_TS>QE1:AH501_TS:</P_TS>
           <R>AH501:</R>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
@@ -55,9 +55,9 @@
       <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
-          <P>quadEMTest:</P>
-          <P_FFT>quadEMTest:APS_EM_FFT:</P_FFT>
-          <P_TS>quadEMTest:APS_EM_TS:</P_TS>
+          <P>QE1:</P>
+          <P_FFT>QE1:APS_EM_FFT:</P_FFT>
+          <P_TS>QE1:APS_EM_TS:</P_TS>
           <R>APS_EM:</R>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
@@ -68,7 +68,7 @@
       <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
-          <P>quadEMTest:</P>
+          <P>QE1:</P>
           <R>TetrAMM:</R>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
@@ -79,9 +79,9 @@
       <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
-          <P>quadEMTest:</P>
-          <P_FFT>quadEMTest:NSLS_EM_FFT:</P_FFT>
-          <P_TS>quadEMTest:NSLS_EM_TS:</P_TS>
+          <P>QE1:</P>
+          <P_FFT>QE1:NSLS_EM_FFT:</P_FFT>
+          <P_TS>QE1:NSLS_EM_TS:</P_TS>
           <R>NSLS_EM:</R>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
@@ -92,9 +92,9 @@
       <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
-          <P>quadEMTest:</P>
-          <P_FFT>quadEMTest:NSLS2_EM_FFT:</P_FFT>
-          <P_TS>quadEMTest:NSLS2_EM_TS:</P_TS>
+          <P>QE1:</P>
+          <P_FFT>QE1:NSLS2_EM_FFT:</P_FFT>
+          <P_TS>QE1:NSLS2_EM_TS:</P_TS>
           <R>NSLS2_EM:</R>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
@@ -105,9 +105,9 @@
       <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
-          <P>quadEMTest:</P>
-          <P_FFT>quadEMTest:NSLS2_IC_FFT:</P_FFT>
-          <P_TS>quadEMTest:NSLS2_IC_TS:</P_TS>
+          <P>QE1:</P>
+          <P_FFT>QE1:NSLS2_IC_FFT:</P_FFT>
+          <P_TS>QE1:NSLS2_IC_TS:</P_TS>
           <R>NSLS2_IC:</R>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
