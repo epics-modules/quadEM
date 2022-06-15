@@ -1,5 +1,5 @@
 # To build a standalone binary uncomment this line
-#  STATIC_BUILD=YES
+# STATIC_BUILD=YES
 #
 
 # Use site-specific definitions from areaDetector to find HDF5, etc.
