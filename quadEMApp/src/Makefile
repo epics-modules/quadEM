@@ -15,7 +15,7 @@ DBD += drvAHxxx.dbd
 DBD += drvTetrAMM.dbd
 DBD += drvNSLS_EM.dbd
 DBD += drvNSLS2_EM.dbd
-DBD += drvNSLS2_IC.dbd
+#DBD += drvNSLS2_IC.dbd
 DBD += quadEMTestApp.dbd
 DBD += quadEMTestAppVx.dbd
 
@@ -27,7 +27,7 @@ quadEM_SRCS         += drvAHxxx.cpp
 quadEM_SRCS         += drvTetrAMM.cpp
 quadEM_SRCS         += drvNSLS_EM.cpp
 quadEM_SRCS         += drvNSLS2_EM.cpp
-quadEM_SRCS         += drvNSLS2_IC.cpp
+#quadEM_SRCS         += drvNSLS2_IC.cpp
 quadEM_SRCS_vxWorks += drvAPS_EM.cpp
 
 quadEM_LIBS_vxWorks += Ipac
@@ -73,7 +73,7 @@ $(PROD_NAME)_DBD += drvAHxxx.dbd
 $(PROD_NAME)_DBD += drvTetrAMM.dbd
 $(PROD_NAME)_DBD += drvNSLS_EM.dbd
 $(PROD_NAME)_DBD += drvNSLS2_EM.dbd
-$(PROD_NAME)_DBD += drvNSLS2_IC.dbd
+#$(PROD_NAME)_DBD += drvNSLS2_IC.dbd
 
 PROD_NAME = quadEMTestApp
 quadEMTestAppVx_DBD += $(PROD_NAME).dbd
