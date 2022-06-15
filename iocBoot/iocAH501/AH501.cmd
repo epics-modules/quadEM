@@ -1,4 +1,4 @@
-epicsEnvSet("PREFIX",    "quadEMTest:")
+epicsEnvSet("PREFIX",    "QE1:")
 epicsEnvSet("RECORD",    "AH501:")
 epicsEnvSet("PORT",      "AH501")
 epicsEnvSet("TEMPLATE",  "AH501")
