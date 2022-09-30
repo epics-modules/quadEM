@@ -188,9 +188,9 @@ void drvTetrAMM::readThread(void)
     void *octetPvt;
     char charData[BINARY_BUFFER_SIZE];
     epicsFloat64 *f64Data = (epicsFloat64 *)charData;
-    long long *i64Data = (long long *)charData;
+    unsigned long long *i64Data = (unsigned long long *)charData;
     unsigned char *pc;
-    long long lastValue;
+    unsigned long long lastValue;
     char ASCIIData[ASCII_BUFFER_SIZE];
     char *inPtr;
     size_t nRequested;
@@ -265,12 +265,12 @@ void drvTetrAMM::readThread(void)
             }
             lastValue = i64Data[numChannels_];
             switch(lastValue) {
-                case 0xfff40002ffffffffll:
+                case 0xfff40002ffffffffull:
                     // This is a signalling Nan at the end of normal data
                     for (i=numChannels_; i<4; i++) f64Data[i] = 0.0;
                     computePositions(f64Data);
                    break;
-                case 0xfff40000ffffffffll:
+                case 0xfff40000ffffffffull:
                     // This is a signalling Nan on the rising edge of a trigger
                     numTrigStarts++;
                     if (nextExpectedEdge != 0) {
@@ -280,7 +280,7 @@ void drvTetrAMM::readThread(void)
                     }
                     nextExpectedEdge = 1;
                     break;
-                case 0xfff40001ffffffffll:
+                case 0xfff40001ffffffffull:
                     // This is a signalling Nan on the falling edge of a trigger
                     numTrigEnds++;
                     if (triggerMode == QETriggerModeExtBulb) {
@@ -293,10 +293,10 @@ void drvTetrAMM::readThread(void)
                     }
                     nextExpectedEdge = 0;
                     break;
-                case 0xfff40003ffffffffll:
+                case 0xfff40003ffffffffull:
                     // This is a signaling Nan when the acquistion was stopped
                     asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-                            "%s::%s: seen acq done sNaN (0xfff40003ffffffffll)\n",
+                            "%s::%s: seen acq done sNaN (0xfff40003ffffffffull)\n",
                             driverName, functionName);
                     break;
                 default: 
