@@ -30,7 +30,7 @@ for several models:
 
 
 Additional information:
-* [Home page](https://htmlpreview.github.io/?https://github.com/epics-modules/quadEM/blob/master/documentation/quadEM.html)
-* [Documentation](https://htmlpreview.github.io/?https://github.com/epics-modules/quadEM/blob/master/documentation/quadEMDoc.html)
-* [Release notes](https://htmlpreview.github.io/?https://github.com/epics-modules/quadEM/blob/master/documentation/quadEMReleaseNotes.html)
+* [Home page](https://epics-modules.github.io/quadEM)
+* [Documentation](https://epics-modules.github.io/quadEM/quadEMDoc.html)
+* [Release notes](https://epics-modules.github.io/quadEM/quadEMReleaseNotes.html)
 
