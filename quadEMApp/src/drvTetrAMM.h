@@ -38,6 +38,7 @@ protected:
     virtual asynStatus setNumChannels(epicsInt32 value);
     virtual asynStatus setNumAcquire(epicsInt32 value);
     virtual asynStatus setRange(epicsInt32 value);
+    virtual asynStatus setRange(int channel, epicsInt32 value);
     virtual asynStatus setReadFormat(epicsInt32 value);
     virtual asynStatus setTriggerMode(epicsInt32 value);
     virtual asynStatus setTriggerPolarity(epicsInt32 value);
