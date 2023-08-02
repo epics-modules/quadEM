@@ -426,7 +426,11 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         status |= readStatus();
     }
     else if (function == P_Range) {
-        status |= setRange(value);
+        if (channel == 0) {
+            status |= setRange(value);
+        } else {
+           status |= setRange(channel, value);
+        }
         status |= readStatus();
     }
     else if (function == P_ReadData) {
@@ -618,6 +622,7 @@ asynStatus drvQuadEM::setNumChannels(epicsInt32 value)       {return asynSuccess
 asynStatus drvQuadEM::setNumAcquire(epicsInt32 value)        {return asynSuccess;}
 asynStatus drvQuadEM::setPingPong(epicsInt32 value)          {return asynSuccess;}
 asynStatus drvQuadEM::setRange(epicsInt32 value)             {return asynSuccess;}
+asynStatus drvQuadEM::setRange(int chan, epicsInt32 value)   {return asynSuccess;}
 asynStatus drvQuadEM::setReadFormat(epicsInt32 value)        {return asynSuccess;}
 asynStatus drvQuadEM::setResolution(epicsInt32 value)        {return asynSuccess;}
 asynStatus drvQuadEM::setTriggerMode(epicsInt32 value)       {return asynSuccess;}
