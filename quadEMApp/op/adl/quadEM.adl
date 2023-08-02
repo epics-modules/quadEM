@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM-9-4/quadEMApp/op/adl/quadEM.adl"
+	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM.adl"
 	version=030117
 }
 display {
@@ -2488,7 +2488,7 @@ composite {
 		x=10
 		y=460
 		width=392
-		height=294
+		height=395
 	}
 	"composite name"=""
 	"composite file"="TetrAMM.adl"
@@ -2677,7 +2677,7 @@ menu {
 composite {
 	object {
 		x=30
-		y=759
+		y=860
 		width=350
 		height=160
 	}

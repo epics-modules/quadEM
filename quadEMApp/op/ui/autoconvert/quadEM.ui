@@ -6988,7 +6988,7 @@ border-radius: 2px;
                     <x>10</x>
                     <y>460</y>
                     <width>432</width>
-                    <height>304</height>
+                    <height>402</height>
                 </rect>
             </property>
             <property name="geometry">
@@ -6996,7 +6996,7 @@ border-radius: 2px;
                     <x>10</x>
                     <y>460</y>
                     <width>430</width>
-                    <height>302</height>
+                    <height>400</height>
                 </rect>
             </property>
             <property name="filename">
@@ -7471,7 +7471,7 @@ border-radius: 2px;
             <property name="geometry">
                 <rect>
                     <x>30</x>
-                    <y>759</y>
+                    <y>860</y>
                     <width>354</width>
                     <height>164</height>
                 </rect>
@@ -7479,7 +7479,7 @@ border-radius: 2px;
             <property name="geometry">
                 <rect>
                     <x>30</x>
-                    <y>759</y>
+                    <y>860</y>
                     <width>352</width>
                     <height>162</height>
                 </rect>

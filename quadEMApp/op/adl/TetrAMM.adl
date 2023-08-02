@@ -1,14 +1,14 @@
 
 file {
-	name="/home/omitto/Workspaces/epics/quadEM/quadEMApp/op/adl/TetrAMM.adl"
-	version=030111
+	name="/home/epics/devel/quadEM/quadEMApp/op/adl/TetrAMM.adl"
+	version=030117
 }
 display {
 	object {
-		x=775
-		y=326
+		x=1098
+		y=334
 		width=430
-		height=302
+		height=400
 	}
 	clr=14
 	bclr=4
@@ -172,9 +172,9 @@ menu {
 }
 text {
 	object {
-		x=72
+		x=82
 		y=25
-		width=120
+		width=110
 		height=20
 	}
 	"basic attribute" {
@@ -248,118 +248,6 @@ text {
 	}
 	textix="Bias interlock"
 	align="horiz. right"
-}
-text {
-	object {
-		x=31
-		y=249
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Current readback"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=196
-		y=249
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)HVIReadback"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=81
-		y=274
-		width=110
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Temperature"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=196
-		y=274
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)Temperature"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=31
-		y=224
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Voltage readback"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=196
-		y=224
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)HVVReadback"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=61
-		y=199
-		width=130
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Bias readback"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=196
-		y=199
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)HVSReadback"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
 }
 "text update" {
 	object {
@@ -451,9 +339,9 @@ menu {
 }
 text {
 	object {
-		x=70
+		x=30
 		y=75
-		width=120
+		width=160
 		height=20
 	}
 	"basic attribute" {
@@ -491,31 +379,322 @@ menu {
 		bclr=51
 	}
 }
+composite {
+	object {
+		x=10
+		y=275
+		width=286
+		height=120
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=31
+				y=350
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Current readback"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=196
+				y=350
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HVIReadback"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=81
+				y=375
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Temperature"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=196
+				y=375
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)Temperature"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=31
+				y=325
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Voltage readback"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=196
+				y=325
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HVVReadback"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=61
+				y=300
+				width=130
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Bias readback"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=196
+				y=300
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HVSReadback"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=10
+				y=275
+				width=180
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Interlock readback"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=196
+				y=275
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)InterlockStatus_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+	}
+}
 text {
 	object {
-		x=60
+		x=120
 		y=175
-		width=130
+		width=70
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Interlock readback"
+	textix="Range 1"
 	align="horiz. right"
 }
 "text update" {
 	object {
-		x=196
+		x=290
 		y=175
 		width=100
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)InterlockStatus_RBV"
+		chan="$(P)$(R)Range1_RBV"
 		clr=54
 		bclr=3
 	}
+	format="string"
 	limits {
+	}
+}
+menu {
+	object {
+		x=195
+		y=175
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Range1"
+		clr=14
+		bclr=51
+	}
+}
+text {
+	object {
+		x=120
+		y=200
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Range 2"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=290
+		y=200
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Range2_RBV"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+menu {
+	object {
+		x=195
+		y=200
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Range2"
+		clr=14
+		bclr=51
+	}
+}
+text {
+	object {
+		x=120
+		y=225
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Range 3"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=290
+		y=225
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Range3_RBV"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+menu {
+	object {
+		x=195
+		y=225
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Range3"
+		clr=14
+		bclr=51
+	}
+}
+text {
+	object {
+		x=120
+		y=250
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Range 4"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=290
+		y=250
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)Range4_RBV"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+menu {
+	object {
+		x=195
+		y=250
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Range4"
+		clr=14
+		bclr=51
 	}
 }

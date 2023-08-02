@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2023-08-02 11:35:24 by epics-->
 <display version="2.0.0">
   <name>quadEM</name>
   <x>332</x>
@@ -29,16 +30,16 @@
     <y>27</y>
     <width>914</width>
     <height>3</height>
-    <line_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </line_color>
     <points>
       <point x="1.0" y="1.0">
       </point>
       <point x="912.0" y="1.0">
       </point>
     </points>
+    <line_color>
+      <color red="10" green="0" blue="184">
+      </color>
+    </line_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>text #13</name>
@@ -3035,7 +3036,7 @@
     <x>10</x>
     <y>460</y>
     <width>392</width>
-    <height>294</height>
+    <height>395</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
         <exp bool_exp="!(pv0==8)">
@@ -3229,7 +3230,7 @@
     <name>composite #618</name>
     <file>ADBuffers.bob</file>
     <x>30</x>
-    <y>759</y>
+    <y>860</y>
     <width>350</width>
     <height>160</height>
   </widget>

@@ -3045,7 +3045,7 @@ release 0
 x 10
 y 460
 w 392
-h 294
+h 395
 
 beginGroup
 
@@ -3058,7 +3058,7 @@ release 0
 x 10
 y 460
 w 392
-h 294
+h 395
 fgColor rgb 0 0 0
 bgColor rgb 65280 65280 65280
 topShadowColor rgb 65280 65280 65280
@@ -3363,7 +3363,7 @@ major 4
 minor 0
 release 0
 x 30
-y 759
+y 860
 w 350
 h 160
 
@@ -3376,7 +3376,7 @@ major 4
 minor 1
 release 0
 x 30
-y 759
+y 860
 w 350
 h 160
 fgColor rgb 0 0 0
