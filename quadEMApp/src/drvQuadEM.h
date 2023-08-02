@@ -196,6 +196,7 @@ protected:
     virtual asynStatus setNumAcquire(epicsInt32 value);
     virtual asynStatus setPingPong(epicsInt32 value);
     virtual asynStatus setRange(epicsInt32 value);
+    virtual asynStatus setRange(int chan, epicsInt32 value);
     virtual asynStatus setReadFormat(epicsInt32 value);
     virtual asynStatus setResolution(epicsInt32 value);
     virtual asynStatus setTriggerMode(epicsInt32 value);
