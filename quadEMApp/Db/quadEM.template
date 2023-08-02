@@ -82,6 +82,66 @@ record(mbbi,"$(P)$(R)Range_RBV") {
     field(SCAN, "I/O Intr")
 }
 
+record(mbbo,"$(P)$(R)Range1") {
+    field(DESC, "Range 1")
+    field(PINI, "YES")
+    field(PHAS, "2")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 1)QE_RANGE")
+}
+
+record(mbbi,"$(P)$(R)Range1_RBV") {
+    field(DESC, "Range 1")
+    field(DTYP,  "asynInt32")
+    field(INP,  "@asyn($(PORT) 1)QE_RANGE")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbo,"$(P)$(R)Range2") {
+    field(DESC, "Range 2")
+    field(PINI, "YES")
+    field(PHAS, "2")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 2)QE_RANGE")
+}
+
+record(mbbi,"$(P)$(R)Range2_RBV") {
+    field(DESC, "Range 2")
+    field(DTYP,  "asynInt32")
+    field(INP,  "@asyn($(PORT) 2)QE_RANGE")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbo,"$(P)$(R)Range3") {
+    field(DESC, "Range 3")
+    field(PINI, "YES")
+    field(PHAS, "2")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 3)QE_RANGE")
+}
+
+record(mbbi,"$(P)$(R)Range3_RBV") {
+    field(DESC, "Range 3")
+    field(DTYP,  "asynInt32")
+    field(INP,  "@asyn($(PORT) 3)QE_RANGE")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbo,"$(P)$(R)Range4") {
+    field(DESC, "Range 4")
+    field(PINI, "YES")
+    field(PHAS, "2")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 4)QE_RANGE")
+}
+
+record(mbbi,"$(P)$(R)Range4_RBV") {
+    field(DESC, "Range 4")
+    field(DTYP,  "asynInt32")
+    field(INP,  "@asyn($(PORT) 4)QE_RANGE")
+    field(SCAN, "I/O Intr")
+}
+
 record(mbbo,"$(P)$(R)PingPong") {
     field(DESC, "PingPong")
     field(PINI, "YES")
