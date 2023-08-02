@@ -472,10 +472,8 @@ asynStatus drvNSLS_EM::setRange(epicsInt32 value)
   */
 asynStatus drvNSLS_EM::setValuesPerRead(epicsInt32 value) 
 {
-    asynStatus status;
-    
     epicsSnprintf(outString_, sizeof(outString_), "n %d", value);
-    status = writeReadMeter();
+    writeReadMeter();
     computeScaleFactor();
     return setMode();
 }
