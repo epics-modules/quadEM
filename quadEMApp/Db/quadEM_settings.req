@@ -2,6 +2,10 @@
 $(P)$(R)Acquire
 $(P)$(R)AcquireMode
 $(P)$(R)Range
+$(P)$(R)Range1
+$(P)$(R)Range2
+$(P)$(R)Range3
+$(P)$(R)Range4
 $(P)$(R)PingPong
 $(P)$(R)IntegrationTime
 $(P)$(R)AveragingTime
