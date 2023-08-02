@@ -547,7 +547,7 @@ asynStatus drvTetrAMM::setAcquireParams()
     int readFormat;
     int naq;
     int ntrg;
-    int range;
+    int range[4];
     int numChannels;
     int triggerMode;
     int triggerPolarity;
@@ -560,8 +560,10 @@ asynStatus drvTetrAMM::setAcquireParams()
     prevAcquiring = acquiring_;
     if (prevAcquiring) setAcquire(0);
 
-    getIntegerParam(P_Range,            &range);
     getIntegerParam(P_NumChannels,      &numChannels);
+    for (int i=0; i<4; i++) {
+        getIntegerParam(i+1, P_Range,   &range[i]);
+    }
     getIntegerParam(P_TriggerMode,      &triggerMode);
     getIntegerParam(P_TriggerPolarity,  &triggerPolarity);
     getIntegerParam(P_AcquireMode,      &acquireMode);
@@ -582,8 +584,11 @@ asynStatus drvTetrAMM::setAcquireParams()
     }
     setIntegerParam(P_NumAverage, numAverage);
 
-    epicsSnprintf(outString_, sizeof(outString_), "RNG:%d", range);
-    writeReadMeter();
+    // Set the range of the individual channels
+    for (int i=0; i<4; i++) {
+        epicsSnprintf(outString_, sizeof(outString_), "RNG:CH%d:%d", i+1, range[i]);
+        writeReadMeter();
+    }
 
     epicsSnprintf(outString_, sizeof(outString_), "CHN:%d", numChannels);
     writeReadMeter();
@@ -723,6 +728,15 @@ asynStatus drvTetrAMM::setNumAcquire(epicsInt32 value)
   */
 asynStatus drvTetrAMM::setRange(epicsInt32 value) 
 {
+    // This function is called when setting the range of all channels the same
+    for (int i=0; i<4; i++) {
+        setIntegerParam(i+1, P_Range, value);
+    }
+    return setAcquireParams();
+}
+
+asynStatus drvTetrAMM::setRange(int channel, epicsInt32 value) 
+{
     return setAcquireParams();
 }
 
@@ -776,19 +790,21 @@ asynStatus drvTetrAMM::readStatus()
     prevAcquiring = acquiring_;
     if (prevAcquiring) setAcquire(0);
 
-    strcpy(outString_, "RNG:?");
-    writeReadMeter();
-    // Note: the TetrAMM can return 4 ranges, but we only support a single range so we
-    // only parse a single character in the response
-    if (sscanf(inString_, "RNG:%1d", &range) != 1) goto error;
-    setIntegerParam(P_Range, range);
-    
     strcpy(outString_, "CHN:?");
     writeReadMeter();
     if (sscanf(inString_, "CHN:%d", &numChannels) != 1) goto error;
     setIntegerParam(P_NumChannels, numChannels);
     numChannels_ = numChannels;
 
+    for (int i=0; i<4; i++) {
+        sprintf(outString_, "RNG:CH%d:?", i+1);
+        writeReadMeter();
+        if (sscanf(inString_, "RNG:CH%*1c:%d", &range) != 1) goto error;
+        setIntegerParam(i+1, P_Range, range);
+        // Set the main Range readback to the first channel
+        if (i == 0) setIntegerParam(P_Range, range);
+    }
+        
     strcpy(outString_, "NRSAMP:?");
     writeReadMeter();
     if (sscanf(inString_, "NRSAMP:%d", &valuesPerRead) != 1) goto error;
