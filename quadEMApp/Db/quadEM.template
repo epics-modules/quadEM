@@ -30,6 +30,8 @@ record(mbbi,"$(P)$(R)Model") {
     field(NIST, "NSLS_EM")
     field(TEVL, "10")
     field(TEST, "NSLS2_EM")
+    field(ELVL, "11")
+    field(ELST, "NSLS2_IC")
     field(SCAN, "I/O Intr")
 }
 
