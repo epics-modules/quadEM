@@ -32,6 +32,8 @@ record(mbbi,"$(P)$(R)Model") {
     field(TEST, "NSLS2_EM")
     field(ELVL, "11")
     field(ELST, "NSLS2_IC")
+    field(TVVL, "12")
+    field(TVST, "PCR4")
     field(SCAN, "I/O Intr")
 }
 

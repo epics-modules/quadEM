@@ -69,6 +69,9 @@
       boards. The device provides 2 readings per diode at up to 813 Hz. This device appears
       to no longer be in use on any APS beamlines, so the support is now deprecated and
       will be removed in a future release.</li>
+    <li>The PCR4 picoammeter from <a href="https://www.sensic.ch/products/electronic-readout">SenSiC</a>.
+      This device communicates using TCP/IP over 1 Gbit/s Ethernet.
+      It provides 4-channel current measurements at up to 53,000 Hz.</li>
   </ol>
   <p>
     The AH401 series, NSLS_EM, and APS_EM are based on the same principle of an op-amp
@@ -303,11 +306,14 @@
             <li>2: AH401B</li>
             <li>3: AH401D</li>
             <li>4: AH501</li>
-            <li>5: AH501C</li>
-            <li>6: AH501D</li>
-            <li>7: TetrAMM</li>
-            <li>8: NSLS_EM</li>
-            <li>9: NSLS2_EM</li>
+            <li>5: AH501BE</li>
+            <li>6: AH501C</li>
+            <li>7: AH501D</li>
+            <li>8: TetrAMM</li>
+            <li>9: NSLS_EM</li>
+            <li>10: NSLS2_EM</li>
+            <li>11: NSLS2_IC</li>
+            <li>12: PCR4</li>
           </ul>
         </td>
       </tr>
@@ -391,7 +397,7 @@
         <td>
           r/w</td>
         <td>
-          All except APS_EM, NSLS_EM, and NSLS2_EM</td>
+          All except APS_EM, NSLS_EM, NSLS2_EM, and PCR4</td>
         <td>
           Read format from the device. Values are:
           <ul>
@@ -474,6 +480,17 @@
             <li>100 uA</li>
             <li>1000 uA</li>
             <li>5000 uA</li>
+          </ul>
+          For the PCR4 v1 there is 1 range:
+          <ul>
+            <li>50 uA</li>
+          </ul>
+          For the PCR4 v2 there are 4 ranges:
+          <ul>
+            <li>50 mA</li>
+            <li>250 uA</li>
+            <li>2.5 uA</li>
+            <li>25 nA</li>
           </ul>
           For the APS_EM this selects the feedback capacitor, which controls the gain of the
           device. There are 8 capacitor choices:
@@ -652,7 +669,7 @@
         <td>
           r/w</td>
         <td>
-          TetrAMM, AH501C and AH501D</td>
+          TetrAMM, AH501C, AH501D, and PCR4</td>
         <td>
           Selects the state of the bias supply output voltage. Allowed choices are:
           <ul>
@@ -720,7 +737,7 @@
         <td>
           r/w</td>
         <td>
-          TetrAMM, AH501C, AH501D, and NSLS2_EM</td>
+          TetrAMM, AH501C, AH501D, NSLS2_EM, and PCR4</td>
         <td>
           Controls the voltage of the bias supply output.</td>
       </tr>
@@ -1083,14 +1100,14 @@
         <td>
           r/w</td>
         <td>
-          TetrAMM, AH501 and AH401 series</td>
+          TetrAMM, AH501, AH401, and PCR4</td>
         <td>
           Allowed choices are:
           <ul>
             <li>0: "Free Run" (all models). Ignores any external gate or trigger signal.</li>
             <li>1: "Software" (possible future choice for TetrAMM) This will trigger a single
               acquisition each time a software trigger command is sent.</li>
-            <li>2: "Ext. Trigger" (AH401B, TetrAMM) This is an edge-sensitive trigger. On the
+            <li>2: "Ext. Trigger" (AH401B, TetrAMM, PCR4) This is an edge-sensitive trigger. On the
               TetrAMM this will collect samples for the AveragingTime and then wait for the next
               trigger.</li>
             <li>3: "Ext. Bulb" (AH501D, TetrAMM) This is a level-sensitive trigger. It acquires
@@ -1106,6 +1123,23 @@
               pulse. If the external gate pulse is asserted 40% of the time, then the actual averaging
               time will be AveragingTime * 2.5</li>
           </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          QE_TRIGGER_POLARITY</td>
+        <td>
+          $(P)$(R)TriggerPolarity</td>
+        <td>
+          mbbo</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          PCR4</td>
+        <td>
+          0=Positive, 1=Negative.
         </td>
       </tr>
       <tr>

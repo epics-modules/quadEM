@@ -27,6 +27,9 @@ for several models:
     The device provides 2 readings per diode at up to 813 Hz. This device appears
     to no longer be in use on any APS beamlines, so the support is now deprecated and
     will be removed in a future release.
+  * The PCR4 picoammeter from [SenSiC](https://www.sensic.ch/products/electronic-readout).
+    This device communicates using TCP/IP over 1 Gbit/s Ethernet.
+    It provides 4-channel current measurements at up to 53,000 Hz.
 
 
 Additional information:

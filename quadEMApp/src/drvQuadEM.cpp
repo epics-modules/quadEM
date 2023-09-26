@@ -51,8 +51,8 @@ drvQuadEM::drvQuadEM(const char *portName, int ringBufferSize)
    : asynNDArrayDriver(portName, 
                     QE_MAX_DATA+1, /* maxAddr */ 
                     0, 0,        /* maxBuffers, maxMemory, no limits */
-                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynGenericPointerMask | asynDrvUserMask, /* Interface mask */
-                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynGenericPointerMask,                   /* Interrupt mask */
+                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynEnumMask | asynGenericPointerMask | asynDrvUserMask, /* Interface mask */
+                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynEnumMask | asynGenericPointerMask,                   /* Interrupt mask */
                     ASYN_CANBLOCK | ASYN_MULTIDEVICE, /* asynFlags.  This driver blocks it is multi-device */
                     1, /* Autoconnect */
                     0, /* Default priority */
