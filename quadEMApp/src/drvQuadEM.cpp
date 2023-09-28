@@ -202,7 +202,15 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
                                (doubleData[QECurrent1] + doubleData[QECurrent4]);
         doubleData[QEDiffY]  = (doubleData[QECurrent1] + doubleData[QECurrent2]) -
                                (doubleData[QECurrent3] + doubleData[QECurrent4]);
-    } 
+    }
+    else if (geometry == QEGeometrySquareCC) {
+        doubleData[QESumX]   = doubleData[QESumAll];
+        doubleData[QESumY]   = doubleData[QESumAll];
+        doubleData[QEDiffX]  = (doubleData[QECurrent3] + doubleData[QECurrent4]) -
+                               (doubleData[QECurrent1] + doubleData[QECurrent2]);
+        doubleData[QEDiffY]  = (doubleData[QECurrent1] + doubleData[QECurrent4]) -
+                               (doubleData[QECurrent2] + doubleData[QECurrent3]);
+    }
     else {
         doubleData[QESumX]   = doubleData[QECurrent1] + doubleData[QECurrent2];
         doubleData[QESumY]   = doubleData[QECurrent3] + doubleData[QECurrent4];
