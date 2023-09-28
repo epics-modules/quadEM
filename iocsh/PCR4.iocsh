@@ -1,0 +1,21 @@
+# ### PCR4.iocsh ###
+
+#- ###################################################
+#- PREFIX         - IOC Prefix
+#- INSTANCE       - Name of quadEM port instance to create
+#- IP_ADDR        - IP address of PCR4
+#- QUADEM         - Location of quadEM module
+#- ASYN           - Location of asyn module
+#- RING_SIZE      - Optional: Ring Size
+#-                  Default: 10000
+#- ###################################################
+
+drvAsynIPPortConfigure("IP_$(INSTANCE)", "$(IP_ADDR)", 0, 0, 0)
+asynOctetSetInputEos("IP_$(INSTANCE)",  0, "\r\n")
+asynOctetSetOutputEos("IP_$(INSTANCE)", 0, "\r")
+
+dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn_IP_$(INSTANCE),PORT=IP_$(INSTANCE),ADDR=0,OMAX=256,IMAX=256")
+
+drvPCR4Configure("$(INSTANCE)", "IP_$(INSTANCE)", $(RING_SIZE=10000))
+
+dbLoadRecords("$(QUADEM)/db/PCR4.template", "P=$(PREFIX), R=$(INSTANCE):, PORT=$(INSTANCE)")
