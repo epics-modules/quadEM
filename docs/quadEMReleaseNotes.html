@@ -9,6 +9,16 @@
   <h1 style="text-align: center">
     quadEM Release Notes</h1>
   <h2 style="text-align: center">
+    Release 9-5 (December 7, 2023)</h2>
+  <ul>
+    <li>Moved the documentation to Github pages, https://epics-modules.github.io/quadem.</li>
+    <li>Add 4 independent ranges, rather than just a single range for all 4 channels.</li>
+    <li>Call asynNDArrayDriver base class in writeInt32 for base class parameters;
+        fixed problem with EmptyFreeList.</li>
+    <li>Change unsigned long long constant definitions in drvTetrAmm.cpp to avoid compiler errors.</li>
+    <li>Bug fix in drvAHxxx.cpp.</li>
+  </ul>
+  <h2 style="text-align: center">
     Release 9-4 (November 22, 2020)</h2>
   <ul>
     <li>Added interlock status and clear register fault on setBiasState on the TetrAMM.
