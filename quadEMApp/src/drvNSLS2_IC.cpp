@@ -1,4 +1,5 @@
 // Define SIMULATION_MODE=YES in Makefile to run on a system without the FPGA
+#define POLLING_MODE YES
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,9 +13,9 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <math.h>
-#ifndef SIMULATION_MODE
-  #include <linux/i2c-dev.h>
-#endif
+#include <linux/i2c-dev.h>
+#include <i2c/smbus.h>
+#include <sys/ioctl.h>
 
 #include <epicsTypes.h>
 #include <epicsTime.h>
@@ -56,7 +57,7 @@
 #define NOISE 1000.
 
 static const char *driverName = "drvNSLS2_IC";
-
+int i2c_dev_;
 // Global variable containing pointer to your driver object
 class drvNSLS2_IC *pdrvNSLS2_IC;
 
@@ -94,11 +95,11 @@ asynStatus drvNSLS2_IC::readMeter(int *adcbuf)
 /* open i2c file for DACs */
 
 asynStatus drvNSLS2_IC::OpenDacs(void){
-#ifndef SIMULATION_MODE
+ #ifndef SIMULATION_MODE
     char filename[40], buf[10];
     int addr = 0b01001010;        // The I2C address of the DAC
     int bytesWritten;
- 
+    printf("Opening /dev/i2c-0\n");
     sprintf(filename,"/dev/i2c-0");
     if ((i2c_dev_ = open(filename,O_RDWR)) < 0) {
         printf("Failed to open the bus.");
@@ -118,6 +119,7 @@ asynStatus drvNSLS2_IC::OpenDacs(void){
        printf("Internal Reference Enabled...\n");
        }
 #endif
+
     return(asynSuccess);
 } 
 
@@ -147,6 +149,7 @@ asynStatus drvNSLS2_IC::setDAC(int channel, int value)
     }
     asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,"%s::%s channel=%d val=%d\n", driverName, functionName, channel, value);
 #endif
+
     return(asynSuccess);
 }
 
@@ -175,7 +178,7 @@ void drvNSLS2_IC::mmap_fpga()
         printf("Can't map FPGA space\n");
         exit(1);
     }
-    //printf("fpgabase = %x\n",fpgabase_);
+    printf("fpgabase = %u\n",fpgabase_);
 #endif
 }
 
@@ -185,12 +188,25 @@ bool drvNSLS2_IC::isAcquiring()
   return acquiring_;
 }
 
-#ifdef SIMULATION_MODE
-static void pollerThread(void *pPvt)
+#ifdef POLLING_MODE
+static void pollerThreadC(void *pPvt)
 {
+    drvNSLS2_IC *pdrv = (drvNSLS2_IC*)pPvt;
+    pdrv->pollerThread();
+}
+void drvNSLS2_IC::pollerThread()
+{
+    trig_=0;
+    prevtrig_=0;
+    printf("Poll thread starts\n");
     while(1) { /* Do forever */
-        if (pdrvNSLS2_IC->isAcquiring()) pdrvNSLS2_IC->callbackFunc();
-        epicsThreadSleep(POLL_TIME);
+//	    trig=fpgabase_[FRAME_NO];
+            if(trig_ != prevtrig_){
+                 printf("Trig=%i  Prevtrig= %i\n",trig_, prevtrig_);
+      		    prevtrig_=trig_;
+              if (pdrvNSLS2_IC->isAcquiring()) pdrvNSLS2_IC->callbackFunc();
+              epicsThreadSleep(POLL_TIME+0.2);
+            }
     }
 }
 #else
@@ -263,12 +279,12 @@ drvNSLS2_IC::drvNSLS2_IC(const char *portName, int ringBufferSize) : drvQuadEM(p
     // Initialize Linux driver, set callback function
     // set up register memory map
     mmap_fpga();
-#ifdef SIMULATION_MODE
+    printf("Memory mapped\n");
+#ifdef POLLING_MODE
     epicsThreadCreate("NSLS2_ICPoller",
                       epicsThreadPriorityMedium,
-                      epicsThreadGetStackSize(epicsThreadStackMedium),
-                      (EPICSTHREADFUNC)pollerThread,
-                      this);
+                      epicsThreadGetStackSize(epicsThreadStackMedium),(EPICSTHREADFUNC)pollerThreadC,this);
+    printf("Poller thread created\n");
 #else
     pl_open(&intfd_);
     signal(SIGIO, &frame_done);
@@ -278,16 +294,23 @@ drvNSLS2_IC::drvNSLS2_IC(const char *portName, int ringBufferSize) : drvQuadEM(p
 #endif   
   
     // Create new parameter for DACs
+    printf("Creating parameters 0\n");
     createParam(P_DACString,             asynParamInt32,   &P_DAC);
+    printf("Creating parameters 1\n");
     createParam(P_DACDoubleString,       asynParamFloat64, &P_DACDouble);
+    printf("Creating parameters 2\n");
     createParam(P_CalibrationModeString, asynParamInt32,   &P_CalibrationMode);
+    printf("Creating parameters 3\n");
     createParam(P_ADCOffsetString,       asynParamInt32,   &P_ADCOffset);
+    printf("Creating parameters 4\n");
     createParam(P_FullScaleString,       asynParamFloat64, &P_FullScale);
+    printf("Opening DACS\n");
     OpenDacs();
     epicsThreadSleep(0.001); 
- 
+    printf("Getting firmware version\n");
     getFirmwareVersion();
     setIntegerParam(P_Model, QE_ModelNSLS2_IC);
+    printf("Calling callbacks\n");
     callParamCallbacks();
 }
 
