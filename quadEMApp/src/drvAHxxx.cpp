@@ -249,7 +249,7 @@ void drvAHxxx::readThread(void)
                     unlock();
                     epicsThreadSleep(1.0);
                     lock();
-                } else if ((model == QE_ModelAH501BE) && 
+                } else if ((model == QE_ModelAH501BE) &&
                            (triggerMode == QETriggerModeExtGate) &&
                            (nRead == 5) &&
                            (strncmp((const char *)input, "ACK\r\n", 5) == 0)) {
@@ -262,7 +262,7 @@ void drvAHxxx::readThread(void)
             // We successfully read the requested number of bytes
             // However, on the AH501BE in Ext. Gate mode the first 5 bytes could be ACK\r\n.
             // If so we need to trigger callbacks and read 5 more bytes
-            if ((model == QE_ModelAH501BE) && 
+            if ((model == QE_ModelAH501BE) &&
                 (triggerMode == QETriggerModeExtGate) &&
                 (strncmp((const char *)input, "ACK\r\n", 5) == 0)) {
                 asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
