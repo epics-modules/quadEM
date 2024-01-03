@@ -1,0 +1,21 @@
+# Database for software electrometer
+include "quadEM.template"
+
+record(waveform, "$(P)$(R)DataIn")
+{
+    field (DESC, "Data Input")
+    field (DTYP, "asynFloat64ArrayOut")
+    field (INP,  "@asyn($(PORT))QES_DATA_IN")
+    field (NELM, "4")
+    field (FTVL, "DOUBLE")
+}
+
+record(ao, "$(P)$(R)SampleTime")
+{
+    field (DESC, "Sampling time (sec)")
+    field (PINI, "YES")
+    field (PREC, "4")
+    field (VAL,  "0.1")
+    field (DTYP, "asynFloat64")
+    field (OUT,  "@asyn($(PORT) 0)QE_SAMPLE_TIME")
+}
