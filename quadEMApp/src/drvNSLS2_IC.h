@@ -30,6 +30,8 @@ public:
     virtual void exitHandler();
     /* This should be private but we call it from C so it needs to be public */
     void callbackFunc();
+    void pollerThread();
+//    void pollerThread();
     bool isAcquiring();
 
 protected:
@@ -65,7 +67,8 @@ private:
     epicsFloat64 scaleFactor_[MAX_RANGES];
     int memfd_;
     int intfd_;
-
+    int trig_;
+    int prevtrig_; 
     /* our functions */
     asynStatus getFirmwareVersion();
     asynStatus readMeter(int *adcbuf);

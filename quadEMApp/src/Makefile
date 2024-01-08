@@ -17,6 +17,7 @@ DBD += drvNSLS_EM.dbd
 DBD += drvNSLS2_EM.dbd
 #DBD += drvNSLS2_IC.dbd
 DBD += drvPCR4.dbd
+DBD += drvSoftQuadEM.dbd
 DBD += quadEMTestApp.dbd
 DBD += quadEMTestAppVx.dbd
 
@@ -30,6 +31,7 @@ quadEM_SRCS         += drvNSLS_EM.cpp
 quadEM_SRCS         += drvNSLS2_EM.cpp
 #quadEM_SRCS         += drvNSLS2_IC.cpp
 quadEM_SRCS         += drvPCR4.cpp
+quadEM_SRCS         += drvSoftQuadEM.cpp
 quadEM_SRCS_vxWorks += drvAPS_EM.cpp
 
 quadEM_LIBS_vxWorks += Ipac
