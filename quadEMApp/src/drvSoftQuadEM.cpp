@@ -42,6 +42,8 @@ drvSoftQuadEM::drvSoftQuadEM(const char *portName, int ringBufferSize)
     : drvQuadEM(portName, ringBufferSize), acquire_(0)
 {
     createParam(QES_DataInString,     asynParamFloat64Array,  &QES_DataIn);
+
+    setIntegerParam(P_Model, QE_ModelSoftDevice);
 }
 
 drvSoftQuadEM::~drvSoftQuadEM()
