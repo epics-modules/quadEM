@@ -1,0 +1,36 @@
+# Database for SenSic PCR4 picoammeter
+#   Mark Rivers
+#   July 15, 2015
+
+include "quadEM.template"
+
+# We replace the choices for the TriggerMode and TriggerPolarity
+record(mbbo,"$(P)$(R)TriggerMode") {
+    field(ZRVL, "0")
+    field(ZRST, "OFF")
+    field(ONVL, "2")
+    field(ONST, "ON")
+}
+
+record(mbbi,"$(P)$(R)TriggerMode_RBV") {
+    field(ZRVL, "0")
+    field(ZRST, "OFF")
+    field(ONVL, "2")
+    field(ONST, "ON")
+}
+
+record(bo,"$(P)$(R)TriggerPolarity") {
+    field(ZNAM, "Rising")
+    field(ONAM, "Falling")
+}
+
+record(bi,"$(P)$(R)TriggerPolarity_RBV") {
+    field(ZNAM, "Rising")
+    field(ONAM, "Falling")
+}
+
+# We only support ASCII format
+record(bo,"$(P)$(R)ReadFormat") {
+    field(VAL,  "1")
+    field(DISA, "1")
+}

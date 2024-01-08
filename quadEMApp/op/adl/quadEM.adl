@@ -2530,6 +2530,21 @@ composite {
 }
 composite {
 	object {
+		x=10
+		y=460
+		width=390
+		height=269
+	}
+	"composite name"=""
+	"composite file"="PCR4.adl"
+	"dynamic attribute" {
+		vis="calc"
+		calc="(A=12)"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
 		x=30
 		y=435
 		width=275

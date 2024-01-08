@@ -51,8 +51,8 @@ drvQuadEM::drvQuadEM(const char *portName, int ringBufferSize)
    : asynNDArrayDriver(portName, 
                     QE_MAX_DATA+1, /* maxAddr */ 
                     0, 0,        /* maxBuffers, maxMemory, no limits */
-                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynFloat64ArrayMask | asynGenericPointerMask | asynDrvUserMask, /* Interface mask */
-                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynFloat64ArrayMask | asynGenericPointerMask,                   /* Interrupt mask */
+                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask | asynGenericPointerMask | asynDrvUserMask, /* Interface mask */
+                    asynInt32Mask | asynInt32ArrayMask | asynFloat64Mask | asynFloat64ArrayMask | asynEnumMask | asynGenericPointerMask,                   /* Interrupt mask */
                     ASYN_CANBLOCK | ASYN_MULTIDEVICE, /* asynFlags.  This driver blocks it is multi-device */
                     1, /* Autoconnect */
                     0, /* Default priority */
@@ -202,7 +202,15 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
                                (doubleData[QECurrent1] + doubleData[QECurrent4]);
         doubleData[QEDiffY]  = (doubleData[QECurrent1] + doubleData[QECurrent2]) -
                                (doubleData[QECurrent3] + doubleData[QECurrent4]);
-    } 
+    }
+    else if (geometry == QEGeometrySquareCC) {
+        doubleData[QESumX]   = doubleData[QESumAll];
+        doubleData[QESumY]   = doubleData[QESumAll];
+        doubleData[QEDiffX]  = (doubleData[QECurrent3] + doubleData[QECurrent4]) -
+                               (doubleData[QECurrent1] + doubleData[QECurrent2]);
+        doubleData[QEDiffY]  = (doubleData[QECurrent1] + doubleData[QECurrent4]) -
+                               (doubleData[QECurrent2] + doubleData[QECurrent3]);
+    }
     else {
         doubleData[QESumX]   = doubleData[QECurrent1] + doubleData[QECurrent2];
         doubleData[QESumY]   = doubleData[QECurrent3] + doubleData[QECurrent4];

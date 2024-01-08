@@ -33,7 +33,8 @@ record(mbbi,"$(P)$(R)Model") {
     field(ELVL, "11")
     field(ELST, "NSLS2_IC")
     field(TVVL, "12")
-    field(TVST, "SoftDevice")
+    field(TVST, "PCR4")
+    field(TTST, "SoftDevice")
     field(SCAN, "I/O Intr")
 }
 
@@ -472,6 +473,8 @@ record(mbbo,"$(P)$(R)Geometry") {
     field(ZRST, "Diamond")
     field(ONVL, "1")
     field(ONST, "Square")
+    field(TWVL, "2")
+    field(TWST, "SquareCC")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT) 0)QE_GEOMETRY")
 }
@@ -482,6 +485,8 @@ record(mbbi,"$(P)$(R)Geometry_RBV") {
     field(ZRST, "Diamond")
     field(ONVL, "1")
     field(ONST, "Square")
+    field(TWVL, "2")
+    field(TWST, "SquareCC")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT) 0)QE_GEOMETRY")
     field(SCAN, "I/O Intr")

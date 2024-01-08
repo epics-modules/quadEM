@@ -67,6 +67,7 @@ typedef enum {
     QE_ModelNSLS_EM,
     QE_ModelNSLS2_EM,
     QE_ModelNSLS2_IC,
+    QE_ModelPCR4
     QE_ModelSoftDevice
 } QEModel_t;
 
@@ -87,7 +88,8 @@ typedef enum {
 
 typedef enum {
     QEGeometryDiamond,
-    QEGeometrySquare
+    QEGeometrySquare,
+    QEGeometrySquareCC
 } QEGeometry_t;
 
 /* Acquire modes */
