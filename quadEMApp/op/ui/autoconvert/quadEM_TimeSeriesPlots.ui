@@ -85,6 +85,16 @@ caChoice &gt; QPushButton {
       padding: 1px;
 }
 
+/* when font specified, no font sizing is done any more,  font: 10pt; is not bad. You could Enable this when you converted from .adl files
+caRelatedDisplay  &gt; QPushButton {
+font: 10pt;
+}
+
+caShellCommand  &gt; QPushButton {
+font: 10pt;
+}
+*/
+
 caSlider::groove:horizontal {
 border: 1px solid #bbb;
 background: lightgrey;
@@ -579,7 +589,7 @@ border-radius: 2px;
                 <string>X (current, sum, pos)</string>
             </property>
             <property name="files">
-                <string>quadEM_plotAll.adl</string>
+                <string>quadEM_plotAll.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R)TS:, CURR1=Current1:TimeSeries, CURR2=Current2:TimeSeries, SUM=SumX:TimeSeries, POS=PosX:TimeSeries, XAXIS=TSTimeAxis, TITLE=$(TX), XTITLE=Time (sec), YTITLE=Counts</string>
@@ -618,7 +628,7 @@ border-radius: 2px;
                 <string>Time series control</string>
             </property>
             <property name="files">
-                <string>NDPluginTimeSeries.adl</string>
+                <string>NDPluginTimeSeries.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R),R=TS:,R1=TS:Current1:,T1=Current1,R2=TS:Current2:,T2=Current2,R3=TS:Current3:,T3=Current3,R4=TS:Current4:,T4=Current4,R5=TS:SumX:,T5=SumX,R6=TS:SumY:,T6=SumY,R7=TS:SumAll:,T7=SumAll,R8=TS:PosX:,T8=PosX,R9=TS:PosY:,T9=PosY</string>
@@ -657,7 +667,7 @@ border-radius: 2px;
                 <string>Current 1;Current 2;Current 3;Current 4;Sum X;Sum Y;Sum All;Difference X;Difference Y;Position X;Position Y</string>
             </property>
             <property name="files">
-                <string>NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl</string>
+                <string>NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R),R=TS:,RN=TS:Current1:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:Current1:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:Current2:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:Current2:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:Current3:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:Current3:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:Current4:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:Current4:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:SumX:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:SumX:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:SumY:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:SumY:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:SumAll:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:SumAll:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:DiffX:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:DiffX:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:DiffY:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:DiffY:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:PosX:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:PosX:TimeSeries;P=$(P)$(R),R=TS:,RN=TS:PosY:,XTITLE=Time (sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:PosY:TimeSeries</string>
@@ -696,7 +706,7 @@ border-radius: 2px;
                 <string>Y (current, sum, pos)</string>
             </property>
             <property name="files">
-                <string>quadEM_plotAll.adl</string>
+                <string>quadEM_plotAll.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R)TS:, CURR1=Current3:TimeSeries, CURR2=Current4:TimeSeries, SUM=SumY:TimeSeries, POS=PosY:TimeSeries, XAXIS=TSTimeAxis, TITLE=$(TY), XTITLE=Time (sec), YTITLE=Counts</string>
@@ -735,7 +745,7 @@ border-radius: 2px;
                 <string>X (current, sum, pos)</string>
             </property>
             <property name="files">
-                <string>quadEM_plotAll.adl</string>
+                <string>quadEM_plotAll.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R)FFT:, CURR1=Current1:FFTAbsValue, CURR2=Current2:FFTAbsValue, SUM=SumX:FFTAbsValue, POS=PosX:FFTAbsValue, XAXIS=PosX:FFTFreqAxis, TITLE=$(TX), XTITLE=Frequency (Hz), YTITLE=Counts</string>
@@ -774,7 +784,7 @@ border-radius: 2px;
                 <string>X (current, sum, pos)</string>
             </property>
             <property name="files">
-                <string>quadEM_plotAll.adl</string>
+                <string>quadEM_plotAll.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R)FFT:, CURR1=Current3:FFTAbsValue, CURR2=Current4:FFTAbsValue, SUM=SumY:FFTAbsValue, POS=PosY:FFTAbsValue, XAXIS=PosY:FFTFreqAxis, TITLE=$(TY), XTITLE=Frequency (Hz), YTITLE=Counts</string>
@@ -813,7 +823,7 @@ border-radius: 2px;
                 <string>Current 1;Current 2;Current 3;Current 4;Sum X;Sum Y;Sum All;Difference X;Difference Y;Position X;Position Y</string>
             </property>
             <property name="files">
-                <string>NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl</string>
+                <string>NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R),R=TS:,RN=FFT:Current1:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:Current1:FFTFreqAxis,YAXIS=$(P)$(R)FFT:Current1:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:Current2:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:Current2:FFTFreqAxis,YAXIS=$(P)$(R)FFT:Current2:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:Current3:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:Current3:FFTFreqAxis,YAXIS=$(P)$(R)FFT:Current3:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:Current4:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:Current4:FFTFreqAxis,YAXIS=$(P)$(R)FFT:Current4:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:SumX:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:SumX:FFTFreqAxis,YAXIS=$(P)$(R)FFT:SumX:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:SumY:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:SumY:FFTFreqAxis,YAXIS=$(P)$(R)FFT:SumY:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:SumAll:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:SumAll:FFTFreqAxis,YAXIS=$(P)$(R)FFT:SumAll:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:DiffX:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:DiffX:FFTFreqAxis,YAXIS=$(P)$(R)FFT:DiffX:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:DiffY:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:DiffY:FFTFreqAxis,YAXIS=$(P)$(R)FFT:DiffY:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:PosX:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:PosX:FFTFreqAxis,YAXIS=$(P)$(R)FFT:PosX:FFTAbsValue;P=$(P)$(R),R=TS:,RN=FFT:PosY:,XTITLE=Frequency (Hz),XAXIS=$(P)$(R)FFT:PosY:FFTFreqAxis,YAXIS=$(P)$(R)FFT:PosY:FFTAbsValue</string>

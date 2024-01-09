@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2024-01-08 17:54:27 by epics-->
 <display version="2.0.0">
   <name>quadEM_less</name>
   <x>552</x>
@@ -30,16 +31,16 @@
     <y>27</y>
     <width>440</width>
     <height>3</height>
-    <line_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </line_color>
     <points>
       <point x="0.0" y="1.0">
       </point>
       <point x="437.0" y="1.0">
       </point>
     </points>
+    <line_color>
+      <color red="10" green="0" blue="184">
+      </color>
+    </line_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>text #13</name>

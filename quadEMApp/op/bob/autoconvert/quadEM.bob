@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-08-02 11:35:24 by epics-->
+<!--Saved on 2024-01-08 17:54:28 by epics-->
 <display version="2.0.0">
   <name>quadEM</name>
   <x>332</x>
@@ -3078,8 +3078,24 @@
       </rule>
     </rules>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="embedded" version="2.0.0">
     <name>composite #582</name>
+    <file>PCR4.bob</file>
+    <x>10</x>
+    <y>460</y>
+    <width>390</width>
+    <height>269</height>
+    <rules>
+      <rule name="vis_calc" prop_id="visible" out_exp="false">
+        <exp bool_exp="!((pv0==12))">
+          <value>false</value>
+        </exp>
+        <pv_name>$(P)$(R)Model</pv_name>
+      </rule>
+    </rules>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>composite #585</name>
     <x>30</x>
     <y>435</y>
     <width>275</width>
@@ -3087,7 +3103,7 @@
     <style>3</style>
     <transparent>true</transparent>
     <widget type="label" version="2.0.0">
-      <name>text #585</name>
+      <name>text #588</name>
       <text># To average fast</text>
       <width>170</width>
       <font>
@@ -3097,7 +3113,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #588</name>
+      <name>text update #591</name>
       <pv_name>$(P)$(R)NumFastAverage</pv_name>
       <x>175</x>
       <font>
@@ -3118,7 +3134,7 @@
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>composite #592</name>
+    <name>composite #595</name>
     <x>100</x>
     <y>410</y>
     <width>205</width>
@@ -3126,7 +3142,7 @@
     <style>3</style>
     <transparent>true</transparent>
     <widget type="label" version="2.0.0">
-      <name>text #595</name>
+      <name>text #598</name>
       <text># Averaged</text>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -3135,7 +3151,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #598</name>
+      <name>text update #601</name>
       <pv_name>$(P)$(R)NumAveraged_RBV</pv_name>
       <x>105</x>
       <font>
@@ -3156,7 +3172,7 @@
     </widget>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #602</name>
+    <name>text #605</name>
     <text>Geometry</text>
     <x>120</x>
     <y>185</y>
@@ -3168,7 +3184,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #605</name>
+    <name>text update #608</name>
     <pv_name>$(P)$(R)Geometry_RBV</pv_name>
     <x>300</x>
     <y>185</y>
@@ -3189,7 +3205,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #609</name>
+    <name>menu #612</name>
     <pv_name>$(P)$(R)Geometry</pv_name>
     <x>205</x>
     <y>185</y>
@@ -3202,7 +3218,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #612</name>
+    <name>text #615</name>
     <text>Fast averaging scan</text>
     <x>10</x>
     <y>260</y>
@@ -3214,7 +3230,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #615</name>
+    <name>menu #618</name>
     <pv_name>$(P)$(R)FastAverageScan.SCAN</pv_name>
     <x>205</x>
     <y>260</y>
@@ -3227,7 +3243,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #618</name>
+    <name>composite #621</name>
     <file>ADBuffers.bob</file>
     <x>30</x>
     <y>860</y>

@@ -3063,10 +3063,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:SumY:
+  0 "$(R)FFT:SumY:"
 }
 symbols {
   0 "P=$(P),R=$(R)SumY:,RTS=$(RTS)"
@@ -3096,10 +3096,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:SumAll:
+  0 "$(R)FFT:SumAll:"
 }
 symbols {
   0 "P=$(P),R=$(R)SumAll:,RTS=$(RTS)"
@@ -3129,10 +3129,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:DiffX:
+  0 "$(R)FFT:DiffX:"
 }
 symbols {
   0 "P=$(P),R=$(R)DiffX:,RTS=$(RTS)"
@@ -3162,10 +3162,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:DiffY:
+  0 "$(R)FFT:DiffY:"
 }
 symbols {
   0 "P=$(P),R=$(R)DiffY:,RTS=$(RTS)"
@@ -3195,10 +3195,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:PosX:
+  0 "$(R)FFT:PosX:"
 }
 symbols {
   0 "P=$(P),R=$(R)PosX:,RTS=$(RTS)"
@@ -3228,10 +3228,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:Current1:
+  0 "$(R)FFT:Current1:"
 }
 symbols {
   0 "P=$(P),R=$(R)Current1:,RTS=$(RTS)"
@@ -3261,10 +3261,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:Current2:
+  0 "$(R)FFT:Current2:"
 }
 symbols {
   0 "P=$(P),R=$(R)Current2:,RTS=$(RTS)"
@@ -3294,10 +3294,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:Current3:
+  0 "$(R)FFT:Current3:"
 }
 symbols {
   0 "P=$(P),R=$(R)Current3:,RTS=$(RTS)"
@@ -3327,10 +3327,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:Current4:
+  0 "$(R)FFT:Current4:"
 }
 symbols {
   0 "P=$(P),R=$(R)Current4:,RTS=$(RTS)"
@@ -3360,10 +3360,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:SumX:
+  0 "$(R)FFT:SumX:"
 }
 symbols {
   0 "P=$(P),R=$(R)SumX:,RTS=$(RTS)"
@@ -3393,10 +3393,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFFT.edl
+  0 "NDFFT.edl"
 }
 menuLabel {
-  0 $(R)FFT:PosY:
+  0 "$(R)FFT:PosY:"
 }
 symbols {
   0 "P=$(P),R=$(R)PosY:,RTS=$(RTS)"

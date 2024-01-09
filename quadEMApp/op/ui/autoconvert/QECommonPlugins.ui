@@ -85,6 +85,16 @@ caChoice &gt; QPushButton {
       padding: 1px;
 }
 
+/* when font specified, no font sizing is done any more,  font: 10pt; is not bad. You could Enable this when you converted from .adl files
+caRelatedDisplay  &gt; QPushButton {
+font: 10pt;
+}
+
+caShellCommand  &gt; QPushButton {
+font: 10pt;
+}
+*/
+
 caSlider::groove:horizontal {
 border: 1px solid #bbb;
 background: lightgrey;
@@ -1186,7 +1196,7 @@ border-radius: 2px;
                 <string>$(R)SumY</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)SumY:</string>
@@ -1504,7 +1514,7 @@ border-radius: 2px;
                 <string>$(R)SumAll:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)SumAll:</string>
@@ -1822,7 +1832,7 @@ border-radius: 2px;
                 <string>$(R)DiffX:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)DiffX:</string>
@@ -2140,7 +2150,7 @@ border-radius: 2px;
                 <string>$(R)DiffY:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)DiffY:</string>
@@ -2458,7 +2468,7 @@ border-radius: 2px;
                 <string>$(R)PosX:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)PosX:</string>
@@ -2776,7 +2786,7 @@ border-radius: 2px;
                 <string>$(R)Current1:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)Current1:</string>
@@ -3094,7 +3104,7 @@ border-radius: 2px;
                 <string>$(R)Current2:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)Current2:</string>
@@ -3412,7 +3422,7 @@ border-radius: 2px;
                 <string>$(R)Current3:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)Current3:</string>
@@ -3730,7 +3740,7 @@ border-radius: 2px;
                 <string>$(R)Current4:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)Current4:</string>
@@ -4048,7 +4058,7 @@ border-radius: 2px;
                 <string>$(R)SumX:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)SumX:</string>
@@ -4366,7 +4376,7 @@ border-radius: 2px;
                 <string>$(R)PosY:</string>
             </property>
             <property name="files">
-                <string>NDStats.adl</string>
+                <string>NDStats.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)PosY:</string>
@@ -4684,7 +4694,7 @@ border-radius: 2px;
                 <string>$(R)image1:</string>
             </property>
             <property name="files">
-                <string>NDStdArrays.adl</string>
+                <string>NDStdArrays.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)image1:</string>
@@ -6352,7 +6362,7 @@ border-radius: 2px;
                 <string>$(R)netCDF1:</string>
             </property>
             <property name="files">
-                <string>NDFileNetCDF.adl</string>
+                <string>NDFileNetCDF.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)netCDF1:</string>
@@ -6826,7 +6836,7 @@ border-radius: 2px;
                 <string>$(R)TS:</string>
             </property>
             <property name="files">
-                <string>NDPluginTimeSeries.adl</string>
+                <string>NDPluginTimeSeries.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)TS:</string>

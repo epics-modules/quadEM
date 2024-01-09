@@ -3002,10 +3002,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)SumY
+  0 "$(R)SumY"
 }
 symbols {
   0 "P=$(P),R=$(R)SumY:"
@@ -3075,10 +3075,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)SumAll:
+  0 "$(R)SumAll:"
 }
 symbols {
   0 "P=$(P),R=$(R)SumAll:"
@@ -3148,10 +3148,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)DiffX:
+  0 "$(R)DiffX:"
 }
 symbols {
   0 "P=$(P),R=$(R)DiffX:"
@@ -3221,10 +3221,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)DiffY:
+  0 "$(R)DiffY:"
 }
 symbols {
   0 "P=$(P),R=$(R)DiffY:"
@@ -3294,10 +3294,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)PosX:
+  0 "$(R)PosX:"
 }
 symbols {
   0 "P=$(P),R=$(R)PosX:"
@@ -3367,10 +3367,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)Current1:
+  0 "$(R)Current1:"
 }
 symbols {
   0 "P=$(P),R=$(R)Current1:"
@@ -3440,10 +3440,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)Current2:
+  0 "$(R)Current2:"
 }
 symbols {
   0 "P=$(P),R=$(R)Current2:"
@@ -3513,10 +3513,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)Current3:
+  0 "$(R)Current3:"
 }
 symbols {
   0 "P=$(P),R=$(R)Current3:"
@@ -3586,10 +3586,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)Current4:
+  0 "$(R)Current4:"
 }
 symbols {
   0 "P=$(P),R=$(R)Current4:"
@@ -3659,10 +3659,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)SumX:
+  0 "$(R)SumX:"
 }
 symbols {
   0 "P=$(P),R=$(R)SumX:"
@@ -3732,10 +3732,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStats.edl
+  0 "NDStats.edl"
 }
 menuLabel {
-  0 $(R)PosY:
+  0 "$(R)PosY:"
 }
 symbols {
   0 "P=$(P),R=$(R)PosY:"
@@ -3805,10 +3805,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDStdArrays.edl
+  0 "NDStdArrays.edl"
 }
 menuLabel {
-  0 $(R)image1:
+  0 "$(R)image1:"
 }
 symbols {
   0 "P=$(P),R=$(R)image1:"
@@ -3878,10 +3878,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDFileNetCDF.edl
+  0 "NDFileNetCDF.edl"
 }
 menuLabel {
-  0 $(R)netCDF1:
+  0 "$(R)netCDF1:"
 }
 symbols {
   0 "P=$(P),R=$(R)netCDF1:"
@@ -3951,10 +3951,10 @@ buttonLabel "More"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDPluginTimeSeries.edl
+  0 "NDPluginTimeSeries.edl"
 }
 menuLabel {
-  0 $(R)TS:
+  0 "$(R)TS:"
 }
 symbols {
   0 "P=$(P),R=$(R)TS:"

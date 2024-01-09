@@ -85,6 +85,16 @@ caChoice &gt; QPushButton {
       padding: 1px;
 }
 
+/* when font specified, no font sizing is done any more,  font: 10pt; is not bad. You could Enable this when you converted from .adl files
+caRelatedDisplay  &gt; QPushButton {
+font: 10pt;
+}
+
+caShellCommand  &gt; QPushButton {
+font: 10pt;
+}
+*/
+
 caSlider::groove:horizontal {
 border: 1px solid #bbb;
 background: lightgrey;
@@ -176,7 +186,7 @@ border-radius: 2px;
                 <enum>Solid</enum>
             </property>
             <property name="xyPairs">
-                <string>912,1;</string>
+                <string>1,1;912,1;</string>
             </property>
         </widget>
         <widget class="caLabel" name="caLabel_0">
@@ -3748,7 +3758,7 @@ border-radius: 2px;
                 <string>X (current, sum, pos)</string>
             </property>
             <property name="files">
-                <string>quadEM_plotAll.adl</string>
+                <string>quadEM_plotAll.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R)TS:, CURR1=Current1:TimeSeries, CURR2=Current2:TimeSeries, SUM=SumX:TimeSeries, POS=PosX:TimeSeries, XAXIS=TSTimeAxis, TITLE=$(TX), XTITLE=Time (sec), YTITLE=Counts</string>
@@ -3787,7 +3797,7 @@ border-radius: 2px;
                 <string>Current 1;Current 2;Current 3;Current 4;Sum X;Sum Y;Sum All;Difference X;Difference Y;Position X;Position Y</string>
             </property>
             <property name="files">
-                <string>NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl;NDTimeSeriesPlot.adl</string>
+                <string>NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui ;NDTimeSeriesPlot.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R),R=TS:,RN=TS:Current1:;P=$(P)$(R),R=TS:,RN=TS:Current2:;P=$(P)$(R),R=TS:,RN=TS:Current3:;P=$(P)$(R),R=TS:,RN=TS:Current4:;P=$(P)$(R),R=TS:,RN=TS:SumX:;P=$(P)$(R),R=TS:,RN=TS:SumY:;P=$(P)$(R),R=TS:,RN=TS:SumAll:;P=$(P)$(R),R=TS:,RN=TS:DiffX:;P=$(P)$(R),R=TS:,RN=TS:DiffY:;P=$(P)$(R),R=TS:,RN=TS:PosX:;P=$(P)$(R),R=TS:,RN=TS:PosY:</string>
@@ -3826,7 +3836,7 @@ border-radius: 2px;
                 <string>Y (current, sum, pos)</string>
             </property>
             <property name="files">
-                <string>quadEM_plotAll.adl</string>
+                <string>quadEM_plotAll.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R)TS:, CURR1=Current3:TimeSeries, CURR2=Current4:TimeSeries, SUM=SumY:TimeSeries, POS=PosY:TimeSeries, XAXIS=TSTimeAxis, TITLE=$(TY), XTITLE=Time (sec), YTITLE=Counts</string>
@@ -4009,7 +4019,7 @@ border-radius: 2px;
                 <string>X (current, sum, pos)</string>
             </property>
             <property name="files">
-                <string>quadEM_plotAll.adl</string>
+                <string>quadEM_plotAll.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R)FFT:, CURR1=Current1:FFTAbsValue, CURR2=Current2:FFTAbsValue, SUM=SumX:FFTAbsValue, POS=PosX:FFTAbsValue, XAXIS=PosX:FFTFreqAxis, TITLE=$(TX), XTITLE=Frequency (Hz), YTITLE=Counts</string>
@@ -4048,7 +4058,7 @@ border-radius: 2px;
                 <string>X (current, sum, pos)</string>
             </property>
             <property name="files">
-                <string>quadEM_plotAll.adl</string>
+                <string>quadEM_plotAll.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R)FFT:, CURR1=Current3:FFTAbsValue, CURR2=Current4:FFTAbsValue, SUM=SumY:FFTAbsValue, POS=PosY:FFTAbsValue, XAXIS=PosY:FFTFreqAxis, TITLE=$(TY), XTITLE=Frequency (Hz), YTITLE=Counts</string>
@@ -4087,7 +4097,7 @@ border-radius: 2px;
                 <string>Current 1;Current 2;Current 3;Current 4;Sum X;Sum Y;Sum All;Difference X;Difference Y;Position X;Position Y</string>
             </property>
             <property name="files">
-                <string>NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl;NDFFTFreqSpectrumPlot.adl</string>
+                <string>NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui ;NDFFTFreqSpectrumPlot.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R),RTS=TS:,R=FFT:Current1:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:Current2:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:Current3:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:Current4:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:SumX:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:SumY:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:SumAll:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:DiffX:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:DiffY:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:PosX:,S=FFTAbsValue;P=$(P)$(R),RTS=TS:,R=FFT:PosY:,S=FFTAbsValue</string>
@@ -4237,7 +4247,7 @@ border-radius: 2px;
                 <string>Time series control</string>
             </property>
             <property name="files">
-                <string>NDPluginTimeSeries.adl</string>
+                <string>NDPluginTimeSeries.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P)$(R),R=TS:,R1=TS:Current1:,T1=Current1,R2=TS:Current2:,T2=Current2,R3=TS:Current3:,T3=Current3,R4=TS:Current4:,T4=Current4,R5=TS:SumX:,T5=SumX,R6=TS:SumY:,T6=SumY,R7=TS:SumAll:,T7=SumAll,R8=TS:PosX:,T8=PosX,R9=TS:PosY:,T9=PosY</string>
@@ -4552,7 +4562,7 @@ border-radius: 2px;
                 <string>Common plugins;FFT plugins</string>
             </property>
             <property name="files">
-                <string>QECommonPlugins.adl;QEFFTPlugins.adl</string>
+                <string>QECommonPlugins.ui ;QEFFTPlugins.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R);P=$(P),R=$(R)FFT:,RTS=$(R)TS:</string>
@@ -4666,7 +4676,7 @@ border-radius: 2px;
                 <string>asyn record</string>
             </property>
             <property name="files">
-                <string>asynRecord.adl</string>
+                <string>asynRecord.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P), R=$(R)Asyn</string>
@@ -6844,7 +6854,7 @@ border-radius: 2px;
                 </rect>
             </property>
             <property name="filename">
-                <string>ADAttrFile.adl</string>
+                <string>ADAttrFile.ui</string>
             </property>
             <property name="macro">
                 <string></string>
@@ -6868,7 +6878,7 @@ border-radius: 2px;
                 </rect>
             </property>
             <property name="filename">
-                <string>AH501.adl</string>
+                <string>AH501.ui</string>
             </property>
             <property name="macro">
                 <string></string>
@@ -6901,7 +6911,7 @@ border-radius: 2px;
                 </rect>
             </property>
             <property name="filename">
-                <string>APS_EM.adl</string>
+                <string>APS_EM.ui</string>
             </property>
             <property name="macro">
                 <string></string>
@@ -6934,7 +6944,7 @@ border-radius: 2px;
                 </rect>
             </property>
             <property name="filename">
-                <string>AH401B.adl</string>
+                <string>AH401B.ui</string>
             </property>
             <property name="macro">
                 <string></string>
@@ -6967,7 +6977,7 @@ border-radius: 2px;
                 </rect>
             </property>
             <property name="filename">
-                <string>AH501C.adl</string>
+                <string>AH501C.ui</string>
             </property>
             <property name="macro">
                 <string></string>
@@ -7000,7 +7010,7 @@ border-radius: 2px;
                 </rect>
             </property>
             <property name="filename">
-                <string>TetrAMM.adl</string>
+                <string>TetrAMM.ui</string>
             </property>
             <property name="macro">
                 <string></string>
@@ -7033,7 +7043,7 @@ border-radius: 2px;
                 </rect>
             </property>
             <property name="filename">
-                <string>NSLS_EM.adl</string>
+                <string>NSLS_EM.ui</string>
             </property>
             <property name="macro">
                 <string></string>
@@ -7066,7 +7076,7 @@ border-radius: 2px;
                 </rect>
             </property>
             <property name="filename">
-                <string>NSLS2_EM.adl</string>
+                <string>NSLS2_EM.ui</string>
             </property>
             <property name="macro">
                 <string></string>
@@ -7081,7 +7091,40 @@ border-radius: 2px;
                 <string>$(P)$(R)Model</string>
             </property>
         </widget>
-        <widget class="caFrame" name="caFrame_8">
+        <widget class="caInclude" name="caInclude_8">
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>460</y>
+                    <width>432</width>
+                    <height>304</height>
+                </rect>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>460</y>
+                    <width>430</width>
+                    <height>302</height>
+                </rect>
+            </property>
+            <property name="filename">
+                <string>PCR4.ui</string>
+            </property>
+            <property name="macro">
+                <string></string>
+            </property>
+            <property name="visibility">
+                <enum>caInclude::Calc</enum>
+            </property>
+            <property name="visibilityCalc">
+                <string>(A=12)</string>
+            </property>
+            <property name="channel">
+                <string>$(P)$(R)Model</string>
+            </property>
+        </widget>
+        <widget class="caFrame" name="caFrame_9">
             <property name="geometry">
                 <rect>
                     <x>30</x>
@@ -7181,7 +7224,7 @@ border-radius: 2px;
                 </property>
             </widget>
         </widget>
-        <widget class="caFrame" name="caFrame_9">
+        <widget class="caFrame" name="caFrame_10">
             <property name="geometry">
                 <rect>
                     <x>100</x>
@@ -7467,7 +7510,7 @@ border-radius: 2px;
                 <enum>caMenu::Static</enum>
             </property>
         </widget>
-        <widget class="caInclude" name="caInclude_10">
+        <widget class="caInclude" name="caInclude_11">
             <property name="geometry">
                 <rect>
                     <x>30</x>
@@ -7485,7 +7528,7 @@ border-radius: 2px;
                 </rect>
             </property>
             <property name="filename">
-                <string>ADBuffers.adl</string>
+                <string>ADBuffers.ui</string>
             </property>
             <property name="macro">
                 <string></string>
@@ -7559,13 +7602,14 @@ border-radius: 2px;
         <zorder>caInclude_5</zorder>
         <zorder>caInclude_6</zorder>
         <zorder>caInclude_7</zorder>
+        <zorder>caInclude_8</zorder>
         <zorder>caLabel_54</zorder>
-        <zorder>caFrame_8</zorder>
-        <zorder>caLabel_55</zorder>
         <zorder>caFrame_9</zorder>
+        <zorder>caLabel_55</zorder>
+        <zorder>caFrame_10</zorder>
         <zorder>caLabel_56</zorder>
         <zorder>caLabel_57</zorder>
-        <zorder>caInclude_10</zorder>
+        <zorder>caInclude_11</zorder>
         <zorder>caLineEdit_0</zorder>
         <zorder>caChoice_0</zorder>
         <zorder>caLineEdit_1</zorder>

@@ -299,10 +299,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 quadEM_plotAll.edl
+  0 "quadEM_plotAll.edl"
 }
 menuLabel {
-  0 X (current, sum, pos)
+  0 "X (current, sum, pos)"
 }
 symbols {
   0 "P=$(P)$(R)TS:,CURR1=Current1:TimeSeries,CURR2=Current2:TimeSeries,SUM=SumX:TimeSeries,POS=PosX:TimeSeries,XAXIS=TSTimeAxis,TITLE=$(TX),XTITLE=Time(sec),YTITLE=Counts"
@@ -331,10 +331,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 NDPluginTimeSeries.edl
+  0 "NDPluginTimeSeries.edl"
 }
 menuLabel {
-  0 Time series control
+  0 "Time series control"
 }
 symbols {
   0 "P=$(P)$(R),R=TS:,R1=TS:Current1:,T1=Current1,R2=TS:Current2:,T2=Current2,R3=TS:Current3:,T3=Current3,R4=TS:Current4:,T4=Current4,R5=TS:SumX:,T5=SumX,R6=TS:SumY:,T6=SumY,R7=TS:SumAll:,T7=SumAll,R8=TS:PosX:,T8=PosX,R9=TS:PosY:,T9=PosY"
@@ -363,30 +363,30 @@ icon
 numPvs 22
 numDsps 11
 displayFileName {
-  0 NDTimeSeriesPlot.edl
-  1 NDTimeSeriesPlot.edl
-  2 NDTimeSeriesPlot.edl
-  3 NDTimeSeriesPlot.edl
-  4 NDTimeSeriesPlot.edl
-  5 NDTimeSeriesPlot.edl
-  6 NDTimeSeriesPlot.edl
-  7 NDTimeSeriesPlot.edl
-  8 NDTimeSeriesPlot.edl
-  9 NDTimeSeriesPlot.edl
-  10 NDTimeSeriesPlot.edl
+  0 "NDTimeSeriesPlot.edl"
+  1 "NDTimeSeriesPlot.edl"
+  2 "NDTimeSeriesPlot.edl"
+  3 "NDTimeSeriesPlot.edl"
+  4 "NDTimeSeriesPlot.edl"
+  5 "NDTimeSeriesPlot.edl"
+  6 "NDTimeSeriesPlot.edl"
+  7 "NDTimeSeriesPlot.edl"
+  8 "NDTimeSeriesPlot.edl"
+  9 "NDTimeSeriesPlot.edl"
+  10 "NDTimeSeriesPlot.edl"
 }
 menuLabel {
-  0 Current 1
-  1 Current 2
-  2 Current 3
-  3 Current 4
-  4 Sum X
-  5 Sum Y
-  6 Sum All
-  7 Difference X
-  8 Difference Y
-  9 Position X
-  10 Position Y
+  0 "Current 1"
+  1 "Current 2"
+  2 "Current 3"
+  3 "Current 4"
+  4 "Sum X"
+  5 "Sum Y"
+  6 "Sum All"
+  7 "Difference X"
+  8 "Difference Y"
+  9 "Position X"
+  10 "Position Y"
 }
 symbols {
   0 "P=$(P)$(R),R=TS:,RN=TS:Current1:,XTITLE=Time(sec),XAXIS=$(P)$(R)TS:TSTimeAxis,YAXIS=$(P)$(R)TS:Current1:TimeSeries"
@@ -435,10 +435,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 quadEM_plotAll.edl
+  0 "quadEM_plotAll.edl"
 }
 menuLabel {
-  0 Y (current, sum, pos)
+  0 "Y (current, sum, pos)"
 }
 symbols {
   0 "P=$(P)$(R)TS:,CURR1=Current3:TimeSeries,CURR2=Current4:TimeSeries,SUM=SumY:TimeSeries,POS=PosY:TimeSeries,XAXIS=TSTimeAxis,TITLE=$(TY),XTITLE=Time(sec),YTITLE=Counts"
@@ -467,10 +467,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 quadEM_plotAll.edl
+  0 "quadEM_plotAll.edl"
 }
 menuLabel {
-  0 X (current, sum, pos)
+  0 "X (current, sum, pos)"
 }
 symbols {
   0 "P=$(P)$(R)FFT:,CURR1=Current1:FFTAbsValue,CURR2=Current2:FFTAbsValue,SUM=SumX:FFTAbsValue,POS=PosX:FFTAbsValue,XAXIS=PosX:FFTFreqAxis,TITLE=$(TX),XTITLE=Frequency(Hz),YTITLE=Counts"
@@ -499,10 +499,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 quadEM_plotAll.edl
+  0 "quadEM_plotAll.edl"
 }
 menuLabel {
-  0 X (current, sum, pos)
+  0 "X (current, sum, pos)"
 }
 symbols {
   0 "P=$(P)$(R)FFT:,CURR1=Current3:FFTAbsValue,CURR2=Current4:FFTAbsValue,SUM=SumY:FFTAbsValue,POS=PosY:FFTAbsValue,XAXIS=PosY:FFTFreqAxis,TITLE=$(TY),XTITLE=Frequency(Hz),YTITLE=Counts"
@@ -531,30 +531,30 @@ icon
 numPvs 22
 numDsps 11
 displayFileName {
-  0 NDTimeSeriesPlot.edl
-  1 NDTimeSeriesPlot.edl
-  2 NDTimeSeriesPlot.edl
-  3 NDTimeSeriesPlot.edl
-  4 NDTimeSeriesPlot.edl
-  5 NDTimeSeriesPlot.edl
-  6 NDTimeSeriesPlot.edl
-  7 NDTimeSeriesPlot.edl
-  8 NDTimeSeriesPlot.edl
-  9 NDTimeSeriesPlot.edl
-  10 NDTimeSeriesPlot.edl
+  0 "NDTimeSeriesPlot.edl"
+  1 "NDTimeSeriesPlot.edl"
+  2 "NDTimeSeriesPlot.edl"
+  3 "NDTimeSeriesPlot.edl"
+  4 "NDTimeSeriesPlot.edl"
+  5 "NDTimeSeriesPlot.edl"
+  6 "NDTimeSeriesPlot.edl"
+  7 "NDTimeSeriesPlot.edl"
+  8 "NDTimeSeriesPlot.edl"
+  9 "NDTimeSeriesPlot.edl"
+  10 "NDTimeSeriesPlot.edl"
 }
 menuLabel {
-  0 Current 1
-  1 Current 2
-  2 Current 3
-  3 Current 4
-  4 Sum X
-  5 Sum Y
-  6 Sum All
-  7 Difference X
-  8 Difference Y
-  9 Position X
-  10 Position Y
+  0 "Current 1"
+  1 "Current 2"
+  2 "Current 3"
+  3 "Current 4"
+  4 "Sum X"
+  5 "Sum Y"
+  6 "Sum All"
+  7 "Difference X"
+  8 "Difference Y"
+  9 "Position X"
+  10 "Position Y"
 }
 symbols {
   0 "P=$(P)$(R),R=TS:,RN=FFT:Current1:,XTITLE=Frequency(Hz),XAXIS=$(P)$(R)FFT:Current1:FFTFreqAxis,YAXIS=$(P)$(R)FFT:Current1:FFTAbsValue"

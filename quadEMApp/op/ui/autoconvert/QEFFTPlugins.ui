@@ -85,6 +85,16 @@ caChoice &gt; QPushButton {
       padding: 1px;
 }
 
+/* when font specified, no font sizing is done any more,  font: 10pt; is not bad. You could Enable this when you converted from .adl files
+caRelatedDisplay  &gt; QPushButton {
+font: 10pt;
+}
+
+caShellCommand  &gt; QPushButton {
+font: 10pt;
+}
+*/
+
 caSlider::groove:horizontal {
 border: 1px solid #bbb;
 background: lightgrey;
@@ -6046,7 +6056,7 @@ border-radius: 2px;
                 <string>$(R)FFT:SumY:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)SumY:,RTS=$(RTS)</string>
@@ -6088,7 +6098,7 @@ border-radius: 2px;
                 <string>$(R)FFT:SumAll:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)SumAll:,RTS=$(RTS)</string>
@@ -6130,7 +6140,7 @@ border-radius: 2px;
                 <string>$(R)FFT:DiffX:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)DiffX:,RTS=$(RTS)</string>
@@ -6172,7 +6182,7 @@ border-radius: 2px;
                 <string>$(R)FFT:DiffY:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)DiffY:,RTS=$(RTS)</string>
@@ -6214,7 +6224,7 @@ border-radius: 2px;
                 <string>$(R)FFT:PosX:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)PosX:,RTS=$(RTS)</string>
@@ -6256,7 +6266,7 @@ border-radius: 2px;
                 <string>$(R)FFT:Current1:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)Current1:,RTS=$(RTS)</string>
@@ -6298,7 +6308,7 @@ border-radius: 2px;
                 <string>$(R)FFT:Current2:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)Current2:,RTS=$(RTS)</string>
@@ -6340,7 +6350,7 @@ border-radius: 2px;
                 <string>$(R)FFT:Current3:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)Current3:,RTS=$(RTS)</string>
@@ -6382,7 +6392,7 @@ border-radius: 2px;
                 <string>$(R)FFT:Current4:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)Current4:,RTS=$(RTS)</string>
@@ -6424,7 +6434,7 @@ border-radius: 2px;
                 <string>$(R)FFT:SumX:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)SumX:,RTS=$(RTS)</string>
@@ -6466,7 +6476,7 @@ border-radius: 2px;
                 <string>$(R)FFT:PosY:</string>
             </property>
             <property name="files">
-                <string>NDFFT.adl</string>
+                <string>NDFFT.ui </string>
             </property>
             <property name="args">
                 <string>P=$(P),R=$(R)PosY:,RTS=$(RTS)</string>
