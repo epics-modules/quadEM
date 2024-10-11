@@ -1,0 +1,28 @@
+# This contains the list of PID parameters used for code generation.  The output includes database entries, member variables, header files, and list management
+# PV Suffix, Data Type, Param String, Param String Name, Param Variable, PV Min, PV Max, Reg Min, Reg Max, Reg Num
+PIDX_Sp, f64, QE_PIDX_SP, PIDX_SpString, P_PIDXSp, -1.0, 1.0, -10000, 10000, 50
+PIDX_Kp, f64, QE_PIDX_KP, PIDX_KpString, P_PIDXKp, 0, 1.0, 0, 10000, 51
+PIDX_Ki, f64, QE_PIDX_KI, PIDX_KiString, P_PIDXKi, 0, 1.0, 0, 10000, 52
+PIDX_Kd, f64, QE_PIDX_KD, PIDX_KdString, P_PIDXKd, 0, 1.0, 0, 10000, 53
+PIDX_Scale, f64, QE_PIDX_SCALE, PIDX_ScaleString, P_PIDX_Scale, 0, 1.0, 0, 1.0, 54
+PIDX_VScale, f64, QE_PIDX_VSCALE, PIDX_VScaleString, P_PIDX_VScale, -5.0, 5.0, -50000, 50000, 56
+PIDX_VOffset, f64, QE_PIDX_VOFFSET, PIDX_VOffsetString, P_PIDX_VOffset, 0, 10.0, 0, 100000, 57
+
+PIDY_Sp, f64, QE_PIDY_SP, PIDY_SpString, P_PIDYSp, -1.0, 1.0, -10000, 10000, 60
+PIDY_Kp, f64, QE_PIDY_KP, PIDY_KpString, P_PIDYKp, 0, 1.0, 0, 10000, 61
+PIDY_Ki, f64, QE_PIDY_KI, PIDY_KiString, P_PIDYKi, 0, 1.0, 0, 10000, 62
+PIDY_Kd, f64, QE_PIDY_KD, PIDY_KdString, P_PIDYKd, 0, 1.0, 0, 10000, 63
+PIDY_Scale, f64, QE_PIDY_SCALE, PIDY_ScaleString, P_PIDY_Scale, 0, 1.0, 0, 1.0, 64
+PIDY_VScale, f64, QE_PIDY_VSCALE, PIDY_VScaleString, P_PIDY_VScale, -5.0, 5.0, -50000, 50000, 66
+PIDY_VOffset, f64, QE_PIDY_VOFFSET, PIDY_VOffsetString, P_PIDY_VOffset, 0, 10.0, 0, 100000, 67
+
+# Don't have full limits, so just allow for proper scale factor
+PID_Cutout, f64, QE_PID_CUTOUT, PID_CutoutString, P_PIDCutout, 0, 1.0, 0, 1000.0, 90
+PID_Hyst, f64, QE_PID_HYST, PID_HystString, P_PIDHyst, 0, 1.0, 0, 1000.0, 91
+
+# DAC Current to Voltage -=-= FIXME Find out the desired scale factor
+DACItoV, f64, QE_DAC_ITOV, DAC_ItoVString, P_DACItoV, 0, 1.0, 0, 1.0, 92
+DACItoVOffset, f64, QE_DAC_ITOV_OFFSET, DAC_ItoVOffsetString, P_DACItoVOffset, 0, 10.0, 0, 100000.0, 76
+
+# Position Tracking Radius
+PosTrackRad, f64, QE_POS_TRACK_RAD, PosTrackRadString, P_PosTrackRad, -1.0, 1.0, -10000.0, 10000.0, 20
