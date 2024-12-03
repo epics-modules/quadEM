@@ -145,6 +145,8 @@ record(mbbo, "$(P)$(R)Range")
     field(ONVL, "1")
     field(TWST, "Hi (300nA)")
     field(TWVL, "0")
+    field(PINI, "YES")
+    field(VAL, "1")
 }
 
 record(mbbi, "$(P)$(R)Range_RBV")
@@ -155,6 +157,26 @@ record(mbbi, "$(P)$(R)Range_RBV")
     field(ONVL, "1")
     field(TWST, "Hi (300nA)")
     field(TWVL, "0")
+}
+
+record(mbbo, "$(P)$(R)Range1")
+{
+    field(PINI, "NO")
+}
+
+record(mbbo, "$(P)$(R)Range2")
+{
+    field(PINI, "NO")
+}
+
+record(mbbo, "$(P)$(R)Range3")
+{
+    field(PINI, "NO")
+}
+
+record(mbbo, "$(P)$(R)Range4")
+{
+    field(PINI, "NO")
 }
 
 record(mbbo, "$(P)$(R)DACMode")
@@ -354,7 +376,7 @@ record(longout, "$(P)$(R)SampleFreq")
     field(DTYP, "asynInt32")
     field(OUT, "@asyn($(PORT) 0)QE_SAMPLE_FREQ")
     field(VAL, "10000")
-    field(PINI, "NO")
+    field(PINI, "YES")
 }
 
 record(longin, "$(P)$(R)SampleFreq_RBV")

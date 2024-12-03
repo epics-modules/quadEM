@@ -28,6 +28,7 @@
 
 #include <epicsExport.h>
 #include "drvT4UDirect_EM.h"
+#include "inicpp.h"
 
 #define BROADCAST_TIMEOUT 0.2
 #define NSLS_EM_TIMEOUT   0.1
@@ -97,6 +98,8 @@ static void readThread(void *drvPvt);
 static void dataReadThread(void *drvPvt);
 
 static CmdParseState_t parseCmdName(char *cmdName);
+
+static bool findIniKey(ini::IniFile &ini, const std::string &section, const std::string &key);
 
 
 /** Constructor for the drvT4UDirect_EM class.
@@ -250,7 +253,7 @@ drvT4UDirect_EM::drvT4UDirect_EM(const char *portName, const char *qtHostAddress
     setDoubleParam(P_Temperature, 1234.5);
     setIntegerParam(P_Geometry, 1);
     //-=-= TODO FIXME Figure out how SampleTime works with averaging
-    setDoubleParam(P_SampleTime, 0.00001);
+    setDoubleParam(P_SampleTime, 0.0001);
     acquiring_ = 1;
     drvQuadEM::setAcquire(1);
 
@@ -298,85 +301,67 @@ void drvT4UDirect_EM::exitHandler()
 
 int32_t drvT4UDirect_EM::parseConfigFile(const char *cfgFileName)
 {
-    FILE *cfgFile;
-    char *curr_line = nullptr;
-    size_t line_len = 0;
-    bool b_all_set;
+    ini::IniFile cfg_ini;
+    std::string selected_cal;
 
     // Invalidate all existing calibration values
     for (uint32_t range_idx = 0; range_idx < NUM_RANGES; range_idx++)
     {
-	for (uint32_t chan_idx = 0; chan_idx == 0; chan_idx++)
+	for (uint32_t chan_idx = 0; chan_idx < 4; chan_idx++)
 	{
 	    fullSlope_[range_idx][chan_idx] = nanf("");
 	    fullOffset_[range_idx][chan_idx] = nanf("");
 	}
     }
-    
-    cfgFile = fopen(cfgFileName, "r");
-    if (cfgFile == nullptr)
+
+    cfg_ini.load(cfgFileName);
+
+    // Check for chosen calibration
+    if (!findIniKey(cfg_ini, "config", "selected"))
     {
-	printf("Failed to open file: %s\n", cfgFileName);
+	printf("No selected calibration discovered.");
 	return -1;
     }
+    selected_cal = cfg_ini["config"]["selected"].as<std::string>();
 
-    while(!feof(cfgFile))
-    {
-	ssize_t read_len;
-	int32_t curr_chan;
-	int32_t curr_range;
-	float slope;
-	float offset;
-	int parse_ret;
-
-	read_len = getline(&curr_line, &line_len, cfgFile);
-	if (read_len == -1)
-	{
-	    //-=-= FIXME TODO IM 20241122
-	    // Handle this somehow
-	    break;
-	}
-
-	if (curr_line[0]  == '#') // Comment line
-	{
-	    continue;		// Move on to the next line
-	}
-
-	parse_ret = sscanf(curr_line, " %i , %i : %f , %f ", &curr_range, &curr_chan, &slope, &offset);
-	if (parse_ret != 4)	//  Not expected format
-	{
-	    printf("Invalid config line: %s\nIgnoring.\n", curr_line);
-	    continue;
-	}
-
-        //-=-= FIXME TODO IM 20241122 Do bounds checking
-	fullSlope_[curr_range][curr_chan] = slope;
-	fullOffset_[curr_range][curr_chan] = offset;
-	printf("Calibration Range %i Channel %i Slope %f Offset %f\n", curr_range, curr_chan, slope, offset);
-    }
-
-    fclose(cfgFile);
-    free(curr_line); // Memory cleanup
-    // Now check that all values have been configured
-    b_all_set = true;		// Assume true and find a contradiction
+    // Now get the values for each range and channel
     for (uint32_t range_idx = 0; range_idx < NUM_RANGES; range_idx++)
     {
+	std::string curr_range_section;
+	std::string curr_channel_key;
+	curr_range_section = selected_cal + "_range" + std::to_string(range_idx);
 	for (uint32_t chan_idx = 0; chan_idx < 4; chan_idx++)
 	{
-	    if (isnan(fullSlope_[range_idx][chan_idx]) || isnan(fullOffset_[range_idx][chan_idx]))
+	    const char base_char = 'A'; // Start at channel A
+	    char curr_char;
+	    std::string curr_val;
+	    int32_t parse_ret;
+	    float slope;
+	    float offset;
+	    
+	    
+	    curr_char = base_char + chan_idx; // Add to get the number XXX assumes ASCII
+	    curr_channel_key = ((std::string)"Channel")+curr_char;
+	    if (!findIniKey(cfg_ini, curr_range_section, curr_channel_key))
 	    {
-		b_all_set = false;
-		printf("Error: Range %u, Channel %u not set.\n", range_idx, chan_idx);
+		printf("Calibration entry for Range %u Channel %c not found.\n", range_idx, curr_char);
+		return -1;
 	    }
+
+	    curr_val = cfg_ini[curr_range_section][curr_channel_key].as<std::string>();
+	    parse_ret = sscanf(curr_val.c_str(), " \" %f , %f \" ", &slope, &offset); // Second escaped quote not strictly needed, but in for foramt documentation
+	    if (parse_ret != 2)	//  Not expected format
+	    {
+		printf("Invalid value string: %s\nAborting calibration load.\n", curr_val.c_str());
+		return -1;
+	    }
+
+	    fullSlope_[range_idx][chan_idx] = slope;
+	    fullOffset_[range_idx][chan_idx] = offset;
+	    printf("Calibration Range %i Channel %i Slope %f Offset %f\n", range_idx, chan_idx, (double) slope, (double) offset);
 	}
     }
-
-    if (!b_all_set)
-    {
-	printf("Error: Some channel calibrations not set.\n");
-	return -2;
-    }
-
+	    
     return 0;
 }
 
@@ -461,7 +446,7 @@ asynStatus drvT4UDirect_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     }
     else if (function == P_Range)
     {
-	//printf("**************Setting Range\nValue %i\n",value);
+	printf("**************Setting Range\nValue %i\n",value);
         // Clip the range if needed to the limits
         if (value < 0)
         {
@@ -936,11 +921,11 @@ void drvT4UDirect_EM::cmdReadThread(void)
             }
         } // while parsing a message on the command socket
 	
-	//printf("Cmd bytes read: %u \n", totalBytesRead);
-	//if (InData[0] != 't')
-	//{
-	//    printf("InData: %s", InData);
-	//}
+	printf("Cmd bytes read: %u \n", totalBytesRead);
+	if (InData[0] != 't')
+	{
+	    printf("InData: %s", InData);
+	}
 
 	//printf("Cmd thread about to lock.\n");
         lock();
@@ -1345,6 +1330,10 @@ int drvT4UDirect_EM::processRegVal(int reg_num, uint32_t reg_val)
             slope_val = (double) (*((float *) &reg_val));
 	    //printf("Calculated slope %i is %f\n", reg_num-TXC_CHA_CALIB_SLOPE, slope_val);
             calSlope_[reg_num - TXC_CHA_CALIB_SLOPE] = slope_val;
+	    if (slope_val != fullSlope_[currRange_][reg_num - TXC_CHA_CALIB_SLOPE])
+	    {
+		printf("Slope calibration mismatch channel %i\n", reg_num - TXC_CHA_CALIB_SLOPE);
+	    }
         }
         else if ((reg_num >= TXC_CHA_CALIB_OFFSET) && (reg_num <= TXC_CHD_CALIB_OFFSET))
         {
@@ -1353,6 +1342,10 @@ int drvT4UDirect_EM::processRegVal(int reg_num, uint32_t reg_val)
             offset_val = (double) (*((float *) &reg_val));
 	    //printf("Calculated offset %i is %f\n", reg_num-TXC_CHA_CALIB_OFFSET, offset_val);
             calOffset_[reg_num - TXC_CHA_CALIB_OFFSET] = offset_val;
+	    if (offset_val != fullOffset_[currRange_][reg_num - TXC_CHA_CALIB_OFFSET])
+	    {
+		printf("Offset calibration mismatch channel %i\n", reg_num - TXC_CHA_CALIB_OFFSET);
+	    }
         }
         else                    // An unhandled command
         {
@@ -1684,6 +1677,20 @@ CmdParseState_t parseCmdName(char *cmdName)
     }
 
     return parseState;
+}
+
+bool findIniKey(ini::IniFile &ini, const std::string &section, const std::string &key)
+{
+    if (auto search_sec = ini.find(section); search_sec != ini.end())
+    {
+	ini::IniSection sec = ini[section];
+	
+	if (auto search_key = sec.find(key); search_key != sec.end())
+	{
+	    return true;
+	}
+    }
+    return false;
 }
 
 extern "C" {
