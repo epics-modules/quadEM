@@ -3,6 +3,10 @@ include "quadEM.template"
 
 include "gc_t4u.db"
 
+record(mbbi, "$(P)$(R)Model") {
+    field(VAL, "14")
+}
+
 record(bo, "$(P)$(R)BiasPEn")
 {
     field(DESC, "P Bias Enable")
