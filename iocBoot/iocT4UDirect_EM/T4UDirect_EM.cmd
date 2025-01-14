@@ -5,10 +5,11 @@ epicsEnvSet("TEMPLATE",  "T4U_EM")
 epicsEnvSet("QSIZE",     "20")
 epicsEnvSet("RING_SIZE", "10000")
 epicsEnvSet("TSPOINTS",  "5000")
-epicsEnvSet("QTHOST", "192.168.11.67")
+epicsEnvSet("QTHOST", "192.168.11.76")
+#epicsEnvSet("QTHOST", "192.168.11.67")
 #epicsEnvSet("QTHOST", "127.0.0.1")
 epicsEnvSet("QTBASEPORT", "15001")
-epicsEnvSet("CALFILE", "curr_cal.cfg");
+epicsEnvSet("CALFILE", "DBPM_Settings.ini");
 
 # Load asynRecord record
 dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=TCP_Command_$(PORT),ADDR=0,OMAX=256,IMAX=256")
