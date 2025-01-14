@@ -272,7 +272,6 @@ asynStatus drvT4U_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     int function = pasynUser->reason;
     int status = asynSuccess;
     int channel;
-    int reg_lookup;
     const char *paramName;
     const char *functionName = "writeInt32";
 
@@ -376,7 +375,7 @@ asynStatus drvT4U_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     }
     else if (function == P_PIDEn)
     {
-        char *enable_cmd[2] = {"bc", "bs"}; // Off does bc; On does bs
+        const char *enable_cmd[2] = {"bc", "bs"}; // Off does bc; On does bs
 
         epicsSnprintf(outCmdString_, sizeof(outCmdString_), "%s %i %i\n",
                       enable_cmd[value], REG_PID_CTRL, PID_EN_MASK);
@@ -392,7 +391,7 @@ asynStatus drvT4U_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     else if ((function == P_PIDCuEn) || (function == P_PIDHystEn)
              || (function == P_PIDCtrlPol) || (function == P_PIDCtrlEx))
     {
-        char *enable_cmd[2] = {"bc", "bs"}; // Off does bc; on does bs.
+        const char *enable_cmd[2] = {"bc", "bs"}; // Off does bc; on does bs.
         int reg = REG_PID_CTRL;
         int mask;
 
@@ -456,7 +455,6 @@ asynStatus drvT4U_EM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
     int function = pasynUser->reason;
     int status = asynSuccess;
     int channel;
-    int reg_lookup;
     T4U_Reg_T *pid_reg;
     const char *paramName;
     const char *functionName = "writeFloat64";
@@ -550,12 +548,8 @@ asynStatus drvT4U_EM::reset()
 asynStatus drvT4U_EM::writeReadMeter()
 {
     size_t nwrite;
-    int eomReason;
     asynStatus status=asynSuccess;
-    asynOctet *pasynOctet;
-    asynInterface *pasynInterface;
-    void *octetPvt;
-
+ 
     // Debugging
     printf("Entered writeReadMeter()\n");
     fflush(stdout);
@@ -585,13 +579,11 @@ void drvT4U_EM::cmdReadThread(void)
     asynStatus status;
     size_t nRead;
     int eomReason;
-    int i;
     static char InData[MAX_COMMAND_LEN]; // Hold either an ASCII command or the header of a new command
     char *inTr;                   // Hold the payload of a tr command
     char currChar;
     size_t nRequest = 1;
-    int processRet;
-    static const char *functionName = "cmdReadThread";
+    //static const char *functionName = "cmdReadThread";
     CmdParseState_t parseState = kGET_CMD_NAME;
 
     status = asynSuccess;       // -=-= FIXME Used for a different call
@@ -601,7 +593,6 @@ void drvT4U_EM::cmdReadThread(void)
     while(1)                    // The main loop of receving commands
     {
         int totalBytesRead;
-        int headerBytes;
         bool commandReceived;
         unlock();
         epicsThreadSleep(0.001);
@@ -785,7 +776,6 @@ void drvT4U_EM::dataReadThread(void)
     asynStatus status;
     size_t nRead;
     int eomReason;
-    int i;
     char InData[MAX_COMMAND_LEN];
     size_t nRequest = 1;        // Read only one byte here to pass to the parser
     int32_t data_read;          // How many full readings we did
@@ -793,7 +783,7 @@ void drvT4U_EM::dataReadThread(void)
     const int32_t kREAD_BINARY = 1;
     int32_t read_path;          // Whether we read via text or via binary
     
-    static const char *functionName = "dataReadThread";
+    //static const char *functionName = "dataReadThread";
 
     status = asynSuccess;       // -=-= FIXME Used for a different call
     
@@ -1056,7 +1046,7 @@ asynStatus drvT4U_EM::readDataParam(size_t nRequest, char *dest, size_t *nRead)
 
     if (nRequest == 1)          // Reading one byte
     {
-        status = pasynOctetSyncIO->read(pasynUserTCPData_, &c_data, nRequest, 0.01, nRead, &eomReason);
+        status = pasynOctetSyncIO->read(pasynUserTCPData_, &c_data, nRequest, READ_TIMEOUT, nRead, &eomReason);
         if (status)             // Error reading
         {
             return status;      // Abort
@@ -1067,7 +1057,7 @@ asynStatus drvT4U_EM::readDataParam(size_t nRequest, char *dest, size_t *nRead)
     
     else if (nRequest == 2)     // Reading a network short
     {
-        status = pasynOctetSyncIO->read(pasynUserTCPData_, (char *) &s_data, nRequest, 0.01, nRead, &eomReason);
+        status = pasynOctetSyncIO->read(pasynUserTCPData_, (char *) &s_data, nRequest, READ_TIMEOUT, nRead, &eomReason);
         if (status)             // Error reading
         {
             return status;      // Abort
@@ -1078,7 +1068,7 @@ asynStatus drvT4U_EM::readDataParam(size_t nRequest, char *dest, size_t *nRead)
 
     else if (nRequest == 4)     // Reading a network log
     {
-        status = pasynOctetSyncIO->read(pasynUserTCPData_, (char *) &u_data, nRequest, 0.01, nRead, &eomReason);
+        status = pasynOctetSyncIO->read(pasynUserTCPData_, (char *) &u_data, nRequest, READ_TIMEOUT, nRead, &eomReason);
         if (status)             // Error reading
         {
             return status;      // Abort
@@ -1100,9 +1090,6 @@ int32_t drvT4U_EM::readBroadcastPayload()
     size_t nRequest;
     size_t nRead;               // How many bytes read
     char c_data;
-    uint16_t s_data;
-    uint32_t u_data;            // Hold the data read from a header
-    uint16_t bytes_read;        // Bytes read starting with frame number
     int eomReason;
     uint16_t payload_len;
     uint16_t units_current;
