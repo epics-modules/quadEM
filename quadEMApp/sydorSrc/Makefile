@@ -1,25 +1,13 @@
 TOP=../..
 include $(TOP)/configure/CONFIG
 
-LIBRARY_IOC += quadEM
-
+LIBRARY_IOC += sydorQuadEM
+USR_INCLUDES += -I../../src
 
 DBD += drvT4U_EM.dbd
 DBD += drvT4UDirect_EM.dbd
 
-quadEM_SRCS += drvT4U_EM.cpp
-quadEM_SRCS += drvT4UDirect_EM.cpp
-
-PROD_NAME = quadEMTestApp
-PROD_IOC += $(PROD_NAME)
-
-PROD_LIBS += quadEM
-
-include $(ADCORE)/ADApp/commonLibraryMakefile
-include $(ADCORE)/ADApp/commonDriverMakefile
-$(PROD_NAME)_DBD += drvT4U_EM.dbd
-$(PROD_NAME)_DBD += drvT4UDirect_EM.dbd
-
-PROD_NAME = quadEMTestApp
+LIB_SRCS += drvT4U_EM.cpp
+LIB_SRCS += drvT4UDirect_EM.cpp
 
 include $(TOP)/configure/RULES
