@@ -1,0 +1,247 @@
+record(ao, "$(P)$(R)PIDX_Sp")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDX_SP")
+}
+
+record(ai, "$(P)$(R)PIDX_Sp_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDX_SP")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDX_Kp")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDX_KP")
+}
+
+record(ai, "$(P)$(R)PIDX_Kp_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDX_KP")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDX_Ki")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDX_KI")
+}
+
+record(ai, "$(P)$(R)PIDX_Ki_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDX_KI")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDX_Kd")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDX_KD")
+}
+
+record(ai, "$(P)$(R)PIDX_Kd_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDX_KD")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDX_Scale")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDX_SCALE")
+}
+
+record(ai, "$(P)$(R)PIDX_Scale_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDX_SCALE")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDX_VScale")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDX_VSCALE")
+}
+
+record(ai, "$(P)$(R)PIDX_VScale_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDX_VSCALE")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDX_VOffset")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDX_VOFFSET")
+}
+
+record(ai, "$(P)$(R)PIDX_VOffset_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDX_VOFFSET")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDY_Sp")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDY_SP")
+}
+
+record(ai, "$(P)$(R)PIDY_Sp_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDY_SP")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDY_Kp")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDY_KP")
+}
+
+record(ai, "$(P)$(R)PIDY_Kp_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDY_KP")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDY_Ki")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDY_KI")
+}
+
+record(ai, "$(P)$(R)PIDY_Ki_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDY_KI")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDY_Kd")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDY_KD")
+}
+
+record(ai, "$(P)$(R)PIDY_Kd_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDY_KD")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDY_Scale")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDY_SCALE")
+}
+
+record(ai, "$(P)$(R)PIDY_Scale_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDY_SCALE")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDY_VScale")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDY_VSCALE")
+}
+
+record(ai, "$(P)$(R)PIDY_VScale_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDY_VSCALE")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PIDY_VOffset")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PIDY_VOFFSET")
+}
+
+record(ai, "$(P)$(R)PIDY_VOffset_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PIDY_VOFFSET")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PID_Cutout")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PID_CUTOUT")
+}
+
+record(ai, "$(P)$(R)PID_Cutout_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PID_CUTOUT")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PID_Hyst")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_PID_HYST")
+}
+
+record(ai, "$(P)$(R)PID_Hyst_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_PID_HYST")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)DACItoV")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_DAC_ITOV")
+}
+
+record(ai, "$(P)$(R)DACItoV_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_DAC_ITOV")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)DACItoVOffset")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_DAC_ITOV_OFFSET")
+}
+
+record(ai, "$(P)$(R)DACItoVOffset_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_DAC_ITOV_OFFSET")
+field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)PosTrackRad")
+{
+field(DTYP, "asynFloat64")
+field(OUT, "@asyn($(PORT) 0)QE_POS_TRACK_RAD")
+}
+
+record(ai, "$(P)$(R)PosTrackRad_RBV")
+{
+field(DTYP, "asynFloat64")
+field(INP, "@asyn($(PORT) 0)QE_POS_TRACK_RAD")
+field(SCAN, "I/O Intr")
+}
+

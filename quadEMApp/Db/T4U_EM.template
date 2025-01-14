@@ -1,0 +1,424 @@
+
+include "quadEM.template"
+
+include "gc_t4u.db"
+
+record(mbbi, "$(P)$(R)Model") {
+    field(VAL, "14")
+}
+
+record(bo, "$(P)$(R)BiasPEn")
+{
+    field(DESC, "P Bias Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_BIAS_P")
+}
+
+record(bi, "$(P)$(R)BiasPEn_RBV")
+{
+    field(DESC, "P Bias Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_BIAS_P")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)BiasPVoltage")
+{
+    field(DESC, "P Bias Voltage")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(DTYP, "asynFloat64")
+    field(OUT, "@asyn($(PORT) 0)QE_BIAS_P_VOLTAGE")
+}
+
+record(ai, "$(P)$(R)BiasPVoltage_RBV")
+{
+    field(DESC, "P Bias Voltage")
+    field(PREC, "2")
+    field(DTYP, "asynFloat64")
+    field(INP, "@asyn($(PORT) 0)QE_BIAS_P_VOLTAGE")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo, "$(P)$(R)BiasNEn")
+{
+    field(DESC, "N Bias Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_BIAS_N")
+}
+
+record(bi, "$(P)$(R)BiasNEn_RBV")
+{
+    field(DESC, "N Bias Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_BIAS_N")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)BiasNVoltage")
+{
+    field(DESC, "N Bias Voltage")
+    field(PINI, "YES")
+    field(PREC, "2")
+    field(DTYP, "asynFloat64")
+    field(OUT, "@asyn($(PORT) 0)QE_BIAS_N_VOLTAGE")
+}
+
+record(ai, "$(P)$(R)BiasNVoltage_RBV")
+{
+    field(DESC, "N Bias Voltage")
+    field(PREC, "2")
+    field(DTYP, "asynFloat64")
+    field(INP, "@asyn($(PORT) 0)QE_BIAS_N_VOLTAGE")
+    field(SCAN, "I/O Intr")
+}
+
+#---------------------
+# Pulse Bias Options 
+#---------------------
+
+record(bo, "$(P)$(R)PulseBiasEn")
+{
+    field(DESC, "Pulse Bias Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(VAL, "0")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_PULSE_BIAS")
+}
+
+record(bi, "$(P)$(R)PulseBiasEn_RBV")
+{
+    field(DESC, "Pulse Bias Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_PULSE_BIAS")
+    field(SCAN, "I/O Intr")
+}
+
+record(longout, "$(P)$(R)PulseBiasOffCnt")
+{
+    field(DESC, "Pulse Bias Off Count")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_PULSE_BIAS_OFF")
+    field(VAL, "100")
+    field(PINI, "YES")
+}
+
+record(longin, "$(P)$(R)PulseBiasOffCnt_RBV")
+{
+    field(DESC, "Pulse Bias Off Count")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_PULSE_BIAS_OFF")
+    field(SCAN, "I/O Intr")
+}
+
+record(longout, "$(P)$(R)PulseBiasOnCnt")
+{
+    field(DESC, "Pulse Bias On Count")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_PULSE_BIAS_ON")
+    field(VAL, "1")
+    field(PINI, "YES")
+}
+
+record(longin, "$(P)$(R)PulseBiasOnCnt_RBV")
+{
+    field(DESC, "Pulse Bias On Count")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_PULSE_BIAS_ON")
+    field(SCAN, "I/O Intr")
+}
+
+
+record(mbbo, "$(P)$(R)Range")
+{
+    field(ZRST, "Low (5mA !!)")
+    field(ZRVL, "2")
+    field(ONST, "Med (100uA)")
+    field(ONVL, "1")
+    field(TWST, "Hi (300nA)")
+    field(TWVL, "0")
+    field(PINI, "YES")
+    field(VAL, "1")
+}
+
+record(mbbi, "$(P)$(R)Range_RBV")
+{
+    field(ZRST, "Low (5mA !!)")
+    field(ZRVL, "2")
+    field(ONST, "Med (100uA)")
+    field(ONVL, "1")
+    field(TWST, "Hi (300nA)")
+    field(TWVL, "0")
+}
+
+record(mbbo, "$(P)$(R)Range1")
+{
+    field(PINI, "NO")
+}
+
+record(mbbo, "$(P)$(R)Range2")
+{
+    field(PINI, "NO")
+}
+
+record(mbbo, "$(P)$(R)Range3")
+{
+    field(PINI, "NO")
+}
+
+record(mbbo, "$(P)$(R)Range4")
+{
+    field(PINI, "NO")
+}
+
+record(mbbo, "$(P)$(R)DACMode")
+{
+    field(ZRST, "None")
+    field(ZRVL, "0")
+    field(ONST, "Quadrant")
+    field(ONVL, "1")
+    field(TWST, "XY")
+    field(TWVL, "2")
+    field(THST, "PID")
+    field(THVL, "3")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_DAC_MODE")
+}
+
+record(mbbi, "$(P)$(R)DACMode_RBV")
+{
+    field(ZRST, "None")
+    field(ZRVL, "0")
+    field(ONST, "Quadrant")
+    field(ONVL, "1")
+    field(TWST, "XY")
+    field(TWVL, "2")
+    field(THST, "PID")
+    field(THVL, "3")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_DAC_MODE")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo, "$(P)$(R)PIDEn")
+{
+    field(DESC, "PID Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_PID_EN")
+}
+
+record(bi, "$(P)$(R)PIDEn_RBV")
+{
+    field(DESC, "PID Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_PID_EN")
+    field(SCAN, "I/O Intr")
+}
+
+#------------------
+# PID Control
+#------------------
+
+record(bo, "$(P)$(R)PIDCtrlPol")
+{
+    field(DESC, "PID Control Polarity")
+    field(ZNAM, "Active HI")
+    field(ONAM, "Active LOW")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_PID_POL")
+}
+
+record(bi, "$(P)$(R)PIDCtrlPol_RBV")
+{
+    field(DESC, "PID Control Polarity")
+    field(ZNAM, "Active HI")
+    field(ONAM, "Active LOW")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_PID_POL")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo, "$(P)$(R)PIDCtrlEx")
+{
+    field(DESC, "PID External Control")
+    field(ZNAM, "No External Control")
+    field(ONAM, "GPI1")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_PID_EXT_CTRL")
+}
+
+record(bi, "$(P)$(R)PIDCtrlEx_RBV")
+{
+    field(DESC, "PID Control Polarity")
+    field(ZNAM, "No External Control")
+    field(ONAM, "GPI1")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_PID_EXT_CTRL")
+    field(SCAN, "I/O Intr")
+}
+
+
+#------------------
+# Status Updater
+#------------------
+record(longout, "$(P)$(R)Updater")
+{
+    field(DESC, "Update EPICS status")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_UPDATE_REG")
+    field(VAL, "1")
+    field(SCAN, "5 second")
+}
+
+record(longin, "$(P)$(R)Updater_RBV")
+{
+    field(DESC, "Update EPICS status")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_UPDATE_REG")
+    field(SCAN, "I/O Intr")
+}
+
+#------------------
+# Cutout PVs
+#------------------
+
+record(bo, "$(P)$(R)PIDCuEn")
+{
+    field(DESC, "PID Cutout Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_PID_CU_EN")
+}
+
+record(bi, "$(P)$(R)PIDCuEn_RBV")
+{
+    field(DESC, "PID Cutout Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_PID_CU_EN")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo, "$(P)$(R)PIDHystEn")
+{
+    field(DESC, "PID Cutout Hyst Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_PID_HYST_EN")
+}
+
+record(bi, "$(P)$(R)PIDHystEn_RBV")
+{
+    field(DESC, "PID Cutout Hyst Enable")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_PID_HYST_EN")
+    field(SCAN, "I/O Intr")
+}
+
+#------------------------
+# Position Tracking
+#------------------------
+
+record(mbbo, "$(P)$(R)PosTrackMode")
+{
+    field(ZRST, "None")
+    field(ZRVL, "0")
+    field(ONST, "Active HI")
+    field(ONVL, "1")
+    field(TWST, "Active LOW")
+    field(TWVL, "2")
+    field(THST, "Reserved")
+    field(THVL, "3")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_POS_TRACK_MODE")
+}
+
+record(mbbi, "$(P)$(R)PosTrackMode_RBV")
+{
+    field(ZRST, "None")
+    field(ZRVL, "0")
+    field(ONST, "Active HI")
+    field(ONVL, "1")
+    field(TWST, "Active LOW")
+    field(TWVL, "2")
+    field(THST, "Reserved")
+    field(THVL, "3")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_POS_TRACK_MODE")
+    field(SCAN, "I/O Intr")
+}
+
+
+#------------------------
+# Sampling Frequency
+#------------------------
+
+record(longout, "$(P)$(R)SampleFreq")
+{
+    field(DESC, "T4U Decimation Frequency")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_SAMPLE_FREQ")
+    field(VAL, "10000")
+    field(PINI, "YES")
+}
+
+record(longin, "$(P)$(R)SampleFreq_RBV")
+{
+    field(DESC, "T4U Decimation Frequency")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_SAMPLE_FREQ")
+    field(SCAN, "I/O Intr")
+}
+
+#--------------------------
+# Overrides
+#--------------------------
+
+record(ao, "$(P)$(R)IntegrationTime")
+{
+    field(VAL, "0.00025")
+    field(PINI, "YES")
+    field(PREC, "6")
+}
+
+record(ai, "$(P)$(R)IntegrationTime_RBV")
+{
+    field(PREC, "6")
+}
+
+record(ai, "$(P)$(R)SampleTime_RBV")
+{
+    field(PREC, "6")
+}
+
+record(mbbo, "$(P)$(R)Geometry")
+{
+    field(VAL, "1")
+}
+
+record(mbbo, "$(P)$(R)Resolution")
+{
+    field(VAL, "1")
+    field(PINI, "YES")
+}
