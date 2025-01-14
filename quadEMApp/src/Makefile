@@ -19,7 +19,6 @@ DBD += drvNSLS2_EM.dbd
 DBD += drvPCR4.dbd
 DBD += drvSoftQuadEM.dbd
 DBD += quadEMTestApp.dbd
-DBD += quadEMTestAppVx.dbd
 
 INC += drvQuadEM.h
 
@@ -32,10 +31,6 @@ quadEM_SRCS         += drvNSLS2_EM.cpp
 #quadEM_SRCS         += drvNSLS2_IC.cpp
 quadEM_SRCS         += drvPCR4.cpp
 quadEM_SRCS         += drvSoftQuadEM.cpp
-quadEM_SRCS_vxWorks += drvAPS_EM.cpp
-
-quadEM_LIBS_vxWorks += Ipac
-quadEM_LIBS_vxWorks += ipUnidig
 
 # Can only build drvNSLS2_EM for Windows and vxWorks in simulation mode
 drvNSLS2_EM_CXXFLAGS_WIN32   += -DSIMULATION_MODE -DPOLLING_MODE
@@ -55,11 +50,10 @@ PROD_NAME = quadEMTestApp
 PROD_IOC += $(PROD_NAME)
 ## <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
 PROD_SRCS_DEFAULT += $(PROD_NAME)_registerRecordDeviceDriver.cpp quadEMTestAppMain.cpp
-PROD_SRCS_vxWorks += $(PROD_NAME)Vx_registerRecordDeviceDriver.cpp
+PROD_SRCS_vxWorks += $(PROD_NAME)_registerRecordDeviceDriver.cpp
 
 PROD_LIBS += quadEM
-PROD_LIBS_vxWorks += Ipac
-PROD_LIBS_vxWorks += ipUnidig
+PROD_LIBS += sydorQuadEM
 
 ifdef SNCSEQ
     PROD_LIBS += seq
@@ -79,16 +73,15 @@ $(PROD_NAME)_DBD += drvNSLS_EM.dbd
 $(PROD_NAME)_DBD += drvNSLS2_EM.dbd
 #$(PROD_NAME)_DBD += drvNSLS2_IC.dbd
 $(PROD_NAME)_DBD += drvPCR4.dbd
+$(PROD_NAME)_DBD += drvPCR4.dbd
+$(PROD_NAME)_DBD += drvPCR4.dbd
+$(PROD_NAME)_DBD += drvT4U_EM.dbd
+$(PROD_NAME)_DBD += drvT4UDirect_EM.dbd
 
 PROD_NAME = quadEMTestApp
-quadEMTestAppVx_DBD += $(PROD_NAME).dbd
-quadEMTestAppVx_DBD += drvIpac.dbd
-quadEMTestAppVx_DBD += ipUnidigSupport.dbd
-quadEMTestAppVx_DBD += drvAPS_EM.dbd
+
 #===========================
 
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
-
-quadEMTestAppVx.dbd$(DEP): $(COMMON_DIR)/quadEMTestApp.dbd
