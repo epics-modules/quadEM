@@ -1,0 +1,4 @@
+################
+# Register global functions
+################
+registrar(drvT4U_EMRegister)
