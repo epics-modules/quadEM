@@ -51,6 +51,7 @@
 #define P_NumAcquiredString        "QE_NUM_ACQUIRED"            /* asynInt32,    r/o */
 #define P_ModelString              "QE_MODEL"                   /* asynInt32,    r/w */
 #define P_FirmwareString           "QE_FIRMWARE"                /* asynOctet,    r/w */
+#define P_RawDataString            "QE_RAW_DATA"                /* asynInt32,    r/o */
 
 
 /* Models */
@@ -178,6 +179,8 @@ protected:
     int P_NumAcquired;
     int P_Model;
     int P_Firmware;
+    int P_RawData;
+
     // We cache these values so we don't need to call getIntegerParam inside the
     // fast data reading loop
     int resolution_;

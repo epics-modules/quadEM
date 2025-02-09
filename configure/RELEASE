@@ -28,4 +28,4 @@ AREA_DETECTOR=$(SUPPORT)/areaDetector-3-14
 -include $(TOP)/../RELEASE.local
 -include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
 -include $(TOP)/configure/RELEASE.local
-
+-include $(TOP)/RELEASE.local

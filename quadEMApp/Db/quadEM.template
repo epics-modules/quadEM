@@ -1082,3 +1082,27 @@ record(seq, "$(P)$(R)FastScanSeq2") {
     field(LNK2, "$(P)$(R)PositionYAve.SCAN")
 }
 
+record(longin, "$(P)$(R)Current1Raw") {
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)QE_RAW_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)Current2Raw") {
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 1)QE_RAW_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)Current3Raw") {
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 2)QE_RAW_DATA")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)Current4Raw") {
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 3)QE_RAW_DATA")
+    field(SCAN, "I/O Intr")
+}
+
