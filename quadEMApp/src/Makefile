@@ -60,12 +60,20 @@ ifdef SNCSEQ
     PROD_LIBS += pv
 endif
 
+PROD_LIBS += busy
+PROD_LIBS += calc
+
+PROD_LIBS += autosave
+PROD_LIBS += devIocStats
+PROD_LIBS += reccaster
+
 # Need to put this in or there are missing symbols on vxWorks because Ipac and IpUnidig are linked
 # in after PROD_LIBS, which has EPICS_BASE_IOC_LIBS from commonDriverMakefile
 PROD_LIBS_vxWorks += $(EPICS_BASE_IOC_LIBS)
 
 include $(ADCORE)/ADApp/commonLibraryMakefile
 include $(ADCORE)/ADApp/commonDriverMakefile
+
 $(PROD_NAME)_DBD += drvAsynIPPort.dbd
 $(PROD_NAME)_DBD += drvAHxxx.dbd
 $(PROD_NAME)_DBD += drvTetrAMM.dbd
@@ -73,10 +81,26 @@ $(PROD_NAME)_DBD += drvNSLS_EM.dbd
 $(PROD_NAME)_DBD += drvNSLS2_EM.dbd
 #$(PROD_NAME)_DBD += drvNSLS2_IC.dbd
 $(PROD_NAME)_DBD += drvPCR4.dbd
-$(PROD_NAME)_DBD += drvPCR4.dbd
-$(PROD_NAME)_DBD += drvPCR4.dbd
 $(PROD_NAME)_DBD += drvT4U_EM.dbd
 $(PROD_NAME)_DBD += drvT4UDirect_EM.dbd
+
+$(PROD_NAME)_DBD += NDFileNetCDF.dbd
+$(PROD_NAME)_DBD += NDFileHDF5.dbd
+
+$(PROD_NAME)_DBD += busySupport.dbd
+$(PROD_NAME)_DBD += calcSupport.dbd
+$(PROD_NAME)_DBD += devIocStats.dbd
+$(PROD_NAME)_DBD += asSupport.dbd
+$(PROD_NAME)_DBD += reccaster.dbd
+
+
+# Link QSRV (pvAccess Server) if available
+ifdef EPICS_QSRV_MAJOR_VERSION
+    PROD_LIBS += qsrv
+    PROD_LIBS += $(EPICS_BASE_PVA_CORE_LIBS)
+    $(PROD_NAME)_DBD += PVAServerRegister.dbd
+    $(PROD_NAME)_DBD += qsrv.dbd
+endif
 
 PROD_NAME = quadEMTestApp
 
