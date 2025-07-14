@@ -99,6 +99,7 @@ drvQuadEM::drvQuadEM(const char *portName, int ringBufferSize)
     createParam(P_NumAveragedString,        asynParamInt32,         &P_NumAveraged);
     createParam(P_ModelString,              asynParamInt32,         &P_Model);
     createParam(P_FirmwareString,           asynParamOctet,         &P_Firmware);
+    createParam(P_RawDataString,            asynParamInt32,         &P_RawData);
     
     setIntegerParam(P_RingOverflows, 0);
     setIntegerParam(P_PingPong, 0);
@@ -187,6 +188,9 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
         getDoubleParam(i, P_CurrentOffset, &currentOffset[i]);
         getDoubleParam(i, P_CurrentScale,  &currentScale[i]);
         doubleData[i] = raw[i]*currentScale[i] - currentOffset[i];
+        if (i <= QECurrent4) {
+            setIntegerParam(i, P_RawData, raw[i]);
+        }
     }
     for (i=0; i<2; i++) {
         getDoubleParam(i, P_PositionOffset, &positionOffset[i]);
