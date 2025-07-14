@@ -10,6 +10,7 @@ file "NDStats_settings.req",           P=$(P), R=$(R)DiffY:
 file "NDStats_settings.req",           P=$(P), R=$(R)PosX:
 file "NDStats_settings.req",           P=$(P), R=$(R)PosY:
 file "NDFileNetCDF_settings.req",      P=$(P), R=$(R)netCDF1:
+file "NDFileHDF5_settings.req",        P=$(P), R=$(R)HDF1:
 file "NDStdArrays_settings.req",       P=$(P), R=$(R)image1:
 file "NDTimeSeries_settings.req",      P=$(P), R=$(R)TS:
 file "NDTimeSeriesN_settings.req",     P=$(P), R=$(R)TS:Current1:

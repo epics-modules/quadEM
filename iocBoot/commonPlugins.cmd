@@ -70,6 +70,10 @@ dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P=$(PREFIX),R=$(RECORD)$(T
 NDFileNetCDFConfigure("$(PORT)_FileNetCDF1", $(QSIZE), 0, "$(PORT)", 11)
 dbLoadRecords("$(ADCORE)/db/NDFileNetCDF.template","P=$(PREFIX),R=$(RECORD)netCDF1:,PORT=$(PORT)_FileNetCDF1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=11,ENABLED=0")
 
+# Create an HDF5 file saving plugin
+NDFileHDF5Configure("$(PORT)_FileHDF1", $(QSIZE), 0, "$(PORT)", 11)
+dbLoadRecords("$(ADCORE)/db/NDFileHDF5.template",  "P=$(PREFIX),R=$(RECORD)HDF1:,PORT=$(PORT)_FileHDF1,ADDR=0,TIMEOUT=1,XMLSIZE=2048,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=11,ENABLED=0")
+
 # This creates a waveform large enough for 11x10000 arrays.
 NDStdArraysConfigure("$(PORT)_Image1", $(QSIZE), 0, "$(PORT)", 11)
 dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=$(RECORD)image1:,PORT=$(PORT)_Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=11,TYPE=Float64,FTVL=DOUBLE,NELEMENTS=110000,ENABLED=0")
