@@ -391,6 +391,56 @@ record(longin, "$(P)$(R)SampleFreq_RBV")
     field(SCAN, "I/O Intr")
 }
 
+#------------------------------------
+# Wait State Modes and Trigger Modes
+#------------------------------------
+
+record(mbbo, "$(P)$(R)WaitStateMode")
+{
+    field(DESC, "Wait State Mode Selector")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_WSMODE")
+    field(ZRST, "None")
+    field(ZRVL, "0")
+    field(ONST, "Inhibit")
+    field(ONVL, "1")
+    field(TWST, "Triggered")
+    field(TWVL, "2")
+    field(VAL, "0")
+    field(PINI, "YES")
+}
+
+record(mbbi, "$(P)$(R)WaitStateMode_RBV")
+{
+    field(DESC, "Wait State Mode Selector")
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_WSMODE")
+    field(ZRST, "None")
+    field(ZRVL, "0")
+    field(ONST, "Inhibit")
+    field(ONVL, "1")
+    field(TWST, "Triggered")
+    field(TWVL, "2")
+    field(SCAN, "I/O Intr")
+}
+
+record(longout, "$(P)$(R)ReadsPerPacket")
+{
+    field(DRVL, "1")
+    field(DRVH, "50")
+    field(DTYP, "asynInt32")
+    field(OUT, "@asyn($(PORT) 0)QE_RPP")
+    field(PINI, "YES")
+    field(VAL, "50")
+}
+
+record(longin, "$(P)$(R)ReadsPerPacket_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP, "@asyn($(PORT) 0)QE_RPP")
+    field(SCAN, "I/O Intr")
+}
+
 #--------------------------
 # Overrides
 #--------------------------

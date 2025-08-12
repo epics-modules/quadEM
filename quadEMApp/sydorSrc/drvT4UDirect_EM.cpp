@@ -48,6 +48,13 @@
 #define PULSE_BIAS_OFF_REG      22
 #define PULSE_BIAS_ON_REG       23
 #define REG_T4U_FREQ            1
+#define WAIT_STATE_MASK (0x7 << 12)
+#define WAIT_STATE_INHIBIT_MASK (0x3 << 12)
+#define WAIT_STATE_TRIGGER_MASK (0x5 << 12)
+#define WAIT_STATE_MODE_NONE 0
+#define WAIT_STATE_MODE_INHIBIT 1
+#define WAIT_STATE_MODE_TRIGGER 2
+#define REG_T4U_READS_PER_PACKET 24
 
 #define REG_T4U_RANGE           3
 #define RANGE_SEL_MASK          0x3
@@ -172,7 +179,8 @@ drvT4UDirect_EM::drvT4UDirect_EM(const char *portName, const char *qtHostAddress
     createParam(P_PIDHystEn_String, asynParamInt32, &P_PIDHystEn);
     createParam(P_PIDCtrlPol_String, asynParamInt32, &P_PIDCtrlPol);
     createParam(P_PIDCtrlEx_String, asynParamInt32, &P_PIDCtrlEx);
-    
+    createParam(P_WaitStateMode_String, asynParamInt32, &P_WaitStateMode);
+    createParam(P_ReadsPerPacket_String, asynParamInt32, &P_ReadsPerPacket);
 #include "gc_t4u_cpp_params.cpp"
     
     // Create the port names
@@ -547,6 +555,33 @@ asynStatus drvT4UDirect_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
                       reg, shift_val);
         writeReadMeter();
     }
+    else if (function == P_WaitStateMode)
+    {
+        // We always clear the bits, no matter what operation we do
+        epicsSnprintf(outCmdString_, sizeof(outCmdString_), "bc %i %i\r\n", (int) REG_T4U_CTRL, (int) WAIT_STATE_MASK);
+        writeReadMeter();
+        // Now set according to mode
+        if (value == WAIT_STATE_MODE_NONE)
+        {
+            // Nothing to do here
+        }
+        else if (value == WAIT_STATE_MODE_INHIBIT)
+        {
+            epicsSnprintf(outCmdString_, sizeof(outCmdString_), "bs %i %i\r\n", (int) REG_T4U_CTRL, (int) WAIT_STATE_INHIBIT_MASK);
+            writeReadMeter();
+        }
+        else if (value == WAIT_STATE_MODE_TRIGGER)
+        {
+            epicsSnprintf(outCmdString_, sizeof(outCmdString_), "bs %i %i\r\n", (int) REG_T4U_CTRL, (int) WAIT_STATE_TRIGGER_MASK);
+            writeReadMeter();
+        }
+    }
+    else if (function == P_ReadsPerPacket)
+    {
+        epicsSnprintf(outCmdString_, sizeof(outCmdString_), "wr %i %i\r\n", (int) REG_T4U_READS_PER_PACKET, value);
+        writeReadMeter();
+    }
+            
 
     if (function < FIRST_T4U_COMMAND)
     {
@@ -911,7 +946,7 @@ void drvT4UDirect_EM::cmdReadThread(void)
             }
         } // while parsing a message on the command socket
 	
-	printf("Cmd bytes read: %u \n", totalBytesRead);
+	//printf("Cmd bytes read: %u \n", totalBytesRead);
 	if (InData[0] != 't')
 	{
 	    printf("InData: %s", InData);
