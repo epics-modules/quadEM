@@ -1,4 +1,4 @@
-#!/home/iainm/src/epics/synAppsofficial/git/support/quadEM-R9-5/bin/linux-x86_64/quadEMTestApp
+#!/home/iainm/src/epics/synAppsofficial/git/support/quadEM/bin/linux-x86_64/quadEMTestApp
 
 errlogInit(5000)
 < envPaths

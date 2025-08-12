@@ -112,13 +112,13 @@ static bool findIniKey(ini::IniFile &ini, const std::string &section, const std:
 /** Constructor for the drvT4UDirect_EM class.
   * Calls the constructor for the drvQuadEM base class.
   * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] qtHostAddress The address of the Qt middle layer
+  * \param[in] T4U_Address The address of the T4U
   * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
   *            This should be large enough to hold all the samples between reads of the
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
   *            If 0 then default of 2048 is used.
   */
-drvT4UDirect_EM::drvT4UDirect_EM(const char *portName, const char *qtHostAddress, int ringBufferSize, unsigned int base_port_num, const char *cfgFileName) 
+drvT4UDirect_EM::drvT4UDirect_EM(const char *portName, const char *T4U_Address, int ringBufferSize, unsigned int base_port_num, const char *cfgFileName) 
    : drvQuadEM(portName, ringBufferSize)
   
 {
@@ -194,7 +194,7 @@ drvT4UDirect_EM::drvT4UDirect_EM(const char *portName, const char *qtHostAddress
     // Connect the ports
 
     // First the command port
-    epicsSnprintf(tempString, sizeof(tempString), "%s:%d", qtHostAddress, T4U_CMD_PORT);
+    epicsSnprintf(tempString, sizeof(tempString), "%s:%d", T4U_Address, T4U_CMD_PORT);
     status = (asynStatus)drvAsynIPPortConfigure(tcpCommandPortName_, tempString, 0, 0, 0);
     printf("Attempted command port: %s connection to: %s\nStatus: %d\n", tcpCommandPortName_, tempString, status);
     if (status) {
@@ -226,7 +226,7 @@ drvT4UDirect_EM::drvT4UDirect_EM(const char *portName, const char *qtHostAddress
     */
     
     // Now the UDP data port
-    epicsSnprintf(tempString, sizeof(tempString), "127.0.0.1:%u:%u UDP", T4U_DATA_PORT-1, T4U_DATA_PORT);
+    epicsSnprintf(tempString, sizeof(tempString), "127.0.0.1:%u:%u UDP", base_port_num-1, base_port_num);
     status = (asynStatus)drvAsynIPPortConfigure(udpDataPortName_, tempString, 0, 0, 0);
     if (status) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
@@ -949,7 +949,7 @@ void drvT4UDirect_EM::cmdReadThread(void)
 	//printf("Cmd bytes read: %u \n", totalBytesRead);
 	if (InData[0] != 't')
 	{
-	    printf("InData: %s", InData);
+	    //printf("InData: %s", InData);
 	}
 
 	//printf("Cmd thread about to lock.\n");
@@ -1705,9 +1705,9 @@ extern "C" {
 
 // EPICS iocsh callable function to call constructor for the drvT4UDirect_EM class.
 //-=-= TODO doxygen
-    int drvT4UDirect_EMConfigure(const char *portName, const char *qtHostAddress, int ringBufferSize, int base_port_num, const char *cfgFileName)
+    int drvT4UDirect_EMConfigure(const char *portName, const char *T4U_Address, int ringBufferSize, int base_port_num, const char *cfgFileName)
 {
-    new drvT4UDirect_EM(portName, qtHostAddress, ringBufferSize, base_port_num, cfgFileName);
+    new drvT4UDirect_EM(portName, T4U_Address, ringBufferSize, base_port_num, cfgFileName);
     return (asynSuccess);
 }
 
