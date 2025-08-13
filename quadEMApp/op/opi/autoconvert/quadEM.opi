@@ -8838,7 +8838,7 @@ $(pv_value)</tooltip>
     </macros>
     <name>Linking Container_10</name>
     <opi_file>T4U_EM.opi</opi_file>
-    <resize_behaviour>0</resize_behaviour>
+    <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
         <exp bool_exp="pv0==14">
@@ -8861,7 +8861,7 @@ $(pv_value)</tooltip>
     <widget_type>Linking Container</widget_type>
     <width>348</width>
     <wuid>75c0effa:198a39237a0:-7b24</wuid>
-    <x>19</x>
-    <y>454</y>
+    <x>23</x>
+    <y>474</y>
   </widget>
 </display>
