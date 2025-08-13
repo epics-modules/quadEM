@@ -8861,7 +8861,7 @@ $(pv_value)</tooltip>
     <widget_type>Linking Container</widget_type>
     <width>348</width>
     <wuid>75c0effa:198a39237a0:-7b24</wuid>
-    <x>23</x>
-    <y>474</y>
+    <x>10</x>
+    <y>460</y>
   </widget>
 </display>
