@@ -572,8 +572,11 @@ asynStatus drvT4UDirect_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         }
         else if (value == WAIT_STATE_MODE_TRIGGER)
         {
+#undef TRIGGERED_MODE // Define this if your system has support for triggered mode
+#ifdef TRIGGERED_MODE
             epicsSnprintf(outCmdString_, sizeof(outCmdString_), "bs %i %i\r\n", (int) REG_T4U_CTRL, (int) WAIT_STATE_TRIGGER_MASK);
             writeReadMeter();
+#endif
         }
     }
     else if (function == P_ReadsPerPacket)
