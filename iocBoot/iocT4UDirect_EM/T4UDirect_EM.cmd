@@ -6,7 +6,7 @@ epicsEnvSet("QSIZE",     "20")
 epicsEnvSet("RING_SIZE", "10000")
 epicsEnvSet("TSPOINTS",  "5000")
 epicsEnvSet("T4U_ADDR", "192.168.11.90")
-epicsEnvSet("DATA_PORT", "12345")
+epicsEnvSet("DATA_PORT", "10101")
 epicsEnvSet("CALFILE", "DBPM_Settings.ini");
 
 # Load asynRecord record
