@@ -5,16 +5,14 @@ epicsEnvSet("TEMPLATE",  "T4U_EM")
 epicsEnvSet("QSIZE",     "20")
 epicsEnvSet("RING_SIZE", "10000")
 epicsEnvSet("TSPOINTS",  "5000")
-epicsEnvSet("QTHOST", "192.168.11.76")
-#epicsEnvSet("QTHOST", "192.168.11.67")
-#epicsEnvSet("QTHOST", "127.0.0.1")
-epicsEnvSet("QTBASEPORT", "15001")
+epicsEnvSet("T4U_ADDR", "192.168.11.90")
+epicsEnvSet("DATA_PORT", "10101")
 epicsEnvSet("CALFILE", "DBPM_Settings.ini");
 
 # Load asynRecord record
 dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=TCP_Command_$(PORT),ADDR=0,OMAX=256,IMAX=256")
 
-drvT4UDirect_EMConfigure("$(PORT)", "$(QTHOST)", $(RING_SIZE), $(QTBASEPORT), "$(CALFILE)")
+drvT4UDirect_EMConfigure("$(PORT)", "$(T4U_ADDR)", $(RING_SIZE), $(DATA_PORT), "$(CALFILE)")
 
 #asynSetTraceIOMask("UDP_$(PORT)", 0, 2)
 #asynSetTraceMask("UDP_$(PORT)", 0, 9)
