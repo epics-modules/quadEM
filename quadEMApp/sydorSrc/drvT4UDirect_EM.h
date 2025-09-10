@@ -183,6 +183,10 @@ private:
     double calOffset_[4];
     float fullSlope_[NUM_RANGES][4];
     float fullOffset_[NUM_RANGES][4];
+    float cwSlope_[NUM_RANGES][4]; // The continuous wave slope
+    float cwOffset_[NUM_RANGES][4]; // The continuous wave offset
+    float pulsedSlope_[NUM_RANGES][4]; // The pulsed mode slope
+    float pulsedOffset_[NUM_RANGES][4]; // The pulsed mode offset
     int currRange_;
     char *bc_data_payload_;      // Broadcast data payload
     T4U_Payload_Header_T bc_hdr_; // Broadcast data header

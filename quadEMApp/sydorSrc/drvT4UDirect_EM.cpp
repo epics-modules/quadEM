@@ -311,6 +311,8 @@ int32_t drvT4UDirect_EM::parseConfigFile(const char *cfgFileName)
 {
     ini::IniFile cfg_ini;
     std::string selected_cal;
+    std::string cw_cal; // The calibration string for CW mode
+    std::string pulsed_cal; // The calibration string for Pulsed mode
 
     // Invalidate all existing calibration values
     for (uint32_t range_idx = 0; range_idx < NUM_RANGES; range_idx++)
@@ -327,48 +329,93 @@ int32_t drvT4UDirect_EM::parseConfigFile(const char *cfgFileName)
     // Check for chosen calibration
     if (!findIniKey(cfg_ini, "config", "selected"))
     {
-	printf("No selected calibration discovered.");
+	printf("No selected calibration discovered.  Missing key selected=<name> in section [config].\n");
 	return -1;
     }
     selected_cal = cfg_ini["config"]["selected"].as<std::string>();
-
-    // Now get the values for each range and channel
-    for (uint32_t range_idx = 0; range_idx < NUM_RANGES; range_idx++)
+    
+    cw_cal = selected_cal; // Copy for use later, as we will use selected as an iterator
+    printf("Using CW calibration set \"%s\".\n", cw_cal.c_str());
+           
+    // Check for the pulsed mode calibration
+    if (!findIniKey(cfg_ini, "config", "pulsed"))
     {
-	std::string curr_range_section;
-	std::string curr_channel_key;
-	curr_range_section = selected_cal + "_range" + std::to_string(range_idx);
-	for (uint32_t chan_idx = 0; chan_idx < 4; chan_idx++)
-	{
-	    const char base_char = 'A'; // Start at channel A
-	    char curr_char;
-	    std::string curr_val;
-	    int32_t parse_ret;
-	    float slope;
-	    float offset;
-	    
-	    
-	    curr_char = base_char + chan_idx; // Add to get the number XXX assumes ASCII
-	    curr_channel_key = ((std::string)"Channel")+curr_char;
-	    if (!findIniKey(cfg_ini, curr_range_section, curr_channel_key))
-	    {
-		printf("Calibration entry for Range %u Channel %c not found.\n", range_idx, curr_char);
-		return -1;
-	    }
-
-	    curr_val = cfg_ini[curr_range_section][curr_channel_key].as<std::string>();
-	    parse_ret = sscanf(curr_val.c_str(), " \" %f , %f \" ", &slope, &offset); // Second escaped quote not strictly needed, but in for foramt documentation
-	    if (parse_ret != 2)	//  Not expected format
-	    {
-		printf("Invalid value string: %s\nAborting calibration load.\n", curr_val.c_str());
-		return -1;
-	    }
-
-	    fullSlope_[range_idx][chan_idx] = slope;
-	    fullOffset_[range_idx][chan_idx] = offset;
-	    printf("Calibration Range %i Channel %i Slope %f Offset %f\n", range_idx, chan_idx, (double) slope, (double) offset);
-	}
+        printf("No separate pulsed mode calibration selected: key pulsed=<name> in section [config].  Using selected CW value \"%s\".  This is expected if your T4U does not support pulsed mode.\n", cw_cal.c_str());
+        pulsed_cal = cw_cal;
     }
+    else
+    {
+        pulsed_cal = cfg_ini["config"]["pulsed"].as<std::string>();
+        printf("Using pulsed mode calibration set \"%s\".\n", pulsed_cal.c_str());
+    }
+
+    // Iterate over correction sets for CW and pulsed mode
+    for (uint32_t mode_idx = 0; mode_idx<2; mode_idx++)
+    {
+        float working_slope[NUM_RANGES][4];
+        float working_offset[NUM_RANGES][4];
+
+        // Set the string used for indexing the calibration file
+        if (mode_idx == 0)
+        {
+            selected_cal = cw_cal;
+        }
+        else
+        {
+            selected_cal = pulsed_cal;
+        }
+        
+        // Now get the values for each range and channel
+        for (uint32_t range_idx = 0; range_idx < NUM_RANGES; range_idx++)
+        {
+            std::string curr_range_section;
+            std::string curr_channel_key;
+            curr_range_section = selected_cal + "_range" + std::to_string(range_idx);
+            for (uint32_t chan_idx = 0; chan_idx < 4; chan_idx++)
+            {
+                const char base_char = 'A'; // Start at channel A
+                char curr_char;
+                std::string curr_val;
+                int32_t parse_ret;
+                float slope;
+                float offset;
+	    
+	    
+                curr_char = base_char + chan_idx; // Add to get the number XXX assumes ASCII
+                curr_channel_key = ((std::string)"Channel")+curr_char;
+                if (!findIniKey(cfg_ini, curr_range_section, curr_channel_key))
+                {
+                    printf("Calibration %s entry for Range %u Channel %c not found.\n", selected_cal.c_str(), range_idx, curr_char);
+                    return -1;
+                }
+
+                curr_val = cfg_ini[curr_range_section][curr_channel_key].as<std::string>();
+                parse_ret = sscanf(curr_val.c_str(), " \" %f , %f \" ", &slope, &offset); // Second escaped quote not strictly needed, but in for foramt documentation
+                if (parse_ret != 2)	//  Not expected format
+                {
+                    printf("Invalid value string: %s\nAborting calibration load.\n", curr_val.c_str());
+                    return -1;
+                }
+
+                working_slope[range_idx][chan_idx] = slope;
+                working_offset[range_idx][chan_idx] = offset; // Cache the current values
+                printf("Calibration Range %i Channel %i Slope %f Offset %f\n", range_idx, chan_idx, (double) slope, (double) offset);
+            } // channel_idx
+        } // range_idx
+
+        if (mode_idx == 0)
+        {
+            memcpy(cwSlope_, working_slope, sizeof(working_slope));
+            memcpy(cwOffset_, working_offset, sizeof(working_offset)); // Cache the values into CW
+            memcpy(fullSlope_, cwSlope_, sizeof(cwSlope_));
+            memcpy(fullOffset_, cwOffset_, sizeof(cwOffset_)); // Set CW as default
+        }
+        else
+        {
+            memcpy(pulsedSlope_, working_slope, sizeof(working_slope));
+            memcpy(pulsedOffset_, working_offset, sizeof(working_offset)); // Cache the values into Pulsed
+        }
+    } // mode_idx
 	    
     return 0;
 }
@@ -453,7 +500,7 @@ asynStatus drvT4UDirect_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
     }
     else if (function == P_Range)
     {
-	printf("**************Setting Range\nValue %i\n",value);
+	//printf("**************Setting Range\nValue %i\n",value);
         // Clip the range if needed to the limits
         if (value < 0)
         {
@@ -563,19 +610,29 @@ asynStatus drvT4UDirect_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         // Now set according to mode
         if (value == WAIT_STATE_MODE_NONE)
         {
-            // Nothing to do here
+            // Set calibration values to CW
+            memcpy(fullSlope_, cwSlope_, sizeof(cwSlope_));
+            memcpy(fullOffset_, cwOffset_, sizeof(cwOffset_));
         }
         else if (value == WAIT_STATE_MODE_INHIBIT)
         {
             epicsSnprintf(outCmdString_, sizeof(outCmdString_), "bs %i %i\r\n", (int) REG_T4U_CTRL, (int) WAIT_STATE_INHIBIT_MASK);
             writeReadMeter();
+            // Set calibration values to CW
+            memcpy(fullSlope_, cwSlope_, sizeof(cwSlope_));
+            memcpy(fullOffset_, cwOffset_, sizeof(cwOffset_));
         }
         else if (value == WAIT_STATE_MODE_TRIGGER)
         {
 #undef TRIGGERED_MODE // Define this if your system has support for triggered mode
+#define TRIGGERED_MODE
+
 #ifdef TRIGGERED_MODE
             epicsSnprintf(outCmdString_, sizeof(outCmdString_), "bs %i %i\r\n", (int) REG_T4U_CTRL, (int) WAIT_STATE_TRIGGER_MASK);
             writeReadMeter();
+            // Set calibration values to Pulsed i.e. triggered
+            memcpy(fullSlope_, pulsedSlope_, sizeof(pulsedSlope_));
+            memcpy(fullOffset_, pulsedOffset_, sizeof(pulsedOffset_));
 #endif
         }
     }
@@ -965,8 +1022,8 @@ void drvT4UDirect_EM::cmdReadThread(void)
         else if (parseState == kFLUSH) // We had an error somewhere
         {
             unlock();
-	    printf("InData: %s", InData);
-	    printf("Cmd thread about to flush.\n");
+	    //printf("InData: %s", InData);
+	    //printf("Cmd thread about to flush.\n");
             pasynOctetSyncIO->flush(pasynUserTCPCommand_); // Flush the socket
             lock();
         }
