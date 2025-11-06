@@ -586,7 +586,7 @@ asynStatus drvT4UDirect_EM::writeFloat64(asynUser *pasynUser, epicsFloat64 value
 
     if ((pid_reg = findRegByAsyn(function)) != nullptr)
     {
-        int out_val = scaleParamToReg(value, pid_reg);
+        int out_val = (int) scaleParamToReg(value, pid_reg);
         epicsSnprintf(outCmdString_, sizeof(outCmdString_), "wr %i %i\r\n",
                       pid_reg->reg_num, out_val);
         writeReadMeter();
@@ -1536,7 +1536,7 @@ int32_t drvT4UDirect_EM::readTextCurrVals()
     }
 
     // Convert to expected double
-    for (uint data_idx = 0; data_idx < 4; data_idx++)
+    for (unsigned int data_idx = 0; data_idx < 4; data_idx++)
     {
         readCurr_[data_idx] = read_vals[data_idx]; // We read in currents directly
     }
@@ -1654,14 +1654,13 @@ CmdParseState_t parseCmdName(char *cmdName)
 
 bool findIniKey(ini::IniFile &ini, const std::string &section, const std::string &key)
 {
-    if (auto search_sec = ini.find(section); search_sec != ini.end())
-    {
-	ini::IniSection sec = ini[section];
-	
-	if (auto search_key = sec.find(key); search_key != sec.end())
-	{
-	    return true;
-	}
+    auto search_sec = ini.find(section);
+    if (search_sec != ini.end()) {
+        ini::IniSection sec = ini[section];
+        auto search_key = sec.find(key);
+        if (search_key != sec.end()) {
+            return true;
+        }
     }
     return false;
 }
