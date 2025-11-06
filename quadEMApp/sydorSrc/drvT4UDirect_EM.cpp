@@ -722,7 +722,7 @@ void drvT4UDirect_EM::cmdReadThread(void)
     while(1)                    // The main loop of receving commands
     {
         int totalBytesRead;
-        bool commandReceived;
+        //bool commandReceived;
 	bool b_outstanding_cmd;
 	bool b_got_prev_char;
 	size_t nwrite;
@@ -730,7 +730,7 @@ void drvT4UDirect_EM::cmdReadThread(void)
         epicsThreadSleep(0.001);
         totalBytesRead = 0;
         memset(InData, '\0', MAX_COMMAND_LEN);
-        commandReceived = false; // No proper command recieved yet
+        //commandReceived = false; // No proper command recieved yet
         uint16_t tr_len;
         uint16_t reg_num;
         uint32_t reg_val;
