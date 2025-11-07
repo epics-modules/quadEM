@@ -9,7 +9,7 @@ the configure/RELEASE file in each release of quadEM.
 - Supported a variant of the Square geometry, where the diodes are aranged counterclockwise.
 
 ## Release 9-5 (December 7, 2023)
-- Moved the documentation to Github pages, https://epics-modules.github.io/quadem.
+- Moved the documentation to Github pages, https://epics-modules.github.io/quadEM.
 - Add 4 independent ranges, rather than just a single range for all 4 channels.
 - Call asynNDArrayDriver base class in writeInt32 for base class parameters; fixed problem with EmptyFreeList.
 - Change unsigned long long constant definitions in drvTetrAmm.cpp to avoid compiler errors.
