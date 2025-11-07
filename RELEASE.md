@@ -35,7 +35,7 @@ the configure/RELEASE file in each release of quadEM.
 - Updated autoconverted edl files.
 - Fixed Makefile to optionally build with SNCSEQ.
 
-#  Release 9-2 (September 13, 2018)
+##  Release 9-2 (September 13, 2018)
 - Added support for an additional averaging method. The driver currently uses the
   NDPluginStats plugin to do the "primary averaging". The NDPluginStats plugin provides
   additional statistics, such as sigma, skewness, histogram, etc. It is typically
