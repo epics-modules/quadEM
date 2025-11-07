@@ -35,5 +35,5 @@ for several models:
 Additional information:
 * [Home page](https://epics-modules.github.io/quadEM)
 * [Documentation](https://epics-modules.github.io/quadEM/quadEMDoc.html)
-* [Release notes](https://epics-modules.github.io/quadEM/quadEMReleaseNotes.html)
+* [Release notes](RELEASE.md)
 
