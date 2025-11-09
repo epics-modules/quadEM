@@ -18,8 +18,8 @@ minimum, maximum, and other statistics, including a histogram of array values.
 
 .. cssclass:: table-bordered table-striped table-hover
 .. list-table::
-   :header-rows: 1
-   :widths: auto
+  :header-rows: 1
+  :widths: auto
 
   * - drvInfo string
     - EPICS record name
@@ -667,8 +667,8 @@ and NumAcquire=1, so the table does not list AcquireMode=Single.
 
 .. cssclass:: table-bordered table-striped table-hover
 .. list-table::
-   :header-rows: 1
-   :widths: auto
+  :header-rows: 1
+  :widths: auto
 
   * - TriggerMode
     - AcquireMode
@@ -746,8 +746,8 @@ loaded, for example the TIFF, HDF5 or Nexus file writing plugins, etc.
 
 .. cssclass:: table-bordered table-striped table-hover
 .. list-table::
-   :header-rows: 1
-   :widths: auto
+  :header-rows: 1
+  :widths: auto
 
   * - Plugin type
     - Record prefixes

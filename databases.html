@@ -89,18 +89,18 @@ NDStats.template&lt;/a&gt; from &lt;a href=”<a class="reference external" href
 areaDetector&lt;/a&gt; provides digitally averaged readings of the current, sum, difference
 and position with user-defined averaging time. It also provides the standard deviation,
 minimum, maximum, and other statistics, including a histogram of array values.</p>
-<table class="table-bordered table-striped table-hover docutils align-default" id="id1">
-<caption><span class="caption-text">:header-rows: 1
- :widths: auto</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
-<tbody>
-<tr class="row-odd"><td><p>drvInfo string</p></td>
-<td><p>EPICS record name</p></td>
-<td><p>EPICS record type</p></td>
-<td><p>asyn interface</p></td>
-<td><p>Access</p></td>
-<td><p>Models supported</p></td>
-<td><p>Description</p></td>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>drvInfo string</p></th>
+<th class="head"><p>EPICS record name</p></th>
+<th class="head"><p>EPICS record type</p></th>
+<th class="head"><p>asyn interface</p></th>
+<th class="head"><p>Access</p></th>
+<th class="head"><p>Models supported</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
+</thead>
+<tbody>
 <tr class="row-even"><td><p>QE_MODEL</p></td>
 <td><p>$(P)$(R)Model</p></td>
 <td><p>mbbi</p></td>
@@ -785,15 +785,15 @@ an ADC offset calibration that is independent of the Range of the device.</p></t
 of the TriggerMode and AcquireMode records. The following table describes these
 modes. Note that AcquireMode=Single is completely equivalent to AcquireMode=Multiple
 and NumAcquire=1, so the table does not list AcquireMode=Single.</p>
-<table class="table-bordered table-striped table-hover docutils align-default" id="id2">
-<caption><span class="caption-text">:header-rows: 1
- :widths: auto</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
-<tbody>
-<tr class="row-odd"><td><p>TriggerMode</p></td>
-<td><p>AcquireMode</p></td>
-<td><p>Description</p></td>
-<td><p>TetrAMM commands</p></td>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>TriggerMode</p></th>
+<th class="head"><p>AcquireMode</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>TetrAMM commands</p></th>
 </tr>
+</thead>
+<tbody>
 <tr class="row-even"><td><p>Free Run</p></td>
 <td><p>Continuous</p></td>
 <td><p>Values are acquired continuously and are averaged each time the AveragingTime is reached.</p></td>
@@ -871,14 +871,14 @@ must be set to a value less than (external trigger asserted time * 1e5).</p></td
 loads the following set of plugins from the areaDetector module. For more information
 see the documentation in the links in the table below. Other plugins can also be
 loaded, for example the TIFF, HDF5 or Nexus file writing plugins, etc.</p>
-<table class="table-bordered table-striped table-hover docutils align-default" id="id3">
-<caption><span class="caption-text">:header-rows: 1
- :widths: auto</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
-<tbody>
-<tr class="row-odd"><td><p>Plugin type</p></td>
-<td><p>Record prefixes</p></td>
-<td><p>Description</p></td>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Plugin type</p></th>
+<th class="head"><p>Record prefixes</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
+</thead>
+<tbody>
 <tr class="row-even"><td><p>NDPluginStats</p></td>
 <td><p>$(P)$(R)Current[1-4]:</p></td>
 <td><p>Statistics for the current values. The average value is $(P)$(R)Current[1-4]:MeanValue_RBV.
@@ -945,10 +945,10 @@ be restored the next time the IOC is started.</p>
 <blockquote>
 <div><p>This is the medm screen for all of the plugins defined in commonPlugins.cmd.</p>
 </div></blockquote>
-<figure class="align-center" id="id4">
+<figure class="align-center" id="id1">
 <img alt="_images/QECommonPlugins.png" src="_images/QECommonPlugins.png" />
 <figcaption>
-<p><span class="caption-text">This is the medm screen for the Current1: NDPluginStats plugin loaded by commonPlugins.cmd.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+<p><span class="caption-text">This is the medm screen for the Current1: NDPluginStats plugin loaded by commonPlugins.cmd.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <figure class="align-center">
