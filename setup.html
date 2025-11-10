@@ -81,8 +81,9 @@
              
   <section id="setup">
 <h1>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h1>
-<p>All of the device-dependent startup scripts invoke &lt;a href=”quadEM_commonPlugins_cmd.html”&gt;
-quadEM/iocBoot/commonPlugins.cmd&lt;/a&gt;. This file can be edited to add additional
+<p>All of the device-dependent startup scripts invoke
+<a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/commonPlugins.cmd">commonPlugins.cmd</a>.
+This file can be edited to add additional
 plugins, such as the TIFF, HDF5, or Nexus file writers, etc.</p>
 <p>Each iocBoot/iocXXX directory, e.g. iocBoot/iocTetrAMM, contains an example startup
 script for Linux and Windows (st.cmd) and another for vxWorks (st.cmd.vxWorks).
@@ -93,8 +94,8 @@ TetrAMM.cmd, NSLS_EM.cmd, etc.</p>
 <p>These meters communicate via IP, so they must be configured with an IP address reachable
 from the host IOC machine. The CAEN ELS Device Manager software must be used to
 configure the device IP address and port number.</p>
-<p>An example startup script is provided in <br>
-&lt;a href=”quadEM_cmd_TetrAMM.html”&gt;quadEM/iocBoot/iocTetrAMM/TetraAMM.cmd&lt;/a&gt;</p>
+<p>An example startup script is provided in
+<a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocTetrAMM/TetrAMM.cmd">TetrAMM.cmd</a>.</p>
 <p>This will need to be edited to set the correct IP address of the meter to be used.</p>
 </section>
 <section id="ah401-and-ah501-series-setup">
@@ -105,13 +106,13 @@ to use either UDP or TCP. UDP can reduce CPU load, however it is more susceptibl
 to synchronization problems since it does not retransmit dropped packets. The startup
 script must include the UDP qualifier on the drvAsynIPPortConfigure command if UDP
 is selected.</p>
-<p>Example startup scripts are provided in <br>
-&lt;a href=”quadEM_cmd_AH401B.html”&gt;quadEM/iocBoot/iocAH401B/AH401B.cmd&lt;/a&gt; <br>
-and <br>
-&lt;a href=”quadEM_cmd_AH501.html”&gt;quadEM/iocBoot/iocAH501/AH501.cmd&lt;/a&gt;</p>
+<p>Example startup scripts are provided in
+<a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAH401B/AH401B.cmd">AH401B.cmd</a>.
+and
+<a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAH501/AH501.cmd">AH501.cmd</a>.</p>
 <p>These will need to be edited to set the correct IP address of the meters to be used.</p>
-<p>These scripts each invoke a generic script: <br>
-&lt;a href=”quadEM_cmd_AHxxx.html”&gt;quadEM/iocBoot/AHxxx.cmd&lt;/a&gt;.</p>
+<p>These scripts each invoke a generic script
+<a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/AHxxx.cmd">AHxxx.cmd</a>.</p>
 </section>
 <section id="nsls-em-setup">
 <h2>NSLS_EM Setup<a class="headerlink" href="#nsls-em-setup" title="Link to this heading"></a></h2>
@@ -121,8 +122,8 @@ is set by a 16-position rotary switch on the device front panel. The driver send
 a broadcast message on the subnet to determine the Module ID and current IP address
 of all NSLS_EM modules. If the specified module ID is found then it configures communication
 to that module by calling drvAsynIPPortConfigure internally.</p>
-<p>An example startup script is provided in <br>
-&lt;a href=”quadEM_cmd_NSLS_EM.html”&gt;quadEM/iocBoot/iocNSLS_EM/NSLS_EM.cmd&lt;/a&gt;</p>
+<p>An example startup script is provided in
+<a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocNSLS_EM/NSLS_EM.cmd">NSLS_EM.cmd</a>.</p>
 <p>This will need to be edited to set the broadcast address of the network the device
 is connected to, and the Module ID of the device.</p>
 </section>
@@ -130,8 +131,8 @@ is connected to, and the Module ID of the device.</p>
 <h2>NSLS2_EM Setup<a class="headerlink" href="#nsls2-em-setup" title="Link to this heading"></a></h2>
 <p>These meters communicate via IP. They run the EPICS IOC software internally on the
 Zynq processor.</p>
-<p>An example startup script is provided in <br>
-&lt;a href=”quadEM_cmd_NSLS2_EM.html”&gt;quadEM/iocBoot/iocNSLS2_EM/NSLS2_EM.cmd&lt;/a&gt;</p>
+<p>An example startup script is provided in
+<a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocNSLS2_EM/NSLS2_EM.cmd">NSLS2_EM.cmd</a>.</p>
 <p>This will need to be edited to set the Module ID of the device.</p>
 </section>
 <section id="aps-electrometer-setup">
@@ -144,9 +145,9 @@ available. The Ip-Unidig channel where the APS_EM pulse is connected is specifie
 in the unidigChan argument to drvAPS_EMConfigure command in the startup script.
 If an Ip-Unidig or other interrupt source is not being used then the APS_EM driver
 will poll for new data at the system clock rate, typically 60Hz.</p>
-<p>An example startup script is provided in <br>
-&lt;a href=”quadEM_cmd_APS_EM.html”&gt;quadEM/iocBoot/iocAPS_EM/APS_EM.cmd&lt;/a&gt;. <br>
-&lt;a href=”quadEM_st_cmd_vxWorks.html”&gt;quadEM/iocBoot/iocAPS_EM/st.cmd.vxWorks&lt;/a&gt;.</p>
+<p>An example startup script is provided in
+<a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAPS_EM/APS_EM.cmd">APS_EM.cmd</a> and
+<a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAPS_EM/st.cmd.vxWorks">st.cmd.vxWorks</a>.</p>
 </section>
 </section>
 
@@ -161,7 +162,7 @@ will poll for new data at the system clock rate, typically 60Hz.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2025-November-09.
+      <span class="lastupdated">Last updated on 2025-November-10.
       </span></p>
   </div>
 
