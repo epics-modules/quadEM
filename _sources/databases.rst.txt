@@ -87,7 +87,8 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - All
     - Acquire command. This command turns acquisition from the device on (1) and off (0)
       Since it is a "busy" record the device can be used for step-scanning with the sscan
-      record when AcquireMode=Single, **Important note:** Operation in Single mode with the sscan record also requires
+      record when AcquireMode=Single. |br|
+      **Important note:** Operation in Single mode with the sscan record also requires
       that the statistics plugins be set to have CallbacksBlock=Yes so that the driver
       waits for the statistics plugins to compute before it sets Acquire back to 0.
   * - QE_READ_FORMAT
@@ -212,16 +213,18 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - The AH401 series, NSLS_EM, and the APS_EM have 2 input channels, which we call Ping
       and Pong here. This doubles the speed of the unit, because one channel is being
       digitized while the other is integrating. This record selects how the two channels
-      are treated., On the AH401 series the choices are "Off" (0) and "On" (1). "Off" only returns the
+      are treated. |br|
+      On the AH401 series the choices are "Off" (0) and "On" (1). "Off" only returns the
       data from the Ping channel. This reduces noise because only a single integration
       capacitor is used, but it reduces the data rate by a factor of two, because data
       are only returned on every other integration time. "On" returns the data from both
-      channels, which doubles the data rate at some expense in noise.
+      channels, which doubles the data rate at some expense in noise. |br|
       On the NSLS_EM the choices are "Phase0" (0), "Phase1" (1), and "Both (2). "Phase0"
       only returns the data from the Phase0 channel, Phase1 from the Phase1 channel, and
       Both from both Phase0 and Phase1. The device can only return Phase0 and Phase1 correctly
       when ValuesPerRead=1. The driver automatically sets PingPong=Both if ValuesPerRead
-      is not 1., On the APS_EM both values are always transmitted from the device. The choices are
+      is not 1. |br|
+      On the APS_EM both values are always transmitted from the device. The choices are
       #1 (Ping), #2 (Pong), and Avg. which averages the values from the Ping and Pong
       channels. Note that if Range=External and the two external capacitors are different,
       then one should not use Avg. because that will mix data from two different gains.
@@ -233,10 +236,13 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - AH401 series, NSLS_EM, APS_EM
     - Selects the integration time of the amplifier. As the integration time is increased
       the sensitivity increases, but the number of readings/sec sent from the device is
-      decreased., For the AH401 series values range from 0.001s to 1.000s. The data are sent after
-      one integration time if PingPong="On" or after 2 integration times if PingPong="Off"., For the NSLS_EM the values range from .0004s to 1.0 s. Both the Phase0 (Ping) and
+      decreased. |br|
+      For the AH401 series values range from 0.001s to 1.000s. The data are sent after
+      one integration time if PingPong="On" or after 2 integration times if PingPong="Off". |br|
+      For the NSLS_EM the values range from .0004s to 1.0 s. Both the Phase0 (Ping) and
       Phase1 (Pong) values are sent at after a time period equal to IntegrationTime *
-      ValuesPerRead., For the APS_EM the values range from .000615s to 0.1311s. The data are sent to the
+      ValuesPerRead. |br|
+      For the APS_EM the values range from .000615s to 0.1311s. The data are sent to the
       VME card from the amplifier after 2 integration times, one value in the Ping channel
       and one value in the Pong channel. The data period is thus 0.00123 to 0.02622 s,
       or a frequency range of about 813 Hz to 38.1 Hz.
@@ -343,7 +349,8 @@ minimum, maximum, and other statistics, including a histogram of array values.
       microseconds per sample). The minimum value of NRSAMP (and hence ValuesPerRead)
       in Binary mode is 5, which means the maximum number of values per second is 20000.
       Setting ValuesPerRead to 100, for example, will average 100 readings in the TetrAMM,
-      and thus result in a 1000 values per second sent from the TetrAMM to EPICS., , On the NSLS_EM and NSLS2_EM this record controls the number of readings that are
+      and thus result in a 1000 values per second sent from the TetrAMM to EPICS. |br|
+      On the NSLS_EM and NSLS2_EM this record controls the number of readings that are
       summed in the hardware., For all other models ValuesPerRead controls the number of values that are read from
       the meter in a single call. These values are averaged in the driver before it does
       any callbacks. The default is 1 (no averaging). |br|
@@ -430,14 +437,16 @@ minimum, maximum, and other statistics, including a histogram of array values.
       they are read out into NDArray objects and any registered plugins are called. AveragingTime
       is actually used to compute NumAverage_RBV=AveragingTime/SampleTime_RBV. The callbacks
       are done when the number of values in the ring buffer equals NumAverage_RBV, and
-      exactly NumAverage_RBV values will be passed to the plugins., However, setting AveragingTime=0 will set NumAverage_RBV=0 as well, and will disable
+      exactly NumAverage_RBV values will be passed to the plugins. |br|
+      However, setting AveragingTime=0 will set NumAverage_RBV=0 as well, and will disable
       automatic callbacks to areaDetector plugins. In this case data will only be read
       from the ring buffer when the ReadData record is processed. This will read out all
       available data from ring buffer, and the actual number of values read will be NumAveraged_RBV.
       This mode could be useful when the quadEM is being used for data acquisition, for
       example in a scan. In this case processing the ReadData record will read all values
       that have accumulated in the ring buffer since ReadData was last processed. ReadData
-      must be processed frequently enough to avoid ring-buffer overflow., On the TetrAMM in External Bulb mode and on the AH501BE in External Gate mode AveragingTime
+      must be processed frequently enough to avoid ring-buffer overflow. |br|
+      On the TetrAMM in External Bulb mode and on the AH501BE in External Gate mode AveragingTime
       should be set to 0. The driver will force the averaging to occur each time it detects
       the falling edge of the gate pulse. This means that it will use the readings that
       happened while the gate pulse was high.
