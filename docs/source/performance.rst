@@ -9,13 +9,13 @@ The following table shows the CPU utilization of a Linux machine (Xeon E5630 2.5
 under the following conditions. This is the maximum data rate of the AH401B and
 the time series waveform records and FFTs are processing at 1 Hz.
 
--ValuesPerRead=1
--IntegrationTime=0.001
--PingPoing=Yes
--AveragingTime=0.1
--NumChannels=4
--ReadFormat=Binary4
--Time series plugin
+- ValuesPerRead=1
+- IntegrationTime=0.001
+- PingPoing=Yes
+- AveragingTime=0.1
+- NumChannels=4
+- ReadFormat=Binary4
+- Time series plugin
       
   - Plugin enabled
   - TSNumPoints=2048
