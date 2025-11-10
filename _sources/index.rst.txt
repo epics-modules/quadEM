@@ -11,5 +11,7 @@ Table of Contents
   
   overview
   databases
+  plugins
+  tetramm_modes
   performance
   setup

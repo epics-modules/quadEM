@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Performance" href="performance.html" />
+    <link rel="next" title="Plugins" href="plugins.html" />
     <link rel="prev" title="Overview" href="overview.html" /> 
 </head>
 
@@ -46,11 +46,11 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Databases</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#quadem-template">quadEM.template</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#tetramm-acquisition-modes">TetrAMM Acquisition Modes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#plugins">Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fast-pid-control-db">fast_pid_control.db</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM Acquisition Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
 </ul>
@@ -294,7 +294,8 @@ are treated., On the AH401 series the choices are “Off” (0) and “On” (1)
 data from the Ping channel. This reduces noise because only a single integration
 capacitor is used, but it reduces the data rate by a factor of two, because data
 are only returned on every other integration time. “On” returns the data from both
-channels, which doubles the data rate at some expense in noise., On the NSLS_EM the choices are “Phase0” (0), “Phase1” (1), and “Both (2). “Phase0”
+channels, which doubles the data rate at some expense in noise.
+On the NSLS_EM the choices are “Phase0” (0), “Phase1” (1), and “Both (2). “Phase0”
 only returns the data from the Phase0 channel, Phase1 from the Phase1 channel, and
 Both from both Phase0 and Phase1. The device can only return Phase0 and Phase1 correctly
 when ValuesPerRead=1. The driver automatically sets PingPong=Both if ValuesPerRead
@@ -842,217 +843,9 @@ an ADC offset calibration that is independent of the Range of the device.</p></t
 </tr>
 </tbody>
 </table>
-</section>
-<section id="tetramm-acquisition-modes">
-<h2>TetrAMM Acquisition Modes<a class="headerlink" href="#tetramm-acquisition-modes" title="Link to this heading"></a></h2>
-<p>The TetrAMM can be used in 8 different acquisition modes, depending on the values
-of the TriggerMode and AcquireMode records. The following table describes these
-modes. Note that AcquireMode=Single is completely equivalent to AcquireMode=Multiple
-and NumAcquire=1, so the table does not list AcquireMode=Single.</p>
-<table class="table-bordered table-striped table-hover docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>TriggerMode</p></th>
-<th class="head"><p>AcquireMode</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>TetrAMM commands</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Free Run</p></td>
-<td><p>Continuous</p></td>
-<td><p>Values are acquired continuously and are averaged each time the AveragingTime is reached.</p></td>
-<td><p>NRSAMP=ValuesPerRead, NAQ=0, TRG:OFF</p></td>
-</tr>
-<tr class="row-odd"><td><p>Free Run</p></td>
-<td><p>Multiple</p></td>
-<td><p>Data is acquired for the AveragingTime. This is repeated NumAcquire times and then
-acquisition stops. The plugins will be called NumAcquire times, each time with NumAverage
-samples.</p></td>
-<td><p>NRSAMP=ValuesPerRead, NAQ=0, TRG:OFF</p></td>
-</tr>
-<tr class="row-even"><td><p>Ext. Trig.</p></td>
-<td><p>Continuous</p></td>
-<td><p>A fixed number of samples is acquired starting on each rising edge of the external
-trigger input. AveragingTime must be set to a value less than the time between trigger
-pulses.</p></td>
-<td><p>NRSAMP=ValuesPerRead, NAQ=AveragingTime/1e5/ValuesPerRead, TRG:ON</p></td>
-</tr>
-<tr class="row-odd"><td><p>Ext. Trig.</p></td>
-<td><p>Multiple</p></td>
-<td><p>A fixed number of samples is acquired starting on the first rising edge of the external
-trigger input. This repeats NumAcquire times and then acquisition stops. ValuesPerRead
-must be set to a value less than AveragingTime/1e5.</p></td>
-<td><p>NRSAMP=ValuesPerRead, NAQ=AveragingTime*1e5/ValuesPerRead, TRG:ON</p></td>
-</tr>
-<tr class="row-even"><td><p>Ext. Bulb</p></td>
-<td><p>Continuous</p></td>
-<td><p>Samples are acquired while the external trigger input is asserted. On each trailing
-edge of the external trigger signal the plugins are called. ValuesPerRead must be
-set to a value less than (external trigger asserted time * 1e5). AveragingTime is
-ignored in this mode.</p></td>
-<td><p>NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</p></td>
-</tr>
-<tr class="row-odd"><td><p>Ext. Bulb</p></td>
-<td><p>Multiple</p></td>
-<td><p>Samples are acquired while the external trigger input is asserted. On each trailing
-edge of the external trigger signal the plugins are called. This is repeated NumAcquire
-times and then acquisition is stopped. ValuesPerRead must be set to a value less
-than (external trigger asserted time * 1e5). AveragingTime is ignored in this mode.</p></td>
-<td><p>NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</p></td>
-</tr>
-<tr class="row-even"><td><p>Ext. Gate</p></td>
-<td><p>Continuous</p></td>
-<td><p>Samples are acquired while the external trigger input is asserted. When NumAverage
-samples have been acquired the plugins are called. The actual averaging time between
-calling the plugins will be longer than AverageTime, and is controlled by the duty
-cycle of the external gate signal. The trailing edge of the gate pulse is ignored
-in this mode. ValuesPerRead must be set to a value less than (external trigger asserted
-time * 1e5).</p></td>
-<td><p>NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</p></td>
-</tr>
-<tr class="row-odd"><td><p>Ext. Gate</p></td>
-<td><p>Multiple</p></td>
-<td><p>Samples are acquired while the external trigger input is asserted. When NumAverage
-samples have been acquired the plugins are called. The actual averaging time between
-calling the plugins will be longer than AverageTime, and is controlled by the duty
-cycle of the external gate signal. When the plugins have been called NumAcquire
-times then acquisition is stopped. Note that the actual number of gate pulses received
-will be &amp;gt; NumAcquire, and is also controlled by the duty cycle of the external
-gate signal. The trailing edge of the gate pulse is ignored in this mode. ValuesPerRead
-must be set to a value less than (external trigger asserted time * 1e5).</p></td>
-<td><p>NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</p></td>
-</tr>
-</tbody>
-</table>
 <p>The following is the medm screen to control the quadEM with the records in quadEM.template.</p>
 <figure class="align-center">
 <img alt="_images/quadEM.png" src="_images/quadEM.png" />
-</figure>
-</section>
-<section id="plugins">
-<h2>Plugins<a class="headerlink" href="#plugins" title="Link to this heading"></a></h2>
-<p>The example IOCs provided with quadEM load a file called commonPlugins.cmd, which
-loads the following set of plugins from the areaDetector module. For more information
-see the documentation in the links in the table below. Other plugins can also be
-loaded, for example the TIFF, HDF5 or Nexus file writing plugins, etc.</p>
-<table class="table-bordered table-striped table-hover docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Plugin type</p></th>
-<th class="head"><p>Record prefixes</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>NDPluginStats</p></td>
-<td><p>$(P)$(R)Current[1-4]:</p></td>
-<td><p>Statistics for the current values. The average value is $(P)$(R)Current[1-4]:MeanValue_RBV.
-Many other statistics are available, including the minimum, maximum, standard deviation,
-and histogram of values.</p></td>
-</tr>
-<tr class="row-odd"><td><p>NDPluginStats</p></td>
-<td><p>$(P)$(R)Sum[X,Y,All]:</p></td>
-<td><p>Statistics for the sum of currents 1+2, 3+4, and 1+2+3+4. The average value is $(P)$(R)Sum[X,Y,All]:MeanValue_RBV.
-Many other statistics are available, including the minimum, maximum, standard deviation,
-and histogram of values.</p></td>
-</tr>
-<tr class="row-even"><td><p>NDPluginStats</p></td>
-<td><p>$(P)$(R)Diff[X,Y]:</p></td>
-<td><p>Statistics for the differences of current 2-1 and 4-3. The average value is $(P)$(R)Diff[X,Y]:MeanValue_RBV.
-Many other statistics are available, including the minimum, maximum, standard deviation,
-and histogram of values.</p></td>
-</tr>
-<tr class="row-odd"><td><p>NDPluginStats</p></td>
-<td><p>$(P)$(R)Pos[X,Y]:</p></td>
-<td><p>Statistics for the positions. The average value is $(P)$(R)Pos[X,Y]:MeanValue_RBV.
-Many other statistics are available, including the minimum, maximum, standard deviation,
-and histogram of values.</p></td>
-</tr>
-<tr class="row-even"><td><p>NDPluginStdArrays</p></td>
-<td><p>$(P)$(R)image1:</p></td>
-<td><p>Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and puts
-this data into an EPICS waveform record. This can be used to provide access to all
-of the data from quadEM to any Channel Access client.</p></td>
-</tr>
-<tr class="row-odd"><td><p>NDFileNetCDF</p></td>
-<td><p>$(P)$(R)netCDF1:</p></td>
-<td><p>Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and writes
-this data into a netCDF file. This can be done in Single mode, writing one array
-per file. o It can also be done in Stream mode, which continuously appends arrays
-to a single netCDF file.</p></td>
-</tr>
-<tr class="row-even"><td><p>NDPluginTimeSeries</p></td>
-<td><p>$(P)$(R)TS:</p></td>
-<td><p>Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and forms
-11 different time-series arrays. This plugin provides a time-history (like a digital
-scope) of the current, sum, difference and position at speeds up to 20000Hz (TetrAMM),
-6510 Hz (AH501 series), 1000Hz (AH401 series) or 813 Hz (APS_EM). The time per point
-can be greater than the sampling time, in which case it does averaging. The time
-series can operate in a fixed-length mode where acquisition stops after the specified
-number of time points have been collected. This mode is suited for data-acquisition
-applications, such as on-the-fly scanning. The time series plugin can also operate
-in a circular buffer mode with continuous acquisition and display of the most recent</p></td>
-</tr>
-<tr class="row-odd"><td><p>NDPluginFFT</p></td>
-<td><p>$(P)$(R)FFT[1-11]:</p></td>
-<td><p>Plugin that receives the time-series arrays from the NDPluginTimeSeries plugin and
-computes the frequency power-spectrum of each signal. This plugin can also average
-the FFTs to improve the signal/noise ratio.</p></td>
-</tr>
-</tbody>
-</table>
-<p>Note that the first time the IOC is started all of the plugins will have EnableCallbacks=Disable.
-It is necessary to enable each of the plugins that will be used. The plugins will
-also initially start with CallbacksBlock=No. Setting CallbacksBlock=Yes can reduce
-CPU load on slow processors like the MVME2100 (see the performance tables below).
-The values of EnableCallbacks and CallbacksBlock are saved by autosave, and will
-be restored the next time the IOC is started.</p>
-<blockquote>
-<div><p>This is the medm screen for all of the plugins defined in commonPlugins.cmd.</p>
-</div></blockquote>
-<figure class="align-center" id="id1">
-<img alt="_images/QECommonPlugins.png" src="_images/QECommonPlugins.png" />
-<figcaption>
-<p><span class="caption-text">This is the medm screen for the Current1: NDPluginStats plugin loaded by commonPlugins.cmd.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
-</figcaption>
-</figure>
-<figure class="align-center">
-<img alt="_images/QENDStats.png" src="_images/QENDStats.png" />
-</figure>
-<p>This is the medm screen for the netCDF1: NDFileNetCDF plugin loaded by commonPlugins.cmd.</p>
-<figure class="align-center">
-<img alt="_images/QENetCDF.png" src="_images/QENetCDF.png" />
-</figure>
-<p>This is the medm screen to control the NDPluginTimeSeries plugin. In this example
-the time per point from the TetrAMM is 50 microseconds, and averaging time for the
-time series plugin is 1 millisecond, or 20 points. The plugin has 2000 time points,
-and is operating in circular buffer mode.</p>
-<figure class="align-center">
-<img alt="_images/quadEM_TimeSeries.png" src="_images/quadEM_TimeSeries.png" />
-</figure>
-<p>This is a plot of the time series for Current 1. It shows the last 2 seconds of
-data in circular buffer mode.</p>
-<figure class="align-center">
-<img alt="_images/quadEM_TimeSeriesPlot.png" src="_images/quadEM_TimeSeriesPlot.png" />
-</figure>
-<p>This is a plot of the time series for the horizontal currents, sum, and position.
-It shows the last 2 seconds of data in circular buffer mode.</p>
-<figure class="align-center">
-<img alt="_images/quadEM_HorizontalTimeSeriesPlot.png" src="_images/quadEM_HorizontalTimeSeriesPlot.png" />
-</figure>
-<p>This is a plot of the FFT for Current 1. DC offset suppression is enabled and 10
-FFTs are being averaged to improve the signal/noise ratio.</p>
-<figure class="align-center">
-<img alt="_images/quadEM_NDFFTFreqSpectrumPlot.png" src="_images/quadEM_NDFFTFreqSpectrumPlot.png" />
-</figure>
-<p>This is an medm screen for control of all 11 FFT plugins.</p>
-<figure class="align-center">
-<img alt="_images/QEFFTPlugins.png" src="_images/QEFFTPlugins.png" />
-</figure>
-<p>This is an medm screen that displays the FFTs of the Current, Sum, and Position
-for the time-series data above. 100 FFTs are being averaged to improve the signal/noise
-ratio.</p>
-<figure class="align-center">
-<img alt="_images/quadEM_HorizontalFFTPlot.png" src="_images/quadEM_HorizontalFFTPlot.png" />
 </figure>
 </section>
 <section id="fast-pid-control-db">
@@ -1112,7 +905,7 @@ double precision data in the dac128V.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="performance.html" class="btn btn-neutral float-right" title="Performance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="plugins.html" class="btn btn-neutral float-right" title="Plugins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
