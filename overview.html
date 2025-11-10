@@ -81,18 +81,17 @@ low-current measurement that requires high speed digital input. There is support
 for several models:</p>
 <ul class="simple">
 <li><p>The AH401 series (AH401B, AH401D) and AH501 series (AH501, AH501C, AH501D) picoammeters
-originally designed by &lt;a href=”<a class="reference external" href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;amp;id=54&amp;amp;lang=en">http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;amp;id=54&amp;amp;lang=en</a>”&gt;
-Synchrotron Trieste (elettra)&lt;/a&gt;. They are now sold commerically by &lt;a href=”<a class="reference external" href="http://www.caenels.com/products">http://www.caenels.com/products</a>”&gt;
-CAENels&lt;/a&gt;. These devices communicate using TCP or UDP over 100 Mbit/s Ethernet
+originally designed by <a class="reference external" href="http://www.elettra.eu/technology/industry/elettra-for-industry.html">Elettra</a>. They are now sold commerically by <a class="reference external" href="http://www.caenels.com/products">CAENels</a>.
+These devices communicate using TCP or UDP over 100 Mbit/s Ethernet
 or high-speed serial. They provide 4-channel current measurements at up to 6510
 Hz (AH501 series) or 1000 Hz (AH401 series).</p></li>
-<li><p>The TetrAMM picoammeter sold by &lt;a href=”<a class="reference external" href="http://www.caenels.com/products">http://www.caenels.com/products</a>”&gt;CAENels&lt;/a&gt;.
+<li><p>The TetrAMM picoammeter sold by <a class="reference external" href="http://www.caenels.com/products">CAENels</a>.
 This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides 4-channel
 current measurements at up to 20 kHz.</p></li>
 <li><p>The NSLS Quad Electrometer (called NSLS_EM in this document). This device consists
 of a 4-channel digital electrometer unit with Ethernet communication. The device
-provides 4-channel current measurements at up to 2500 Hz. The &lt;a href=”<a class="reference external" href="http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf">http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf</a>”&gt;
-Sydor SI-EP-B4&lt;/a&gt; is based on this design and is software comptabible.</p></li>
+provides 4-channel current measurements at up to 2500 Hz.
+The <a class="reference external" href="http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf">Sydor</a> SI-EP-B4 is based on this design and is software comptabible.</p></li>
 <li><p>The NSLS2 Quad Electrometer (called NSLS2_EM in this document). This device consists
 of a 4-channel digital electrometer unit with Ethernet communication. The device
 provides 4-channel current measurements at up to 10,000 Hz. This design is based
@@ -105,7 +104,7 @@ document). This device consists of a 4-channel digital electrometer unit and 2 V
 boards. The device provides 2 readings per diode at up to 813 Hz. This device appears
 to no longer be in use on any APS beamlines, so the support is now deprecated and
 will be removed in a future release.</p></li>
-<li><p>The PCR4 picoammeter from &lt;a href=”<a class="reference external" href="https://www.sensic.ch/products/electronic-readout">https://www.sensic.ch/products/electronic-readout</a>”&gt;SenSiC&lt;/a&gt;.
+<li><p>The PCR4 picoammeter from <a class="reference external" href="https://www.sensic.ch/products/electronic-readout">SenSiC</a>.
 This device communicates using TCP/IP over 1 Gbit/s Ethernet.
 It provides 4-channel current measurements at up to 53,000 Hz.</p></li>
 </ul>
@@ -116,8 +115,8 @@ stage for current sensing, combined with analog signal conditioning and filterin
 stages. The AH501C, AH501D, and TetrAMM have an integrated programmable bias supply.</p>
 <p>The <a class="reference external" href="https://github.com/epics-modules/quadEM">quadEM</a> software includes asyn drivers that provide support for the following:</p>
 <ul class="simple">
-<li><p>Analog input records using the NDPluginStats plugin from the synApps &lt;a href=”areaDetector.html”&gt;
-areaDetector&lt;/a&gt; module. This provides digitally averaged readings of the current,
+<li><p>Analog input records using the NDPluginStats plugin from the synApps
+areaDetector <a class="reference external" href="https://github.com/areaDetector/ADCore">ADCore</a> module. This provides digitally averaged readings of the current,
 sum, difference and position at speeds that are determined by the AveragingTime
 record described below. The quadEM drivers do the callbacks on the asynGenericPointer
 interface for NDArray objects required to use the areaDetector plugins. The NDPluginStats
@@ -142,18 +141,16 @@ file plugins from areaDetector.</p></li>
 <li><p>Time series data (like a digital scope) of the current, sum, difference and position
 at speeds up to 20000 Hz (TetrAMM), 6510 Hz (AH501 series), 1000 Hz (AH401 series)
 2500 Hz (NSLS_EM), or 813 Hz (APS_EM). The data is available in standard EPICS waveform
-records, using the &lt;a href=”NDPluginTimeSeries.html”&gt;NDPluginTimeSeries plugin&lt;/a&gt;
-from areaDetector/ADCore. The time per point can be greater, in which case it does
+records, using the <a class="reference external" href="https://areadetector.github.io/areaDetector/ADCore/NDPluginTimeSeries.html">NDPluginTimeSeries</a> plugin <a class="reference external" href="https://github.com/areaDetector/ADCore">ADCore</a>. The time per point can be greater, in which case it does
 averaging.</p></li>
 <li><p>FFTs of the time series data, providing the power spectrum of each signal as another
-EPICS waveform record. This uses the &lt;a href=”NDPluginFFT.html”&gt;NDPluginFFT plugin&lt;/a&gt;
-from areaDetector/ADCore.</p></li>
+EPICS waveform record. This uses the <a class="reference external" href="https://areadetector.github.io/areaDetector/ADCore/NDPluginFFT.html">NDPluginFFT</a> plugin from <a class="reference external" href="https://github.com/areaDetector/ADCore">ADCore</a>.</p></li>
 <li><p>epid record support.</p>
 <ul>
 <li><p>This can provide “fast feedback” via an asyn D/A converter (e.g. dac128V), also
 at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If it is run slower
-it does signal averaging. This support is provided in the synApps &lt;a href=”<a class="reference external" href="https://epics-modules.github.io/std/">https://epics-modules.github.io/std/</a>”&gt;
-std&lt;/a&gt; module. The quadEM drivers do the callbacks on the asynFloat64 interface
+it does signal averaging. This support is provided in the synApps
+<a class="reference external" href="https://github.com/epics-modules/std">std</a> module. The quadEM drivers do the callbacks on the asynFloat64 interface
 required to use the epid fast feedback device support. This fast feedback is limited
 to controlling devices in the same IOC as the quadEM driver, because it uses asyn
 links.</p></li>
@@ -166,23 +163,17 @@ in the same IOC.</p></li>
 </ul>
 <p>The following manuals provide detailed information on these devices:</p>
 <ul class="simple">
-<li><p>APS electrometer: &lt;a href=”Electrometer_Users_Guide_01_22_2007.pdf”&gt;Electrometer
-Users Guide&lt;/a&gt;</p></li>
-<li><p>AH401B electrometer: &lt;a href=”AH401B_UsersManual_V1.0.pdf”&gt;AH401B Users Manual&lt;/a&gt;</p></li>
-<li><p>AH401D electrometer: &lt;a href=”AH401D_UsersManual_V1.2.pdf”&gt;AH401D Users Manual&lt;/a&gt;</p></li>
-<li><p>AH501C electrometer: &lt;a href=”AH501C_UsersManual_V1.0.pdf”&gt;AH501C Users Manual&lt;/a&gt;</p></li>
-<li><p>AH501D electrometer: &lt;a href=”AH501D_UsersManual_V1.3.pdf”&gt;AH501D Users Manual&lt;/a&gt;</p></li>
-<li><p>TetrAMM electrometer: &lt;a href=”TetrAMM_UsersManual_V1.5.pdf”&gt;TetrAMM Users Manual&lt;/a&gt;</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/98f7dd8fc82a000e65c0a914f8caf5a0/Electrometer_Users_Guide_01_22_2007.pdf"><code class="xref download docutils literal notranslate"><span class="pre">APS</span> <span class="pre">Electrometer</span> <span class="pre">Users</span> <span class="pre">Guide</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/8d28d194bc88e753930cf519b4562b9c/AH401B_UsersManual_V1.0.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AH401B</span> <span class="pre">Users</span> <span class="pre">Manual</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/18785c9141c55d2f0fe1909518f4f9c5/AH401D_UsersManual_V1.2.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AH401D</span> <span class="pre">Users</span> <span class="pre">Manual</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/cc991cfac763113d795ca94651b39f90/AH501C_UsersManual_V1.0.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AH501C</span> <span class="pre">Users</span> <span class="pre">Manual</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/378352b9fc2420296dd7ca7be8f8d16d/AH501D_UsersManual_V1.3.pdf"><code class="xref download docutils literal notranslate"><span class="pre">AH501D</span> <span class="pre">Users</span> <span class="pre">Manual</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/0e72ce1e528787b3a6a2833cb32f2a48/TetrAMM_UsersManual_V1.5.pdf"><code class="xref download docutils literal notranslate"><span class="pre">TetrAMM</span> <span class="pre">Users</span> <span class="pre">Manual</span></code></a></p></li>
 </ul>
-<p>The support is based on &lt;a href=”<a class="reference external" href="https://cars.uchicago.edu/software/epics/areaDetectorDoc.html#asynNDArrayDriver">https://cars.uchicago.edu/software/epics/areaDetectorDoc.html#asynNDArrayDriver</a>”&gt;
-asynNDArray driver&lt;/a&gt; from &lt;a href=”<a class="reference external" href="https://cars.uchicago.edu/software/epics/areaDetectorDoc.html">https://cars.uchicago.edu/software/epics/areaDetectorDoc.html</a>”&gt;
-areaDetector&lt;/a&gt;, which in turn is based on &lt;a href=”<a class="reference external" href="http://www.aps.anl.gov/epics/modules/soft/asyn/R4-29/asynPortDriver.html">http://www.aps.anl.gov/epics/modules/soft/asyn/R4-29/asynPortDriver.html</a>”&gt;
-asynPortDriver&lt;/a&gt;. It consists of a base class &lt;a href=”quadEMDoxygenHTML/classdrv_quad_e_m.html”&gt;
-(drvQuadEM.cpp)&lt;/a&gt; which is device-independent. There are device-dependent
-classes for the TetrAMM &lt;a href=”quadEMDoxygenHTML/classdrv_tetr_a_m_m.html”&gt;(drvTetrAMM.cpp)&lt;/a&gt;,
-AH401 and AH501 series &lt;a href=”quadEMDoxygenHTML/classdrv_a_hxxx.html”&gt;(drvAHxxx.cpp)&lt;/a&gt;
-NSLS electromater &lt;a href=”quadEMDoxygenHTML/classdrv_n_s_l_s__e_m.html”&gt;(drvNSLS_EM.cpp)&lt;/a&gt;,
-and the APS electrometer &lt;a href=”quadEMDoxygenHTML/classdrv_a_p_s___e_m.html”&gt;(drvAPS_EM.cpp)&lt;/a&gt;.</p>
+<p>The support is based on <a class="reference external" href="https://areadetector.github.io/areaDetector/ADCore/NDArray.html#asynndarraydriver">asynNDArrayDriver</a> from <a class="reference external" href="https://github.com/areaDetector/ADCore">ADCore</a>, which in turn is based on <a class="reference external" href="https://epics-modules.github.io/asyn/asynPortDriver.html">asynPortDriver</a>.
+It consists of a base class drvQuadEM, which is device-independent.
+There are device-dependent classes for the TetrAMM, AH401 and AH501 series, NSLS electrometer,
+NSLS2 electrometer, and the APS electrometer.</p>
 <p>The quadEM driver works as follows:</p>
 <ul class="simple">
 <li><p>The data from the device-dependent drivers are first placed into a ring buffer
