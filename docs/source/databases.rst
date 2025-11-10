@@ -36,20 +36,22 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - All
     - The model of the electrometer. This is normally determined automatically by the
       driver by reading the firmware version. It can also be specified in the configuration
-      command. Values are: |br|
-      0: Unknown |br|
-      1: APS_EM |br|
-      2: AH401B |br|
-      3: AH401D |br|
-      4: AH501 |br|
-      5: AH501BE |br|
-      6: AH501C |br|
-      7: AH501D |br|
-      8: TetrAMM |br|
-      9: NSLS_EM |br|
-      10: NSLS2_EM |br|
-      11: NSLS2_IC |br|
-      12: PCR4 |br|
+      command. Values are:
+
+      - 0: Unknown
+      - 1: APS_EM
+      - 2: AH401B
+      - 3: AH401D
+      - 4: AH501
+      - 5: AH501BE
+      - 6: AH501C
+      - 7: AH501D
+      - 8: TetrAMM
+      - 9: NSLS_EM
+      - 10: NSLS2_EM
+      - 11: NSLS2_IC
+      - 12: PCR4
+
   * - QE_FIRMWARE
     - $(P)$(R)Firmware
     - waveform
@@ -65,12 +67,14 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - asynInt32
     - r/w
     - All
-    - Acquire mode. Values are: |br|
-      0: "Continuous" Acquires data continuously until Acquire is set back to 0. |br|
-      1: "Multiple" Acquires NumAcquire acquisitions and then automatically stops acquisition,
-      setting Acquire back to 0. |br|
-      2: "Single" Acquires a single acquisition. This is a convenience, it is identical
-      to Multiple with NumAcquire=1. |br|
+    - Acquire mode. Values are:
+
+      - 0: "Continuous" Acquires data continuously until Acquire is set back to 0.
+      - 1: "Multiple" Acquires NumAcquire acquisitions and then automatically stops acquisition,
+        setting Acquire back to 0.
+      - 2: "Single" Acquires a single acquisition. This is a convenience, it is identical
+        to Multiple with NumAcquire=1.
+
       Multiple and Single mode are typically used for data acquisition.
   * - QE_ACQUIRE
     - $(P)$(R)Acquire
@@ -89,9 +93,11 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - asynInt32
     - r/w
     - All except APS_EM, NSLS_EM, NSLS2_EM, and PCR4
-    - Read format from the device. Values are: |br|
-      0: Binary  |br|
-      1: ASCII  |br|
+    - Read format from the device. Values are:
+
+      - 0: Binary 
+      - 1: ASCII 
+
       In binary mode the AH401 and AH501 send integer data with no delimiters or terminators.
       This can lead to problems if the data stream is somehow corrupted because there
       is no way to know where one set of readings end and the next set begins. This should
@@ -114,56 +120,73 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - asynInt32
     - r/w
     - All
-    - Range command. This selects the sensitivity of the electrometer (A/D units per nanoamp)., For the TetrAMM the choices are: |br|
-      &plusmn;120uA |br|
-      &plusmn;120nA |br|
-      For the AH501 series the choices are: |br|
-      &plusmn;2.5mA |br|
-      &plusmn;2.5uA |br|
-      &plusmn;2.5nA |br|
+    - Range command. This selects the sensitivity of the electrometer (A/D units per nanoamp). |br|
+      For the TetrAMM the choices are:
+
+      - ±120uA
+      - ±120nA
+      
+      For the AH501 series the choices are:
+
+      - ±2.5mA
+      - ±2.5uA
+      - ±2.5nA
+
       For the AH401 series this selects the feedback capacitor, which controls the gain
-      of the device. There are 8 capacitor choices in units of saturation charge: |br|
-      1800 pC |br|
-      350 pC |br|
-      300 pC |br|
-      250 pC |br|
-      200 pC |br|
-      150 pC |br|
-      100 pC |br|
-      50 pC |br|
+      of the device. There are 8 capacitor choices in units of saturation charge:
+      
+      - 1800 pC
+      - 350 pC
+      - 300 pC
+      - 250 pC
+      - 200 pC
+      - 150 pC
+      - 100 pC
+      - 50 pC
+ 
       For the NSLS_EM this selects the feedback capacitor, which controls the gain of
-      the device. There are 8 capacitor choices in units of saturation charge: |br|
-      350 pC |br|
-      300 pC |br|
-      250 pC |br|
-      200 pC |br|
-      150 pC |br|
-      100 pC |br|
-      50 pC |br|
-      12 pC |br|
-      For the NSLS2_EM this there are 5 ranges: |br|
-      1 uA |br|
-      10 uA |br|
-      100 uA |br|
-      1000 uA |br|
-      5000 uA |br|
-      For the PCR4 v1 there is 1 range: |br|
-      50 uA |br|
-      For the PCR4 v2 there are 4 ranges: |br|
-      50 mA |br|
-      250 uA |br|
-      2.5 uA |br|
-      25 nA |br|
+      the device. There are 8 capacitor choices in units of saturation charge:
+
+      - 350 pC
+      - 300 pC
+      - 250 pC
+      - 200 pC
+      - 150 pC
+      - 100 pC
+      - 50 pC
+      - 12 pC
+
+      For the NSLS2_EM this there are 5 ranges:
+
+      - 1 uA
+      - 10 uA
+      - 100 uA
+      - 1000 uA
+      - 5000 uA
+      
+      For the PCR4 v1 there is 1 range:
+      
+      - 50 uA
+
+      For the PCR4 v2 there are 4 ranges:
+
+      - 50 mA
+      - 250 uA
+      - 2.5 uA
+      - 25 nA
+      
       For the APS_EM this selects the feedback capacitor, which controls the gain of the
-      device. There are 8 capacitor choices:  |br|
-      External |br|
-      17.6 pf |br|
-      8.80 pF |br|
-      5.87 pF |br|
-      4.40 pF |br|
-      3.52 pF |br|
-      2.93 pF |br|
-      2.51 pF |br|
+      device. There are 8 capacitor choices:
+      
+      - External
+      - 17.6 pf
+      - 8.80 pF
+      - 5.87 pF
+      - 4.40 pF
+      - 3.52 pF
+      - 2.93 pF
+      - 2.51 pF 
+      
       On the APS_EM all gains except the first External gain use capacitors that are built
       in to the Burr Brown chip. These are quite small capacitors and only cover a narrow
       range, so the gains are quite high, and only rather low currents can be measured
@@ -220,19 +243,23 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - r/w
     - TetrAMM and AH501 series
     - Selects the number of channels to measure and transmit data for. Using fewer than
-      4 channels increases the sampling rate. Allowed choices are: |br|
-      1: channel 1 only |br|
-      2: channels 1 and 2 only |br|
-      4: channels 1-4 |br|
+      4 channels increases the sampling rate. Allowed choices are:
+
+      - 1: channel 1 only
+      - 2: channels 1 and 2 only
+      - 4: channels 1-4
+
   * - QE_GEOMETRY
     - $(P)$(R)Geometry, $(P)$(R)Geometry_RBV
     - mbbo, mbbi
     - asynInt32
     - r/w
     - All
-    - Selects the geometry of the current inputs as discussed above. Allowed choices are: |br|
-      0: Diamond |br|
-      1: Square |br|
+    - Selects the geometry of the current inputs as discussed above. Allowed choices are:
+
+      - 0: Diamond
+      - 1: Square
+ 
   * - QE_RESOLUTION
     - $(P)$(R)Resolution, $(P)$(R)Resolution_RBV
     - mbbo, mbbi
@@ -240,27 +267,33 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - r/w
     - AH501 series
     - Selects the resolution of the ADC in bits. Using 16-bits increases the sampling
-      rate by a factor of 2 relative to 24-bits. Allowed choices are: |br|
-      16: 16-bit data |br|
-      24: 24-bit data |br|
+      rate by a factor of 2 relative to 24-bits. Allowed choices are:
+
+      - 16: 16-bit data
+      - 24: 24-bit data
+      
   * - QE_BIAS_STATE
     - $(P)$(R)BiasState, $(P)$(R)BiasState_RBV
     - bo, bi
     - asynInt32
     - r/w
     - TetrAMM, AH501C, AH501D, and PCR4
-    - Selects the state of the bias supply output voltage. Allowed choices are: |br|
-      0: Off |br|
-      1: On |br|
+    - Selects the state of the bias supply output voltage. Allowed choices are:
+
+      - 0: Off
+      - 1: On
+
   * - QE_HVS_READBACK
     - $(P)$(R)HVSReadback
     - bi
     - asynInt32
     - r/o
     - TetrAMM
-    - Readback of the actual status of the bias supply output. Possible values are: |br|
-      0: Off |br|
-      1: On |br|
+    - Readback of the actual status of the bias supply output. Possible values are:
+
+      - 0: Off
+      - 1: On
+
       This will stay On for a few seconds after setting BiasState to Off, while the voltage
       is ramped down to 0.
   * - QE_BIAS_INTERLOCK
@@ -269,9 +302,11 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - asynInt32
     - r/w
     - TetrAMM
-    - Selects the state of the bias supply interlock. Allowed choices are: |br|
-      0: Off |br|
-      1: On |br|
+    - Selects the state of the bias supply interlock. Allowed choices are:
+
+      - 0: Off
+      - 1: On
+
   * - QE_BIAS_VOLTAGE
     - $(P)$(R)BiasVoltage, $(P)$(R)BiasVoltage_RBV
     - ao, ai
@@ -307,26 +342,30 @@ minimum, maximum, and other statistics, including a histogram of array values.
       and thus result in a 1000 values per second sent from the TetrAMM to EPICS., , On the NSLS_EM and NSLS2_EM this record controls the number of readings that are
       summed in the hardware., For all other models ValuesPerRead controls the number of values that are read from
       the meter in a single call. These values are averaged in the driver before it does
-      any callbacks. The default is 1 (no averaging).
-      , , Increasing ValuesPerRead will reduce the CPU time because: |br|
-      On the TetrAMM it reduces the number of readings per second sent, from the maximum
-      of 20000, to 100000/ValuesPerRead. |br|
-      On the NSLS_EM it reduces the number of readings per second sent, from the maximum
-      of 2500 (depending on IntegrationTime, to a maximum of 2500/ValuesPerRead. |br|
-      On the NSLS2_EM it reduces the number of readings per second sent, from the maximum
-      of 10000 (depending on internal setting of ADC rate)to 10000/ValuesPerRead. |br|
-      On the AH401 and AH501 series the driver reduces the frequency of asynOctet-&gt;read()
-      calls by a factor of ValuesPerRead, because it can obtain multiple readings from
-      the meter in a single call. This is particularly significant on the AH501 series,
-      which can transmit up to 26,040 readings per second. |br|
-      It reduces the frequency of callbacks to device support. |br|
-      The potential disadvantages of larger values for ValuesPerRead are: |br|
-      It will change the statistics computed by the NDPluginStats plugin because an
-      initial averaging operation has already been performed, which reduces the standard
-      deviation, changes the histogram, etc. |br|
-      On the NSLS_EM it prevents selecting only Phase0 or Phase1 with the PingPong record. |br|
-      It will reduce the sampling frequency of the TimeSeries support |br|
-      It will reduce the update frequency of the EPID fast feedback support. |br|
+      any callbacks. The default is 1 (no averaging). |br|
+      Increasing ValuesPerRead will reduce the CPU time because:
+      
+      - On the TetrAMM it reduces the number of readings per second sent, from the maximum
+        of 20000, to 100000/ValuesPerRead.
+      - On the NSLS_EM it reduces the number of readings per second sent, from the maximum
+        of 2500 (depending on IntegrationTime, to a maximum of 2500/ValuesPerRead.
+      - On the NSLS2_EM it reduces the number of readings per second sent, from the maximum
+        of 10000 (depending on internal setting of ADC rate)to 10000/ValuesPerRead.
+      - On the AH401 and AH501 series the driver reduces the frequency of asynOctet-&gt;read()
+        calls by a factor of ValuesPerRead, because it can obtain multiple readings from
+        the meter in a single call. This is particularly significant on the AH501 series,
+        which can transmit up to 26,040 readings per second.
+      - It reduces the frequency of callbacks to device support.
+      
+      The potential disadvantages of larger values for ValuesPerRead are:
+
+      - It will change the statistics computed by the NDPluginStats plugin because an
+        initial averaging operation has already been performed, which reduces the standard
+      - deviation, changes the histogram, etc.
+      - On the NSLS_EM it prevents selecting only Phase0 or Phase1 with the PingPong record.
+      - It will reduce the sampling frequency of the TimeSeries support
+      - It will reduce the update frequency of the EPID fast feedback support.
+
   * - QE_SAMPLE_TIME
     - $(P)$(R)SampleTime_RBV
     - ai
@@ -334,34 +373,46 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - r/o
     - All
     - Provides the actual time between sample readings from the device. This is controlled
-      by the following parameters: |br|
-      ValuesPerRead: All models |br|
-      IntegrationTime: AH401 series, NSLS_EM, and APS_EM |br|
-      PingPong: AH401 series and NSLS_EM |br|
-      NumChannels: AH501 series |br|
-      Resolution: AH501 series |br|
-      The sample time on the TetrAMM is controlled by the following equation: |br|
-      10 microseconds * ValuesPerRead. |br|
-      The sample time on the AH501 series is controlled by the following algorithm: |br|
-      SampleTime = 38.4 microseconds * NumChannels * ValuesPerRead |br|
+      by the following parameters:
+
+      - ValuesPerRead: All models
+      - IntegrationTime: AH401 series, NSLS_EM, and APS_EM
+      - PingPong: AH401 series and NSLS_EM
+      - NumChannels: AH501 series
+      - Resolution: AH501 series
+      
+      The sample time on the TetrAMM is controlled by the following equation:
+
+      - 10 microseconds * ValuesPerRead.
+
+      The sample time on the AH501 series is controlled by the following algorithm:
+
+      - SampleTime = 38.4 microseconds * NumChannels * ValuesPerRead
+
       If Resolution == 24 then SampleTime = SampleTime * 2 |br|
       The minimum sample time (NumChannels=1, ValuesPerRead=1, Resolution=16) is 38.4
       microseconds, or a sampling frequency of 26.04 kHz. The maximum sample time with
       ValuesPerRead=1, NumChannels=4, Resolution=24 is 307.2 microseconds, or a sampling
       frequency of 3.255 kHz. Setting ValuesPerRead &gt; 1 will increase the sample time
-      and reduce the sampling frequency proportionally., , The sample time on the AH401 series is controlled by the following algorithm: |br|
-      SampleTime = IntegrationTime * ValuesPerRead |br|
+      and reduce the sampling frequency proportionally. |br| 
+      The sample time on the AH401 series is controlled by the following algorithm:
+
+      - SampleTime = IntegrationTime * ValuesPerRead
+
       If PingPong == 0 then SampleTime = SampleTime * 2 |br|
       The minimum sample time is 0.001 seconds, or 1 kHz sampling frequency. The maximum
       sampling time (PingPong=0) is 2 seconds, or 0.5 Hz sampling frequency. Setting ValuesPerRead
       &gt; 1 will increase the sample time and reduce the sampling frequency proportionally., , 
-      The sample time on the NSLS_EM is controlled by the following algorithm: |br|
-      SampleTime = IntegrationTime * ValuesPerRead |br|
+      The sample time on the NSLS_EM is controlled by the following algorithm:
+
+      - SampleTime = IntegrationTime * ValuesPerRead
+
       If PingPong != Both then SampleTime = SampleTime * 2 |br|
       The minimum sample time is 0.00041 seconds, or 2.5 kHz sampling frequency. The maximum
       sampling time (PingPong!=Both) is 2 seconds, or 0.5 Hz sampling frequency. Setting
       ValuesPerRead &gt; 1 will increase the sample time and reduce the sampling frequency
-      proportionally., , For the APS_EM the sample time is controlled only by ValuesPerRead and the IntegrationTime.
+      proportionally. |br|
+      For the APS_EM the sample time is controlled only by ValuesPerRead and the IntegrationTime.
       For ValuesPerRead=1 it ranges from 0.00123 to 0.02622 s, or a sampling frequency
       range of about 813 Hz to 38.1 Hz. Setting ValuesPerRead &gt; 1 will increase the
       sample time and reduce the sampling frequency proportionally.
@@ -478,25 +529,26 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - asynInt32
     - r/w
     - TetrAMM, AH501, AH401, and PCR4
-    - Allowed choices are: |br|
-      0: "Free Run" (all models). Ignores any external gate or trigger signal. |br|
-      1: "Software" (possible future choice for TetrAMM) This will trigger a single
-      acquisition each time a software trigger command is sent. |br|
-      2: "Ext. Trigger" (AH401B, TetrAMM, PCR4) This is an edge-sensitive trigger. On the
-      TetrAMM this will collect samples for the AveragingTime and then wait for the next
-      trigger. |br|
-      3: "Ext. Bulb" (AH501D, TetrAMM) This is a level-sensitive trigger. It acquires
-      data while the external gate signal is asserted. On the trailing edge of the gate
-      signal the callbacks will be called. In this mode the AveragingTime is ignored and
-      the averaging is done for all samples received between the leading and trailing
-      edge of a single gate pulse. |br|
-      4: "Ext. Gate" (TetrAMM) This is a level sensitive gate. It acquires data while
-      the external gate signal is asserted. However, unlike Ext. Bulb the trailing edge
-      of the gate signal is ignored, and the averaging is done for NumAverage_RBV samples
-      as with Free Run mode. The difference is that the actual averaging time will be
-      longer than AveragingTime, and is controlled by the duty cycle of the external gate
-      pulse. If the external gate pulse is asserted 40% of the time, then the actual averaging
-      time will be AveragingTime * 2.5 |br|
+    - Allowed choices are:
+
+      - 0: "Free Run" (all models). Ignores any external gate or trigger signal.
+      - 1: "Software" (possible future choice for TetrAMM) This will trigger a single
+        acquisition each time a software trigger command is sent.
+      - 2: "Ext. Trigger" (AH401B, TetrAMM, PCR4) This is an edge-sensitive trigger. On the
+        TetrAMM this will collect samples for the AveragingTime and then wait for the next
+        trigger.
+      - 3: "Ext. Bulb" (AH501D, TetrAMM) This is a level-sensitive trigger. It acquires
+        data while the external gate signal is asserted. On the trailing edge of the gate
+        signal the callbacks will be called. In this mode the AveragingTime is ignored and
+        the averaging is done for all samples received between the leading and trailing
+        edge of a single gate pulse.
+      - 4: "Ext. Gate" (TetrAMM) This is a level sensitive gate. It acquires data while
+        the external gate signal is asserted. However, unlike Ext. Bulb the trailing edge
+        of the gate signal is ignored, and the averaging is done for NumAverage_RBV samples
+        as with Free Run mode. The difference is that the actual averaging time will be
+        longer than AveragingTime, and is controlled by the duty cycle of the external gate
+        pulse. If the external gate pulse is asserted 40% of the time, then the actual averaging
+        time will be AveragingTime * 2.5
   * - QE_TRIGGER_POLARITY
     - $(P)$(R)TriggerPolarity
     - mbbo
@@ -909,10 +961,11 @@ DAC channels on that card. The OUTPUT_DATA string is the drvInfo string for the
 double precision data in the dac128V.
   
 ::
-file "$(STD)/stdApp/Db/fast_pid_control.db"
-{
-pattern
-{P,                 PID,  INPUT,     INPUT_DATA,   INPUT_INTERVAL, ICHAN, OUTPUT, OCHAN,  OUTPUT_DATA,    LOPR,     HOPR,  DRVL,  DRVH,  PREC,   KP,    KI,  KD,   DT,        SCAN}
-{quadEMTest:, MonoPitch, APS_EM, QE_DOUBLE_DATA,   QE_SAMPLE_TIME,     9,   DAC1,     1,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
-{quadEMTest:,  MonoRoll, APS_EM, QE_DOUBLE_DATA,   QE_SAMPLE_TIME,    10,   DAC1,     2,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
-}
+
+  file "$(STD)/stdApp/Db/fast_pid_control.db"
+  {
+  pattern
+  {P,                 PID,  INPUT,     INPUT_DATA,   INPUT_INTERVAL, ICHAN, OUTPUT, OCHAN,  OUTPUT_DATA,    LOPR,     HOPR,  DRVL,  DRVH,  PREC,   KP,    KI,  KD,   DT,        SCAN}
+  {quadEMTest:, MonoPitch, APS_EM, QE_DOUBLE_DATA,   QE_SAMPLE_TIME,     9,   DAC1,     1,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+  {quadEMTest:,  MonoRoll, APS_EM, QE_DOUBLE_DATA,   QE_SAMPLE_TIME,    10,   DAC1,     2,  DOUBLE_DATA,  -32767,    32767,     0,  4095,     3,  .02,  100.,  0., .001, ".1 second"}
+  }
