@@ -1,4 +1,15 @@
 .. _quadEM:             https://github.com/epics-modules/quadEM
+.. _CAENels:            http://www.caenels.com/products
+.. _Elettra:            http://www.elettra.eu/technology/industry/elettra-for-industry.html
+.. _Sydor:              http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf
+.. _SenSiC:             https://www.sensic.ch/products/electronic-readout
+.. _ADCore:             https://github.com/areaDetector/ADCore
+.. _std:                https://github.com/epics-modules/std
+.. _asynNDArrayDriver:  https://areadetector.github.io/areaDetector/ADCore/NDArray.html#asynndarraydriver
+.. _asynPortDriver:     https://epics-modules.github.io/asyn/asynPortDriver.html
+.. _NDPluginTimeSeries: https://areadetector.github.io/areaDetector/ADCore/NDPluginTimeSeries.html
+.. _NDPluginFFT:        https://areadetector.github.io/areaDetector/ADCore/NDPluginFFT.html
+
 
 Overview
 --------
@@ -9,18 +20,17 @@ low-current measurement that requires high speed digital input. There is support
 for several models:
   
 - The AH401 series (AH401B, AH401D) and AH501 series (AH501, AH501C, AH501D) picoammeters
-  originally designed by <a href="http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en">
-  Synchrotron Trieste (elettra)</a>. They are now sold commerically by <a href="http://www.caenels.com/products">
-  CAENels</a>. These devices communicate using TCP or UDP over 100 Mbit/s Ethernet
+  originally designed by Elettra_. They are now sold commerically by CAENels_. 
+  These devices communicate using TCP or UDP over 100 Mbit/s Ethernet
   or high-speed serial. They provide 4-channel current measurements at up to 6510
   Hz (AH501 series) or 1000 Hz (AH401 series).
-- The TetrAMM picoammeter sold by <a href="http://www.caenels.com/products">CAENels</a>.
+- The TetrAMM picoammeter sold by CAENels_.
   This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides 4-channel
   current measurements at up to 20 kHz.
 - The NSLS Quad Electrometer (called NSLS_EM in this document). This device consists
   of a 4-channel digital electrometer unit with Ethernet communication. The device
-  provides 4-channel current measurements at up to 2500 Hz. The <a href="http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf">
-  Sydor SI-EP-B4</a> is based on this design and is software comptabible.
+  provides 4-channel current measurements at up to 2500 Hz. 
+  The Sydor_ SI-EP-B4 is based on this design and is software comptabible.
 - The NSLS2 Quad Electrometer (called NSLS2_EM in this document). This device consists
   of a 4-channel digital electrometer unit with Ethernet communication. The device
   provides 4-channel current measurements at up to 10,000 Hz. This design is based
@@ -33,7 +43,7 @@ for several models:
   boards. The device provides 2 readings per diode at up to 813 Hz. This device appears
   to no longer be in use on any APS beamlines, so the support is now deprecated and
   will be removed in a future release.
-- The PCR4 picoammeter from <a href="https://www.sensic.ch/products/electronic-readout">SenSiC</a>.
+- The PCR4 picoammeter from SenSiC_.
   This device communicates using TCP/IP over 1 Gbit/s Ethernet.
   It provides 4-channel current measurements at up to 53,000 Hz.
   
@@ -45,8 +55,8 @@ stages. The AH501C, AH501D, and TetrAMM have an integrated programmable bias sup
   
 The quadEM_ software includes asyn drivers that provide support for the following:
   
-- Analog input records using the NDPluginStats plugin from the synApps <a href="areaDetector.html">
-  areaDetector</a> module. This provides digitally averaged readings of the current,
+- Analog input records using the NDPluginStats plugin from the synApps 
+  areaDetector ADCore_ module. This provides digitally averaged readings of the current,
   sum, difference and position at speeds that are determined by the AveragingTime
   record described below. The quadEM drivers do the callbacks on the asynGenericPointer
   interface for NDArray objects required to use the areaDetector plugins. The NDPluginStats
@@ -71,18 +81,16 @@ The quadEM_ software includes asyn drivers that provide support for the followin
 - Time series data (like a digital scope) of the current, sum, difference and position
   at speeds up to 20000 Hz (TetrAMM), 6510 Hz (AH501 series), 1000 Hz (AH401 series)
   2500 Hz (NSLS_EM), or 813 Hz (APS_EM). The data is available in standard EPICS waveform
-  records, using the <a href="NDPluginTimeSeries.html">NDPluginTimeSeries plugin</a>
-  from areaDetector/ADCore. The time per point can be greater, in which case it does
+  records, using the NDPluginTimeSeries_ plugin ADCore_. The time per point can be greater, in which case it does
   averaging.
 - FFTs of the time series data, providing the power spectrum of each signal as another
-  EPICS waveform record. This uses the <a href="NDPluginFFT.html">NDPluginFFT plugin</a>
-  from areaDetector/ADCore.
+  EPICS waveform record. This uses the NDPluginFFT_ plugin from ADCore_.
 - epid record support.
   
   - This can provide "fast feedback" via an asyn D/A converter (e.g. dac128V), also
     at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If it is run slower
-    it does signal averaging. This support is provided in the synApps <a href="https://epics-modules.github.io/std/">
-    std</a> module. The quadEM drivers do the callbacks on the asynFloat64 interface
+    it does signal averaging. This support is provided in the synApps 
+    std_ module. The quadEM drivers do the callbacks on the asynFloat64 interface
     required to use the epid fast feedback device support. This fast feedback is limited
     to controlling devices in the same IOC as the quadEM driver, because it uses asyn
     links.
@@ -93,24 +101,18 @@ The quadEM_ software includes asyn drivers that provide support for the followin
   
 The following manuals provide detailed information on these devices:
   
-- APS electrometer: <a href="Electrometer_Users_Guide_01_22_2007.pdf">Electrometer
-  Users Guide</a>
-- AH401B electrometer: <a href="AH401B_UsersManual_V1.0.pdf">AH401B Users Manual</a>
-- AH401D electrometer: <a href="AH401D_UsersManual_V1.2.pdf">AH401D Users Manual</a>
-- AH501C electrometer: <a href="AH501C_UsersManual_V1.0.pdf">AH501C Users Manual</a>
-- AH501D electrometer: <a href="AH501D_UsersManual_V1.3.pdf">AH501D Users Manual</a>
-- TetrAMM electrometer: <a href="TetrAMM_UsersManual_V1.5.pdf">TetrAMM Users Manual</a>
+- :download:`APS Electrometer Users Guide <Electrometer_Users_Guide_01_22_2007.pdf>`
+- :download:`AH401B Users Manual <AH401B_UsersManual_V1.0.pdf>`
+- :download:`AH401D Users Manual <AH401D_UsersManual_V1.2.pdf>`
+- :download:`AH501C Users Manual <AH501C_UsersManual_V1.0.pdf>`
+- :download:`AH501D Users Manual <AH501D_UsersManual_V1.3.pdf>`
+- :download:`TetrAMM Users Manual <TetrAMM_UsersManual_V1.5.pdf>`
   
   
-The support is based on <a href="https://cars.uchicago.edu/software/epics/areaDetectorDoc.html#asynNDArrayDriver">
-asynNDArray driver</a> from <a href="https://cars.uchicago.edu/software/epics/areaDetectorDoc.html">
-areaDetector</a>, which in turn is based on <a href="http://www.aps.anl.gov/epics/modules/soft/asyn/R4-29/asynPortDriver.html">
-asynPortDriver</a>. It consists of a base class <a href="quadEMDoxygenHTML/classdrv_quad_e_m.html">
-(drvQuadEM.cpp)</a> which is device-independent. There are device-dependent
-classes for the TetrAMM <a href="quadEMDoxygenHTML/classdrv_tetr_a_m_m.html">(drvTetrAMM.cpp)</a>,
-AH401 and AH501 series <a href="quadEMDoxygenHTML/classdrv_a_hxxx.html">(drvAHxxx.cpp)</a>
-NSLS electromater <a href="quadEMDoxygenHTML/classdrv_n_s_l_s__e_m.html">(drvNSLS_EM.cpp)</a>,
-and the APS electrometer <a href="quadEMDoxygenHTML/classdrv_a_p_s___e_m.html">(drvAPS_EM.cpp)</a>.
+The support is based on asynNDArrayDriver_ from ADCore_, which in turn is based on asynPortDriver_. 
+It consists of a base class drvQuadEM, which is device-independent. 
+There are device-dependent classes for the TetrAMM, AH401 and AH501 series, NSLS electrometer, 
+NSLS2 electrometer, and the APS electrometer.
 
 The quadEM driver works as follows:
 

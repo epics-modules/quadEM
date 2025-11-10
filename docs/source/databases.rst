@@ -1,3 +1,8 @@
+.. _ADCore:             https://github.com/areaDetector/ADCore
+.. _NDPluginStats:      https://areadetector.github.io/areaDetector/ADCore/NDPluginStats.html
+
+
+
 Databases
 ---------
 
@@ -5,9 +10,7 @@ quadEM.template
 ~~~~~~~~~~~~~~~
   
 The quadEM.template database provides control of the electrometer using the standard
-asyn device support. <a href="https://cars.uchicago.edu/software/epics/NDPluginStats.html">
-NDStats.template</a> from <a href="https://cars.uchicago.edu/software/epics/areaDetector.html">
-areaDetector</a> provides digitally averaged readings of the current, sum, difference
+asyn device support. NDPluginStats_ from ADCore_ provides digitally averaged readings of the current, sum, difference
 and position with user-defined averaging time. It also provides the standard deviation,
 minimum, maximum, and other statistics, including a histogram of array values.
 
