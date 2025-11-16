@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scanning with the TetrAMM &mdash; EPICS support for quad electrometers/picoammeters</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/my_theme.css?v=254ed751" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Performance" href="performance.html" />
+    <link rel="prev" title="TetrAMM Acquisition Modes" href="tetramm_modes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            quadEM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM Acquisition Modes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scanning with the TetrAMM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-scan-with-tetramm-in-free-run-mode">Step scan with TetrAMM in free-run mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-scan-with-tetramm-in-single-acquire-mode">Step scan with TetrAMM in single acquire mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fly-scan-with-tetramm-in-free-run-mode">Fly scan with TetrAMM in free-run mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#triggered-scan-using-tetramm-time-series-plugin">Triggered scan using TetrAMM time series plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">quadEM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scanning with the TetrAMM</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tetramm_scanning.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scanning-with-the-tetramm">
+<h1>Scanning with the TetrAMM<a class="headerlink" href="#scanning-with-the-tetramm" title="Link to this heading"></a></h1>
+<p>With the above modes it is possible to use the TetrAMM for data acquisition during various types of scans.</p>
+<p>The following is screen shot of the TetrAMM screen in the free-running continuous aquisition state with 0.01 second averaging time.
+Each scan described below used most of these settings, with the changes in the settings described for that scan type.</p>
+<figure class="align-center">
+<img alt="_images/sscan_tetramm_base.png" src="_images/sscan_tetramm_base.png" />
+</figure>
+<section id="step-scan-with-tetramm-in-free-run-mode">
+<h2>Step scan with TetrAMM in free-run mode<a class="headerlink" href="#step-scan-with-tetramm-in-free-run-mode" title="Link to this heading"></a></h2>
+<p>This scan type uses a step-scan for the positioner and runs the TetrAMM in free running mode.
+The TetrAMM averaging time is set a small amount less than the time it takes the motors to move
+each step.  This mode is faster than stopping and starting the TetrAMM at each point. The errord
+due to the TetrAMM not being strictly synchronized to the motor position are likely to be acceptable
+in many cases.</p>
+<p>The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the TetrAMM.
+There is no detector trigger.</p>
+<figure class="align-center">
+<img alt="_images/sscan_tetramm_free_run.png" src="_images/sscan_tetramm_free_run.png" />
+</figure>
+<p>The scan is 201 points and took 11.7 seconds.  The time per point is thus 0.058 ms.</p>
+<p>The TetrAMM was configured as follows:</p>
+<ul class="simple">
+<li><p>AcquireMode=Continuous</p></li>
+<li><p>ValuesPerRead=5</p></li>
+<li><p>AveragingTime=.05 s.  This is a little less than the time per point in the scan, so there will be a new reading at each point.</p></li>
+<li><p>The sscan record detectors are Current1:MeanValue_RBV, Current2:MeanValue_RBV, etc.</p></li>
+</ul>
+<p>This is a plot of Current1 after the scan.</p>
+<figure class="align-center">
+<img alt="_images/sscan_tetramm_free_run_plot.png" src="_images/sscan_tetramm_free_run_plot.png" />
+</figure>
+</section>
+<section id="step-scan-with-tetramm-in-single-acquire-mode">
+<h2>Step scan with TetrAMM in single acquire mode<a class="headerlink" href="#step-scan-with-tetramm-in-single-acquire-mode" title="Link to this heading"></a></h2>
+<p>This scan type uses a step-scan for the positioner and runs the TetrAMM in single cycle mode.
+This guarantees that the TetrAMM was only counting when the motor was at the target position
+for each step.</p>
+<p>The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the TetrAMM.
+The detector trigger is the TetrAMM Acquire PV.</p>
+<figure class="align-center">
+<img alt="_images/sscan_tetramm_triggered.png" src="_images/sscan_tetramm_triggered.png" />
+</figure>
+<p>The scan is 201 points and took 31.3 seconds.
+This scan took 20 seconds longer than the scan where the TetrAMM AcquireMode is Continuous.
+10 seconds of this are because the scan needs to wait for the TetrAMM averaging for 50 ms at each point.
+The additional 10 seconds is due to overhead with restarting the TetrAMM at each point.</p>
+<p>The TetrAMM was configured as follows:</p>
+<ul class="simple">
+<li><p>AcquireMode=Single</p></li>
+<li><p>ValuesPerRead=50</p></li>
+<li><p>AveragingTime=.05 s</p></li>
+</ul>
+<p>This is a plot of Current1 after the scan.</p>
+<figure class="align-center">
+<img alt="_images/sscan_tetramm_triggered_plot.png" src="_images/sscan_tetramm_triggered_plot.png" />
+</figure>
+</section>
+<section id="fly-scan-with-tetramm-in-free-run-mode">
+<h2>Fly scan with TetrAMM in free-run mode<a class="headerlink" href="#fly-scan-with-tetramm-in-free-run-mode" title="Link to this heading"></a></h2>
+<p>This scan type uses a fly-scan for the positioner and runs the TetrAMM in free-run continuous mode.
+The scan is configured by setting the following:</p>
+<ul class="simple">
+<li><p>The total time for the scan is controlled by the number of points (.NPTS) and the detector settling time (.DDLY).
+Currently the actual detector settling time on Linux is 5 ms less than the requested value, due to some timer granularity
+in EPICS base. The minimum requested time is 10 ms, which means that the minimum actual time is 5 ms.
+In the example below .DDLY=.02 s, so the actual delay is .015 seconds.  This means that the 201 point scan will
+complete in 3.0 seconds.</p></li>
+<li><p>The motor speed must be set to so that it will reach the end position in the total time for the scan.
+In this case the motor travel is set to 2 mm, and hence the velocity is set to 0.667 so it will complete
+the move in 3.0 seconds.  This neglects the acceleration and deceleration times, which are 0.2 seconds.</p></li>
+<li><p>In Fly mode the sscan record starts the motor moving continuously to the final position.  While the motor
+is moving the sscan record records the motor readback position and the detector values continuously, with
+a delay of .DDLY.  This means that the detector values and motor positions recorded are synchronized within the
+accuracy and precision of their respective update rates.</p></li>
+</ul>
+<p>The following is screen shot of the sscan record moving a single motor continuously and reading the 4 currents from the TetrAMM.</p>
+<figure class="align-center">
+<img alt="_images/sscan_tetramm_fly_free_run.png" src="_images/sscan_tetramm_fly_free_run.png" />
+</figure>
+<p>The scan is 201 points and took 3.05 seconds as shown on the readback for the second positioner = TIME.</p>
+<figure class="align-center">
+<img alt="_images/sscan_tetramm_fly_free_run_positioners.png" src="_images/sscan_tetramm_fly_free_run_positioners.png" />
+</figure>
+<p>The TetrAMM was configured as follows:</p>
+<ul class="simple">
+<li><p>AcquireMode=Continuous</p></li>
+<li><p>TriggerMode=Free run</p></li>
+<li><p>ValuesPerRead=5</p></li>
+<li><p>AveragingTime=.01 s</p></li>
+</ul>
+<p>This is a plot of Current1 after the scan.</p>
+<figure class="align-center">
+<img alt="_images/sscan_tetramm_fly_free_run_plot.png" src="_images/sscan_tetramm_fly_free_run_plot.png" />
+</figure>
+</section>
+<section id="triggered-scan-using-tetramm-time-series-plugin">
+<h2>Triggered scan using TetrAMM time series plugin<a class="headerlink" href="#triggered-scan-using-tetramm-time-series-plugin" title="Link to this heading"></a></h2>
+<p>This scan type uses triggers from the positioner to collect the TetrAMM data in the NDPluginTimeSeries plugin.
+This guarantees that the positioner and detector data are perfectly synchronized.</p>
+<p>For this test the triggers came from a Measurement Computing USB-CTR08 pulse generator, but they could
+have been coming from position based triggers from an XPS or Galil motor controller.</p>
+<p>The scan is configured by first determining the period at which trigger pulses will be arriving.
+For a motor scan this will be calculated from the distance interval per trigger and the motor velocity.
+For this test it was set by the following:</p>
+<ul class="simple">
+<li><p>The pulse generator is configured to output 201 pulses at 100 Hz, i.e. .01 second period.</p></li>
+</ul>
+<p>The TetrAMM was configured as follows:</p>
+<ul class="simple">
+<li><p>AcquireMode=Multiple</p></li>
+<li><p>NumAcquire=201</p></li>
+<li><p>TriggerMode=Ext. Trig.</p></li>
+<li><p>ValuesPerRead=5</p></li>
+<li><p>AveragingTime=.0099 s, 1% (0.1 ms) less than the trigger period.</p></li>
+</ul>
+<p>This is the configuration of the TetrAMM in this mode.</p>
+<figure class="align-center">
+<img alt="_images/tetramm_fly_triggered.png" src="_images/tetramm_fly_triggered.png" />
+</figure>
+<p>When TriggerMode=Ext. Trig. the driver tells the TetrAMM to collect the number of samples determined by the
+AveragingTime (i.e. NumAverage_RBV) on receipt of each trigger pulse.  NumAverage_RBV is 198 in the example above.
+The AveragingTime must be slightly less than the trigger pulse period to allow for slight clock frequency differences
+between the trigger source and the TetrAMM.  In this case the AveragingTime is 1% (0.1 ms) less than the pulse period.
+The only consequence of this is that there is 1% during each acquire period (0.1 ms) when the TetrAMM is not collecting data.</p>
+<p>The TetrAMM TimeSeries plugin is configured as follows:</p>
+<ul class="simple">
+<li><p>AveragingTime=0.0099 s</p></li>
+<li><p>NumPoints=201</p></li>
+</ul>
+<p>This is the configuration of the TimeSeries plugin:</p>
+<figure class="align-center">
+<img alt="_images/tetramm_fly_triggered_time_series.png" src="_images/tetramm_fly_triggered_time_series.png" />
+</figure>
+<p>The AveragingTime of the time series plugin must be the same as that for the TetrAMM.  This guarantees that each
+external trigger will move to the next point in the time series.</p>
+<p>The following steps are used to perform as scan in this mode:</p>
+<ul class="simple">
+<li><p>Set the TimeSeries TSAcquire (labeled Erase/Start) PV to 1</p></li>
+<li><p>Set the TetrAMM Acquire PV to 1</p></li>
+<li><p>Start the trigger source.  In this test that is the pulse generator, but it would normally be the motor
+generating the trigger pulses.</p></li>
+<li><p>Wait for the motion to complete and then read the time series waveform records, e.g. TS:Current1, etc.</p></li>
+</ul>
+<p>This is a plot of Current1 after the scan.  The retrace to 0 on the last point is a bug in medm.</p>
+<figure class="align-center">
+<img alt="_images/tetramm_fly_triggered_time_series_plot.png" src="_images/tetramm_fly_triggered_time_series_plot.png" />
+</figure>
+<p>Note while the scan actually took 2.01 seconds (201 points at 100 Hz) the last point horizontal scale
+of this plot is 1.98 seconds.
+This is because the time between triggers is 1% more than the averaging time, but the
+plugin has no way to know what the actual time between trigger pulses is.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tetramm_modes.html" class="btn btn-neutral float-left" title="TetrAMM Acquisition Modes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="performance.html" class="btn btn-neutral float-right" title="Performance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Mark Rivers.
+      <span class="lastupdated">Last updated on 2025-November-16.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
