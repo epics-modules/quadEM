@@ -1,6 +1,5 @@
 TetrAMM Acquisition Modes
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-  
 The TetrAMM can be used in 8 different acquisition modes, depending on the values
 of the TriggerMode and AcquireMode records. The following table describes these
 modes. Note that AcquireMode=Single is completely equivalent to AcquireMode=Multiple

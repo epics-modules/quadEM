@@ -13,5 +13,6 @@ Table of Contents
   databases
   plugins
   tetramm_modes
+  tetramm_scanning
   performance
   setup
