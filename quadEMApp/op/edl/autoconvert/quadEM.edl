@@ -3176,8 +3176,8 @@ minor 0
 release 0
 x 10
 y 460
-w 390
-h 269
+w 362
+h 172
 
 beginGroup
 
@@ -3189,8 +3189,8 @@ minor 1
 release 0
 x 10
 y 460
-w 390
-h 269
+w 362
+h 172
 fgColor rgb 0 0 0
 bgColor rgb 65280 65280 65280
 topShadowColor rgb 65280 65280 65280
@@ -4055,23 +4055,27 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 font "helvetica-medium-r-8.0"
 icon
-numPvs 4
-numDsps 2
+numPvs 6
+numDsps 3
 displayFileName {
   0 "QECommonPlugins.edl"
   1 "QEFFTPlugins.edl"
+  2 "commonPlugins.edl"
 }
 menuLabel {
-  0 "Common plugins"
-  1 "FFT plugins"
+  0 "QE common plugins"
+  1 "QE FFT plugins"
+  2 "AD common plugins"
 }
 symbols {
   0 "P=$(P),R=$(R)"
   1 "P=$(P),R=$(R)FFT:,RTS=$(R)TS:"
+  2 "P=$(P)"
 }
 replaceSymbols {
   0 1
   1 1
+  2 1
 }
 endObjectProperties
 

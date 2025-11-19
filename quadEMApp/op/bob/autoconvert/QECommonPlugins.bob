@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-08 17:54:27 by epics-->
+<!--Saved on 2025-11-19 13:44:22 by epics-->
 <display version="2.0.0">
   <name>QECommonPlugins</name>
   <x>100</x>
   <y>172</y>
   <width>915</width>
-  <height>420</height>
+  <height>370</height>
   <background_color>
     <color red="187" green="187" blue="187">
     </color>
@@ -318,32 +318,8 @@
     <horizontal_alignment>1</horizontal_alignment>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #59</name>
-    <pv_name>$(P)$(R)image1:PortName_RBV</pv_name>
-    <x>87</x>
-    <y>341</y>
-    <width>110</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <format>6</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
   <widget type="label" version="2.0.0">
-    <name>text #63</name>
+    <name>text #59</name>
     <text>Enable</text>
     <x>389</x>
     <y>40</y>
@@ -355,7 +331,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #66</name>
+    <name>text #62</name>
     <text>Blocking</text>
     <x>507</x>
     <y>40</y>
@@ -367,7 +343,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #69</name>
+    <name>text #65</name>
     <text>Rate</text>
     <x>782</x>
     <y>40</y>
@@ -379,7 +355,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #72</name>
+    <name>text #68</name>
     <text>Dropped</text>
     <x>597</x>
     <y>40</y>
@@ -391,7 +367,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #75</name>
+    <name>text #71</name>
     <text>Free</text>
     <x>694</x>
     <y>40</y>
@@ -403,7 +379,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #78</name>
+    <name>menu #74</name>
     <pv_name>$(P)$(R)SumY:EnableCallbacks</pv_name>
     <x>337</x>
     <y>190</y>
@@ -416,7 +392,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #81</name>
+    <name>text update #77</name>
     <pv_name>$(P)$(R)SumY:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>191</y>
@@ -439,7 +415,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #85</name>
+    <name>menu #81</name>
     <pv_name>$(P)$(R)SumY:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>190</y>
@@ -452,7 +428,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #88</name>
+    <name>related display #84</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -474,7 +450,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #91</name>
+    <name>text update #87</name>
     <pv_name>$(P)$(R)SumY:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>191</y>
@@ -498,7 +474,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #95</name>
+    <name>text update #91</name>
     <pv_name>$(P)$(R)SumY:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>191</y>
@@ -522,7 +498,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #99</name>
+    <name>text update #95</name>
     <pv_name>$(P)$(R)SumY:QueueFree</pv_name>
     <x>677</x>
     <y>191</y>
@@ -545,7 +521,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #103</name>
+    <name>menu #99</name>
     <pv_name>$(P)$(R)SumAll:EnableCallbacks</pv_name>
     <x>337</x>
     <y>215</y>
@@ -558,7 +534,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #106</name>
+    <name>text update #102</name>
     <pv_name>$(P)$(R)SumAll:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>216</y>
@@ -581,7 +557,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #110</name>
+    <name>menu #106</name>
     <pv_name>$(P)$(R)SumAll:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>215</y>
@@ -594,7 +570,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #113</name>
+    <name>related display #109</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -616,7 +592,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #116</name>
+    <name>text update #112</name>
     <pv_name>$(P)$(R)SumAll:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>216</y>
@@ -640,7 +616,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #120</name>
+    <name>text update #116</name>
     <pv_name>$(P)$(R)SumAll:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>216</y>
@@ -664,7 +640,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #124</name>
+    <name>text update #120</name>
     <pv_name>$(P)$(R)SumAll:QueueFree</pv_name>
     <x>677</x>
     <y>216</y>
@@ -687,7 +663,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #128</name>
+    <name>menu #124</name>
     <pv_name>$(P)$(R)DiffX:EnableCallbacks</pv_name>
     <x>337</x>
     <y>240</y>
@@ -700,7 +676,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #131</name>
+    <name>text update #127</name>
     <pv_name>$(P)$(R)DiffX:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>241</y>
@@ -723,7 +699,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #135</name>
+    <name>menu #131</name>
     <pv_name>$(P)$(R)DiffX:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>240</y>
@@ -736,7 +712,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #138</name>
+    <name>related display #134</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -758,7 +734,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #141</name>
+    <name>text update #137</name>
     <pv_name>$(P)$(R)DiffX:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>241</y>
@@ -782,7 +758,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #145</name>
+    <name>text update #141</name>
     <pv_name>$(P)$(R)DiffX:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>241</y>
@@ -806,7 +782,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #149</name>
+    <name>text update #145</name>
     <pv_name>$(P)$(R)DiffX:QueueFree</pv_name>
     <x>677</x>
     <y>241</y>
@@ -829,7 +805,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #153</name>
+    <name>menu #149</name>
     <pv_name>$(P)$(R)DiffY:EnableCallbacks</pv_name>
     <x>337</x>
     <y>265</y>
@@ -842,7 +818,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #156</name>
+    <name>text update #152</name>
     <pv_name>$(P)$(R)DiffY:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>266</y>
@@ -865,7 +841,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #160</name>
+    <name>menu #156</name>
     <pv_name>$(P)$(R)DiffY:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>265</y>
@@ -878,7 +854,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #163</name>
+    <name>related display #159</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -900,7 +876,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #166</name>
+    <name>text update #162</name>
     <pv_name>$(P)$(R)DiffY:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>266</y>
@@ -924,7 +900,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #170</name>
+    <name>text update #166</name>
     <pv_name>$(P)$(R)DiffY:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>266</y>
@@ -948,7 +924,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #174</name>
+    <name>text update #170</name>
     <pv_name>$(P)$(R)DiffY:QueueFree</pv_name>
     <x>677</x>
     <y>266</y>
@@ -971,7 +947,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #178</name>
+    <name>menu #174</name>
     <pv_name>$(P)$(R)PosX:EnableCallbacks</pv_name>
     <x>337</x>
     <y>290</y>
@@ -984,7 +960,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #181</name>
+    <name>text update #177</name>
     <pv_name>$(P)$(R)PosX:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>291</y>
@@ -1007,7 +983,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #185</name>
+    <name>menu #181</name>
     <pv_name>$(P)$(R)PosX:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>290</y>
@@ -1020,7 +996,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #188</name>
+    <name>related display #184</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -1042,7 +1018,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #191</name>
+    <name>text update #187</name>
     <pv_name>$(P)$(R)PosX:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>291</y>
@@ -1066,7 +1042,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #195</name>
+    <name>text update #191</name>
     <pv_name>$(P)$(R)PosX:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>291</y>
@@ -1090,7 +1066,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #199</name>
+    <name>text update #195</name>
     <pv_name>$(P)$(R)PosX:QueueFree</pv_name>
     <x>677</x>
     <y>291</y>
@@ -1113,7 +1089,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #203</name>
+    <name>menu #199</name>
     <pv_name>$(P)$(R)Current1:EnableCallbacks</pv_name>
     <x>337</x>
     <y>65</y>
@@ -1126,7 +1102,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #206</name>
+    <name>text update #202</name>
     <pv_name>$(P)$(R)Current1:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>66</y>
@@ -1149,7 +1125,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #210</name>
+    <name>menu #206</name>
     <pv_name>$(P)$(R)Current1:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>65</y>
@@ -1162,7 +1138,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #213</name>
+    <name>related display #209</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -1184,7 +1160,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #216</name>
+    <name>text update #212</name>
     <pv_name>$(P)$(R)Current1:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>66</y>
@@ -1208,7 +1184,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #220</name>
+    <name>text update #216</name>
     <pv_name>$(P)$(R)Current1:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>66</y>
@@ -1232,7 +1208,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #224</name>
+    <name>text update #220</name>
     <pv_name>$(P)$(R)Current1:QueueFree</pv_name>
     <x>677</x>
     <y>66</y>
@@ -1255,7 +1231,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #228</name>
+    <name>menu #224</name>
     <pv_name>$(P)$(R)Current2:EnableCallbacks</pv_name>
     <x>337</x>
     <y>90</y>
@@ -1268,7 +1244,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #231</name>
+    <name>text update #227</name>
     <pv_name>$(P)$(R)Current2:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>91</y>
@@ -1291,7 +1267,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #235</name>
+    <name>menu #231</name>
     <pv_name>$(P)$(R)Current2:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>90</y>
@@ -1304,7 +1280,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #238</name>
+    <name>related display #234</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -1326,7 +1302,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #241</name>
+    <name>text update #237</name>
     <pv_name>$(P)$(R)Current2:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>91</y>
@@ -1350,7 +1326,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #245</name>
+    <name>text update #241</name>
     <pv_name>$(P)$(R)Current2:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>91</y>
@@ -1374,7 +1350,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #249</name>
+    <name>text update #245</name>
     <pv_name>$(P)$(R)Current2:QueueFree</pv_name>
     <x>677</x>
     <y>91</y>
@@ -1397,7 +1373,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #253</name>
+    <name>menu #249</name>
     <pv_name>$(P)$(R)Current3:EnableCallbacks</pv_name>
     <x>337</x>
     <y>115</y>
@@ -1410,7 +1386,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #256</name>
+    <name>text update #252</name>
     <pv_name>$(P)$(R)Current3:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>116</y>
@@ -1433,7 +1409,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #260</name>
+    <name>menu #256</name>
     <pv_name>$(P)$(R)Current3:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>115</y>
@@ -1446,7 +1422,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #263</name>
+    <name>related display #259</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -1468,7 +1444,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #266</name>
+    <name>text update #262</name>
     <pv_name>$(P)$(R)Current3:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>116</y>
@@ -1492,7 +1468,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #270</name>
+    <name>text update #266</name>
     <pv_name>$(P)$(R)Current3:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>116</y>
@@ -1516,7 +1492,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #274</name>
+    <name>text update #270</name>
     <pv_name>$(P)$(R)Current3:QueueFree</pv_name>
     <x>677</x>
     <y>116</y>
@@ -1539,7 +1515,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #278</name>
+    <name>menu #274</name>
     <pv_name>$(P)$(R)Current4:EnableCallbacks</pv_name>
     <x>337</x>
     <y>140</y>
@@ -1552,7 +1528,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #281</name>
+    <name>text update #277</name>
     <pv_name>$(P)$(R)Current4:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>141</y>
@@ -1575,7 +1551,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #285</name>
+    <name>menu #281</name>
     <pv_name>$(P)$(R)Current4:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>140</y>
@@ -1588,7 +1564,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #288</name>
+    <name>related display #284</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -1610,7 +1586,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #291</name>
+    <name>text update #287</name>
     <pv_name>$(P)$(R)Current4:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>141</y>
@@ -1634,7 +1610,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #295</name>
+    <name>text update #291</name>
     <pv_name>$(P)$(R)Current4:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>141</y>
@@ -1658,7 +1634,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #299</name>
+    <name>text update #295</name>
     <pv_name>$(P)$(R)Current4:QueueFree</pv_name>
     <x>677</x>
     <y>141</y>
@@ -1681,7 +1657,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #303</name>
+    <name>menu #299</name>
     <pv_name>$(P)$(R)SumX:EnableCallbacks</pv_name>
     <x>337</x>
     <y>165</y>
@@ -1694,7 +1670,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #306</name>
+    <name>text update #302</name>
     <pv_name>$(P)$(R)SumX:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>166</y>
@@ -1717,7 +1693,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #310</name>
+    <name>menu #306</name>
     <pv_name>$(P)$(R)SumX:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>165</y>
@@ -1730,7 +1706,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #313</name>
+    <name>related display #309</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -1752,7 +1728,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #316</name>
+    <name>text update #312</name>
     <pv_name>$(P)$(R)SumX:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>166</y>
@@ -1776,7 +1752,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #320</name>
+    <name>text update #316</name>
     <pv_name>$(P)$(R)SumX:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>166</y>
@@ -1800,7 +1776,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #324</name>
+    <name>text update #320</name>
     <pv_name>$(P)$(R)SumX:QueueFree</pv_name>
     <x>677</x>
     <y>166</y>
@@ -1823,7 +1799,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #328</name>
+    <name>menu #324</name>
     <pv_name>$(P)$(R)PosY:EnableCallbacks</pv_name>
     <x>337</x>
     <y>315</y>
@@ -1836,7 +1812,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #331</name>
+    <name>text update #327</name>
     <pv_name>$(P)$(R)PosY:EnableCallbacks_RBV</pv_name>
     <x>422</x>
     <y>316</y>
@@ -1859,7 +1835,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #335</name>
+    <name>menu #331</name>
     <pv_name>$(P)$(R)PosY:BlockingCallbacks</pv_name>
     <x>507</x>
     <y>315</y>
@@ -1872,7 +1848,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #338</name>
+    <name>related display #334</name>
     <actions>
       <action type="open_display">
         <file>NDStats.opi</file>
@@ -1894,7 +1870,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #341</name>
+    <name>text update #337</name>
     <pv_name>$(P)$(R)PosY:ArrayRate_RBV</pv_name>
     <x>762</x>
     <y>316</y>
@@ -1918,7 +1894,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #345</name>
+    <name>text update #341</name>
     <pv_name>$(P)$(R)PosY:DroppedArrays_RBV</pv_name>
     <x>592</x>
     <y>316</y>
@@ -1942,7 +1918,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #349</name>
+    <name>text update #345</name>
     <pv_name>$(P)$(R)PosY:QueueFree</pv_name>
     <x>677</x>
     <y>316</y>
@@ -1964,150 +1940,8 @@
     <show_units>false</show_units>
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #353</name>
-    <pv_name>$(P)$(R)image1:EnableCallbacks</pv_name>
-    <x>337</x>
-    <y>340</y>
-    <width>80</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #356</name>
-    <pv_name>$(P)$(R)image1:EnableCallbacks_RBV</pv_name>
-    <x>422</x>
-    <y>341</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="70" green="70" blue="70">
-      </color>
-    </background_color>
-    <format>6</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #360</name>
-    <pv_name>$(P)$(R)image1:BlockingCallbacks</pv_name>
-    <x>507</x>
-    <y>340</y>
-    <width>80</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>related display #363</name>
-    <actions>
-      <action type="open_display">
-        <file>NDStdArrays.opi</file>
-        <macros>
-          <R>$(R)image1:</R>
-        </macros>
-        <target>tab</target>
-        <description>$(R)image1:</description>
-      </action>
-    </actions>
-    <text>More</text>
-    <x>847</x>
-    <y>340</y>
-    <width>60</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #366</name>
-    <pv_name>$(P)$(R)image1:ArrayRate_RBV</pv_name>
-    <x>762</x>
-    <y>341</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #370</name>
-    <pv_name>$(P)$(R)image1:DroppedArrays_RBV</pv_name>
-    <x>592</x>
-    <y>341</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #374</name>
-    <pv_name>$(P)$(R)image1:QueueFree</pv_name>
-    <x>677</x>
-    <y>341</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="70" green="70" blue="70">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
   <widget type="label" version="2.0.0">
-    <name>text #378</name>
+    <name>text #349</name>
     <text>Port</text>
     <x>217</x>
     <y>40</y>
@@ -2119,7 +1953,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #381</name>
+    <name>text entry #352</name>
     <pv_name>$(P)$(R)SumY:NDArrayPort</pv_name>
     <x>207</x>
     <y>190</y>
@@ -2137,7 +1971,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #385</name>
+    <name>text entry #356</name>
     <pv_name>$(P)$(R)SumAll:NDArrayPort</pv_name>
     <x>207</x>
     <y>215</y>
@@ -2155,7 +1989,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #389</name>
+    <name>text entry #360</name>
     <pv_name>$(P)$(R)DiffX:NDArrayPort</pv_name>
     <x>207</x>
     <y>240</y>
@@ -2173,7 +2007,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #393</name>
+    <name>text entry #364</name>
     <pv_name>$(P)$(R)DiffY:NDArrayPort</pv_name>
     <x>207</x>
     <y>265</y>
@@ -2191,7 +2025,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #397</name>
+    <name>text entry #368</name>
     <pv_name>$(P)$(R)PosX:NDArrayPort</pv_name>
     <x>207</x>
     <y>290</y>
@@ -2209,7 +2043,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #401</name>
+    <name>text entry #372</name>
     <pv_name>$(P)$(R)Current1:NDArrayPort</pv_name>
     <x>207</x>
     <y>65</y>
@@ -2227,7 +2061,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #405</name>
+    <name>text entry #376</name>
     <pv_name>$(P)$(R)Current2:NDArrayPort</pv_name>
     <x>207</x>
     <y>90</y>
@@ -2245,7 +2079,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #409</name>
+    <name>text entry #380</name>
     <pv_name>$(P)$(R)Current3:NDArrayPort</pv_name>
     <x>207</x>
     <y>115</y>
@@ -2263,7 +2097,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #413</name>
+    <name>text entry #384</name>
     <pv_name>$(P)$(R)Current4:NDArrayPort</pv_name>
     <x>207</x>
     <y>140</y>
@@ -2281,7 +2115,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #417</name>
+    <name>text entry #388</name>
     <pv_name>$(P)$(R)SumX:NDArrayPort</pv_name>
     <x>207</x>
     <y>165</y>
@@ -2299,7 +2133,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #421</name>
+    <name>text entry #392</name>
     <pv_name>$(P)$(R)PosY:NDArrayPort</pv_name>
     <x>207</x>
     <y>315</y>
@@ -2316,26 +2150,8 @@
     <show_units>false</show_units>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #425</name>
-    <pv_name>$(P)$(R)image1:NDArrayPort</pv_name>
-    <x>207</x>
-    <y>340</y>
-    <width>60</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
   <widget type="label" version="2.0.0">
-    <name>text #429</name>
+    <name>text #396</name>
     <text>Addr</text>
     <x>283</x>
     <y>40</y>
@@ -2347,7 +2163,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #432</name>
+    <name>text entry #399</name>
     <pv_name>$(P)$(R)SumY:NDArrayAddress</pv_name>
     <x>273</x>
     <y>190</y>
@@ -2365,7 +2181,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #436</name>
+    <name>text entry #403</name>
     <pv_name>$(P)$(R)SumAll:NDArrayAddress</pv_name>
     <x>273</x>
     <y>215</y>
@@ -2383,7 +2199,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #440</name>
+    <name>text entry #407</name>
     <pv_name>$(P)$(R)DiffX:NDArrayAddress</pv_name>
     <x>273</x>
     <y>240</y>
@@ -2401,7 +2217,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #444</name>
+    <name>text entry #411</name>
     <pv_name>$(P)$(R)DiffY:NDArrayAddress</pv_name>
     <x>273</x>
     <y>265</y>
@@ -2419,7 +2235,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #448</name>
+    <name>text entry #415</name>
     <pv_name>$(P)$(R)PosX:NDArrayAddress</pv_name>
     <x>273</x>
     <y>290</y>
@@ -2437,7 +2253,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #452</name>
+    <name>text entry #419</name>
     <pv_name>$(P)$(R)Current1:NDArrayAddress</pv_name>
     <x>273</x>
     <y>65</y>
@@ -2455,7 +2271,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #456</name>
+    <name>text entry #423</name>
     <pv_name>$(P)$(R)Current2:NDArrayAddress</pv_name>
     <x>273</x>
     <y>90</y>
@@ -2473,7 +2289,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #460</name>
+    <name>text entry #427</name>
     <pv_name>$(P)$(R)Current3:NDArrayAddress</pv_name>
     <x>273</x>
     <y>115</y>
@@ -2491,7 +2307,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #464</name>
+    <name>text entry #431</name>
     <pv_name>$(P)$(R)Current4:NDArrayAddress</pv_name>
     <x>273</x>
     <y>140</y>
@@ -2509,7 +2325,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #468</name>
+    <name>text entry #435</name>
     <pv_name>$(P)$(R)SumX:NDArrayAddress</pv_name>
     <x>273</x>
     <y>165</y>
@@ -2527,7 +2343,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #472</name>
+    <name>text entry #439</name>
     <pv_name>$(P)$(R)PosY:NDArrayAddress</pv_name>
     <x>273</x>
     <y>315</y>
@@ -2544,430 +2360,8 @@
     <show_units>false</show_units>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #476</name>
-    <pv_name>$(P)$(R)image1:NDArrayAddress</pv_name>
-    <x>273</x>
-    <y>340</y>
-    <width>60</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #480</name>
-    <pv_name>$(P)$(R)netCDF1:PortName_RBV</pv_name>
-    <x>87</x>
-    <y>366</y>
-    <width>110</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <format>6</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #484</name>
-    <pv_name>$(P)$(R)netCDF1:EnableCallbacks</pv_name>
-    <x>337</x>
-    <y>365</y>
-    <width>80</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #487</name>
-    <pv_name>$(P)$(R)netCDF1:EnableCallbacks_RBV</pv_name>
-    <x>422</x>
-    <y>366</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="70" green="70" blue="70">
-      </color>
-    </background_color>
-    <format>6</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #491</name>
-    <pv_name>$(P)$(R)netCDF1:BlockingCallbacks</pv_name>
-    <x>507</x>
-    <y>365</y>
-    <width>80</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>related display #494</name>
-    <actions>
-      <action type="open_display">
-        <file>NDFileNetCDF.opi</file>
-        <macros>
-          <R>$(R)netCDF1:</R>
-        </macros>
-        <target>tab</target>
-        <description>$(R)netCDF1:</description>
-      </action>
-    </actions>
-    <text>More</text>
-    <x>847</x>
-    <y>365</y>
-    <width>60</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #497</name>
-    <pv_name>$(P)$(R)netCDF1:ArrayRate_RBV</pv_name>
-    <x>762</x>
-    <y>366</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #501</name>
-    <pv_name>$(P)$(R)netCDF1:DroppedArrays_RBV</pv_name>
-    <x>592</x>
-    <y>366</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #505</name>
-    <pv_name>$(P)$(R)netCDF1:QueueFree</pv_name>
-    <x>677</x>
-    <y>366</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="70" green="70" blue="70">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #509</name>
-    <pv_name>$(P)$(R)netCDF1:NDArrayPort</pv_name>
-    <x>207</x>
-    <y>365</y>
-    <width>60</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #513</name>
-    <pv_name>$(P)$(R)netCDF1:NDArrayAddress</pv_name>
-    <x>273</x>
-    <y>365</y>
-    <width>60</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #517</name>
-    <pv_name>$(P)$(R)TS:PortName_RBV</pv_name>
-    <x>87</x>
-    <y>391</y>
-    <width>110</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <format>6</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #521</name>
-    <pv_name>$(P)$(R)TS:EnableCallbacks</pv_name>
-    <x>337</x>
-    <y>390</y>
-    <width>80</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #524</name>
-    <pv_name>$(P)$(R)TS:EnableCallbacks_RBV</pv_name>
-    <x>422</x>
-    <y>391</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="70" green="70" blue="70">
-      </color>
-    </background_color>
-    <format>6</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #528</name>
-    <pv_name>$(P)$(R)TS:BlockingCallbacks</pv_name>
-    <x>507</x>
-    <y>390</y>
-    <width>80</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>related display #531</name>
-    <actions>
-      <action type="open_display">
-        <file>NDPluginTimeSeries.opi</file>
-        <macros>
-          <R>$(R)TS:</R>
-        </macros>
-        <target>tab</target>
-        <description>$(R)TS:</description>
-      </action>
-    </actions>
-    <text>More</text>
-    <x>847</x>
-    <y>390</y>
-    <width>60</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #534</name>
-    <pv_name>$(P)$(R)TS:ArrayRate_RBV</pv_name>
-    <x>762</x>
-    <y>391</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #538</name>
-    <pv_name>$(P)$(R)TS:DroppedArrays_RBV</pv_name>
-    <x>592</x>
-    <y>391</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #542</name>
-    <pv_name>$(P)$(R)TS:QueueFree</pv_name>
-    <x>677</x>
-    <y>391</y>
-    <width>80</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="10" green="0" blue="184">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="70" green="70" blue="70">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #546</name>
-    <pv_name>$(P)$(R)TS:NDArrayPort</pv_name>
-    <x>207</x>
-    <y>390</y>
-    <width>60</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #550</name>
-    <pv_name>$(P)$(R)TS:NDArrayAddress</pv_name>
-    <x>273</x>
-    <y>390</y>
-    <width>60</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
   <widget type="label" version="2.0.0">
-    <name>text #554</name>
+    <name>text #443</name>
     <text>Record</text>
     <x>10</x>
     <y>40</y>
@@ -2979,7 +2373,7 @@
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #557</name>
+    <name>text #446</name>
     <text>SumY</text>
     <x>10</x>
     <y>191</y>
@@ -2992,7 +2386,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #560</name>
+    <name>text #449</name>
     <text>SumAll</text>
     <x>10</x>
     <y>216</y>
@@ -3005,7 +2399,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #563</name>
+    <name>text #452</name>
     <text>DiffX</text>
     <x>10</x>
     <y>241</y>
@@ -3018,7 +2412,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #566</name>
+    <name>text #455</name>
     <text>DiffY</text>
     <x>10</x>
     <y>266</y>
@@ -3031,7 +2425,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #569</name>
+    <name>text #458</name>
     <text>PosX</text>
     <x>10</x>
     <y>291</y>
@@ -3044,7 +2438,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #572</name>
+    <name>text #461</name>
     <text>Current1</text>
     <x>10</x>
     <y>66</y>
@@ -3057,7 +2451,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #575</name>
+    <name>text #464</name>
     <text>Current2</text>
     <x>10</x>
     <y>91</y>
@@ -3070,7 +2464,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #578</name>
+    <name>text #467</name>
     <text>Current3</text>
     <x>10</x>
     <y>116</y>
@@ -3083,7 +2477,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #581</name>
+    <name>text #470</name>
     <text>Current4</text>
     <x>10</x>
     <y>141</y>
@@ -3096,7 +2490,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #584</name>
+    <name>text #473</name>
     <text>SumX</text>
     <x>10</x>
     <y>166</y>
@@ -3109,7 +2503,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #587</name>
+    <name>text #476</name>
     <text>PosY</text>
     <x>10</x>
     <y>316</y>
@@ -3121,43 +2515,222 @@
     </font>
     <auto_size>true</auto_size>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #590</name>
-    <text>StdArrays</text>
+  <widget type="group" version="2.0.0">
+    <name>composite #479</name>
     <x>10</x>
-    <y>341</y>
-    <width>72</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
+    <y>340</y>
+    <width>897</width>
+    <height>20</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #482</name>
+      <pv_name>$(P)$(R)TS:PortName_RBV</pv_name>
+      <x>77</x>
+      <y>1</y>
+      <width>110</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
       </font>
-    </font>
-    <auto_size>true</auto_size>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #593</name>
-    <text>netCDF1</text>
-    <x>10</x>
-    <y>366</y>
-    <width>56</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>6</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #486</name>
+      <pv_name>$(P)$(R)TS:EnableCallbacks</pv_name>
+      <x>327</x>
+      <width>80</width>
+      <height>20</height>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #489</name>
+      <pv_name>$(P)$(R)TS:EnableCallbacks_RBV</pv_name>
+      <x>412</x>
+      <y>1</y>
+      <width>80</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
       </font>
-    </font>
-    <auto_size>true</auto_size>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #596</name>
-    <text>Time</text>
-    <x>10</x>
-    <y>391</y>
-    <width>32</width>
-    <height>18</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="70" green="70" blue="70">
+        </color>
+      </background_color>
+      <format>6</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #493</name>
+      <pv_name>$(P)$(R)TS:BlockingCallbacks</pv_name>
+      <x>497</x>
+      <width>80</width>
+      <height>20</height>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>related display #496</name>
+      <actions>
+        <action type="open_display">
+          <file>NDPluginTimeSeries.opi</file>
+          <macros>
+            <R>$(R)TS:</R>
+          </macros>
+          <target>tab</target>
+          <description>$(R)TS:</description>
+        </action>
+      </actions>
+      <text>More</text>
+      <x>837</x>
+      <width>60</width>
+      <height>20</height>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #499</name>
+      <pv_name>$(P)$(R)TS:ArrayRate_RBV</pv_name>
+      <x>752</x>
+      <y>1</y>
+      <width>80</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
       </font>
-    </font>
-    <auto_size>true</auto_size>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #503</name>
+      <pv_name>$(P)$(R)TS:DroppedArrays_RBV</pv_name>
+      <x>582</x>
+      <y>1</y>
+      <width>80</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>1</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #507</name>
+      <pv_name>$(P)$(R)TS:QueueFree</pv_name>
+      <x>667</x>
+      <y>1</y>
+      <width>80</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="70" green="70" blue="70">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #511</name>
+      <pv_name>$(P)$(R)TS:NDArrayPort</pv_name>
+      <x>197</x>
+      <width>60</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #515</name>
+      <pv_name>$(P)$(R)TS:NDArrayAddress</pv_name>
+      <x>263</x>
+      <width>60</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #519</name>
+      <text>Time</text>
+      <y>1</y>
+      <width>32</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <auto_size>true</auto_size>
+    </widget>
   </widget>
 </display>

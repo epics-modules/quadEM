@@ -4559,16 +4559,16 @@ border-radius: 2px;
                 <enum>Menu</enum>
             </property>
             <property name="labels">
-                <string>Common plugins;FFT plugins</string>
+                <string>QE common plugins;QE FFT plugins;AD common plugins</string>
             </property>
             <property name="files">
-                <string>QECommonPlugins.ui ;QEFFTPlugins.ui </string>
+                <string>QECommonPlugins.ui ;QEFFTPlugins.ui ;commonPlugins.ui </string>
             </property>
             <property name="args">
-                <string>P=$(P),R=$(R);P=$(P),R=$(R)FFT:,RTS=$(R)TS:</string>
+                <string>P=$(P),R=$(R);P=$(P),R=$(R)FFT:,RTS=$(R)TS:;P=$(P)</string>
             </property>
             <property name="removeParent">
-                <string>false;false</string>
+                <string>false;false;false</string>
             </property>
         </widget>
         <widget class="caMessageButton" name="caMessageButton_6">
@@ -7097,7 +7097,7 @@ border-radius: 2px;
                     <x>10</x>
                     <y>460</y>
                     <width>432</width>
-                    <height>304</height>
+                    <height>192</height>
                 </rect>
             </property>
             <property name="geometry">
@@ -7105,7 +7105,7 @@ border-radius: 2px;
                     <x>10</x>
                     <y>460</y>
                     <width>430</width>
-                    <height>302</height>
+                    <height>190</height>
                 </rect>
             </property>
             <property name="filename">
