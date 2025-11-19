@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM.adl"
+	name="/home/epics/support/quadEM-9-4/quadEMApp/op/adl/quadEM.adl"
 	version=030117
 }
 display {
@@ -1659,14 +1659,19 @@ text {
 		height=20
 	}
 	display[0] {
-		label="Common plugins"
+		label="QE common plugins"
 		name="QECommonPlugins.adl"
 		args="P=$(P),R=$(R)"
 	}
 	display[1] {
-		label="FFT plugins"
+		label="QE FFT plugins"
 		name="QEFFTPlugins.adl"
 		args="P=$(P),R=$(R)FFT:,RTS=$(R)TS:"
+	}
+	display[2] {
+		label="AD common plugins"
+		name="commonPlugins.adl"
+		args="P=$(P)"
 	}
 	clr=14
 	bclr=51
@@ -2532,8 +2537,8 @@ composite {
 	object {
 		x=10
 		y=460
-		width=390
-		height=269
+		width=362
+		height=172
 	}
 	"composite name"=""
 	"composite file"="PCR4.adl"
