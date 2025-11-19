@@ -1,3 +1,14 @@
+epicsEnvSet(NCHANS, $(TSPOINTS))
+epicsEnvSet(XSIZE,  $(RING_SIZE))
+epicsEnvSet(YSIZE,  11)
+epicsEnvSet(CBUFFS, 2000)
+
+< $(ADCORE)/iocBoot/commonPlugins.cmd
+# Create a standard arrays plugin
+# NELEMENTS must be $(RING_SIZE*11)
+NDStdArraysConfigure("Image1", 5, 0, "$(PORT)", 0, 0)
+dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,TYPE=Float64,FTVL=DOUBLE,NELEMENTS=110000, NDARRAY_PORT=$(PORT)")
+
 epicsEnvSet("T1",  "Current1")
 epicsEnvSet("T2",  "Current2")
 epicsEnvSet("T3",  "Current3")
@@ -65,14 +76,6 @@ NDStatsConfigure("$(PORT)_STATS11",$(QSIZE), 0, "$(PORT)", 10, 0, 0)
 dbLoadRecords("$(ADCORE)/db/NDStats.template",     "P=$(PREFIX),R=$(RECORD)$(T11):,PORT=$(PORT)_STATS11,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=10,HIST_SIZE=256,XSIZE=$(RING_SIZE),YSIZE=0,NCHANS=$(TSPOINTS),ENABLED=1")
 NDTimeSeriesConfigure("$(PORT)_STATS11_TS", $(QSIZE), 0, "$(PORT)_STATS11", 1, 23)
 dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P=$(PREFIX),R=$(RECORD)$(T11):TS:, PORT=$(PORT)_STATS11_TS,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT)_STATS11,NDARRAY_ADDR=1,NCHANS=$(TSPOINTS),ENABLED=1")
-
-# Create a netCDF file saving plugin.
-NDFileNetCDFConfigure("$(PORT)_FileNetCDF1", $(QSIZE), 0, "$(PORT)", 11)
-dbLoadRecords("$(ADCORE)/db/NDFileNetCDF.template","P=$(PREFIX),R=$(RECORD)netCDF1:,PORT=$(PORT)_FileNetCDF1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=11,ENABLED=0")
-
-# This creates a waveform large enough for 11x10000 arrays.
-NDStdArraysConfigure("$(PORT)_Image1", $(QSIZE), 0, "$(PORT)", 11)
-dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=$(RECORD)image1:,PORT=$(PORT)_Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=11,TYPE=Float64,FTVL=DOUBLE,NELEMENTS=110000,ENABLED=0")
 
 # Time series plugin
 NDTimeSeriesConfigure("$(PORT)_TS1", $(QSIZE), 0, "$(PORT)", 11, 11)
