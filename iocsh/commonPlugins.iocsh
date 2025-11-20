@@ -1,5 +1,3 @@
-# ### APS_EM.iocsh ###
-
 #- ###################################################
 #- PREFIX         - IOC Prefix
 #- INSTANCE       - Name of quadEM port instance
