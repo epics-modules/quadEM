@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-11-19 13:42:26 by epics-->
+<!--Saved on 2025-11-20 13:19:47 by epics-->
 <display version="2.0.0">
   <name>quadEM</name>
   <x>332</x>
@@ -2980,7 +2980,7 @@
     <height>120</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!(pv0==4)">
+        <exp bool_exp="!(pv0==3)">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -2989,14 +2989,14 @@
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>composite #565</name>
-    <file>APS_EM.bob</file>
+    <file>AH401B.bob</file>
     <x>10</x>
     <y>460</y>
     <width>390</width>
-    <height>120</height>
+    <height>95</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!(pv0==1)">
+        <exp bool_exp="!((pv0==1) || (pv0==2))">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -3005,14 +3005,14 @@
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>composite #568</name>
-    <file>AH401B.bob</file>
+    <file>AH501C.bob</file>
     <x>10</x>
     <y>460</y>
     <width>390</width>
-    <height>95</height>
+    <height>145</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!((pv0==2) || (pv0==3))">
+        <exp bool_exp="!((pv0==4)||(pv0==5)||(pv0==6))">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -3021,14 +3021,14 @@
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>composite #571</name>
-    <file>AH501C.bob</file>
+    <file>TetrAMM.bob</file>
     <x>10</x>
     <y>460</y>
-    <width>390</width>
-    <height>145</height>
+    <width>392</width>
+    <height>395</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!((pv0==5)||(pv0==6)||(pv0==7))">
+        <exp bool_exp="!(pv0==7)">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -3037,11 +3037,11 @@
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>composite #574</name>
-    <file>TetrAMM.bob</file>
+    <file>NSLS_EM.bob</file>
     <x>10</x>
     <y>460</y>
-    <width>392</width>
-    <height>395</height>
+    <width>390</width>
+    <height>45</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
         <exp bool_exp="!(pv0==8)">
@@ -3053,14 +3053,14 @@
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>composite #577</name>
-    <file>NSLS_EM.bob</file>
+    <file>NSLS2_EM.bob</file>
     <x>10</x>
     <y>460</y>
     <width>390</width>
-    <height>45</height>
+    <height>269</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!(pv0==9)">
+        <exp bool_exp="!((pv0==9))">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -3069,22 +3069,6 @@
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>composite #580</name>
-    <file>NSLS2_EM.bob</file>
-    <x>10</x>
-    <y>460</y>
-    <width>390</width>
-    <height>269</height>
-    <rules>
-      <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!((pv0==10))">
-          <value>false</value>
-        </exp>
-        <pv_name>$(P)$(R)Model</pv_name>
-      </rule>
-    </rules>
-  </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>composite #583</name>
     <file>PCR4.bob</file>
     <x>10</x>
     <y>460</y>
@@ -3092,7 +3076,7 @@
     <height>172</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!((pv0==12))">
+        <exp bool_exp="!((pv0==11))">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -3100,7 +3084,7 @@
     </rules>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>composite #586</name>
+    <name>composite #583</name>
     <x>30</x>
     <y>435</y>
     <width>275</width>
@@ -3108,7 +3092,7 @@
     <style>3</style>
     <transparent>true</transparent>
     <widget type="label" version="2.0.0">
-      <name>text #589</name>
+      <name>text #586</name>
       <text># To average fast</text>
       <width>170</width>
       <font>
@@ -3118,7 +3102,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #592</name>
+      <name>text update #589</name>
       <pv_name>$(P)$(R)NumFastAverage</pv_name>
       <x>175</x>
       <font>
@@ -3139,7 +3123,7 @@
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>composite #596</name>
+    <name>composite #593</name>
     <x>100</x>
     <y>410</y>
     <width>205</width>
@@ -3147,7 +3131,7 @@
     <style>3</style>
     <transparent>true</transparent>
     <widget type="label" version="2.0.0">
-      <name>text #599</name>
+      <name>text #596</name>
       <text># Averaged</text>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -3156,7 +3140,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #602</name>
+      <name>text update #599</name>
       <pv_name>$(P)$(R)NumAveraged_RBV</pv_name>
       <x>105</x>
       <font>
@@ -3177,7 +3161,7 @@
     </widget>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #606</name>
+    <name>text #603</name>
     <text>Geometry</text>
     <x>120</x>
     <y>185</y>
@@ -3189,7 +3173,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #609</name>
+    <name>text update #606</name>
     <pv_name>$(P)$(R)Geometry_RBV</pv_name>
     <x>300</x>
     <y>185</y>
@@ -3210,7 +3194,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #613</name>
+    <name>menu #610</name>
     <pv_name>$(P)$(R)Geometry</pv_name>
     <x>205</x>
     <y>185</y>
@@ -3223,7 +3207,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #616</name>
+    <name>text #613</name>
     <text>Fast averaging scan</text>
     <x>10</x>
     <y>260</y>
@@ -3235,7 +3219,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #619</name>
+    <name>menu #616</name>
     <pv_name>$(P)$(R)FastAverageScan.SCAN</pv_name>
     <x>205</x>
     <y>260</y>
@@ -3248,7 +3232,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #622</name>
+    <name>composite #619</name>
     <file>ADBuffers.bob</file>
     <x>30</x>
     <y>860</y>

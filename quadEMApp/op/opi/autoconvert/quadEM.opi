@@ -381,59 +381,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0==4">
+        <exp bool_exp="pv0==3">
           <value>true</value>
         </exp>
-        <exp bool_exp="!(pv0==4)">
-          <value>false</value>
-        </exp>
-        <pv trig="true">$(P)$(R)Model</pv>
-      </rule>
-    </rules>
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <tooltip></tooltip>
-    <visible>true</visible>
-    <widget_type>Linking Container</widget_type>
-    <width>390</width>
-    <x>10</x>
-    <y>460</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <background_color>
-      <color red="200" green="200" blue="200" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <group_name></group_name>
-    <height>120</height>
-    <macros>
-      <include_parent_macros>true</include_parent_macros>
-    </macros>
-    <name>Linking Container</name>
-    <opi_file>APS_EM.opi</opi_file>
-    <resize_behaviour>2</resize_behaviour>
-    <rules>
-      <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0==1">
-          <value>true</value>
-        </exp>
-        <exp bool_exp="!(pv0==1)">
+        <exp bool_exp="!(pv0==3)">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -479,10 +430,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="(pv0==2) || (pv0==3)">
+        <exp bool_exp="(pv0==1) || (pv0==2)">
           <value>true</value>
         </exp>
-        <exp bool_exp="!((pv0==2) || (pv0==3))">
+        <exp bool_exp="!((pv0==1) || (pv0==2))">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -528,10 +479,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="(pv0==5)||(pv0==6)||(pv0==7)">
+        <exp bool_exp="(pv0==4)||(pv0==5)||(pv0==6)">
           <value>true</value>
         </exp>
-        <exp bool_exp="!((pv0==5)||(pv0==6)||(pv0==7))">
+        <exp bool_exp="!((pv0==4)||(pv0==5)||(pv0==6))">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -577,10 +528,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0==8">
+        <exp bool_exp="pv0==7">
           <value>true</value>
         </exp>
-        <exp bool_exp="!(pv0==8)">
+        <exp bool_exp="!(pv0==7)">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -626,10 +577,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0==9">
+        <exp bool_exp="pv0==8">
           <value>true</value>
         </exp>
-        <exp bool_exp="!(pv0==9)">
+        <exp bool_exp="!(pv0==8)">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -675,10 +626,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="(pv0==10)">
+        <exp bool_exp="(pv0==9)">
           <value>true</value>
         </exp>
-        <exp bool_exp="!((pv0==10))">
+        <exp bool_exp="!((pv0==9))">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -724,10 +675,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="(pv0==12)">
+        <exp bool_exp="(pv0==11)">
           <value>true</value>
         </exp>
-        <exp bool_exp="!((pv0==12))">
+        <exp bool_exp="!((pv0==11))">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
