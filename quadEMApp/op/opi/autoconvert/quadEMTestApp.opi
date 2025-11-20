@@ -105,20 +105,6 @@
         <macros>
           <include_parent_macros>true</include_parent_macros>
           <P>QE1:</P>
-          <R>APS_EM:</R>
-          <P_TS>QE1:APS_EM_TS:</P_TS>
-          <P_FFT>QE1:APS_EM_FFT:</P_FFT>
-          <TX>Horizontal_BPM</TX>
-          <TY>Vertical_BPM</TY>
-        </macros>
-        <mode>1</mode>
-        <description>APS_EM</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>quadEM.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <P>QE1:</P>
           <R>TetrAMM:</R>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>

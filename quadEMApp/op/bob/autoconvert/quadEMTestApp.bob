@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-08 17:54:27 by epics-->
+<!--Saved on 2025-11-20 12:26:57 by epics-->
 <display version="2.0.0">
   <name>quadEMTestApp</name>
   <x>308</x>
@@ -52,19 +52,6 @@
         </macros>
         <target>tab</target>
         <description>AH501</description>
-      </action>
-      <action type="open_display">
-        <file>quadEM.opi</file>
-        <macros>
-          <P>QE1:</P>
-          <P_FFT>QE1:APS_EM_FFT:</P_FFT>
-          <P_TS>QE1:APS_EM_TS:</P_TS>
-          <R>APS_EM:</R>
-          <TX>Horizontal_BPM</TX>
-          <TY>Vertical_BPM</TY>
-        </macros>
-        <target>tab</target>
-        <description>APS_EM</description>
       </action>
       <action type="open_display">
         <file>quadEM.opi</file>
