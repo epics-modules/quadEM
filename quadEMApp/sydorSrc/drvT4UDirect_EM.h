@@ -25,6 +25,7 @@
 #define NUM_RANGES 3
 #define T4U_CMD_QUEUE_LEN 300
 
+
 #define P_SampleFreq_String "QE_SAMPLE_FREQ"
 #define P_BiasN_En_String "QE_BIAS_N"
 #define P_BiasP_En_String "QE_BIAS_P"
@@ -41,6 +42,8 @@
 #define P_PIDHystEn_String "QE_PID_HYST_EN"
 #define P_PIDCtrlPol_String "QE_PID_POL"
 #define P_PIDCtrlEx_String "QE_PID_EXT_CTRL"
+#define P_WaitStateMode_String "QE_WSMODE"
+#define P_ReadsPerPacket_String "QE_RPP"
 
 #include "gc_t4u_hdr_string.h"
 
@@ -142,6 +145,8 @@ protected:
     int P_PIDHystEn;
     int P_PIDCtrlPol;
     int P_PIDCtrlEx;
+    int P_WaitStateMode;
+    int P_ReadsPerPacket;
 #include "gc_t4u_hdr_member.h"
 
     /* These are the methods we implement from quadEM */
@@ -178,6 +183,10 @@ private:
     double calOffset_[4];
     float fullSlope_[NUM_RANGES][4];
     float fullOffset_[NUM_RANGES][4];
+    float cwSlope_[NUM_RANGES][4]; // The continuous wave slope
+    float cwOffset_[NUM_RANGES][4]; // The continuous wave offset
+    float pulsedSlope_[NUM_RANGES][4]; // The pulsed mode slope
+    float pulsedOffset_[NUM_RANGES][4]; // The pulsed mode offset
     int currRange_;
     char *bc_data_payload_;      // Broadcast data payload
     T4U_Payload_Header_T bc_hdr_; // Broadcast data header

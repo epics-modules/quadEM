@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
   <actions hook="false" hook_all="false" />
   <auto_scale_widgets>
@@ -9,7 +10,7 @@
   <background_color>
     <color red="200" green="200" blue="200" />
   </background_color>
-  <boy_version>5.1.0</boy_version>
+  <boy_version>5.1.0.201706291447</boy_version>
   <foreground_color>
     <color red="0" green="0" blue="0" />
   </foreground_color>
@@ -28,6 +29,7 @@
   <snap_to_geometry>false</snap_to_geometry>
   <widget_type>Display</widget_type>
   <width>915</width>
+  <wuid>75c0effa:198a39237a0:-7c85</wuid>
   <x>332</x>
   <y>33</y>
   <widget typeId="org.csstudio.opibuilder.widgets.Rectangle" version="1.0.0">
@@ -84,6 +86,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Rectangle</widget_type>
     <width>915</width>
+    <wuid>75c0effa:198a39237a0:-7c84</wuid>
     <x>0</x>
     <y>0</y>
   </widget>
@@ -141,6 +144,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Rectangle</widget_type>
     <width>490</width>
+    <wuid>75c0effa:198a39237a0:-7c83</wuid>
     <x>420</x>
     <y>805</y>
   </widget>
@@ -198,6 +202,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Rectangle</widget_type>
     <width>490</width>
+    <wuid>75c0effa:198a39237a0:-7c82</wuid>
     <x>420</x>
     <y>640</y>
   </widget>
@@ -255,6 +260,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Rectangle</widget_type>
     <width>150</width>
+    <wuid>75c0effa:198a39237a0:-7c81</wuid>
     <x>590</x>
     <y>810</y>
   </widget>
@@ -312,6 +318,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Rectangle</widget_type>
     <width>150</width>
+    <wuid>75c0effa:198a39237a0:-7c80</wuid>
     <x>590</x>
     <y>645</y>
   </widget>
@@ -351,6 +358,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
     <width>350</width>
+    <wuid>75c0effa:198a39237a0:-7c7f</wuid>
     <x>490</x>
     <y>910</y>
   </widget>
@@ -384,6 +392,57 @@ $(pv_value)</tooltip>
         <exp bool_exp="pv0==3">
           <value>true</value>
         </exp>
+        <exp bool_exp="!(pv0==4)">
+          <value>false</value>
+        </exp>
+        <pv trig="true">$(P)$(R)Model</pv>
+      </rule>
+    </rules>
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>390</width>
+    <wuid>75c0effa:198a39237a0:-7c7e</wuid>
+    <x>10</x>
+    <y>460</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="200" green="200" blue="200" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>120</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+    </macros>
+    <name>Linking Container</name>
+    <opi_file>APS_EM.opi</opi_file>
+    <resize_behaviour>2</resize_behaviour>
+    <rules>
+      <rule name="Visibility" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0==1">
+          <value>true</value>
+        </exp>
+        <exp bool_exp="!(pv0==1)">
         <exp bool_exp="!(pv0==3)">
           <value>false</value>
         </exp>
@@ -400,6 +459,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
     <width>390</width>
+    <wuid>75c0effa:198a39237a0:-7c7d</wuid>
     <x>10</x>
     <y>460</y>
   </widget>
@@ -449,6 +509,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
     <width>390</width>
+    <wuid>75c0effa:198a39237a0:-7c7c</wuid>
     <x>10</x>
     <y>460</y>
   </widget>
@@ -498,6 +559,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
     <width>390</width>
+    <wuid>75c0effa:198a39237a0:-7c7b</wuid>
     <x>10</x>
     <y>460</y>
   </widget>
@@ -547,6 +609,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
     <width>392</width>
+    <wuid>75c0effa:198a39237a0:-7c7a</wuid>
     <x>10</x>
     <y>460</y>
   </widget>
@@ -596,6 +659,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
     <width>390</width>
+    <wuid>75c0effa:198a39237a0:-7c79</wuid>
     <x>10</x>
     <y>460</y>
   </widget>
@@ -645,6 +709,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
     <width>390</width>
+    <wuid>75c0effa:198a39237a0:-7c78</wuid>
     <x>10</x>
     <y>460</y>
   </widget>
@@ -693,6 +758,8 @@ $(pv_value)</tooltip>
     <tooltip></tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
+    <width>390</width>
+    <wuid>75c0effa:198a39237a0:-7c77</wuid>
     <width>362</width>
     <x>10</x>
     <y>460</y>
@@ -734,6 +801,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Grouping Container</widget_type>
     <width>275</width>
+    <wuid>75c0effa:198a39237a0:-7c76</wuid>
     <x>30</x>
     <y>435</y>
     <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -764,7 +832,6 @@ $(pv_value)</tooltip>
         <keep_wh_ratio>false</keep_wh_ratio>
       </scale_options>
       <scripts />
-      <show_scrollbar>false</show_scrollbar>
       <text># To average fast</text>
       <tooltip></tooltip>
       <transparent>true</transparent>
@@ -773,6 +840,7 @@ $(pv_value)</tooltip>
       <widget_type>Label</widget_type>
       <width>170</width>
       <wrap_words>false</wrap_words>
+      <wuid>75c0effa:198a39237a0:-7c75</wuid>
       <x>0</x>
       <y>0</y>
     </widget>
@@ -824,6 +892,7 @@ $(pv_value)</tooltip>
       <widget_type>Text Update</widget_type>
       <width>100</width>
       <wrap_words>false</wrap_words>
+      <wuid>75c0effa:198a39237a0:-7c74</wuid>
       <x>175</x>
       <y>0</y>
     </widget>
@@ -865,6 +934,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Grouping Container</widget_type>
     <width>205</width>
+    <wuid>75c0effa:198a39237a0:-7c73</wuid>
     <x>100</x>
     <y>410</y>
     <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -895,7 +965,6 @@ $(pv_value)</tooltip>
         <keep_wh_ratio>false</keep_wh_ratio>
       </scale_options>
       <scripts />
-      <show_scrollbar>false</show_scrollbar>
       <text># Averaged</text>
       <tooltip></tooltip>
       <transparent>true</transparent>
@@ -904,6 +973,7 @@ $(pv_value)</tooltip>
       <widget_type>Label</widget_type>
       <width>100</width>
       <wrap_words>false</wrap_words>
+      <wuid>75c0effa:198a39237a0:-7c72</wuid>
       <x>0</x>
       <y>0</y>
     </widget>
@@ -955,6 +1025,7 @@ $(pv_value)</tooltip>
       <widget_type>Text Update</widget_type>
       <width>100</width>
       <wrap_words>false</wrap_words>
+      <wuid>75c0effa:198a39237a0:-7c71</wuid>
       <x>105</x>
       <y>0</y>
     </widget>
@@ -995,6 +1066,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Linking Container</widget_type>
     <width>350</width>
+    <wuid>75c0effa:198a39237a0:-7c70</wuid>
     <x>30</x>
     <y>860</y>
   </widget>
@@ -1050,6 +1122,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Polyline</widget_type>
     <width>912</width>
+    <wuid>75c0effa:198a39237a0:-7c6f</wuid>
     <x>1</x>
     <y>28</y>
   </widget>
@@ -1081,7 +1154,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Sample time</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1090,6 +1162,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>110</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c6e</wuid>
     <x>90</x>
     <y>85</y>
   </widget>
@@ -1141,6 +1214,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c6d</wuid>
     <x>205</x>
     <y>85</y>
   </widget>
@@ -1172,7 +1246,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Quad Electrometer</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1181,6 +1254,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>170</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c6c</wuid>
     <x>5</x>
     <y>5</y>
   </widget>
@@ -1212,7 +1286,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>($(P)$(R))</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1221,6 +1294,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>700</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c6b</wuid>
     <x>200</x>
     <y>5</y>
   </widget>
@@ -1247,11 +1321,6 @@ $(pv_value)</tooltip>
     </foreground_color>
     <height>20</height>
     <horizontal>true</horizontal>
-    <items>
-      <s>Choice 1</s>
-      <s>Choice 2</s>
-      <s>Choice 3</s>
-    </items>
     <items_from_pv>true</items_from_pv>
     <name>Choice Button</name>
     <pv_name>$(P)$(R)Acquire</pv_name>
@@ -1271,6 +1340,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Choice Button</widget_type>
     <width>150</width>
+    <wuid>75c0effa:198a39237a0:-7c6a</wuid>
     <x>205</x>
     <y>110</y>
   </widget>
@@ -1302,7 +1372,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Acquire</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1311,6 +1380,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c69</wuid>
     <x>130</x>
     <y>110</y>
   </widget>
@@ -1362,6 +1432,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>200</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c68</wuid>
     <x>205</x>
     <y>35</y>
   </widget>
@@ -1393,7 +1464,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Model</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1402,6 +1472,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>50</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c67</wuid>
     <x>150</x>
     <y>35</y>
   </widget>
@@ -1453,6 +1524,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>625</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c66</wuid>
     <x>205</x>
     <y>60</y>
   </widget>
@@ -1484,7 +1556,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Firmware</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1493,6 +1564,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>80</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c65</wuid>
     <x>120</x>
     <y>60</y>
   </widget>
@@ -1524,7 +1596,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Range</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1533,11 +1604,11 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>50</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c64</wuid>
     <x>150</x>
     <y>160</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -1577,6 +1648,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>90</width>
+    <wuid>75c0effa:198a39237a0:-7c63</wuid>
     <x>205</x>
     <y>135</y>
   </widget>
@@ -1608,7 +1680,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Acquire mode</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1617,6 +1688,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>120</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c62</wuid>
     <x>80</x>
     <y>135</y>
   </widget>
@@ -1648,7 +1720,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Values per reading</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1657,6 +1728,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>180</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c61</wuid>
     <x>20</x>
     <y>210</y>
   </widget>
@@ -1708,6 +1780,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c60</wuid>
     <x>300</x>
     <y>160</y>
   </widget>
@@ -1759,6 +1832,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c5f</wuid>
     <x>300</x>
     <y>135</y>
   </widget>
@@ -1810,11 +1884,11 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c5e</wuid>
     <x>300</x>
     <y>210</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -1854,6 +1928,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>90</width>
+    <wuid>75c0effa:198a39237a0:-7c5d</wuid>
     <x>205</x>
     <y>160</y>
   </widget>
@@ -1884,17 +1959,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)ValuesPerRead</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -1904,10 +1976,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -1916,6 +1985,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>90</width>
+    <wuid>75c0effa:198a39237a0:-7c5c</wuid>
     <x>205</x>
     <y>210</y>
   </widget>
@@ -1947,7 +2017,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Signal</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -1956,6 +2025,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>60</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c5b</wuid>
     <x>460</x>
     <y>85</y>
   </widget>
@@ -1986,17 +2056,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentName1</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -2006,10 +2073,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -2018,6 +2082,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c5a</wuid>
     <x>530</x>
     <y>85</y>
   </widget>
@@ -2048,17 +2113,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentName2</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -2068,10 +2130,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -2080,6 +2139,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c59</wuid>
     <x>615</x>
     <y>85</y>
   </widget>
@@ -2110,17 +2170,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentName3</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -2130,10 +2187,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -2142,6 +2196,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c58</wuid>
     <x>700</x>
     <y>85</y>
   </widget>
@@ -2172,17 +2227,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentName4</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -2192,10 +2244,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -2204,6 +2253,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c57</wuid>
     <x>785</x>
     <y>85</y>
   </widget>
@@ -2235,7 +2285,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Averaging time</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -2244,6 +2293,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>140</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c56</wuid>
     <x>60</x>
     <y>235</y>
   </widget>
@@ -2274,17 +2324,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)AveragingTime</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -2294,10 +2341,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -2306,6 +2350,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>90</width>
+    <wuid>75c0effa:198a39237a0:-7c55</wuid>
     <x>205</x>
     <y>235</y>
   </widget>
@@ -2357,6 +2402,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c54</wuid>
     <x>300</x>
     <y>235</y>
   </widget>
@@ -2388,7 +2434,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Offset</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -2397,6 +2442,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>60</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c53</wuid>
     <x>460</x>
     <y>185</y>
   </widget>
@@ -2428,7 +2474,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>(Sigma)</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -2437,6 +2482,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c52</wuid>
     <x>450</x>
     <y>160</y>
   </widget>
@@ -2488,6 +2534,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c51</wuid>
     <x>616</x>
     <y>160</y>
   </widget>
@@ -2539,6 +2586,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c50</wuid>
     <x>786</x>
     <y>160</y>
   </widget>
@@ -2590,6 +2638,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c4f</wuid>
     <x>531</x>
     <y>160</y>
   </widget>
@@ -2641,6 +2690,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c4e</wuid>
     <x>701</x>
     <y>160</y>
   </widget>
@@ -2671,17 +2721,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentScale2</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -2691,10 +2738,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -2703,6 +2747,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c4d</wuid>
     <x>611</x>
     <y>235</y>
   </widget>
@@ -2733,17 +2778,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentScale4</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -2753,10 +2795,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -2765,6 +2804,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c4c</wuid>
     <x>781</x>
     <y>235</y>
   </widget>
@@ -2795,17 +2835,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentScale1</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -2815,10 +2852,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -2827,6 +2861,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c4b</wuid>
     <x>526</x>
     <y>235</y>
   </widget>
@@ -2857,17 +2892,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentScale3</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -2877,10 +2909,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -2889,6 +2918,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c4a</wuid>
     <x>696</x>
     <y>235</y>
   </widget>
@@ -2942,6 +2972,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c49</wuid>
     <x>526</x>
     <y>210</y>
   </widget>
@@ -2995,6 +3026,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c48</wuid>
     <x>611</x>
     <y>210</y>
   </widget>
@@ -3048,6 +3080,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c47</wuid>
     <x>696</x>
     <y>210</y>
   </widget>
@@ -3101,6 +3134,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c46</wuid>
     <x>781</x>
     <y>210</y>
   </widget>
@@ -3131,17 +3165,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentOffset1</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -3151,10 +3182,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -3163,6 +3191,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c45</wuid>
     <x>526</x>
     <y>185</y>
   </widget>
@@ -3193,17 +3222,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentOffset2</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -3213,10 +3239,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -3225,6 +3248,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c44</wuid>
     <x>611</x>
     <y>185</y>
   </widget>
@@ -3255,17 +3279,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentOffset3</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -3275,10 +3296,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -3287,6 +3305,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c43</wuid>
     <x>696</x>
     <y>185</y>
   </widget>
@@ -3317,17 +3336,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)CurrentOffset4</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -3337,10 +3353,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -3349,6 +3362,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c42</wuid>
     <x>781</x>
     <y>185</y>
   </widget>
@@ -3380,7 +3394,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Scale</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -3389,6 +3402,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>50</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c41</wuid>
     <x>470</x>
     <y>235</y>
   </widget>
@@ -3420,7 +3434,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Y</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -3429,6 +3442,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>10</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c40</wuid>
     <x>702</x>
     <y>287</y>
   </widget>
@@ -3460,7 +3474,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>X</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -3469,6 +3482,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>10</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c3f</wuid>
     <x>601</x>
     <y>287</y>
   </widget>
@@ -3500,7 +3514,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>All</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -3509,6 +3522,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>30</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c3e</wuid>
     <x>787</x>
     <y>287</y>
   </widget>
@@ -3540,7 +3554,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Precision</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -3549,11 +3562,11 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>90</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c3d</wuid>
     <x>430</x>
     <y>260</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -3593,11 +3606,11 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c3c</wuid>
     <x>526</x>
     <y>260</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -3637,11 +3650,11 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c3b</wuid>
     <x>611</x>
     <y>260</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -3681,11 +3694,11 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c3a</wuid>
     <x>696</x>
     <y>260</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -3725,6 +3738,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c39</wuid>
     <x>781</x>
     <y>260</y>
   </widget>
@@ -3756,7 +3770,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Current</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -3765,6 +3778,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c38</wuid>
     <x>450</x>
     <y>110</y>
   </widget>
@@ -3816,6 +3830,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c37</wuid>
     <x>616</x>
     <y>110</y>
   </widget>
@@ -3867,6 +3882,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c36</wuid>
     <x>786</x>
     <y>110</y>
   </widget>
@@ -3918,6 +3934,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c35</wuid>
     <x>531</x>
     <y>110</y>
   </widget>
@@ -3969,6 +3986,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c34</wuid>
     <x>701</x>
     <y>110</y>
   </widget>
@@ -4000,7 +4018,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>(Fast)</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -4009,6 +4026,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>60</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c33</wuid>
     <x>460</x>
     <y>135</y>
   </widget>
@@ -4060,6 +4078,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c32</wuid>
     <x>616</x>
     <y>135</y>
   </widget>
@@ -4111,6 +4130,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c31</wuid>
     <x>786</x>
     <y>135</y>
   </widget>
@@ -4162,6 +4182,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c30</wuid>
     <x>531</x>
     <y>135</y>
   </widget>
@@ -4213,6 +4234,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c2f</wuid>
     <x>701</x>
     <y>135</y>
   </widget>
@@ -4244,7 +4266,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>(Sigma)</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -4253,6 +4274,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c2e</wuid>
     <x>490</x>
     <y>360</y>
   </widget>
@@ -4304,6 +4326,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c2d</wuid>
     <x>672</x>
     <y>360</y>
   </widget>
@@ -4355,6 +4378,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c2c</wuid>
     <x>571</x>
     <y>360</y>
   </widget>
@@ -4406,6 +4430,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c2b</wuid>
     <x>767</x>
     <y>360</y>
   </widget>
@@ -4437,7 +4462,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Sum</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -4446,6 +4470,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>30</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c2a</wuid>
     <x>530</x>
     <y>310</y>
   </widget>
@@ -4497,6 +4522,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c29</wuid>
     <x>672</x>
     <y>310</y>
   </widget>
@@ -4548,6 +4574,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c28</wuid>
     <x>571</x>
     <y>310</y>
   </widget>
@@ -4599,6 +4626,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c27</wuid>
     <x>767</x>
     <y>310</y>
   </widget>
@@ -4630,7 +4658,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>(Fast)</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -4639,6 +4666,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>60</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c26</wuid>
     <x>500</x>
     <y>335</y>
   </widget>
@@ -4690,6 +4718,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c25</wuid>
     <x>672</x>
     <y>335</y>
   </widget>
@@ -4741,6 +4770,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c24</wuid>
     <x>571</x>
     <y>335</y>
   </widget>
@@ -4792,6 +4822,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c23</wuid>
     <x>767</x>
     <y>335</y>
   </widget>
@@ -4823,7 +4854,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Time domain plots</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -4832,6 +4862,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>170</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c22</wuid>
     <x>479</x>
     <y>701</y>
   </widget>
@@ -4895,6 +4926,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c21</wuid>
     <x>440</x>
     <y>726</y>
   </widget>
@@ -5061,6 +5093,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c20</wuid>
     <x>440</x>
     <y>776</y>
   </widget>
@@ -5124,6 +5157,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c1f</wuid>
     <x>440</x>
     <y>751</y>
   </widget>
@@ -5155,7 +5189,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>X combined</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -5164,6 +5197,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c1e</wuid>
     <x>525</x>
     <y>726</y>
   </widget>
@@ -5195,7 +5229,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Y combined</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -5204,6 +5237,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c1d</wuid>
     <x>525</x>
     <y>751</y>
   </widget>
@@ -5235,7 +5269,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Individual</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -5244,6 +5277,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c1c</wuid>
     <x>525</x>
     <y>776</y>
   </widget>
@@ -5275,7 +5309,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Frequency domain plots</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -5284,6 +5317,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>220</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c1b</wuid>
     <x>689</x>
     <y>700</y>
   </widget>
@@ -5347,6 +5381,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c1a</wuid>
     <x>675</x>
     <y>725</y>
   </widget>
@@ -5410,6 +5445,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c19</wuid>
     <x>675</x>
     <y>750</y>
   </widget>
@@ -5587,6 +5623,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c18</wuid>
     <x>675</x>
     <y>775</y>
   </widget>
@@ -5618,7 +5655,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>X combined</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -5627,6 +5663,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c17</wuid>
     <x>760</x>
     <y>725</y>
   </widget>
@@ -5658,7 +5695,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Y combined</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -5667,6 +5703,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c16</wuid>
     <x>760</x>
     <y>750</y>
   </widget>
@@ -5698,7 +5735,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Individual</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -5707,6 +5743,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c15</wuid>
     <x>760</x>
     <y>775</y>
   </widget>
@@ -5781,6 +5818,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>120</width>
+    <wuid>75c0effa:198a39237a0:-7c14</wuid>
     <x>785</x>
     <y>675</y>
   </widget>
@@ -5832,6 +5870,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c13</wuid>
     <x>680</x>
     <y>676</y>
   </widget>
@@ -5863,7 +5902,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Acquire</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -5872,6 +5910,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c12</wuid>
     <x>425</x>
     <y>675</y>
   </widget>
@@ -5925,6 +5964,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>85</width>
+    <wuid>75c0effa:198a39237a0:-7c11</wuid>
     <x>500</x>
     <y>675</y>
   </widget>
@@ -5978,6 +6018,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>85</width>
+    <wuid>75c0effa:198a39237a0:-7c10</wuid>
     <x>590</x>
     <y>675</y>
   </widget>
@@ -6009,7 +6050,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Status</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6018,6 +6058,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>60</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c0f</wuid>
     <x>635</x>
     <y>812</y>
   </widget>
@@ -6049,7 +6090,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Plugins</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6058,6 +6098,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c0e</wuid>
     <x>750</x>
     <y>855</y>
   </widget>
@@ -6129,6 +6170,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c0d</wuid>
     <x>825</x>
     <y>855</y>
   </widget>
@@ -6182,6 +6224,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c0c</wuid>
     <x>825</x>
     <y>830</y>
   </widget>
@@ -6213,7 +6256,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Reset</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6222,6 +6264,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>50</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c0b</wuid>
     <x>770</x>
     <y>830</y>
   </widget>
@@ -6277,6 +6320,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c0a</wuid>
     <x>825</x>
     <y>880</y>
   </widget>
@@ -6308,7 +6352,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Asyn record</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6317,6 +6360,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>110</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c09</wuid>
     <x>710</x>
     <y>880</y>
   </widget>
@@ -6348,7 +6392,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Time series</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6357,6 +6400,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>110</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c08</wuid>
     <x>610</x>
     <y>647</y>
   </widget>
@@ -6388,7 +6432,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Ring overflows</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6397,6 +6440,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>140</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c07</wuid>
     <x>425</x>
     <y>855</y>
   </widget>
@@ -6448,11 +6492,11 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c06</wuid>
     <x>570</x>
     <y>855</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -6492,6 +6536,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>100</width>
+    <wuid>75c0effa:198a39237a0:-7c05</wuid>
     <x>570</x>
     <y>880</y>
   </widget>
@@ -6523,7 +6568,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Status rate</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6532,6 +6576,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>110</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c04</wuid>
     <x>455</x>
     <y>880</y>
   </widget>
@@ -6563,7 +6608,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Pos. Offset</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6572,6 +6616,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>110</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c03</wuid>
     <x>450</x>
     <y>535</y>
   </widget>
@@ -6602,17 +6647,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)PositionOffsetY</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -6622,10 +6664,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -6634,6 +6673,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c02</wuid>
     <x>667</x>
     <y>535</y>
   </widget>
@@ -6664,17 +6704,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)PositionOffsetX</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -6684,10 +6721,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -6696,6 +6730,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7c01</wuid>
     <x>566</x>
     <y>535</y>
   </widget>
@@ -6727,7 +6762,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>(Sigma)</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6736,6 +6770,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7c00</wuid>
     <x>490</x>
     <y>510</y>
   </widget>
@@ -6787,6 +6822,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bff</wuid>
     <x>672</x>
     <y>510</y>
   </widget>
@@ -6838,6 +6874,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bfe</wuid>
     <x>571</x>
     <y>510</y>
   </widget>
@@ -6869,7 +6906,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Pos. Scale</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -6878,6 +6914,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bfd</wuid>
     <x>460</x>
     <y>585</y>
   </widget>
@@ -6908,17 +6945,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)PositionScaleY</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -6928,10 +6962,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -6940,6 +6971,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7bfc</wuid>
     <x>667</x>
     <y>585</y>
   </widget>
@@ -6970,17 +7002,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)PositionScaleX</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -6990,10 +7019,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -7002,6 +7028,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7bfb</wuid>
     <x>566</x>
     <y>585</y>
   </widget>
@@ -7055,6 +7082,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7bfa</wuid>
     <x>566</x>
     <y>560</y>
   </widget>
@@ -7108,6 +7136,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7bf9</wuid>
     <x>667</x>
     <y>560</y>
   </widget>
@@ -7139,7 +7168,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Pos. Offset</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -7148,6 +7176,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>110</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bf8</wuid>
     <x>450</x>
     <y>560</y>
   </widget>
@@ -7179,7 +7208,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Precision</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -7188,11 +7216,11 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>90</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bf7</wuid>
     <x>470</x>
     <y>610</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -7232,11 +7260,11 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7bf6</wuid>
     <x>566</x>
     <y>610</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -7276,6 +7304,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>80</width>
+    <wuid>75c0effa:198a39237a0:-7bf5</wuid>
     <x>667</x>
     <y>610</y>
   </widget>
@@ -7307,7 +7336,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>(Sigma)</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -7316,6 +7344,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bf4</wuid>
     <x>490</x>
     <y>435</y>
   </widget>
@@ -7367,6 +7396,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bf3</wuid>
     <x>672</x>
     <y>435</y>
   </widget>
@@ -7418,6 +7448,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bf2</wuid>
     <x>571</x>
     <y>435</y>
   </widget>
@@ -7449,7 +7480,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Position</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -7458,6 +7488,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>80</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bf1</wuid>
     <x>480</x>
     <y>460</y>
   </widget>
@@ -7509,6 +7540,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bf0</wuid>
     <x>672</x>
     <y>460</y>
   </widget>
@@ -7560,6 +7592,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bef</wuid>
     <x>571</x>
     <y>460</y>
   </widget>
@@ -7591,7 +7624,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>(Fast)</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -7600,6 +7632,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>60</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bee</wuid>
     <x>500</x>
     <y>485</y>
   </widget>
@@ -7651,6 +7684,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bed</wuid>
     <x>672</x>
     <y>485</y>
   </widget>
@@ -7702,6 +7736,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bec</wuid>
     <x>571</x>
     <y>485</y>
   </widget>
@@ -7733,7 +7768,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Difference</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -7742,6 +7776,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7beb</wuid>
     <x>460</x>
     <y>385</y>
   </widget>
@@ -7793,6 +7828,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bea</wuid>
     <x>672</x>
     <y>385</y>
   </widget>
@@ -7844,6 +7880,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7be9</wuid>
     <x>571</x>
     <y>385</y>
   </widget>
@@ -7875,7 +7912,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>(Fast)</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -7884,6 +7920,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>60</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7be8</wuid>
     <x>499</x>
     <y>410</y>
   </widget>
@@ -7935,6 +7972,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7be7</wuid>
     <x>671</x>
     <y>410</y>
   </widget>
@@ -7986,6 +8024,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>70</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7be6</wuid>
     <x>570</x>
     <y>410</y>
   </widget>
@@ -8017,7 +8056,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Read data</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -8026,6 +8064,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>90</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7be5</wuid>
     <x>110</x>
     <y>360</y>
   </widget>
@@ -8079,6 +8118,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>90</width>
+    <wuid>75c0effa:198a39237a0:-7be4</wuid>
     <x>205</x>
     <y>360</y>
   </widget>
@@ -8110,7 +8150,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text># Acquisitions</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -8119,6 +8158,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>140</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7be3</wuid>
     <x>60</x>
     <y>310</y>
   </widget>
@@ -8170,6 +8210,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7be2</wuid>
     <x>300</x>
     <y>310</y>
   </widget>
@@ -8200,17 +8241,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)NumAcquire</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -8220,10 +8258,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -8232,6 +8267,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>90</width>
+    <wuid>75c0effa:198a39237a0:-7be1</wuid>
     <x>205</x>
     <y>310</y>
   </widget>
@@ -8263,7 +8299,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text># Acquisitions done</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -8272,6 +8307,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>190</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7be0</wuid>
     <x>10</x>
     <y>335</y>
   </widget>
@@ -8323,6 +8359,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bdf</wuid>
     <x>205</x>
     <y>335</y>
   </widget>
@@ -8354,7 +8391,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Fast averaging time</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -8363,6 +8399,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>190</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bde</wuid>
     <x>10</x>
     <y>285</y>
   </widget>
@@ -8393,17 +8430,14 @@ $(pv_value)</tooltip>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>Text Input</name>
-    <next_focus>0</next_focus>
-    <password_input>false</password_input>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>$(P)$(R)FastAveragingTime</pv_name>
     <pv_value />
-    <read_only>false</read_only>
     <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
@@ -8413,10 +8447,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <selector_type>0</selector_type>
-    <show_h_scroll>false</show_h_scroll>
-    <show_native_border>true</show_native_border>
     <show_units>false</show_units>
-    <show_v_scroll>false</show_v_scroll>
     <style>0</style>
     <text></text>
     <tooltip>$(pv_name)
@@ -8425,6 +8456,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>90</width>
+    <wuid>75c0effa:198a39237a0:-7bdd</wuid>
     <x>205</x>
     <y>285</y>
   </widget>
@@ -8476,6 +8508,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bdc</wuid>
     <x>300</x>
     <y>285</y>
   </widget>
@@ -8507,7 +8540,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text># To average</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -8516,6 +8548,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>120</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bdb</wuid>
     <x>80</x>
     <y>385</y>
   </widget>
@@ -8567,6 +8600,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bda</wuid>
     <x>205</x>
     <y>385</y>
   </widget>
@@ -8598,7 +8632,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Geometry</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -8607,6 +8640,7 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>80</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bd9</wuid>
     <x>120</x>
     <y>185</y>
   </widget>
@@ -8658,11 +8692,11 @@ $(pv_value)</tooltip>
     <widget_type>Text Update</widget_type>
     <width>100</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bd8</wuid>
     <x>300</x>
     <y>185</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -8702,6 +8736,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>90</width>
+    <wuid>75c0effa:198a39237a0:-7bd7</wuid>
     <x>205</x>
     <y>185</y>
   </widget>
@@ -8733,7 +8768,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>false</show_scrollbar>
     <text>Fast averaging scan</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -8742,11 +8776,11 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>190</width>
     <wrap_words>false</wrap_words>
+    <wuid>75c0effa:198a39237a0:-7bd6</wuid>
     <x>10</x>
     <y>260</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false" />
     <actions_from_pv>true</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
@@ -8786,7 +8820,58 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
     <width>90</width>
+    <wuid>75c0effa:198a39237a0:-7bd5</wuid>
     <x>205</x>
     <y>260</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="200" green="200" blue="200" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>15</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>349</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+    </macros>
+    <name>Linking Container_10</name>
+    <opi_file>T4U_EM.opi</opi_file>
+    <resize_behaviour>2</resize_behaviour>
+    <rules>
+      <rule name="Visibility" prop_id="visible" out_exp="false">
+        <exp bool_exp="pv0==14">
+          <value>true</value>
+        </exp>
+        <exp bool_exp="pv0!=14">
+          <value>false</value>
+        </exp>
+        <pv trig="true">$(P)$(R)Model</pv>
+      </rule>
+    </rules>
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>348</width>
+    <wuid>75c0effa:198a39237a0:-7b24</wuid>
+    <x>10</x>
+    <y>460</y>
   </widget>
 </display>
