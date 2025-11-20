@@ -7,8 +7,8 @@ the configure/RELEASE file in each release of quadEM.
 - Added a software driver to get data into the quadEM. It is similar to the NDDriverStdArrays for areaDetector.
 - Added support for the SenSiC PCR4 picoammeter.  Thanks to Sammy Mosca from STLab for this.
 - Added support for the Sydor T4U electrometer.  There are 2 implementations for this:
-  1) T4UDirect: The quadEM driver communicates directly with the T4U.
-  2) T4U: The quadEM driver communicates with the T4U via a Sydor software library.
+  - T4UDirect: The quadEM driver communicates directly with the T4U.
+  - T4U: The quadEM driver communicates with the T4U via a Sydor software library.
 - Supported a variant of the Square geometry, where the diodes are aranged counterclockwise.
 - Converted the documentation from raw HTML to Sphinx, published at https://epics-modules.github.io/quadEM.
 - Added documentation about scanning with the TetrAMM and improved the documentation about plugins.
@@ -20,8 +20,8 @@ the configure/RELEASE file in each release of quadEM.
   - The Plugins/ menu on quadEM.adl now has the following 3 menu items:
     - QE common plugins
     - QE FFT plugins
-    - AD common plugins (this is where the ROIs, HDF5, etc. are)
-  - This provides all standard areaDetector plugins including ROIs, HDF5, etc.
+    - AD common plugins
+  - AD common plugins provides all standard areaDetector plugins including ROIs, HDF5, etc.
   - It is now possible to stream data an HDF5 file, for example.
     This can be sampling at up to 20 kHz on the TetrAMM.
 - Simplify the autosave files to reduce redundancy.
