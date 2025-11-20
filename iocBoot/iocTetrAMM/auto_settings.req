@@ -1,4 +1,1 @@
-file "quadEM_settings.req",            P=$(P), R=$(R)
-file "quadEM_Plugin_settings.req",     P=$(P), R=$(R)
-file "commonPlugin_settings.req",      P=$(P), R=$(R)
-file "NDStdArrays_settings.req",       P=$(P), R=image1:
+file "quadEM_IOC_settings.req",        P=$(P), R=$(R)

@@ -22,7 +22,7 @@ asynSetTraceMask("TCP_Command_$(PORT)", 0, 9)
 
 dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT),ADDR=0,TIMEOUT=1")
 
-< $(QUADEM)/iocBoot/commonPlugins.cmd
+< $(QUADEM)/iocBoot/quadEM_Plugins.cmd
 
 asynSetTraceIOMask("$(PORT)",0,2)
 #asynSetTraceMask("$(PORT)",  0,0x29)

@@ -5,7 +5,7 @@ epicsEnvSet("TEMPLATE",  "TetrAMM")
 epicsEnvSet("QSIZE",     "20")
 epicsEnvSet("RING_SIZE", "10000")
 epicsEnvSet("TSPOINTS",  "2048")
-epicsEnvSet("IP",        "164.54.160.165:10001")
+epicsEnvSet("IP",        "10.54.160.186:10001")
 
 #drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,
 #                        noProcessEos)
@@ -25,7 +25,7 @@ dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=IP_$(PORT),
 drvTetrAMMConfigure("$(PORT)", "IP_$(PORT)", $(RING_SIZE))
 dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT), ADDR=0, TIMEOUT=1")
 
-< $(QUADEM)/iocBoot/commonPlugins.cmd
+< $(QUADEM)/iocBoot/quadEM_Plugins.cmd
 
 asynSetTraceIOMask("$(PORT)",0,2)
 # Enable ASYN_TRACE_ERROR and ASYN_TRACE_WARNING

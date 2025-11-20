@@ -1,3 +1,2 @@
 file "NSLS2_EM_settings.req",          P=$(P), R=$(R)
-file "quadEM_settings.req",            P=$(P), R=$(R)
-file "quadEM_Plugin_settings.req",     P=$(P), R=$(R)
+file "quadEM_IOC_settings.req",        P=$(P), R=$(R)
