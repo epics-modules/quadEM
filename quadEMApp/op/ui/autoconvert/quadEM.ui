@@ -4559,16 +4559,16 @@ border-radius: 2px;
                 <enum>Menu</enum>
             </property>
             <property name="labels">
-                <string>Common plugins;FFT plugins</string>
+                <string>QE common plugins;QE FFT plugins;AD common plugins</string>
             </property>
             <property name="files">
-                <string>QECommonPlugins.ui ;QEFFTPlugins.ui </string>
+                <string>QECommonPlugins.ui ;QEFFTPlugins.ui ;commonPlugins.ui </string>
             </property>
             <property name="args">
-                <string>P=$(P),R=$(R);P=$(P),R=$(R)FFT:,RTS=$(R)TS:</string>
+                <string>P=$(P),R=$(R);P=$(P),R=$(R)FFT:,RTS=$(R)TS:;P=$(P)</string>
             </property>
             <property name="removeParent">
-                <string>false;false</string>
+                <string>false;false;false</string>
             </property>
         </widget>
         <widget class="caMessageButton" name="caMessageButton_6">
@@ -6887,46 +6887,13 @@ border-radius: 2px;
                 <enum>caInclude::Calc</enum>
             </property>
             <property name="visibilityCalc">
-                <string>A=4</string>
+                <string>A=3</string>
             </property>
             <property name="channel">
                 <string>$(P)$(R)Model</string>
             </property>
         </widget>
         <widget class="caInclude" name="caInclude_2">
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>460</y>
-                    <width>432</width>
-                    <height>127</height>
-                </rect>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>460</y>
-                    <width>430</width>
-                    <height>125</height>
-                </rect>
-            </property>
-            <property name="filename">
-                <string>APS_EM.ui</string>
-            </property>
-            <property name="macro">
-                <string></string>
-            </property>
-            <property name="visibility">
-                <enum>caInclude::Calc</enum>
-            </property>
-            <property name="visibilityCalc">
-                <string>A=1</string>
-            </property>
-            <property name="channel">
-                <string>$(P)$(R)Model</string>
-            </property>
-        </widget>
-        <widget class="caInclude" name="caInclude_3">
             <property name="geometry">
                 <rect>
                     <x>10</x>
@@ -6953,13 +6920,13 @@ border-radius: 2px;
                 <enum>caInclude::Calc</enum>
             </property>
             <property name="visibilityCalc">
-                <string>(A=2) || (A=3)</string>
+                <string>(A=1) || (A=2)</string>
             </property>
             <property name="channel">
                 <string>$(P)$(R)Model</string>
             </property>
         </widget>
-        <widget class="caInclude" name="caInclude_4">
+        <widget class="caInclude" name="caInclude_3">
             <property name="geometry">
                 <rect>
                     <x>10</x>
@@ -6986,13 +6953,13 @@ border-radius: 2px;
                 <enum>caInclude::Calc</enum>
             </property>
             <property name="visibilityCalc">
-                <string>(A=5)||(A=6)||(A=7)</string>
+                <string>(A=4)||(A=5)||(A=6)</string>
             </property>
             <property name="channel">
                 <string>$(P)$(R)Model</string>
             </property>
         </widget>
-        <widget class="caInclude" name="caInclude_5">
+        <widget class="caInclude" name="caInclude_4">
             <property name="geometry">
                 <rect>
                     <x>10</x>
@@ -7019,13 +6986,13 @@ border-radius: 2px;
                 <enum>caInclude::Calc</enum>
             </property>
             <property name="visibilityCalc">
-                <string>A=8</string>
+                <string>A=7</string>
             </property>
             <property name="channel">
                 <string>$(P)$(R)Model</string>
             </property>
         </widget>
-        <widget class="caInclude" name="caInclude_6">
+        <widget class="caInclude" name="caInclude_5">
             <property name="geometry">
                 <rect>
                     <x>10</x>
@@ -7052,13 +7019,13 @@ border-radius: 2px;
                 <enum>caInclude::Calc</enum>
             </property>
             <property name="visibilityCalc">
-                <string>A=9</string>
+                <string>A=8</string>
             </property>
             <property name="channel">
                 <string>$(P)$(R)Model</string>
             </property>
         </widget>
-        <widget class="caInclude" name="caInclude_7">
+        <widget class="caInclude" name="caInclude_6">
             <property name="geometry">
                 <rect>
                     <x>10</x>
@@ -7085,19 +7052,19 @@ border-radius: 2px;
                 <enum>caInclude::Calc</enum>
             </property>
             <property name="visibilityCalc">
-                <string>(A=10)</string>
+                <string>(A=9)</string>
             </property>
             <property name="channel">
                 <string>$(P)$(R)Model</string>
             </property>
         </widget>
-        <widget class="caInclude" name="caInclude_8">
+        <widget class="caInclude" name="caInclude_7">
             <property name="geometry">
                 <rect>
                     <x>10</x>
                     <y>460</y>
                     <width>432</width>
-                    <height>304</height>
+                    <height>192</height>
                 </rect>
             </property>
             <property name="geometry">
@@ -7105,7 +7072,7 @@ border-radius: 2px;
                     <x>10</x>
                     <y>460</y>
                     <width>430</width>
-                    <height>302</height>
+                    <height>190</height>
                 </rect>
             </property>
             <property name="filename">
@@ -7118,13 +7085,13 @@ border-radius: 2px;
                 <enum>caInclude::Calc</enum>
             </property>
             <property name="visibilityCalc">
-                <string>(A=12)</string>
+                <string>(A=11)</string>
             </property>
             <property name="channel">
                 <string>$(P)$(R)Model</string>
             </property>
         </widget>
-        <widget class="caFrame" name="caFrame_9">
+        <widget class="caFrame" name="caFrame_8">
             <property name="geometry">
                 <rect>
                     <x>30</x>
@@ -7224,7 +7191,7 @@ border-radius: 2px;
                 </property>
             </widget>
         </widget>
-        <widget class="caFrame" name="caFrame_10">
+        <widget class="caFrame" name="caFrame_9">
             <property name="geometry">
                 <rect>
                     <x>100</x>
@@ -7510,7 +7477,7 @@ border-radius: 2px;
                 <enum>caMenu::Static</enum>
             </property>
         </widget>
-        <widget class="caInclude" name="caInclude_11">
+        <widget class="caInclude" name="caInclude_10">
             <property name="geometry">
                 <rect>
                     <x>30</x>
@@ -7602,14 +7569,13 @@ border-radius: 2px;
         <zorder>caInclude_5</zorder>
         <zorder>caInclude_6</zorder>
         <zorder>caInclude_7</zorder>
-        <zorder>caInclude_8</zorder>
         <zorder>caLabel_54</zorder>
-        <zorder>caFrame_9</zorder>
+        <zorder>caFrame_8</zorder>
         <zorder>caLabel_55</zorder>
-        <zorder>caFrame_10</zorder>
+        <zorder>caFrame_9</zorder>
         <zorder>caLabel_56</zorder>
         <zorder>caLabel_57</zorder>
-        <zorder>caInclude_11</zorder>
+        <zorder>caInclude_10</zorder>
         <zorder>caLineEdit_0</zorder>
         <zorder>caChoice_0</zorder>
         <zorder>caLineEdit_1</zorder>

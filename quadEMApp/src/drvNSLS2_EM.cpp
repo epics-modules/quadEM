@@ -79,7 +79,7 @@ asynStatus drvNSLS2_EM::readMeter(int *adcbuf)
     for (i=0;i<=3;i++) {
 #ifdef SIMULATION_MODE
         getIntegerParam(i, P_DAC, &val);
-        val =  val + NOISE * ((double)rand() / (double)(RAND_MAX) -  0.5);  
+        val =  (int) (val + NOISE * ((double)rand() / (double)(RAND_MAX) -  0.5));  
 #else
         val = fpgabase_[AVG+i];  
 #endif
@@ -184,7 +184,7 @@ static void frame_done(int signum)
 drvNSLS2_EM::drvNSLS2_EM(const char *portName, int moduleID, int ringBufferSize) : drvQuadEM(portName, ringBufferSize)
 {
     int i;
-    float fsd;
+    double fsd;
 
 // Set the global pointer
     pdrvNSLS2_EM = this;      

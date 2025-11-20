@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-01-08 17:54:28 by epics-->
+<!--Saved on 2025-11-20 13:19:47 by epics-->
 <display version="2.0.0">
   <name>quadEM</name>
   <x>332</x>
@@ -2050,7 +2050,7 @@
       <action type="open_display">
         <file>QECommonPlugins.opi</file>
         <target>tab</target>
-        <description>Common plugins</description>
+        <description>QE common plugins</description>
       </action>
       <action type="open_display">
         <file>QEFFTPlugins.opi</file>
@@ -2059,7 +2059,12 @@
           <RTS>$(R)TS:</RTS>
         </macros>
         <target>tab</target>
-        <description>FFT plugins</description>
+        <description>QE FFT plugins</description>
+      </action>
+      <action type="open_display">
+        <file>commonPlugins.opi</file>
+        <target>tab</target>
+        <description>AD common plugins</description>
       </action>
     </actions>
     <text></text>
@@ -2073,7 +2078,7 @@
     </background_color>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>message button #380</name>
+    <name>message button #381</name>
     <actions>
       <action type="write_pv">
         <pv_name>$(P)$(R)Reset.PROC</pv_name>
@@ -2093,7 +2098,7 @@
     </background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #383</name>
+    <name>text #384</name>
     <text>Reset</text>
     <x>770</x>
     <y>830</y>
@@ -2105,7 +2110,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #386</name>
+    <name>related display #387</name>
     <actions>
       <action type="open_display">
         <file>asynRecord.opi</file>
@@ -2127,7 +2132,7 @@
     </background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #389</name>
+    <name>text #390</name>
     <text>Asyn record</text>
     <x>710</x>
     <y>880</y>
@@ -2139,7 +2144,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="rectangle" version="2.0.0">
-    <name>rectangle #392</name>
+    <name>rectangle #393</name>
     <x>590</x>
     <y>645</y>
     <width>150</width>
@@ -2154,7 +2159,7 @@
     </background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #395</name>
+    <name>text #396</name>
     <text>Time series</text>
     <x>610</x>
     <y>647</y>
@@ -2170,7 +2175,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #398</name>
+    <name>text #399</name>
     <text>Ring overflows</text>
     <x>425</x>
     <y>855</y>
@@ -2182,7 +2187,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #401</name>
+    <name>text update #402</name>
     <pv_name>$(P)$(R)RingOverflows</pv_name>
     <x>570</x>
     <y>855</y>
@@ -2203,7 +2208,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #405</name>
+    <name>menu #406</name>
     <pv_name>$(P)$(R)ReadStatus.SCAN</pv_name>
     <x>570</x>
     <y>880</y>
@@ -2215,7 +2220,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #408</name>
+    <name>text #409</name>
     <text>Status rate</text>
     <x>455</x>
     <y>880</y>
@@ -2227,7 +2232,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #411</name>
+    <name>text #412</name>
     <text>Pos. Offset</text>
     <x>450</x>
     <y>535</y>
@@ -2239,7 +2244,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #414</name>
+    <name>text entry #415</name>
     <pv_name>$(P)$(R)PositionOffsetY</pv_name>
     <x>667</x>
     <y>535</y>
@@ -2257,7 +2262,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #418</name>
+    <name>text entry #419</name>
     <pv_name>$(P)$(R)PositionOffsetX</pv_name>
     <x>566</x>
     <y>535</y>
@@ -2275,7 +2280,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #422</name>
+    <name>text #423</name>
     <text>(Sigma)</text>
     <x>490</x>
     <y>510</y>
@@ -2287,7 +2292,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #425</name>
+    <name>text update #426</name>
     <pv_name>$(P)$(R)PosY:Sigma_RBV</pv_name>
     <x>672</x>
     <y>510</y>
@@ -2310,7 +2315,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #429</name>
+    <name>text update #430</name>
     <pv_name>$(P)$(R)PosX:Sigma_RBV</pv_name>
     <x>571</x>
     <y>510</y>
@@ -2333,7 +2338,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #433</name>
+    <name>text #434</name>
     <text>Pos. Scale</text>
     <x>460</x>
     <y>585</y>
@@ -2344,7 +2349,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #436</name>
+    <name>text entry #437</name>
     <pv_name>$(P)$(R)PositionScaleY</pv_name>
     <x>667</x>
     <y>585</y>
@@ -2362,7 +2367,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #440</name>
+    <name>text entry #441</name>
     <pv_name>$(P)$(R)PositionScaleX</pv_name>
     <x>566</x>
     <y>585</y>
@@ -2380,7 +2385,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>message button #444</name>
+    <name>message button #445</name>
     <actions>
       <action type="write_pv">
         <pv_name>$(P)$(R)ComputePosOffsetX.PROC</pv_name>
@@ -2400,7 +2405,7 @@
     </background_color>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>message button #447</name>
+    <name>message button #448</name>
     <actions>
       <action type="write_pv">
         <pv_name>$(P)$(R)ComputePosOffsetY.PROC</pv_name>
@@ -2420,7 +2425,7 @@
     </background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #450</name>
+    <name>text #451</name>
     <text>Pos. Offset</text>
     <x>450</x>
     <y>560</y>
@@ -2432,7 +2437,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #453</name>
+    <name>text #454</name>
     <text>Precision</text>
     <x>470</x>
     <y>610</y>
@@ -2444,7 +2449,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #456</name>
+    <name>menu #457</name>
     <pv_name>$(P)$(R)PositionPrecX</pv_name>
     <x>566</x>
     <y>610</y>
@@ -2457,7 +2462,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #459</name>
+    <name>menu #460</name>
     <pv_name>$(P)$(R)PositionPrecY</pv_name>
     <x>667</x>
     <y>610</y>
@@ -2470,7 +2475,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #462</name>
+    <name>text #463</name>
     <text>(Sigma)</text>
     <x>490</x>
     <y>435</y>
@@ -2482,7 +2487,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #465</name>
+    <name>text update #466</name>
     <pv_name>$(P)$(R)DiffY:Sigma_RBV</pv_name>
     <x>672</x>
     <y>435</y>
@@ -2505,7 +2510,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #469</name>
+    <name>text update #470</name>
     <pv_name>$(P)$(R)DiffX:Sigma_RBV</pv_name>
     <x>571</x>
     <y>435</y>
@@ -2528,7 +2533,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #473</name>
+    <name>text #474</name>
     <text>Position</text>
     <x>480</x>
     <y>460</y>
@@ -2540,7 +2545,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #476</name>
+    <name>text update #477</name>
     <pv_name>$(P)$(R)PosY:MeanValue_RBV</pv_name>
     <x>672</x>
     <y>460</y>
@@ -2563,7 +2568,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #480</name>
+    <name>text update #481</name>
     <pv_name>$(P)$(R)PosX:MeanValue_RBV</pv_name>
     <x>571</x>
     <y>460</y>
@@ -2586,7 +2591,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #484</name>
+    <name>text #485</name>
     <text>(Fast)</text>
     <x>500</x>
     <y>485</y>
@@ -2598,7 +2603,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #487</name>
+    <name>text update #488</name>
     <pv_name>$(P)$(R)PositionYAve</pv_name>
     <x>672</x>
     <y>485</y>
@@ -2621,7 +2626,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #491</name>
+    <name>text update #492</name>
     <pv_name>$(P)$(R)PositionXAve</pv_name>
     <x>571</x>
     <y>485</y>
@@ -2644,7 +2649,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #495</name>
+    <name>text #496</name>
     <text>Difference</text>
     <x>460</x>
     <y>385</y>
@@ -2655,7 +2660,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #498</name>
+    <name>text update #499</name>
     <pv_name>$(P)$(R)DiffY:MeanValue_RBV</pv_name>
     <x>672</x>
     <y>385</y>
@@ -2678,7 +2683,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #502</name>
+    <name>text update #503</name>
     <pv_name>$(P)$(R)DiffX:MeanValue_RBV</pv_name>
     <x>571</x>
     <y>385</y>
@@ -2701,7 +2706,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #506</name>
+    <name>text #507</name>
     <text>(Fast)</text>
     <x>499</x>
     <y>410</y>
@@ -2713,7 +2718,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #509</name>
+    <name>text update #510</name>
     <pv_name>$(P)$(R)DiffYAve</pv_name>
     <x>671</x>
     <y>410</y>
@@ -2736,7 +2741,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #513</name>
+    <name>text update #514</name>
     <pv_name>$(P)$(R)DiffXAve</pv_name>
     <x>570</x>
     <y>410</y>
@@ -2759,7 +2764,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #517</name>
+    <name>text #518</name>
     <text>Read data</text>
     <x>110</x>
     <y>360</y>
@@ -2771,7 +2776,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>message button #520</name>
+    <name>message button #521</name>
     <actions>
       <action type="write_pv">
         <pv_name>$(P)$(R)ReadData.PROC</pv_name>
@@ -2791,7 +2796,7 @@
     </background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #523</name>
+    <name>text #524</name>
     <text># Acquisitions</text>
     <x>60</x>
     <y>310</y>
@@ -2803,7 +2808,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #526</name>
+    <name>text update #527</name>
     <pv_name>$(P)$(R)NumAcquire_RBV</pv_name>
     <x>300</x>
     <y>310</y>
@@ -2824,7 +2829,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #530</name>
+    <name>text entry #531</name>
     <pv_name>$(P)$(R)NumAcquire</pv_name>
     <x>205</x>
     <y>310</y>
@@ -2842,7 +2847,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #534</name>
+    <name>text #535</name>
     <text># Acquisitions done</text>
     <x>10</x>
     <y>335</y>
@@ -2854,7 +2859,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #537</name>
+    <name>text update #538</name>
     <pv_name>$(P)$(R)NumAcquired</pv_name>
     <x>205</x>
     <y>335</y>
@@ -2875,7 +2880,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #541</name>
+    <name>text #542</name>
     <text>Fast averaging time</text>
     <x>10</x>
     <y>285</y>
@@ -2887,7 +2892,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>text entry #544</name>
+    <name>text entry #545</name>
     <pv_name>$(P)$(R)FastAveragingTime</pv_name>
     <x>205</x>
     <y>285</y>
@@ -2905,7 +2910,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #548</name>
+    <name>text update #549</name>
     <pv_name>$(P)$(R)FastAveragingTime_RBV</pv_name>
     <x>300</x>
     <y>285</y>
@@ -2926,7 +2931,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #552</name>
+    <name>text #553</name>
     <text># To average</text>
     <x>80</x>
     <y>385</y>
@@ -2938,7 +2943,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #555</name>
+    <name>text update #556</name>
     <pv_name>$(P)$(R)NumAverage_RBV</pv_name>
     <x>205</x>
     <y>385</y>
@@ -2959,7 +2964,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #559</name>
+    <name>composite #560</name>
     <file>ADAttrFile.bob</file>
     <x>490</x>
     <y>910</y>
@@ -2967,7 +2972,7 @@
     <height>110</height>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #561</name>
+    <name>composite #562</name>
     <file>AH501.bob</file>
     <x>10</x>
     <y>460</y>
@@ -2975,7 +2980,7 @@
     <height>120</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!(pv0==4)">
+        <exp bool_exp="!(pv0==3)">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -2983,23 +2988,7 @@
     </rules>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #564</name>
-    <file>APS_EM.bob</file>
-    <x>10</x>
-    <y>460</y>
-    <width>390</width>
-    <height>120</height>
-    <rules>
-      <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!(pv0==1)">
-          <value>false</value>
-        </exp>
-        <pv_name>$(P)$(R)Model</pv_name>
-      </rule>
-    </rules>
-  </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>composite #567</name>
+    <name>composite #565</name>
     <file>AH401B.bob</file>
     <x>10</x>
     <y>460</y>
@@ -3007,7 +2996,7 @@
     <height>95</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!((pv0==2) || (pv0==3))">
+        <exp bool_exp="!((pv0==1) || (pv0==2))">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -3015,7 +3004,7 @@
     </rules>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #570</name>
+    <name>composite #568</name>
     <file>AH501C.bob</file>
     <x>10</x>
     <y>460</y>
@@ -3023,7 +3012,7 @@
     <height>145</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!((pv0==5)||(pv0==6)||(pv0==7))">
+        <exp bool_exp="!((pv0==4)||(pv0==5)||(pv0==6))">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -3031,12 +3020,28 @@
     </rules>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #573</name>
+    <name>composite #571</name>
     <file>TetrAMM.bob</file>
     <x>10</x>
     <y>460</y>
     <width>392</width>
     <height>395</height>
+    <rules>
+      <rule name="vis_calc" prop_id="visible" out_exp="false">
+        <exp bool_exp="!(pv0==7)">
+          <value>false</value>
+        </exp>
+        <pv_name>$(P)$(R)Model</pv_name>
+      </rule>
+    </rules>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>composite #574</name>
+    <file>NSLS_EM.bob</file>
+    <x>10</x>
+    <y>460</y>
+    <width>390</width>
+    <height>45</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
         <exp bool_exp="!(pv0==8)">
@@ -3047,23 +3052,7 @@
     </rules>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #576</name>
-    <file>NSLS_EM.bob</file>
-    <x>10</x>
-    <y>460</y>
-    <width>390</width>
-    <height>45</height>
-    <rules>
-      <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!(pv0==9)">
-          <value>false</value>
-        </exp>
-        <pv_name>$(P)$(R)Model</pv_name>
-      </rule>
-    </rules>
-  </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>composite #579</name>
+    <name>composite #577</name>
     <file>NSLS2_EM.bob</file>
     <x>10</x>
     <y>460</y>
@@ -3071,7 +3060,7 @@
     <height>269</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!((pv0==10))">
+        <exp bool_exp="!((pv0==9))">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -3079,15 +3068,15 @@
     </rules>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #582</name>
+    <name>composite #580</name>
     <file>PCR4.bob</file>
     <x>10</x>
     <y>460</y>
-    <width>390</width>
-    <height>269</height>
+    <width>362</width>
+    <height>172</height>
     <rules>
       <rule name="vis_calc" prop_id="visible" out_exp="false">
-        <exp bool_exp="!((pv0==12))">
+        <exp bool_exp="!((pv0==11))">
           <value>false</value>
         </exp>
         <pv_name>$(P)$(R)Model</pv_name>
@@ -3095,7 +3084,7 @@
     </rules>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>composite #585</name>
+    <name>composite #583</name>
     <x>30</x>
     <y>435</y>
     <width>275</width>
@@ -3103,7 +3092,7 @@
     <style>3</style>
     <transparent>true</transparent>
     <widget type="label" version="2.0.0">
-      <name>text #588</name>
+      <name>text #586</name>
       <text># To average fast</text>
       <width>170</width>
       <font>
@@ -3113,7 +3102,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #591</name>
+      <name>text update #589</name>
       <pv_name>$(P)$(R)NumFastAverage</pv_name>
       <x>175</x>
       <font>
@@ -3134,7 +3123,7 @@
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>composite #595</name>
+    <name>composite #593</name>
     <x>100</x>
     <y>410</y>
     <width>205</width>
@@ -3142,7 +3131,7 @@
     <style>3</style>
     <transparent>true</transparent>
     <widget type="label" version="2.0.0">
-      <name>text #598</name>
+      <name>text #596</name>
       <text># Averaged</text>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -3151,7 +3140,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #601</name>
+      <name>text update #599</name>
       <pv_name>$(P)$(R)NumAveraged_RBV</pv_name>
       <x>105</x>
       <font>
@@ -3172,7 +3161,7 @@
     </widget>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #605</name>
+    <name>text #603</name>
     <text>Geometry</text>
     <x>120</x>
     <y>185</y>
@@ -3184,7 +3173,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #608</name>
+    <name>text update #606</name>
     <pv_name>$(P)$(R)Geometry_RBV</pv_name>
     <x>300</x>
     <y>185</y>
@@ -3205,7 +3194,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #612</name>
+    <name>menu #610</name>
     <pv_name>$(P)$(R)Geometry</pv_name>
     <x>205</x>
     <y>185</y>
@@ -3218,7 +3207,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #615</name>
+    <name>text #613</name>
     <text>Fast averaging scan</text>
     <x>10</x>
     <y>260</y>
@@ -3230,7 +3219,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>menu #618</name>
+    <name>menu #616</name>
     <pv_name>$(P)$(R)FastAverageScan.SCAN</pv_name>
     <x>205</x>
     <y>260</y>
@@ -3243,7 +3232,7 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="embedded" version="2.0.0">
-    <name>composite #621</name>
+    <name>composite #619</name>
     <file>ADBuffers.bob</file>
     <x>30</x>
     <y>860</y>

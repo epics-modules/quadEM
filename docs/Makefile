@@ -1,18 +1,22 @@
-all: doxygen iocBootDocs install
+SPHINX_MULTIBUILD=sphinx-multibuild
 
-doxygen:
-	doxygen
+DOCS_PATHS += -i .
 
-iocBootDocs:
-	./makeIOCBootDocs
+BUILD = _build
+SOURCE = source
+DOCS = _docs
+#OPTS = -v -v -v
+OPTS =
 
-install:
-	cp -f *.html /home/epics/web_software/epics
-	cp -f *.png /home/epics/web_software/epics
-	cp -rf quadEMDoxygenHTML  /home/epics/web_software/epics/
+.PHONY: all
+all: sphinx
 
+
+.PHONY: all
+sphinx:
+	$(SPHINX_MULTIBUILD) -i $(SOURCE) -s $(DOCS) -o $(BUILD)/html $(OPTS) -b html
+
+.PHONY: clean
 clean:
-	rm -rf quadEMDoxygenHTML/*
-
-
-realclean: clean
+	rm -rf _docs
+	rm -rf _build

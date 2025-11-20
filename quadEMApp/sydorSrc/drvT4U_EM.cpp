@@ -473,7 +473,7 @@ asynStatus drvT4U_EM::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
 
     if ((pid_reg = findRegByAsyn(function)) != nullptr)
     {
-        int out_val = scaleParamToReg(value, pid_reg);
+        int out_val = (int) scaleParamToReg(value, pid_reg);
         epicsSnprintf(outCmdString_, sizeof(outCmdString_), "wr %i %i\n",
                       pid_reg->reg_num, out_val);
         writeReadMeter();
@@ -593,12 +593,12 @@ void drvT4U_EM::cmdReadThread(void)
     while(1)                    // The main loop of receving commands
     {
         int totalBytesRead;
-        bool commandReceived;
+        //bool commandReceived;
         unlock();
         epicsThreadSleep(0.001);
         totalBytesRead = 0;
         memset(InData, '\0', MAX_COMMAND_LEN);
-        commandReceived = false; // No proper command recieved yet
+        //commandReceived = false; // No proper command recieved yet
         uint16_t tr_len;
         uint16_t reg_num;
         uint32_t reg_val;
@@ -1199,7 +1199,7 @@ int32_t drvT4U_EM::readTextCurrVals()
     }
 
     // Convert to expected double
-    for (uint data_idx = 0; data_idx < 4; data_idx++)
+    for (unsigned int data_idx = 0; data_idx < 4; data_idx++)
     {
         readCurr_[data_idx] = read_vals[data_idx]; // We read in currents directly
     }

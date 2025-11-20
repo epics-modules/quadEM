@@ -2900,51 +2900,7 @@ endObjectProperties
 endGroup
 
 visPv "$(P)$(R)Model"
-visMin "A=4"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 460
-w 390
-h 120
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 460
-w 390
-h 120
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "APS_EM.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "APS_EM.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "A=1"
+visMin "A=3"
 visMax "1"
 endObjectProperties
 
@@ -2988,7 +2944,7 @@ endObjectProperties
 endGroup
 
 visPv "$(P)$(R)Model"
-visMin "(A=2) || (A=3)"
+visMin "(A=1) || (A=2)"
 visMax "1"
 endObjectProperties
 
@@ -3032,7 +2988,7 @@ endObjectProperties
 endGroup
 
 visPv "$(P)$(R)Model"
-visMin "(A=5)||(A=6)||(A=7)"
+visMin "(A=4)||(A=5)||(A=6)"
 visMax "1"
 endObjectProperties
 
@@ -3076,7 +3032,7 @@ endObjectProperties
 endGroup
 
 visPv "$(P)$(R)Model"
-visMin "A=8"
+visMin "A=7"
 visMax "1"
 endObjectProperties
 
@@ -3120,7 +3076,7 @@ endObjectProperties
 endGroup
 
 visPv "$(P)$(R)Model"
-visMin "A=9"
+visMin "A=8"
 visMax "1"
 endObjectProperties
 
@@ -3164,7 +3120,7 @@ endObjectProperties
 endGroup
 
 visPv "$(P)$(R)Model"
-visMin "(A=10)"
+visMin "(A=9)"
 visMax "1"
 endObjectProperties
 
@@ -3176,8 +3132,8 @@ minor 0
 release 0
 x 10
 y 460
-w 390
-h 269
+w 362
+h 172
 
 beginGroup
 
@@ -3189,8 +3145,8 @@ minor 1
 release 0
 x 10
 y 460
-w 390
-h 269
+w 362
+h 172
 fgColor rgb 0 0 0
 bgColor rgb 65280 65280 65280
 topShadowColor rgb 65280 65280 65280
@@ -3208,7 +3164,7 @@ endObjectProperties
 endGroup
 
 visPv "$(P)$(R)Model"
-visMin "(A=12)"
+visMin "(A=11)"
 visMax "1"
 endObjectProperties
 
@@ -4055,23 +4011,27 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 font "helvetica-medium-r-8.0"
 icon
-numPvs 4
-numDsps 2
+numPvs 6
+numDsps 3
 displayFileName {
   0 "QECommonPlugins.edl"
   1 "QEFFTPlugins.edl"
+  2 "commonPlugins.edl"
 }
 menuLabel {
-  0 "Common plugins"
-  1 "FFT plugins"
+  0 "QE common plugins"
+  1 "QE FFT plugins"
+  2 "AD common plugins"
 }
 symbols {
   0 "P=$(P),R=$(R)"
   1 "P=$(P),R=$(R)FFT:,RTS=$(R)TS:"
+  2 "P=$(P)"
 }
 replaceSymbols {
   0 1
   1 1
+  2 1
 }
 endObjectProperties
 

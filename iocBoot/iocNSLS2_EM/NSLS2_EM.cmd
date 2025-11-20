@@ -17,7 +17,7 @@ dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PO
 dbLoadTemplate("DACs.substitutions")
 
 # Comment out this line to suppress loading the plugins
-< $(QUADEM)/iocBoot/commonPlugins.cmd
+< $(QUADEM)/iocBoot/quadEM_Plugins.cmd
 
 < $(QUADEM)/iocBoot/saveRestore.cmd
 

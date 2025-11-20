@@ -16,7 +16,7 @@ dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=IP_$(PORT),
 drvAHxxxConfigure("$(PORT)", "IP_$(PORT)", $(RING_SIZE), $(MODEL))
 dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT), ADDR=0, TIMEOUT=1")
 
-< $(QUADEM)/iocBoot/commonPlugins.cmd
+< $(QUADEM)/iocBoot/quadEM_Plugins.cmd
 
 asynSetTraceIOMask("$(PORT)",0,6)
 #asynSetTraceMask("$(PORT)",  0,9)

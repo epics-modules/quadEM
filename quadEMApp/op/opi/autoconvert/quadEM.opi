@@ -389,7 +389,7 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0==4">
+        <exp bool_exp="pv0==3">
           <value>true</value>
         </exp>
         <exp bool_exp="!(pv0==4)">
@@ -443,6 +443,7 @@ $(pv_value)</tooltip>
           <value>true</value>
         </exp>
         <exp bool_exp="!(pv0==1)">
+        <exp bool_exp="!(pv0==3)">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -489,10 +490,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="(pv0==2) || (pv0==3)">
+        <exp bool_exp="(pv0==1) || (pv0==2)">
           <value>true</value>
         </exp>
-        <exp bool_exp="!((pv0==2) || (pv0==3))">
+        <exp bool_exp="!((pv0==1) || (pv0==2))">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -539,10 +540,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="(pv0==5)||(pv0==6)||(pv0==7)">
+        <exp bool_exp="(pv0==4)||(pv0==5)||(pv0==6)">
           <value>true</value>
         </exp>
-        <exp bool_exp="!((pv0==5)||(pv0==6)||(pv0==7))">
+        <exp bool_exp="!((pv0==4)||(pv0==5)||(pv0==6))">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -589,10 +590,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0==8">
+        <exp bool_exp="pv0==7">
           <value>true</value>
         </exp>
-        <exp bool_exp="!(pv0==8)">
+        <exp bool_exp="!(pv0==7)">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -639,10 +640,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="pv0==9">
+        <exp bool_exp="pv0==8">
           <value>true</value>
         </exp>
-        <exp bool_exp="!(pv0==9)">
+        <exp bool_exp="!(pv0==8)">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -689,10 +690,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="(pv0==10)">
+        <exp bool_exp="(pv0==9)">
           <value>true</value>
         </exp>
-        <exp bool_exp="!((pv0==10))">
+        <exp bool_exp="!((pv0==9))">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -730,7 +731,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <group_name></group_name>
-    <height>269</height>
+    <height>172</height>
     <macros>
       <include_parent_macros>true</include_parent_macros>
     </macros>
@@ -739,10 +740,10 @@ $(pv_value)</tooltip>
     <resize_behaviour>2</resize_behaviour>
     <rules>
       <rule name="Visibility" prop_id="visible" out_exp="false">
-        <exp bool_exp="(pv0==12)">
+        <exp bool_exp="(pv0==11)">
           <value>true</value>
         </exp>
-        <exp bool_exp="!((pv0==12))">
+        <exp bool_exp="!((pv0==11))">
           <value>false</value>
         </exp>
         <pv trig="true">$(P)$(R)Model</pv>
@@ -759,6 +760,7 @@ $(pv_value)</tooltip>
     <widget_type>Linking Container</widget_type>
     <width>390</width>
     <wuid>75c0effa:198a39237a0:-7c77</wuid>
+    <width>362</width>
     <x>10</x>
     <y>460</y>
   </widget>
@@ -6108,7 +6110,7 @@ $(pv_value)</tooltip>
           <include_parent_macros>true</include_parent_macros>
         </macros>
         <mode>1</mode>
-        <description>Common plugins</description>
+        <description>QE common plugins</description>
       </action>
       <action type="OPEN_DISPLAY">
         <path>QEFFTPlugins.opi</path>
@@ -6118,7 +6120,15 @@ $(pv_value)</tooltip>
           <RTS>$(R)TS:</RTS>
         </macros>
         <mode>1</mode>
-        <description>FFT plugins</description>
+        <description>QE FFT plugins</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>commonPlugins.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>1</mode>
+        <description>AD common plugins</description>
       </action>
     </actions>
     <actions_from_pv>false</actions_from_pv>

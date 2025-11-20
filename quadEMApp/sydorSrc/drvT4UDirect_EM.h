@@ -11,7 +11,7 @@
 #include <forward_list>
 #include <cstdint>
 
-#include <arpa/inet.h>
+#include <osiSock.h>
 
 #include "drvQuadEM.h"
 #include "epicsRingPointer.h"

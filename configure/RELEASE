@@ -8,16 +8,10 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # define INSTALL_LOCATION_APP here
 #INSTALL_LOCATION_APP=<fullpathname>
 
-SUPPORT=/corvette/home/epics/devel
+SUPPORT=/corvette/home/epics/support
 
 # This module
 QUADEM=$(SUPPORT)/quadEM-9-4
-
-# For IpUnidig for APS_EM
-IPAC=$(SUPPORT)/ipac-2-16
-
-# IpUnidig for APS_EM
-IPUNIDIG=$(SUPPORT)/ipUnidig-2-12
 
 # quadEM requires areaDetector, and areaDetector/configure already defines
 # ASYN, CALC, etc.

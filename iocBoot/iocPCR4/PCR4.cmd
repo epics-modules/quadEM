@@ -23,7 +23,7 @@ dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=IP_$(PORT),
 drvPCR4Configure("$(PORT)", "IP_$(PORT)", $(RING_SIZE))
 dbLoadRecords("$(QUADEM)/db/$(TEMPLATE).template", "P=$(PREFIX), R=$(RECORD), PORT=$(PORT), ADDR=0, TIMEOUT=1")
 
-< $(QUADEM)/iocBoot/commonPlugins.cmd
+< $(QUADEM)/iocBoot/quadEM_Plugins.cmd
 
 asynSetTraceIOMask("$(PORT)",0,2)
 # Enable ASYN_TRACE_ERROR and ASYN_TRACE_WARNING

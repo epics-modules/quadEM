@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM.adl"
+	name="/home/epics/support/quadEM-9-4/quadEMApp/op/adl/quadEM.adl"
 	version=030117
 }
 display {
@@ -1659,14 +1659,19 @@ text {
 		height=20
 	}
 	display[0] {
-		label="Common plugins"
+		label="QE common plugins"
 		name="QECommonPlugins.adl"
 		args="P=$(P),R=$(R)"
 	}
 	display[1] {
-		label="FFT plugins"
+		label="QE FFT plugins"
 		name="QEFFTPlugins.adl"
 		args="P=$(P),R=$(R)FFT:,RTS=$(R)TS:"
+	}
+	display[2] {
+		label="AD common plugins"
+		name="commonPlugins.adl"
+		args="P=$(P)"
 	}
 	clr=14
 	bclr=51
@@ -2434,22 +2439,7 @@ composite {
 	"composite file"="AH501.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="A=4"
-		chan="$(P)$(R)Model"
-	}
-}
-composite {
-	object {
-		x=10
-		y=460
-		width=390
-		height=120
-	}
-	"composite name"=""
-	"composite file"="APS_EM.adl"
-	"dynamic attribute" {
-		vis="calc"
-		calc="A=1"
+		calc="A=3"
 		chan="$(P)$(R)Model"
 	}
 }
@@ -2464,7 +2454,7 @@ composite {
 	"composite file"="AH401B.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="(A=2) || (A=3)"
+		calc="(A=1) || (A=2)"
 		chan="$(P)$(R)Model"
 	}
 }
@@ -2479,7 +2469,7 @@ composite {
 	"composite file"="AH501C.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="(A=5)||(A=6)||(A=7)"
+		calc="(A=4)||(A=5)||(A=6)"
 		chan="$(P)$(R)Model"
 	}
 }
@@ -2494,7 +2484,7 @@ composite {
 	"composite file"="TetrAMM.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="A=8"
+		calc="A=7"
 		chan="$(P)$(R)Model"
 	}
 }
@@ -2509,7 +2499,7 @@ composite {
 	"composite file"="NSLS_EM.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="A=9"
+		calc="A=8"
 		chan="$(P)$(R)Model"
 	}
 }
@@ -2524,7 +2514,7 @@ composite {
 	"composite file"="NSLS2_EM.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="(A=10)"
+		calc="(A=9)"
 		chan="$(P)$(R)Model"
 	}
 }
@@ -2532,14 +2522,14 @@ composite {
 	object {
 		x=10
 		y=460
-		width=390
-		height=269
+		width=362
+		height=172
 	}
 	"composite name"=""
 	"composite file"="PCR4.adl"
 	"dynamic attribute" {
 		vis="calc"
-		calc="(A=12)"
+		calc="(A=11)"
 		chan="$(P)$(R)Model"
 	}
 }
