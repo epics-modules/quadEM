@@ -3,10 +3,28 @@
 The versions of EPICS base, asyn, ADCore, and other synApps modules used for each release can be obtained from 
 the configure/RELEASE file in each release of quadEM.
 
-## Release 9-6 (January XXX, 2023)
+## Release 9-6 (November XXX, 2025)
 - Added a software driver to get data into the quadEM. It is similar to the NDDriverStdArrays for areaDetector.
 - Added support for the SenSiC PCR4 picoammeter.  Thanks to Sammy Mosca from STLab for this.
+- Added support for the Sydor T4U electrometer.  There are 2 implementations for this:
+  1) T4UDirect: The quadEM driver communicates directly with the T4U.
+  2) T4U: The quadEM driver communicates with the T4U via a Sydor software library.
 - Supported a variant of the Square geometry, where the diodes are aranged counterclockwise.
+- Converted the documentation from raw HTML to Sphinx, published at https://epics-modules.github.io/quadEM.
+- Added documentation about scanning with the TetrAMM and improved the documentation about plugins.
+- Converted the release notes from raw HTML to RELEASE.md.
+- Added a Word document of a study of noise with the TetrAMM.
+- Removed support for the APS_EM, since this is no longer available or in use.
+  Note that this changes the enum values for all models, and so the new quadEM.* OPI screens are required.
+- Load ADCore/iocBoot/commonPlugins.cmd for all example IOCs.
+  - The Plugins/ menu on quadEM.adl now has the following 3 menu items:
+    - QE common plugins
+    - QE FFT plugins
+    - AD common plugins (this is where the ROIs, HDF5, etc. are)
+  - This provides all standard areaDetector plugins including ROIs, HDF5, etc.
+  - It is now possible to stream data an HDF5 file, for example.
+    This can be sampling at up to 20 kHz on the TetrAMM.
+- Simplify the autosave files to reduce redundancy.
 
 ## Release 9-5 (December 7, 2023)
 - Moved the documentation to Github pages, https://epics-modules.github.io/quadEM.
