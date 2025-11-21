@@ -2543,7 +2543,8 @@ composite {
 	"composite name"=""
 	"composite file"="T4U.adl"
 	"dynamic attribute" {
-		calc="A=13"
+	  vis="calc"
+		calc="(A=13)"
 		chan="$(P)$(R)Model"
 	}
 }
