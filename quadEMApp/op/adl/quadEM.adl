@@ -1,7 +1,7 @@
 
 file {
-	name="/home/iainm/src/epics/synAppsofficial/git/support/quadEM/quadEMApp/op/adl/quadEM.adl"
-	version=030122
+	name="/home/epics/support/quadEM/quadEMApp/op/adl/quadEM.adl"
+	version=030117
 }
 display {
 	object {
@@ -2535,6 +2535,20 @@ composite {
 }
 composite {
 	object {
+		x=10
+		y=460
+		width=400
+		height=121
+	}
+	"composite name"=""
+	"composite file"="T4U.adl"
+	"dynamic attribute" {
+		calc="A=13"
+		chan="$(P)$(R)Model"
+	}
+}
+composite {
+	object {
 		x=30
 		y=435
 		width=275
@@ -2688,18 +2702,4 @@ composite {
 	}
 	"composite name"=""
 	"composite file"="ADBuffers.adl"
-}
-composite {
-	object {
-		x=5
-		y=463
-		width=389
-		height=157
-	}
-	"composite name"=""
-	"composite file"="T4U.adl"
-	"dynamic attribute" {
-		calc="A=13"
-		chan="$(P)$(R)Model"
-	}
 }
