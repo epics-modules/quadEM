@@ -111,18 +111,19 @@ driver by reading the firmware version. It can also be specified in the configur
 command. Values are:</p>
 <ul class="simple">
 <li><p>0: Unknown</p></li>
-<li><p>1: APS_EM</p></li>
-<li><p>2: AH401B</p></li>
-<li><p>3: AH401D</p></li>
-<li><p>4: AH501</p></li>
-<li><p>5: AH501BE</p></li>
-<li><p>6: AH501C</p></li>
-<li><p>7: AH501D</p></li>
-<li><p>8: TetrAMM</p></li>
-<li><p>9: NSLS_EM</p></li>
-<li><p>10: NSLS2_EM</p></li>
-<li><p>11: NSLS2_IC</p></li>
-<li><p>12: PCR4</p></li>
+<li><p>1: AH401B</p></li>
+<li><p>2: AH401D</p></li>
+<li><p>3: AH501</p></li>
+<li><p>4: AH501BE</p></li>
+<li><p>5: AH501C</p></li>
+<li><p>6: AH501D</p></li>
+<li><p>7: TetrAMM</p></li>
+<li><p>8: NSLS_EM</p></li>
+<li><p>9: NSLS2_EM</p></li>
+<li><p>10: NSLS2_IC</p></li>
+<li><p>11: PCR4</p></li>
+<li><p>12: SoftDevice</p></li>
+<li><p>13: T4U</p></li>
 </ul>
 </td>
 </tr>
@@ -171,7 +172,7 @@ waits for the statistics plugins to compute before it sets Acquire back to 0.</p
 <td><p>bo, bi</p></td>
 <td><p>asynInt32</p></td>
 <td><p>r/w</p></td>
-<td><p>All except APS_EM, NSLS_EM, NSLS2_EM, and PCR4</p></td>
+<td><p>All except NSLS_EM, NSLS2_EM, and PCR4</p></td>
 <td><p>Read format from the device. Values are:</p>
 <ul class="simple">
 <li><p>0: Binary</p></li>
@@ -256,31 +257,6 @@ the device. There are 8 capacitor choices in units of saturation charge:</p>
 <li><p>2.5 uA</p></li>
 <li><p>25 nA</p></li>
 </ul>
-<p>For the APS_EM this selects the feedback capacitor, which controls the gain of the
-device. There are 8 capacitor choices:</p>
-<ul class="simple">
-<li><p>External</p></li>
-<li><p>17.6 pf</p></li>
-<li><p>8.80 pF</p></li>
-<li><p>5.87 pF</p></li>
-<li><p>4.40 pF</p></li>
-<li><p>3.52 pF</p></li>
-<li><p>2.93 pF</p></li>
-<li><p>2.51 pF</p></li>
-</ul>
-<p>On the APS_EM all gains except the first External gain use capacitors that are built
-in to the Burr Brown chip. These are quite small capacitors and only cover a narrow
-range, so the gains are quite high, and only rather low currents can be measured
-with them, even at the shortest integration times. The external capacitors can be
-replaced to select the first gain, and boards are normally built with 220 pF external
-capacitors. At APS 13-ID we have used much larger values, 1000 to 5000 pF, because
-the currents from our undulator beam position monitor are large. There are actually
-8 external capacitors: 4 of them control the gain for each input for the “ping”
-channel, and the other 4 control the gain for the “pong” channel. By using one capacitor
-value for the 4 diodes on the ping channel and a different capacitor value for the
-4 diodes on the pong channel, then two user-selectable gains are available. One
-must then select the appropriate channel in the PingPong record, and not use the
-average.</p>
 </td>
 </tr>
 <tr class="row-even"><td><p>QE_PING_PONG</p></td>
@@ -288,8 +264,8 @@ average.</p>
 <td><p>mbbo, mbbi</p></td>
 <td><p>asynInt32</p></td>
 <td><p>r/w</p></td>
-<td><p>AH401 series, NSLS_EM, APS_EM</p></td>
-<td><p>The AH401 series, NSLS_EM, and the APS_EM have 2 input channels, which we call Ping
+<td><p>AH401 series, NSLS_EM</p></td>
+<td><p>The AH401 series, and the NSLS_EM have 2 input channels, which we call Ping
 and Pong here. This doubles the speed of the unit, because one channel is being
 digitized while the other is integrating. This record selects how the two channels
 are treated. <br>
@@ -302,18 +278,14 @@ On the NSLS_EM the choices are “Phase0” (0), “Phase1” (1), and “Both (
 only returns the data from the Phase0 channel, Phase1 from the Phase1 channel, and
 Both from both Phase0 and Phase1. The device can only return Phase0 and Phase1 correctly
 when ValuesPerRead=1. The driver automatically sets PingPong=Both if ValuesPerRead
-is not 1. <br>
-On the APS_EM both values are always transmitted from the device. The choices are
-#1 (Ping), #2 (Pong), and Avg. which averages the values from the Ping and Pong
-channels. Note that if Range=External and the two external capacitors are different,
-then one should not use Avg. because that will mix data from two different gains.</p></td>
+is not 1. <br></p></td>
 </tr>
 <tr class="row-odd"><td><p>QE_INTEGRATION_TIME</p></td>
 <td><p>$(P)$(R)IntegrationTime, $(P)$(R)IntegrationTime_RBV</p></td>
 <td><p>ao, ai</p></td>
 <td><p>asynFloat64</p></td>
 <td><p>r/w</p></td>
-<td><p>AH401 series, NSLS_EM, APS_EM</p></td>
+<td><p>AH401 series, NSLS_EM</p></td>
 <td><p>Selects the integration time of the amplifier. As the integration time is increased
 the sensitivity increases, but the number of readings/sec sent from the device is
 decreased. <br>
@@ -321,11 +293,7 @@ For the AH401 series values range from 0.001s to 1.000s. The data are sent after
 one integration time if PingPong=”On” or after 2 integration times if PingPong=”Off”. <br>
 For the NSLS_EM the values range from .0004s to 1.0 s. Both the Phase0 (Ping) and
 Phase1 (Pong) values are sent at after a time period equal to IntegrationTime *
-ValuesPerRead. <br>
-For the APS_EM the values range from .000615s to 0.1311s. The data are sent to the
-VME card from the amplifier after 2 integration times, one value in the Ping channel
-and one value in the Pong channel. The data period is thus 0.00123 to 0.02622 s,
-or a frequency range of about 813 Hz to 38.1 Hz.</p></td>
+ValuesPerRead. <br></p></td>
 </tr>
 <tr class="row-even"><td><p>QE_NUM_CHANNELS</p></td>
 <td><p>$(P)$(R)NumChannels, $(P)$(R)NumChannels_RBV</p></td>
@@ -485,7 +453,7 @@ initial averaging operation has already been performed, which reduces the standa
 by the following parameters:</p>
 <ul class="simple">
 <li><p>ValuesPerRead: All models</p></li>
-<li><p>IntegrationTime: AH401 series, NSLS_EM, and APS_EM</p></li>
+<li><p>IntegrationTime: AH401 series, NSLS_EM</p></li>
 <li><p>PingPong: AH401 series and NSLS_EM</p></li>
 <li><p>NumChannels: AH501 series</p></li>
 <li><p>Resolution: AH501 series</p></li>
@@ -520,11 +488,7 @@ The sample time on the NSLS_EM is controlled by the following algorithm:</p>
 The minimum sample time is 0.00041 seconds, or 2.5 kHz sampling frequency. The maximum
 sampling time (PingPong!=Both) is 2 seconds, or 0.5 Hz sampling frequency. Setting
 ValuesPerRead &amp;gt; 1 will increase the sample time and reduce the sampling frequency
-proportionally. <br>
-For the APS_EM the sample time is controlled only by ValuesPerRead and the IntegrationTime.
-For ValuesPerRead=1 it ranges from 0.00123 to 0.02622 s, or a sampling frequency
-range of about 813 Hz to 38.1 Hz. Setting ValuesPerRead &amp;gt; 1 will increase the
-sample time and reduce the sampling frequency proportionally.</p>
+proportionally. <br></p>
 </td>
 </tr>
 <tr class="row-odd"><td><p>QE_AVERAGING_TIME</p></td>
@@ -688,9 +652,7 @@ time will be AveragingTime * 2.5</p></li>
 <td><p>asynInt32</p></td>
 <td><p>r/w</p></td>
 <td><p>All</p></td>
-<td><p>Reset command. Processing this record will reset the electrometer. On the APS_EM
-this operation takes about 1 second, and may be required to establish communication
-if the amplifier unit is power-cycled or disconnected and reconnected. On the TetrAMM
+<td><p>Reset command. Processing this record will reset the electrometer. On the TetrAMM
 this does a hardware reset of the device, which takes about 10 seconds. On all models
 this operation downloads all of the EPICS settings to the electrometer. The Reset
 reord must be processed if any electrometer is power-cycled without rebooting the

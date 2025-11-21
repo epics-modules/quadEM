@@ -53,7 +53,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#ah401-and-ah501-series-setup">AH401 and AH501 Series Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#nsls-em-setup">NSLS_EM Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#nsls2-em-setup">NSLS2_EM Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#aps-electrometer-setup">APS Electrometer Setup</a></li>
 </ul>
 </li>
 </ul>
@@ -129,18 +128,6 @@ is connected to, and the Module ID of the device.</p>
 Zynq processor.</p>
 <p>An example startup script is provided in <a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocNSLS2_EM/NSLS2_EM.cmd">NSLS2_EM.cmd</a>.</p>
 <p>This will need to be edited to set the Module ID of the device.</p>
-</section>
-<section id="aps-electrometer-setup">
-<h2>APS Electrometer Setup<a class="headerlink" href="#aps-electrometer-setup" title="Link to this heading"></a></h2>
-<p>The APS_EM VME card cannot generate interrupts, but it can output a TTL pulse each
-time new data is available, at up to 815 Hz. If this pulse is input to an Ip-Unidig
-(or other asyn digital I/O device with interrupt and callback capabilities), then
-the ipUnidig interrupt routine will call the APS_EM driver each time new data is
-available. The Ip-Unidig channel where the APS_EM pulse is connected is specified
-in the unidigChan argument to drvAPS_EMConfigure command in the startup script.
-If an Ip-Unidig or other interrupt source is not being used then the APS_EM driver
-will poll for new data at the system clock rate, typically 60Hz.</p>
-<p>An example startup script is provided in <a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAPS_EM/APS_EM.cmd">APS_EM.cmd</a> and <a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAPS_EM/st.cmd.vxWorks">st.cmd.vxWorks</a>.</p>
 </section>
 </section>
 

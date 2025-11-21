@@ -1,7 +1,7 @@
 .. _quadEM:             https://github.com/epics-modules/quadEM
 .. _CAENels:            http://www.caenels.com/products
 .. _Elettra:            http://www.elettra.eu/technology/industry/elettra-for-industry.html
-.. _Sydor:              http://sydortechnologies.com/files/Data-Sheet-SI-EP-B4.pdf
+.. _Sydor:              https://sydortechnologies.com/x-ray-beam-monitors/sydor-t4u-readout-electrometer
 .. _SenSiC:             https://www.sensic.ch/products/electronic-readout
 .. _ADCore:             https://github.com/areaDetector/ADCore
 .. _std:                https://github.com/epics-modules/std
@@ -38,18 +38,15 @@ for several models:
   the NSLS_EM which is based on a current integration chip and is limited to currents
   less than about 1 micro-amp. This unit is packaged with a Zynq processing and run
   this EPICS IOC software internally.
-- The Quad Electrometer built by Steve Ross from the APS (called APS_EM in this
-  document). This device consists of a 4-channel digital electrometer unit and 2 VME
-  boards. The device provides 2 readings per diode at up to 813 Hz. This device appears
-  to no longer be in use on any APS beamlines, so the support is now deprecated and
-  will be removed in a future release.
 - The PCR4 picoammeter from SenSiC_.
   This device communicates using TCP/IP over 1 Gbit/s Ethernet.
   It provides 4-channel current measurements at up to 53,000 Hz.
+- The T4U electrometer from Sydor_.
+  It provides 4-channel current measurements at up to 2,500Hz.
   
-The AH401 series, NSLS_EM, and APS_EM are based on the same principle of an op-amp
+The AH401 series, NSLS_EM are based on the same principle of an op-amp
 run as a current amplifier with a large feedback capacitor, and a high resolution
-ADC. The AH501 series, TetrAMM, and NSLS2_EM are based on a transimpedance input
+ADC. The AH501 series, TetrAMM, NSLS2_EM, PCR4, and T4U are based on a transimpedance input
 stage for current sensing, combined with analog signal conditioning and filtering
 stages. The AH501C, AH501D, and TetrAMM have an integrated programmable bias supply.
   
@@ -77,42 +74,29 @@ The quadEM_ software includes asyn drivers that provide support for the followin
   device. This is likely to overwhelm the EPICS IOC if the electrometer is run at
   very fast sampling times.
 - Streaming data to disk at the full rate from the device. This is done using the
-  file plugins from areaDetector.
+  file plugins from ADCore_.
 - Time series data (like a digital scope) of the current, sum, difference and position
   at speeds up to 20000 Hz (TetrAMM), 6510 Hz (AH501 series), 1000 Hz (AH401 series)
-  2500 Hz (NSLS_EM), or 813 Hz (APS_EM). The data is available in standard EPICS waveform
-  records, using the NDPluginTimeSeries_ plugin ADCore_. The time per point can be greater, in which case it does
-  averaging.
+  2500 Hz (NSLS_EM, T4U). The data is available in standard EPICS waveform
+  records, using the NDPluginTimeSeries_ plugin from ADCore_. 
+  The time per point can be greater, in which case it does averaging.
 - FFTs of the time series data, providing the power spectrum of each signal as another
   EPICS waveform record. This uses the NDPluginFFT_ plugin from ADCore_.
-- epid record support.
-  
-  - This can provide "fast feedback" via an asyn D/A converter (e.g. dac128V), also
-    at speeds up to 20000 Hz, 6510 Hz, 1000Hz, 2500 Hz, or 813Hz. If it is run slower
-    it does signal averaging. This support is provided in the synApps 
-    std_ module. The quadEM drivers do the callbacks on the asynFloat64 interface
-    required to use the epid fast feedback device support. This fast feedback is limited
-    to controlling devices in the same IOC as the quadEM driver, because it uses asyn
-    links.
-  - The epid record can also be used in "slow feedback" mode using the averaging provided
-    by the primary averaging or fast averaging records described above. In this mode
-    it can use Channel Access links, and so it not constrained to controlling devices
-    in the same IOC.
   
 The following manuals provide detailed information on these devices:
   
-- :download:`APS Electrometer Users Guide <Electrometer_Users_Guide_01_22_2007.pdf>`
 - :download:`AH401B Users Manual <AH401B_UsersManual_V1.0.pdf>`
 - :download:`AH401D Users Manual <AH401D_UsersManual_V1.2.pdf>`
 - :download:`AH501C Users Manual <AH501C_UsersManual_V1.0.pdf>`
 - :download:`AH501D Users Manual <AH501D_UsersManual_V1.3.pdf>`
 - :download:`TetrAMM Users Manual <TetrAMM_UsersManual_V1.5.pdf>`
+- :download:`T4U Operators Manual <T4U_OperatorsManual_RevF.pdf>`
   
   
 The support is based on asynNDArrayDriver_ from ADCore_, which in turn is based on asynPortDriver_. 
 It consists of a base class drvQuadEM, which is device-independent. 
-There are device-dependent classes for the TetrAMM, AH401 and AH501 series, NSLS electrometer, 
-NSLS2 electrometer, and the APS electrometer.
+There are device-dependent classes for the TetrAMM, AH401 and AH501 series, NSLS, 
+NSLS2, PCR4, T4U, and softQuad electrometers.
 
 The quadEM driver works as follows:
 
@@ -136,22 +120,23 @@ The quadEM driver works as follows:
   which is used to generate time-series arrays. 
 - The time-series plugin output is used by the NDPluginFFT plugin to compute FFTs,
   producing arrays containing the frequency power-spectrum of the time series data.
-- An NDStdArrays plugin is also loaded. This can be used to pass all of the data
-  [11,NumAverage_RBV] or any of the individual data arrays to any channel access client.
+- The commonPlugins.cmd from ADCore is also loaded, which provides ROIs, file plugins
+  and many others.  The ROI plugin can be used, for example, to extract just the 4
+  currents from the [11, NumAverage_RBV] array and pass the [4, NumAverage_RBV] NDArrays
+  to the HDF5 file writer.
+- The NDPluginStdArrays, and NDPluginPVA plugin to pass all the data [11,NumAverage_RBV]
+  or any of the individual data arrays to any channel access or pvAccess client.
 - The computationally intensive work of calculating the statistics is done in plugins,
   so can be done in different threads (if CallbacksBlock is set to No), each potentially
   running in a separate core on modern CPUs.
 - In addition to placing the data from each time point into the ring buffer, the
   driver does callbacks on the asynFloat64 interface for each data value. This is
-  used for two things:
-  
-  - Fast feedback support with the epid record.
-  - Fast averaging support with ai records. These records can be processed periodically
-    with SCAN=1 second, 0.1 second, etc., or they can have SCAN=I/O Intr. In this case
-    the ai record device support sums the callback readings until NumAverage readings
-    have been received, at which point the average is computed and the record is processed.
-    The quadEM database computes NumAverage from the FastAveragingTime record and writes
-    NumAverage to the .SVAL field in each ai record.
+  used for fast averaging support with ai records. These records can be processed periodically
+  with SCAN=1 second, 0.1 second, etc., or they can have SCAN=I/O Intr. In this case
+  the ai record device support sums the callback readings until NumAverage readings
+  have been received, at which point the average is computed and the record is processed.
+  he quadEM database computes NumAverage from the FastAveragingTime record and writes
+  NumAverage to the .SVAL field in each ai record.
 
 Note: This version of the driver requires a minimum firmware version on some models
 
@@ -159,7 +144,7 @@ Note: This version of the driver requires a minimum firmware version on some mod
 - TetrAMM Firmware version 2.9.11
   
 
-Prior to R5-0 the quadEM driver assumed the following geometry for the 4 current::
+Prior to R5-0 the quadEM driver assumed the following geometry for the 4 currents::
 
              4
              

@@ -5,8 +5,9 @@
 .. _AHxxx.cmd:            https://github.com/epics-modules/quadEM/tree/master/iocBoot/AHxxx.cmd
 .. _NSLS_EM.cmd:          https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocNSLS_EM/NSLS_EM.cmd
 .. _NSLS2_EM.cmd:         https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocNSLS2_EM/NSLS2_EM.cmd
-.. _APS_EM.cmd:           https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAPS_EM/APS_EM.cmd
-.. _st.cmd.vxWorks:       https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAPS_EM/st.cmd.vxWorks
+.. _PCR4.cmd:             https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocPCR4/PCR4.cmd
+.. _T4U.cmd:              https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocT4U_EM/T4U_EM.cmd
+.. _T4U_Direct_EM:        https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocT4UDirect_EM/T4UDirect_EM.cmd
 
 
 Setup
@@ -76,17 +77,3 @@ Zynq processor.
 An example startup script is provided in NSLS2_EM.cmd_.
   
 This will need to be edited to set the Module ID of the device.
-
-APS Electrometer Setup
-~~~~~~~~~~~~~~~~~~~~~~
-  
-The APS_EM VME card cannot generate interrupts, but it can output a TTL pulse each
-time new data is available, at up to 815 Hz. If this pulse is input to an Ip-Unidig
-(or other asyn digital I/O device with interrupt and callback capabilities), then
-the ipUnidig interrupt routine will call the APS_EM driver each time new data is
-available. The Ip-Unidig channel where the APS_EM pulse is connected is specified
-in the unidigChan argument to drvAPS_EMConfigure command in the startup script.
-If an Ip-Unidig or other interrupt source is not being used then the APS_EM driver
-will poll for new data at the system clock rate, typically 60Hz.
-  
-An example startup script is provided in APS_EM.cmd_ and st.cmd.vxWorks_.
