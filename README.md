@@ -30,6 +30,8 @@ for several models:
   * The PCR4 picoammeter from [SenSiC](https://www.sensic.ch/products/electronic-readout).
     This device communicates using TCP/IP over 1 Gbit/s Ethernet.
     It provides 4-channel current measurements at up to 53,000 Hz.
+  * The T4U Electrometer from [Sydor Technologies](https://sydortechnologies.com/x-ray-beam-monitors/sydor-t4u-readout-electrometer/).
+    This device provides 4-channel current measurement at up to 10 kHz.
 
 
 Additional information:
