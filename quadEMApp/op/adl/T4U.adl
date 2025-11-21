@@ -1,14 +1,14 @@
 
 file {
-	name="/home/iainm/src/epics/synAppsofficial/git/support/quadEM/quadEMApp/op/adl/T4U.adl"
-	version=030122
+	name="/home/epics/support/quadEM-9-4/quadEMApp/op/adl/T4U.adl"
+	version=030117
 }
 display {
 	object {
-		x=580
-		y=292
-		width=400
-		height=400
+		x=2402
+		y=334
+		width=430
+		height=130
 	}
 	clr=14
 	bclr=4
@@ -87,212 +87,234 @@ display {
 		1a7309,
 	}
 }
-text {
-	object {
-		x=15
-		y=17
-		width=129
-		height=23
-	}
-	"basic attribute" {
-		clr=14
-	}
-	"dynamic attribute" {
-		chan="Sampling Frequency"
-	}
-	textix="Sampling Frequency"
-}
 "text entry" {
 	object {
-		x=144
-		y=13
-		width=122
-		height=27
+		x=210
+		y=0
+		width=88
+		height=20
 	}
 	control {
 		chan="$(P)$(R)SampleFreq"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	limits {
 	}
-}
-"text update" {
-	object {
-		x=273
-		y=14
-		width=113
-		height=25
-	}
-	monitor {
-		chan="$(P)$(R)SampleFreq_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=11
-		y=64
-		width=121
-		height=17
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="GPI2 Function"
 }
 menu {
 	object {
-		x=139
-		y=60
-		width=124
-		height=19
+		x=210
+		y=25
+		width=89
+		height=20
 	}
 	control {
 		chan="$(P)$(R)WaitStateMode"
 		clr=14
-		bclr=4
+		bclr=51
 	}
-}
-"text update" {
-	object {
-		x=274
-		y=60
-		width=111
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)WaitStateMode_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=6
-		y=91
-		width=130
-		height=24
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Pulse Bias Enable"
 }
 menu {
 	object {
-		x=140
-		y=85
-		width=124
-		height=23
+		x=210
+		y=50
+		width=89
+		height=20
 	}
 	control {
 		chan="$(P)$(R)PulseBiasEn"
 		clr=14
-		bclr=4
+		bclr=51
 	}
-}
-"text update" {
-	object {
-		x=274
-		y=85
-		width=119
-		height=22
-	}
-	monitor {
-		chan="$(P)$(R)PulseBiasEn_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=5
-		y=114
-		width=126
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Pulse Bias On Count"
 }
 "text entry" {
 	object {
-		x=139
-		y=114
-		width=125
-		height=22
+		x=210
+		y=75
+		width=90
+		height=20
 	}
 	control {
 		chan="$(P)$(R)PulseBiasOnCnt"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	limits {
 	}
-}
-"text update" {
-	object {
-		x=273
-		y=115
-		width=114
-		height=26
-	}
-	monitor {
-		chan="$(P)$(R)PulseBiasOnCnt_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=4
-		y=147
-		width=131
-		height=22
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Pulse Bias Off Count"
 }
 "text entry" {
 	object {
-		x=140
-		y=144
-		width=123
-		height=25
+		x=210
+		y=100
+		width=89
+		height=20
 	}
 	control {
 		chan="$(P)$(R)PulseBiasOffCnt"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	limits {
 	}
 }
-"text update" {
+composite {
 	object {
-		x=272
-		y=145
-		width=115
-		height=25
+		x=305
+		y=1
+		width=100
+		height=120
 	}
-	monitor {
-		chan="$(P)$(R)PulseBiasOffCnt_RBV"
-		clr=54
-		bclr=4
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=305
+				y=1
+				width=95
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SampleFreq_RBV"
+				clr=54
+				bclr=4
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=305
+				y=26
+				width=93
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WaitStateMode_RBV"
+				clr=54
+				bclr=4
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=305
+				y=51
+				width=100
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PulseBiasEn_RBV"
+				clr=54
+				bclr=4
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=305
+				y=76
+				width=96
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PulseBiasOnCnt_RBV"
+				clr=54
+				bclr=4
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=305
+				y=101
+				width=97
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PulseBiasOffCnt_RBV"
+				clr=54
+				bclr=4
+			}
+			limits {
+			}
+		}
 	}
-	limits {
+}
+composite {
+	object {
+		x=5
+		y=0
+		width=200
+		height=120
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=25
+				y=0
+				width=180
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			"dynamic attribute" {
+				chan="Sampling Frequency"
+			}
+			textix="Sampling Frequency"
+		}
+		text {
+			object {
+				x=75
+				y=25
+				width=130
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="GPI2 Function"
+		}
+		text {
+			object {
+				x=35
+				y=50
+				width=170
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Pulse Bias Enable"
+		}
+		text {
+			object {
+				x=15
+				y=75
+				width=190
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Pulse Bias On Count"
+		}
+		text {
+			object {
+				x=5
+				y=100
+				width=200
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Pulse Bias Off Count"
+		}
 	}
 }
