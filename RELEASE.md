@@ -8,7 +8,7 @@ the configure/RELEASE file in each release of quadEM.
 - Added support for the SenSiC PCR4 picoammeter.  Thanks to Sammy Mosca from STLab for this.
 - Added support for the Sydor T4U electrometer.  There are 2 implementations for this:
   - T4UDirect: The quadEM driver communicates directly with the T4U.
-  - T4U: The quadEM driver communicates with the T4U via a Sydor software library.
+  - T4U: The quadEM driver communicates with the T4U via a Sydor program.
 - Supported a variant of the Square geometry, where the diodes are aranged counterclockwise.
 - Converted the documentation from raw HTML to Sphinx, published at https://epics-modules.github.io/quadEM.
 - Added documentation about scanning with the TetrAMM and improved the documentation about plugins.
