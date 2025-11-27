@@ -54,12 +54,16 @@ The setpoint is 0 in this case, which is the desired beam position.
 .. figure:: mono_pitch_feedback.png
     :align: center
 
+|
+
 This is the medm screen for the PID parameters in the epid record.
 These are adjusted to tune the feedback for the desired response and stability.
 The units of the integral (I) term are approximately Hz.
 
 .. figure:: mono_pitch_feedback_parameters.png
     :align: center
+
+|
 
 This is the medm screen that plots the setpoint and readback of the feedback loop
 as a function of time.

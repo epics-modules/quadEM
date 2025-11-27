@@ -13,11 +13,7 @@
 Setup
 -----
   
-.. |br| raw:: html
-
-    <br>
-
-All of the device-dependent startup scripts invoke quadEM_Plugins.cmd_.
+All the device-dependent startup scripts invoke quadEM_Plugins.cmd_.
 That file loads ADCore/iocBoot/commonPlugins.cmd, and then loads
 additional plugins that are configured specifically for quadEM.
   

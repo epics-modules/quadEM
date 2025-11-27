@@ -18,6 +18,8 @@ AveragingTime is set to 0.1 seconds, so NumAverage_RBV is 2000.
 .. figure:: HDF5_stream.png
     :align: center
 
+|
+
 The Array address in the plugin is set to 11, so it is receiving all 11 data items.  
 FileWriteMode is set to Stream, so it will stream the NDArrays to the HDF5 file
 as they arrive.  NumCapture is set to 200, so it will collect 200 arrays, each with 
@@ -96,13 +98,14 @@ select all elements in the second dimension, even if NumAverage_RBV changes.
 .. figure:: ROI_stream.png
     :align: center
 
+|
+
 The HDF5 plugin is changed to have its array port be ROI1, and the array address to be 0.
 Note that the NDArrays being received are now [4, 2000].
 
 .. figure:: HDF5_stream_ROI.png
     :align: center
 
-The HDF5 plugin is changed to have its array port be ROI1, and the array address to be 0.
 The filename is changed to quadEM_HDF5_ROI_001.h5.  The resulting file size is 13 MB.
 
 

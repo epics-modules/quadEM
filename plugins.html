@@ -199,18 +199,20 @@ the FFTs to improve the signal/noise ratio.</p></td>
 <p>Note that the first time the IOC is started all of the plugins will have EnableCallbacks=Disable.
 It is necessary to enable each of the plugins that will be used.
 The value of EnableCallbacks is saved by autosave, and will be restored the next time the IOC is started.</p>
-<blockquote>
-<div><p>This is the medm screen for all of the plugins defined in quadEM_Plugins.cmd.</p>
-</div></blockquote>
-<figure class="align-center" id="id1">
+<p>This is the medm screen for all of the plugins defined in quadEM_Plugins.cmd.</p>
+<figure class="align-center">
 <img alt="_images/QECommonPlugins.png" src="_images/QECommonPlugins.png" />
-<figcaption>
-<p><span class="caption-text">This is the medm screen for the Current1: NDPluginStats plugin loaded by commonPlugins.cmd.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
-</figcaption>
 </figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>This is the medm screen for the Current1: NDPluginStats plugin loaded by commonPlugins.cmd.</p>
 <figure class="align-center">
 <img alt="_images/QENDStats.png" src="_images/QENDStats.png" />
 </figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>This is the medm screen to control the NDPluginTimeSeries plugin. In this example
 the time per point from the TetrAMM is 50 microseconds, and averaging time for the
 time series plugin is 1 millisecond, or 20 points. The plugin has 2000 time points,
@@ -218,25 +220,40 @@ and is operating in circular buffer mode.</p>
 <figure class="align-center">
 <img alt="_images/quadEM_TimeSeries.png" src="_images/quadEM_TimeSeries.png" />
 </figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>This is a plot of the time series for Current 1. It shows the last 2 seconds of
 data in circular buffer mode.</p>
 <figure class="align-center">
 <img alt="_images/quadEM_TimeSeriesPlot.png" src="_images/quadEM_TimeSeriesPlot.png" />
 </figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>This is a plot of the time series for the horizontal currents, sum, and position.
 It shows the last 2 seconds of data in circular buffer mode.</p>
 <figure class="align-center">
 <img alt="_images/quadEM_HorizontalTimeSeriesPlot.png" src="_images/quadEM_HorizontalTimeSeriesPlot.png" />
 </figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>This is a plot of the FFT for Current 1. DC offset suppression is enabled and 10
 FFTs are being averaged to improve the signal/noise ratio.</p>
 <figure class="align-center">
 <img alt="_images/quadEM_NDFFTFreqSpectrumPlot.png" src="_images/quadEM_NDFFTFreqSpectrumPlot.png" />
 </figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>This is an medm screen for control of all 11 FFT plugins.</p>
 <figure class="align-center">
 <img alt="_images/QEFFTPlugins.png" src="_images/QEFFTPlugins.png" />
 </figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>This is an medm screen that displays the FFTs of the Current, Sum, and Position
 for the time-series data above. 100 FFTs are being averaged to improve the signal/noise
 ratio.</p>
