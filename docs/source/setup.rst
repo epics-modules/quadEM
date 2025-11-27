@@ -1,4 +1,4 @@
-.. _commonPlugins.cmd:    https://github.com/epics-modules/quadEM/tree/master/iocBoot/commonPlugins.cmd
+.. _quadEM_Plugins.cmd:   https://github.com/epics-modules/quadEM/tree/master/iocBoot/quadEM_Plugins.cmd
 .. _TetrAMM.cmd:          https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocTetrAMM/TetrAMM.cmd
 .. _AH401B.cmd:           https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAH401B/AH401B.cmd
 .. _AH501.cmd:            https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocAH501/AH501.cmd
@@ -17,12 +17,11 @@ Setup
 
     <br>
 
-All of the device-dependent startup scripts invoke commonPlugins.cmd_.
-This file can be edited to add additional
-plugins, such as the TIFF, HDF5, or Nexus file writers, etc.
+All of the device-dependent startup scripts invoke quadEM_Plugins.cmd_.
+That file loads ADCore/iocBoot/commonPlugins.cmd, and then loads
+additional plugins that are configured specifically for quadEM.
   
-Each iocBoot/iocXXX directory, e.g. iocBoot/iocTetrAMM, contains an example startup
-script for Linux and Windows (st.cmd) and another for vxWorks (st.cmd.vxWorks).
+Each iocBoot/iocXXX directory, e.g. iocBoot/iocTetrAMM, contains an example st.cmd startup script.
 Each of these startup scripts invokes the device-dependent startup script(s), e.g.
 TetrAMM.cmd, NSLS_EM.cmd, etc.
   
