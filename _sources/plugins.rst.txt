@@ -17,7 +17,7 @@ The array datatypes are all epicsFloat64.
 The plugins register for callbacks on a specific address which determines which data item
 they are passed.
 
-The following table lists the addresses used for each data time.
+The following table lists the addresses used for each data item.
 
 .. cssclass:: table-bordered table-striped table-hover
 .. list-table::
