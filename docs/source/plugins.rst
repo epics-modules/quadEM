@@ -107,15 +107,19 @@ Note that the first time the IOC is started all of the plugins will have EnableC
 It is necessary to enable each of the plugins that will be used.
 The value of EnableCallbacks is saved by autosave, and will be restored the next time the IOC is started.
   
-    This is the medm screen for all of the plugins defined in quadEM_Plugins.cmd.
+This is the medm screen for all of the plugins defined in quadEM_Plugins.cmd.
 
 .. figure:: QECommonPlugins.png
     :align: center
 
-    This is the medm screen for the Current1: NDPluginStats plugin loaded by commonPlugins.cmd.
+|
+
+This is the medm screen for the Current1: NDPluginStats plugin loaded by commonPlugins.cmd.
 
 .. figure:: QENDStats.png
     :align: center
+
+|
 
 This is the medm screen to control the NDPluginTimeSeries plugin. In this example
 the time per point from the TetrAMM is 50 microseconds, and averaging time for the
@@ -125,11 +129,15 @@ and is operating in circular buffer mode.
 .. figure:: quadEM_TimeSeries.png
     :align: center
 
+|
+
 This is a plot of the time series for Current 1. It shows the last 2 seconds of
 data in circular buffer mode.
 
 .. figure:: quadEM_TimeSeriesPlot.png
     :align: center
+
+|
 
 This is a plot of the time series for the horizontal currents, sum, and position.
 It shows the last 2 seconds of data in circular buffer mode.
@@ -137,17 +145,22 @@ It shows the last 2 seconds of data in circular buffer mode.
 .. figure:: quadEM_HorizontalTimeSeriesPlot.png
     :align: center
 
+|
+
 This is a plot of the FFT for Current 1. DC offset suppression is enabled and 10
 FFTs are being averaged to improve the signal/noise ratio.
 
 .. figure:: quadEM_NDFFTFreqSpectrumPlot.png
     :align: center
 
+|
+
 This is an medm screen for control of all 11 FFT plugins.
 
 .. figure:: QEFFTPlugins.png
     :align: center
 
+|
 
 This is an medm screen that displays the FFTs of the Current, Sum, and Position
 for the time-series data above. 100 FFTs are being averaged to improve the signal/noise

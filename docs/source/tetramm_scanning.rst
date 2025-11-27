@@ -37,6 +37,8 @@ This is a plot of Current1 after the scan.
 .. figure:: sscan_tetramm_free_run_plot.png
     :align: center
 
+|
+
 Step scan with TetrAMM in single acquire mode
 .............................................
 This scan type uses a step-scan for the positioner and runs the TetrAMM in single cycle mode.
@@ -64,6 +66,8 @@ This is a plot of Current1 after the scan.
 
 .. figure:: sscan_tetramm_triggered_plot.png
     :align: center
+
+|
 
 Fly scan with TetrAMM in free-run mode
 .............................................
@@ -104,6 +108,8 @@ This is a plot of Current1 after the scan.
 
 .. figure:: sscan_tetramm_fly_free_run_plot.png
     :align: center
+
+|
 
 Triggered scan using TetrAMM time series plugin
 ...............................................
