@@ -46,12 +46,14 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Databases</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#quadem-template">quadEM.template</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#fast-pid-control-db">fast_pid_control.db</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM Acquisition Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="streaming.html">Streaming data to disk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
 </ul>
@@ -820,56 +822,6 @@ an ADC offset calibration that is independent of the Range of the device.</p></t
 <img alt="_images/quadEM.png" src="_images/quadEM.png" />
 </figure>
 </section>
-<section id="fast-pid-control-db">
-<h2>fast_pid_control.db<a class="headerlink" href="#fast-pid-control-db" title="Link to this heading"></a></h2>
-<p>The quadEM can be used to do fast feedback with the EPID record from the synApps
-“std” module. The EPID record will process at up to the SampleTime discussed above.
-The DT field of the EPID record controls the time between feedback calculations,
-and this is constrained to be an integer multiple N of the quadEM SampleTime. If
-N&gt;1 then N samples are averaged for each feedback operation.</p>
-<p>This is the medm screen that controls the fast feedback of the pitch of the monochromator
-on APS beamline 13-ID. The readback and control PVs cannot be changed after iocInit.
-The update rate (SCAN rate of EPID record) only controls the rate at which the EPID
-record displays “snapshots” of the values of the input, output, and error. It does
-not affect the rate at which the feedback is actually being done, which is controlled
-by the DT field in the EPID record, can be much faster than the SCAN value.</p>
-<figure class="align-center">
-<img alt="_images/quadEM_pid_control.png" src="_images/quadEM_pid_control.png" />
-</figure>
-<p>This is the medm screen that controls the PID parameters. These include the feedback
-coefficients KP, KI, and KD. The DT (delta time) field controls the rate at which
-the feedback is actually been run. In this case DT=68.0 ms, which is 55 times longer
-than the sampling time (1.23 ms), so 55 position readings are being averaged each
-time the feedback is run.</p>
-<figure class="align-center">
-<img alt="_images/quadEM_pid_parameters.png" src="_images/quadEM_pid_parameters.png" />
-</figure>
-<p>This is an medm screen that displays the setpoint of the pitch of the monochromator
-(in red), and the actual readback from the quadEM (in blue). Note that the readback
-here is only the snapshot values from the EPID record. For full-speed readings of
-the readback the waveform records from the quadEM_TimeSeries.template database would
-be used.</p>
-<figure class="align-center">
-<img alt="_images/quadEM_pid_plot_readback.png" src="_images/quadEM_pid_plot_readback.png" />
-</figure>
-<p>This is pid_fast.template, an example substitutions file. This example uses a quadEM
-asyn port driver named “APS_EM”. ICHAN is set to read from addr=9 and 10, which
-are the two position values of the quadEM driver. The INPUT_DATA and INPUT_INTERVAL
-strings are the drvInfo strings for these parameters in the driver. The output is
-sent to an asyn port driver named DAC1, which is a dac128V 12-bit A/D converter
-in this data. OCHAN is set to write to addr=1 and 2, which are the second and third
-DAC channels on that card. The OUTPUT_DATA string is the drvInfo string for the
-double precision data in the dac128V.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">file</span> <span class="s2">&quot;$(STD)/stdApp/Db/fast_pid_control.db&quot;</span>
-<span class="p">{</span>
-<span class="n">pattern</span>
-<span class="p">{</span><span class="n">P</span><span class="p">,</span>                 <span class="n">PID</span><span class="p">,</span>  <span class="n">INPUT</span><span class="p">,</span>     <span class="n">INPUT_DATA</span><span class="p">,</span>   <span class="n">INPUT_INTERVAL</span><span class="p">,</span> <span class="n">ICHAN</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="n">OCHAN</span><span class="p">,</span>  <span class="n">OUTPUT_DATA</span><span class="p">,</span>    <span class="n">LOPR</span><span class="p">,</span>     <span class="n">HOPR</span><span class="p">,</span>  <span class="n">DRVL</span><span class="p">,</span>  <span class="n">DRVH</span><span class="p">,</span>  <span class="n">PREC</span><span class="p">,</span>   <span class="n">KP</span><span class="p">,</span>    <span class="n">KI</span><span class="p">,</span>  <span class="n">KD</span><span class="p">,</span>   <span class="n">DT</span><span class="p">,</span>        <span class="n">SCAN</span><span class="p">}</span>
-<span class="p">{</span><span class="n">quadEMTest</span><span class="p">:,</span> <span class="n">MonoPitch</span><span class="p">,</span> <span class="n">APS_EM</span><span class="p">,</span> <span class="n">QE_DOUBLE_DATA</span><span class="p">,</span>   <span class="n">QE_SAMPLE_TIME</span><span class="p">,</span>     <span class="mi">9</span><span class="p">,</span>   <span class="n">DAC1</span><span class="p">,</span>     <span class="mi">1</span><span class="p">,</span>  <span class="n">DOUBLE_DATA</span><span class="p">,</span>  <span class="o">-</span><span class="mi">32767</span><span class="p">,</span>    <span class="mi">32767</span><span class="p">,</span>     <span class="mi">0</span><span class="p">,</span>  <span class="mi">4095</span><span class="p">,</span>     <span class="mi">3</span><span class="p">,</span>  <span class="mf">.02</span><span class="p">,</span>  <span class="mf">100.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span> <span class="mf">.001</span><span class="p">,</span> <span class="s2">&quot;.1 second&quot;</span><span class="p">}</span>
-<span class="p">{</span><span class="n">quadEMTest</span><span class="p">:,</span>  <span class="n">MonoRoll</span><span class="p">,</span> <span class="n">APS_EM</span><span class="p">,</span> <span class="n">QE_DOUBLE_DATA</span><span class="p">,</span>   <span class="n">QE_SAMPLE_TIME</span><span class="p">,</span>    <span class="mi">10</span><span class="p">,</span>   <span class="n">DAC1</span><span class="p">,</span>     <span class="mi">2</span><span class="p">,</span>  <span class="n">DOUBLE_DATA</span><span class="p">,</span>  <span class="o">-</span><span class="mi">32767</span><span class="p">,</span>    <span class="mi">32767</span><span class="p">,</span>     <span class="mi">0</span><span class="p">,</span>  <span class="mi">4095</span><span class="p">,</span>     <span class="mi">3</span><span class="p">,</span>  <span class="mf">.02</span><span class="p">,</span>  <span class="mf">100.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span> <span class="mf">.001</span><span class="p">,</span> <span class="s2">&quot;.1 second&quot;</span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</section>
 </section>
 
 
@@ -884,7 +836,7 @@ double precision data in the dac128V.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2025-November-21.
+      <span class="lastupdated">Last updated on 2025-November-27.
       </span></p>
   </div>
 

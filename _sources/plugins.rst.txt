@@ -1,10 +1,61 @@
 Plugins
-~~~~~~~
-  
-The example IOCs provided with quadEM load a file called commonPlugins.cmd, which
-loads the following set of plugins from the areaDetector module. For more information
-see the documentation in the links in the table below. Other plugins can also be
-loaded, for example the TIFF, HDF5 or Nexus file writing plugins, etc.
+-------
+
+The data from the device-dependent drivers are first placed into a ring buffer
+whose size is defined in the constructor and configuration function. 
+
+The AveragingTime PV determines the time period over which to average the
+readings. The AveragingTime divided by the SampleTime determines the number of samples
+to average, NumAverage_RBV. When this number of samples have been accumulated in
+the ring buffer a separate thread copies them to 12 separate NDArrays and calls any
+registered plugins using the asyn addresses 0-11.
+
+The NDArray dimensions are [NumAverage_RBV] for all addresses except address 11.
+For address 11 the dimensions are [11, NumAverage_RBV], because it contains all data items.
+The array datatypes are all epicsFloat64.
+
+The plugins register for callbacks on a specific address which determines which data item
+they are passed.
+
+The following table lists the addresses used for each data time.
+
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
+
+  * - Address
+    - Description   
+  * - 0
+    - Current 1
+  * - 1
+    - Current 2
+  * - 2
+    - Current 3
+  * - 3
+    - Current 4
+  * - 4
+    - SumX
+  * - 5
+    - SumY
+  * - 6
+    - SumAll
+  * - 7
+    - DiffX
+  * - 8
+    - DiffY
+  * - 9
+    - PositionX
+  * - 10
+    - PositionY
+  * - 11
+    - All above data in an array [11, NumAverage_RBV]
+
+The example IOCs provided with quadEM load the file iocBoot/quadEM_Plugins.cmd.
+This file first loads ADCore/iocBoot/commonPlugins.cmd, the same plugins that
+are loaded for all areaDetector drivers.  This includes PVA, ROIs, HDF5, TIFF, etc.
+It then loads an additional set of plugins from ADCore configured specifically
+for the quadEM application. 
 
 .. cssclass:: table-bordered table-striped table-hover
 .. list-table::
@@ -35,17 +86,6 @@ loaded, for example the TIFF, HDF5 or Nexus file writing plugins, etc.
     - Statistics for the positions. The average value is $(P)$(R)Pos[X,Y]:MeanValue_RBV.
       Many other statistics are available, including the minimum, maximum, standard deviation,
       and histogram of values.
-  * - NDPluginStdArrays
-    - $(P)$(R)image1:
-    - Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and puts
-      this data into an EPICS waveform record. This can be used to provide access to all
-      of the data from quadEM to any Channel Access client.
-  * - NDFileNetCDF
-    - $(P)$(R)netCDF1:
-    - Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and writes
-      this data into a netCDF file. This can be done in Single mode, writing one array
-      per file. o It can also be done in Stream mode, which continuously appends arrays
-      to a single netCDF file.
   * - NDPluginTimeSeries
     - $(P)$(R)TS:
     - Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and forms
@@ -64,13 +104,10 @@ loaded, for example the TIFF, HDF5 or Nexus file writing plugins, etc.
       the FFTs to improve the signal/noise ratio.
 
 Note that the first time the IOC is started all of the plugins will have EnableCallbacks=Disable.
-It is necessary to enable each of the plugins that will be used. The plugins will
-also initially start with CallbacksBlock=No. Setting CallbacksBlock=Yes can reduce
-CPU load on slow processors like the MVME2100 (see the performance tables below).
-The values of EnableCallbacks and CallbacksBlock are saved by autosave, and will
-be restored the next time the IOC is started.
+It is necessary to enable each of the plugins that will be used.
+The value of EnableCallbacks is saved by autosave, and will be restored the next time the IOC is started.
   
-    This is the medm screen for all of the plugins defined in commonPlugins.cmd.
+    This is the medm screen for all of the plugins defined in quadEM_Plugins.cmd.
 
 .. figure:: QECommonPlugins.png
     :align: center
@@ -78,11 +115,6 @@ be restored the next time the IOC is started.
     This is the medm screen for the Current1: NDPluginStats plugin loaded by commonPlugins.cmd.
 
 .. figure:: QENDStats.png
-    :align: center
-
-This is the medm screen for the netCDF1: NDFileNetCDF plugin loaded by commonPlugins.cmd.
-
-.. figure:: QENetCDF.png
     :align: center
 
 This is the medm screen to control the NDPluginTimeSeries plugin. In this example

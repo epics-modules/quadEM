@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="TetrAMM Acquisition Modes" href="tetramm_modes.html" />
+    <link rel="next" title="Averaging" href="averaging.html" />
     <link rel="prev" title="Databases" href="databases.html" /> 
 </head>
 
@@ -46,8 +46,11 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM Acquisition Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="streaming.html">Streaming data to disk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
 </ul>
@@ -78,10 +81,69 @@
              
   <section id="plugins">
 <h1>Plugins<a class="headerlink" href="#plugins" title="Link to this heading"></a></h1>
-<p>The example IOCs provided with quadEM load a file called commonPlugins.cmd, which
-loads the following set of plugins from the areaDetector module. For more information
-see the documentation in the links in the table below. Other plugins can also be
-loaded, for example the TIFF, HDF5 or Nexus file writing plugins, etc.</p>
+<p>The data from the device-dependent drivers are first placed into a ring buffer
+whose size is defined in the constructor and configuration function.</p>
+<p>The AveragingTime PV determines the time period over which to average the
+readings. The AveragingTime divided by the SampleTime determines the number of samples
+to average, NumAverage_RBV. When this number of samples have been accumulated in
+the ring buffer a separate thread copies them to 12 separate NDArrays and calls any
+registered plugins using the asyn addresses 0-11.</p>
+<p>The NDArray dimensions are [NumAverage_RBV] for all addresses except address 11.
+For address 11 the dimensions are [11, NumAverage_RBV], because it contains all data items.
+The array datatypes are all epicsFloat64.</p>
+<p>The plugins register for callbacks on a specific address which determines which data item
+they are passed.</p>
+<p>The following table lists the addresses used for each data time.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Address</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>Current 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Current 2</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Current 3</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Current 4</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>SumX</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>SumY</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>SumAll</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>DiffX</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>DiffY</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>PositionX</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>PositionY</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>All above data in an array [11, NumAverage_RBV]</p></td>
+</tr>
+</tbody>
+</table>
+<p>The example IOCs provided with quadEM load the file iocBoot/quadEM_Plugins.cmd.
+This file first loads ADCore/iocBoot/commonPlugins.cmd, the same plugins that
+are loaded for all areaDetector drivers.  This includes PVA, ROIs, HDF5, TIFF, etc.
+It then loads an additional set of plugins from ADCore configured specifically
+for the quadEM application.</p>
 <table class="table-bordered table-striped table-hover docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Plugin type</p></th>
@@ -114,19 +176,6 @@ and histogram of values.</p></td>
 Many other statistics are available, including the minimum, maximum, standard deviation,
 and histogram of values.</p></td>
 </tr>
-<tr class="row-even"><td><p>NDPluginStdArrays</p></td>
-<td><p>$(P)$(R)image1:</p></td>
-<td><p>Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and puts
-this data into an EPICS waveform record. This can be used to provide access to all
-of the data from quadEM to any Channel Access client.</p></td>
-</tr>
-<tr class="row-odd"><td><p>NDFileNetCDF</p></td>
-<td><p>$(P)$(R)netCDF1:</p></td>
-<td><p>Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and writes
-this data into a netCDF file. This can be done in Single mode, writing one array
-per file. o It can also be done in Stream mode, which continuously appends arrays
-to a single netCDF file.</p></td>
-</tr>
 <tr class="row-even"><td><p>NDPluginTimeSeries</p></td>
 <td><p>$(P)$(R)TS:</p></td>
 <td><p>Plugin that receives NDArray callbacks of dimension [11,NumAveraged_RBV] and forms
@@ -148,13 +197,10 @@ the FFTs to improve the signal/noise ratio.</p></td>
 </tbody>
 </table>
 <p>Note that the first time the IOC is started all of the plugins will have EnableCallbacks=Disable.
-It is necessary to enable each of the plugins that will be used. The plugins will
-also initially start with CallbacksBlock=No. Setting CallbacksBlock=Yes can reduce
-CPU load on slow processors like the MVME2100 (see the performance tables below).
-The values of EnableCallbacks and CallbacksBlock are saved by autosave, and will
-be restored the next time the IOC is started.</p>
+It is necessary to enable each of the plugins that will be used.
+The value of EnableCallbacks is saved by autosave, and will be restored the next time the IOC is started.</p>
 <blockquote>
-<div><p>This is the medm screen for all of the plugins defined in commonPlugins.cmd.</p>
+<div><p>This is the medm screen for all of the plugins defined in quadEM_Plugins.cmd.</p>
 </div></blockquote>
 <figure class="align-center" id="id1">
 <img alt="_images/QECommonPlugins.png" src="_images/QECommonPlugins.png" />
@@ -164,10 +210,6 @@ be restored the next time the IOC is started.</p>
 </figure>
 <figure class="align-center">
 <img alt="_images/QENDStats.png" src="_images/QENDStats.png" />
-</figure>
-<p>This is the medm screen for the netCDF1: NDFileNetCDF plugin loaded by commonPlugins.cmd.</p>
-<figure class="align-center">
-<img alt="_images/QENetCDF.png" src="_images/QENetCDF.png" />
 </figure>
 <p>This is the medm screen to control the NDPluginTimeSeries plugin. In this example
 the time per point from the TetrAMM is 50 microseconds, and averaging time for the
@@ -208,14 +250,14 @@ ratio.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="databases.html" class="btn btn-neutral float-left" title="Databases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="tetramm_modes.html" class="btn btn-neutral float-right" title="TetrAMM Acquisition Modes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="averaging.html" class="btn btn-neutral float-right" title="Averaging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2025-November-21.
+      <span class="lastupdated">Last updated on 2025-November-27.
       </span></p>
   </div>
 

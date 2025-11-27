@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>quadEM &mdash; EPICS support for quad electrometers/picoammeters</title>
+  <title>Averaging &mdash; EPICS support for quad electrometers/picoammeters</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/my_theme.css?v=254ed751" />
 
@@ -19,7 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview" href="overview.html" /> 
+    <link rel="next" title="TetrAMM Acquisition Modes" href="tetramm_modes.html" />
+    <link rel="prev" title="Plugins" href="plugins.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -30,7 +31,7 @@
 
           
           
-          <a href="#" class="icon icon-home">
+          <a href="index.html" class="icon icon-home">
             quadEM
           </a>
 <div role="search">
@@ -41,11 +42,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
-<li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Averaging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM Acquisition Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
@@ -60,17 +61,17 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">quadEM</a>
+          <a href="index.html">quadEM</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">quadEM</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Averaging</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/averaging.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -78,56 +79,56 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="quadem">
-<h1>quadEM<a class="headerlink" href="#quadem" title="Link to this heading"></a></h1>
-<dl class="field-list simple">
-<dt class="field-odd">author<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Mark Rivers, University of Chicago</p>
-</dd>
-</dl>
-<section id="table-of-contents">
-<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="databases.html#quadem-template">quadEM.template</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
-<li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM Acquisition Modes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tetramm_scanning.html#step-scan-with-tetramm-in-free-run-mode">Step scan with TetrAMM in free-run mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tetramm_scanning.html#step-scan-with-tetramm-in-single-acquire-mode">Step scan with TetrAMM in single acquire mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tetramm_scanning.html#fly-scan-with-tetramm-in-free-run-mode">Fly scan with TetrAMM in free-run mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tetramm_scanning.html#triggered-scan-using-tetramm-time-series-plugin">Triggered scan using TetrAMM time series plugin</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
-<li class="toctree-l1"><a class="reference internal" href="streaming.html">Streaming data to disk</a></li>
-<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="performance.html#ah401b">AH401B</a></li>
-<li class="toctree-l2"><a class="reference internal" href="performance.html#tetramm">TetrAMM</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#tetramm-setup">TetrAMM Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#ah401-and-ah501-series-setup">AH401 and AH501 Series Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#nsls-em-setup">NSLS_EM Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#nsls2-em-setup">NSLS2_EM Setup</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
+  <section id="averaging">
+<h1>Averaging<a class="headerlink" href="#averaging" title="Link to this heading"></a></h1>
+<p>The signals from the quadEM devices are averaged at a number of places in the
+device and processing pipeline.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Record</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Averaging in the device.  This is device-dependent.</p></td>
+<td><p>ValuesPerRead is used on the TetrAMM.  The TetrAMM sampling frequency
+is 100 kHz and the minimum value of ValuesPerRead is 5, resulting in
+a maximum sampling rate of 20 kHz at the quadEM driver.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Primary averaging in quadEM driver.  The NDPlugStats plugins are
+used to average the signals for this averaging, providing
+additional statistics such as sigma, skewness, and kurtosis.</p></td>
+<td><p>AveragingTime</p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary averaging in quadEM driver.  The asynFloat64Average
+device support is used to do this.  It provides only the mean.
+This can be used for feedback, for example, and can operate
+at a different averaging time than the primary averaging which
+might be used for data collection.</p></td>
+<td><p>FastAveragingTime</p></td>
+</tr>
+<tr class="row-odd"><td><p>Averaging in the time-series plugin.  The time-series plugin
+is passed data at the rate at which it arrives from the device.
+It can do averaging on the time-series data.  This can be used
+to improve the signal/noise at the expense of bandwidth upstream
+of the FFT plugin.</p></td>
+<td><p>TS:TSAveragingTime</p></td>
+</tr>
+<tr class="row-even"><td><p>Averaging in the FFT plugin.  The FFT plugin receives data each
+time the time-series plugin receives the requested number of samples.
+The resulting FFTs can be averaged to improve their signal to noise.</p></td>
+<td><p>FFT:[signal]:FFTNumAverage</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="plugins.html" class="btn btn-neutral float-left" title="Plugins" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tetramm_modes.html" class="btn btn-neutral float-right" title="TetrAMM Acquisition Modes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

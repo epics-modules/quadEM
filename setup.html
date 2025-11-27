@@ -45,8 +45,11 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM Acquisition Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="streaming.html">Streaming data to disk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Setup</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#tetramm-setup">TetrAMM Setup</a></li>
@@ -83,11 +86,10 @@
              
   <section id="setup">
 <h1>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h1>
-<p>All of the device-dependent startup scripts invoke <a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/commonPlugins.cmd">commonPlugins.cmd</a>.
-This file can be edited to add additional
-plugins, such as the TIFF, HDF5, or Nexus file writers, etc.</p>
-<p>Each iocBoot/iocXXX directory, e.g. iocBoot/iocTetrAMM, contains an example startup
-script for Linux and Windows (st.cmd) and another for vxWorks (st.cmd.vxWorks).
+<p>All of the device-dependent startup scripts invoke <a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/quadEM_Plugins.cmd">quadEM_Plugins.cmd</a>.
+That file loads ADCore/iocBoot/commonPlugins.cmd, and then loads
+additional plugins that are configured specifically for quadEM.</p>
+<p>Each iocBoot/iocXXX directory, e.g. iocBoot/iocTetrAMM, contains an example st.cmd startup script.
 Each of these startup scripts invokes the device-dependent startup script(s), e.g.
 TetrAMM.cmd, NSLS_EM.cmd, etc.</p>
 <section id="tetramm-setup">
@@ -142,7 +144,7 @@ Zynq processor.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2025-November-21.
+      <span class="lastupdated">Last updated on 2025-November-27.
       </span></p>
   </div>
 

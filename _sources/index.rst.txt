@@ -12,7 +12,10 @@ Table of Contents
   overview
   databases
   plugins
+  averaging
   tetramm_modes
   tetramm_scanning
+  feedback
+  streaming
   performance
   setup
