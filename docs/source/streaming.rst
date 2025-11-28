@@ -108,7 +108,69 @@ Note that the NDArrays being received are now [4, 2000].
 
 The filename is changed to quadEM_HDF5_ROI_001.h5.  The resulting file size is 13 MB.
 
+The following is an IDL program to process the data in quadEM_HDF5_001.h5.
+The program does the following:
 
+- Reads the dataset /entry/data/data into a variable called `data`.
+- Displays information about 'data'.
+- Reformats 'data' from a 3-D array with dimensions [11, 2000, 200] to a 2-D array with dimensions [11, 400000].
+- Extracts the SumAll data into a variable called 'sum_all', which the 6'th column of 'data'.
+- Compute a 'time' array variable which is the time of each sample.  It is 400000 points with 50 microseconds per point.
+- Plots the first 0.5 seconds (1000 points) of 'sum_all' vs 'time'.
+- Computes the absolute value of the FFT of the 'sum_all' variable, which is the power spectrum.
+- Sets the first element (0 frequency, i.e. DC offset) to 0.
+- Computes the frequency acis, which is 200000 points going from 0 to the Nyquist freqency of 10 kHz.
+- Plots the power spectrum vs frequency.  Plots only the first 20000 points, which is 0 to 1 kHz, on a vertical log scale.
 
+This is the IDL code:
 
+.. code-block:: idl
 
+  ; Program to read HDF5 file for streamed quadEM data, plot it
+  data = h5_getdata('J:\epics\scratch\quadEM_HDF5_001.h5', '/entry/data/data')
+  help, data
+  ; Convert from a 3-D array [11, 2000, 200] to a 2-D array [11, 400000]
+  data = reform(data, 11, 400000)
+  ; Extract the SumAll data
+  sum_all = data[6, *]
+  ; Compute the time axis, 50 microseconds/sample
+  time = findgen(400000) * 50e-6
+  ; Plot the first 0.5 second of data
+  p1 = plot(time[0:9999], sum_all[0:9999], xtitle='Time (s)', ytitle='Sum of all diodes (nA)', $
+            title='Time Series', color='blue')
+  p1.save, 'IDL_HDF5_time_plot.png'
+  ; Compute the FFT
+  f = fft(sum_all)
+  ; Take the absolute value, first half of array
+  f_abs = (abs(f))[0:199999]
+  ; Set the DC offset to 0
+  f_abs[0] = 0
+  ; Compute the frequency axis. The sampling rate is 20 kHz so the Nyquist frequency is 10 kHz
+  freq = findgen(200000)/199999. * 10000.
+  ; Plot the data out to 1 kHz
+  p2 = plot(freq[0:19999], f_abs[0:199999], xtitle='Frequency (Hz)', ytitle='SumAll Intensity', $
+            title='Power Spectrum', color='red', /ylog, yrange=[.01,100])
+  p2.save, 'IDL_HDF5_frequency_plot.png'
+  end
+
+This is the output when the program is compiled and run:
+
+.. code-block:: idl
+
+  IDL> .compile -v 'C:\Scratch\plot_quadem.pro'
+  IDL> .go
+  DATA            DOUBLE    = Array[11, 2000, 200]
+
+This is the time-series plot.  The data are highly periodic because the photodiodes were illuminated 
+by fluorescent lights.
+
+.. figure:: IDL_HDF5_time_plot.png
+    :align: center
+
+|
+
+This is the frequency plot.  The frequency peaks are almost exclusively 60 Hz and its odd and even harmonics.
+The odd harmonics are ~10-100 times less than 60Hz, and the even harmonics are ~100-1000 times less than 60 Hz.
+
+.. figure:: IDL_HDF5_frequency_plot.png
+    :align: center
