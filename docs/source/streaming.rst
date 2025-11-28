@@ -111,13 +111,13 @@ The filename is changed to quadEM_HDF5_ROI_001.h5.  The resulting file size is 1
 The following is an IDL program to process the data in quadEM_HDF5_001.h5.
 The program does the following:
 
-- Reads the dataset /entry/data/data into a variable called `data`.
-- Displays information about 'data'.
-- Reformats 'data' from a 3-D array with dimensions [11, 2000, 200] to a 2-D array with dimensions [11, 400000].
-- Extracts the SumAll data into a variable called 'sum_all', which the 6'th column of 'data'.
-- Compute a 'time' array variable which is the time of each sample.  It is 400000 points with 50 microseconds per point.
-- Plots the first 0.5 seconds (1000 points) of 'sum_all' vs 'time'.
-- Computes the absolute value of the FFT of the 'sum_all' variable, which is the power spectrum.
+- Reads the dataset /entry/data/data into a variable called ``data``.
+- Displays information about ``data``.
+- Reformats ``data`` from a 3-D array with dimensions [11, 2000, 200] to a 2-D array with dimensions [11, 400000].
+- Extracts the SumAll data into a variable called ``sum_all``, which the 6'th column of ``data``.
+- Compute a ``time`` array variable which is the time of each sample.  It is 400000 points with 50 microseconds per point.
+- Plots the first 0.5 seconds (1000 points) of ``sum_all`` vs ``time``.
+- Computes the absolute value of the FFT of the ``sum_all`` variable, which is the power spectrum.
 - Sets the first element (0 frequency, i.e. DC offset) to 0.
 - Computes the frequency acis, which is 200000 points going from 0 to the Nyquist freqency of 10 kHz.
 - Plots the power spectrum vs frequency.  Plots only the first 20000 points, which is 0 to 1 kHz, on a vertical log scale.
