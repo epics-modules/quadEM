@@ -181,13 +181,13 @@ Note that the NDArrays being received are now [4, 2000].</p>
 <p>The following is an IDL program to process the data in quadEM_HDF5_001.h5.
 The program does the following:</p>
 <ul class="simple">
-<li><p>Reads the dataset /entry/data/data into a variable called <cite>data</cite>.</p></li>
-<li><p>Displays information about ‘data’.</p></li>
-<li><p>Reformats ‘data’ from a 3-D array with dimensions [11, 2000, 200] to a 2-D array with dimensions [11, 400000].</p></li>
-<li><p>Extracts the SumAll data into a variable called ‘sum_all’, which the 6’th column of ‘data’.</p></li>
-<li><p>Compute a ‘time’ array variable which is the time of each sample.  It is 400000 points with 50 microseconds per point.</p></li>
-<li><p>Plots the first 0.5 seconds (1000 points) of ‘sum_all’ vs ‘time’.</p></li>
-<li><p>Computes the absolute value of the FFT of the ‘sum_all’ variable, which is the power spectrum.</p></li>
+<li><p>Reads the dataset /entry/data/data into a variable called <code class="docutils literal notranslate"><span class="pre">data</span></code>.</p></li>
+<li><p>Displays information about <code class="docutils literal notranslate"><span class="pre">data</span></code>.</p></li>
+<li><p>Reformats <code class="docutils literal notranslate"><span class="pre">data</span></code> from a 3-D array with dimensions [11, 2000, 200] to a 2-D array with dimensions [11, 400000].</p></li>
+<li><p>Extracts the SumAll data into a variable called <code class="docutils literal notranslate"><span class="pre">sum_all</span></code>, which the 6’th column of <code class="docutils literal notranslate"><span class="pre">data</span></code>.</p></li>
+<li><p>Compute a <code class="docutils literal notranslate"><span class="pre">time</span></code> array variable which is the time of each sample.  It is 400000 points with 50 microseconds per point.</p></li>
+<li><p>Plots the first 0.5 seconds (1000 points) of <code class="docutils literal notranslate"><span class="pre">sum_all</span></code> vs <code class="docutils literal notranslate"><span class="pre">time</span></code>.</p></li>
+<li><p>Computes the absolute value of the FFT of the <code class="docutils literal notranslate"><span class="pre">sum_all</span></code> variable, which is the power spectrum.</p></li>
 <li><p>Sets the first element (0 frequency, i.e. DC offset) to 0.</p></li>
 <li><p>Computes the frequency acis, which is 200000 points going from 0 to the Nyquist freqency of 10 kHz.</p></li>
 <li><p>Plots the power spectrum vs frequency.  Plots only the first 20000 points, which is 0 to 1 kHz, on a vertical log scale.</p></li>
