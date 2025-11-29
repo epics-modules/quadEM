@@ -169,8 +169,8 @@ by fluorescent lights.
 
 |
 
-This is the frequency plot.  The frequency peaks are almost exclusively 60 Hz and its odd and even harmonics.
-The odd harmonics are ~10-100 times less than 60Hz, and the even harmonics are ~100-1000 times less than 60 Hz.
+This is the frequency plot.  The peaks are almost exclusively 60 Hz and its odd and even harmonics.
+The odd harmonics are ~10-100 times less than 60 Hz, and the even harmonics are ~100-1000 times less than 60 Hz.
 
 .. figure:: IDL_HDF5_frequency_plot.png
     :align: center
