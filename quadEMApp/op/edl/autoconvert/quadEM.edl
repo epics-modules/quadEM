@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 332
-y 33
+x 574
+y 60
 w 915
 h 1025
 font "helvetica-medium-r-18.0"
@@ -3165,6 +3165,50 @@ endGroup
 
 visPv "$(P)$(R)Model"
 visMin "(A=11)"
+visMax "1"
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 460
+w 400
+h 121
+
+beginGroup
+
+# (Embedded Window)
+object activePipClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 460
+w 400
+h 121
+fgColor rgb 0 0 0
+bgColor rgb 65280 65280 65280
+topShadowColor rgb 65280 65280 65280
+botShadowColor rgb 0 0 0
+displaySource "file"
+file "T4U.edl"
+sizeOfs 5
+numDsps 1
+displayFileName {
+  0 "T4U.edl"
+}
+noScroll
+endObjectProperties
+
+endGroup
+
+visPv "$(P)$(R)Model"
+visMin "(A=13)"
 visMax "1"
 endObjectProperties
 

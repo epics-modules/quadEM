@@ -4,8 +4,8 @@
 <widget class="QMainWindow" name="MainWindow">
     <property name="geometry">
         <rect>
-            <x>332</x>
-            <y>33</y>
+            <x>574</x>
+            <y>60</y>
             <width>915</width>
             <height>1025</height>
         </rect>
@@ -7091,7 +7091,40 @@ border-radius: 2px;
                 <string>$(P)$(R)Model</string>
             </property>
         </widget>
-        <widget class="caFrame" name="caFrame_8">
+        <widget class="caInclude" name="caInclude_8">
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>460</y>
+                    <width>432</width>
+                    <height>132</height>
+                </rect>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>460</y>
+                    <width>430</width>
+                    <height>130</height>
+                </rect>
+            </property>
+            <property name="filename">
+                <string>T4U.ui</string>
+            </property>
+            <property name="macro">
+                <string></string>
+            </property>
+            <property name="visibility">
+                <enum>caInclude::Calc</enum>
+            </property>
+            <property name="visibilityCalc">
+                <string>(A=13)</string>
+            </property>
+            <property name="channel">
+                <string>$(P)$(R)Model</string>
+            </property>
+        </widget>
+        <widget class="caFrame" name="caFrame_9">
             <property name="geometry">
                 <rect>
                     <x>30</x>
@@ -7191,7 +7224,7 @@ border-radius: 2px;
                 </property>
             </widget>
         </widget>
-        <widget class="caFrame" name="caFrame_9">
+        <widget class="caFrame" name="caFrame_10">
             <property name="geometry">
                 <rect>
                     <x>100</x>
@@ -7477,7 +7510,7 @@ border-radius: 2px;
                 <enum>caMenu::Static</enum>
             </property>
         </widget>
-        <widget class="caInclude" name="caInclude_10">
+        <widget class="caInclude" name="caInclude_11">
             <property name="geometry">
                 <rect>
                     <x>30</x>
@@ -7569,13 +7602,14 @@ border-radius: 2px;
         <zorder>caInclude_5</zorder>
         <zorder>caInclude_6</zorder>
         <zorder>caInclude_7</zorder>
+        <zorder>caInclude_8</zorder>
         <zorder>caLabel_54</zorder>
-        <zorder>caFrame_8</zorder>
-        <zorder>caLabel_55</zorder>
         <zorder>caFrame_9</zorder>
+        <zorder>caLabel_55</zorder>
+        <zorder>caFrame_10</zorder>
         <zorder>caLabel_56</zorder>
         <zorder>caLabel_57</zorder>
-        <zorder>caInclude_10</zorder>
+        <zorder>caInclude_11</zorder>
         <zorder>caLineEdit_0</zorder>
         <zorder>caChoice_0</zorder>
         <zorder>caLineEdit_1</zorder>
