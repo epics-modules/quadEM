@@ -12,7 +12,7 @@ Callbacks on address 11 contain all the data items, and the NDArray
 dimensions are [11, NumAverage_RBV] for each NDArray callback.
 
 This is the medm screen for the HDF5 plugin used with the TetrAMM.
-The TetrAMM is configured with ValuesPerRead=5, so it is sending data at 20 kHz. 
+The TetrAMM is configured with ValuesPerRead=5, so it is sending data at 20 kHz.
 AveragingTime is set to 0.1 seconds, so NumAverage_RBV is 2000.
 
 .. figure:: HDF5_stream.png
@@ -20,9 +20,9 @@ AveragingTime is set to 0.1 seconds, so NumAverage_RBV is 2000.
 
 |
 
-The Array address in the plugin is set to 11, so it is receiving all 11 data items.  
+The Array address in the plugin is set to 11, so it is receiving all 11 data items.
 FileWriteMode is set to Stream, so it will stream the NDArrays to the HDF5 file
-as they arrive.  NumCapture is set to 200, so it will collect 200 arrays, each with 
+as they arrive.  NumCapture is set to 200, so it will collect 200 arrays, each with
 0.1 second of data giving a total of 20 seconds saved to disk.
 Pressing the Start button starts the streaming.
 
@@ -52,7 +52,7 @@ This is the result of the Linux h5dump --contents on that file
    }
   }
 
-The streamed data is in dataset /entry/data/data.  
+The streamed data is in dataset /entry/data/data.
 This is the output of h5dump --header, looking at just that dataset.
 ::
 
@@ -87,11 +87,11 @@ In HDF5 convention the last array index is the fastest varying.
 
 Saving all 11 data items is somewhat wastefull, since everything else can be calculated from just
 the 4 currents, which are the first 4 items in the arrays.
-We can save disk space by only saving the currents by using an ROI plugin between the 
+We can save disk space by only saving the currents by using an ROI plugin between the
 quadEM driver and the HDF5 plugin.
 
 This is the medm screen for an ROI plugin which gets its data on address 11 from the TetrAMM port.
-It is configured with a start of 0 and size of 4 on the first array dimension, and so will 
+It is configured with a start of 0 and size of 4 on the first array dimension, and so will
 select only the 4 currents.  The second dimension is set to auto size = Yes, so it will automatically
 select all elements in the second dimension, even if NumAverage_RBV changes.
 
@@ -161,16 +161,30 @@ This is the output when the program is compiled and run:
   IDL> .go
   DATA            DOUBLE    = Array[11, 2000, 200]
 
-This is the time-series plot.  The data are highly periodic because the photodiodes were illuminated 
+This is the time-series plot.  The data are highly periodic because the photodiodes were illuminated
 by fluorescent lights.
 
 .. figure:: IDL_HDF5_time_plot.png
     :align: center
 
-|
 
 This is the frequency plot.  The peaks are almost exclusively 60 Hz and its odd and even harmonics.
 The odd harmonics are ~10-100 times less than 60 Hz, and the even harmonics are ~100-1000 times less than 60 Hz.
 
 .. figure:: IDL_HDF5_frequency_plot.png
+    :align: center
+
+
+Using Python, the data processing would be nearly identical, but with a few differences due to array and FFT conventions:
+
+.. literalinclude:: process_hdf5.py
+
+This will make a time-series plot of:
+
+.. figure:: Py_HDF5_time_plot.png
+    :align: center
+
+and a frequency plot of:
+
+.. figure:: Py_HDF5_frequency_plot.png
     :align: center
