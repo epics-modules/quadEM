@@ -3,15 +3,21 @@
 The versions of EPICS base, asyn, ADCore, and other synApps modules used for each release can be obtained from 
 the configure/RELEASE file in each release of quadEM.
 
-## Release 9-6 (November XXX, 2025)
+## Release 9-6 (November 29, 2025)
 - Added a software driver to get data into the quadEM. It is similar to the NDDriverStdArrays for areaDetector.
+  Thanks to Xiaoqiang Wang from PSI for this.
 - Added support for the SenSiC PCR4 picoammeter.  Thanks to Sammy Mosca from STLab for this.
 - Added support for the Sydor T4U electrometer.  There are 2 implementations for this:
   - T4UDirect: The quadEM driver communicates directly with the T4U.
   - T4U: The quadEM driver communicates with the T4U via a Sydor program.
+  Thanks to Iain Marcuson from Sydor for these.
 - Supported a variant of the Square geometry, where the diodes are aranged counterclockwise.
+  Thanks to Xiaoqiang Wang from PSI for this.
 - Converted the documentation from raw HTML to Sphinx, published at https://epics-modules.github.io/quadEM.
-- Added documentation about scanning with the TetrAMM and improved the documentation about plugins.
+  - Added documentation about scanning with the TetrAMM
+  - Added documentation about streaming data to disk with HDF5 plugin
+  - Added documentation about using feedback, with an example of pitch feedback on a monochromator.
+  - Improved the documentation about plugins.
 - Converted the release notes from raw HTML to RELEASE.md.
 - Added a Word document of a study of noise with the TetrAMM.
 - Removed support for the APS_EM, since this is no longer available or in use.
