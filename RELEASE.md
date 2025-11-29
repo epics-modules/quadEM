@@ -11,7 +11,7 @@ the configure/RELEASE file in each release of quadEM.
   - T4UDirect: The quadEM driver communicates directly with the T4U.
   - T4U: The quadEM driver communicates with the T4U via a Sydor program.
   Thanks to Iain Marcuson from Sydor for these.
-- Supported a variant of the Square geometry, where the diodes are aranged counterclockwise.
+- Supported a variant of the Square geometry, where the diodes are arranged counterclockwise.
   Thanks to Xiaoqiang Wang from PSI for this.
 - Converted the documentation from raw HTML to Sphinx, published at https://epics-modules.github.io/quadEM.
   - Added documentation about scanning with the TetrAMM
