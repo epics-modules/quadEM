@@ -14,8 +14,8 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -232,13 +232,70 @@ by fluorescent lights.</p>
 <figure class="align-center">
 <img alt="_images/IDL_HDF5_time_plot.png" src="_images/IDL_HDF5_time_plot.png" />
 </figure>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 <p>This is the frequency plot.  The peaks are almost exclusively 60 Hz and its odd and even harmonics.
 The odd harmonics are ~10-100 times less than 60 Hz, and the even harmonics are ~100-1000 times less than 60 Hz.</p>
 <figure class="align-center">
 <img alt="_images/IDL_HDF5_frequency_plot.png" src="_images/IDL_HDF5_frequency_plot.png" />
+</figure>
+<p>Using Python, the data processing would be nearly identical, but with a few differences due to array and FFT conventions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+
+<span class="c1"># Windows/MacOS: pip install wxmplot</span>
+<span class="c1"># Linux: canda install -c conda-forge wxpython &amp;&amp; pip install wxmplot</span>
+<span class="kn">from</span> <span class="nn">wxmplot.interactive</span> <span class="kn">import</span> <span class="n">plot</span>
+
+<span class="n">h5root</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">&#39;quadem_HDF5_001.h5&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">h5root</span><span class="p">[</span><span class="s1">&#39;/entry/data/data&#39;</span><span class="p">][()]</span>
+<span class="n">ny</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">nchans</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># = (200, 2000, 11)</span>
+<span class="n">npts</span> <span class="o">=</span> <span class="n">ny</span><span class="o">*</span><span class="n">nx</span>
+<span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">npts</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">sum_all</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">6</span><span class="p">]</span>
+
+<span class="n">sample_time</span> <span class="o">=</span> <span class="mf">50e-6</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span><span class="o">*</span><span class="n">sample_time</span>
+
+<span class="c1"># Plot the first 0.5 second of data</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">[:</span><span class="mi">10000</span><span class="p">],</span> <span class="n">sum_all</span><span class="p">[:</span><span class="mi">10000</span><span class="p">],</span>
+          <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (s)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Sum of all diodes (nA)&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Time Series&#39;</span><span class="p">)</span>
+<span class="n">p1</span><span class="o">.</span><span class="n">save_figure</span><span class="p">(</span><span class="s1">&#39;Py_HDF5_time_plot.png&#39;</span><span class="p">)</span>
+
+<span class="c1"># Compute the FFT: note that for numpy.fft, the normalization is set with</span>
+<span class="c1">#  &#39;norm&#39;, which can be one of &#39;backward&#39;, &#39;forward, or &#39;ortho&#39;.</span>
+<span class="c1">#  &#39;backward&#39; is the NumPy default, &#39;forward&#39; matches the IDL default.</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">sum_all</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">)</span>
+<span class="c1"># or one of:</span>
+<span class="c1"># f = np.fft.fft(sum_all) / npts</span>
+<span class="c1"># f = np.fft.fft(sum_all, norm=&#39;ortho&#39;) / np.sqrt(npts)</span>
+
+<span class="c1"># Take the absolute value, first half of array</span>
+<span class="n">nfft</span> <span class="o">=</span> <span class="n">npts</span><span class="o">//</span><span class="mi">2</span>
+<span class="n">f_abs</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f</span><span class="p">)[:</span><span class="n">nfft</span><span class="p">]</span>
+
+<span class="c1"># Set the DC offset to 0</span>
+<span class="n">f_abs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Compute the frequency axis.</span>
+<span class="c1"># Note: The sampling rate is 20 kHz so the Nyquist frequency is 10 kHz</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">nfft</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">sample_time</span><span class="p">)</span>
+<span class="c1"># or</span>
+<span class="c1"># freq = np.fft.fftfreq(npts, sample_time)</span>
+
+<span class="c1"># Plot the power spectrum out to 1 kHz</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">freq</span><span class="p">[:</span><span class="mi">20000</span><span class="p">],</span> <span class="n">f_abs</span><span class="p">[:</span><span class="mi">20000</span><span class="p">],</span> <span class="n">ymin</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">ylog_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Frequency (Hz)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;SumAll Intensity&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Power Spectrum&#39;</span><span class="p">,</span>  <span class="n">win</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">p2</span><span class="o">.</span><span class="n">save_figure</span><span class="p">(</span><span class="s1">&#39;Py_HDF5_frequency_plot.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will make a time-series plot of:</p>
+<figure class="align-center">
+<img alt="_images/Py_HDF5_time_plot.png" src="_images/Py_HDF5_time_plot.png" />
+</figure>
+<p>and a frequency plot of:</p>
+<figure class="align-center">
+<img alt="_images/Py_HDF5_frequency_plot.png" src="_images/Py_HDF5_frequency_plot.png" />
 </figure>
 </section>
 
@@ -254,7 +311,7 @@ The odd harmonics are ~10-100 times less than 60 Hz, and the even harmonics are 
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2025-November-29.
+      <span class="lastupdated">Last updated on 2025-November-30.
       </span></p>
   </div>
 
