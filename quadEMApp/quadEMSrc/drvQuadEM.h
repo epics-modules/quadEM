@@ -11,6 +11,7 @@
 #include <epicsExit.h>
 #include <epicsRingBytes.h>
 #include <epicsMessageQueue.h>
+#include <shareLib.h>
 #include "asynNDArrayDriver.h"
 
 /* These are the drvInfo strings that are used to identify the parameters.
@@ -128,7 +129,7 @@ typedef enum {
 #define QE_DEFAULT_RING_BUFFER_SIZE 2048
 
 /** Base class to control the quad electrometer */
-class drvQuadEM : public asynNDArrayDriver {
+class epicsShareClass drvQuadEM : public asynNDArrayDriver {
 public:
     drvQuadEM(const char *portName, int ringBufferSize);
                  
