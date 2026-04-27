@@ -192,6 +192,11 @@ R9-5 added a variant of the square geometry, SquareCC::
 
 - It is similar to Square, but the 4 diodes are arranged counterclockwise.
   SumX=SumY=(1+2+3+4), DiffX=(3+4)-(1+2), DiffY=(1+4)-(2+3).
-  
+
+A Custom geometry is also available for non-standard detector arrangements. In this mode
+the user provides a set of four weights for each of the computed values (SumX, SumY, DiffX,
+DiffY). Each output is computed as the weighted sum of the four input currents. Custom axis
+labels can also be set via the Xlabel and Ylabel PVs.
+
 For all geometries SumAll=(1+2+3+4), PositionX=DiffX/SumX, and PositionY=DiffY/SumY.
-X positive is to the right and Y positive is up for both geometries.
+X positive is to the right and Y positive is up for the standard geometries.

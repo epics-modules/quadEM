@@ -3,6 +3,11 @@
 The versions of EPICS base, asyn, ADCore, and other synApps modules used for each release can be obtained from 
 the configure/RELEASE file in each release of quadEM.
 
+## Release 9-7 (unreleased)
+- Added a Custom geometry that allows user-defined weights for computing the sum
+  and difference values from the four current inputs, along with custom X/Y axis labels.
+  Thanks to John Runchey from ANL for this.
+
 ## Release 9-6 (November 29, 2025)
 - Added a software driver to get data into the quadEM. It is similar to the NDDriverStdArrays for areaDetector.
   Thanks to Xiaoqiang Wang from PSI for this.

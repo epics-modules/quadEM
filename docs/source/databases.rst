@@ -237,7 +237,9 @@ minimum, maximum, and other statistics, including a histogram of array values.
 
       - 0: Diamond
       - 1: Square
- 
+      - 2: SquareCC
+      - 3: Custom
+
   * - QE_RESOLUTION
     - $(P)$(R)Resolution, $(P)$(R)Resolution_RBV
     - mbbo, mbbi
@@ -614,6 +616,41 @@ minimum, maximum, and other statistics, including a histogram of array values.
       are typically between 1e-4 to 1e-12. It is convenient to use a CurrentScale of 1e9
       or 1e12, for example, so that the data are displayed in units of nano-amps or pico-amps.
       They are then reasonable sized integers, and the time series software can be used.
+  * - QE_WEIGHT_XSUM
+    - $(P)$(R)WeightXsum[1-4]
+    - ao
+    - asynFloat64 (addr=0-3)
+    - r/w
+    - All
+    - Weights applied to each current input when computing SumX in Custom geometry.
+  * - QE_WEIGHT_YSUM
+    - $(P)$(R)WeightYsum[1-4]
+    - ao
+    - asynFloat64 (addr=0-3)
+    - r/w
+    - All
+    - Weights applied to each current input when computing SumY in Custom geometry.
+  * - QE_WEIGHT_XDELTA
+    - $(P)$(R)WeightXdelta[1-4]
+    - ao
+    - asynFloat64 (addr=0-3)
+    - r/w
+    - All
+    - Weights applied to each current input when computing DiffX in Custom geometry.
+  * - QE_WEIGHT_YDELTA
+    - $(P)$(R)WeightYdelta[1-4]
+    - ao
+    - asynFloat64 (addr=0-3)
+    - r/w
+    - All
+    - Weights applied to each current input when computing DiffY in Custom geometry.
+  * - N.A.
+    - $(P)$(R)Xlabel, $(P)$(R)Ylabel
+    - stringin
+    - N.A.
+    - r/w
+    - All
+    - Custom labels for the X and Y axes, used with the Custom geometry.
   * - N.A.
     - $(P)$(R)CurrentPrec[1-4]
     - mbbo
