@@ -35,6 +35,8 @@ record(mbbi,"$(P)$(R)Model") {
     field(TVST, "SoftDevice")
     field(TTVL, "13")
     field(TTST, "T4U")
+    field(FTVL, "14")
+    field(FTST, "FX4")
     field(SCAN, "I/O Intr")
 }
 
