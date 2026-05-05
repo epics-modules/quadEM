@@ -1,0 +1,211 @@
+# Database for Pyramid FX4 electrometer
+#   Mark Rivers
+#   May 1, 2026
+
+include "quadEM.template"
+
+# We replace the choices for the Range
+record(mbbo,"$(P)$(R)Range") {
+    field(ZRVL,"0")
+    field(ZRST,"100 nA slow")
+    field(ONVL,"1")
+    field(ONST,"100 nA fast")
+    field(TWVL,"2")
+    field(TWST,"1 uA slow")
+    field(THVL,"3")
+    field(THST,"1 uA fast")
+    field(FRVL,"4")
+    field(FRST,"10 uA")
+    field(FVVL,"5")
+    field(FVST,"100 uA")
+    field(SXVL,"6")
+    field(SXST,"1 mA")
+    field(SVVL,"7")
+    field(SVST,"10 mA")
+}
+
+record(mbbi,"$(P)$(R)Range_RBV") {
+    field(ZRVL,"0")
+    field(ZRST,"100 nA slow")
+    field(ONVL,"1")
+    field(ONST,"100 nA fast")
+    field(TWVL,"2")
+    field(TWST,"1 uA slow")
+    field(THVL,"3")
+    field(THST,"1 uA fast")
+    field(FRVL,"4")
+    field(FRST,"10 uA")
+    field(FVVL,"5")
+    field(FVST,"100 uA")
+    field(SXVL,"6")
+    field(SXST,"1 mA")
+    field(SVVL,"7")
+    field(SVST,"10 mA")
+}
+
+record(mbbo,"$(P)$(R)CurrentUnits") {
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "pA")
+    field(ONVL, "1")
+    field(ONST, "nA")
+    field(TWVL, "2")
+    field(TWST, "uA")
+    field(THVL, "3")
+    field(THST, "mA")
+    field(FRVL, "4")
+    field(FRST, "A")
+    field(FLNK, "$(P)$(R)SetCurrentUnits")
+}
+
+record(scalcout,"$(P)$(R)SetCurrentUnits") {
+    field(INPA, "$(P)$(R)CurrentUnits")
+    field(PINI, "YES")
+    field(AA, "pa")
+    field(BB, "na")
+    field(CC, "ua")
+    field(DD, "ma")
+    field(EE, "a")
+    field(CALC, "@@A")
+    field(OUT,  "$(FXP)/fx4/adc/user_units/value")
+    field(FLNK, "$(P)$(R)CurrentUnits_RBV")
+}
+
+record(mbbi,"$(P)$(R)CurrentUnits_RBV") {
+    field(ZRVL, "0")
+    field(ZRST, "pA")
+    field(ONVL, "1")
+    field(ONST, "nA")
+    field(TWVL, "2")
+    field(TWST, "uA")
+    field(THVL, "3")
+    field(THST, "mA")
+    field(FRVL, "4")
+    field(FRST, "A")
+    field(INP, "$(P)$(R)CurrentUnits")
+}
+
+record(longout, "(P)$(R)SetRange") {
+    field(DOL,  "$(P)$(R)Range.RVAL CP")
+    field(OUT,  "$(FXP)/fx4/range/value")
+    field(OMSL, "closed_loop")
+}
+
+record(longout, "$(P)$(R)GetRange") {
+    field(DOL,  "$(FXP)/fx4/range/value CP")
+    field(OUT,  "$(P)$(R)Range_RBV.RVAL PP")
+    field(OMSL, "closed_loop")
+}
+
+record(calcout, "$(P)$(R)SetValuesPerRead") {
+    field(INPA, "$(P)$(R)ValuesPerRead CP")
+    field(CALC, "100000/A")
+    field(OUT,  "$(FXP)/fx4/adc/sample_frequency/value")
+}
+
+record(longout, "$(P)$(R)GetValuesPerRead") {
+    field(DOL,  "$(FXP)/fx4/sample_accumulation_count/value CP")
+    field(OUT,  "$(P)$(R)ValuesPerRead_RBV PP")
+    field(OMSL, "closed_loop")
+}
+
+record(ao, "$(P)$(R)GetSampleTime") {
+    field(DOL,  "$(FXP)/fx4/adc/sample_period/value CP")
+    field(OUT,  "$(P)$(R)SampleTime_RBV PP")
+    field(OMSL, "closed_loop")
+}
+
+record(ai,"$(P)$(R)SampleTime_RBV") {
+    field(DTYP, "Soft Channel")
+    field(INP,  "")
+    field(SCAN, "Passive")
+}
+
+record(bo,      "$(P)$(R)SetBiasState") {
+    field(DOL,  "$(P)$(R)BiasState CP")
+    field(OUT,  "$(FXP)/fx4/high_voltage/permit/user_command/value")
+    field(OMSL, "closed_loop")
+}
+
+record(bo,"$(P)$(R)BiasState") {
+    field(DTYP, "Soft Channel")
+    field(OUT,  "")
+    field(PINI, "YES")
+}
+
+record(bo,      "$(P)$(R)GetBiasState") {
+    field(DOL,  "$(FXP)/fx4/high_voltage/permit/user_command/value CP")
+    field(OUT,  "$(P)$(R)HVSReadback PP ")
+    field(ZNAM, "ready")
+    field(ONAM, "enabled")
+    field(OMSL, "closed_loop")
+}
+
+record(bi,"$(P)$(R)HVSReadback") {
+    field(DTYP, "Soft Channel")
+    field(INP,  "")
+    field(SCAN, "Passive")
+}
+
+record(bi,"$(P)$(R)BiasState_RBV") {
+    field(DTYP, "Soft Channel")
+    field(INP,  "$(P)$(R)BiasState CP")
+    field(SCAN, "Passive")
+}
+
+record(ao,      "$(P)$(R)SetBiasVoltage") {
+    field(DOL,  "$(P)$(R)BiasVoltage CP")
+    field(OUT,  "$(FXP)/fx4/high_voltage/command_voltage/value")
+    field(OMSL, "closed_loop")
+}
+
+record(ai,      "$(P)$(R)HVVReadback") {
+    field(DTYP, "Soft Channel")
+    field(INP,  "")
+    field(SCAN, "Passive")
+}
+
+record(ao,      "$(P)$(R)GetHVVReadback") {
+    field(DOL,  "$(FXP)/fx4/high_voltage/monitor_voltage_internal")
+    field(OUT,  "$(P)$(R)HVVReadback PP")
+    field(OMSL, "closed_loop")
+    field(SCAN, ".5 second")
+}
+
+record(waveform,"$(P)$(R)Firmware") {
+    field(DTYP, "Soft Channel")
+    field(INP,  "$(P)$(R)GetFirmware.VAL$")
+    field(SCAN, "Passive")
+}
+
+record(stringin, "$(P)$(R)GetFirmware") {
+    field(INP,   "$(FXP)/admin/version CP")
+    field(FLNK,  "$(P)$(R)Firmware")
+}
+
+# We replace the choices for the TriggerMode
+record(mbbo,    "$(P)$(R)TriggerMode") {
+    field(ZRVL, "0")
+    field(ZRST, "Free run")
+    field(ONVL, "2")
+    field(ONST, "Ext. trig.")
+    field(TWVL, "3")
+    field(TWST, "Ext. bulb")
+    field(THVL, "4")
+    field(THST, "Ext. gate")
+}
+
+record(mbbi,    "$(P)$(R)TriggerMode_RBV") {
+    field(ZRVL, "0")
+    field(ZRST, "Free run")
+    field(ONVL, "2")
+    field(ONST, "Ext. trig.")
+    field(TWVL, "3")
+    field(TWST, "Ext. bulb")
+    field(THVL, "4")
+    field(THST, "Ext. gate")
+}
+
+record(ao,      "$(P)$(R)BiasVoltage") {
+    field(OUT,  "@asyn($(PORT) 0)QE_BIAS_VOLTAGE")
+}
