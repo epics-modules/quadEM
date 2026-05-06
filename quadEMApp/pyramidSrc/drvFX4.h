@@ -1,6 +1,6 @@
 /*
  * drvFX4.h
- * 
+ *
  * Asyn driver that inherits from the drvQuadEM class to control the Pyramid FX4 4-channel picoammeter
  *
  * Author: Mark Rivers
@@ -28,10 +28,10 @@ typedef websocketpp::client<websocketpp::config::asio_client> client;
 class drvFX4 : public drvQuadEM {
 public:
     drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize);
-    
+
     /* These are the methods we implement from asynPortDriver */
     void report(FILE *fp, int details);
-                 
+
     /* These are the methods that are new to this class */
     virtual void exitHandler();
 
@@ -47,12 +47,13 @@ protected:
     virtual asynStatus setTriggerPolarity(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
     int P_InterlockStatus;
- 
+
 private:
     void on_open(connection_hdl hdl);
     void on_message(connection_hdl hdl, client::message_ptr msg);
     void sendEventData(const std::string& event, json data);
     void sendSubscribeEvent();
+    void sendUnsubscribeEvent();
     void sendGetEvent();
     void onMessageEvent(const std::string& event, const json& data);
     asynStatus setAcquireParams();
