@@ -34,8 +34,7 @@ static const char *driverName="drvFX4";
 /** Constructor for the drvFX4 class.
   * Calls the constructor for the drvQuadEM base class.
   * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] QEPortName The name of the asyn communication port to the TetrAMM
-  *            created with drvAsynIPPortConfigure or drvAsynSerialPortConfigure
+  * \param[in] FX4_IP The IP address of the FX4, used for Websocket commmunication
   * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
   *            This should be large enough to hold all the samples between reads of the
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
