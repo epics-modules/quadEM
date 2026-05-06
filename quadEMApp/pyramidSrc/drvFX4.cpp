@@ -1,7 +1,7 @@
 /*
  * drvFX4.cpp
- * 
- * Asyn driver that inherits from the drvQuadEM class to control 
+ *
+ * Asyn driver that inherits from the drvQuadEM class to control
  * the CaenEls TetrAMM 4-channel picoammeter
  *
  * Author: Mark Rivers
@@ -34,17 +34,17 @@ static const char *driverName="drvFX4";
 /** Constructor for the drvFX4 class.
   * Calls the constructor for the drvQuadEM base class.
   * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] QEPortName The name of the asyn communication port to the TetrAMM 
+  * \param[in] QEPortName The name of the asyn communication port to the TetrAMM
   *            created with drvAsynIPPortConfigure or drvAsynSerialPortConfigure
   * \param[in] ringBufferSize The number of samples to hold in the input ring buffer.
   *            This should be large enough to hold all the samples between reads of the
   *            device, e.g. 1 ms SampleTime and 1 second read rate = 1000 samples.
   *            If 0 then default of 2048 is used.
   */
-drvFX4::drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize) 
+drvFX4::drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize)
    : drvQuadEM(portName, ringBufferSize),
    FX4Connected_(false)
-  
+
 {
     std::string uri = "ws://" + std::string(FX4_IP);
 
@@ -67,7 +67,7 @@ drvFX4::drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize)
     while (!FX4Connected_) {
         epicsThreadSleep(0.01);
     }
-    
+
     createParam(P_InterlockStatusString, asynParamInt32,   &P_InterlockStatus);
 
     acquiring_ = 0;
@@ -83,9 +83,6 @@ drvFX4::drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize)
 void drvFX4::on_open(connection_hdl hdl) {
     ws_hdl_ = hdl;
     FX4Connected_ = true;
-
-    sendSubscribeEvent();
-    sendGetEvent();
 }
 
 void drvFX4::on_message(connection_hdl, client::message_ptr msg) {
@@ -122,6 +119,19 @@ void drvFX4::sendSubscribeEvent() {
 }
 
 //--------------------------------------------------
+void drvFX4::sendUnsubscribeEvent() {
+    json data = {
+        {"/fx4/adc/channel_1/value", true},
+        {"/fx4/adc/channel_2/value", true},
+        {"/fx4/adc/channel_3/value", true},
+        {"/fx4/adc/channel_4/value", true},
+        {"/fx4/gpio_0/22/readback/value", true}
+    };
+
+    sendEventData("unsubscribe", data);
+}
+
+//--------------------------------------------------
 void drvFX4::sendGetEvent() {
     sendEventData("get");
 }
@@ -151,15 +161,15 @@ void drvFX4::onMessageEvent(const std::string& event, const json& data) {
         if (bit1.size() > 0) {
             asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: Bit1=%d\n", functionName, bit1[0]?1:0);
         }
-            
+
         if (adc1.size() > 0) {
             if (adc2.size() != adc1.size() || adc3.size() != adc1.size() || adc4.size() != adc1.size()) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s unequal number of samples %d %d %d %d\n",
                           functionName, (int)adc1.size(), (int)adc2.size(), (int)adc3.size(), (int)adc4.size());
                 goto error;
             }
-            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: Samples=%d %d %d %d, ADCs[0]=%f %f %f %f\n", 
-                      functionName, (int)adc1.size(), (int)adc2.size(), (int)adc3.size(), (int)adc4.size(), 
+            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: Samples=%d %d %d %d, ADCs[0]=%f %f %f %f\n",
+                      functionName, (int)adc1.size(), (int)adc2.size(), (int)adc3.size(), (int)adc4.size(),
                       adc1[0], adc2[0], adc3[0], adc4[0]);
             for (size_t i=0; i<adc1.size(); i++) {
                 currents[0] = adc1[i];
@@ -171,12 +181,11 @@ void drvFX4::onMessageEvent(const std::string& event, const json& data) {
                 unlock();
             }
             epicsThreadSleep(0.00);
-        } 
+        }
         error:
         epicsThreadSleep(0.01);
 
-        //if (acquiring_) sendGetEvent();
-        sendGetEvent();
+        if (acquiring_) sendGetEvent();
     }
 }
 
@@ -199,7 +208,7 @@ asynStatus drvFX4::setAcquireParams()
     getDoubleParam (P_AveragingTime,    &averagingTime);
     getIntegerParam(P_NumAcquire,       &numAcquire);
 
-    // Compute the sample time.  This is 10 microseconds times valuesPerRead. 
+    // Compute the sample time.  This is 10 microseconds times valuesPerRead.
     sampleTime = 10e-6 * valuesPerRead;
     setDoubleParam(P_SampleTime, sampleTime);
 
@@ -217,9 +226,16 @@ asynStatus drvFX4::setAcquireParams()
 /** Starts and stops the electrometer.
   * \param[in] value 1 to start the electrometer, 0 to stop it.
   */
-asynStatus drvFX4::setAcquire(epicsInt32 value) 
+asynStatus drvFX4::setAcquire(epicsInt32 value)
 {
-    if (value) sendGetEvent();
+    if (value) {
+        sendSubscribeEvent();
+        sendGetEvent();
+        acquiring_ = 1;
+    } else {
+        sendUnsubscribeEvent();
+        acquiring_ = 0;
+    }
 
     return asynSuccess;
 }
@@ -228,24 +244,24 @@ asynStatus drvFX4::setAcquire(epicsInt32 value)
 /** Sets the acquire mode.
   * \param[in] value Acquire mode.
   */
-asynStatus drvFX4::setAcquireMode(epicsInt32 value) 
-{    
+asynStatus drvFX4::setAcquireMode(epicsInt32 value)
+{
     return setAcquireParams();
 }
 
 /** Sets the averaging time.
   * \param[in] value Averaging time.
   */
-asynStatus drvFX4::setAveragingTime(epicsFloat64 value) 
+asynStatus drvFX4::setAveragingTime(epicsFloat64 value)
 {
     return setAcquireParams();
 }
 
 /** Sets the number of triggers.
-  * \param[in] value Number of triggers. 
+  * \param[in] value Number of triggers.
   */
-asynStatus drvFX4::setNumAcquire(epicsInt32 value) 
-{    
+asynStatus drvFX4::setNumAcquire(epicsInt32 value)
+{
     return setAcquireParams();
 }
 
@@ -271,14 +287,14 @@ asynStatus drvFX4::setTriggerPolarity(epicsInt32 value)
 /** Sets the values per read.
   * \param[in] value Values per read. Minimum depends on number of channels.
   */
-asynStatus drvFX4::setValuesPerRead(epicsInt32 value) 
-{    
+asynStatus drvFX4::setValuesPerRead(epicsInt32 value)
+{
     return setAcquireParams();
 }
 
 /** Reads all the settings back from the electrometer.
   */
-asynStatus drvFX4::readStatus() 
+asynStatus drvFX4::readStatus()
 {
     return asynSuccess;
 }
@@ -296,7 +312,7 @@ void drvFX4::exitHandler()
     unlock();
 }
 
-/** Report  parameters 
+/** Report  parameters
   * \param[in] fp The file pointer to write to
   * \param[in] details The level of detail requested
   */
@@ -305,7 +321,7 @@ void drvFX4::report(FILE *fp, int details)
     fprintf(fp, "%s: port=%s\n",
             driverName, portName);
     if (details > 0) {
-    }   
+    }
     drvQuadEM::report(fp, details);
 }
 
