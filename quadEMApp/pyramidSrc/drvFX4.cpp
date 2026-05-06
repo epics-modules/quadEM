@@ -2,11 +2,11 @@
  * drvFX4.cpp
  *
  * Asyn driver that inherits from the drvQuadEM class to control
- * the CaenEls TetrAMM 4-channel picoammeter
+ * the Pyramid FX4 4-channel picoammeter
  *
  * Author: Mark Rivers
  *
- * Created July 14, 2015
+ * Created May 3, 2026
  */
 
 #include <stdlib.h>
