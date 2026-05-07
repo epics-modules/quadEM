@@ -46,3 +46,4 @@ $(P)$(R)PositionPrecX
 $(P)$(R)PositionPrecY
 $(P)$(R)NDAttributesFile
 $(P)$(R)ReadStatus.SCAN
+file "NDArrayBase_settings.req", P=$(P), R=$(R)
