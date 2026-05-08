@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-05-08 18:16:03 by epics-->
+<!--Saved on 2026-05-05 16:17:07 by epics-->
 <display version="2.0.0">
-  <name>quadEM</name>
-  <x>2020</x>
-  <y>80</y>
+  <name>quadEM_base</name>
+  <x>574</x>
+  <y>60</y>
   <width>915</width>
-  <height>1050</height>
+  <height>1035</height>
   <background_color>
     <color red="200" green="200" blue="200">
     </color>
@@ -2268,12 +2268,46 @@
     <name>composite #469</name>
     <file>ADBuffers.bob</file>
     <x>30</x>
-    <y>885</y>
+    <y>865</y>
     <width>350</width>
     <height>160</height>
   </widget>
   <widget type="rectangle" version="2.0.0">
     <name>rectangle #471</name>
+    <x>5</x>
+    <y>35</y>
+    <width>410</width>
+    <height>430</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="0" green="0" blue="0">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="0" green="0" blue="0">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>rectangle #474</name>
+    <x>419</x>
+    <y>35</y>
+    <width>490</width>
+    <height>605</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color red="0" green="0" blue="0">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="0" green="0" blue="0">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>rectangle #477</name>
     <x>420</x>
     <y>645</y>
     <width>490</width>
@@ -2290,7 +2324,7 @@
     <transparent>true</transparent>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #474</name>
+    <name>text #480</name>
     <text>Time domain plots</text>
     <x>479</x>
     <y>706</y>
@@ -2306,7 +2340,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #477</name>
+    <name>related display #483</name>
     <actions>
       <action type="open_display">
         <file>quadEM_plotAll.opi</file>
@@ -2336,7 +2370,7 @@
     </background_color>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #480</name>
+    <name>related display #486</name>
     <actions>
       <action type="open_display">
         <file>NDTimeSeriesPlot.opi</file>
@@ -2460,7 +2494,7 @@
     </background_color>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #493</name>
+    <name>related display #499</name>
     <actions>
       <action type="open_display">
         <file>quadEM_plotAll.opi</file>
@@ -2490,7 +2524,7 @@
     </background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #496</name>
+    <name>text #502</name>
     <text>X combined</text>
     <x>525</x>
     <y>731</y>
@@ -2501,7 +2535,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #499</name>
+    <name>text #505</name>
     <text>Y combined</text>
     <x>525</x>
     <y>756</y>
@@ -2512,7 +2546,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #502</name>
+    <name>text #508</name>
     <text>Individual</text>
     <x>525</x>
     <y>781</y>
@@ -2523,7 +2557,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #505</name>
+    <name>text #511</name>
     <text>Frequency domain plots</text>
     <x>685</x>
     <y>705</y>
@@ -2539,7 +2573,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #508</name>
+    <name>related display #514</name>
     <actions>
       <action type="open_display">
         <file>quadEM_plotAll.opi</file>
@@ -2569,7 +2603,7 @@
     </background_color>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #511</name>
+    <name>related display #517</name>
     <actions>
       <action type="open_display">
         <file>quadEM_plotAll.opi</file>
@@ -2599,7 +2633,7 @@
     </background_color>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #514</name>
+    <name>related display #520</name>
     <actions>
       <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
@@ -2734,7 +2768,7 @@
     </background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #527</name>
+    <name>text #533</name>
     <text>X combined</text>
     <x>760</x>
     <y>730</y>
@@ -2745,7 +2779,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #530</name>
+    <name>text #536</name>
     <text>Y combined</text>
     <x>760</x>
     <y>755</y>
@@ -2756,7 +2790,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #533</name>
+    <name>text #539</name>
     <text>Individual</text>
     <x>760</x>
     <y>780</y>
@@ -2767,7 +2801,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #536</name>
+    <name>related display #542</name>
     <actions>
       <action type="open_display">
         <file>NDPluginTimeSeries.opi</file>
@@ -2808,7 +2842,7 @@
     </background_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>text update #539</name>
+    <name>text update #545</name>
     <pv_name>$(P)$(R)TS:TSAcquiring</pv_name>
     <x>680</x>
     <y>681</y>
@@ -2829,7 +2863,7 @@
     <show_units>false</show_units>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #543</name>
+    <name>text #549</name>
     <text>Acquire</text>
     <x>425</x>
     <y>680</y>
@@ -2841,7 +2875,7 @@
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>message button #546</name>
+    <name>message button #552</name>
     <actions>
       <action type="write_pv">
         <pv_name>$(P)$(R)TS:TSAcquire</pv_name>
@@ -2861,7 +2895,7 @@
     </background_color>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>message button #549</name>
+    <name>message button #555</name>
     <actions>
       <action type="write_pv">
         <pv_name>$(P)$(R)TS:TSAcquire</pv_name>
@@ -2881,7 +2915,7 @@
     </background_color>
   </widget>
   <widget type="rectangle" version="2.0.0">
-    <name>rectangle #552</name>
+    <name>rectangle #558</name>
     <x>590</x>
     <y>650</y>
     <width>150</width>
@@ -2896,7 +2930,7 @@
     </background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>text #555</name>
+    <name>text #561</name>
     <text>Time series</text>
     <x>610</x>
     <y>652</y>
@@ -2912,7 +2946,7 @@
     <auto_size>true</auto_size>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>composite #558</name>
+    <name>composite #564</name>
     <x>420</x>
     <y>810</y>
     <width>490</width>
@@ -2920,7 +2954,7 @@
     <style>3</style>
     <transparent>true</transparent>
     <widget type="rectangle" version="2.0.0">
-      <name>rectangle #561</name>
+      <name>rectangle #567</name>
       <width>490</width>
       <height>100</height>
       <line_width>1</line_width>
@@ -2935,7 +2969,7 @@
       <transparent>true</transparent>
     </widget>
     <widget type="rectangle" version="2.0.0">
-      <name>rectangle #564</name>
+      <name>rectangle #570</name>
       <x>170</x>
       <y>5</y>
       <width>150</width>
@@ -2950,7 +2984,7 @@
       </background_color>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #567</name>
+      <name>text #573</name>
       <text>Status</text>
       <x>215</x>
       <y>7</y>
@@ -2966,7 +3000,7 @@
       <horizontal_alignment>1</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #570</name>
+      <name>text #576</name>
       <text>Plugins</text>
       <x>330</x>
       <y>50</y>
@@ -2978,7 +3012,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="action_button" version="3.0.0">
-      <name>related display #573</name>
+      <name>related display #579</name>
       <actions>
         <action type="open_display">
           <file>QECommonPlugins.opi</file>
@@ -3011,7 +3045,7 @@
       </background_color>
     </widget>
     <widget type="action_button" version="3.0.0">
-      <name>message button #578</name>
+      <name>message button #584</name>
       <actions>
         <action type="write_pv">
           <pv_name>$(P)$(R)Reset.PROC</pv_name>
@@ -3031,7 +3065,7 @@
       </background_color>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #581</name>
+      <name>text #587</name>
       <text>Reset</text>
       <x>350</x>
       <y>25</y>
@@ -3043,7 +3077,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="action_button" version="3.0.0">
-      <name>related display #584</name>
+      <name>related display #590</name>
       <actions>
         <action type="open_display">
           <file>asynRecord.opi</file>
@@ -3065,7 +3099,7 @@
       </background_color>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #587</name>
+      <name>text #593</name>
       <text>Asyn record</text>
       <x>290</x>
       <y>75</y>
@@ -3077,7 +3111,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #590</name>
+      <name>text #596</name>
       <text>Ring overflows</text>
       <x>5</x>
       <y>50</y>
@@ -3089,7 +3123,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #593</name>
+      <name>text update #599</name>
       <pv_name>$(P)$(R)RingOverflows</pv_name>
       <x>150</x>
       <y>50</y>
@@ -3110,7 +3144,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #597</name>
+      <name>menu #603</name>
       <pv_name>$(P)$(R)ReadStatus.SCAN</pv_name>
       <x>150</x>
       <y>75</y>
@@ -3122,7 +3156,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #600</name>
+      <name>text #606</name>
       <text>Status rate</text>
       <x>35</x>
       <y>75</y>
@@ -3133,190 +3167,5 @@
       </font>
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
-  </widget>
-  <widget type="rectangle" version="2.0.0">
-    <name>rectangle #603</name>
-    <x>419</x>
-    <y>35</y>
-    <width>490</width>
-    <height>605</height>
-    <line_width>1</line_width>
-    <line_color>
-      <color red="0" green="0" blue="0">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="0" green="0" blue="0">
-      </color>
-    </background_color>
-    <transparent>true</transparent>
-  </widget>
-  <widget type="rectangle" version="2.0.0">
-    <name>rectangle #606</name>
-    <x>5</x>
-    <y>35</y>
-    <width>410</width>
-    <height>430</height>
-    <line_width>1</line_width>
-    <line_color>
-      <color red="0" green="0" blue="0">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="0" green="0" blue="0">
-      </color>
-    </background_color>
-    <transparent>true</transparent>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>composite #609</name>
-    <x>10</x>
-    <y>480</y>
-    <width>400</width>
-    <height>395</height>
-    <style>3</style>
-    <transparent>true</transparent>
-    <widget type="embedded" version="2.0.0">
-      <name>composite #612</name>
-      <file>AH501.bob</file>
-      <width>390</width>
-      <height>120</height>
-      <rules>
-        <rule name="vis_calc" prop_id="visible" out_exp="false">
-          <exp bool_exp="!(pv0==3)">
-            <value>false</value>
-          </exp>
-          <pv_name>$(P)$(R)Model</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="embedded" version="2.0.0">
-      <name>composite #615</name>
-      <file>AH401B.bob</file>
-      <width>390</width>
-      <height>95</height>
-      <rules>
-        <rule name="vis_calc" prop_id="visible" out_exp="false">
-          <exp bool_exp="!((pv0==1) || (pv0==2))">
-            <value>false</value>
-          </exp>
-          <pv_name>$(P)$(R)Model</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="embedded" version="2.0.0">
-      <name>composite #618</name>
-      <file>AH501C.bob</file>
-      <width>390</width>
-      <height>145</height>
-      <rules>
-        <rule name="vis_calc" prop_id="visible" out_exp="false">
-          <exp bool_exp="!((pv0==4)||(pv0==5)||(pv0==6))">
-            <value>false</value>
-          </exp>
-          <pv_name>$(P)$(R)Model</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="embedded" version="2.0.0">
-      <name>composite #621</name>
-      <file>TetrAMM.bob</file>
-      <width>392</width>
-      <height>395</height>
-      <rules>
-        <rule name="vis_calc" prop_id="visible" out_exp="false">
-          <exp bool_exp="!(pv0==7)">
-            <value>false</value>
-          </exp>
-          <pv_name>$(P)$(R)Model</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="embedded" version="2.0.0">
-      <name>composite #624</name>
-      <file>NSLS_EM.bob</file>
-      <width>390</width>
-      <height>45</height>
-      <rules>
-        <rule name="vis_calc" prop_id="visible" out_exp="false">
-          <exp bool_exp="!(pv0==8)">
-            <value>false</value>
-          </exp>
-          <pv_name>$(P)$(R)Model</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="embedded" version="2.0.0">
-      <name>composite #627</name>
-      <file>NSLS2_EM.bob</file>
-      <width>390</width>
-      <height>269</height>
-      <rules>
-        <rule name="vis_calc" prop_id="visible" out_exp="false">
-          <exp bool_exp="!((pv0==9))">
-            <value>false</value>
-          </exp>
-          <pv_name>$(P)$(R)Model</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="embedded" version="2.0.0">
-      <name>composite #630</name>
-      <file>PCR4.bob</file>
-      <width>362</width>
-      <height>172</height>
-      <rules>
-        <rule name="vis_calc" prop_id="visible" out_exp="false">
-          <exp bool_exp="!((pv0==11))">
-            <value>false</value>
-          </exp>
-          <pv_name>$(P)$(R)Model</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="embedded" version="2.0.0">
-      <name>composite #633</name>
-      <file>T4U.bob</file>
-      <height>121</height>
-      <rules>
-        <rule name="vis_calc" prop_id="visible" out_exp="false">
-          <exp bool_exp="!((pv0==13))">
-            <value>false</value>
-          </exp>
-          <pv_name>$(P)$(R)Model</pv_name>
-        </rule>
-      </rules>
-    </widget>
-    <widget type="embedded" version="2.0.0">
-      <name>composite #636</name>
-      <file>FX4.bob</file>
-      <width>390</width>
-      <height>170</height>
-      <rules>
-        <rule name="vis_calc" prop_id="visible" out_exp="false">
-          <exp bool_exp="!((pv0==14))">
-            <value>false</value>
-          </exp>
-          <pv_name>$(P)$(R)Model</pv_name>
-        </rule>
-      </rules>
-    </widget>
-  </widget>
-  <widget type="rectangle" version="2.0.0">
-    <name>rectangle #639</name>
-    <x>5</x>
-    <y>470</y>
-    <width>410</width>
-    <height>410</height>
-    <line_width>1</line_width>
-    <line_color>
-      <color red="0" green="0" blue="0">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="0" green="0" blue="0">
-      </color>
-    </background_color>
-    <transparent>true</transparent>
   </widget>
 </display>

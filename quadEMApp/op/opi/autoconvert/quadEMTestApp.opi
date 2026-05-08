@@ -154,6 +154,20 @@
         <mode>1</mode>
         <description>NSLS2_IC</description>
       </action>
+      <action type="OPEN_DISPLAY">
+        <path>quadEM.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>QE1:</P>
+          <R>FX4:</R>
+          <P_TS>QE1:FX4_TS:</P_TS>
+          <P_FFT>QE1:FX4_FFT:</P_FFT>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <mode>1</mode>
+        <description>FX4</description>
+      </action>
     </actions>
     <actions_from_pv>false</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>

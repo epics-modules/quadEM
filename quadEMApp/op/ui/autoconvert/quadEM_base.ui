@@ -4,10 +4,10 @@
 <widget class="QMainWindow" name="MainWindow">
     <property name="geometry">
         <rect>
-            <x>2020</x>
-            <y>80</y>
+            <x>574</x>
+            <y>60</y>
             <width>915</width>
-            <height>1050</height>
+            <height>1035</height>
         </rect>
     </property>
     <property name="styleSheet">
@@ -5913,7 +5913,7 @@ border-radius: 2px;
             <property name="geometry">
                 <rect>
                     <x>30</x>
-                    <y>885</y>
+                    <y>865</y>
                     <width>354</width>
                     <height>164</height>
                 </rect>
@@ -5921,7 +5921,7 @@ border-radius: 2px;
             <property name="geometry">
                 <rect>
                     <x>30</x>
-                    <y>885</y>
+                    <y>865</y>
                     <width>352</width>
                     <height>162</height>
                 </rect>
@@ -5934,6 +5934,86 @@ border-radius: 2px;
             </property>
         </widget>
         <widget class="caGraphics" name="caRectangle_1">
+            <property name="form">
+                <enum>caGraphics::Rectangle</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>5</x>
+                    <y>35</y>
+                    <width>410</width>
+                    <height>430</height>
+                </rect>
+            </property>
+            <property name="lineSize">
+                <number>1</number>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="lineColor">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="linestyle">
+                <enum>Solid</enum>
+            </property>
+        </widget>
+        <widget class="caGraphics" name="caRectangle_2">
+            <property name="form">
+                <enum>caGraphics::Rectangle</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>419</x>
+                    <y>35</y>
+                    <width>490</width>
+                    <height>605</height>
+                </rect>
+            </property>
+            <property name="lineSize">
+                <number>1</number>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="lineColor">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="linestyle">
+                <enum>Solid</enum>
+            </property>
+        </widget>
+        <widget class="caGraphics" name="caRectangle_3">
             <property name="form">
                 <enum>caGraphics::Rectangle</enum>
             </property>
@@ -6705,7 +6785,7 @@ border-radius: 2px;
                 <enum>caMessageButton::Static</enum>
             </property>
         </widget>
-        <widget class="caGraphics" name="caRectangle_2">
+        <widget class="caGraphics" name="caRectangle_4">
             <property name="form">
                 <enum>caGraphics::Rectangle</enum>
             </property>
@@ -6786,7 +6866,7 @@ border-radius: 2px;
                     <height>102</height>
                 </rect>
             </property>
-            <widget class="caGraphics" name="caRectangle_3">
+            <widget class="caGraphics" name="caRectangle_5">
                 <property name="form">
                     <enum>caGraphics::Rectangle</enum>
                 </property>
@@ -6826,7 +6906,7 @@ border-radius: 2px;
                     <enum>Solid</enum>
                 </property>
             </widget>
-            <widget class="caGraphics" name="caRectangle_4">
+            <widget class="caGraphics" name="caRectangle_6">
                 <property name="form">
                     <enum>caGraphics::Rectangle</enum>
                 </property>
@@ -7280,433 +7360,6 @@ border-radius: 2px;
                 </property>
             </widget>
         </widget>
-        <widget class="caGraphics" name="caRectangle_5">
-            <property name="form">
-                <enum>caGraphics::Rectangle</enum>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>419</x>
-                    <y>35</y>
-                    <width>490</width>
-                    <height>605</height>
-                </rect>
-            </property>
-            <property name="lineSize">
-                <number>1</number>
-            </property>
-            <property name="foreground">
-                <color alpha="255">
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
-            <property name="background">
-                <color alpha="0">
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
-            <property name="lineColor">
-                <color alpha="255">
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
-            <property name="linestyle">
-                <enum>Solid</enum>
-            </property>
-        </widget>
-        <widget class="caGraphics" name="caRectangle_6">
-            <property name="form">
-                <enum>caGraphics::Rectangle</enum>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>5</x>
-                    <y>35</y>
-                    <width>410</width>
-                    <height>430</height>
-                </rect>
-            </property>
-            <property name="lineSize">
-                <number>1</number>
-            </property>
-            <property name="foreground">
-                <color alpha="255">
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
-            <property name="background">
-                <color alpha="0">
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
-            <property name="lineColor">
-                <color alpha="255">
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
-            <property name="linestyle">
-                <enum>Solid</enum>
-            </property>
-        </widget>
-        <widget class="caFrame" name="caFrame_5">
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>480</y>
-                    <width>402</width>
-                    <height>397</height>
-                </rect>
-            </property>
-            <widget class="caInclude" name="caInclude_6">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>432</width>
-                        <height>127</height>
-                    </rect>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>430</width>
-                        <height>125</height>
-                    </rect>
-                </property>
-                <property name="filename">
-                    <string>AH501.ui</string>
-                </property>
-                <property name="macro">
-                    <string></string>
-                </property>
-                <property name="visibility">
-                    <enum>caInclude::Calc</enum>
-                </property>
-                <property name="visibilityCalc">
-                    <string>A=3</string>
-                </property>
-                <property name="channel">
-                    <string>$(P)$(R)Model</string>
-                </property>
-            </widget>
-            <widget class="caInclude" name="caInclude_7">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>432</width>
-                        <height>127</height>
-                    </rect>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>430</width>
-                        <height>125</height>
-                    </rect>
-                </property>
-                <property name="filename">
-                    <string>AH401B.ui</string>
-                </property>
-                <property name="macro">
-                    <string></string>
-                </property>
-                <property name="visibility">
-                    <enum>caInclude::Calc</enum>
-                </property>
-                <property name="visibilityCalc">
-                    <string>(A=1) || (A=2)</string>
-                </property>
-                <property name="channel">
-                    <string>$(P)$(R)Model</string>
-                </property>
-            </widget>
-            <widget class="caInclude" name="caInclude_8">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>432</width>
-                        <height>152</height>
-                    </rect>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>430</width>
-                        <height>150</height>
-                    </rect>
-                </property>
-                <property name="filename">
-                    <string>AH501C.ui</string>
-                </property>
-                <property name="macro">
-                    <string></string>
-                </property>
-                <property name="visibility">
-                    <enum>caInclude::Calc</enum>
-                </property>
-                <property name="visibilityCalc">
-                    <string>(A=4)||(A=5)||(A=6)</string>
-                </property>
-                <property name="channel">
-                    <string>$(P)$(R)Model</string>
-                </property>
-            </widget>
-            <widget class="caInclude" name="caInclude_9">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>432</width>
-                        <height>402</height>
-                    </rect>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>430</width>
-                        <height>400</height>
-                    </rect>
-                </property>
-                <property name="filename">
-                    <string>TetrAMM.ui</string>
-                </property>
-                <property name="macro">
-                    <string></string>
-                </property>
-                <property name="visibility">
-                    <enum>caInclude::Calc</enum>
-                </property>
-                <property name="visibilityCalc">
-                    <string>A=7</string>
-                </property>
-                <property name="channel">
-                    <string>$(P)$(R)Model</string>
-                </property>
-            </widget>
-            <widget class="caInclude" name="caInclude_10">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>432</width>
-                        <height>127</height>
-                    </rect>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>430</width>
-                        <height>125</height>
-                    </rect>
-                </property>
-                <property name="filename">
-                    <string>NSLS_EM.ui</string>
-                </property>
-                <property name="macro">
-                    <string></string>
-                </property>
-                <property name="visibility">
-                    <enum>caInclude::Calc</enum>
-                </property>
-                <property name="visibilityCalc">
-                    <string>A=8</string>
-                </property>
-                <property name="channel">
-                    <string>$(P)$(R)Model</string>
-                </property>
-            </widget>
-            <widget class="caInclude" name="caInclude_11">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>432</width>
-                        <height>282</height>
-                    </rect>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>430</width>
-                        <height>280</height>
-                    </rect>
-                </property>
-                <property name="filename">
-                    <string>NSLS2_EM.ui</string>
-                </property>
-                <property name="macro">
-                    <string></string>
-                </property>
-                <property name="visibility">
-                    <enum>caInclude::Calc</enum>
-                </property>
-                <property name="visibilityCalc">
-                    <string>(A=9)</string>
-                </property>
-                <property name="channel">
-                    <string>$(P)$(R)Model</string>
-                </property>
-            </widget>
-            <widget class="caInclude" name="caInclude_12">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>432</width>
-                        <height>192</height>
-                    </rect>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>430</width>
-                        <height>190</height>
-                    </rect>
-                </property>
-                <property name="filename">
-                    <string>PCR4.ui</string>
-                </property>
-                <property name="macro">
-                    <string></string>
-                </property>
-                <property name="visibility">
-                    <enum>caInclude::Calc</enum>
-                </property>
-                <property name="visibilityCalc">
-                    <string>(A=11)</string>
-                </property>
-                <property name="channel">
-                    <string>$(P)$(R)Model</string>
-                </property>
-            </widget>
-            <widget class="caInclude" name="caInclude_13">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>432</width>
-                        <height>132</height>
-                    </rect>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>430</width>
-                        <height>130</height>
-                    </rect>
-                </property>
-                <property name="filename">
-                    <string>T4U.ui</string>
-                </property>
-                <property name="macro">
-                    <string></string>
-                </property>
-                <property name="visibility">
-                    <enum>caInclude::Calc</enum>
-                </property>
-                <property name="visibilityCalc">
-                    <string>(A=13)</string>
-                </property>
-                <property name="channel">
-                    <string>$(P)$(R)Model</string>
-                </property>
-            </widget>
-            <widget class="caInclude" name="caInclude_14">
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>412</width>
-                        <height>189</height>
-                    </rect>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>410</width>
-                        <height>187</height>
-                    </rect>
-                </property>
-                <property name="filename">
-                    <string>FX4.ui</string>
-                </property>
-                <property name="macro">
-                    <string></string>
-                </property>
-                <property name="visibility">
-                    <enum>caInclude::Calc</enum>
-                </property>
-                <property name="visibilityCalc">
-                    <string>(A=14)</string>
-                </property>
-                <property name="channel">
-                    <string>$(P)$(R)Model</string>
-                </property>
-            </widget>
-        </widget>
-        <widget class="caGraphics" name="caRectangle_7">
-            <property name="form">
-                <enum>caGraphics::Rectangle</enum>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>5</x>
-                    <y>470</y>
-                    <width>410</width>
-                    <height>410</height>
-                </rect>
-            </property>
-            <property name="lineSize">
-                <number>1</number>
-            </property>
-            <property name="foreground">
-                <color alpha="255">
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
-            <property name="background">
-                <color alpha="0">
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
-            <property name="lineColor">
-                <color alpha="255">
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
-            <property name="linestyle">
-                <enum>Solid</enum>
-            </property>
-        </widget>
         <zorder>caRectangle_0</zorder>
         <zorder>caPolyLine_0</zorder>
         <zorder>caLabel_0</zorder>
@@ -7756,6 +7409,8 @@ border-radius: 2px;
         <zorder>caLabel_41</zorder>
         <zorder>caInclude_3</zorder>
         <zorder>caRectangle_1</zorder>
+        <zorder>caRectangle_2</zorder>
+        <zorder>caRectangle_3</zorder>
         <zorder>caLabel_42</zorder>
         <zorder>caLabel_43</zorder>
         <zorder>caLabel_44</zorder>
@@ -7765,10 +7420,10 @@ border-radius: 2px;
         <zorder>caLabel_48</zorder>
         <zorder>caLabel_49</zorder>
         <zorder>caLabel_50</zorder>
-        <zorder>caRectangle_2</zorder>
-        <zorder>caLabel_51</zorder>
-        <zorder>caRectangle_3</zorder>
         <zorder>caRectangle_4</zorder>
+        <zorder>caLabel_51</zorder>
+        <zorder>caRectangle_5</zorder>
+        <zorder>caRectangle_6</zorder>
         <zorder>caLabel_52</zorder>
         <zorder>caLabel_53</zorder>
         <zorder>caLabel_54</zorder>
@@ -7776,19 +7431,6 @@ border-radius: 2px;
         <zorder>caLabel_56</zorder>
         <zorder>caLabel_57</zorder>
         <zorder>caFrame_4</zorder>
-        <zorder>caRectangle_5</zorder>
-        <zorder>caRectangle_6</zorder>
-        <zorder>caInclude_6</zorder>
-        <zorder>caInclude_7</zorder>
-        <zorder>caInclude_8</zorder>
-        <zorder>caInclude_9</zorder>
-        <zorder>caInclude_10</zorder>
-        <zorder>caInclude_11</zorder>
-        <zorder>caInclude_12</zorder>
-        <zorder>caInclude_13</zorder>
-        <zorder>caInclude_14</zorder>
-        <zorder>caFrame_5</zorder>
-        <zorder>caRectangle_7</zorder>
         <zorder>caLineEdit_0</zorder>
         <zorder>caLineEdit_1</zorder>
         <zorder>caChoice_0</zorder>

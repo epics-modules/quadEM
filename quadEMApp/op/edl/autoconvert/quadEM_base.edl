@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 2020
-y 80
+x 574
+y 60
 w 915
-h 1050
+h 1035
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-bold-r-10.0"
 btnFont "helvetica-medium-r-18.0"
@@ -2399,11 +2399,24 @@ newPos
 objType "controls"
 endObjectProperties
 
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 490
+y 915
+w 350
+h 110
+
+beginGroup
+
 # (Embedded Window)
 object activePipClass
 beginObjectProperties
 major 4
-minor 0
+minor 1
 release 0
 x 490
 y 915
@@ -2421,6 +2434,12 @@ displayFileName {
   0 "ADAttrFile.edl"
 }
 noScroll
+endObjectProperties
+
+endGroup
+
+visMin "A"
+visMax "1"
 endObjectProperties
 
 # (Group)
@@ -2618,7 +2637,7 @@ major 4
 minor 0
 release 0
 x 30
-y 885
+y 865
 w 350
 h 160
 
@@ -2631,7 +2650,7 @@ major 4
 minor 1
 release 0
 x 30
-y 885
+y 865
 w 350
 h 160
 fgColor rgb 0 0 0
@@ -2652,6 +2671,34 @@ endGroup
 
 visMin "A"
 visMax "1"
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 5
+y 35
+w 409
+h 429
+lineColor rgb 0 0 0
+fillColor rgb 0 0 0
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 419
+y 35
+w 489
+h 604
+lineColor rgb 0 0 0
+fillColor rgb 0 0 0
 endObjectProperties
 
 # (Rectangle)
@@ -3089,462 +3136,6 @@ endGroup
 
 endObjectProperties
 
-
-# (Rectangle)
-object activeRectangleClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 419
-y 35
-w 489
-h 604
-lineColor rgb 0 0 0
-fillColor rgb 0 0 0
-endObjectProperties
-
-# (Rectangle)
-object activeRectangleClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 35
-w 409
-h 429
-lineColor rgb 0 0 0
-fillColor rgb 0 0 0
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 400
-h 395
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 390
-h 120
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 480
-w 390
-h 120
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "AH501.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "AH501.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "A=3"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 390
-h 95
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 480
-w 390
-h 95
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "AH401B.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "AH401B.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "(A=1) || (A=2)"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 390
-h 145
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 480
-w 390
-h 145
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "AH501C.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "AH501C.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "(A=4)||(A=5)||(A=6)"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 392
-h 395
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 480
-w 392
-h 395
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "TetrAMM.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "TetrAMM.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "A=7"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 390
-h 45
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 480
-w 390
-h 45
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "NSLS_EM.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "NSLS_EM.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "A=8"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 390
-h 269
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 480
-w 390
-h 269
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "NSLS2_EM.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "NSLS2_EM.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "(A=9)"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 362
-h 172
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 480
-w 362
-h 172
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "PCR4.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "PCR4.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "(A=11)"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 400
-h 121
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 480
-w 400
-h 121
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "T4U.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "T4U.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "(A=13)"
-visMax "1"
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 390
-h 170
-
-beginGroup
-
-# (Embedded Window)
-object activePipClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 10
-y 480
-w 390
-h 170
-fgColor rgb 0 0 0
-bgColor rgb 65280 65280 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-displaySource "file"
-file "FX4.edl"
-sizeOfs 5
-numDsps 1
-displayFileName {
-  0 "FX4.edl"
-}
-noScroll
-endObjectProperties
-
-endGroup
-
-visPv "$(P)$(R)Model"
-visMin "(A=14)"
-visMax "1"
-endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Rectangle)
-object activeRectangleClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 470
-w 409
-h 409
-lineColor rgb 0 0 0
-fillColor rgb 0 0 0
-endObjectProperties
 
 # (Choice Button)
 object activeChoiceButtonClass
@@ -4459,23 +4050,6 @@ controlPv "$(P)$(R)ReadStatus.SCAN"
 indicatorPv "$(P)$(R)ReadStatus.SCAN"
 font "helvetica-medium-r-12.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 10
-y 480
-w 400
-h 395
-
-beginGroup
 
 endGroup
 
