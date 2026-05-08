@@ -76,5 +76,6 @@ private:
     std::vector<valuePair> gateCache_;
     epicsInt64 startTime_;
     bool synchronized_;
+    bool timestampMismatch_;
 };
 

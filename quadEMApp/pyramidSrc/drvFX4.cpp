@@ -212,9 +212,17 @@ void drvFX4::onMessageEvent(const std::string& event, const json& data) {
                 if (adcCache_[1].front().time != adcCache_[0].front().time ||
                     adcCache_[2].front().time != adcCache_[0].front().time ||
                     adcCache_[3].front().time != adcCache_[0].front().time) {
-                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s timestamps are not the same for sample %lu %f %f %f %f\n",
-                              functionName, i, adcCache_[0].front().time, adcCache_[1].front().time,
-                                               adcCache_[2].front().time, adcCache_[3].front().time);
+                    if (!timestampMismatch_) {
+                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s timestamps are not the same for sample %lu %f %f %f %f\n",
+                                  functionName, i, adcCache_[0].front().time, adcCache_[1].front().time,
+                                                   adcCache_[2].front().time, adcCache_[3].front().time);
+                        timestampMismatch_ = true;
+                    }
+                } else {
+                    if (timestampMismatch_) {
+                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s timestamps back to normal\n", functionName);
+                        timestampMismatch_ = false;
+                    }
                 }
                 for (int i=0; i<FX4_NUM_CHANS; i++){
                     currents[i] = adcCache_[i].front().val;
@@ -288,6 +296,7 @@ asynStatus drvFX4::setAcquire(epicsInt32 value)
         for (auto& adc : adcCache_) adc.clear();
         acquiring_ = 1;
         synchronized_ = false;
+        timestampMismatch_ = false;
         sendSubscribeEvent();
         sendGetEvent();
     } else {
