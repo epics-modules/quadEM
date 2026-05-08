@@ -22,6 +22,7 @@ PROD_LIBS += caenQuadEM
 PROD_LIBS += nslsQuadEM
 PROD_LIBS += sensicQuadEM
 PROD_LIBS += sydorQuadEM
+PROD_LIBS += fx4QuadEM
 PROD_LIBS += quadEM
 
 ifdef SNCSEQ
@@ -46,6 +47,7 @@ $(PROD_NAME)_DBD += drvPCR4.dbd
 $(PROD_NAME)_DBD += drvPCR4.dbd
 $(PROD_NAME)_DBD += drvT4U_EM.dbd
 $(PROD_NAME)_DBD += drvT4UDirect_EM.dbd
+$(PROD_NAME)_DBD += drvFX4.dbd
 
 PROD_NAME = quadEMTestApp
 
