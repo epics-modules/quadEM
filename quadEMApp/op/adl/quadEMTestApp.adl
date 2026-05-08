@@ -139,7 +139,7 @@ text {
 	display[6] {
 		label="FX4"
 		name="quadEM.adl"
-		args="P=QE1:, R=FX4:,FXP=164.54.161.10:/fx4,P_TS=QE1:FX4_TS:,P_FFT=QE1:FX4_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
+		args="P=QE1:, R=FX4:,P_TS=QE1:FX4_TS:,P_FFT=QE1:FX4_FFT:,TX=Horizontal_BPM, TY=Vertical_BPM"
 	}
 	clr=14
 	bclr=4
