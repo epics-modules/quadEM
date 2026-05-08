@@ -69,7 +69,8 @@ typedef enum {
     QE_ModelNSLS2_IC,
     QE_ModelPCR4,
     QE_ModelSoftDevice,
-    QE_ModelSydor_EM
+    QE_ModelSydor_EM,
+    QE_ModelFX4
 } QEModel_t;
 
 /* These enums give the offsets into the data array for each value */
