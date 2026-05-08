@@ -153,6 +153,10 @@ record(bi,"$(P)$(R)BiasState_RBV") {
     field(SCAN, "Passive")
 }
 
+record(ao,      "$(P)$(R)BiasVoltage") {
+    field(DTYP, "Soft Channel")
+}
+
 record(ao,      "$(P)$(R)SetBiasVoltage") {
     field(DOL,  "$(P)$(R)BiasVoltage CP")
     field(OUT,  "$(FXP)/fx4/high_voltage/command_voltage/value")
@@ -204,8 +208,4 @@ record(mbbi,    "$(P)$(R)TriggerMode_RBV") {
     field(TWST, "Ext. bulb")
     field(THVL, "4")
     field(THST, "Ext. gate")
-}
-
-record(ao,      "$(P)$(R)BiasVoltage") {
-    field(OUT,  "@asyn($(PORT) 0)QE_BIAS_VOLTAGE")
 }
