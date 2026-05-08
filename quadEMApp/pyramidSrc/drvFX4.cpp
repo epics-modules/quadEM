@@ -28,8 +28,19 @@
 #include <epicsExport.h>
 #include "drvFX4.h"
 
+#define CH1_PATH "/fx4/adc/channel_1/value"
+#define CH2_PATH "/fx4/adc/channel_2/value"
+#define CH3_PATH "/fx4/adc/channel_3/value"
+#define CH4_PATH "/fx4/adc/channel_4/value"
+#define GATE_PATH "/fx4/gpio_0/22/readback/value"
 
 static const char *driverName="drvFX4";
+
+static void pollThread(void *drvPvt)
+{
+    drvFX4 *pPvt = (drvFX4 *)drvPvt;
+    pPvt->pollThread();
+}
 
 /** Constructor for the drvFX4 class.
   * Calls the constructor for the drvQuadEM base class.
@@ -46,6 +57,7 @@ drvFX4::drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize)
 
 {
     std::string uri = "ws://" + std::string(FX4_IP);
+    static const char* functionName = "drvFX4";
 
     ws_client_.init_asio();
     ws_client_.clear_access_channels(websocketpp::log::alevel::frame_header | websocketpp::log::alevel::frame_payload);
@@ -72,6 +84,16 @@ drvFX4::drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize)
     acquiring_ = 0;
     resolution_ = 24;
     setIntegerParam(P_Model, QE_ModelFX4);
+
+    /* Create a polling thread that periodically sends get messages to avoid disconnect */
+    if (epicsThreadCreate("drvFX4Task",
+                          epicsThreadPriorityMedium,
+                          epicsThreadGetStackSize(epicsThreadStackMedium),
+                          (EPICSTHREADFUNC)::pollThread,
+                          this) == NULL) {
+        printf("%s::%s: epicsThreadCreate failure\n", driverName, functionName);
+        return;
+    }
 
     callParamCallbacks();
 }
@@ -107,27 +129,19 @@ void drvFX4::sendEventData(const std::string& event, json data = nullptr) {
 //--------------------------------------------------
 void drvFX4::sendSubscribeEvent() {
     json data = {
-        {"/fx4/adc/channel_1/value", true},
-        {"/fx4/adc/channel_2/value", true},
-        {"/fx4/adc/channel_3/value", true},
-        {"/fx4/adc/channel_4/value", true},
-        {"/fx4/gpio_0/22/readback/value", true}
+        {CH1_PATH, true},
+        {CH2_PATH, true},
+        {CH3_PATH, true},
+        {CH4_PATH, true},
+        {GATE_PATH, true}
     };
-
     sendEventData("subscribe", data);
 }
 
 //--------------------------------------------------
 void drvFX4::sendUnsubscribeEvent() {
-    json data = {
-        {"/fx4/adc/channel_1/value", true},
-        {"/fx4/adc/channel_2/value", true},
-        {"/fx4/adc/channel_3/value", true},
-        {"/fx4/adc/channel_4/value", true},
-        {"/fx4/gpio_0/22/readback/value", true}
-    };
-
-    sendEventData("unsubscribe", data);
+    json data = {};
+    sendEventData("subscribe", data);
 }
 
 //--------------------------------------------------
@@ -141,50 +155,90 @@ void drvFX4::sendGetEvent() {
 void drvFX4::onMessageEvent(const std::string& event, const json& data) {
     static const char *functionName = "drvFX4::onMessageEvent";
     epicsFloat64 currents[QE_MAX_INPUTS];
+
     if (!data.empty()) {
-//        asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: %s %s\n", functionName, event.c_str(), (data.dump()).c_str());
+        //asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: %s %s\n", functionName, event.c_str(), (data.dump()).c_str());
     }
 
-    if (event == "update") {
-        std::vector<double> adc1, adc2, adc3, adc4;
-        std::vector<bool> bit1;
-        for (auto& [path, values] : data.items()) {
-            for (auto& v : values) {
-                if      (path.find("channel_1") != std::string::npos) adc1.push_back(v[0]);
-                else if (path.find("channel_2") != std::string::npos) adc2.push_back(v[0]);
-                else if (path.find("channel_3") != std::string::npos) adc3.push_back(v[0]);
-                else if (path.find("channel_4") != std::string::npos) adc4.push_back(v[0]);
-                else if (path.find("gpio") != std::string::npos) bit1.push_back(v[0]);
-            }
-        }
-        if (bit1.size() > 0) {
-            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: Bit1=%d\n", functionName, bit1[0]?1:0);
-        }
+    // If not acquiring then return, ignore the messages from the periodic get requests required to keep the websocket alive
+    if (!acquiring_) return;
 
-        if (adc1.size() > 0) {
-            if (adc2.size() != adc1.size() || adc3.size() != adc1.size() || adc4.size() != adc1.size()) {
-                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s unequal number of samples %d %d %d %d\n",
-                          functionName, (int)adc1.size(), (int)adc2.size(), (int)adc3.size(), (int)adc4.size());
-                goto error;
+    if (event == "update") {
+        for (auto& [path, values] : data.items()) {
+            double value;
+            for (auto& v : values) {
+                if (path == GATE_PATH) {
+                    value = v[0] ? 1.0 : 0.;
+                } else {
+                    value = v[0];
+                }
+                epicsInt64 time = v[1];
+                if (startTime_ == 0) startTime_ = time;
+                double timestamp = (time - startTime_)/1e9;
+                dataCache_[path].push_back({value, timestamp});
             }
-            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: Samples=%d %d %d %d, ADCs[0]=%f %f %f %f\n",
-                      functionName, (int)adc1.size(), (int)adc2.size(), (int)adc3.size(), (int)adc4.size(),
-                      adc1[0], adc2[0], adc3[0], adc4[0]);
-            for (size_t i=0; i<adc1.size(); i++) {
-                currents[0] = adc1[i];
-                currents[1] = adc2[i];
-                currents[2] = adc3[i];
-                currents[3] = adc4[i];
+        }
+        if (dataCache_[CH1_PATH].size() > 0) {
+            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: Samples=%lu %lu %lu %lu\n"
+                                                          "    ADCs first=%f %f %f %f\n"
+                                                          "   Times first=%f %f %f %f\n"
+                                                          "    ADCs last=%f %f %f %f\n"
+                                                          "   Times last=%f %f %f %f\n",
+                      functionName, dataCache_[CH1_PATH].size(), dataCache_[CH2_PATH].size(),
+                                    dataCache_[CH3_PATH].size(), dataCache_[CH4_PATH].size(),
+                                    dataCache_[CH1_PATH].front().val, dataCache_[CH2_PATH].front().val,
+                                    dataCache_[CH3_PATH].front().val, dataCache_[CH4_PATH].front().val,
+                                    dataCache_[CH1_PATH].front().time, dataCache_[CH2_PATH].front().time,
+                                    dataCache_[CH3_PATH].front().time, dataCache_[CH4_PATH].front().time,
+                                    dataCache_[CH1_PATH].back().val, dataCache_[CH2_PATH].back().val,
+                                    dataCache_[CH3_PATH].back().val, dataCache_[CH4_PATH].back().val,
+                                    dataCache_[CH1_PATH].back().time, dataCache_[CH2_PATH].back().time,
+                                    dataCache_[CH3_PATH].back().time, dataCache_[CH4_PATH].back().time);
+            size_t minSize = std::min({dataCache_[CH1_PATH].size(), dataCache_[CH2_PATH].size(),
+                                       dataCache_[CH3_PATH].size(), dataCache_[CH4_PATH].size()});
+            size_t maxSize = std::max({dataCache_[CH1_PATH].size(), dataCache_[CH2_PATH].size(),
+                                       dataCache_[CH3_PATH].size(), dataCache_[CH4_PATH].size()});
+            asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s minimum size=%lu, size=%lu %lu %lu %lu\n",
+                          functionName, minSize, dataCache_[CH1_PATH].size(), dataCache_[CH2_PATH].size(),
+                                        dataCache_[CH3_PATH].size(), dataCache_[CH4_PATH].size());
+            if (!synchronized_) {
+                if (minSize != maxSize) {
+                    // Throw away these readings and return
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s not synchronized and different number of samples per channel\n", functionName);
+                    dataCache_[CH1_PATH].clear(); dataCache_[CH2_PATH].clear(); dataCache_[CH3_PATH].clear(); dataCache_[CH4_PATH].clear();
+                    goto error;
+                } else {
+                    synchronized_ = true;
+                }
+            }
+            for (size_t i=0; i<minSize; i++) {
+                if (dataCache_[CH2_PATH].front().time != dataCache_[CH1_PATH].front().time ||
+                    dataCache_[CH3_PATH].front().time != dataCache_[CH1_PATH].front().time ||
+                    dataCache_[CH4_PATH].front().time != dataCache_[CH1_PATH].front().time) {
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s timestamps are not the same for sample %lu %f %f %f %f\n",
+                              functionName, i, dataCache_[CH1_PATH].front().time, dataCache_[CH2_PATH].front().time,
+                                               dataCache_[CH3_PATH].front().time, dataCache_[CH4_PATH].front().time);
+                }
+                currents[0] = dataCache_[CH1_PATH].front().val; dataCache_[CH1_PATH].pop_front();
+                currents[1] = dataCache_[CH2_PATH].front().val; dataCache_[CH2_PATH].pop_front();
+                currents[2] = dataCache_[CH3_PATH].front().val; dataCache_[CH3_PATH].pop_front();
+                currents[3] = dataCache_[CH4_PATH].front().val; dataCache_[CH4_PATH].pop_front();
                 lock();
                 computePositions(currents);
                 unlock();
             }
-            epicsThreadSleep(0.00);
         }
-        error:
         epicsThreadSleep(0.01);
-
+        error:
         if (acquiring_) sendGetEvent();
+    }
+}
+
+void drvFX4::pollThread()
+{
+    while(1) {
+        if (!acquiring_) sendGetEvent();
+        epicsThreadSleep(5.0);
     }
 }
 
@@ -227,14 +281,24 @@ asynStatus drvFX4::setAcquireParams()
   */
 asynStatus drvFX4::setAcquire(epicsInt32 value)
 {
+     //static const char *functionName = "drvFX4::setAcquire";
+
+    // If we are already in the desired state return immediately
+    if (value == acquiring_) return asynSuccess;
+
     if (value) {
+        startTime_ = 0;
+        dataCache_[CH1_PATH].clear(); dataCache_[CH2_PATH].clear(); dataCache_[CH3_PATH].clear(); dataCache_[CH4_PATH].clear();
+        acquiring_ = 1;
+        synchronized_ = false;
         sendSubscribeEvent();
         sendGetEvent();
-        acquiring_ = 1;
     } else {
         sendUnsubscribeEvent();
         acquiring_ = 0;
     }
+    //  Call the base class that does some common things
+    return drvQuadEM::setAcquire(value);
 
     return asynSuccess;
 }
@@ -366,4 +430,3 @@ void drvFX4Register(void)
 epicsExportRegistrar(drvFX4Register);
 
 }
-

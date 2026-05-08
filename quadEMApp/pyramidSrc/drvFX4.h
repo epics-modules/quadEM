@@ -13,16 +13,24 @@
 #include <websocketpp/config/asio_no_tls_client.hpp>
 #include <websocketpp/client.hpp>
 #include <json.hpp>
+#include <list>
+
 using json = nlohmann::json;
 using websocketpp::connection_hdl;
 using websocketpp::lib::bind;
 using websocketpp::lib::placeholders::_1;
 using websocketpp::lib::placeholders::_2;
 
+
 typedef websocketpp::client<websocketpp::config::asio_client> client;
 
 #define MAX_COMMAND_LEN 256
 #define P_InterlockStatusString  "FX4_INTERLOCK_STATUS"             /* asynInt32,    r/w */
+
+typedef struct {
+    double val;
+    double time;
+} valuePair;
 
 /** Class to control the CaenEls TetrAMM 4-Channel Picoammeter */
 class drvFX4 : public drvQuadEM {
@@ -33,6 +41,8 @@ public:
     void report(FILE *fp, int details);
 
     /* These are the methods that are new to this class */
+    /* These are the methods that are new to this class */
+    void pollThread(void);
     virtual void exitHandler();
 
 protected:
@@ -61,5 +71,9 @@ private:
     connection_hdl ws_hdl_;
     bool FX4Connected_;
     std::thread *ws_thread_;
+    // database[path] = list of (value, timestamp)
+    std::map<std::string, std::list<valuePair>> dataCache_;
+    epicsInt64 startTime_;
+    bool synchronized_;
 };
 
