@@ -1,6 +1,6 @@
 
 file {
-	name="FX4_new.adl"
+	name="/home/epics/devel/quadEM/quadEMApp/op/adl/FX4.adl"
 	version=030117
 }
 display {
@@ -87,292 +87,269 @@ display {
 		1a7309,
 	}
 }
-composite {
+text {
 	object {
-		x=0
-		y=0
-		width=410
-		height=187
+		x=35
+		y=60
+		width=160
+		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=35
-				y=60
-				width=160
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Trigger polarity"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=295
-				y=60
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TriggerPolarity_RBV"
-				clr=54
-				bclr=3
-			}
-			format="string"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=200
-				y=60
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)TriggerPolarity"
-				clr=14
-				bclr=51
-			}
-		}
-		text {
-			object {
-				x=75
-				y=35
-				width=120
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Trigger mode"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=200
-				y=35
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)TriggerMode"
-				clr=14
-				bclr=51
-			}
-		}
-		"text update" {
-			object {
-				x=295
-				y=35
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TriggerMode_RBV"
-				clr=54
-				bclr=3
-			}
-			format="string"
-			limits {
-			}
-		}
-		text {
-			object {
-				x=65
-				y=10
-				width=130
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Current units"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=200
-				y=10
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)CurrentUnits"
-				clr=14
-				bclr=51
-			}
-		}
-		"text update" {
-			object {
-				x=295
-				y=10
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)CurrentUnits_RBV"
-				clr=54
-				bclr=3
-			}
-			format="string"
-			limits {
-			}
-		}
-		text {
-			object {
-				x=5
-				y=160
-				width=190
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Bias state readback"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=200
-				y=160
-				width=90
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)HVSReadback"
-				clr=54
-				bclr=3
-			}
-			format="string"
-			limits {
-			}
-		}
-		text {
-			object {
-				x=75
-				y=85
-				width=120
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Bias voltage"
-		}
-		"text entry" {
-			object {
-				x=200
-				y=85
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)BiasVoltage"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=295
-				y=85
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)BiasVoltage_RBV"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=35
-				y=110
-				width=160
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Voltage readback"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=200
-				y=110
-				width=90
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)HVVReadback"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		rectangle {
-			object {
-				x=0
-				y=0
-				width=410
-				height=187
-			}
-			"basic attribute" {
-				clr=14
-				fill="outline"
-			}
-		}
-		text {
-			object {
-				x=95
-				y=135
-				width=100
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Bias state"
-		}
-		menu {
-			object {
-				x=200
-				y=135
-				width=90
-				height=20
-			}
-			control {
-				chan="$(P)$(R)BiasState"
-				clr=14
-				bclr=51
-			}
-		}
-		"text update" {
-			object {
-				x=295
-				y=135
-				width=100
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)BiasState_RBV"
-				clr=54
-				bclr=3
-			}
-			format="string"
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger polarity"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=295
+		y=60
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TriggerPolarity_RBV"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+menu {
+	object {
+		x=200
+		y=60
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)TriggerPolarity"
+		clr=14
+		bclr=51
+	}
+}
+text {
+	object {
+		x=75
+		y=35
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger mode"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=200
+		y=35
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)TriggerMode"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=295
+		y=35
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TriggerMode_RBV"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=65
+		y=10
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Current units"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=200
+		y=10
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)CurrentUnits"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=295
+		y=10
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)CurrentUnits_RBV"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=5
+		y=160
+		width=190
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Bias state readback"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=200
+		y=160
+		width=90
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)HVSReadback"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=75
+		y=85
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Bias voltage"
+}
+"text entry" {
+	object {
+		x=200
+		y=85
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)BiasVoltage"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=295
+		y=85
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)BiasVoltage_RBV"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=35
+		y=110
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Voltage readback"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=200
+		y=110
+		width=90
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)HVVReadback"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=95
+		y=135
+		width=100
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Bias state"
+}
+menu {
+	object {
+		x=200
+		y=135
+		width=90
+		height=20
+	}
+	control {
+		chan="$(P)$(R)BiasState"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=295
+		y=135
+		width=100
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)BiasState_RBV"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
 	}
 }
