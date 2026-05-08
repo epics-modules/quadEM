@@ -28,12 +28,6 @@
 #include <epicsExport.h>
 #include "drvFX4.h"
 
-#define CH1_PATH "/fx4/adc/channel_1/value"
-#define CH2_PATH "/fx4/adc/channel_2/value"
-#define CH3_PATH "/fx4/adc/channel_3/value"
-#define CH4_PATH "/fx4/adc/channel_4/value"
-#define GATE_PATH "/fx4/gpio_0/22/readback/value"
-
 static const char *driverName="drvFX4";
 
 static void pollThread(void *drvPvt)
@@ -78,8 +72,6 @@ drvFX4::drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize)
     while (!FX4Connected_) {
         epicsThreadSleep(0.01);
     }
-
-    createParam(P_InterlockStatusString, asynParamInt32,   &P_InterlockStatus);
 
     acquiring_ = 0;
     resolution_ = 24;
@@ -129,10 +121,10 @@ void drvFX4::sendEventData(const std::string& event, json data = nullptr) {
 //--------------------------------------------------
 void drvFX4::sendSubscribeEvent() {
     json data = {
-        {CH1_PATH, true},
-        {CH2_PATH, true},
-        {CH3_PATH, true},
-        {CH4_PATH, true},
+        {ADC_PATHS[0], true},
+        {ADC_PATHS[1], true},
+        {ADC_PATHS[2], true},
+        {ADC_PATHS[3], true},
         {GATE_PATH, true}
     };
     sendEventData("subscribe", data);
@@ -165,64 +157,69 @@ void drvFX4::onMessageEvent(const std::string& event, const json& data) {
 
     if (event == "update") {
         for (auto& [path, values] : data.items()) {
-            double value;
+            int chan=0;
+            bool isGate = (path == GATE_PATH);
+            for (int i=0; i<FX4_NUM_CHANS; i++) {
+                if (path == ADC_PATHS[i]) chan = i;
+            }
             for (auto& v : values) {
-                if (path == GATE_PATH) {
-                    value = v[0] ? 1.0 : 0.;
-                } else {
-                    value = v[0];
-                }
                 epicsInt64 time = v[1];
                 if (startTime_ == 0) startTime_ = time;
                 double timestamp = (time - startTime_)/1e9;
-                dataCache_[path].push_back({value, timestamp});
+                if (isGate) {
+                    gateCache_.push_back({v[0] ? 1.0 : 0., timestamp});
+                } else {
+                    adcCache_[chan].push_back({v[0], timestamp});
+                }
             }
         }
-        if (dataCache_[CH1_PATH].size() > 0) {
+        if (adcCache_[0].size() > 0) {
             asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: Samples=%lu %lu %lu %lu\n"
                                                           "    ADCs first=%f %f %f %f\n"
                                                           "   Times first=%f %f %f %f\n"
                                                           "    ADCs last=%f %f %f %f\n"
                                                           "   Times last=%f %f %f %f\n",
-                      functionName, dataCache_[CH1_PATH].size(), dataCache_[CH2_PATH].size(),
-                                    dataCache_[CH3_PATH].size(), dataCache_[CH4_PATH].size(),
-                                    dataCache_[CH1_PATH].front().val, dataCache_[CH2_PATH].front().val,
-                                    dataCache_[CH3_PATH].front().val, dataCache_[CH4_PATH].front().val,
-                                    dataCache_[CH1_PATH].front().time, dataCache_[CH2_PATH].front().time,
-                                    dataCache_[CH3_PATH].front().time, dataCache_[CH4_PATH].front().time,
-                                    dataCache_[CH1_PATH].back().val, dataCache_[CH2_PATH].back().val,
-                                    dataCache_[CH3_PATH].back().val, dataCache_[CH4_PATH].back().val,
-                                    dataCache_[CH1_PATH].back().time, dataCache_[CH2_PATH].back().time,
-                                    dataCache_[CH3_PATH].back().time, dataCache_[CH4_PATH].back().time);
-            size_t minSize = std::min({dataCache_[CH1_PATH].size(), dataCache_[CH2_PATH].size(),
-                                       dataCache_[CH3_PATH].size(), dataCache_[CH4_PATH].size()});
-            size_t maxSize = std::max({dataCache_[CH1_PATH].size(), dataCache_[CH2_PATH].size(),
-                                       dataCache_[CH3_PATH].size(), dataCache_[CH4_PATH].size()});
+                      functionName, adcCache_[0].size(), adcCache_[1].size(),
+                                    adcCache_[2].size(), adcCache_[3].size(),
+                                    adcCache_[0].front().val, adcCache_[1].front().val,
+                                    adcCache_[2].front().val, adcCache_[3].front().val,
+                                    adcCache_[0].front().time, adcCache_[1].front().time,
+                                    adcCache_[2].front().time, adcCache_[3].front().time,
+                                    adcCache_[0].back().val, adcCache_[1].back().val,
+                                    adcCache_[2].back().val, adcCache_[3].back().val,
+                                    adcCache_[0].back().time, adcCache_[1].back().time,
+                                    adcCache_[2].back().time, adcCache_[3].back().time);
+            size_t minSize = std::min({adcCache_[0].size(), adcCache_[1].size(),
+                                       adcCache_[2].size(), adcCache_[3].size()});
+            size_t maxSize = std::max({adcCache_[0].size(), adcCache_[1].size(),
+                                       adcCache_[2].size(), adcCache_[3].size()});
             asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s minimum size=%lu, size=%lu %lu %lu %lu\n",
-                          functionName, minSize, dataCache_[CH1_PATH].size(), dataCache_[CH2_PATH].size(),
-                                        dataCache_[CH3_PATH].size(), dataCache_[CH4_PATH].size());
-            if (!synchronized_) {
-                if (minSize != maxSize) {
+                          functionName, minSize, adcCache_[0].size(), adcCache_[1].size(),
+                                        adcCache_[2].size(), adcCache_[3].size());
+            if (minSize != maxSize) {
+                if (!synchronized_) {
                     // Throw away these readings and return
-                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s not synchronized and different number of samples per channel\n", functionName);
-                    dataCache_[CH1_PATH].clear(); dataCache_[CH2_PATH].clear(); dataCache_[CH3_PATH].clear(); dataCache_[CH4_PATH].clear();
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s not synchronized and different number of samples per channel=%lu %lu %lu %lu\n", 
+                          functionName, adcCache_[0].size(), adcCache_[1].size(), adcCache_[2].size(), adcCache_[3].size());
+                    for (auto& adc : adcCache_) adc.clear();
                     goto error;
-                } else {
-                    synchronized_ = true;
                 }
+            } else {
+                synchronized_ = true;
             }
+
             for (size_t i=0; i<minSize; i++) {
-                if (dataCache_[CH2_PATH].front().time != dataCache_[CH1_PATH].front().time ||
-                    dataCache_[CH3_PATH].front().time != dataCache_[CH1_PATH].front().time ||
-                    dataCache_[CH4_PATH].front().time != dataCache_[CH1_PATH].front().time) {
+                if (adcCache_[1].front().time != adcCache_[0].front().time ||
+                    adcCache_[2].front().time != adcCache_[0].front().time ||
+                    adcCache_[3].front().time != adcCache_[0].front().time) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s timestamps are not the same for sample %lu %f %f %f %f\n",
-                              functionName, i, dataCache_[CH1_PATH].front().time, dataCache_[CH2_PATH].front().time,
-                                               dataCache_[CH3_PATH].front().time, dataCache_[CH4_PATH].front().time);
+                              functionName, i, adcCache_[0].front().time, adcCache_[1].front().time,
+                                               adcCache_[2].front().time, adcCache_[3].front().time);
                 }
-                currents[0] = dataCache_[CH1_PATH].front().val; dataCache_[CH1_PATH].pop_front();
-                currents[1] = dataCache_[CH2_PATH].front().val; dataCache_[CH2_PATH].pop_front();
-                currents[2] = dataCache_[CH3_PATH].front().val; dataCache_[CH3_PATH].pop_front();
-                currents[3] = dataCache_[CH4_PATH].front().val; dataCache_[CH4_PATH].pop_front();
+                for (int i=0; i<FX4_NUM_CHANS; i++){
+                    currents[i] = adcCache_[i].front().val;
+                    adcCache_[i].pop_front();
+                }
                 lock();
                 computePositions(currents);
                 unlock();
@@ -288,7 +285,7 @@ asynStatus drvFX4::setAcquire(epicsInt32 value)
 
     if (value) {
         startTime_ = 0;
-        dataCache_[CH1_PATH].clear(); dataCache_[CH2_PATH].clear(); dataCache_[CH3_PATH].clear(); dataCache_[CH4_PATH].clear();
+        for (auto& adc : adcCache_) adc.clear();
         acquiring_ = 1;
         synchronized_ = false;
         sendSubscribeEvent();

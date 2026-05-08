@@ -24,15 +24,12 @@ using websocketpp::lib::placeholders::_2;
 
 typedef websocketpp::client<websocketpp::config::asio_client> client;
 
-#define MAX_COMMAND_LEN 256
-#define P_InterlockStatusString  "FX4_INTERLOCK_STATUS"             /* asynInt32,    r/w */
-
 typedef struct {
     double val;
     double time;
 } valuePair;
 
-/** Class to control the CaenEls TetrAMM 4-Channel Picoammeter */
+/** Class to control the Pyrimid FX4 4-Channel current meter */
 class drvFX4 : public drvQuadEM {
 public:
     drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize);
@@ -71,8 +68,12 @@ private:
     connection_hdl ws_hdl_;
     bool FX4Connected_;
     std::thread *ws_thread_;
-    // database[path] = list of (value, timestamp)
-    std::map<std::string, std::list<valuePair>> dataCache_;
+    static constexpr int FX4_NUM_CHANS = 4;
+    static inline const std::array<std::string, FX4_NUM_CHANS> 
+      ADC_PATHS = {"/fx4/adc/channel_1/value", "/fx4/adc/channel_2/value", "/fx4/adc/channel_3/value", "/fx4/adc/channel_4/value"};
+    static inline const std::string GATE_PATH = "/fx4/gpio_0/22/readback/value";
+    std::array<std::list<valuePair>, FX4_NUM_CHANS> adcCache_;
+    std::vector<valuePair> gateCache_;
     epicsInt64 startTime_;
     bool synchronized_;
 };
