@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM_base.adl"
+	name="/home/epics/devel/quadEM/quadEMApp/op/adl/quadEM.adl"
 	version=030117
 }
 display {
@@ -8,7 +8,7 @@ display {
 		x=2020
 		y=80
 		width=915
-		height=1040
+		height=1050
 	}
 	clr=14
 	bclr=3
@@ -1992,38 +1992,12 @@ menu {
 composite {
 	object {
 		x=30
-		y=870
+		y=885
 		width=350
 		height=160
 	}
 	"composite name"=""
 	"composite file"="ADBuffers.adl"
-}
-rectangle {
-	object {
-		x=5
-		y=35
-		width=410
-		height=430
-	}
-	"basic attribute" {
-		clr=14
-		fill="outline"
-		width=1
-	}
-}
-rectangle {
-	object {
-		x=419
-		y=35
-		width=490
-		height=605
-	}
-	"basic attribute" {
-		clr=14
-		fill="outline"
-		width=1
-	}
 }
 rectangle {
 	object {
@@ -2621,10 +2595,36 @@ composite {
 		}
 	}
 }
+rectangle {
+	object {
+		x=419
+		y=35
+		width=490
+		height=605
+	}
+	"basic attribute" {
+		clr=14
+		fill="outline"
+		width=1
+	}
+}
+rectangle {
+	object {
+		x=5
+		y=35
+		width=410
+		height=430
+	}
+	"basic attribute" {
+		clr=14
+		fill="outline"
+		width=1
+	}
+}
 composite {
 	object {
 		x=10
-		y=470
+		y=480
 		width=400
 		height=395
 	}
@@ -2633,7 +2633,7 @@ composite {
 		composite {
 			object {
 				x=10
-				y=470
+				y=480
 				width=390
 				height=120
 			}
@@ -2648,7 +2648,7 @@ composite {
 		composite {
 			object {
 				x=10
-				y=470
+				y=480
 				width=390
 				height=95
 			}
@@ -2663,7 +2663,7 @@ composite {
 		composite {
 			object {
 				x=10
-				y=470
+				y=480
 				width=390
 				height=145
 			}
@@ -2678,7 +2678,7 @@ composite {
 		composite {
 			object {
 				x=10
-				y=470
+				y=480
 				width=392
 				height=395
 			}
@@ -2693,7 +2693,7 @@ composite {
 		composite {
 			object {
 				x=10
-				y=470
+				y=480
 				width=390
 				height=45
 			}
@@ -2708,7 +2708,7 @@ composite {
 		composite {
 			object {
 				x=10
-				y=470
+				y=480
 				width=390
 				height=269
 			}
@@ -2723,7 +2723,7 @@ composite {
 		composite {
 			object {
 				x=10
-				y=470
+				y=480
 				width=362
 				height=172
 			}
@@ -2738,7 +2738,7 @@ composite {
 		composite {
 			object {
 				x=10
-				y=470
+				y=480
 				width=400
 				height=121
 			}
@@ -2750,5 +2750,33 @@ composite {
 				chan="$(P)$(R)Model"
 			}
 		}
+		composite {
+			object {
+				x=10
+				y=480
+				width=390
+				height=170
+			}
+			"composite name"=""
+			"composite file"="FX4.adl"
+			"dynamic attribute" {
+				vis="calc"
+				calc="(A=14)"
+				chan="$(P)$(R)Model"
+			}
+		}
+	}
+}
+rectangle {
+	object {
+		x=5
+		y=470
+		width=410
+		height=410
+	}
+	"basic attribute" {
+		clr=14
+		fill="outline"
+		width=1
 	}
 }
