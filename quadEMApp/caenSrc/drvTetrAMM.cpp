@@ -114,7 +114,6 @@ static void readThread(void *drvPvt)
 
 /** Sends a command to the TetrAMM and reads the response.
   * If meter is acquiring turns it off and waits for it to stop sending data 
-  * \param[in] expectACK True if the meter should respond with ACK to this command 
   */ 
 asynStatus drvTetrAMM::sendCommand()
 {
