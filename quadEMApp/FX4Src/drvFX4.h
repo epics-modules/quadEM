@@ -24,10 +24,17 @@ using websocketpp::lib::placeholders::_2;
 
 typedef websocketpp::client<websocketpp::config::asio_client> client;
 
+typedef enum {
+    gateLevelLow=0,
+    gateLevelHigh = 1,
+    gateLevelUnknown = 2
+} gateLevel_t;
+
 typedef struct {
     double val;
     double time;
-} valuePair;
+    gateLevel_t gate;
+} dataSample;
 
 /** Class to control the Pyrimid FX4 4-Channel current meter */
 class drvFX4 : public drvQuadEM {
@@ -53,7 +60,6 @@ protected:
     virtual asynStatus setTriggerMode(epicsInt32 value);
     virtual asynStatus setTriggerPolarity(epicsInt32 value);
     virtual asynStatus setValuesPerRead(epicsInt32 value);
-    int P_InterlockStatus;
 
 private:
     void on_open(connection_hdl hdl);
@@ -72,10 +78,18 @@ private:
     static inline const std::array<std::string, FX4_NUM_CHANS> 
       ADC_PATHS = {"/fx4/adc/channel_1/value", "/fx4/adc/channel_2/value", "/fx4/adc/channel_3/value", "/fx4/adc/channel_4/value"};
     static inline const std::string GATE_PATH = "/fx4/gpio_0/22/readback/value";
-    std::array<std::list<valuePair>, FX4_NUM_CHANS> adcCache_;
-    std::vector<valuePair> gateCache_;
+    std::array<std::list<dataSample>, FX4_NUM_CHANS> adcCache_;
     epicsInt64 startTime_;
+    gateLevel_t gateLevel_;
+    gateLevel_t prevGateLevel_;
     bool synchronized_;
     bool timestampMismatch_;
+    bool triggerActive_;
+    int numTriggerValues_;
+    // These are cached values of the parameters for rapid retrieval in callbeck function
+    int triggerMode_;
+    int triggerPolarity_;
+    int acquireMode_;
+    int numAverage_;
 };
 

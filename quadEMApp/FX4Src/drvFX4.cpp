@@ -167,35 +167,35 @@ void drvFX4::onMessageEvent(const std::string& event, const json& data) {
                 if (startTime_ == 0) startTime_ = time;
                 double timestamp = (time - startTime_)/1e9;
                 if (isGate) {
-                    gateCache_.push_back({v[0] ? 1.0 : 0., timestamp});
+                    gateLevel_ = v[0] ? gateLevelHigh : gateLevelLow;
                 } else {
-                    adcCache_[chan].push_back({v[0], timestamp});
+                    adcCache_[chan].push_back({v[0], timestamp, gateLevel_});
+                }
+                if (isGate) {
+                    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "Gate event, value=%d, time=%f, ADC1 last time=%f\n",
+                             gateLevel_, timestamp, adcCache_[0].back().time);
                 }
             }
         }
         if (adcCache_[0].size() > 0) {
             asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s: Samples=%lu %lu %lu %lu\n"
-                                                          "    ADCs first=%f %f %f %f\n"
-                                                          "   Times first=%f %f %f %f\n"
-                                                          "    ADCs last=%f %f %f %f\n"
-                                                          "   Times last=%f %f %f %f\n",
-                      functionName, adcCache_[0].size(), adcCache_[1].size(),
-                                    adcCache_[2].size(), adcCache_[3].size(),
-                                    adcCache_[0].front().val, adcCache_[1].front().val,
-                                    adcCache_[2].front().val, adcCache_[3].front().val,
-                                    adcCache_[0].front().time, adcCache_[1].front().time,
-                                    adcCache_[2].front().time, adcCache_[3].front().time,
-                                    adcCache_[0].back().val, adcCache_[1].back().val,
-                                    adcCache_[2].back().val, adcCache_[3].back().val,
-                                    adcCache_[0].back().time, adcCache_[1].back().time,
-                                    adcCache_[2].back().time, adcCache_[3].back().time);
-            size_t minSize = std::min({adcCache_[0].size(), adcCache_[1].size(),
-                                       adcCache_[2].size(), adcCache_[3].size()});
-            size_t maxSize = std::max({adcCache_[0].size(), adcCache_[1].size(),
-                                       adcCache_[2].size(), adcCache_[3].size()});
+                                                          "    ADCs oldest=%f %f %f %f\n"
+                                                          "   Times oldest=%f %f %f %f\n"
+                                                          "    Gate oldest=%d %d %d %d\n"
+                                                          "    ADCs newest=%f %f %f %f\n"
+                                                          "   Times newest=%f %f %f %f\n"
+                                                          "    Gate newest=%d %d %d %d\n", functionName, 
+                adcCache_[0].size(),       adcCache_[1].size(),       adcCache_[2].size(),       adcCache_[3].size(),
+                adcCache_[0].front().val,  adcCache_[1].front().val,  adcCache_[2].front().val,  adcCache_[3].front().val,
+                adcCache_[0].front().time, adcCache_[1].front().time, adcCache_[2].front().time, adcCache_[3].front().time,
+                adcCache_[0].front().gate, adcCache_[1].front().gate, adcCache_[2].front().gate, adcCache_[3].front().gate,
+                adcCache_[0].back().val,   adcCache_[1].back().val,   adcCache_[2].back().val,   adcCache_[3].back().val,
+                adcCache_[0].back().time,  adcCache_[1].back().time,  adcCache_[2].back().time,  adcCache_[3].back().time,
+                adcCache_[0].back().gate,  adcCache_[1].back().gate,  adcCache_[2].back().gate,  adcCache_[3].back().gate);
+            size_t minSize = std::min({adcCache_[0].size(), adcCache_[1].size(), adcCache_[2].size(), adcCache_[3].size()});
+            size_t maxSize = std::max({adcCache_[0].size(), adcCache_[1].size(), adcCache_[2].size(), adcCache_[3].size()});
             asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "%s minimum size=%lu, size=%lu %lu %lu %lu\n",
-                          functionName, minSize, adcCache_[0].size(), adcCache_[1].size(),
-                                        adcCache_[2].size(), adcCache_[3].size());
+                      functionName, minSize, adcCache_[0].size(), adcCache_[1].size(),  adcCache_[2].size(), adcCache_[3].size());
             if (minSize != maxSize) {
                 if (!synchronized_) {
                     // Throw away these readings and return
@@ -224,9 +224,35 @@ void drvFX4::onMessageEvent(const std::string& event, const json& data) {
                         timestampMismatch_ = false;
                     }
                 }
+                gateLevel_t gateLevel;
                 for (int i=0; i<FX4_NUM_CHANS; i++){
                     currents[i] = adcCache_[i].front().val;
+                    gateLevel = adcCache_[i].front().gate;
                     adcCache_[i].pop_front();
+                }
+                // If we are in ExtGate mode and the gate condition is not satisfied then skip this point
+                if (triggerMode_ == QETriggerModeExtGate) {
+                    if ((triggerPolarity_ == QETriggerPolarityPositive) && (gateLevel == gateLevelLow)) continue;
+                    if ((triggerPolarity_ == QETriggerPolarityNegative) && (gateLevel == gateLevelHigh)) continue;
+                }
+                else if (triggerMode_ == QETriggerModeExtTrigger) {
+                    if (((triggerPolarity_ == QETriggerPolarityPositive) && (prevGateLevel_ == gateLevelLow) && (gateLevel == gateLevelHigh)) ||
+                        ((triggerPolarity_ == QETriggerPolarityNegative) && (prevGateLevel_ == gateLevelHigh) && (gateLevel == gateLevelLow))) {
+                        // We just got a trigger event
+                        asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, "trigger event: prevGateLevel=%d, getLevel=%d, triggerActive=%d, numTriggerValues=%d\n",
+                                  prevGateLevel_, gateLevel, triggerActive_, numTriggerValues_);
+                        triggerActive_ = true;
+                        numTriggerValues_ = 1;
+                        prevGateLevel_ = gateLevel;
+                    } else {
+                        prevGateLevel_ = gateLevel;
+                        if (!triggerActive_) continue;
+                        numTriggerValues_++;
+                        if (numTriggerValues_ > numAverage_) {
+                            triggerActive_ = false;
+                            continue;
+                        }
+                    }
                 }
                 lock();
                 computePositions(currents);
@@ -250,18 +276,15 @@ void drvFX4::pollThread()
 asynStatus drvFX4::setAcquireParams()
 {
     int numAverage;
-    int acquireMode;
     int valuesPerRead;
-    int triggerMode;
-    int triggerPolarity;
     double sampleTime;
     double averagingTime;
     int numAcquire;
     //static const char *functionName = "setAcquireParams";
 
-    getIntegerParam(P_TriggerMode,      &triggerMode);
-    getIntegerParam(P_TriggerPolarity,  &triggerPolarity);
-    getIntegerParam(P_AcquireMode,      &acquireMode);
+    getIntegerParam(P_TriggerMode,      &triggerMode_);
+    getIntegerParam(P_TriggerPolarity,  &triggerPolarity_);
+    getIntegerParam(P_AcquireMode,      &acquireMode_);
     getIntegerParam(P_ValuesPerRead,    &valuesPerRead);
     getDoubleParam (P_AveragingTime,    &averagingTime);
     getIntegerParam(P_NumAcquire,       &numAcquire);
@@ -270,13 +293,15 @@ asynStatus drvFX4::setAcquireParams()
     sampleTime = 10e-6 * valuesPerRead;
     setDoubleParam(P_SampleTime, sampleTime);
 
+
     // Compute the number of values that will be accumulated in the ring buffer before averaging
-    if (triggerMode == QETriggerModeExtBulb) {
+    if (triggerMode_ == QETriggerModeExtBulb) {
         numAverage = 0;
     } else {
         numAverage = (int)((averagingTime / sampleTime) + 0.5);
     }
     setIntegerParam(P_NumAverage, numAverage);
+    numAverage_ = numAverage;
 
     return asynSuccess;
 }
@@ -297,6 +322,8 @@ asynStatus drvFX4::setAcquire(epicsInt32 value)
         acquiring_ = 1;
         synchronized_ = false;
         timestampMismatch_ = false;
+        numTriggerValues_ = 0;
+        triggerActive_ = false;
         sendSubscribeEvent();
         sendGetEvent();
     } else {
