@@ -30,11 +30,31 @@ typedef enum {
     gateLevelUnknown = 2
 } gateLevel_t;
 
+typedef enum {
+    adcEvent,
+    gateEvent,
+} eventType_t;
+
 typedef struct {
     double val;
     double time;
-    gateLevel_t gate;
-} dataSample;
+} ADCSample;
+
+class sortedListElement {
+    public:
+        sortedListElement(eventType_t et, double vals[4], double ts)
+            :  eventType(et), timeStamp(ts)
+        {
+            for (int i=0; i<4; i++) values[i] = vals[i];
+        }
+        friend bool operator<(const sortedListElement& lhs, const sortedListElement& rhs) {
+            return (lhs.timeStamp < rhs.timeStamp);
+        }
+        eventType_t eventType;
+        double values[4];
+        double timeStamp;
+};
+
 
 /** Class to control the Pyrimid FX4 4-Channel current meter */
 class drvFX4 : public drvQuadEM {
@@ -75,18 +95,17 @@ private:
     bool FX4Connected_;
     std::thread *ws_thread_;
     static constexpr int FX4_NUM_CHANS = 4;
-    static inline const std::array<std::string, FX4_NUM_CHANS> 
+    static inline const std::array<std::string, FX4_NUM_CHANS>
       ADC_PATHS = {"/fx4/adc/channel_1/value", "/fx4/adc/channel_2/value", "/fx4/adc/channel_3/value", "/fx4/adc/channel_4/value"};
     static inline const std::string GATE_PATH = "/fx4/gpio_0/22/readback/value";
-    std::array<std::list<dataSample>, FX4_NUM_CHANS> adcCache_;
+    std::array<std::list<ADCSample>, FX4_NUM_CHANS> adcCache_;
     epicsInt64 startTime_;
     gateLevel_t gateLevel_;
-    gateLevel_t prevGateLevel_;
     bool synchronized_;
     bool timestampMismatch_;
     bool triggerActive_;
     int numTriggerValues_;
-    // These are cached values of the parameters for rapid retrieval in callbeck function
+    // These are cached values of the parameters for rapid retrieval in callback function
     int triggerMode_;
     int triggerPolarity_;
     int acquireMode_;
