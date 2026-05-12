@@ -155,6 +155,7 @@ record(bi,"$(P)$(R)BiasState_RBV") {
 
 record(ao,      "$(P)$(R)BiasVoltage") {
     field(DTYP, "Soft Channel")
+    field(OUT,  "")
 }
 
 record(ao,      "$(P)$(R)SetBiasVoltage") {
