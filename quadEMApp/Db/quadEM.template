@@ -2,6 +2,11 @@
 #   Mark Rivers
 
 include "NDArrayBase.template"
+
+# We set Acquire to PINI=YES so it starts on iocBoot if autosaved to Acquire=1
+record(busy, "$(P)$(R)Acquire") {
+    field(PINI, "YES")
+}
  
 record(mbbi,"$(P)$(R)Model") {
     field(DESC, "Model")
