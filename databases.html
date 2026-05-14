@@ -322,6 +322,8 @@ ValuesPerRead. <br></p></td>
 <ul class="simple">
 <li><p>0: Diamond</p></li>
 <li><p>1: Square</p></li>
+<li><p>2: SquareCC</p></li>
+<li><p>3: Custom</p></li>
 </ul>
 </td>
 </tr>
@@ -738,7 +740,47 @@ are typically between 1e-4 to 1e-12. It is convenient to use a CurrentScale of 1
 or 1e12, for example, so that the data are displayed in units of nano-amps or pico-amps.
 They are then reasonable sized integers, and the time series software can be used.</p></td>
 </tr>
+<tr class="row-odd"><td><p>QE_WEIGHT_XSUM</p></td>
+<td><p>$(P)$(R)WeightXsum[1-4]</p></td>
+<td><p>ao</p></td>
+<td><p>asynFloat64 (addr=0-3)</p></td>
+<td><p>r/w</p></td>
+<td><p>All</p></td>
+<td><p>Weights applied to each current input when computing SumX in Custom geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p>QE_WEIGHT_YSUM</p></td>
+<td><p>$(P)$(R)WeightYsum[1-4]</p></td>
+<td><p>ao</p></td>
+<td><p>asynFloat64 (addr=0-3)</p></td>
+<td><p>r/w</p></td>
+<td><p>All</p></td>
+<td><p>Weights applied to each current input when computing SumY in Custom geometry.</p></td>
+</tr>
+<tr class="row-odd"><td><p>QE_WEIGHT_XDELTA</p></td>
+<td><p>$(P)$(R)WeightXdelta[1-4]</p></td>
+<td><p>ao</p></td>
+<td><p>asynFloat64 (addr=0-3)</p></td>
+<td><p>r/w</p></td>
+<td><p>All</p></td>
+<td><p>Weights applied to each current input when computing DiffX in Custom geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p>QE_WEIGHT_YDELTA</p></td>
+<td><p>$(P)$(R)WeightYdelta[1-4]</p></td>
+<td><p>ao</p></td>
+<td><p>asynFloat64 (addr=0-3)</p></td>
+<td><p>r/w</p></td>
+<td><p>All</p></td>
+<td><p>Weights applied to each current input when computing DiffY in Custom geometry.</p></td>
+</tr>
 <tr class="row-odd"><td><p>N.A.</p></td>
+<td><p>$(P)$(R)Xlabel, $(P)$(R)Ylabel</p></td>
+<td><p>stringin</p></td>
+<td><p>N.A.</p></td>
+<td><p>r/w</p></td>
+<td><p>All</p></td>
+<td><p>Custom labels for the X and Y axes, used with the Custom geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)CurrentPrec[1-4]</p></td>
 <td><p>mbbo</p></td>
 <td><p>N.A.</p></td>
@@ -751,7 +793,7 @@ display clients it is necessary to close and re-open the quadEM screen for the d
 precision to be changed. This is a limitation of the Channel Access protocol which
 does not send monitor events when the precision is changed.</p></td>
 </tr>
-<tr class="row-even"><td><p>QE_POSITION_OFFSET</p></td>
+<tr class="row-odd"><td><p>QE_POSITION_OFFSET</p></td>
 <td><p>$(P)$(R)PositionOffset[X,Y]</p></td>
 <td><p>ao</p></td>
 <td><p>asynFloat64 (addr=0-1)</p></td>
@@ -760,7 +802,7 @@ does not send monitor events when the precision is changed.</p></td>
 <td><p>Offset that will be subtracted from each reading when calculating the Position[X,Y].
 The position is calculated as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 </tr>
-<tr class="row-odd"><td><p>N.A.</p></td>
+<tr class="row-even"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)ComputePosOffset[X,Y]</p></td>
 <td><p>calcout</p></td>
 <td><p>N.A.</p></td>
@@ -771,7 +813,7 @@ value of the position to 0 under the current conditions. It computes PositionOff
 = Pos[X,Y]:MeanValue_RBV + PositionOffset(old). This record is provided to convenience
 set the PositionOffset when the position should be defined as 0.</p></td>
 </tr>
-<tr class="row-even"><td><p>QE_POSITION_SCALE</p></td>
+<tr class="row-odd"><td><p>QE_POSITION_SCALE</p></td>
 <td><p>$(P)$(R)PositionScale[X,Y]</p></td>
 <td><p>ao</p></td>
 <td><p>asynFloat64 (addr=0-1)</p></td>
@@ -780,7 +822,7 @@ set the PositionOffset when the position should be defined as 0.</p></td>
 <td><p>Scale that will be used when calculating the Position[X,Y]. The position is calculated
 as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 </tr>
-<tr class="row-odd"><td><p>N.A.</p></td>
+<tr class="row-even"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)PositionPrec[X,Y]</p></td>
 <td><p>mbbo</p></td>
 <td><p>N.A.</p></td>
@@ -788,7 +830,7 @@ as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 <td><p>All</p></td>
 <td><p>Precision (# digits) to use to display the position in X or Y. Choices are 0-9.</p></td>
 </tr>
-<tr class="row-even"><td><p>QE_CALIBRATION_MODE</p></td>
+<tr class="row-odd"><td><p>QE_CALIBRATION_MODE</p></td>
 <td><p>$(P)$(R)CalibrationMode</p></td>
 <td><p>bo</p></td>
 <td><p>asynInt32</p></td>
@@ -797,7 +839,7 @@ as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 <td><p>Puts driver in calibration mode where ADC offsets can be computed. Choices are Off
 (0) and On (1). The Calibration mode is used to compute the ADC offsets.</p></td>
 </tr>
-<tr class="row-odd"><td><p>N.A.</p></td>
+<tr class="row-even"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)ADCOffset[1-4]</p></td>
 <td><p>longout</p></td>
 <td><p>N.A.</p></td>
@@ -805,7 +847,7 @@ as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 <td><p>NSLS2_EM</p></td>
 <td><p>ADC offset for this channel.</p></td>
 </tr>
-<tr class="row-even"><td><p>N.A.</p></td>
+<tr class="row-odd"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)CopyADCOffsets</p></td>
 <td><p>transform</p></td>
 <td><p>N.A.</p></td>
