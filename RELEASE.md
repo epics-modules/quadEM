@@ -3,6 +3,14 @@
 The versions of EPICS base, asyn, ADCore, and other synApps modules used for each release can be obtained from 
 the configure/RELEASE file in each release of quadEM.
 
+## Release 9-7 (May XXX, 2026)
+- Added support for the FX4 quad electrometer from Pyramid Technical Consultants.
+  This sold by XDSOxford for the synchrotron market.
+- Moved the code for device-specific drivers to separate directories, for example caenSrc, FX4Src, etc.
+- Change the Acquire record to PINI=YES so that the device comes up in the previous state when
+  restarting the IOC.
+- Added NDArrayBase_settings.req to quadEM_settings.req so base class records are autosaved.
+
 ## Release 9-6 (November 29, 2025)
 - Added a software driver to get data into the quadEM. It is similar to the NDDriverStdArrays for areaDetector.
   Thanks to Xiaoqiang Wang from PSI for this.
