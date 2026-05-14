@@ -158,6 +158,12 @@ record(ao,      "$(P)$(R)BiasVoltage") {
     field(OUT,  "")
 }
 
+record(ai,"$(P)$(R)BiasVoltage_RBV") {
+    field(DTYP, "Soft Channel")
+    field(INP,  "$(P)$(R)BiasVoltage CP")
+    field(SCAN, "Passive")
+}
+
 record(ao,      "$(P)$(R)SetBiasVoltage") {
     field(DOL,  "$(P)$(R)BiasVoltage CP")
     field(OUT,  "$(FXP)/fx4/high_voltage/command_voltage/value")
