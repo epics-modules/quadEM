@@ -5,7 +5,7 @@ file {
 }
 display {
 	object {
-		x=2020
+		x=200
 		y=80
 		width=915
 		height=1050
@@ -2779,4 +2779,20 @@ rectangle {
 		fill="outline"
 		width=1
 	}
+}
+"related display" {
+	object {
+		x=25
+		y=190
+		width=90
+		height=20
+	}
+	display[0] {
+		name="customWeights.adl"
+		args="P=$(P),R=$(R)"
+	}
+	clr=14
+	bclr=51
+	label="Weights"
+	visual="a row of buttons"
 }

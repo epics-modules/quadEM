@@ -64,6 +64,10 @@ drvQuadEM::drvQuadEM(const char *portName, int ringBufferSize)
     asynUser *pasynUser;
     
     createParam(P_AcquireModeString,        asynParamInt32,         &P_AcquireMode);
+    createParam(P_WeightXsumString,         asynParamFloat64,       &P_WeightXsum);
+    createParam(P_WeightYsumString,         asynParamFloat64,       &P_WeightYsum);
+    createParam(P_WeightXdeltaString,       asynParamFloat64,       &P_WeightXdelta);
+    createParam(P_WeightYdeltaString,       asynParamFloat64,       &P_WeightYdelta);
     createParam(P_CurrentOffsetString,      asynParamFloat64,       &P_CurrentOffset);
     createParam(P_CurrentScaleString,       asynParamFloat64,       &P_CurrentScale);
     createParam(P_PositionOffsetString,     asynParamFloat64,       &P_PositionOffset);
@@ -211,11 +215,41 @@ void drvQuadEM::computePositions(epicsFloat64 raw[QE_MAX_INPUTS])
         doubleData[QEDiffY]  = (doubleData[QECurrent1] + doubleData[QECurrent4]) -
                                (doubleData[QECurrent2] + doubleData[QECurrent3]);
     }
-    else {
+    else if (geometry == QEGeometryDiamond) {
         doubleData[QESumX]   = doubleData[QECurrent1] + doubleData[QECurrent2];
         doubleData[QESumY]   = doubleData[QECurrent3] + doubleData[QECurrent4];
         doubleData[QEDiffX]  = doubleData[QECurrent2] - doubleData[QECurrent1];
         doubleData[QEDiffY]  = doubleData[QECurrent4] - doubleData[QECurrent3];
+    }
+    else if (geometry == QEGeometryCustom) {
+        epicsFloat64 weightXsum[QE_MAX_INPUTS];
+        epicsFloat64 weightYsum[QE_MAX_INPUTS];
+        epicsFloat64 weightXdelta[QE_MAX_INPUTS];
+        epicsFloat64 weightYdelta[QE_MAX_INPUTS];
+        
+        for (i=0; i<QE_MAX_INPUTS; i++) {
+            getDoubleParam(i, P_WeightXsum, &weightXsum[i]);
+            getDoubleParam(i, P_WeightYsum, &weightYsum[i]);
+            getDoubleParam(i, P_WeightXdelta, &weightXdelta[i]);
+            getDoubleParam(i, P_WeightYdelta, &weightYdelta[i]);
+        }
+        
+        doubleData[QESumX]  = weightXsum[0] * doubleData[QECurrent1] +
+                              weightXsum[1] * doubleData[QECurrent2] +
+                              weightXsum[2] * doubleData[QECurrent3] +
+                              weightXsum[3] * doubleData[QECurrent4];
+        doubleData[QESumY]  = weightYsum[0] * doubleData[QECurrent1] +
+                              weightYsum[1] * doubleData[QECurrent2] +
+                              weightYsum[2] * doubleData[QECurrent3] +
+                              weightYsum[3] * doubleData[QECurrent4];
+        doubleData[QEDiffX] = weightXdelta[0] * doubleData[QECurrent1] +
+                              weightXdelta[1] * doubleData[QECurrent2] +
+                              weightXdelta[2] * doubleData[QECurrent3] +
+                              weightXdelta[3] * doubleData[QECurrent4];
+        doubleData[QEDiffY] = weightYdelta[0] * doubleData[QECurrent1] +
+                              weightYdelta[1] * doubleData[QECurrent2] +
+                              weightYdelta[2] * doubleData[QECurrent3] +
+                              weightYdelta[3] * doubleData[QECurrent4];
     }
     denom = doubleData[QESumX];
     if (denom == 0.) denom = 1.;

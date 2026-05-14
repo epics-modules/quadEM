@@ -6,6 +6,9 @@ the configure/RELEASE file in each release of quadEM.
 ## Release 9-7 (May XXX, 2026)
 - Added support for the FX4 quad electrometer from Pyramid Technical Consultants.
   This sold by XDSOxford for the synchrotron market.
+- Added a Custom geometry that allows user-defined weights for computing the sum
+  and difference values from the four current inputs, along with custom X/Y axis labels.
+  Thanks to John Runchey from ANL for this.
 - Moved the code for device-specific drivers to separate directories, for example caenSrc, FX4Src, etc.
 - Change the Acquire record to PINI=YES so that the device comes up in the previous state when
   restarting the IOC.
