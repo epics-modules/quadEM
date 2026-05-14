@@ -1,13 +1,13 @@
 
 file {
-	name="/home/phoebus3/JRUNCHEY/C2/devel/quadEM-R9-4/quadEMApp/op/adl/customWeights.adl"
-	version=030116
+	name="/home/epics/devel/quadEM-9-4/quadEMApp/op/adl/customWeights.adl"
+	version=030117
 }
 display {
 	object {
 		x=433
 		y=366
-		width=502
+		width=500
 		height=350
 	}
 	clr=14
@@ -1529,9 +1529,9 @@ polyline {
 }
 text {
 	object {
-		x=221
+		x=0
 		y=9
-		width=100
+		width=500
 		height=20
 	}
 	"basic attribute" {
