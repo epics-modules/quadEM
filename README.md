@@ -3,6 +3,11 @@ module that supports quad electrometers/picoammeters, typically used for photodi
 x-ray beam position monitors, or split ion chambers. They can also be used for any
 low-current measurement that requires high speed digital input. There is support
 for several models:
+  * The FX4 electrometer from Pyramid Technical Consultants (https://pyramid.tech/products/fx4).
+    This is sold by XDSOxford for the synchrotron market (https://xds-oxford.com/products/detectors-diagnostics/control-modules/fx4-4-channel-precision-electrometer)
+    This device communicates using HTTP (REST API), Websockets, and a built-in EPICS Channnel Access server.
+    It provides 4-channel current measurements at up to 10000 Hz to EPICS.
+    It has additional digital I/O, analog outputs, and built-in servo control capabilities.
   * The AH401B, AH401D, AH501, AH501C, and AH501D picoammeters originally designed
     [Synchrotron Trieste (elettra)](http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en)
     They are sold commercially by [CAENels](http://www.caenels.com/products).
@@ -22,11 +27,6 @@ for several models:
     using a transconductance amplifier and built-in EPICS IOC running this software. 
     The device provides 4-channel current measurements at up to 10,000 Hz. This model is capable
     of measuring larger currents than the NSLS Quad Electrometer above.
-  * The Quad Electrometer built by Steve Ross from the APS (called APS_EM in the documentation). 
-    This device consists of a 4-channel digital electrometer unit and 2 VME boards. 
-    The device provides 2 readings per diode at up to 813 Hz. This device appears
-    to no longer be in use on any APS beamlines, so the support is now deprecated and
-    will be removed in a future release.
   * The PCR4 picoammeter from [SenSiC](https://www.sensic.ch/products/electronic-readout).
     This device communicates using TCP/IP over 1 Gbit/s Ethernet.
     It provides 4-channel current measurements at up to 53,000 Hz.
