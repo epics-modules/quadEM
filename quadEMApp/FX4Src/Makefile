@@ -18,9 +18,6 @@ LIB_SRCS  += drvFX4.cpp
 include $(ADCORE)/ADApp/commonLibraryMakefile
 LIB_LIBS += quadEM
 
-PROD += test_fx4_1
-test_fx4_1_SRCS += test_fx4_1.cpp
-
 #===========================
 
 include $(TOP)/configure/RULES
