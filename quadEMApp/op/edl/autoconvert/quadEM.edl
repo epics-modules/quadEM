@@ -3,7 +3,7 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 2020
+x 200
 y 80
 w 915
 h 1050
@@ -4481,4 +4481,37 @@ endGroup
 
 endObjectProperties
 
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 25
+y 190
+w 90
+h 20
+fgColor rgb 0 0 0
+bgColor rgb 29440 57088 65280
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+font "helvetica-medium-r-12.0"
+icon
+buttonLabel "Weights"
+numPvs 2
+numDsps 1
+displayFileName {
+  0 "customWeights.edl"
+}
+menuLabel {
+  0 ""
+}
+symbols {
+  0 "P=$(P),R=$(R)"
+}
+replaceSymbols {
+  0 1
+}
+endObjectProperties
 

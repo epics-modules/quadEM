@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-05-08 18:16:03 by epics-->
+<!--Saved on 2026-05-28 17:21:27 by epics-->
 <display version="2.0.0">
   <name>quadEM</name>
-  <x>2020</x>
+  <x>200</x>
   <y>80</y>
   <width>915</width>
   <height>1050</height>
@@ -3318,5 +3318,23 @@
       </color>
     </background_color>
     <transparent>true</transparent>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #642</name>
+    <actions>
+      <action type="open_display">
+        <file>customWeights.opi</file>
+        <target>tab</target>
+      </action>
+    </actions>
+    <text>Weights</text>
+    <x>25</x>
+    <y>190</y>
+    <width>90</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
   </widget>
 </display>
