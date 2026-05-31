@@ -1,7 +1,6 @@
 TOP = ../..
 include $(TOP)/configure/CONFIG
 #ARCH = vxWorks-ppc32
-#ARCH = linux-x86
 ARCH = linux-x86_64
 #ARCH = win32-x86
 #ARCH=windows-x64-static
