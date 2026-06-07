@@ -228,7 +228,8 @@ void drvFX4::sendEventData(const std::string& event, json data)
 
     ix::WebSocketSendInfo result = ws_.send(msg.dump());
     if (!result.success) {
-        std::cerr << driverName << ": send failed: " << result.errorStr << std::endl;
+//        std::cerr << driverName << ": send failed: " << result.errorStr << std::endl;
+        std::cerr << driverName << ": send failed: " << std::endl;
     }
 }
 
