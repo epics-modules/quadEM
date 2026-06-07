@@ -22,7 +22,7 @@ PROD_LIBS += caenQuadEM
 PROD_LIBS += nslsQuadEM
 PROD_LIBS += sensicQuadEM
 PROD_LIBS += sydorQuadEM
-PROD_LIBS += fx4QuadEM
+PROD_LIBS += fx4QuadEM ixwebsocket
 PROD_LIBS += quadEM
 
 ifdef SNCSEQ
