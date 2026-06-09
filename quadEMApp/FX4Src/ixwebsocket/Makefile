@@ -46,6 +46,13 @@ LIB_SRCS += IXWebSocketProxyServer.cpp
 LIB_SRCS += IXWebSocketServer.cpp
 LIB_SRCS += IXWebSocketTransport.cpp
 
+ifeq ($(OS_CLASS),WIN32)
+    USR_CPPFLAGS += -D_CRT_SECURE_NO_WARNINGS
+    LIB_SYS_LIBS += ws2_32
+    LIB_SYS_LIBS += crypt32
+    LIB_SYS_LIBS += bcrypt
+endif
+
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE

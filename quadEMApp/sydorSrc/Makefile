@@ -9,6 +9,7 @@ DBD += drvT4UDirect_EM.dbd
 
 LIB_SRCS += drvT4U_EM.cpp
 LIB_SRCS += drvT4UDirect_EM.cpp
+LIB_SYS_LIBS += ws2_32
 
 include $(ADCORE)/ADApp/commonLibraryMakefile
 LIB_LIBS += quadEM
