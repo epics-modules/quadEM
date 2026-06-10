@@ -1,9 +1,17 @@
-TetrAMM Acquisition Modes
-~~~~~~~~~~~~~~~~~~~~~~~~~
-The TetrAMM can be used in 8 different acquisition modes, depending on the values
+TetrAMM and FX4 Acquisition Modes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The TetrAMM and FX4 can be used in 8 different acquisition modes, depending on the values
 of the TriggerMode and AcquireMode records. The following table describes these
 modes. Note that AcquireMode=Single is completely equivalent to AcquireMode=Multiple
 and NumAcquire=1, so the table does not list AcquireMode=Single.
+
+Note that the TetrAMM supports triggering and gating modes in the firmware, using the
+commands shown in the table below.  The FX4 does not support triggering or gating for
+ADC acquisition.  However, it does support streaming of the digital input signals while
+also streaming the data.  Each ADC measurement and each transition on the digital input
+has a precise timestamp. The EPICS support streams the first digital input signal, and
+does the triggering and gating operations in the driver software, using the digital input
+transitions and the timestamps.
 
 .. cssclass:: table-bordered table-striped table-hover
 .. list-table::
