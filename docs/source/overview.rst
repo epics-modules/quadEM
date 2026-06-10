@@ -1,4 +1,6 @@
 .. _quadEM:             https://github.com/epics-modules/quadEM
+.. _Pyramid:            https://pyramid.tech/category/electrometers
+.. _XDSOxford:          https://xds-oxford.com/products/detectors-diagnostics/control-modules/
 .. _CAENels:            http://www.caenels.com/products
 .. _Elettra:            http://www.elettra.eu/technology/industry/elettra-for-industry.html
 .. _Sydor:              https://sydortechnologies.com/x-ray-beam-monitors/sydor-t4u-readout-electrometer
@@ -19,14 +21,27 @@ x-ray beam position monitors, or split ion chambers. They can also be used for a
 low-current measurement that requires high speed digital input. There is support
 for several models:
   
+- The TetrAMM picoammeter sold by CAENels_.
+  This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides 4-channel
+  current measurements measured at 100 kHz and streamed to EPICS at up to 20 kHz.
+- The FX4 electrometer from Pyramid_. This is also sold by XDSOxford_ for the synchrotron market.
+  This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides 4-channel
+  current measurements measured at 100 kHz and streamed to EPICS at up to 10 kHz.
+  It uses an ASCII protocol for configuration and streams data either in ASCII or 
+  binary (IEEE 64-bitfloat) formats.
+  The FX4 has a high-performance Web interface for configuration and viewing live data.
+  It also has a built-in EPICS Channel Access server which provides read/write access to
+  all parameters.  These are also all available over a REST API. It also supports streaming
+  ADC data and all parameters over WebSocket interface using either JSON (ASCII) or 
+  MessagePack (binary) formats.
 - The AH401 series (AH401B, AH401D) and AH501 series (AH501, AH501C, AH501D) picoammeters
   originally designed by Elettra_. They are now sold commerically by CAENels_. 
   These devices communicate using TCP or UDP over 100 Mbit/s Ethernet
   or high-speed serial. They provide 4-channel current measurements at up to 6510
-  Hz (AH501 series) or 1000 Hz (AH401 series).
-- The TetrAMM picoammeter sold by CAENels_.
-  This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides 4-channel
-  current measurements at up to 20 kHz.
+  Hz (AH501 series) or 1000 Hz (AH401 series). 
+  They use an ASCII protocol for configuration and streams data either in ASCII or 
+  binary (24-bit integer) formats.  The binary format has no terminators or other
+  synchronization, so it is susceptible to corruption if any data is lost.
 - The NSLS Quad Electrometer (called NSLS_EM in this document). This device consists
   of a 4-channel digital electrometer unit with Ethernet communication. The device
   provides 4-channel current measurements at up to 2500 Hz. 
@@ -44,11 +59,11 @@ for several models:
 - The T4U electrometer from Sydor_.
   It provides 4-channel current measurements at up to 2,500Hz.
   
-The AH401 series, NSLS_EM are based on the same principle of an op-amp
+The AH401 series and NSLS_EM are based on the same principle of an op-amp
 run as a current amplifier with a large feedback capacitor, and a high resolution
-ADC. The AH501 series, TetrAMM, NSLS2_EM, PCR4, and T4U are based on a transimpedance input
+ADC. The FX4, TetrAMM, AH501 series, NSLS2_EM, PCR4, and T4U are based on a transimpedance input
 stage for current sensing, combined with analog signal conditioning and filtering
-stages. The AH501C, AH501D, and TetrAMM have an integrated programmable bias supply.
+stages. The TetrAMM, FX4, AH501C, and AH501D have an integrated programmable bias supply.
   
 The quadEM_ software includes asyn drivers that provide support for the following:
   
@@ -66,7 +81,7 @@ The quadEM_ software includes asyn drivers that provide support for the followin
   average and process at any integer divisor of the device sampling rate. This averaging
   is termed "fast averaging", though it does not necessarily run faster than the primary
   averaging described above.
-- The NDPluginStats provide time-series of the statistics. These can be used to
+- The NDPluginStats plugin provides time-series of the statistics. These can be used to
   for on-the-fly data acquisition applications, where the meter is triggered by an
   external pulse source, such as one derived from a motor motion.
 - One could also use the standard asynFloat64 device support with ai records and
@@ -79,17 +94,20 @@ The quadEM_ software includes asyn drivers that provide support for the followin
   at speeds up to 20000 Hz (TetrAMM), 6510 Hz (AH501 series), 1000 Hz (AH401 series)
   2500 Hz (NSLS_EM, T4U). The data is available in standard EPICS waveform
   records, using the NDPluginTimeSeries_ plugin from ADCore_. 
-  The time per point can be greater, in which case it does averaging.
+  The time per point can be greater than the sampling period of the meter,
+  in which case it does averaging.
 - FFTs of the time series data, providing the power spectrum of each signal as another
   EPICS waveform record. This uses the NDPluginFFT_ plugin from ADCore_.
   
 The following manuals provide detailed information on these devices:
   
+- :download:`TetrAMM Users Manual <TetrAMM_UsersManual_V1.5.pdf>`
+- :download:`FX4 User Manual <FX4_User_Manual_v1.pdf>`
+- :download:`FX4 Programmer Manual <FX4_Programmer_Manual_v3.pdf>`
 - :download:`AH401B Users Manual <AH401B_UsersManual_V1.0.pdf>`
 - :download:`AH401D Users Manual <AH401D_UsersManual_V1.2.pdf>`
 - :download:`AH501C Users Manual <AH501C_UsersManual_V1.0.pdf>`
 - :download:`AH501D Users Manual <AH501D_UsersManual_V1.3.pdf>`
-- :download:`TetrAMM Users Manual <TetrAMM_UsersManual_V1.5.pdf>`
 - :download:`T4U Operators Manual <T4U_OperatorsManual_RevF.pdf>`
   
   
