@@ -9,15 +9,15 @@ Each scan described below used most of these settings, with the changes in the s
 .. figure:: sscan_tetramm_base.png
     :align: center
 
-Step scan with TetrAMM in free-run mode
+Step scan with quadEM in free-run mode
 .......................................
-This scan type uses a step-scan for the positioner and runs the TetrAMM in free running mode.
-The TetrAMM averaging time is set a small amount less than the time it takes the motors to move
-each step.  This mode is faster than stopping and starting the TetrAMM at each point. The error
-due to the TetrAMM not being strictly synchronized to the motor position are likely to be acceptable
+This scan type uses a step-scan for the positioner and runs the quadEM in free running mode.
+The quadEM averaging time is set a small amount less than the time it takes the motors to move
+each step.  This mode is faster than stopping and starting the quadEM at each point. The error
+due to the quadEM not being strictly synchronized to the motor position are likely to be acceptable
 in many cases.
 
-The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the TetrAMM.
+The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the quadEM.
 There is no detector trigger.
 
 .. figure:: sscan_tetramm_free_run.png
@@ -25,7 +25,7 @@ There is no detector trigger.
 
 The scan is 201 points and took 11.7 seconds.  The time per point is thus 0.058 ms.
 
-The TetrAMM was configured as follows:
+The quadEM was configured as follows:
 
 - AcquireMode=Continuous
 - ValuesPerRead=5
@@ -39,24 +39,24 @@ This is a plot of Current1 after the scan.
 
 |
 
-Step scan with TetrAMM in single acquire mode
+Step scan with quadEM in single acquire mode
 .............................................
-This scan type uses a step-scan for the positioner and runs the TetrAMM in single cycle mode.
-This guarantees that the TetrAMM was only counting when the motor was at the target position
+This scan type uses a step-scan for the positioner and runs the quadEM in single cycle mode.
+This guarantees that the quadEM was only counting when the motor was at the target position
 for each step.
 
-The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the TetrAMM.
-The detector trigger is the TetrAMM Acquire PV.
+The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the quadEM.
+The detector trigger is the quadEM Acquire PV.
 
 .. figure:: sscan_tetramm_triggered.png
     :align: center
 
 The scan is 201 points and took 31.3 seconds.
-This scan took 20 seconds longer than the scan where the TetrAMM AcquireMode is Continuous.
-10 seconds of this are because the scan needs to wait for the TetrAMM averaging for 50 ms at each point.
-The additional 10 seconds is due to overhead with restarting the TetrAMM at each point.
+This scan took 20 seconds longer than the scan where the quadEM AcquireMode is Continuous.
+10 seconds of this are because the scan needs to wait for the quadEM averaging for 50 ms at each point.
+The additional 10 seconds is due to overhead with restarting the quadEM at each point.
 
-The TetrAMM was configured as follows:
+The quadEM was configured as follows:
 
 - AcquireMode=Single
 - ValuesPerRead=50
@@ -69,9 +69,9 @@ This is a plot of Current1 after the scan.
 
 |
 
-Fly scan with TetrAMM in free-run mode
+Fly scan with quadEM in free-run mode
 .............................................
-This scan type uses a fly-scan for the positioner and runs the TetrAMM in free-run continuous mode.
+This scan type uses a fly-scan for the positioner and runs the quadEM in free-run continuous mode.
 The scan is configured by setting the following:
 
 - The total time for the scan is controlled by the number of points (.NPTS) and the detector settling time (.DDLY).
@@ -87,7 +87,7 @@ The scan is configured by setting the following:
   a delay of .DDLY.  This means that the detector values and motor positions recorded are synchronized within the
   accuracy and precision of their respective update rates.
 
-The following is screen shot of the sscan record moving a single motor continuously and reading the 4 currents from the TetrAMM.
+The following is screen shot of the sscan record moving a single motor continuously and reading the 4 currents from the quadEM.
 
 .. figure:: sscan_tetramm_fly_free_run.png
     :align: center
@@ -97,7 +97,7 @@ The scan is 201 points and took 3.05 seconds as shown on the readback for the se
 .. figure:: sscan_tetramm_fly_free_run_positioners.png
     :align: center
 
-The TetrAMM was configured as follows:
+The quadEM was configured as follows:
 
 - AcquireMode=Continuous
 - TriggerMode=Free run
@@ -111,9 +111,9 @@ This is a plot of Current1 after the scan.
 
 |
 
-Triggered scan using TetrAMM time series plugin
+Triggered scan using quadEM time series plugin
 ...............................................
-This scan type uses triggers from the positioner to collect the TetrAMM data in the NDPluginTimeSeries plugin.
+This scan type uses triggers from the positioner to collect the quadEM data in the NDPluginTimeSeries plugin.
 This guarantees that the positioner and detector data are perfectly synchronized.
 
 For this test the triggers came from a Measurement Computing USB-CTR08 pulse generator, but they could
@@ -125,7 +125,7 @@ For this test it was set by the following:
 
 - The pulse generator is configured to output 201 pulses at 100 Hz, i.e. .01 second period.
 
-The TetrAMM was configured as follows:
+The quadEM was configured as follows:
 
 - AcquireMode=Multiple
 - NumAcquire=201
@@ -133,18 +133,18 @@ The TetrAMM was configured as follows:
 - ValuesPerRead=5
 - AveragingTime=.0099 s, 1% (0.1 ms) less than the trigger period.
 
-This is the configuration of the TetrAMM in this mode.
+This is the configuration of the quadEM in this mode.
 
 .. figure:: tetramm_fly_triggered.png
     :align: center
 
-When TriggerMode=Ext. Trig. the driver tells the TetrAMM to collect the number of samples determined by the
+When TriggerMode=Ext. Trig. the driver tells the quadEM to collect the number of samples determined by the
 AveragingTime (i.e. NumAverage_RBV) on receipt of each trigger pulse.  NumAverage_RBV is 198 in the example above.
 The AveragingTime must be slightly less than the trigger pulse period to allow for slight clock frequency differences
-between the trigger source and the TetrAMM.  In this case the AveragingTime is 1% (0.1 ms) less than the pulse period.
-The only consequence of this is that there is 1% during each acquire period (0.1 ms) when the TetrAMM is not collecting data.
+between the trigger source and the quadEM.  In this case the AveragingTime is 1% (0.1 ms) less than the pulse period.
+The only consequence of this is that there is 1% during each acquire period (0.1 ms) when the quadEM is not collecting data.
 
-The TetrAMM TimeSeries plugin is configured as follows:
+The quadEM TimeSeries plugin is configured as follows:
 
 - AveragingTime=0.0099 s
 - NumPoints=201
@@ -154,13 +154,13 @@ This is the configuration of the TimeSeries plugin:
 .. figure:: tetramm_fly_triggered_time_series.png
     :align: center
 
-The AveragingTime of the time series plugin must be the same as that for the TetrAMM.  This guarantees that each
+The AveragingTime of the time series plugin must be the same as that for the quadEM.  This guarantees that each
 external trigger will move to the next point in the time series.
 
 The following steps are used to perform as scan in this mode:
 
 - Set the TimeSeries TSAcquire (labeled Erase/Start) PV to 1
-- Set the TetrAMM Acquire PV to 1
+- Set the quadEM Acquire PV to 1
 - Start the trigger source.  In this test that is the pulse generator, but it would normally be the motor
   generating the trigger pulses.
 - Wait for the motion to complete and then read the time series waveform records, e.g. TS:Current1, etc.
