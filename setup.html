@@ -46,13 +46,14 @@
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM Acquisition Modes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM and FX4 Acquisition Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM or FX4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="streaming.html">Streaming data to disk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Setup</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#tetramm-setup">TetrAMM Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fx4-setup">FX4 Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ah401-and-ah501-series-setup">AH401 and AH501 Series Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#nsls-em-setup">NSLS_EM Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#nsls2-em-setup">NSLS2_EM Setup</a></li>
@@ -100,6 +101,14 @@ configure the device IP address and port number.</p>
 <p>An example startup script is provided in <a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocTetrAMM/TetrAMM.cmd">TetrAMM.cmd</a>.</p>
 <p>This will need to be edited to set the correct IP address of the meter to be used.</p>
 </section>
+<section id="fx4-setup">
+<h2>FX4 Setup<a class="headerlink" href="#fx4-setup" title="Link to this heading"></a></h2>
+<p>These meters communicate via IP, so they must be configured with an IP address reachable
+from the host IOC machine. The FX4 uses DHCP by default.  Once connected the Network tab
+on the FX4 Web page can be used to change to a static IP if desired.</p>
+<p>An example startup script is provided in <a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocFX4/FX4.cmd">FX4.cmd</a>.</p>
+<p>This will need to be edited to set the correct IP address of the meter to be used.</p>
+</section>
 <section id="ah401-and-ah501-series-setup">
 <h2>AH401 and AH501 Series Setup<a class="headerlink" href="#ah401-and-ah501-series-setup" title="Link to this heading"></a></h2>
 <p>These meters communicate via IP, so they must be configured with an IP address reachable
@@ -144,7 +153,7 @@ Zynq processor.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2026-May-31.
+      <span class="lastupdated">Last updated on 2026-June-16.
       </span></p>
   </div>
 

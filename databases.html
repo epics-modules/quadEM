@@ -50,8 +50,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM Acquisition Modes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM and FX4 Acquisition Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM or FX4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="streaming.html">Streaming data to disk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
@@ -126,6 +126,7 @@ command. Values are:</p>
 <li><p>11: PCR4</p></li>
 <li><p>12: SoftDevice</p></li>
 <li><p>13: T4U</p></li>
+<li><p>14: FX4</p></li>
 </ul>
 </td>
 </tr>
@@ -156,18 +157,19 @@ to Multiple with NumAcquire=1.</p></li>
 <p>Multiple and Single mode are typically used for data acquisition.</p>
 </td>
 </tr>
-<tr class="row-odd"><td><p>QE_ACQUIRE</p></td>
+<tr class="row-odd"><td><p>ACQUIRE</p></td>
 <td><p>$(P)$(R)Acquire</p></td>
-<td><p>busy</p></td>
+<td><p>bo</p></td>
 <td><p>asynInt32</p></td>
 <td><p>r/w</p></td>
 <td><p>All</p></td>
-<td><p>Acquire command. This command turns acquisition from the device on (1) and off (0)
-Since it is a “busy” record the device can be used for step-scanning with the sscan
+<td><p>Acquire command. This command turns acquisition from the device on (1) and off (0).
+This record is defined in ADCore.
+It links to a “busy” record, so the device can be used for step-scanning with the sscan
 record when AcquireMode=Single. <br>
 <strong>Important note:</strong> Operation in Single mode with the sscan record also requires
-that the statistics plugins be set to have CallbacksBlock=Yes so that the driver
-waits for the statistics plugins to compute before it sets Acquire back to 0.</p></td>
+that WaitForPlugins be set to Yes so that the driver waits for the statistics plugins to compute
+before it sets Acquire back to 0.</p></td>
 </tr>
 <tr class="row-even"><td><p>QE_READ_FORMAT</p></td>
 <td><p>$(P)$(R)ReadFormat, $(P)$(R)ReadFormat_RBV</p></td>
@@ -209,6 +211,17 @@ For the TetrAMM the choices are:</p>
 <ul class="simple">
 <li><p>±120uA</p></li>
 <li><p>±120nA</p></li>
+</ul>
+<p>For the FX4 the choices are:</p>
+<ul class="simple">
+<li><p>±100nA, 1 kHz BW</p></li>
+<li><p>±100nA, 10 kHz BW</p></li>
+<li><p>±1uA, 5 kHz BW</p></li>
+<li><p>±1uA, 50 kHz BW</p></li>
+<li><p>±10uA, 50 kHz BW</p></li>
+<li><p>±100uA, 50 kHz BW</p></li>
+<li><p>±1mA, 50 kHz BW</p></li>
+<li><p>±10mA, 50 kHz BW</p></li>
 </ul>
 <p>For the AH501 series the choices are:</p>
 <ul class="simple">
@@ -346,7 +359,7 @@ rate by a factor of 2 relative to 24-bits. Allowed choices are:</p>
 <td><p>bo, bi</p></td>
 <td><p>asynInt32</p></td>
 <td><p>r/w</p></td>
-<td><p>TetrAMM, AH501C, AH501D, and PCR4</p></td>
+<td><p>TetrAMM, FX4, AH501C, AH501D, and PCR4</p></td>
 <td><p>Selects the state of the bias supply output voltage. Allowed choices are:</p>
 <ul class="simple">
 <li><p>0: Off</p></li>
@@ -359,7 +372,7 @@ rate by a factor of 2 relative to 24-bits. Allowed choices are:</p>
 <td><p>bi</p></td>
 <td><p>asynInt32</p></td>
 <td><p>r/o</p></td>
-<td><p>TetrAMM</p></td>
+<td><p>TetrAMM, FX4</p></td>
 <td><p>Readback of the actual status of the bias supply output. Possible values are:</p>
 <ul class="simple">
 <li><p>0: Off</p></li>
@@ -387,7 +400,7 @@ is ramped down to 0.</p>
 <td><p>ao, ai</p></td>
 <td><p>asynFloat64</p></td>
 <td><p>r/w</p></td>
-<td><p>TetrAMM, AH501C, AH501D, NSLS2_EM, and PCR4</p></td>
+<td><p>TetrAMM, FX4, AH501C, AH501D, NSLS2_EM, and PCR4</p></td>
 <td><p>Controls the voltage of the bias supply output.</p></td>
 </tr>
 <tr class="row-odd"><td><p>QE_HVV_READBACK</p></td>
@@ -395,7 +408,7 @@ is ramped down to 0.</p>
 <td><p>ai</p></td>
 <td><p>asynFloat64</p></td>
 <td><p>r/o</p></td>
-<td><p>TetrAMM</p></td>
+<td><p>TetrAMM, FX4</p></td>
 <td><p>Readback of the actual voltage of the bias supply output.</p></td>
 </tr>
 <tr class="row-even"><td><p>QE_HVI_READBACK</p></td>
@@ -462,7 +475,7 @@ by the following parameters:</p>
 <li><p>NumChannels: AH501 series</p></li>
 <li><p>Resolution: AH501 series</p></li>
 </ul>
-<p>The sample time on the TetrAMM is controlled by the following equation:</p>
+<p>The sample time on the TetrAMM and FX4 is controlled by the following equation:</p>
 <ul class="simple">
 <li><p>10 microseconds * ValuesPerRead.</p></li>
 </ul>
@@ -475,16 +488,16 @@ The minimum sample time (NumChannels=1, ValuesPerRead=1, Resolution=16) is 38.4
 microseconds, or a sampling frequency of 26.04 kHz. The maximum sample time with
 ValuesPerRead=1, NumChannels=4, Resolution=24 is 307.2 microseconds, or a sampling
 frequency of 3.255 kHz. Setting ValuesPerRead &amp;gt; 1 will increase the sample time
-and reduce the sampling frequency proportionally. <br>
-The sample time on the AH401 series is controlled by the following algorithm:</p>
+and reduce the sampling frequency proportionally. <br></p>
+<p>The sample time on the AH401 series is controlled by the following algorithm:</p>
 <ul class="simple">
 <li><p>SampleTime = IntegrationTime * ValuesPerRead</p></li>
 </ul>
 <p>If PingPong == 0 then SampleTime = SampleTime * 2 <br>
 The minimum sample time is 0.001 seconds, or 1 kHz sampling frequency. The maximum
 sampling time (PingPong=0) is 2 seconds, or 0.5 Hz sampling frequency. Setting ValuesPerRead
-&amp;gt; 1 will increase the sample time and reduce the sampling frequency proportionally., ,
-The sample time on the NSLS_EM is controlled by the following algorithm:</p>
+&amp;gt; 1 will increase the sample time and reduce the sampling frequency proportionally.</p>
+<p>The sample time on the NSLS_EM is controlled by the following algorithm:</p>
 <ul class="simple">
 <li><p>SampleTime = IntegrationTime * ValuesPerRead</p></li>
 </ul>
@@ -618,21 +631,21 @@ the new value is added, and RingOverflows is incremented. RingOverflows is set t
 <td><p>mbbo</p></td>
 <td><p>asynInt32</p></td>
 <td><p>r/w</p></td>
-<td><p>TetrAMM, AH501, AH401, and PCR4</p></td>
+<td><p>TetrAMM, FX4, AH501, AH401, and PCR4</p></td>
 <td><p>Allowed choices are:</p>
 <ul class="simple">
 <li><p>0: “Free Run” (all models). Ignores any external gate or trigger signal.</p></li>
 <li><p>1: “Software” (possible future choice for TetrAMM) This will trigger a single
 acquisition each time a software trigger command is sent.</p></li>
-<li><p>2: “Ext. Trigger” (AH401B, TetrAMM, PCR4) This is an edge-sensitive trigger. On the
+<li><p>2: “Ext. Trigger” (TetrAMM, FX4, AH401B, PCR4) This is an edge-sensitive trigger. On the
 TetrAMM this will collect samples for the AveragingTime and then wait for the next
 trigger.</p></li>
-<li><p>3: “Ext. Bulb” (AH501D, TetrAMM) This is a level-sensitive trigger. It acquires
+<li><p>3: “Ext. Bulb” (TetrAMM, FX4, AH501D) This is a level-sensitive trigger. It acquires
 data while the external gate signal is asserted. On the trailing edge of the gate
 signal the callbacks will be called. In this mode the AveragingTime is ignored and
 the averaging is done for all samples received between the leading and trailing
 edge of a single gate pulse.</p></li>
-<li><p>4: “Ext. Gate” (TetrAMM) This is a level sensitive gate. It acquires data while
+<li><p>4: “Ext. Gate” (TetrAMM, FX4) This is a level sensitive gate. It acquires data while
 the external gate signal is asserted. However, unlike Ext. Bulb the trailing edge
 of the gate signal is ignored, and the averaging is done for NumAverage_RBV samples
 as with Free Run mode. The difference is that the actual averaging time will be
@@ -647,7 +660,7 @@ time will be AveragingTime * 2.5</p></li>
 <td><p>mbbo</p></td>
 <td><p>asynInt32</p></td>
 <td><p>r/w</p></td>
-<td><p>PCR4</p></td>
+<td><p>FX4, PCR4</p></td>
 <td><p>0=Positive, 1=Negative.</p></td>
 </tr>
 <tr class="row-even"><td><p>QE_RESET</p></td>
@@ -723,7 +736,20 @@ of the current to 0 under the current conditions. It computes CurrentOffset(new)
 = Current[1-3]:MeanValue_RBV + CurrentOffset(old). This record is provided to convenience
 set the CurrentOffset when the input signal is 0.</p></td>
 </tr>
-<tr class="row-even"><td><p>QE_CURRENT_SCALE</p></td>
+<tr class="row-even"><td><p>N.A.</p></td>
+<td><p>$(P)$(R)CurrentUnits, $(P)$(R)CurrentUnits_RBV</p></td>
+<td><p>mbbo, mbbi</p></td>
+<td><p>N.A.</p></td>
+<td><p>r/w</p></td>
+<td><p>FX4</p></td>
+<td><p>Units of current sent from the device.  Choices are:
+- 0: pA
+- 1: nA
+- 2: uA
+- 3: mA
+- 4: A</p></td>
+</tr>
+<tr class="row-odd"><td><p>QE_CURRENT_SCALE</p></td>
 <td><p>$(P)$(R)CurrentScale[1-4]</p></td>
 <td><p>ao</p></td>
 <td><p>asynFloat64 (addr=0-3)</p></td>
@@ -740,7 +766,7 @@ are typically between 1e-4 to 1e-12. It is convenient to use a CurrentScale of 1
 or 1e12, for example, so that the data are displayed in units of nano-amps or pico-amps.
 They are then reasonable sized integers, and the time series software can be used.</p></td>
 </tr>
-<tr class="row-odd"><td><p>QE_WEIGHT_XSUM</p></td>
+<tr class="row-even"><td><p>QE_WEIGHT_XSUM</p></td>
 <td><p>$(P)$(R)WeightXsum[1-4]</p></td>
 <td><p>ao</p></td>
 <td><p>asynFloat64 (addr=0-3)</p></td>
@@ -748,7 +774,7 @@ They are then reasonable sized integers, and the time series software can be use
 <td><p>All</p></td>
 <td><p>Weights applied to each current input when computing SumX in Custom geometry.</p></td>
 </tr>
-<tr class="row-even"><td><p>QE_WEIGHT_YSUM</p></td>
+<tr class="row-odd"><td><p>QE_WEIGHT_YSUM</p></td>
 <td><p>$(P)$(R)WeightYsum[1-4]</p></td>
 <td><p>ao</p></td>
 <td><p>asynFloat64 (addr=0-3)</p></td>
@@ -756,7 +782,7 @@ They are then reasonable sized integers, and the time series software can be use
 <td><p>All</p></td>
 <td><p>Weights applied to each current input when computing SumY in Custom geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p>QE_WEIGHT_XDELTA</p></td>
+<tr class="row-even"><td><p>QE_WEIGHT_XDELTA</p></td>
 <td><p>$(P)$(R)WeightXdelta[1-4]</p></td>
 <td><p>ao</p></td>
 <td><p>asynFloat64 (addr=0-3)</p></td>
@@ -764,7 +790,7 @@ They are then reasonable sized integers, and the time series software can be use
 <td><p>All</p></td>
 <td><p>Weights applied to each current input when computing DiffX in Custom geometry.</p></td>
 </tr>
-<tr class="row-even"><td><p>QE_WEIGHT_YDELTA</p></td>
+<tr class="row-odd"><td><p>QE_WEIGHT_YDELTA</p></td>
 <td><p>$(P)$(R)WeightYdelta[1-4]</p></td>
 <td><p>ao</p></td>
 <td><p>asynFloat64 (addr=0-3)</p></td>
@@ -772,7 +798,7 @@ They are then reasonable sized integers, and the time series software can be use
 <td><p>All</p></td>
 <td><p>Weights applied to each current input when computing DiffY in Custom geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p>N.A.</p></td>
+<tr class="row-even"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)Xlabel, $(P)$(R)Ylabel</p></td>
 <td><p>stringin</p></td>
 <td><p>N.A.</p></td>
@@ -780,7 +806,7 @@ They are then reasonable sized integers, and the time series software can be use
 <td><p>All</p></td>
 <td><p>Custom labels for the X and Y axes, used with the Custom geometry.</p></td>
 </tr>
-<tr class="row-even"><td><p>N.A.</p></td>
+<tr class="row-odd"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)CurrentPrec[1-4]</p></td>
 <td><p>mbbo</p></td>
 <td><p>N.A.</p></td>
@@ -793,7 +819,7 @@ display clients it is necessary to close and re-open the quadEM screen for the d
 precision to be changed. This is a limitation of the Channel Access protocol which
 does not send monitor events when the precision is changed.</p></td>
 </tr>
-<tr class="row-odd"><td><p>QE_POSITION_OFFSET</p></td>
+<tr class="row-even"><td><p>QE_POSITION_OFFSET</p></td>
 <td><p>$(P)$(R)PositionOffset[X,Y]</p></td>
 <td><p>ao</p></td>
 <td><p>asynFloat64 (addr=0-1)</p></td>
@@ -802,7 +828,7 @@ does not send monitor events when the precision is changed.</p></td>
 <td><p>Offset that will be subtracted from each reading when calculating the Position[X,Y].
 The position is calculated as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 </tr>
-<tr class="row-even"><td><p>N.A.</p></td>
+<tr class="row-odd"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)ComputePosOffset[X,Y]</p></td>
 <td><p>calcout</p></td>
 <td><p>N.A.</p></td>
@@ -813,7 +839,7 @@ value of the position to 0 under the current conditions. It computes PositionOff
 = Pos[X,Y]:MeanValue_RBV + PositionOffset(old). This record is provided to convenience
 set the PositionOffset when the position should be defined as 0.</p></td>
 </tr>
-<tr class="row-odd"><td><p>QE_POSITION_SCALE</p></td>
+<tr class="row-even"><td><p>QE_POSITION_SCALE</p></td>
 <td><p>$(P)$(R)PositionScale[X,Y]</p></td>
 <td><p>ao</p></td>
 <td><p>asynFloat64 (addr=0-1)</p></td>
@@ -822,7 +848,7 @@ set the PositionOffset when the position should be defined as 0.</p></td>
 <td><p>Scale that will be used when calculating the Position[X,Y]. The position is calculated
 as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 </tr>
-<tr class="row-even"><td><p>N.A.</p></td>
+<tr class="row-odd"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)PositionPrec[X,Y]</p></td>
 <td><p>mbbo</p></td>
 <td><p>N.A.</p></td>
@@ -830,7 +856,7 @@ as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 <td><p>All</p></td>
 <td><p>Precision (# digits) to use to display the position in X or Y. Choices are 0-9.</p></td>
 </tr>
-<tr class="row-odd"><td><p>QE_CALIBRATION_MODE</p></td>
+<tr class="row-even"><td><p>QE_CALIBRATION_MODE</p></td>
 <td><p>$(P)$(R)CalibrationMode</p></td>
 <td><p>bo</p></td>
 <td><p>asynInt32</p></td>
@@ -839,7 +865,7 @@ as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 <td><p>Puts driver in calibration mode where ADC offsets can be computed. Choices are Off
 (0) and On (1). The Calibration mode is used to compute the ADC offsets.</p></td>
 </tr>
-<tr class="row-even"><td><p>N.A.</p></td>
+<tr class="row-odd"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)ADCOffset[1-4]</p></td>
 <td><p>longout</p></td>
 <td><p>N.A.</p></td>
@@ -847,7 +873,7 @@ as Position = Diff/Sum * PositionScale - PositionOffset.</p></td>
 <td><p>NSLS2_EM</p></td>
 <td><p>ADC offset for this channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p>N.A.</p></td>
+<tr class="row-even"><td><p>N.A.</p></td>
 <td><p>$(P)$(R)CopyADCOffsets</p></td>
 <td><p>transform</p></td>
 <td><p>N.A.</p></td>
@@ -878,7 +904,7 @@ an ADC offset calibration that is independent of the Range of the device.</p></t
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2026-May-31.
+      <span class="lastupdated">Last updated on 2026-June-16.
       </span></p>
   </div>
 
