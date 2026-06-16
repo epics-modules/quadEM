@@ -8,24 +8,25 @@
  * Created May 1, 2026
  */
 
+#ifndef drvFX4_H
+#define drvFX4_H
+
 #include "drvQuadEM.h"
 
-#include <websocketpp/config/asio_no_tls_client.hpp>
-#include <websocketpp/client.hpp>
-#include <json.hpp>
+#include <array>
+#include <atomic>
 #include <list>
+#include <mutex>
+#include <string>
+
+#include <ixwebsocket/IXNetSystem.h>
+#include <ixwebsocket/IXWebSocket.h>
+#include <json.hpp>
 
 using json = nlohmann::json;
-using websocketpp::connection_hdl;
-using websocketpp::lib::bind;
-using websocketpp::lib::placeholders::_1;
-using websocketpp::lib::placeholders::_2;
-
-
-typedef websocketpp::client<websocketpp::config::asio_client> client;
 
 typedef enum {
-    gateLevelLow=0,
+    gateLevelLow = 0,
     gateLevelHigh = 1,
     gateLevelUnknown = 2
 } gateLevel_t;
@@ -41,36 +42,34 @@ typedef struct {
 } ADCSample;
 
 class sortedListElement {
-    public:
-        sortedListElement(eventType_t et, double vals[4], double ts)
-            :  eventType(et), timeStamp(ts)
-        {
-            for (int i=0; i<4; i++) values[i] = vals[i];
-        }
-        friend bool operator<(const sortedListElement& lhs, const sortedListElement& rhs) {
-            return (lhs.timeStamp < rhs.timeStamp);
-        }
-        eventType_t eventType;
-        double values[4];
-        double timeStamp;
+public:
+    sortedListElement(eventType_t et, const double vals[4], double ts)
+        : eventType(et), timeStamp(ts)
+    {
+        for (int i = 0; i < 4; i++) values[i] = vals[i];
+    }
+
+    friend bool operator<(const sortedListElement& lhs, const sortedListElement& rhs)
+    {
+        return lhs.timeStamp < rhs.timeStamp;
+    }
+
+    eventType_t eventType;
+    double values[4];
+    double timeStamp;
 };
 
-
-/** Class to control the Pyrimid FX4 4-Channel current meter */
+/** Class to control the Pyramid FX4 4-Channel current meter */
 class drvFX4 : public drvQuadEM {
 public:
     drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize);
+    virtual ~drvFX4();
 
-    /* These are the methods we implement from asynPortDriver */
     void report(FILE *fp, int details);
-
-    /* These are the methods that are new to this class */
-    /* These are the methods that are new to this class */
     void pollThread(void);
     virtual void exitHandler();
 
 protected:
-    /* These are the methods we implement from quadEM */
     virtual asynStatus readStatus();
     virtual asynStatus reset();
     virtual asynStatus setAcquire(epicsInt32 value);
@@ -82,22 +81,39 @@ protected:
     virtual asynStatus setValuesPerRead(epicsInt32 value);
 
 private:
-    void on_open(connection_hdl hdl);
-    void on_message(connection_hdl hdl, client::message_ptr msg);
-    void sendEventData(const std::string& event, json data);
+    void onOpen();
+    void onMessage(const std::string& payload);
+    void onClose(int code, const std::string& reason);
+    void onError(const std::string& reason);
+
+    void sendEventData(const std::string& event, json data = nullptr);
     void sendSubscribeEvent();
     void sendUnsubscribeEvent();
     void sendGetEvent();
     void onMessageEvent(const std::string& event, const json& data);
+
     asynStatus setAcquireParams();
-    client ws_client_;
-    connection_hdl ws_hdl_;
-    bool FX4Connected_;
-    std::thread *ws_thread_;
+    bool waitForConnection(double timeoutSeconds);
+    void startWebSocket(const std::string& uri);
+    void stopWebSocket();
+    bool reconnectWebSocket(const std::string& uri);
+
+    ix::WebSocket ws_;
+    std::mutex wsMutex_;
+    std::atomic<bool> FX4Connected_;
+    std::atomic<bool> wsStopping_;
+    std::string wsUri_;
+
     static constexpr int FX4_NUM_CHANS = 4;
     static inline const std::array<std::string, FX4_NUM_CHANS>
-      ADC_PATHS = {"/fx4/adc/channel_1/value", "/fx4/adc/channel_2/value", "/fx4/adc/channel_3/value", "/fx4/adc/channel_4/value"};
+        ADC_PATHS = {
+            "/fx4/adc/channel_1/value",
+            "/fx4/adc/channel_2/value",
+            "/fx4/adc/channel_3/value",
+            "/fx4/adc/channel_4/value"
+        };
     static inline const std::string GATE_PATH = "/fx4/gpio_0/22/readback/value";
+
     std::array<std::list<ADCSample>, FX4_NUM_CHANS> adcCache_;
     epicsInt64 startTime_;
     gateLevel_t gateLevel_;
@@ -105,10 +121,11 @@ private:
     bool timestampMismatch_;
     bool triggerActive_;
     int numTriggerValues_;
-    // These are cached values of the parameters for rapid retrieval in callback function
+
     int triggerMode_;
     int triggerPolarity_;
     int acquireMode_;
     int numAverage_;
 };
 
+#endif

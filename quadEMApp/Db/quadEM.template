@@ -4,7 +4,7 @@
 include "NDArrayBase.template"
 
 # We set Acquire to PINI=YES so it starts on iocBoot if autosaved to Acquire=1
-record(busy, "$(P)$(R)Acquire") {
+record(bo, "$(P)$(R)Acquire") {
     field(PINI, "YES")
 }
  

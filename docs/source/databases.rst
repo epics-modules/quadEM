@@ -55,6 +55,7 @@ minimum, maximum, and other statistics, including a histogram of array values.
       - 11: PCR4
       - 12: SoftDevice
       - 13: T4U
+      - 14: FX4
 
   * - QE_FIRMWARE
     - $(P)$(R)Firmware
@@ -80,18 +81,19 @@ minimum, maximum, and other statistics, including a histogram of array values.
         to Multiple with NumAcquire=1.
 
       Multiple and Single mode are typically used for data acquisition.
-  * - QE_ACQUIRE
+  * - ACQUIRE
     - $(P)$(R)Acquire
-    - busy
+    - bo
     - asynInt32
     - r/w
     - All
-    - Acquire command. This command turns acquisition from the device on (1) and off (0)
-      Since it is a "busy" record the device can be used for step-scanning with the sscan
+    - Acquire command. This command turns acquisition from the device on (1) and off (0).
+      This record is defined in ADCore. 
+      It links to a "busy" record, so the device can be used for step-scanning with the sscan
       record when AcquireMode=Single. |br|
       **Important note:** Operation in Single mode with the sscan record also requires
-      that the statistics plugins be set to have CallbacksBlock=Yes so that the driver
-      waits for the statistics plugins to compute before it sets Acquire back to 0.
+      that WaitForPlugins be set to Yes so that the driver waits for the statistics plugins to compute
+      before it sets Acquire back to 0.
   * - QE_READ_FORMAT
     - $(P)$(R)ReadFormat, $(P)$(R)ReadFormat_RBV
     - bo, bi
@@ -130,6 +132,17 @@ minimum, maximum, and other statistics, including a histogram of array values.
 
       - ±120uA
       - ±120nA
+      
+      For the FX4 the choices are:
+
+      - ±100nA, 1 kHz BW
+      - ±100nA, 10 kHz BW
+      - ±1uA, 5 kHz BW
+      - ±1uA, 50 kHz BW
+      - ±10uA, 50 kHz BW
+      - ±100uA, 50 kHz BW
+      - ±1mA, 50 kHz BW
+      - ±10mA, 50 kHz BW
       
       For the AH501 series the choices are:
 
@@ -257,7 +270,7 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - bo, bi
     - asynInt32
     - r/w
-    - TetrAMM, AH501C, AH501D, and PCR4
+    - TetrAMM, FX4, AH501C, AH501D, and PCR4
     - Selects the state of the bias supply output voltage. Allowed choices are:
 
       - 0: Off
@@ -268,7 +281,7 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - bi
     - asynInt32
     - r/o
-    - TetrAMM
+    - TetrAMM, FX4
     - Readback of the actual status of the bias supply output. Possible values are:
 
       - 0: Off
@@ -292,14 +305,14 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - ao, ai
     - asynFloat64
     - r/w
-    - TetrAMM, AH501C, AH501D, NSLS2_EM, and PCR4
+    - TetrAMM, FX4, AH501C, AH501D, NSLS2_EM, and PCR4
     - Controls the voltage of the bias supply output.
   * - QE_HVV_READBACK
     - $(P)$(R)HVVReadback
     - ai
     - asynFloat64
     - r/o
-    - TetrAMM
+    - TetrAMM, FX4
     - Readback of the actual voltage of the bias supply output.
   * - QE_HVI_READBACK
     - $(P)$(R)HVIReadback
@@ -362,7 +375,7 @@ minimum, maximum, and other statistics, including a histogram of array values.
       - NumChannels: AH501 series
       - Resolution: AH501 series
       
-      The sample time on the TetrAMM is controlled by the following equation:
+      The sample time on the TetrAMM and FX4 is controlled by the following equation:
 
       - 10 microseconds * ValuesPerRead.
 
@@ -376,6 +389,7 @@ minimum, maximum, and other statistics, including a histogram of array values.
       ValuesPerRead=1, NumChannels=4, Resolution=24 is 307.2 microseconds, or a sampling
       frequency of 3.255 kHz. Setting ValuesPerRead &gt; 1 will increase the sample time
       and reduce the sampling frequency proportionally. |br| 
+
       The sample time on the AH401 series is controlled by the following algorithm:
 
       - SampleTime = IntegrationTime * ValuesPerRead
@@ -383,7 +397,8 @@ minimum, maximum, and other statistics, including a histogram of array values.
       If PingPong == 0 then SampleTime = SampleTime * 2 |br|
       The minimum sample time is 0.001 seconds, or 1 kHz sampling frequency. The maximum
       sampling time (PingPong=0) is 2 seconds, or 0.5 Hz sampling frequency. Setting ValuesPerRead
-      &gt; 1 will increase the sample time and reduce the sampling frequency proportionally., , 
+      &gt; 1 will increase the sample time and reduce the sampling frequency proportionally.
+
       The sample time on the NSLS_EM is controlled by the following algorithm:
 
       - SampleTime = IntegrationTime * ValuesPerRead
@@ -507,21 +522,21 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - mbbo
     - asynInt32
     - r/w
-    - TetrAMM, AH501, AH401, and PCR4
+    - TetrAMM, FX4, AH501, AH401, and PCR4
     - Allowed choices are:
 
       - 0: "Free Run" (all models). Ignores any external gate or trigger signal.
       - 1: "Software" (possible future choice for TetrAMM) This will trigger a single
         acquisition each time a software trigger command is sent.
-      - 2: "Ext. Trigger" (AH401B, TetrAMM, PCR4) This is an edge-sensitive trigger. On the
+      - 2: "Ext. Trigger" (TetrAMM, FX4, AH401B, PCR4) This is an edge-sensitive trigger. On the
         TetrAMM this will collect samples for the AveragingTime and then wait for the next
         trigger.
-      - 3: "Ext. Bulb" (AH501D, TetrAMM) This is a level-sensitive trigger. It acquires
+      - 3: "Ext. Bulb" (TetrAMM, FX4, AH501D) This is a level-sensitive trigger. It acquires
         data while the external gate signal is asserted. On the trailing edge of the gate
         signal the callbacks will be called. In this mode the AveragingTime is ignored and
         the averaging is done for all samples received between the leading and trailing
         edge of a single gate pulse.
-      - 4: "Ext. Gate" (TetrAMM) This is a level sensitive gate. It acquires data while
+      - 4: "Ext. Gate" (TetrAMM, FX4) This is a level sensitive gate. It acquires data while
         the external gate signal is asserted. However, unlike Ext. Bulb the trailing edge
         of the gate signal is ignored, and the averaging is done for NumAverage_RBV samples
         as with Free Run mode. The difference is that the actual averaging time will be
@@ -533,7 +548,7 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - mbbo
     - asynInt32
     - r/w
-    - PCR4
+    - FX4, PCR4
     - 0=Positive, 1=Negative.
   * - QE_RESET
     - $(P)$(R)Reset
@@ -600,6 +615,18 @@ minimum, maximum, and other statistics, including a histogram of array values.
       of the current to 0 under the current conditions. It computes CurrentOffset(new)
       = Current[1-3]:MeanValue_RBV + CurrentOffset(old). This record is provided to convenience
       set the CurrentOffset when the input signal is 0.
+  * - N.A.
+    - $(P)$(R)CurrentUnits, $(P)$(R)CurrentUnits_RBV
+    - mbbo, mbbi
+    - N.A.
+    - r/w
+    - FX4
+    - Units of current sent from the device.  Choices are:
+      - 0: pA
+      - 1: nA
+      - 2: uA
+      - 3: mA
+      - 4: A
   * - QE_CURRENT_SCALE
     - $(P)$(R)CurrentScale[1-4]
     - ao
