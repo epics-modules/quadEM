@@ -4,7 +4,7 @@ epicsEnvSet("PORT",      "FX4")
 epicsEnvSet("TEMPLATE",  "FX4")
 epicsEnvSet("QSIZE",     "20")
 epicsEnvSet("RING_SIZE", "10000")
-epicsEnvSet("TSPOINTS",  "2048")
+epicsEnvSet("TSPOINTS",  "4096")
 epicsEnvSet("IP",        "164.54.161.10")
 
 drvFX4Configure("$(PORT)", "$(IP)", $(RING_SIZE))
