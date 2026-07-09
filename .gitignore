@@ -7,7 +7,7 @@ bin/
 dbd/
 html/
 _docs/
-include/
+/include/
 lib/
 templates/
 cdCommands
