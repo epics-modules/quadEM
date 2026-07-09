@@ -19,11 +19,9 @@
 #include <mutex>
 #include <string>
 
-#include <ixwebsocket/IXNetSystem.h>
-#include <ixwebsocket/IXWebSocket.h>
-#include <json.hpp>
-
-using json = nlohmann::json;
+#include <IXNetSystem.h>
+#include <IXWebSocket.h>
+#include <msgpack.hpp>
 
 typedef enum {
     gateLevelLow = 0,
@@ -86,11 +84,11 @@ private:
     void onClose(int code, const std::string& reason);
     void onError(const std::string& reason);
 
-    void sendEventData(const std::string& event, json data = nullptr);
+    void sendEventData(const std::string& event, const msgpack::sbuffer& dataBuf);
     void sendSubscribeEvent();
     void sendUnsubscribeEvent();
     void sendGetEvent();
-    void onMessageEvent(const std::string& event, const json& data);
+    void onMessageEvent(const std::string& event, const msgpack::object& dataObj);
 
     asynStatus setAcquireParams();
     bool waitForConnection(double timeoutSeconds);
