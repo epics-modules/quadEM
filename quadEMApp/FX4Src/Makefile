@@ -7,7 +7,8 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY_IOC += fx4QuadEM
 
-USR_INCLUDES += -I$(IXWEBSOCKET)/include
+USR_INCLUDES += -I../ixwebsocket/include
+USR_INCLUDES += -I../msgpack-c/include
 
 USR_CPPFLAGS_WIN32 += /std:c++17 -DNOMINMAX
 
