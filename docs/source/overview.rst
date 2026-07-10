@@ -26,14 +26,13 @@ for several models:
   current measurements measured at 100 kHz and streamed to EPICS at up to 20 kHz.
 - The FX4 electrometer from Pyramid_. This is also sold by XDSOxford_ for the synchrotron market.
   This device communicates using TCP/IP over 1 Gbit/s Ethernet. It provides 4-channel
-  current measurements measured at 100 kHz and streamed to EPICS at up to 10 kHz.
-  It uses an ASCII protocol for configuration and streams data either in ASCII or 
-  binary (IEEE 64-bitfloat) formats.
+  current measurements measured at 100 kHz and streamed to EPICS at up to 25 kHz.
   The FX4 has a high-performance Web interface for configuration and viewing live data.
   It also has a built-in EPICS Channel Access server which provides read/write access to
   all parameters.  These are also all available over a REST API. It also supports streaming
   ADC data and all parameters over WebSocket interface using either JSON (ASCII) or 
-  MessagePack (binary) formats.
+  MessagePack (binary) formats.  The EPICS driver uses MessagePack because it is faster and
+  more efficient in CPU and network resources.
 - The AH401 series (AH401B, AH401D) and AH501 series (AH501, AH501C, AH501D) picoammeters
   originally designed by Elettra_. They are now sold commerically by CAENels_. 
   These devices communicate using TCP or UDP over 100 Mbit/s Ethernet
