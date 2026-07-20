@@ -436,7 +436,7 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
                 eventList.insert(sortedListElement(gateEvent, values, timestamp));
 
                 if (!adcCache_[0].empty()) {
-                    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+                    asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
                               "Gate event, value=%f, time=%f, ADC1 last time=%f\n",
                               values[0], timestamp, adcCache_[0].back().time);
                 }
@@ -455,7 +455,7 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
 
     if (adcCache_[0].empty()) goto done;
 
-    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+    asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
               "%s: Samples=%lu %lu %lu %lu\n"
               "    ADCs oldest=%f %f %f %f\n"
               "   Times oldest=%f %f %f %f\n"
@@ -477,7 +477,7 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
     maxSize = std::max({adcCache_[0].size(), adcCache_[1].size(),
                         adcCache_[2].size(), adcCache_[3].size()});
 
-    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+    asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
               "%s minimum size=%lu, size=%lu %lu %lu %lu\n",
               functionName, (unsigned long)minSize,
               (unsigned long)adcCache_[0].size(), (unsigned long)adcCache_[1].size(),
@@ -526,20 +526,20 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
     for (const sortedListElement& element : eventList) {
         if (element.eventType == gateEvent) {
             gateLevel_ = (gateLevel_t)element.values[0];
+            if (triggerMode_ != QETriggerModeFreeRun) {
+                asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+                          "trigger event: gateLevel=%d, timeStamp=%f, numADCValues=%d\n",
+                          gateLevel_, element.timeStamp, numTriggerValues_);
+            }
             if (triggerMode_ == QETriggerModeExtTrigger) {
                 if (((triggerPolarity_ == QETriggerPolarityPositive) && (gateLevel_ == gateLevelHigh)) ||
                     ((triggerPolarity_ == QETriggerPolarityNegative) && (gateLevel_ == gateLevelLow))) {
-                    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-                              "trigger event: gateLevel=%d, triggerActive=%d, numTriggerValues=%d\n",
-                              gateLevel_, triggerActive_, numTriggerValues_);
                     triggerActive_     = true;
                     numTriggerValues_  = 0;
                 }
             } else if (triggerMode_ == QETriggerModeExtBulb) {
                 if (((triggerPolarity_ == QETriggerPolarityPositive) && (gateLevel_ == gateLevelLow)) ||
                     ((triggerPolarity_ == QETriggerPolarityNegative) && (gateLevel_ == gateLevelHigh))) {
-                    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-                              "bulb event: gateLevel=%d\n", gateLevel_);
                     triggerCallbacks();
                 }
             }
