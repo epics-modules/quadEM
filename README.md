@@ -6,7 +6,7 @@ for several models:
   * The FX4 electrometer from Pyramid Technical Consultants (https://pyramid.tech/products/fx4).
     This is sold by XDSOxford for the synchrotron market (https://xds-oxford.com/products/detectors-diagnostics/control-modules/fx4-4-channel-precision-electrometer)
     This device communicates using HTTP (REST API), Websockets, and a built-in EPICS Channnel Access server.
-    It provides 4-channel current measurements at up to 10000 Hz to EPICS.
+    It provides 4-channel current measurements at up to 25000 Hz to EPICS.
     It has additional digital I/O, analog outputs, and built-in servo control capabilities.
   * The AH401B, AH401D, AH501, AH501C, and AH501D picoammeters originally designed
     [Synchrotron Trieste (elettra)](http://ilo.elettra.trieste.it/index.php?page=_layout_prodotto&amp;id=54&amp;lang=en)

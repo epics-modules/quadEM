@@ -3,7 +3,7 @@
 The versions of EPICS base, asyn, ADCore, and other synApps modules used for each release can be obtained from 
 the configure/RELEASE file in each release of quadEM.
 
-## Release 9-7 (May XXX, 2026)
+## Release 9-7 (July XXX, 2026)
 - Added support for the FX4 quad electrometer from Pyramid Technical Consultants.
   This sold by XDSOxford for the synchrotron market.
 - Added a Custom geometry that allows user-defined weights for computing the sum
