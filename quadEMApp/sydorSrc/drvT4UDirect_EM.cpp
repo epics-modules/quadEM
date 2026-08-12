@@ -517,11 +517,15 @@ asynStatus drvT4UDirect_EM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         writeReadMeter();
 
 	// Now send the calibration parameters
+	int32_t slope;
+	int32_t offset;
 	for(uint32_t chan_idx = 0; chan_idx<4; chan_idx++)
 	{
-	    epicsSnprintf(outCmdString_, sizeof(outCmdString_), "wr %i %i\r\n", TXC_CHA_CALIB_SLOPE + chan_idx, *((int32_t *)(&fullSlope_[value][chan_idx]))); // Need to typepun the float value, then write to the channel for the slope
+		memcpy(&slope, &fullSlope_[value][chan_idx], sizeof(int32_t));
+		memcpy(&offset, &fullOffset_[value][chan_idx], sizeof(int32_t));
+	    epicsSnprintf(outCmdString_, sizeof(outCmdString_), "wr %i %i\r\n", TXC_CHA_CALIB_SLOPE + chan_idx, slope); // Need to typepun the float value, then write to the channel for the slope
 	    writeReadMeter();
-	    epicsSnprintf(outCmdString_, sizeof(outCmdString_), "wr %i %i\r\n", TXC_CHA_CALIB_OFFSET + chan_idx, *((int32_t *)(&fullOffset_[value][chan_idx]))); // As above, but for offset
+	    epicsSnprintf(outCmdString_, sizeof(outCmdString_), "wr %i %i\r\n", TXC_CHA_CALIB_OFFSET + chan_idx, offset); // As above, but for offset
 	    writeReadMeter();
 	}
         
@@ -892,7 +896,7 @@ void drvT4UDirect_EM::cmdReadThread(void)
 			// Skip the read the first time
 		    {
 			status = pasynOctetSyncIO->read(pasynUserTCPCommand_, &currChar, nRequest, T4U_EM_TIMEOUT, &nRead, &eomReason); // Start by reading in a byte
-			if (nRead == 0)     // No bytes available
+			if (status != asynSuccess || nRead == 0)     // No bytes available
 			{
 			    continue;
 			}
@@ -1063,6 +1067,9 @@ void drvT4UDirect_EM::cmdReadThread(void)
         // Set the state for looking for a header again
         parseState = kGET_CMD_NAME;
 	b_outstanding_cmd = false; // Clear the outstanding flag one way or another
+
+	// TODO: fix for -Wunused-but-set-variable
+	(void) b_outstanding_cmd;
 	cmd_tick_count = 10;	   // Set to force a check of queued outgoing commands
 	goto process_tick;
     } // while main receiving loop
@@ -1085,6 +1092,9 @@ void drvT4UDirect_EM::dataReadThread(void)
 
     //incoming_log = fopen("packet_log.txt", "w");
     status = asynSuccess;       // -=-= FIXME Used for a different call
+
+	// TODO: fix for -Wunused-but-set-variable
+	(void) status;
 
     data_sink = new char[MAX_PACKET_SIZE];
     payload = new T4UFrame;	// Maximum size
@@ -1398,8 +1408,11 @@ int drvT4UDirect_EM::processRegVal(int reg_num, uint32_t reg_val)
         else if ((reg_num >= TXC_CHA_CALIB_SLOPE) && (reg_num <= TXC_CHD_CALIB_SLOPE))
         {
             double slope_val;
+			float float_slope;
 
-            slope_val = (double) (*((float *) &reg_val));
+            // slope_val = (*((float *) &reg_val));
+			memcpy(&float_slope, &reg_val, sizeof(reg_val));
+			slope_val = (double) float_slope;
 	    //printf("Calculated slope %i is %f\n", reg_num-TXC_CHA_CALIB_SLOPE, slope_val);
             calSlope_[reg_num - TXC_CHA_CALIB_SLOPE] = slope_val;
 	    if (slope_val != fullSlope_[currRange_][reg_num - TXC_CHA_CALIB_SLOPE])
@@ -1410,8 +1423,11 @@ int drvT4UDirect_EM::processRegVal(int reg_num, uint32_t reg_val)
         else if ((reg_num >= TXC_CHA_CALIB_OFFSET) && (reg_num <= TXC_CHD_CALIB_OFFSET))
         {
             double offset_val;
+			float float_offset;
 
-            offset_val = (double) (*((float *) &reg_val));
+            // offset_val = (double) (*((float *) &reg_val));
+			memcpy(&float_offset, &reg_val, sizeof(reg_val));
+			offset_val = (double) float_offset;
 	    //printf("Calculated offset %i is %f\n", reg_num-TXC_CHA_CALIB_OFFSET, offset_val);
             calOffset_[reg_num - TXC_CHA_CALIB_OFFSET] = offset_val;
 	    if (offset_val != fullOffset_[currRange_][reg_num - TXC_CHA_CALIB_OFFSET])
@@ -1604,7 +1620,7 @@ int32_t drvT4UDirect_EM::readTextCurrVals()
     while (1)
     {
         status = pasynOctetSyncIO->read(pasynUserTCPData_, InData+bytes_read, nRequest, 0.01, &nRead, &eomReason);
-        if (nRead == 0)         // Problem reading
+        if (status != asynSuccess || nRead == 0)         // Problem reading
         {
             return -1;          // Error, so pass it up
         }
