@@ -26,8 +26,8 @@ the configure/RELEASE file in each release of quadEM.
     the value of the Range[1-4] output records that are saved and restored.
     This was fixed by adding the tag info(asyn:READBACK,"1") to the Range[1-4] records,
     which updates the output record when the readback changes.
-  - Previous the readback value for the global range record (Range_RBV) was set to the value
-    of the first channel range read from the TetrAMM (Range1_RBV) in the readStatus method.
+  - Previously the readback value for the global range record (Range_RBV) was set to the value
+    of the channel 1 range read from the TetrAMM (Range1_RBV) in the readStatus method.
     This could be confusing, so the readStatus method no longer updates Range_RBV.
 - Added NDArrayBase_settings.req to quadEM_settings.req so base class records are autosaved.
 
