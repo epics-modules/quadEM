@@ -3,7 +3,7 @@
 The versions of EPICS base, asyn, ADCore, and other synApps modules used for each release can be obtained from 
 the configure/RELEASE file in each release of quadEM.
 
-## Release 9-7 (July XXX, 2026)
+## Release 9-7 (August XXX, 2026)
 - Added support for the FX4 quad electrometer from Pyramid Technical Consultants.
   This sold by XDSOxford for the synchrotron market.
 - Added a Custom geometry that allows user-defined weights for computing the sum
@@ -12,6 +12,20 @@ the configure/RELEASE file in each release of quadEM.
 - Moved the code for device-specific drivers to separate directories, for example caenSrc, FX4Src, etc.
 - Change the Acquire record to PINI=YES so that the device comes up in the previous state when
   restarting the IOC.
+- Fixed occassional read timeout issues with the TetrAMM.  It was using 50 ms timeout for both
+  ASCII commands and polling binary data.  50 ms is too short for some ASCII commands.  
+  Changed to 500 ms for ASCII commands and 50 ms for binary data.
+- Fixed several problems with the Range and individual Range[1-4] records. 
+  These were mainly a problem for the TetrAMM.
+  - The readbacks for the individual range records Range[1-4]_RBV were not being updated
+    when the value of the global Range record was changed.  
+    This was a fixed in the drvQuadEM::writeInt32 method, where callParamCallbacks
+    was only updating addr=0, rather than all of Range[1-4] record addresses.
+  - The Range[1-4] output records were not being updated when the value of the global Range
+    record was changed.  This meant that the autosave values could be wrong, because it is
+    the value of the Range[1-4] output records that are saved and restored.
+    This was fixed by adding the tag info(asyn:READBACK,"1") to the Range1[1-4] records,
+    which updates the output record when the readback changes.
 - Added NDArrayBase_settings.req to quadEM_settings.req so base class records are autosaved.
 
 ## Release 9-6 (November 29, 2025)
