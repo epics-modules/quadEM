@@ -100,6 +100,7 @@ record(mbbo,"$(P)$(R)Range1") {
     field(PHAS, "2")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT) 1)QE_RANGE")
+    info(asyn:READBACK,"1")
 }
 
 record(mbbi,"$(P)$(R)Range1_RBV") {
@@ -115,6 +116,7 @@ record(mbbo,"$(P)$(R)Range2") {
     field(PHAS, "2")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT) 2)QE_RANGE")
+    info(asyn:READBACK,"1")
 }
 
 record(mbbi,"$(P)$(R)Range2_RBV") {
@@ -130,6 +132,7 @@ record(mbbo,"$(P)$(R)Range3") {
     field(PHAS, "2")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT) 3)QE_RANGE")
+    info(asyn:READBACK,"1")
 }
 
 record(mbbi,"$(P)$(R)Range3_RBV") {
@@ -145,6 +148,7 @@ record(mbbo,"$(P)$(R)Range4") {
     field(PHAS, "2")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT) 4)QE_RANGE")
+    info(asyn:READBACK,"1")
 }
 
 record(mbbi,"$(P)$(R)Range4_RBV") {
