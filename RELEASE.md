@@ -24,7 +24,7 @@ the configure/RELEASE file in each release of quadEM.
   - The Range[1-4] output records were not being updated when the value of the global Range
     record was changed.  This meant that the autosave values could be wrong, because it is
     the value of the Range[1-4] output records that are saved and restored.
-    This was fixed by adding the tag info(asyn:READBACK,"1") to the Range1[1-4] records,
+    This was fixed by adding the tag info(asyn:READBACK,"1") to the Range[1-4] records,
     which updates the output record when the readback changes.
 - Added NDArrayBase_settings.req to quadEM_settings.req so base class records are autosaved.
 
