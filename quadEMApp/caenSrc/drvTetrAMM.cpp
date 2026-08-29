@@ -30,7 +30,10 @@
 #include <epicsExport.h>
 #include "drvTetrAMM.h"
 
-#define TetrAMM_TIMEOUT 0.05
+// Timeout for ASCII commands
+#define TetrAMM_COMMAND_TIMEOUT 0.5
+// Timeout for binary data
+#define TetrAMM_DATA_TIMEOUT 0.05
 #define MIN_VALUES_PER_READ_BINARY 5
 #define MIN_VALUES_PER_READ_ASCII 500
 #define MAX_VALUES_PER_READ 100000
@@ -124,7 +127,12 @@ asynStatus drvTetrAMM::sendCommand()
   prevAcquiring = acquiring_;
   if (prevAcquiring) setAcquire(0);
   status = writeReadMeter();
-  if (status) goto error;
+  if (status) {
+      asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+          "%s::%s: error, outString=%s status=%d\n",
+          driverName, functionName, outString_, status);
+     goto error;
+  }
   if (strcmp(inString_, "ACK") != 0) {
       asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
           "%s::%s: error, outString=%s expected ACK, received %s\n",
@@ -148,7 +156,7 @@ asynStatus drvTetrAMM::writeReadMeter()
   static const char *functionName="writeReadMeter";
   
   status = pasynOctetSyncIO->writeRead(pasynUserMeter_, outString_, strlen(outString_), 
-                                       inString_, sizeof(inString_), TetrAMM_TIMEOUT, 
+                                       inString_, sizeof(inString_), TetrAMM_COMMAND_TIMEOUT, 
                                        &nwrite, &nread, &eomReason);
   asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
       "%s::%s outString=\"%s\", inString=\"%s\", nwrite=%d, nread=%d, eomReason=%d, status=%d\n",
@@ -197,7 +205,7 @@ void drvTetrAMM::readThread(void)
 
     /* Create an asynUser */
     pasynUser = pasynManager->createAsynUser(0, 0);
-    pasynUser->timeout = TetrAMM_TIMEOUT;
+    pasynUser->timeout = TetrAMM_DATA_TIMEOUT;
     status = pasynManager->connectDevice(pasynUser, QEPortName_, 0);
     if(status!=asynSuccess) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
@@ -486,14 +494,14 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
             lock();
         }
         status = pasynOctetSyncIO->writeRead(pasynUserMeter_, "ACQ:OFF", strlen("ACQ:OFF"), 
-            response, sizeof(response), TetrAMM_TIMEOUT, &nwrite, &nread, &eomReason);
+            response, sizeof(response), TetrAMM_COMMAND_TIMEOUT, &nwrite, &nread, &eomReason);
         if ((status != asynSuccess) || (nread != 3) || (strcmp(response, "ACK") != 0)) {
             while (1) {
                 // Read until the read terminated on EOS (\r\n) and last 3 characters of the response
                 // are ACK or until we get a timeout.  
                 // A timeout should only happen if the ACK\r\n response spanned the response array size
                 status = pasynOctetSyncIO->read(pasynUserMeter_, response, sizeof(response), 
-                                                TetrAMM_TIMEOUT, &nread, &eomReason);
+                                                TetrAMM_COMMAND_TIMEOUT, &nread, &eomReason);
                 if ((status == asynSuccess) && (eomReason == ASYN_EOM_EOS) &&
                     (nread >= 3) && (strncmp(&response[nread-3], "ACK", 3) == 0)) break;
                 if (status != asynSuccess) {
@@ -517,7 +525,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
         // It also has the effect of flusing any stale input
         setAcquireParams();
         status = pasynOctetSyncIO->write(pasynUserMeter_, "ACQ:ON", strlen("ACQ:ON"), 
-                            TetrAMM_TIMEOUT, &nwrite);
+                            TetrAMM_COMMAND_TIMEOUT, &nwrite);
         getIntegerParam(P_ReadFormat, &readFormat);
         if (readFormat == QEReadFormatBinary) {
             status = pasynOctetSyncIO->setInputEos(pasynUserMeter_, "", 0);
