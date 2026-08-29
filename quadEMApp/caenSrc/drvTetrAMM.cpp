@@ -809,7 +809,8 @@ asynStatus drvTetrAMM::readStatus()
         if (sscanf(inString_, "RNG:CH%*1c:%d", &range) != 1) goto error;
         setIntegerParam(i+1, P_Range, range);
         // Set the main Range readback to the first channel
-        if (i == 0) setIntegerParam(P_Range, range);
+        // This could be confusing, so it is now not implemented
+        //if (i == 0) setIntegerParam(P_Range, range);
     }
         
     strcpy(outString_, "NRSAMP:?");
