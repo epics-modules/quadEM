@@ -513,9 +513,12 @@ asynStatus drvQuadEM::writeInt32(asynUser *pasynUser, epicsInt32 value)
         status = asynNDArrayDriver::writeInt32(pasynUser, value);
     }
     
-    /* Do callbacks so higher layers see any changes */
-    status |= (asynStatus) callParamCallbacks();
-    
+    /* Do callbacks so higher layers see any changes.  
+       Need to do all channels because some parameters are channel-specific, e.g. Range */
+    for (int i=0; i<QE_MAX_INPUTS+1; i++) {
+        callParamCallbacks(i);
+    }
+
     if (status) 
         epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
                   "%s:%s: status=%d, function=%d, name=%s, value=%d", 
