@@ -122,13 +122,17 @@ minimum, maximum, and other statistics, including a histogram of array values.
       of ValuesPerRead is 5, which is an update date of 20 kHz, or 100 times faster than
       ASCII mode.
   * - QE_RANGE
-    - $(P)$(R)Range, $(P)$(R)Range_RBV
+    - $(P)$(R)Range, $(P)$(R)Range_RBV ($(P)$(R)Range[1-4], $(P)$(R)Range[1-4]_RBV])
     - mbbo, mbbi
     - asynInt32
     - r/w
     - All
-    - Range command. This selects the sensitivity of the electrometer (A/D units per nanoamp). |br|
-      For the TetrAMM the choices are:
+    - Range command. This selects the sensitivity of the electrometer (A/D units per nanoamp).
+      Most models only support a single range for all 4 channels, and the Range record controls that.
+      The TetrAMM supports independent ranges for each channel, and the Range[1-4] and Range[1-4]_RBV
+      record control those.  Writing to the Range record will set Range[1-4] all to the same value. |br|
+      For the TetrAMM there are two choices which are specified when the unit is ordered.
+      Typical values are:
 
       - ±120uA
       - ±120nA
