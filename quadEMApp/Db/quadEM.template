@@ -621,10 +621,10 @@ record(dfanout,"$(P)$(R)CurrentPrecFanout2") {
     field(OUTA, "$(P)$(R)Current2:MeanValue_RBV.PREC NPP")
     field(OUTB, "$(P)$(R)Current2:Sigma_RBV.PREC NPP")
     field(OUTC, "$(P)$(R)CurrentOffset2.PREC NPP")
-    field(OUTC, "$(P)$(R)SumAll:MeanValue_RBV.PREC NPP")
-    field(OUTD, "$(P)$(R)SumAll:Sigma_RBV.PREC NPP")
-    field(OUTE, "$(P)$(R)Current2Ave.PREC NPP")
-    field(OUTF, "$(P)$(R)SumAllAve.PREC NPP")
+    field(OUTD, "$(P)$(R)SumAll:MeanValue_RBV.PREC NPP")
+    field(OUTE, "$(P)$(R)SumAll:Sigma_RBV.PREC NPP")
+    field(OUTF, "$(P)$(R)Current2Ave.PREC NPP")
+    field(OUTG, "$(P)$(R)SumAllAve.PREC NPP")
 }
 
 record(ao,"$(P)$(R)CurrentOffset2") {
