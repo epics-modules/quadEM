@@ -216,3 +216,25 @@ record(mbbi,    "$(P)$(R)TriggerMode_RBV") {
     field(THVL, "4")
     field(THST, "Ext. gate")
 }
+
+# The following 2 records read the current trigger level (input D1)
+# and the current trigger count (encoder 0 position counter)
+# and write them to the FX4 driver so it can access them at the start of a scan.
+# It assumes they are changing slowly enough before the scan that the
+# Channel Access updates for them are in sync.
+
+record(bo,      "$(P)$(R)GetTriggerLevel") {
+    field(DOL,  "$(FXP)/fx4/digital_expansion/d1/value CP")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)FX4_TRIGGER_LEVEL")
+    field(ZNAM, "Low")
+    field(ONAM, "High")
+    field(OMSL, "closed_loop")
+}
+
+record(longin,  "$(P)$(R)GetTriggerCount") {
+    field(DOL,  "$(FXP)/fx4/qep_0/position_counter/value CP")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)FX4_TRIGGER_COUNT")
+    field(OMSL, "closed_loop")
+}
