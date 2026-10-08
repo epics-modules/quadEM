@@ -232,7 +232,7 @@ record(bo,      "$(P)$(R)GetTriggerLevel") {
     field(OMSL, "closed_loop")
 }
 
-record(longin,  "$(P)$(R)GetTriggerCount") {
+record(longout,  "$(P)$(R)GetTriggerCount") {
     field(DOL,  "$(FXP)/fx4/qep_0/position_counter/value CP")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT) 0)FX4_TRIGGER_COUNT")
