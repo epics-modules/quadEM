@@ -205,7 +205,6 @@ drvFX4::drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize)
       wsStopping_(false),
       wsUri_("ws://" + std::string(FX4_IP)),
       startTime_(0),
-      gateLevel_(gateLevelUnknown),
       synchronized_(false),
       timestampMismatch_(false),
       triggerActive_(false),
@@ -232,6 +231,9 @@ drvFX4::drvFX4(const char *portName, const char *FX4_IP, int ringBufferSize)
         std::cerr << driverName << "::" << functionName
                   << ": timeout connecting to FX4 at " << wsUri_ << std::endl;
     }
+
+    createParam(FX4TriggerLevelString, asynParamInt32, &pFX4TriggerLevel_);
+    createParam(FX4TriggerCountString, asynParamInt32, &pFX4TriggerCount_);
 
     acquiring_ = 0;
     resolution_ = 24;
@@ -308,20 +310,20 @@ void drvFX4::sendEventData(const std::string& event, const msgpack::sbuffer& dat
 }
 
 /**
- * sendSubscribeEvent - subscribe to all four ADC channels and the gate.
+ * sendSubscribeEvent - subscribe to all four ADC channels and the trigger.
  */
 void drvFX4::sendSubscribeEvent()
 {
     msgpack::sbuffer dataBuf;
     msgpack::packer<msgpack::sbuffer> pk(dataBuf);
 
-    /* Pack a map with 5 entries: 4 ADC paths + 1 gate path */
+    /* Pack a map with 5 entries: 4 ADC paths + 1 trigger path */
     pk.pack_map(FX4_NUM_CHANS + 1);
     for (int i = 0; i < FX4_NUM_CHANS; i++) {
         pk.pack(std::string(ADC_PATHS[i]));
         pk.pack(true);
     }
-    pk.pack(std::string(GATE_PATH));
+    pk.pack(std::string(TRIGGER_PATH));
     pk.pack(true);
 
     sendEventData("subscribe", dataBuf);
@@ -386,9 +388,9 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
         kv.key.convert(path);
 
         int  chan   = -1;
-        bool isGate = (path == GATE_PATH);
+        bool isTrigger = (path == TRIGGER_PATH);
 
-        if (!isGate) {
+        if (!isTrigger) {
             for (int i = 0; i < FX4_NUM_CHANS; i++) {
                 if (path == ADC_PATHS[i]) {
                     chan = i;
@@ -421,24 +423,25 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
             if (startTime_ == 0) startTime_ = time;
             double timestamp = (time - startTime_) / 1e9;
 
-            if (isGate) {
+            if (isTrigger) {
                 /*
-                 * Gate value is a boolean in MessagePack.
-                 * msgpack::type::BOOLEAN -> rawVal.via.boolean
+                 * TriggerCount is a uint32 in MessagePack?
                  */
-                bool gateVal = false;
+                epicsUInt32 triggerCount;
                 try {
-                    rawVal.convert(gateVal);
+                    rawVal.convert(triggerCount);
                 } catch (...) {
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                              "Error converting trigger count\n");
                     continue;
                 }
-                values[0] = gateVal ? 1.0 : 0.0;
-                eventList.insert(sortedListElement(gateEvent, values, timestamp));
+                values[0] = (double) triggerCount;
+                eventList.insert(sortedListElement(triggerEvent, values, timestamp));
 
                 if (!adcCache_[0].empty()) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-                              "Gate event, value=%f, time=%f, ADC1 last time=%f\n",
-                              values[0], timestamp, adcCache_[0].back().time);
+                              "Trigger event, value=%u, time=%f, ADC1 last time=%f\n",
+                              triggerCount, timestamp, adcCache_[0].back().time);
                 }
             } else {
                 /* ADC value is a floating-point number */
@@ -524,22 +527,38 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
     }
 
     for (const sortedListElement& element : eventList) {
-        if (element.eventType == gateEvent) {
-            gateLevel_ = (gateLevel_t)element.values[0];
+        if (element.eventType == triggerEvent) {
+            epicsInt32 newTriggerCount = (epicsUInt32) element.values[0];
+            epicsInt32 triggerCountChange = newTriggerCount - triggerCount_;
+            bool isOdd = ((triggerCountChange % 2) != 0);
+            // If we have an odd number of new counts flip the trigger level
+            if (isOdd) triggerLevel_ = !triggerLevel_;
+            if (triggerCountChange == 0) continue;
             if (triggerMode_ != QETriggerModeFreeRun) {
                 asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-                          "trigger event: gateLevel=%d, timeStamp=%f, numADCValues=%d\n",
-                          gateLevel_, element.timeStamp, numTriggerValues_);
+                          "trigger event: triggerCount=%d, triggerCountChange=%d, triggerLevel=%d, timeStamp=%f, numADCValues=%d\n",
+                          newTriggerCount, triggerCountChange, triggerLevel_, element.timeStamp, numTriggerValues_);
             }
+            if (triggerCountChange > 2) {
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                          "Error, %d trigger changes in one cycle, should be <=2, previous=%d, new=%d\n", 
+                          triggerCountChange, triggerCount_, newTriggerCount);
+            }
+            if ((triggerMode_ == QETriggerModeExtBulb) && (triggerCountChange > 1)) {
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                          "Warning, %d trigger changes in one cycle, should be 1\n", triggerCountChange);
+            }
+            triggerCount_ = newTriggerCount;
             if (triggerMode_ == QETriggerModeExtTrigger) {
-                if (((triggerPolarity_ == QETriggerPolarityPositive) && (gateLevel_ == gateLevelHigh)) ||
-                    ((triggerPolarity_ == QETriggerPolarityNegative) && (gateLevel_ == gateLevelLow))) {
+                if (((triggerPolarity_ == QETriggerPolarityPositive) && (triggerLevel_ == triggerLevelHigh)) ||
+                    ((triggerPolarity_ == QETriggerPolarityNegative) && (triggerLevel_ == triggerLevelLow))) {
                     triggerActive_     = true;
                     numTriggerValues_  = 0;
                 }
             } else if (triggerMode_ == QETriggerModeExtBulb) {
-                if (((triggerPolarity_ == QETriggerPolarityPositive) && (gateLevel_ == gateLevelLow)) ||
-                    ((triggerPolarity_ == QETriggerPolarityNegative) && (gateLevel_ == gateLevelHigh))) {
+                if ((triggerCountChange == 2) ||
+                    ((triggerPolarity_ == QETriggerPolarityPositive) && (triggerLevel_ == triggerLevelLow)) ||
+                    ((triggerPolarity_ == QETriggerPolarityNegative) && (triggerLevel_ == triggerLevelHigh))) {
                     triggerCallbacks();
                 }
             }
@@ -556,8 +575,8 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
         }
 
         if ((triggerMode_ == QETriggerModeExtGate) || (triggerMode_ == QETriggerModeExtBulb)) {
-            if ((triggerPolarity_ == QETriggerPolarityPositive) && (gateLevel_ == gateLevelLow))  continue;
-            if ((triggerPolarity_ == QETriggerPolarityNegative) && (gateLevel_ == gateLevelHigh)) continue;
+                if ((triggerPolarity_ == QETriggerPolarityPositive) && (triggerLevel_ == triggerLevelLow))  continue;
+                if ((triggerPolarity_ == QETriggerPolarityNegative) && (triggerLevel_ == triggerLevelHigh)) continue;
         }
 
         lock();
@@ -640,7 +659,10 @@ asynStatus drvFX4::setAcquire(epicsInt32 value)
         timestampMismatch_ = false;
         numTriggerValues_  = 0;
         triggerActive_     = false;
-        gateLevel_         = gateLevelUnknown;
+        int temp;
+        getIntegerParam(pFX4TriggerLevel_, &temp);
+        triggerLevel_ = (temp == 1);
+        getIntegerParam(pFX4TriggerCount_, &triggerCount_);
         sendSubscribeEvent();
         sendGetEvent();
     } else {
