@@ -120,6 +120,8 @@ private:
     epicsInt64 startTime_;
     bool triggerLevel_;
     epicsInt32 triggerCount_;
+    int transitionsDetected_;
+    int pointsCollected_;
     bool synchronized_;
     bool timestampMismatch_;
     bool triggerActive_;
