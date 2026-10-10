@@ -526,6 +526,8 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
         for (size_t j = 0; j < 4; j++) adcCache_[j].pop_front();
     }
 
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_FILTER, "\n");
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_FILTER, "New message, elements=%ld\n", eventList.size());
     for (const sortedListElement& element : eventList) {
         if (element.eventType == triggerEvent) {
             epicsInt32 newTriggerCount = (epicsUInt32) element.values[0];
@@ -534,6 +536,7 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
             // If we have an odd number of new counts flip the trigger level
             if (isOdd) triggerLevel_ = !triggerLevel_;
             if (triggerCountChange == 0) continue;
+            asynPrint(pasynUserSelf, ASYN_TRACEIO_FILTER, "%3d Trigs: %8d, %f\n", numTriggerValues_, triggerCountChange, element.timeStamp);
             transitionsDetected_ += triggerCountChange;
             if (triggerMode_ != QETriggerModeFreeRun) {
                 asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
@@ -541,20 +544,16 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
                           newTriggerCount, triggerCountChange, triggerLevel_, element.timeStamp, numTriggerValues_);
             }
             if (triggerCountChange > 2) {
-                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
                           "Error, %d trigger changes in one cycle, should be <=2, previous=%d, new=%d\n", 
                           triggerCountChange, triggerCount_, newTriggerCount);
-            }
-            if ((triggerMode_ == QETriggerModeExtBulb) && (triggerCountChange > 1)) {
-                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                          "Warning, %d trigger changes in one cycle, should be 1\n", triggerCountChange);
             }
             triggerCount_ = newTriggerCount;
             if (triggerMode_ == QETriggerModeExtTrigger) {
                 if (((triggerPolarity_ == QETriggerPolarityPositive) && (triggerLevel_ == triggerLevelHigh)) ||
                     ((triggerPolarity_ == QETriggerPolarityNegative) && (triggerLevel_ == triggerLevelLow))) {
                     if (triggerActive_) {
-                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                        asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
                                   "Error, received a new trigger when %d out of %d samples were collected, transitions=%d\n",
                                   numTriggerValues_, numAverage_, transitionsDetected_);
                         triggerCallbacks();
@@ -567,6 +566,7 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
                     ((triggerPolarity_ == QETriggerPolarityPositive) && (triggerLevel_ == triggerLevelLow)) ||
                     ((triggerPolarity_ == QETriggerPolarityNegative) && (triggerLevel_ == triggerLevelHigh))) {
                     triggerCallbacks();
+                    numTriggerValues_ = 0;
                 }
             }
             continue;
@@ -580,6 +580,9 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
              }
         }
 
+        if (triggerMode_ == QETriggerModeExtBulb) {
+            numTriggerValues_++;
+        }
         if ((triggerMode_ == QETriggerModeExtGate) || (triggerMode_ == QETriggerModeExtBulb)) {
                 if ((triggerPolarity_ == QETriggerPolarityPositive) && (triggerLevel_ == triggerLevelLow))  continue;
                 if ((triggerPolarity_ == QETriggerPolarityNegative) && (triggerLevel_ == triggerLevelHigh)) continue;
@@ -587,6 +590,7 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
 
         lock();
         pointsCollected_++;
+        asynPrint(pasynUserSelf, ASYN_TRACEIO_FILTER, "%3d ADC 1: %f, %f\n", numTriggerValues_, element.values[0], element.timeStamp);
         computePositions((double*)element.values);
         unlock();
     }
@@ -676,7 +680,7 @@ asynStatus drvFX4::setAcquire(epicsInt32 value)
         sendGetEvent();
     } else {
         sendUnsubscribeEvent();
-        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "Acquisition complete, transitionsDetected_=%d pointsCollected_=%d\n", 
+        asynPrint(pasynUserSelf, ASYN_TRACE_WARNING, "Acquisition complete, transitionsDetected_=%d pointsCollected_=%d\n", 
             transitionsDetected_, pointsCollected_);
         acquiring_ = 0;
     }
