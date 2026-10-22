@@ -1,0 +1,6 @@
+MODULES="asyn" "ADCore"
+
+ASYN="master"
+ADCORE="master"
+ADCORE_REPOURL="https://github.com/areaDetector/ADCore"
+ADCORE_HOOK=.github/workflows/adcore_config.sh
