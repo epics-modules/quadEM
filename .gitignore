@@ -13,6 +13,7 @@ templates/
 cdCommands
 envPaths
 dllPath.bat
+.iocsh_history
 auto_settings.sav*
 auto_positions.sav*
 firmware/
