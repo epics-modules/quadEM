@@ -2679,7 +2679,7 @@ composite {
 			object {
 				x=10
 				y=480
-				width=392
+				width=390
 				height=395
 			}
 			"composite name"=""
@@ -2724,7 +2724,7 @@ composite {
 			object {
 				x=10
 				y=480
-				width=362
+				width=390
 				height=172
 			}
 			"composite name"=""
@@ -2739,7 +2739,7 @@ composite {
 			object {
 				x=10
 				y=480
-				width=400
+				width=390
 				height=121
 			}
 			"composite name"=""
@@ -2755,7 +2755,7 @@ composite {
 				x=10
 				y=480
 				width=390
-				height=170
+				height=262
 			}
 			"composite name"=""
 			"composite file"="FX4.adl"

@@ -3,7 +3,7 @@
   <name>TetrAMM</name>
   <x>1098</x>
   <y>334</y>
-  <width>430</width>
+  <width>390</width>
   <height>400</height>
   <background_color>
     <color red="187" green="187" blue="187">
@@ -14,7 +14,8 @@
   <widget type="label" version="2.0.0">
     <name>text #6</name>
     <text>Channels</text>
-    <width>190</width>
+    <x>100</x>
+    <width>80</width>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
       </font>
@@ -24,7 +25,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #9</name>
     <pv_name>$(P)$(R)NumChannels_RBV</pv_name>
-    <x>290</x>
+    <x>280</x>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
       </font>
@@ -44,7 +45,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #13</name>
     <pv_name>$(P)$(R)NumChannels</pv_name>
-    <x>195</x>
+    <x>185</x>
     <width>90</width>
     <height>20</height>
     <background_color>
@@ -56,7 +57,7 @@
   <widget type="label" version="2.0.0">
     <name>text #16</name>
     <text>Trigger mode</text>
-    <x>70</x>
+    <x>58</x>
     <y>50</y>
     <width>120</width>
     <font>
@@ -68,7 +69,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #19</name>
     <pv_name>$(P)$(R)TriggerMode_RBV</pv_name>
-    <x>290</x>
+    <x>278</x>
     <y>50</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -89,7 +90,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #23</name>
     <pv_name>$(P)$(R)TriggerMode</pv_name>
-    <x>195</x>
+    <x>183</x>
     <y>50</y>
     <width>90</width>
     <height>20</height>
@@ -102,7 +103,7 @@
   <widget type="label" version="2.0.0">
     <name>text #26</name>
     <text>Read format</text>
-    <x>82</x>
+    <x>70</x>
     <y>25</y>
     <width>110</width>
     <font>
@@ -114,7 +115,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #29</name>
     <pv_name>$(P)$(R)ReadFormat_RBV</pv_name>
-    <x>292</x>
+    <x>280</x>
     <y>25</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -135,7 +136,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #33</name>
     <pv_name>$(P)$(R)ReadFormat</pv_name>
-    <x>197</x>
+    <x>185</x>
     <y>25</y>
     <width>90</width>
     <height>20</height>
@@ -148,7 +149,7 @@
   <widget type="label" version="2.0.0">
     <name>text #36</name>
     <text>Bias voltage</text>
-    <x>70</x>
+    <x>58</x>
     <y>125</y>
     <width>120</width>
     <font>
@@ -160,7 +161,7 @@
   <widget type="label" version="2.0.0">
     <name>text #39</name>
     <text>Bias state</text>
-    <x>90</x>
+    <x>78</x>
     <y>100</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -171,7 +172,7 @@
   <widget type="label" version="2.0.0">
     <name>text #42</name>
     <text>Bias interlock</text>
-    <x>50</x>
+    <x>38</x>
     <y>150</y>
     <width>140</width>
     <font>
@@ -183,7 +184,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #45</name>
     <pv_name>$(P)$(R)BiasVoltage_RBV</pv_name>
-    <x>290</x>
+    <x>278</x>
     <y>125</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -204,7 +205,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #49</name>
     <pv_name>$(P)$(R)BiasState_RBV</pv_name>
-    <x>290</x>
+    <x>278</x>
     <y>100</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -225,7 +226,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #53</name>
     <pv_name>$(P)$(R)BiasInterlock_RBV</pv_name>
-    <x>290</x>
+    <x>278</x>
     <y>150</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -246,7 +247,7 @@
   <widget type="textentry" version="3.0.0">
     <name>text entry #57</name>
     <pv_name>$(P)$(R)BiasVoltage</pv_name>
-    <x>195</x>
+    <x>183</x>
     <y>125</y>
     <width>90</width>
     <font>
@@ -264,7 +265,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #61</name>
     <pv_name>$(P)$(R)BiasState</pv_name>
-    <x>195</x>
+    <x>183</x>
     <y>100</y>
     <width>90</width>
     <height>20</height>
@@ -277,7 +278,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #64</name>
     <pv_name>$(P)$(R)BiasInterlock</pv_name>
-    <x>195</x>
+    <x>183</x>
     <y>150</y>
     <width>90</width>
     <height>20</height>
@@ -290,7 +291,7 @@
   <widget type="label" version="2.0.0">
     <name>text #67</name>
     <text>Trigger polarity</text>
-    <x>30</x>
+    <x>18</x>
     <y>75</y>
     <width>160</width>
     <font>
@@ -302,7 +303,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #70</name>
     <pv_name>$(P)$(R)TriggerPolarity_RBV</pv_name>
-    <x>290</x>
+    <x>278</x>
     <y>75</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -323,7 +324,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #74</name>
     <pv_name>$(P)$(R)TriggerPolarity</pv_name>
-    <x>195</x>
+    <x>183</x>
     <y>75</y>
     <width>90</width>
     <height>20</height>
@@ -507,7 +508,7 @@
   <widget type="label" version="2.0.0">
     <name>text #115</name>
     <text>Range 1</text>
-    <x>120</x>
+    <x>108</x>
     <y>175</y>
     <width>70</width>
     <font>
@@ -519,7 +520,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #118</name>
     <pv_name>$(P)$(R)Range1_RBV</pv_name>
-    <x>290</x>
+    <x>278</x>
     <y>175</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -540,7 +541,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #122</name>
     <pv_name>$(P)$(R)Range1</pv_name>
-    <x>195</x>
+    <x>183</x>
     <y>175</y>
     <width>90</width>
     <height>20</height>
@@ -553,7 +554,7 @@
   <widget type="label" version="2.0.0">
     <name>text #125</name>
     <text>Range 2</text>
-    <x>120</x>
+    <x>108</x>
     <y>200</y>
     <width>70</width>
     <font>
@@ -565,7 +566,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #128</name>
     <pv_name>$(P)$(R)Range2_RBV</pv_name>
-    <x>290</x>
+    <x>278</x>
     <y>200</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -586,7 +587,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #132</name>
     <pv_name>$(P)$(R)Range2</pv_name>
-    <x>195</x>
+    <x>183</x>
     <y>200</y>
     <width>90</width>
     <height>20</height>
@@ -599,7 +600,7 @@
   <widget type="label" version="2.0.0">
     <name>text #135</name>
     <text>Range 3</text>
-    <x>120</x>
+    <x>108</x>
     <y>225</y>
     <width>70</width>
     <font>
@@ -611,7 +612,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #138</name>
     <pv_name>$(P)$(R)Range3_RBV</pv_name>
-    <x>290</x>
+    <x>278</x>
     <y>225</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -632,7 +633,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #142</name>
     <pv_name>$(P)$(R)Range3</pv_name>
-    <x>195</x>
+    <x>183</x>
     <y>225</y>
     <width>90</width>
     <height>20</height>
@@ -645,7 +646,7 @@
   <widget type="label" version="2.0.0">
     <name>text #145</name>
     <text>Range 4</text>
-    <x>120</x>
+    <x>108</x>
     <y>250</y>
     <width>70</width>
     <font>
@@ -657,7 +658,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>text update #148</name>
     <pv_name>$(P)$(R)Range4_RBV</pv_name>
-    <x>290</x>
+    <x>278</x>
     <y>250</y>
     <font>
       <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -678,7 +679,7 @@
   <widget type="combo" version="2.0.0">
     <name>menu #152</name>
     <pv_name>$(P)$(R)Range4</pv_name>
-    <x>195</x>
+    <x>183</x>
     <y>250</y>
     <width>90</width>
     <height>20</height>

@@ -3150,7 +3150,7 @@
     <widget type="embedded" version="2.0.0">
       <name>composite #621</name>
       <file>TetrAMM.bob</file>
-      <width>392</width>
+      <width>390</width>
       <height>395</height>
       <rules>
         <rule name="vis_calc" prop_id="visible" out_exp="false">
@@ -3192,7 +3192,7 @@
     <widget type="embedded" version="2.0.0">
       <name>composite #630</name>
       <file>PCR4.bob</file>
-      <width>362</width>
+      <width>390</width>
       <height>172</height>
       <rules>
         <rule name="vis_calc" prop_id="visible" out_exp="false">
@@ -3206,6 +3206,7 @@
     <widget type="embedded" version="2.0.0">
       <name>composite #633</name>
       <file>T4U.bob</file>
+      <width>390</width>
       <height>121</height>
       <rules>
         <rule name="vis_calc" prop_id="visible" out_exp="false">
@@ -3220,7 +3221,7 @@
       <name>composite #636</name>
       <file>FX4.bob</file>
       <width>390</width>
-      <height>170</height>
+      <height>262</height>
       <rules>
         <rule name="vis_calc" prop_id="visible" out_exp="false">
           <exp bool_exp="!((pv0==14))">

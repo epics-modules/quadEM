@@ -5,7 +5,7 @@ minor 0
 release 1
 x 775
 y 326
-w 430
+w 390
 h 190
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-bold-r-10.0"
@@ -30,7 +30,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 29
+x 15
 y 0
 w 160
 h 172
@@ -43,7 +43,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 69
+x 55
 y 50
 w 120
 h 20
@@ -63,7 +63,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 79
+x 65
 y 25
 w 110
 h 20
@@ -83,7 +83,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 69
+x 55
 y 125
 w 120
 h 20
@@ -102,7 +102,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 89
+x 75
 y 100
 w 100
 h 20
@@ -121,7 +121,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 59
+x 45
 y 152
 w 130
 h 20
@@ -141,7 +141,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 29
+x 15
 y 75
 w 160
 h 20
@@ -161,7 +161,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 109
+x 95
 y 0
 w 80
 h 20
@@ -186,169 +186,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 289
-y 0
-w 102
-h 145
-
-beginGroup
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 289
-y 0
-w 100
-h 20
-controlPv "$(P)$(R)NumChannels_RBV"
-format "decimal"
-font "helvetica-medium-r-14.0"
-fontAlign "left"
-fgColor rgb 2560 0 47104
-bgColor rgb 51200 51200 51200
-limitsFromDb
-nullColor rgb 60928 46592 11008
-smartRefresh
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 289
-y 50
-w 100
-h 20
-controlPv "$(P)$(R)TriggerMode_RBV"
-format "string"
-font "helvetica-medium-r-14.0"
-fontAlign "left"
-fgColor rgb 2560 0 47104
-bgColor rgb 51200 51200 51200
-limitsFromDb
-nullColor rgb 60928 46592 11008
-smartRefresh
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 291
-y 25
-w 100
-h 20
-controlPv "$(P)$(R)ReadFormat_RBV"
-format "string"
-font "helvetica-medium-r-14.0"
-fontAlign "left"
-fgColor rgb 2560 0 47104
-bgColor rgb 51200 51200 51200
-limitsFromDb
-nullColor rgb 60928 46592 11008
-smartRefresh
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 289
-y 125
-w 100
-h 20
-controlPv "$(P)$(R)BiasVoltage_RBV"
-format "decimal"
-font "helvetica-medium-r-14.0"
-fontAlign "left"
-fgColor rgb 2560 0 47104
-bgColor rgb 51200 51200 51200
-limitsFromDb
-nullColor rgb 60928 46592 11008
-smartRefresh
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 289
-y 100
-w 100
-h 20
-controlPv "$(P)$(R)BiasState_RBV"
-format "string"
-font "helvetica-medium-r-14.0"
-fontAlign "left"
-fgColor rgb 2560 0 47104
-bgColor rgb 51200 51200 51200
-limitsFromDb
-nullColor rgb 60928 46592 11008
-smartRefresh
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 289
-y 75
-w 100
-h 20
-controlPv "$(P)$(R)TriggerPolarity_RBV"
-format "string"
-font "helvetica-medium-r-14.0"
-fontAlign "left"
-fgColor rgb 2560 0 47104
-bgColor rgb 51200 51200 51200
-limitsFromDb
-nullColor rgb 60928 46592 11008
-smartRefresh
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 194
+x 180
 y 0
 w 90
 h 172
@@ -361,7 +199,7 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 194
+x 180
 y 152
 w 90
 h 20
@@ -385,7 +223,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 194
+x 180
 y 0
 w 90
 h 145
@@ -398,7 +236,7 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 194
+x 180
 y 125
 w 90
 h 20
@@ -427,13 +265,175 @@ endGroup
 
 endObjectProperties
 
+
 # (Group)
 object activeGroupClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 29
+x 275
+y 0
+w 100
+h 145
+
+beginGroup
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 275
+y 0
+w 100
+h 20
+controlPv "$(P)$(R)NumChannels_RBV"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 275
+y 50
+w 100
+h 20
+controlPv "$(P)$(R)TriggerMode_RBV"
+format "string"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 275
+y 25
+w 100
+h 20
+controlPv "$(P)$(R)ReadFormat_RBV"
+format "string"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 275
+y 125
+w 100
+h 20
+controlPv "$(P)$(R)BiasVoltage_RBV"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 275
+y 100
+w 100
+h 20
+controlPv "$(P)$(R)BiasState_RBV"
+format "string"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 275
+y 75
+w 100
+h 20
+controlPv "$(P)$(R)TriggerPolarity_RBV"
+format "string"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 15
 y 0
 w 160
 h 172
@@ -450,24 +450,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 289
-y 0
-w 102
-h 145
-
-beginGroup
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 194
+x 180
 y 0
 w 90
 h 172
@@ -479,7 +462,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 194
+x 180
 y 0
 w 90
 h 145
@@ -492,7 +475,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 194
+x 180
 y 0
 w 90
 h 20
@@ -512,7 +495,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 194
+x 180
 y 50
 w 90
 h 20
@@ -532,7 +515,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 194
+x 180
 y 25
 w 90
 h 20
@@ -552,7 +535,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 194
+x 180
 y 100
 w 90
 h 20
@@ -572,7 +555,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 194
+x 180
 y 75
 w 90
 h 20
@@ -590,6 +573,23 @@ endGroup
 
 endObjectProperties
 
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 275
+y 0
+w 100
+h 145
+
+beginGroup
 
 endGroup
 
