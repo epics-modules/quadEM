@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-11-20 13:38:05 by epics-->
 <display version="2.0.0">
   <name>NSLS_EM</name>
   <x>688</x>
@@ -75,7 +74,7 @@
     <show_units>false</show_units>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #20</name>
     <x>195</x>
     <width>90</width>

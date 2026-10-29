@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-11-20 13:38:06 by epics-->
 <display version="2.0.0">
   <name>QEFFTPlugins</name>
   <x>100</x>
@@ -2432,12 +2431,12 @@
     <name>related display #482</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:SumY:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)SumY:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:SumY:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2454,12 +2453,12 @@
     <name>related display #485</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:SumAll:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)SumAll:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:SumAll:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2476,12 +2475,12 @@
     <name>related display #488</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:DiffX:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)DiffX:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:DiffX:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2498,12 +2497,12 @@
     <name>related display #491</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:DiffY:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)DiffY:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:DiffY:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2520,12 +2519,12 @@
     <name>related display #494</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:PosX:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)PosX:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:PosX:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2542,12 +2541,12 @@
     <name>related display #497</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:Current1:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)Current1:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:Current1:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2564,12 +2563,12 @@
     <name>related display #500</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:Current2:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)Current2:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:Current2:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2586,12 +2585,12 @@
     <name>related display #503</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:Current3:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)Current3:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:Current3:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2608,12 +2607,12 @@
     <name>related display #506</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:Current4:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)Current4:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:Current4:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2630,12 +2629,12 @@
     <name>related display #509</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:SumX:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)SumX:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:SumX:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2652,12 +2651,12 @@
     <name>related display #512</name>
     <actions>
       <action type="open_display">
+        <description>$(R)FFT:PosY:</description>
         <file>NDFFT.opi</file>
         <macros>
           <R>$(R)PosY:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)FFT:PosY:</description>
       </action>
     </actions>
     <text>More</text>

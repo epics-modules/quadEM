@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-11-20 13:38:07 by epics-->
 <display version="2.0.0">
   <name>QECommonPlugins</name>
   <x>100</x>
@@ -431,12 +430,12 @@
     <name>related display #84</name>
     <actions>
       <action type="open_display">
+        <description>$(R)SumY</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)SumY:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)SumY</description>
       </action>
     </actions>
     <text>More</text>
@@ -573,12 +572,12 @@
     <name>related display #109</name>
     <actions>
       <action type="open_display">
+        <description>$(R)SumAll:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)SumAll:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)SumAll:</description>
       </action>
     </actions>
     <text>More</text>
@@ -715,12 +714,12 @@
     <name>related display #134</name>
     <actions>
       <action type="open_display">
+        <description>$(R)DiffX:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)DiffX:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)DiffX:</description>
       </action>
     </actions>
     <text>More</text>
@@ -857,12 +856,12 @@
     <name>related display #159</name>
     <actions>
       <action type="open_display">
+        <description>$(R)DiffY:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)DiffY:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)DiffY:</description>
       </action>
     </actions>
     <text>More</text>
@@ -999,12 +998,12 @@
     <name>related display #184</name>
     <actions>
       <action type="open_display">
+        <description>$(R)PosX:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)PosX:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)PosX:</description>
       </action>
     </actions>
     <text>More</text>
@@ -1141,12 +1140,12 @@
     <name>related display #209</name>
     <actions>
       <action type="open_display">
+        <description>$(R)Current1:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)Current1:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)Current1:</description>
       </action>
     </actions>
     <text>More</text>
@@ -1283,12 +1282,12 @@
     <name>related display #234</name>
     <actions>
       <action type="open_display">
+        <description>$(R)Current2:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)Current2:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)Current2:</description>
       </action>
     </actions>
     <text>More</text>
@@ -1425,12 +1424,12 @@
     <name>related display #259</name>
     <actions>
       <action type="open_display">
+        <description>$(R)Current3:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)Current3:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)Current3:</description>
       </action>
     </actions>
     <text>More</text>
@@ -1567,12 +1566,12 @@
     <name>related display #284</name>
     <actions>
       <action type="open_display">
+        <description>$(R)Current4:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)Current4:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)Current4:</description>
       </action>
     </actions>
     <text>More</text>
@@ -1709,12 +1708,12 @@
     <name>related display #309</name>
     <actions>
       <action type="open_display">
+        <description>$(R)SumX:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)SumX:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)SumX:</description>
       </action>
     </actions>
     <text>More</text>
@@ -1851,12 +1850,12 @@
     <name>related display #334</name>
     <actions>
       <action type="open_display">
+        <description>$(R)PosY:</description>
         <file>NDStats.opi</file>
         <macros>
           <R>$(R)PosY:</R>
         </macros>
         <target>tab</target>
-        <description>$(R)PosY:</description>
       </action>
     </actions>
     <text>More</text>
@@ -2515,7 +2514,7 @@
     </font>
     <auto_size>true</auto_size>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #479</name>
     <x>10</x>
     <y>340</y>
@@ -2598,12 +2597,12 @@
       <name>related display #496</name>
       <actions>
         <action type="open_display">
+          <description>$(R)TS:</description>
           <file>NDPluginTimeSeries.opi</file>
           <macros>
             <R>$(R)TS:</R>
           </macros>
           <target>tab</target>
-          <description>$(R)TS:</description>
         </action>
       </actions>
       <text>More</text>

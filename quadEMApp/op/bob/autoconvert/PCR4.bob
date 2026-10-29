@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-11-20 13:38:06 by epics-->
 <display version="2.0.0">
   <name>PCR4</name>
   <x>775</x>
@@ -12,7 +11,7 @@
   </background_color>
   <grid_visible>false</grid_visible>
   <grid_step_x>5</grid_step_x>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #6</name>
     <x>29</x>
     <width>160</width>
@@ -101,7 +100,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #30</name>
     <x>289</x>
     <width>102</width>
@@ -229,7 +228,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #57</name>
     <x>194</x>
     <width>90</width>
@@ -257,7 +256,7 @@
       <show_units>false</show_units>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="group" version="2.0.0">
+    <widget type="group" version="3.0.0">
       <name>composite #64</name>
       <width>90</width>
       <height>145</height>

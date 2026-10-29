@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-05-08 18:16:03 by epics-->
 <display version="2.0.0">
   <name>TetrAMM</name>
   <x>1098</x>
@@ -334,7 +333,7 @@
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #77</name>
     <x>10</x>
     <y>275</y>
