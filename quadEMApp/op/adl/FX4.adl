@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/FX4.adl"
+	name="/home/epics/devel/quadEM-9-7/quadEMApp/op/adl/FX4.adl"
 	version=030117
 }
 display {
@@ -8,7 +8,7 @@ display {
 		x=964
 		y=435
 		width=410
-		height=187
+		height=262
 	}
 	clr=14
 	bclr=4
@@ -215,37 +215,51 @@ menu {
 }
 text {
 	object {
-		x=5
-		y=160
-		width=190
+		x=45
+		y=85
+		width=150
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Bias state readback"
+	textix="Trigger counter"
 	align="horiz. right"
 }
 "text update" {
 	object {
 		x=200
-		y=160
+		y=85
 		width=90
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)HVSReadback"
+		chan="$(P)$(R)TriggerCount"
 		clr=54
 		bclr=3
 	}
-	format="string"
 	limits {
 	}
+}
+"message button" {
+	object {
+		x=295
+		y=85
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)DoResetCounter"
+		clr=14
+		bclr=51
+	}
+	label="Reset"
+	press_msg="1"
 }
 text {
 	object {
 		x=75
-		y=85
+		y=135
 		width=120
 		height=20
 	}
@@ -257,7 +271,7 @@ text {
 "text entry" {
 	object {
 		x=200
-		y=85
+		y=135
 		width=90
 		height=20
 	}
@@ -272,7 +286,7 @@ text {
 "text update" {
 	object {
 		x=295
-		y=85
+		y=135
 		width=100
 		height=20
 	}
@@ -286,36 +300,8 @@ text {
 }
 text {
 	object {
-		x=35
-		y=110
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Voltage readback"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=200
-		y=110
-		width=90
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)HVVReadback"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-text {
-	object {
 		x=95
-		y=135
+		y=185
 		width=100
 		height=20
 	}
@@ -327,7 +313,7 @@ text {
 menu {
 	object {
 		x=200
-		y=135
+		y=185
 		width=90
 		height=20
 	}
@@ -340,7 +326,7 @@ menu {
 "text update" {
 	object {
 		x=295
-		y=135
+		y=185
 		width=100
 		height=20
 	}
@@ -352,4 +338,129 @@ menu {
 	format="string"
 	limits {
 	}
+}
+"text update" {
+	object {
+		x=200
+		y=210
+		width=90
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)HVSReadback"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=85
+		y=235
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="FX4 CPU (%)"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=200
+		y=235
+		width=90
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)FX4_CPU"
+		clr=54
+		bclr=3
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=5
+		y=210
+		width=190
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Bias state readback"
+	align="horiz. right"
+}
+composite {
+	object {
+		x=35
+		y=160
+		width=255
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=200
+				y=160
+				width=90
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HVVReadback"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=35
+				y=160
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Voltage readback"
+			align="horiz. right"
+		}
+	}
+}
+"text update" {
+	object {
+		x=200
+		y=110
+		width=90
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)FX4TriggerLevel"
+		clr=54
+		bclr=3
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=65
+		y=110
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger level"
+	align="horiz. right"
 }
