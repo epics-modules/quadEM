@@ -24,7 +24,7 @@
 #include <msgpack.hpp>
 
 #define FX4TriggerLevelString "FX4_TRIGGER_LEVEL"
-#define FX4TriggerCountString "FX4_TRIGGER_COUNT"
+#define FX4ResetCounterString "FX4_RESET_COUNTER"
 
 typedef enum {
     triggerLevelLow = 0,
@@ -116,16 +116,18 @@ private:
 
     std::array<std::list<ADCSample>, FX4_NUM_CHANS> adcCache_;
     int pFX4TriggerLevel_;
-    int pFX4TriggerCount_;
+    int pFX4ResetCounter_;
     epicsInt64 startTime_;
     bool triggerLevel_;
     epicsInt32 triggerCount_;
     int transitionsDetected_;
     int pointsCollected_;
+    epicsUInt64 messageCounter_;
     bool synchronized_;
     bool timestampMismatch_;
     bool triggerActive_;
     int numTriggerValues_;
+    int numCallbacks_;
     int triggerMode_;
     int triggerPolarity_;
     int acquireMode_;
