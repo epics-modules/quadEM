@@ -7639,7 +7639,7 @@ border-radius: 2px;
                         <x>0</x>
                         <y>0</y>
                         <width>412</width>
-                        <height>189</height>
+                        <height>264</height>
                     </rect>
                 </property>
                 <property name="geometry">
@@ -7647,7 +7647,7 @@ border-radius: 2px;
                         <x>0</x>
                         <y>0</y>
                         <width>410</width>
-                        <height>187</height>
+                        <height>262</height>
                     </rect>
                 </property>
                 <property name="filename">
