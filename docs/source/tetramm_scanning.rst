@@ -75,13 +75,10 @@ This scan type uses a fly-scan for the positioner and runs the quadEM in free-ru
 The scan is configured by setting the following:
 
 - The total time for the scan is controlled by the number of points (.NPTS) and the detector settling time (.DDLY).
-  Currently the actual detector settling time on Linux is 5 ms less than the requested value, due to some timer granularity
-  in EPICS base. The minimum requested time is 10 ms, which means that the minimum actual time is 5 ms.
-  In the example below .DDLY=.02 s, so the actual delay is .015 seconds.  This means that the 201 point scan will
-  complete in 3.0 seconds.
+  In the example below .DDLY=.01 s, so that the 201 point scan will complete in 2 seconds.
 - The motor speed must be set to so that it will reach the end position in the total time for the scan.
-  In this case the motor travel is set to 2 mm, and hence the velocity is set to 0.667 so it will complete
-  the move in 3.0 seconds.  This neglects the acceleration and deceleration times, which are 0.2 seconds.
+  In this case the motor travel is set to 2 mm, and hence the velocity is set to 1.0 so it will complete
+  the move in 2.0 seconds.  This neglects the acceleration and deceleration times, which are 0.2 seconds.
 - In Fly mode the sscan record starts the motor moving continuously to the final position.  While the motor
   is moving the sscan record records the motor readback position and the detector values continuously, with
   a delay of .DDLY.  This means that the detector values and motor positions recorded are synchronized within the
@@ -92,7 +89,7 @@ The following is screen shot of the sscan record moving a single motor continuou
 .. figure:: sscan_tetramm_fly_free_run.png
     :align: center
 
-The scan is 201 points and took 3.05 seconds as shown on the readback for the second positioner = TIME.
+The scan is 201 points and took 2.038 seconds as shown on the readback for the second positioner = TIME.
 
 .. figure:: sscan_tetramm_fly_free_run_positioners.png
     :align: center
@@ -175,3 +172,56 @@ of this plot is 1.98 seconds.
 This is because the time between triggers is 1% more than the averaging time, but the
 plugin has no way to know what the actual time between trigger pulses is.
 
+Triggered scan using quadEM in bulb mode with the statistics plugin
+....................................................................
+The time series plugin used in the previous example above can only be used when each trigger generates the same
+number of ADC samples. If the time between triggers is not know or is variable then bulb mode.
+This will average all samples between the leading and trailing edge of the trigger pulse.
+When using bulb mode or Ext. Trigger mode on the FX4 with triggers faster than the averaging time,
+the time series feature of the statistics plugin must be used.  It computes the statistics at the end 
+of each trigger period, regardless of the number of samples collected.
+
+For this test the triggers came from a Measurement Computing USB-CTR08 pulse generator, but they could
+have been coming from position based triggers from a motor controller.
+
+
+The pulse generator is configured to output 201 pulses at 100 Hz, i.e. .01 second period.  However, this will work
+even if the trigger period is changing, e.g. during the acceleration phase of a motor.
+
+The quadEM was configured as follows:
+
+- AcquireMode=Multiple
+- NumAcquire=201
+- TriggerMode=Ext. Trig.
+- ValuesPerRead=5
+- AveragingTime is irrelevant and is not used. It is set to 1 second to illustrate this.
+
+This is the configuration of the quadEM in this mode.
+
+.. figure:: tetramm_fly_bulb.png
+    :align: center
+
+Open in Plugins/QE common plugins. Press More for Current 1, which opens NDStats.adl for Current 1.
+Open Statistics/Time series plots/Mean. That is this screen:
+
+.. figure:: tetramm_fly_bulb_statistics_mean.png
+    :align: center
+
+The number of points is set to 201.
+
+The following steps are used to perform as scan in this mode:
+
+- Set the TSAcquire PV to 1 (press EraseStart in above screen)
+- Set the quadEM Acquire PV to 1
+- Start the trigger source.  In this test that is the pulse generator, but it would normally be the motor
+  generating the trigger pulses.
+- Wait for the motion to complete and then read the time series waveform records, e.g. TSMeanValue, etc.
+
+This is a plot of Current1:TSMeanValue after the scan.  The retrace to 0 on the last point is a bug in medm.
+
+.. figure:: tetramm_fly_bulb_time_series_plot.png
+    :align: center
+
+Note that this scan actually took 2 seconds but the horizontal scale in this plot is incorrect (20 seconds) 
+because it has no way of knowing the actual time between triggers.  Each point in the plot is the mean
+of all ADC values between the leading and trailing edge of the trigger pulse.
