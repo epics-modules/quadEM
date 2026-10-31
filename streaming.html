@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Streaming data to disk &mdash; EPICS support for quad electrometers/picoammeters</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/my_theme.css?v=254ed751" />
 
   
@@ -238,12 +238,12 @@ The odd harmonics are ~10-100 times less than 60 Hz, and the even harmonics are 
 <img alt="_images/IDL_HDF5_frequency_plot.png" src="_images/IDL_HDF5_frequency_plot.png" />
 </figure>
 <p>Using Python, the data processing would be nearly identical, but with a few differences due to array and FFT conventions:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">h5py</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
 
 <span class="c1"># Windows/MacOS: pip install wxmplot</span>
 <span class="c1"># Linux: canda install -c conda-forge wxpython &amp;&amp; pip install wxmplot</span>
-<span class="kn">from</span> <span class="nn">wxmplot.interactive</span> <span class="kn">import</span> <span class="n">plot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">wxmplot.interactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot</span>
 
 <span class="n">h5root</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">&#39;quadem_HDF5_001.h5&#39;</span><span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">h5root</span><span class="p">[</span><span class="s1">&#39;/entry/data/data&#39;</span><span class="p">][()]</span>
@@ -311,7 +311,7 @@ The odd harmonics are ~10-100 times less than 60 Hz, and the even harmonics are 
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2026-October-06.
+      <span class="lastupdated">Last updated on 2026-October-31.
       </span></p>
   </div>
 

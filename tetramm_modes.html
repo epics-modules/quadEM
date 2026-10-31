@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TetrAMM and FX4 Acquisition Modes &mdash; EPICS support for quad electrometers/picoammeters</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/my_theme.css?v=254ed751" />
 
   
@@ -87,11 +87,14 @@ modes. Note that AcquireMode=Single is completely equivalent to AcquireMode=Mult
 and NumAcquire=1, so the table does not list AcquireMode=Single.</p>
 <p>Note that the TetrAMM supports triggering and gating modes in the firmware, using the
 commands shown in the table below.  The FX4 does not support triggering or gating for
-ADC acquisition.  However, it does support streaming of the digital input signals while
-also streaming the data.  Each ADC measurement and each transition on the digital input
-has a precise timestamp. The EPICS support streams the first digital input signal, and
-does the triggering and gating operations in the driver software, using the digital input
-transitions and the timestamps.</p>
+ADC acquisition.  However, it does support streaming of a high-speed position counter
+at the same rate that it streams the ADC data.
+The position counter is configured to increment on both the rising and falling edge of
+the first digital input (D1). Each ADC measurement and the position counter
+has a precise timestamp. The EPICS support streams the position counter, and
+does the triggering and gating operations in the driver software, using the counter
+transitions and the timestamps. This has been tested to work with 2000 point acquisition
+with 5 kHz trigger signal and ValuesPerRead=10.</p>
 <table class="table-bordered table-striped table-hover docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>TriggerMode</p></th>
@@ -115,16 +118,20 @@ samples.</p></td>
 </tr>
 <tr class="row-even"><td><p>Ext. Trig.</p></td>
 <td><p>Continuous</p></td>
-<td><p>A fixed number of samples is acquired starting on each rising edge of the external
-trigger input. AveragingTime must be set to a value less than the time between trigger
-pulses.</p></td>
+<td><p>A fixed number of samples is acquired starting on each leading edge of the external trigger input.
+For the TetrAMM the AveragingTime must be set to a value less than the time between trigger pulses.
+If the next trigger arrives before the averaging time is complete then that trigger will be ignorred.
+For the FX4 the time between triggers can be less than the averaging time.
+If the next trigger arrives before the averaging time is complete then it will immediately average the
+values received so far, and start accumulating the next time point.
+It thus effectively runs in Ext. Bulb mode if the triggers are faster than the averaging time.
+ValuesPerRead must be set to a value less than AveragingTime/1e5.</p></td>
 <td><p>NRSAMP=ValuesPerRead, NAQ=AveragingTime/1e5/ValuesPerRead, TRG:ON</p></td>
 </tr>
 <tr class="row-odd"><td><p>Ext. Trig.</p></td>
 <td><p>Multiple</p></td>
-<td><p>A fixed number of samples is acquired starting on the first rising edge of the external
-trigger input. This repeats NumAcquire times and then acquisition stops. ValuesPerRead
-must be set to a value less than AveragingTime/1e5.</p></td>
+<td><p>This is the same as Ext. Trig. above, except that acquisition stops once NumAcquire
+triggers have been received.</p></td>
 <td><p>NRSAMP=ValuesPerRead, NAQ=AveragingTime*1e5/ValuesPerRead, TRG:ON</p></td>
 </tr>
 <tr class="row-even"><td><p>Ext. Bulb</p></td>
@@ -137,10 +144,8 @@ ignored in this mode.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Ext. Bulb</p></td>
 <td><p>Multiple</p></td>
-<td><p>Samples are acquired while the external trigger input is asserted. On each trailing
-edge of the external trigger signal the plugins are called. This is repeated NumAcquire
-times and then acquisition is stopped. ValuesPerRead must be set to a value less
-than (external trigger asserted time * 1e5). AveragingTime is ignored in this mode.</p></td>
+<td><p>This is the same as Ext. Bulb. above, except that acquisition stops once NumAcquire
+triggers have been received.</p></td>
 <td><p>NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</p></td>
 </tr>
 <tr class="row-even"><td><p>Ext. Gate</p></td>
@@ -155,14 +160,10 @@ time * 1e5).</p></td>
 </tr>
 <tr class="row-odd"><td><p>Ext. Gate</p></td>
 <td><p>Multiple</p></td>
-<td><p>Samples are acquired while the external trigger input is asserted. When NumAverage
-samples have been acquired the plugins are called. The actual averaging time between
-calling the plugins will be longer than AverageTime, and is controlled by the duty
-cycle of the external gate signal. When the plugins have been called NumAcquire
-times then acquisition is stopped. Note that the actual number of gate pulses received
+<td><p>The is the same as Ext. Gate above except that when the plugins have been called NumAcquire
+times acquisition is stopped. Note that the actual number of gate pulses received
 will be &amp;gt; NumAcquire, and is also controlled by the duty cycle of the external
-gate signal. The trailing edge of the gate pulse is ignored in this mode. ValuesPerRead
-must be set to a value less than (external trigger asserted time * 1e5).</p></td>
+gate signal.</p></td>
 <td><p>NRSAMP=ValuesPerRead, NAQ=0, TRG:ON</p></td>
 </tr>
 </tbody>
@@ -181,7 +182,7 @@ must be set to a value less than (external trigger asserted time * 1e5).</p></td
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2026-October-06.
+      <span class="lastupdated">Last updated on 2026-October-31.
       </span></p>
   </div>
 

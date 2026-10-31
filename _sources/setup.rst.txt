@@ -44,6 +44,26 @@ An example startup script is provided in FX4.cmd_.
 
 This will need to be edited to set the correct IP address of the meter to be used.
 
+To use the gating and triggering modes the digital inputs and encoder inputs must be 
+configured correctly.  This is done by the ConfigureTrigger record in the FX4 EPICS database.
+This sets the following on the values as seen on the FX4 Web page:
+- Configuration/D1/Mode = Encoder 0 A Input
+- Configuration/Encoder Module 0/Enable = True
+- Configuration/Encoder Module 0/Position Counter/Stream = True
+- Configuration/Encoder Module 0/Position Counter/Position Counter Source = Up Count
+- Configuration/Encoder Module 0/Position Counter/External Clock Edge Select = Both Edges
+
+It actually sets these using EPICS Channel Access with these PVs and values:
+- $(FXP)/fx4/digital_expansion/d1/mode = encoder
+- $(FXP)/fx4/qep_0/enabled = 1
+- $(FXP)/fx4/qep_0/position_counter/stream_enabled = 1
+- $(FXP)/fx4/qep_0/position_counter_source = up
+- $(FXP)/fx4/qep_0/external_clock_edge_select = both
+  
+When using the EPICS driver at high sampling rate (ValuesPerRead <= 20) it is a good idea to close
+all Web pages connected to the FX4.  If they are connected the CPU on the FX4 can be overloaded
+and the streaming data will be incorrect or the FX4 will freeze.
+
 AH401 and AH501 Series Setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

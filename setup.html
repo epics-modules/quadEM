@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Setup &mdash; EPICS support for quad electrometers/picoammeters</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/my_theme.css?v=254ed751" />
 
   
@@ -108,6 +108,23 @@ from the host IOC machine. The FX4 uses DHCP by default.  Once connected the Net
 on the FX4 Web page can be used to change to a static IP if desired.</p>
 <p>An example startup script is provided in <a class="reference external" href="https://github.com/epics-modules/quadEM/tree/master/iocBoot/iocFX4/FX4.cmd">FX4.cmd</a>.</p>
 <p>This will need to be edited to set the correct IP address of the meter to be used.</p>
+<p>To use the gating and triggering modes the digital inputs and encoder inputs must be
+configured correctly.  This is done by the ConfigureTrigger record in the FX4 EPICS database.
+This sets the following on the values as seen on the FX4 Web page:
+- Configuration/D1/Mode = Encoder 0 A Input
+- Configuration/Encoder Module 0/Enable = True
+- Configuration/Encoder Module 0/Position Counter/Stream = True
+- Configuration/Encoder Module 0/Position Counter/Position Counter Source = Up Count
+- Configuration/Encoder Module 0/Position Counter/External Clock Edge Select = Both Edges</p>
+<p>It actually sets these using EPICS Channel Access with these PVs and values:
+- $(FXP)/fx4/digital_expansion/d1/mode = encoder
+- $(FXP)/fx4/qep_0/enabled = 1
+- $(FXP)/fx4/qep_0/position_counter/stream_enabled = 1
+- $(FXP)/fx4/qep_0/position_counter_source = up
+- $(FXP)/fx4/qep_0/external_clock_edge_select = both</p>
+<p>When using the EPICS driver at high sampling rate (ValuesPerRead &lt;= 20) it is a good idea to close
+all Web pages connected to the FX4.  If they are connected the CPU on the FX4 can be overloaded
+and the streaming data will be incorrect or the FX4 will freeze.</p>
 </section>
 <section id="ah401-and-ah501-series-setup">
 <h2>AH401 and AH501 Series Setup<a class="headerlink" href="#ah401-and-ah501-series-setup" title="Link to this heading"></a></h2>
@@ -153,7 +170,7 @@ Zynq processor.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2026-October-06.
+      <span class="lastupdated">Last updated on 2026-October-31.
       </span></p>
   </div>
 
