@@ -1,0 +1,26 @@
+#!/bin/sh
+set -e
+
+printf '%s\n' \
+    'WITH_PVA=NO' \
+    'WITH_QSRV=NO' \
+    'WITH_HDF5=YES' \
+    'HDF5_EXTERNAL=NO' \
+    'XML2_EXTERNAL=NO' \
+    'WITH_NETCDF=YES' \
+    'NETCDF_EXTERNAL=NO' \
+    'WITH_NEXUS=YES' \
+    'NEXUS_EXTERNAL=NO' \
+    'WITH_TIFF=YES' \
+    'TIFF_EXTERNAL=NO' \
+    'WITH_JPEG=YES' \
+    'JPEG_EXTERNAL=NO' \
+    'WITH_SZIP=YES' \
+    'SZIP_EXTERNAL=NO' \
+    'WITH_ZLIB=YES' \
+    'ZLIB_EXTERNAL=NO' \
+    'WITH_BLOSC=YES' \
+    'BLOSC_EXTERNAL=NO' \
+    'WITH_BITSHUFFLE=YES' \
+    'BITSHUFFLE_EXTERNAL=NO' \
+    > configure/CONFIG_SITE.local

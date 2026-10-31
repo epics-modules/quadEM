@@ -1,0 +1,92 @@
+name: quadEM
+
+# Trigger on pushes and PRs to any branch
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.txt"
+  pull_request:
+
+env:
+  SETUP_PATH: .github/workflows:.ci
+
+jobs:
+  build-base:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    env:
+      CMP: ${{ matrix.cmp }}
+      BCFG: ${{ matrix.configuration }}
+      BASE: ${{ matrix.base }}
+      SET: ${{ matrix.set }}
+      APT: re2c libxml2-dev libtirpc-dev libboost-all-dev
+      EXTRA: ${{ matrix.extra }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Job names also name artifacts, character limitations apply
+        include:
+          - os: ubuntu-latest
+            cmp: gcc
+            configuration: default
+            set: master
+            base: "7.0"
+            name: "Base 7.0, Ub-latest"
+
+          - os: ubuntu-24.04
+            cmp: gcc
+            configuration: default
+            set: master
+            base: "7.0"
+            name: "Base 7.0, Ub-24"
+
+          - os: ubuntu-24.04
+            cmp: gcc
+            configuration: default
+            set: master
+            base: "3.15"
+            name: "Base 3.15, Ub-24"
+
+          - os: ubuntu-24.04
+            cmp: gcc
+            configuration: default
+            set: master-adsupport
+            base: "7.0"
+            name: "Base 7.0, ADSupport, Ub-24"
+
+          - os: ubuntu-24.04
+            cmp: gcc
+            configuration: default
+            set: master-adsupport
+            base: "3.15"
+            name: "Base 3.15, ADSupport, Ub-24"
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Prepare and compile EPICS dependencies
+        run: python .ci/cue.py prepare
+
+      - name: Build main module
+        run: python .ci/cue.py build
+
+      - name: Run main module tests
+        run: python .ci/cue.py -T 20M test
+
+      - name: Upload tapfiles Artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tapfiles ${{ matrix.name }}
+          path: "**/O.*/*.tap"
+          if-no-files-found: ignore
+
+      - name: Collect and show test results
+        if: ${{ always() }}
+        run: python .ci/cue.py -T 5M test-results
