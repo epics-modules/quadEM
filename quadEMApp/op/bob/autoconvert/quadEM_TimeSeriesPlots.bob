@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-11-20 13:38:06 by epics-->
 <display version="2.0.0">
   <name>quadEM_TimeSeriesPlots</name>
   <x>878</x>
@@ -12,7 +11,7 @@
   </background_color>
   <grid_visible>false</grid_visible>
   <grid_step_x>5</grid_step_x>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #6</name>
     <x>5</x>
     <y>5</y>
@@ -187,20 +186,20 @@
     <name>related display #45</name>
     <actions>
       <action type="open_display">
+        <description>X (current, sum, pos)</description>
         <file>quadEM_plotAll.opi</file>
         <macros>
+          <P>$(P)$(R)TS:</P>
           <CURR1>Current1:TimeSeries</CURR1>
           <CURR2>Current2:TimeSeries</CURR2>
-          <P>$(P)$(R)TS:</P>
-          <POS>PosX:TimeSeries</POS>
           <SUM>SumX:TimeSeries</SUM>
-          <TITLE>$(TX)</TITLE>
+          <POS>PosX:TimeSeries</POS>
           <XAXIS>TSTimeAxis</XAXIS>
+          <TITLE>$(TX)</TITLE>
           <XTITLE>Time (sec)</XTITLE>
           <YTITLE>Counts</YTITLE>
         </macros>
         <target>tab</target>
-        <description>X (current, sum, pos)</description>
       </action>
     </actions>
     <text></text>
@@ -217,31 +216,31 @@
     <name>related display #48</name>
     <actions>
       <action type="open_display">
+        <description>Time series control</description>
         <file>NDPluginTimeSeries.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <R1>TS:Current1:</R1>
-          <R2>TS:Current2:</R2>
-          <R3>TS:Current3:</R3>
-          <R4>TS:Current4:</R4>
-          <R5>TS:SumX:</R5>
-          <R6>TS:SumY:</R6>
-          <R7>TS:SumAll:</R7>
-          <R8>TS:PosX:</R8>
-          <R9>TS:PosY:</R9>
           <T1>Current1</T1>
+          <R2>TS:Current2:</R2>
           <T2>Current2</T2>
+          <R3>TS:Current3:</R3>
           <T3>Current3</T3>
+          <R4>TS:Current4:</R4>
           <T4>Current4</T4>
+          <R5>TS:SumX:</R5>
           <T5>SumX</T5>
+          <R6>TS:SumY:</R6>
           <T6>SumY</T6>
+          <R7>TS:SumAll:</R7>
           <T7>SumAll</T7>
+          <R8>TS:PosX:</R8>
           <T8>PosX</T8>
+          <R9>TS:PosY:</R9>
           <T9>PosY</T9>
         </macros>
         <target>tab</target>
-        <description>Time series control</description>
       </action>
     </actions>
     <text></text>
@@ -258,147 +257,147 @@
     <name>related display #51</name>
     <actions>
       <action type="open_display">
+        <description>Current 1</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:Current1:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:Current1:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Current 1</description>
       </action>
       <action type="open_display">
+        <description>Current 2</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:Current2:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:Current2:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Current 2</description>
       </action>
       <action type="open_display">
+        <description>Current 3</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:Current3:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:Current3:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Current 3</description>
       </action>
       <action type="open_display">
+        <description>Current 4</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:Current4:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:Current4:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Current 4</description>
       </action>
       <action type="open_display">
+        <description>Sum X</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:SumX:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:SumX:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Sum X</description>
       </action>
       <action type="open_display">
+        <description>Sum Y</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:SumY:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:SumY:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Sum Y</description>
       </action>
       <action type="open_display">
+        <description>Sum All</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:SumAll:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:SumAll:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Sum All</description>
       </action>
       <action type="open_display">
+        <description>Difference X</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:DiffX:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:DiffX:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Difference X</description>
       </action>
       <action type="open_display">
+        <description>Difference Y</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:DiffY:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:DiffY:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Difference Y</description>
       </action>
       <action type="open_display">
+        <description>Position X</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:PosX:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:PosX:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Position X</description>
       </action>
       <action type="open_display">
+        <description>Position Y</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>TS:PosY:</RN>
-          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <XTITLE>Time (sec)</XTITLE>
+          <XAXIS>$(P)$(R)TS:TSTimeAxis</XAXIS>
           <YAXIS>$(P)$(R)TS:PosY:TimeSeries</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Position Y</description>
       </action>
     </actions>
     <text></text>
@@ -415,20 +414,20 @@
     <name>related display #64</name>
     <actions>
       <action type="open_display">
+        <description>Y (current, sum, pos)</description>
         <file>quadEM_plotAll.opi</file>
         <macros>
+          <P>$(P)$(R)TS:</P>
           <CURR1>Current3:TimeSeries</CURR1>
           <CURR2>Current4:TimeSeries</CURR2>
-          <P>$(P)$(R)TS:</P>
-          <POS>PosY:TimeSeries</POS>
           <SUM>SumY:TimeSeries</SUM>
-          <TITLE>$(TY)</TITLE>
+          <POS>PosY:TimeSeries</POS>
           <XAXIS>TSTimeAxis</XAXIS>
+          <TITLE>$(TY)</TITLE>
           <XTITLE>Time (sec)</XTITLE>
           <YTITLE>Counts</YTITLE>
         </macros>
         <target>tab</target>
-        <description>Y (current, sum, pos)</description>
       </action>
     </actions>
     <text></text>
@@ -445,20 +444,20 @@
     <name>related display #67</name>
     <actions>
       <action type="open_display">
+        <description>X (current, sum, pos)</description>
         <file>quadEM_plotAll.opi</file>
         <macros>
+          <P>$(P)$(R)FFT:</P>
           <CURR1>Current1:FFTAbsValue</CURR1>
           <CURR2>Current2:FFTAbsValue</CURR2>
-          <P>$(P)$(R)FFT:</P>
-          <POS>PosX:FFTAbsValue</POS>
           <SUM>SumX:FFTAbsValue</SUM>
-          <TITLE>$(TX)</TITLE>
+          <POS>PosX:FFTAbsValue</POS>
           <XAXIS>PosX:FFTFreqAxis</XAXIS>
+          <TITLE>$(TX)</TITLE>
           <XTITLE>Frequency (Hz)</XTITLE>
           <YTITLE>Counts</YTITLE>
         </macros>
         <target>tab</target>
-        <description>X (current, sum, pos)</description>
       </action>
     </actions>
     <text></text>
@@ -475,20 +474,20 @@
     <name>related display #70</name>
     <actions>
       <action type="open_display">
+        <description>X (current, sum, pos)</description>
         <file>quadEM_plotAll.opi</file>
         <macros>
+          <P>$(P)$(R)FFT:</P>
           <CURR1>Current3:FFTAbsValue</CURR1>
           <CURR2>Current4:FFTAbsValue</CURR2>
-          <P>$(P)$(R)FFT:</P>
-          <POS>PosY:FFTAbsValue</POS>
           <SUM>SumY:FFTAbsValue</SUM>
-          <TITLE>$(TY)</TITLE>
+          <POS>PosY:FFTAbsValue</POS>
           <XAXIS>PosY:FFTFreqAxis</XAXIS>
+          <TITLE>$(TY)</TITLE>
           <XTITLE>Frequency (Hz)</XTITLE>
           <YTITLE>Counts</YTITLE>
         </macros>
         <target>tab</target>
-        <description>X (current, sum, pos)</description>
       </action>
     </actions>
     <text></text>
@@ -505,147 +504,147 @@
     <name>related display #73</name>
     <actions>
       <action type="open_display">
+        <description>Current 1</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:Current1:</RN>
-          <XAXIS>$(P)$(R)FFT:Current1:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:Current1:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:Current1:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Current 1</description>
       </action>
       <action type="open_display">
+        <description>Current 2</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:Current2:</RN>
-          <XAXIS>$(P)$(R)FFT:Current2:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:Current2:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:Current2:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Current 2</description>
       </action>
       <action type="open_display">
+        <description>Current 3</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:Current3:</RN>
-          <XAXIS>$(P)$(R)FFT:Current3:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:Current3:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:Current3:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Current 3</description>
       </action>
       <action type="open_display">
+        <description>Current 4</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:Current4:</RN>
-          <XAXIS>$(P)$(R)FFT:Current4:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:Current4:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:Current4:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Current 4</description>
       </action>
       <action type="open_display">
+        <description>Sum X</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:SumX:</RN>
-          <XAXIS>$(P)$(R)FFT:SumX:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:SumX:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:SumX:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Sum X</description>
       </action>
       <action type="open_display">
+        <description>Sum Y</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:SumY:</RN>
-          <XAXIS>$(P)$(R)FFT:SumY:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:SumY:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:SumY:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Sum Y</description>
       </action>
       <action type="open_display">
+        <description>Sum All</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:SumAll:</RN>
-          <XAXIS>$(P)$(R)FFT:SumAll:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:SumAll:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:SumAll:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Sum All</description>
       </action>
       <action type="open_display">
+        <description>Difference X</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:DiffX:</RN>
-          <XAXIS>$(P)$(R)FFT:DiffX:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:DiffX:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:DiffX:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Difference X</description>
       </action>
       <action type="open_display">
+        <description>Difference Y</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:DiffY:</RN>
-          <XAXIS>$(P)$(R)FFT:DiffY:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:DiffY:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:DiffY:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Difference Y</description>
       </action>
       <action type="open_display">
+        <description>Position X</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:PosX:</RN>
-          <XAXIS>$(P)$(R)FFT:PosX:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:PosX:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:PosX:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Position X</description>
       </action>
       <action type="open_display">
+        <description>Position Y</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <RN>FFT:PosY:</RN>
-          <XAXIS>$(P)$(R)FFT:PosY:FFTFreqAxis</XAXIS>
           <XTITLE>Frequency (Hz)</XTITLE>
+          <XAXIS>$(P)$(R)FFT:PosY:FFTFreqAxis</XAXIS>
           <YAXIS>$(P)$(R)FFT:PosY:FFTAbsValue</YAXIS>
         </macros>
         <target>tab</target>
-        <description>Position Y</description>
       </action>
     </actions>
     <text></text>

@@ -1,13 +1,13 @@
 
 file {
-	name="/home/epics/devel/quadEM-9-4/quadEMApp/op/adl/PCR4.adl"
+	name="/home/epics/devel/quadEM/quadEMApp/op/adl/PCR4.adl"
 	version=030117
 }
 display {
 	object {
 		x=775
 		y=326
-		width=430
+		width=390
 		height=190
 	}
 	clr=14
@@ -89,7 +89,7 @@ display {
 }
 composite {
 	object {
-		x=29
+		x=15
 		y=0
 		width=160
 		height=172
@@ -98,7 +98,7 @@ composite {
 	children {
 		text {
 			object {
-				x=69
+				x=55
 				y=50
 				width=120
 				height=20
@@ -111,7 +111,7 @@ composite {
 		}
 		text {
 			object {
-				x=79
+				x=65
 				y=25
 				width=110
 				height=20
@@ -124,7 +124,7 @@ composite {
 		}
 		text {
 			object {
-				x=69
+				x=55
 				y=125
 				width=120
 				height=20
@@ -136,7 +136,7 @@ composite {
 		}
 		text {
 			object {
-				x=89
+				x=75
 				y=100
 				width=100
 				height=20
@@ -148,7 +148,7 @@ composite {
 		}
 		text {
 			object {
-				x=59
+				x=45
 				y=152
 				width=130
 				height=20
@@ -161,7 +161,7 @@ composite {
 		}
 		text {
 			object {
-				x=29
+				x=15
 				y=75
 				width=160
 				height=20
@@ -174,7 +174,7 @@ composite {
 		}
 		text {
 			object {
-				x=109
+				x=95
 				y=0
 				width=80
 				height=20
@@ -189,16 +189,133 @@ composite {
 }
 composite {
 	object {
-		x=289
+		x=180
 		y=0
-		width=102
+		width=90
+		height=172
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=180
+				y=152
+				width=90
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HVSReadback"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		composite {
+			object {
+				x=180
+				y=0
+				width=90
+				height=145
+			}
+			"composite name"=""
+			children {
+				menu {
+					object {
+						x=180
+						y=0
+						width=90
+						height=20
+					}
+					control {
+						chan="$(P)$(R)NumChannels"
+						clr=14
+						bclr=51
+					}
+				}
+				menu {
+					object {
+						x=180
+						y=50
+						width=90
+						height=20
+					}
+					control {
+						chan="$(P)$(R)TriggerMode"
+						clr=14
+						bclr=51
+					}
+				}
+				menu {
+					object {
+						x=180
+						y=25
+						width=90
+						height=20
+					}
+					control {
+						chan="$(P)$(R)ReadFormat"
+						clr=14
+						bclr=51
+					}
+				}
+				"text entry" {
+					object {
+						x=180
+						y=125
+						width=90
+						height=20
+					}
+					control {
+						chan="$(P)$(R)BiasVoltage"
+						clr=14
+						bclr=51
+					}
+					limits {
+					}
+				}
+				menu {
+					object {
+						x=180
+						y=100
+						width=90
+						height=20
+					}
+					control {
+						chan="$(P)$(R)BiasState"
+						clr=14
+						bclr=51
+					}
+				}
+				menu {
+					object {
+						x=180
+						y=75
+						width=90
+						height=20
+					}
+					control {
+						chan="$(P)$(R)TriggerPolarity"
+						clr=14
+						bclr=51
+					}
+				}
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=275
+		y=0
+		width=100
 		height=145
 	}
 	"composite name"=""
 	children {
 		"text update" {
 			object {
-				x=289
+				x=275
 				y=0
 				width=100
 				height=20
@@ -213,7 +330,7 @@ composite {
 		}
 		"text update" {
 			object {
-				x=289
+				x=275
 				y=50
 				width=100
 				height=20
@@ -229,7 +346,7 @@ composite {
 		}
 		"text update" {
 			object {
-				x=291
+				x=275
 				y=25
 				width=100
 				height=20
@@ -245,7 +362,7 @@ composite {
 		}
 		"text update" {
 			object {
-				x=289
+				x=275
 				y=125
 				width=100
 				height=20
@@ -260,7 +377,7 @@ composite {
 		}
 		"text update" {
 			object {
-				x=289
+				x=275
 				y=100
 				width=100
 				height=20
@@ -276,7 +393,7 @@ composite {
 		}
 		"text update" {
 			object {
-				x=289
+				x=275
 				y=75
 				width=100
 				height=20
@@ -288,123 +405,6 @@ composite {
 			}
 			format="string"
 			limits {
-			}
-		}
-	}
-}
-composite {
-	object {
-		x=194
-		y=0
-		width=90
-		height=172
-	}
-	"composite name"=""
-	children {
-		"text update" {
-			object {
-				x=194
-				y=152
-				width=90
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)HVSReadback"
-				clr=54
-				bclr=3
-			}
-			limits {
-			}
-		}
-		composite {
-			object {
-				x=194
-				y=0
-				width=90
-				height=145
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=194
-						y=0
-						width=90
-						height=20
-					}
-					control {
-						chan="$(P)$(R)NumChannels"
-						clr=14
-						bclr=51
-					}
-				}
-				menu {
-					object {
-						x=194
-						y=50
-						width=90
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerMode"
-						clr=14
-						bclr=51
-					}
-				}
-				menu {
-					object {
-						x=194
-						y=25
-						width=90
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ReadFormat"
-						clr=14
-						bclr=51
-					}
-				}
-				"text entry" {
-					object {
-						x=194
-						y=125
-						width=90
-						height=20
-					}
-					control {
-						chan="$(P)$(R)BiasVoltage"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				menu {
-					object {
-						x=194
-						y=100
-						width=90
-						height=20
-					}
-					control {
-						chan="$(P)$(R)BiasState"
-						clr=14
-						bclr=51
-					}
-				}
-				menu {
-					object {
-						x=194
-						y=75
-						width=90
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerPolarity"
-						clr=14
-						bclr=51
-					}
-				}
 			}
 		}
 	}

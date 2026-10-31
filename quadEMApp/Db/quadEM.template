@@ -435,7 +435,7 @@ record(bi,"$(P)$(R)ReadFormat_RBV") {
 record(ao,"$(P)$(R)AveragingTime") {
     field(DESC, "Averaging time")
     field(PINI, "YES")
-    field(PREC, "2")
+    field(PREC, "4")
     field(DTYP, "asynFloat64")
     field(VAL,  "0.1")
     field(OUT,  "@asyn($(PORT) 0)QE_AVERAGING_TIME")
@@ -443,7 +443,7 @@ record(ao,"$(P)$(R)AveragingTime") {
 
 record(ai,"$(P)$(R)AveragingTime_RBV") {
     field(DESC, "Averaging time")
-    field(PREC, "2")
+    field(PREC, "4")
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT) 0)QE_AVERAGING_TIME")
     field(SCAN, "I/O Intr")
@@ -1153,7 +1153,7 @@ record(ai, "$(P)$(R)PositionYAve") {
 
 record(ao, "$(P)$(R)FastAveragingTime") {
     field(VAL, "0.1")
-    field(PREC, "3")
+    field(PREC, "4")
     field(PINI, "YES")
 }
 
@@ -1168,7 +1168,7 @@ record(transform, "$(P)$(R)FastAverageCalc") {
 }
 
 record(ao, "$(P)$(R)FastAveragingTime_RBV") {
-    field(PREC, "3")
+    field(PREC, "4")
 }
 
 record(longin, "$(P)$(R)NumFastAverage") {

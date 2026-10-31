@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-11-20 13:38:06 by epics-->
 <display version="2.0.0">
   <name>AH501</name>
   <x>687</x>
@@ -34,7 +33,7 @@
     </font>
     <horizontal_alignment>2</horizontal_alignment>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #12</name>
     <x>120</x>
     <y>75</y>

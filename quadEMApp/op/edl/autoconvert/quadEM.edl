@@ -3271,7 +3271,7 @@ minor 0
 release 0
 x 10
 y 480
-w 392
+w 390
 h 395
 
 beginGroup
@@ -3284,7 +3284,7 @@ minor 1
 release 0
 x 10
 y 480
-w 392
+w 390
 h 395
 fgColor rgb 0 0 0
 bgColor rgb 65280 65280 65280
@@ -3403,7 +3403,7 @@ minor 0
 release 0
 x 10
 y 480
-w 362
+w 390
 h 172
 
 beginGroup
@@ -3416,7 +3416,7 @@ minor 1
 release 0
 x 10
 y 480
-w 362
+w 390
 h 172
 fgColor rgb 0 0 0
 bgColor rgb 65280 65280 65280
@@ -3447,7 +3447,7 @@ minor 0
 release 0
 x 10
 y 480
-w 400
+w 390
 h 121
 
 beginGroup
@@ -3460,7 +3460,7 @@ minor 1
 release 0
 x 10
 y 480
-w 400
+w 390
 h 121
 fgColor rgb 0 0 0
 bgColor rgb 65280 65280 65280
@@ -3492,7 +3492,7 @@ release 0
 x 10
 y 480
 w 390
-h 170
+h 262
 
 beginGroup
 
@@ -3505,7 +3505,7 @@ release 0
 x 10
 y 480
 w 390
-h 170
+h 262
 fgColor rgb 0 0 0
 bgColor rgb 65280 65280 65280
 topShadowColor rgb 65280 65280 65280

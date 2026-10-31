@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-05-28 17:21:27 by epics-->
 <display version="2.0.0">
   <name>quadEM</name>
   <x>200</x>
@@ -663,13 +662,6 @@
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>message button #145</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(P)$(R)ComputeCurrentOffset1.PROC</pv_name>
-        <value>1</value>
-        <description>Write</description>
-      </action>
-    </actions>
     <pv_name>$(P)$(R)ComputeCurrentOffset1.PROC</pv_name>
     <text>Compute</text>
     <x>526</x>
@@ -683,13 +675,6 @@
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>message button #148</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(P)$(R)ComputeCurrentOffset2.PROC</pv_name>
-        <value>1</value>
-        <description>Write</description>
-      </action>
-    </actions>
     <pv_name>$(P)$(R)ComputeCurrentOffset2.PROC</pv_name>
     <text>Compute</text>
     <x>611</x>
@@ -703,13 +688,6 @@
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>message button #151</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(P)$(R)ComputeCurrentOffset3.PROC</pv_name>
-        <value>1</value>
-        <description>Write</description>
-      </action>
-    </actions>
     <pv_name>$(P)$(R)ComputeCurrentOffset3.PROC</pv_name>
     <text>Compute</text>
     <x>696</x>
@@ -723,13 +701,6 @@
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>message button #154</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(P)$(R)ComputeCurrentOffset4.PROC</pv_name>
-        <value>1</value>
-        <description>Write</description>
-      </action>
-    </actions>
     <pv_name>$(P)$(R)ComputeCurrentOffset4.PROC</pv_name>
     <text>Compute</text>
     <x>781</x>
@@ -1531,13 +1502,6 @@
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>message button #316</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(P)$(R)ComputePosOffsetX.PROC</pv_name>
-        <value>1</value>
-        <description>Write</description>
-      </action>
-    </actions>
     <pv_name>$(P)$(R)ComputePosOffsetX.PROC</pv_name>
     <text>Compute</text>
     <x>566</x>
@@ -1551,13 +1515,6 @@
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>message button #319</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(P)$(R)ComputePosOffsetY.PROC</pv_name>
-        <value>1</value>
-        <description>Write</description>
-      </action>
-    </actions>
     <pv_name>$(P)$(R)ComputePosOffsetY.PROC</pv_name>
     <text>Compute</text>
     <x>667</x>
@@ -1922,13 +1879,6 @@
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>message button #392</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(P)$(R)ReadData.PROC</pv_name>
-        <value>1</value>
-        <description>Write</description>
-      </action>
-    </actions>
     <pv_name>$(P)$(R)ReadData.PROC</pv_name>
     <text>Read</text>
     <x>210</x>
@@ -2116,7 +2066,7 @@
     <width>350</width>
     <height>110</height>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #433</name>
     <x>30</x>
     <y>440</y>
@@ -2155,7 +2105,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #443</name>
     <x>105</x>
     <y>415</y>
@@ -2309,20 +2259,20 @@
     <name>related display #477</name>
     <actions>
       <action type="open_display">
+        <description>X (current, sum, pos)</description>
         <file>quadEM_plotAll.opi</file>
         <macros>
+          <P>$(P)$(R)TS:</P>
           <CURR1>Current1:TimeSeries</CURR1>
           <CURR2>Current2:TimeSeries</CURR2>
-          <P>$(P)$(R)TS:</P>
-          <POS>PosX:TimeSeries</POS>
           <SUM>SumX:TimeSeries</SUM>
-          <TITLE>$(TX)</TITLE>
+          <POS>PosX:TimeSeries</POS>
           <XAXIS>TSTimeAxis</XAXIS>
+          <TITLE>$(TX)</TITLE>
           <XTITLE>Time (sec)</XTITLE>
           <YTITLE>Counts</YTITLE>
         </macros>
         <target>tab</target>
-        <description>X (current, sum, pos)</description>
       </action>
     </actions>
     <text></text>
@@ -2339,6 +2289,7 @@
     <name>related display #480</name>
     <actions>
       <action type="open_display">
+        <description>Current 1</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2346,9 +2297,9 @@
           <RN>TS:Current1:</RN>
         </macros>
         <target>tab</target>
-        <description>Current 1</description>
       </action>
       <action type="open_display">
+        <description>Current 2</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2356,9 +2307,9 @@
           <RN>TS:Current2:</RN>
         </macros>
         <target>tab</target>
-        <description>Current 2</description>
       </action>
       <action type="open_display">
+        <description>Current 3</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2366,9 +2317,9 @@
           <RN>TS:Current3:</RN>
         </macros>
         <target>tab</target>
-        <description>Current 3</description>
       </action>
       <action type="open_display">
+        <description>Current 4</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2376,9 +2327,9 @@
           <RN>TS:Current4:</RN>
         </macros>
         <target>tab</target>
-        <description>Current 4</description>
       </action>
       <action type="open_display">
+        <description>Sum X</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2386,9 +2337,9 @@
           <RN>TS:SumX:</RN>
         </macros>
         <target>tab</target>
-        <description>Sum X</description>
       </action>
       <action type="open_display">
+        <description>Sum Y</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2396,9 +2347,9 @@
           <RN>TS:SumY:</RN>
         </macros>
         <target>tab</target>
-        <description>Sum Y</description>
       </action>
       <action type="open_display">
+        <description>Sum All</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2406,9 +2357,9 @@
           <RN>TS:SumAll:</RN>
         </macros>
         <target>tab</target>
-        <description>Sum All</description>
       </action>
       <action type="open_display">
+        <description>Difference X</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2416,9 +2367,9 @@
           <RN>TS:DiffX:</RN>
         </macros>
         <target>tab</target>
-        <description>Difference X</description>
       </action>
       <action type="open_display">
+        <description>Difference Y</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2426,9 +2377,9 @@
           <RN>TS:DiffY:</RN>
         </macros>
         <target>tab</target>
-        <description>Difference Y</description>
       </action>
       <action type="open_display">
+        <description>Position X</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2436,9 +2387,9 @@
           <RN>TS:PosX:</RN>
         </macros>
         <target>tab</target>
-        <description>Position X</description>
       </action>
       <action type="open_display">
+        <description>Position Y</description>
         <file>NDTimeSeriesPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
@@ -2446,7 +2397,6 @@
           <RN>TS:PosY:</RN>
         </macros>
         <target>tab</target>
-        <description>Position Y</description>
       </action>
     </actions>
     <text></text>
@@ -2463,20 +2413,20 @@
     <name>related display #493</name>
     <actions>
       <action type="open_display">
+        <description>Y (current, sum, pos)</description>
         <file>quadEM_plotAll.opi</file>
         <macros>
+          <P>$(P)$(R)TS:</P>
           <CURR1>Current3:TimeSeries</CURR1>
           <CURR2>Current4:TimeSeries</CURR2>
-          <P>$(P)$(R)TS:</P>
-          <POS>PosY:TimeSeries</POS>
           <SUM>SumY:TimeSeries</SUM>
-          <TITLE>$(TY)</TITLE>
+          <POS>PosY:TimeSeries</POS>
           <XAXIS>TSTimeAxis</XAXIS>
+          <TITLE>$(TY)</TITLE>
           <XTITLE>Time (sec)</XTITLE>
           <YTITLE>Counts</YTITLE>
         </macros>
         <target>tab</target>
-        <description>Y (current, sum, pos)</description>
       </action>
     </actions>
     <text></text>
@@ -2542,20 +2492,20 @@
     <name>related display #508</name>
     <actions>
       <action type="open_display">
+        <description>X (current, sum, pos)</description>
         <file>quadEM_plotAll.opi</file>
         <macros>
+          <P>$(P)$(R)FFT:</P>
           <CURR1>Current1:FFTAbsValue</CURR1>
           <CURR2>Current2:FFTAbsValue</CURR2>
-          <P>$(P)$(R)FFT:</P>
-          <POS>PosX:FFTAbsValue</POS>
           <SUM>SumX:FFTAbsValue</SUM>
-          <TITLE>$(TX)</TITLE>
+          <POS>PosX:FFTAbsValue</POS>
           <XAXIS>PosX:FFTFreqAxis</XAXIS>
+          <TITLE>$(TX)</TITLE>
           <XTITLE>Frequency (Hz)</XTITLE>
           <YTITLE>Counts</YTITLE>
         </macros>
         <target>tab</target>
-        <description>X (current, sum, pos)</description>
       </action>
     </actions>
     <text></text>
@@ -2572,20 +2522,20 @@
     <name>related display #511</name>
     <actions>
       <action type="open_display">
+        <description>X (current, sum, pos)</description>
         <file>quadEM_plotAll.opi</file>
         <macros>
+          <P>$(P)$(R)FFT:</P>
           <CURR1>Current3:FFTAbsValue</CURR1>
           <CURR2>Current4:FFTAbsValue</CURR2>
-          <P>$(P)$(R)FFT:</P>
-          <POS>PosY:FFTAbsValue</POS>
           <SUM>SumY:FFTAbsValue</SUM>
-          <TITLE>$(TY)</TITLE>
+          <POS>PosY:FFTAbsValue</POS>
           <XAXIS>PosY:FFTFreqAxis</XAXIS>
+          <TITLE>$(TY)</TITLE>
           <XTITLE>Frequency (Hz)</XTITLE>
           <YTITLE>Counts</YTITLE>
         </macros>
         <target>tab</target>
-        <description>X (current, sum, pos)</description>
       </action>
     </actions>
     <text></text>
@@ -2602,125 +2552,125 @@
     <name>related display #514</name>
     <actions>
       <action type="open_display">
-        <file>NDFFTFreqSpectrumPlot.opi</file>
-        <macros>
-          <P>$(P)$(R)</P>
-          <R>FFT:Current1:</R>
-          <RTS>TS:</RTS>
-          <S>FFTAbsValue</S>
-        </macros>
-        <target>tab</target>
         <description>Current 1</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:Current2:</R>
           <RTS>TS:</RTS>
+          <R>FFT:Current1:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Current 2</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:Current3:</R>
           <RTS>TS:</RTS>
+          <R>FFT:Current2:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Current 3</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:Current4:</R>
           <RTS>TS:</RTS>
+          <R>FFT:Current3:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Current 4</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:SumX:</R>
           <RTS>TS:</RTS>
+          <R>FFT:Current4:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Sum X</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:SumY:</R>
           <RTS>TS:</RTS>
+          <R>FFT:SumX:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Sum Y</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:SumAll:</R>
           <RTS>TS:</RTS>
+          <R>FFT:SumY:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Sum All</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:DiffX:</R>
           <RTS>TS:</RTS>
+          <R>FFT:SumAll:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Difference X</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:DiffY:</R>
           <RTS>TS:</RTS>
+          <R>FFT:DiffX:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Difference Y</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:PosX:</R>
           <RTS>TS:</RTS>
+          <R>FFT:DiffY:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Position X</description>
-      </action>
-      <action type="open_display">
         <file>NDFFTFreqSpectrumPlot.opi</file>
         <macros>
           <P>$(P)$(R)</P>
-          <R>FFT:PosY:</R>
           <RTS>TS:</RTS>
+          <R>FFT:PosX:</R>
           <S>FFTAbsValue</S>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>Position Y</description>
+        <file>NDFFTFreqSpectrumPlot.opi</file>
+        <macros>
+          <P>$(P)$(R)</P>
+          <RTS>TS:</RTS>
+          <R>FFT:PosY:</R>
+          <S>FFTAbsValue</S>
+        </macros>
+        <target>tab</target>
       </action>
     </actions>
     <text></text>
@@ -2770,31 +2720,31 @@
     <name>related display #536</name>
     <actions>
       <action type="open_display">
+        <description>Time series control</description>
         <file>NDPluginTimeSeries.opi</file>
         <macros>
           <P>$(P)$(R)</P>
           <R>TS:</R>
           <R1>TS:Current1:</R1>
-          <R2>TS:Current2:</R2>
-          <R3>TS:Current3:</R3>
-          <R4>TS:Current4:</R4>
-          <R5>TS:SumX:</R5>
-          <R6>TS:SumY:</R6>
-          <R7>TS:SumAll:</R7>
-          <R8>TS:PosX:</R8>
-          <R9>TS:PosY:</R9>
           <T1>Current1</T1>
+          <R2>TS:Current2:</R2>
           <T2>Current2</T2>
+          <R3>TS:Current3:</R3>
           <T3>Current3</T3>
+          <R4>TS:Current4:</R4>
           <T4>Current4</T4>
+          <R5>TS:SumX:</R5>
           <T5>SumX</T5>
+          <R6>TS:SumY:</R6>
           <T6>SumY</T6>
+          <R7>TS:SumAll:</R7>
           <T7>SumAll</T7>
+          <R8>TS:PosX:</R8>
           <T8>PosX</T8>
+          <R9>TS:PosY:</R9>
           <T9>PosY</T9>
         </macros>
         <target>tab</target>
-        <description>Time series control</description>
       </action>
     </actions>
     <text>Plugin control</text>
@@ -2842,13 +2792,6 @@
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>message button #546</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(P)$(R)TS:TSAcquire</pv_name>
-        <value>1</value>
-        <description>Write</description>
-      </action>
-    </actions>
     <pv_name>$(P)$(R)TS:TSAcquire</pv_name>
     <text>Erase/Start</text>
     <x>500</x>
@@ -2862,13 +2805,6 @@
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>message button #549</name>
-    <actions>
-      <action type="write_pv">
-        <pv_name>$(P)$(R)TS:TSAcquire</pv_name>
-        <value>0</value>
-        <description>Write</description>
-      </action>
-    </actions>
     <pv_name>$(P)$(R)TS:TSAcquire</pv_name>
     <text>Stop</text>
     <x>590</x>
@@ -2911,7 +2847,7 @@
     </foreground_color>
     <auto_size>true</auto_size>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #558</name>
     <x>420</x>
     <y>810</y>
@@ -2981,23 +2917,23 @@
       <name>related display #573</name>
       <actions>
         <action type="open_display">
+          <description>QE common plugins</description>
           <file>QECommonPlugins.opi</file>
           <target>tab</target>
-          <description>QE common plugins</description>
         </action>
         <action type="open_display">
+          <description>QE FFT plugins</description>
           <file>QEFFTPlugins.opi</file>
           <macros>
             <R>$(R)FFT:</R>
             <RTS>$(R)TS:</RTS>
           </macros>
           <target>tab</target>
-          <description>QE FFT plugins</description>
         </action>
         <action type="open_display">
+          <description>AD common plugins</description>
           <file>commonPlugins.opi</file>
           <target>tab</target>
-          <description>AD common plugins</description>
         </action>
       </actions>
       <text></text>
@@ -3012,13 +2948,6 @@
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>message button #578</name>
-      <actions>
-        <action type="write_pv">
-          <pv_name>$(P)$(R)Reset.PROC</pv_name>
-          <value>1</value>
-          <description>Write</description>
-        </action>
-      </actions>
       <pv_name>$(P)$(R)Reset.PROC</pv_name>
       <text>Reset</text>
       <x>405</x>
@@ -3046,12 +2975,12 @@
       <name>related display #584</name>
       <actions>
         <action type="open_display">
+          <description>asyn record</description>
           <file>asynRecord.opi</file>
           <macros>
             <R>$(R)Asyn</R>
           </macros>
           <target>tab</target>
-          <description>asyn record</description>
         </action>
       </actions>
       <text></text>
@@ -3168,7 +3097,7 @@
     </background_color>
     <transparent>true</transparent>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #609</name>
     <x>10</x>
     <y>480</y>
@@ -3221,7 +3150,7 @@
     <widget type="embedded" version="2.0.0">
       <name>composite #621</name>
       <file>TetrAMM.bob</file>
-      <width>392</width>
+      <width>390</width>
       <height>395</height>
       <rules>
         <rule name="vis_calc" prop_id="visible" out_exp="false">
@@ -3263,7 +3192,7 @@
     <widget type="embedded" version="2.0.0">
       <name>composite #630</name>
       <file>PCR4.bob</file>
-      <width>362</width>
+      <width>390</width>
       <height>172</height>
       <rules>
         <rule name="vis_calc" prop_id="visible" out_exp="false">
@@ -3277,6 +3206,7 @@
     <widget type="embedded" version="2.0.0">
       <name>composite #633</name>
       <file>T4U.bob</file>
+      <width>390</width>
       <height>121</height>
       <rules>
         <rule name="vis_calc" prop_id="visible" out_exp="false">
@@ -3291,7 +3221,7 @@
       <name>composite #636</name>
       <file>FX4.bob</file>
       <width>390</width>
-      <height>170</height>
+      <height>262</height>
       <rules>
         <rule name="vis_calc" prop_id="visible" out_exp="false">
           <exp bool_exp="!((pv0==14))">

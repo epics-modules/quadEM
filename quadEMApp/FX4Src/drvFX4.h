@@ -23,15 +23,17 @@
 #include <IXWebSocket.h>
 #include <msgpack.hpp>
 
+#define FX4TriggerLevelString "FX4_TRIGGER_LEVEL"
+#define FX4ResetCounterString "FX4_RESET_COUNTER"
+
 typedef enum {
-    gateLevelLow = 0,
-    gateLevelHigh = 1,
-    gateLevelUnknown = 2
+    triggerLevelLow = 0,
+    triggerLevelHigh = 1,
 } gateLevel_t;
 
 typedef enum {
     adcEvent,
-    gateEvent,
+    triggerEvent,
 } eventType_t;
 
 typedef struct {
@@ -110,16 +112,22 @@ private:
             "/fx4/adc/channel_3/value",
             "/fx4/adc/channel_4/value"
         };
-    static inline const std::string GATE_PATH = "/fx4/gpio_0/22/readback/value";
+    static inline const std::string TRIGGER_PATH = "/fx4/qep_0/position_counter/value";
 
     std::array<std::list<ADCSample>, FX4_NUM_CHANS> adcCache_;
+    int pFX4TriggerLevel_;
+    int pFX4ResetCounter_;
     epicsInt64 startTime_;
-    gateLevel_t gateLevel_;
+    bool triggerLevel_;
+    epicsInt32 triggerCount_;
+    int transitionsDetected_;
+    int pointsCollected_;
+    epicsUInt64 messageCounter_;
     bool synchronized_;
     bool timestampMismatch_;
     bool triggerActive_;
     int numTriggerValues_;
-
+    int numCallbacks_;
     int triggerMode_;
     int triggerPolarity_;
     int acquireMode_;

@@ -7,11 +7,14 @@ and NumAcquire=1, so the table does not list AcquireMode=Single.
 
 Note that the TetrAMM supports triggering and gating modes in the firmware, using the
 commands shown in the table below.  The FX4 does not support triggering or gating for
-ADC acquisition.  However, it does support streaming of the digital input signals while
-also streaming the data.  Each ADC measurement and each transition on the digital input
-has a precise timestamp. The EPICS support streams the first digital input signal, and
-does the triggering and gating operations in the driver software, using the digital input
-transitions and the timestamps.
+ADC acquisition.  However, it does support streaming of a high-speed position counter
+at the same rate that it streams the ADC data. 
+The position counter is configured to increment on both the rising and falling edge of
+the first digital input (D1). Each ADC measurement and the position counter
+has a precise timestamp. The EPICS support streams the position counter, and
+does the triggering and gating operations in the driver software, using the counter
+transitions and the timestamps. This has been tested to work with 2000 point acquisition
+with 5 kHz trigger signal and ValuesPerRead=10.
 
 .. cssclass:: table-bordered table-striped table-hover
 .. list-table::
@@ -34,15 +37,19 @@ transitions and the timestamps.
     - NRSAMP=ValuesPerRead, NAQ=0, TRG:OFF
   * - Ext. Trig.
     - Continuous
-    - A fixed number of samples is acquired starting on each rising edge of the external
-      trigger input. AveragingTime must be set to a value less than the time between trigger
-      pulses.
+    - A fixed number of samples is acquired starting on each leading edge of the external trigger input.
+      For the TetrAMM the AveragingTime must be set to a value less than the time between trigger pulses. 
+      If the next trigger arrives before the averaging time is complete then that trigger will be ignorred.
+      For the FX4 the time between triggers can be less than the averaging time.
+      If the next trigger arrives before the averaging time is complete then it will immediately average the
+      values received so far, and start accumulating the next time point.  
+      It thus effectively runs in Ext. Bulb mode if the triggers are faster than the averaging time.
+      ValuesPerRead must be set to a value less than AveragingTime/1e5.
     - NRSAMP=ValuesPerRead, NAQ=AveragingTime/1e5/ValuesPerRead, TRG:ON
   * - Ext. Trig.
     - Multiple
-    - A fixed number of samples is acquired starting on the first rising edge of the external
-      trigger input. This repeats NumAcquire times and then acquisition stops. ValuesPerRead
-      must be set to a value less than AveragingTime/1e5.
+    - This is the same as Ext. Trig. above, except that acquisition stops once NumAcquire
+      triggers have been received.
     - NRSAMP=ValuesPerRead, NAQ=AveragingTime*1e5/ValuesPerRead, TRG:ON
   * - Ext. Bulb
     - Continuous
@@ -53,10 +60,8 @@ transitions and the timestamps.
     - NRSAMP=ValuesPerRead, NAQ=0, TRG:ON
   * - Ext. Bulb
     - Multiple
-    - Samples are acquired while the external trigger input is asserted. On each trailing
-      edge of the external trigger signal the plugins are called. This is repeated NumAcquire
-      times and then acquisition is stopped. ValuesPerRead must be set to a value less
-      than (external trigger asserted time * 1e5). AveragingTime is ignored in this mode.
+    - This is the same as Ext. Bulb. above, except that acquisition stops once NumAcquire
+      triggers have been received.
     - NRSAMP=ValuesPerRead, NAQ=0, TRG:ON
   * - Ext. Gate
     - Continuous
@@ -69,12 +74,8 @@ transitions and the timestamps.
     - NRSAMP=ValuesPerRead, NAQ=0, TRG:ON
   * - Ext. Gate
     - Multiple
-    - Samples are acquired while the external trigger input is asserted. When NumAverage
-      samples have been acquired the plugins are called. The actual averaging time between
-      calling the plugins will be longer than AverageTime, and is controlled by the duty
-      cycle of the external gate signal. When the plugins have been called NumAcquire
-      times then acquisition is stopped. Note that the actual number of gate pulses received
+    - The is the same as Ext. Gate above except that when the plugins have been called NumAcquire
+      times acquisition is stopped. Note that the actual number of gate pulses received
       will be &gt; NumAcquire, and is also controlled by the duty cycle of the external
-      gate signal. The trailing edge of the gate pulse is ignored in this mode. ValuesPerRead
-      must be set to a value less than (external trigger asserted time * 1e5).
+      gate signal.
     -  NRSAMP=ValuesPerRead, NAQ=0, TRG:ON

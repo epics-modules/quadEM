@@ -104,7 +104,7 @@ record(calcout, "$(P)$(R)SetValuesPerRead") {
 }
 
 record(longout, "$(P)$(R)GetValuesPerRead") {
-    field(DOL,  "$(FXP)/fx4/sample_accumulation_count/value CP")
+    field(DOL,  "$(FXP)/fx4/adc/sample_accumulation_count/value CP")
     field(OUT,  "$(P)$(R)ValuesPerRead_RBV PP")
     field(OMSL, "closed_loop")
 }
@@ -156,31 +156,25 @@ record(bi,"$(P)$(R)BiasState_RBV") {
 record(ao,      "$(P)$(R)BiasVoltage") {
     field(DTYP, "Soft Channel")
     field(OUT,  "")
-}
-
-record(ai,"$(P)$(R)BiasVoltage_RBV") {
-    field(DTYP, "Soft Channel")
-    field(INP,  "$(P)$(R)BiasVoltage CP")
-    field(SCAN, "Passive")
+    field(FLNK, "$(P)$(R)SetBiasVoltage")
 }
 
 record(ao,      "$(P)$(R)SetBiasVoltage") {
-    field(DOL,  "$(P)$(R)BiasVoltage CP")
+    field(DOL,  "$(P)$(R)BiasVoltage")
     field(OUT,  "$(FXP)/fx4/high_voltage/command_voltage/value")
     field(OMSL, "closed_loop")
 }
 
-record(ai,      "$(P)$(R)HVVReadback") {
+record(ai,      "$(P)$(R)BiasVoltage_RBV") {
     field(DTYP, "Soft Channel")
-    field(INP,  "")
+    field(INP,  "$(FXP)/fx4/high_voltage/command_voltage/value CP")
     field(SCAN, "Passive")
 }
 
-record(ao,      "$(P)$(R)GetHVVReadback") {
-    field(DOL,  "$(FXP)/fx4/high_voltage/monitor_voltage_internal")
-    field(OUT,  "$(P)$(R)HVVReadback PP")
-    field(OMSL, "closed_loop")
-    field(SCAN, ".5 second")
+record(ai,      "$(P)$(R)HVVReadback") {
+    field(DTYP, "Soft Channel")
+    field(INP,  "$(FXP)/fx4/high_voltage/monitor_voltage_internal")
+    field(SCAN, ".1 second")
 }
 
 record(waveform,"$(P)$(R)Firmware") {
@@ -215,4 +209,70 @@ record(mbbi,    "$(P)$(R)TriggerMode_RBV") {
     field(TWST, "Ext. bulb")
     field(THVL, "4")
     field(THST, "Ext. gate")
+}
+
+# The following 2 records read the current trigger level (input D1)
+# and the current trigger count (encoder 0 position counter)
+# and write them to the FX4 driver so it can access them at the start of a scan.
+# It assumes they are changing slowly enough before the scan that the
+# Channel Access updates for them are in sync.
+
+
+record(bi,      "$(P)$(R)FX4TriggerLevel") {
+    field(INP,  "$(FXP)/fx4/digital_expansion/d1/value")
+    field(ZNAM, "Low")
+    field(ONAM, "High")
+    field(SCAN, ".1 second")
+    field(FLNK, "$(P)$(R)SetTriggerLevel")
+}
+
+record(bo,      "$(P)$(R)SetTriggerLevel") {
+    field(DOL,  "$(P)$(R)FX4TriggerLevel")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0)FX4_TRIGGER_LEVEL")
+    field(ZNAM, "Low")
+    field(ONAM, "High")
+    field(OMSL, "closed_loop")
+}
+
+record(longin,  "$(P)$(R)TriggerCount") {
+    field(INP,  "$(FXP)/fx4/qep_0/position_counter/value")
+    field(SCAN, ".1 second")
+}
+
+record(ai,      "$(P)$(R)FX4_CPU") {
+    field(INP,  "$(FXP)/admin/system_monitor/cpu/cpu_utilization")
+    field(SCAN, ".1 second")
+    field(PREC, "1")
+}
+
+record(bi,      "$(P)$(R)ResetCounter") {
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0)FX4_RESET_COUNTER")
+    field(ZNAM, "Done")
+    field(ONAM, "Reset")
+    field(SCAN, "I/O Intr")
+    field(FLNK, "$(P)$(R)DoResetCounter")
+}
+
+record(bo,      "$(P)$(R)DoResetCounter") {
+    field(OUT,  "$(FXP)/fx4/qep_0/reset_position_counter_button")
+    field(ZNAM, "Done")
+    field(ONAM, "Reset")
+    field(VAL,  "1")
+}
+
+record(sseq,    "$(P)$(R)ConfigureTrigger") {
+    field(PINI, "YES")
+    field(LNK1, "$(FXP)/fx4/digital_expansion/d1/mode")
+    field(STR1, "encoder")
+    field(DLY1, "5")  # Delay to allow CA connections to be ready
+    field(LNK2, "$(FXP)/fx4/qep_0/enabled")
+    field(DO2,  "1")
+    field(LNK3, "$(FXP)/fx4/qep_0/position_counter/stream_enabled")
+    field(DO3,  "1")
+    field(LNK4, "$(FXP)/fx4/qep_0/position_counter_source")
+    field(STR4, "up")
+    field(LNK5, "$(FXP)/fx4/qep_0/external_clock_edge_select")
+    field(STR5, "both")
 }

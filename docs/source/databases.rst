@@ -331,19 +331,21 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - asynInt32
     - r/w
     - All
-    - On the TetrAMM this record controls the number of readings that are averaged in
-      the TetrAMM using the NRSAMP command. The TetrAMM always digitizes at 100 kHz (10
-      microseconds per sample). The minimum value of NRSAMP (and hence ValuesPerRead)
+    - On the TetrAMM and FX4 this record controls the number of readings that are averaged in
+      the hardware. The TetrAMM and FX4 always digitize at 100 kHz (10
+      microseconds per sample). On the TetrAMM The minimum value of ValuesPerRead
       in Binary mode is 5, which means the maximum number of values per second is 20000.
       Setting ValuesPerRead to 100, for example, will average 100 readings in the TetrAMM,
-      and thus result in a 1000 values per second sent from the TetrAMM to EPICS. |br|
+      and thus result in a 1000 values per second sent from the TetrAMM to EPICS. On the FX4
+      there is no minumum value of ValuesPerRead in the firmware.  However, values less than 10
+      (10 kHz rate) will result in CPU overload on the FX4 and incorrect data or hanging of the FX4. |br|
       On the NSLS_EM and NSLS2_EM this record controls the number of readings that are
       summed in the hardware., For all other models ValuesPerRead controls the number of values that are read from
       the meter in a single call. These values are averaged in the driver before it does
       any callbacks. The default is 1 (no averaging). |br|
       Increasing ValuesPerRead will reduce the CPU time because:
       
-      - On the TetrAMM it reduces the number of readings per second sent, from the maximum
+      - On the TetrAMM and FX4 it reduces the number of readings per second sent, from the maximum
         of 20000, to 100000/ValuesPerRead.
       - On the NSLS_EM it reduces the number of readings per second sent, from the maximum
         of 2500 (depending on IntegrationTime, to a maximum of 2500/ValuesPerRead.
@@ -534,7 +536,8 @@ minimum, maximum, and other statistics, including a histogram of array values.
         acquisition each time a software trigger command is sent.
       - 2: "Ext. Trigger" (TetrAMM, FX4, AH401B, PCR4) This is an edge-sensitive trigger. On the
         TetrAMM this will collect samples for the AveragingTime and then wait for the next
-        trigger.
+        trigger. On the FX4 if the next trigger arrives before the AveragingTime is complete 
+        then it immediately averages the existing samples and begins a new average.
       - 3: "Ext. Bulb" (TetrAMM, FX4, AH501D) This is a level-sensitive trigger. It acquires
         data while the external gate signal is asserted. On the trailing edge of the gate
         signal the callbacks will be called. In this mode the AveragingTime is ignored and
@@ -553,7 +556,27 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - asynInt32
     - r/w
     - FX4, PCR4
-    - 0=Positive, 1=Negative.
+    - 0=Positive, 1=Negative. In Ext. Trigger mode positive means that acquisition begins on the
+      rising edge of the trigger pulse, and negative means it begins on the falling edge.
+      In Ext. Bulb and Ext. Gate mode positive means that acquisition is enabled when the external 
+      gate signal is high, and negative means that acquisition is enabled when the external 
+      gate signal is low.
+  * - N.A.
+    - $(P)$(R)TriggerCount
+    - longin
+    - N.A.
+    - r/o
+    - FX4
+    - The value of the FX4 encoder position counter, which is used to perform triggering and gating
+      in the FX4 driver. This record samples the value at 10 Hz.
+  * - N.A.
+    - $(P)$(R)TriggerLevel
+    - bi
+    - N.A.
+    - r/o
+    - FX4
+    - The value of the FX4 D1 digital input signal.  Both the rising and falling edges of this signal
+      are used to increment the encoder counter.  This record samples the value at 10 Hz.
   * - QE_RESET
     - $(P)$(R)Reset
     - bo
@@ -751,7 +774,14 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - Processing this record will copy the current reading from each channel into the
       ADCOffset[1-4] records. This should only be done when CalibrationMode=On. This does
       an ADC offset calibration that is independent of the Range of the device.
- 
+  * - N.A.
+    - $(P)$(R)FX4_CPU
+    - ai
+    - N.A.
+    - r/o
+    - FX4
+    - The percent CPU busy time in the FX4 device.  This is sampled at 10 Hz.
+
 
 The following is the medm screen to control the quadEM with the records in quadEM.template.
 

@@ -4,7 +4,7 @@ epicsEnvSet("PORT",      "FX4")
 epicsEnvSet("TEMPLATE",  "FX4")
 epicsEnvSet("QSIZE",     "20")
 epicsEnvSet("RING_SIZE", "10000")
-epicsEnvSet("TSPOINTS",  "4096")
+epicsEnvSet("TSPOINTS",  "20000")
 epicsEnvSet("IP",        "10.54.161.11")
 epicsEnvSet("EPICS_CA_ADDR_LIST", "$(EPICS_CA_ADDR_LIST) $(IP)")
 

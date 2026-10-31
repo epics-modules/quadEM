@@ -5,8 +5,8 @@ minor 0
 release 1
 x 964
 y 435
-w 410
-h 187
+w 390
+h 262
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-bold-r-10.0"
 btnFont "helvetica-medium-r-18.0"
@@ -24,13 +24,26 @@ snapToGrid
 gridSize 4
 endScreenProperties
 
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 10
+w 360
+h 245
+
+beginGroup
+
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 1
 release 1
-x 35
+x 10
 y 60
 w 160
 h 20
@@ -50,7 +63,7 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 295
+x 270
 y 60
 w 100
 h 20
@@ -74,7 +87,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 75
+x 50
 y 35
 w 120
 h 20
@@ -94,7 +107,7 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 295
+x 270
 y 35
 w 100
 h 20
@@ -118,7 +131,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 65
+x 40
 y 10
 w 130
 h 20
@@ -138,7 +151,7 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 295
+x 270
 y 10
 w 100
 h 20
@@ -162,9 +175,9 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 5
-y 160
-w 190
+x 20
+y 85
+w 150
 h 20
 font "helvetica-medium-r-14.0"
 fontAlign "right"
@@ -172,7 +185,7 @@ fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
 value {
-  "Bias state readback"
+  "Trigger counter"
 }
 endObjectProperties
 
@@ -182,12 +195,12 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 200
-y 160
+x 175
+y 85
 w 90
 h 20
-controlPv "$(P)$(R)HVSReadback"
-format "string"
+controlPv "$(P)$(R)TriggerCount"
+format "decimal"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
@@ -206,8 +219,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 75
-y 85
+x 50
+y 135
 w 120
 h 20
 font "helvetica-medium-r-14.0"
@@ -225,8 +238,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 200
-y 85
+x 175
+y 135
 w 90
 h 20
 controlPv "$(P)$(R)BiasVoltage"
@@ -251,8 +264,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 295
-y 85
+x 270
+y 135
 w 100
 h 20
 controlPv "$(P)$(R)BiasVoltage_RBV"
@@ -275,17 +288,16 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 35
-y 110
-w 160
+x 70
+y 185
+w 100
 h 20
 font "helvetica-medium-r-14.0"
-fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
 value {
-  "Voltage readback"
+  "Bias state"
 }
 endObjectProperties
 
@@ -295,8 +307,133 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 200
-y 110
+x 270
+y 185
+w 100
+h 20
+controlPv "$(P)$(R)BiasState_RBV"
+format "string"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 175
+y 210
+w 90
+h 20
+controlPv "$(P)$(R)HVSReadback"
+format "string"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 235
+w 110
+h 20
+font "helvetica-medium-r-14.0"
+fontAlign "right"
+fgColor rgb 0 0 0
+bgColor index 3
+useDisplayBg
+value {
+  "FX4 CPU (%)"
+}
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 175
+y 235
+w 90
+h 20
+controlPv "$(P)$(R)FX4_CPU"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fontAlign "left"
+fgColor rgb 2560 0 47104
+bgColor rgb 51200 51200 51200
+limitsFromDb
+nullColor rgb 60928 46592 11008
+smartRefresh
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 40
+y 210
+w 130
+h 20
+font "helvetica-medium-r-14.0"
+fontAlign "right"
+fgColor rgb 0 0 0
+bgColor index 3
+useDisplayBg
+value {
+  "Bias readback"
+}
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 160
+w 255
+h 20
+
+beginGroup
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 175
+y 160
 w 90
 h 20
 controlPv "$(P)$(R)HVVReadback"
@@ -319,18 +456,24 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 95
-y 135
-w 100
+x 10
+y 160
+w 160
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
 value {
-  "Bias state"
+  "Voltage readback"
 }
 endObjectProperties
+
+endGroup
+
+endObjectProperties
+
 
 # (Text Monitor)
 object activeXTextDspClass:noedit
@@ -338,11 +481,11 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 295
-y 135
-w 100
+x 175
+y 110
+w 90
 h 20
-controlPv "$(P)$(R)BiasState_RBV"
+controlPv "$(P)$(R)FX4TriggerLevel"
 format "string"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
@@ -356,13 +499,50 @@ newPos
 objType "controls"
 endObjectProperties
 
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 40
+y 110
+w 130
+h 20
+font "helvetica-medium-r-14.0"
+fontAlign "right"
+fgColor rgb 0 0 0
+bgColor index 3
+useDisplayBg
+value {
+  "Trigger level"
+}
+endObjectProperties
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 10
+w 360
+h 245
+
+beginGroup
+
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 200
+x 175
 y 60
 w 90
 h 20
@@ -382,7 +562,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 200
+x 175
 y 35
 w 90
 h 20
@@ -402,7 +582,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 200
+x 175
 y 10
 w 90
 h 20
@@ -416,14 +596,39 @@ indicatorPv "$(P)$(R)CurrentUnits"
 font "helvetica-medium-r-12.0"
 endObjectProperties
 
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 270
+y 85
+w 100
+h 20
+fgColor rgb 0 0 0
+onColor rgb 29440 57088 65280
+offColor rgb 29440 57088 65280
+topShadowColor rgb 65280 65280 65280
+botShadowColor rgb 0 0 0
+controlPv "$(P)$(R)DoResetCounter"
+pressValue "1"
+releaseValue 
+onLabel "Reset"
+offLabel "Reset"
+3d
+useEnumNumeric
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 200
-y 135
+x 175
+y 185
 w 90
 h 20
 fgColor rgb 0 0 0
@@ -435,4 +640,26 @@ controlPv "$(P)$(R)BiasState"
 indicatorPv "$(P)$(R)BiasState"
 font "helvetica-medium-r-12.0"
 endObjectProperties
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 160
+w 255
+h 20
+
+beginGroup
+
+endGroup
+
+endObjectProperties
+
+
+endGroup
+
+endObjectProperties
+
 

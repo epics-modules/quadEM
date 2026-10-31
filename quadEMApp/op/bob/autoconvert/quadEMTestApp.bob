@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-05-08 18:16:03 by epics-->
 <display version="2.0.0">
   <name>quadEMTestApp</name>
   <x>308</x>
@@ -28,32 +27,33 @@
     <name>related display #9</name>
     <actions>
       <action type="open_display">
-        <file>quadEM.opi</file>
-        <macros>
-          <P>QE1:</P>
-          <P_FFT>QE1:AH401B_FFT:</P_FFT>
-          <P_TS>QE1:AH401B_TS:</P_TS>
-          <R>AH401B:</R>
-          <TX>Horizontal_BPM</TX>
-          <TY>Vertical_BPM</TY>
-        </macros>
-        <target>tab</target>
         <description>AH401B</description>
-      </action>
-      <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
           <P>QE1:</P>
-          <P_FFT>QE1:AH501_FFT:</P_FFT>
-          <P_TS>QE1:AH501_TS:</P_TS>
-          <R>AH501:</R>
+          <R>AH401B:</R>
+          <P_TS>QE1:AH401B_TS:</P_TS>
+          <P_FFT>QE1:AH401B_FFT:</P_FFT>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
         </macros>
         <target>tab</target>
-        <description>AH501</description>
       </action>
       <action type="open_display">
+        <description>AH501</description>
+        <file>quadEM.opi</file>
+        <macros>
+          <P>QE1:</P>
+          <R>AH501:</R>
+          <P_TS>QE1:AH501_TS:</P_TS>
+          <P_FFT>QE1:AH501_FFT:</P_FFT>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <target>tab</target>
+      </action>
+      <action type="open_display">
+        <description>TetrAMM</description>
         <file>quadEM.opi</file>
         <macros>
           <P>QE1:</P>
@@ -62,59 +62,58 @@
           <TY>Vertical_BPM</TY>
         </macros>
         <target>tab</target>
-        <description>TetrAMM</description>
       </action>
       <action type="open_display">
-        <file>quadEM.opi</file>
-        <macros>
-          <P>QE1:</P>
-          <P_FFT>QE1:NSLS_EM_FFT:</P_FFT>
-          <P_TS>QE1:NSLS_EM_TS:</P_TS>
-          <R>NSLS_EM:</R>
-          <TX>Horizontal_BPM</TX>
-          <TY>Vertical_BPM</TY>
-        </macros>
-        <target>tab</target>
         <description>NSLS_EM</description>
-      </action>
-      <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
           <P>QE1:</P>
-          <P_FFT>QE1:NSLS2_EM_FFT:</P_FFT>
-          <P_TS>QE1:NSLS2_EM_TS:</P_TS>
-          <R>NSLS2_EM:</R>
+          <R>NSLS_EM:</R>
+          <P_TS>QE1:NSLS_EM_TS:</P_TS>
+          <P_FFT>QE1:NSLS_EM_FFT:</P_FFT>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>NSLS2_EM</description>
-      </action>
-      <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
           <P>QE1:</P>
-          <P_FFT>QE1:NSLS2_IC_FFT:</P_FFT>
-          <P_TS>QE1:NSLS2_IC_TS:</P_TS>
-          <R>NSLS2_IC:</R>
+          <R>NSLS2_EM:</R>
+          <P_TS>QE1:NSLS2_EM_TS:</P_TS>
+          <P_FFT>QE1:NSLS2_EM_FFT:</P_FFT>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>NSLS2_IC</description>
-      </action>
-      <action type="open_display">
         <file>quadEM.opi</file>
         <macros>
           <P>QE1:</P>
-          <P_FFT>QE1:FX4_FFT:</P_FFT>
-          <P_TS>QE1:FX4_TS:</P_TS>
-          <R>FX4:</R>
+          <R>NSLS2_IC:</R>
+          <P_TS>QE1:NSLS2_IC_TS:</P_TS>
+          <P_FFT>QE1:NSLS2_IC_FFT:</P_FFT>
           <TX>Horizontal_BPM</TX>
           <TY>Vertical_BPM</TY>
         </macros>
         <target>tab</target>
+      </action>
+      <action type="open_display">
         <description>FX4</description>
+        <file>quadEM.opi</file>
+        <macros>
+          <P>QE1:</P>
+          <R>FX4:</R>
+          <P_TS>QE1:FX4_TS:</P_TS>
+          <P_FFT>QE1:FX4_FFT:</P_FFT>
+          <TX>Horizontal_BPM</TX>
+          <TY>Vertical_BPM</TY>
+        </macros>
+        <target>tab</target>
       </action>
     </actions>
     <text></text>

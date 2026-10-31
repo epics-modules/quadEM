@@ -3,6 +3,24 @@
 The versions of EPICS base, asyn, ADCore, and other synApps modules used for each release can be obtained from 
 the configure/RELEASE file in each release of quadEM.
 
+## Release 9-8 (November XXX, 2026)
+- Improved support for the FX4 quad electrometer. 
+  - Add support for high-speed gating and triggering up to 5 kHz.
+    This requires updated firmware, version 26.10.151957 or higher.
+  - Added diagnostic records to read the FX4 CPU %, trigger level, 
+    and trigger counter.
+  - Added records to configure the trigger input settings on the FX4
+    at iocInit.
+- Fixed error in the fanout records for the PREC fields.
+- Increased the PREC field for the averaging times from 2 to 4.
+- Tweaked the device-dependent sub-screens to display better on Phoebus.
+- Added documentation comparing the performance of the TetrAMM and FX4
+  and conventional current amplifier (SR570) + V/F converter + scaler
+  for current measurement over the ranges from 0-100 nA to 0-10 mA.
+  The conclusion is that all are very good and quite similar, but the
+  TetrAMM and FX4 have consistently better linearity, similar noise,
+  much lower cost, and much more functionality.
+
 ## Release 9-7 (September 1, 2026)
 - Added support for the FX4 quad electrometer from Pyramid Technical Consultants.
   This sold by XDSOxford for the synchrotron market.

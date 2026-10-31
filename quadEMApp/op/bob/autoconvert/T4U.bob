@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-11-29 11:47:00 by epics-->
 <display version="2.0.0">
   <name>T4U</name>
   <x>2402</x>
@@ -91,7 +90,7 @@
     <show_units>false</show_units>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #24</name>
     <x>305</x>
     <y>1</y>
@@ -203,7 +202,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>composite #47</name>
     <x>5</x>
     <width>200</width>
