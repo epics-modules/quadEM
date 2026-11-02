@@ -50,6 +50,7 @@ private:
     asynUser *pasynUserMeter_;
     epicsEventId acquireStartEvent_;
     int readingActive_;
+    int numTriggerSamplesReceived_;
     int numResync_;
     char *QEPortName_;
     char firmwareVersion_[MAX_COMMAND_LEN];

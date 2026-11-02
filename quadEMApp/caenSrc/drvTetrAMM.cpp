@@ -188,6 +188,7 @@ void drvTetrAMM::readThread(void)
     int nextExpectedEdge=0;
     int numTrigStarts=0;
     int numTrigEnds=0;
+    int numAverage;
     int i;
     asynUser *pasynUser;
     asynInterface *pasynInterface;
@@ -235,6 +236,7 @@ void drvTetrAMM::readThread(void)
             nextExpectedEdge = 0;
             getIntegerParam(P_TriggerMode, &triggerMode);
             getIntegerParam(P_ReadFormat, &readFormat);
+            getIntegerParam(P_NumAverage, &numAverage);
             readingActive_ = 1;
         }
         if (readFormat == QEReadFormatBinary) {
@@ -275,11 +277,18 @@ void drvTetrAMM::readThread(void)
                 case 0xfff40002ffffffffull:
                     // This is a signalling Nan at the end of normal data
                     for (i=numChannels_; i<4; i++) f64Data[i] = 0.0;
+                    if (triggerMode == QETriggerModeExtTrigger) {
+                      numTriggerSamplesReceived_++;
+                      if (numTriggerSamplesReceived_ > numAverage) continue;
+                    }
                     computePositions(f64Data);
                    break;
                 case 0xfff40000ffffffffull:
                     // This is a signalling Nan on the rising edge of a trigger
                     numTrigStarts++;
+                    if (triggerMode == QETriggerModeExtTrigger) numTriggerSamplesReceived_ = 0;
+                    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s rising edge, numTrigStarts=%d\n",
+                        driverName, functionName, numTrigStarts);
                     if (nextExpectedEdge != 0) {
                         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                             "%s::%s Extra trigger start, numTrigStarts=%d, numTrigsEnds=%d\n", 
@@ -290,7 +299,9 @@ void drvTetrAMM::readThread(void)
                 case 0xfff40001ffffffffull:
                     // This is a signalling Nan on the falling edge of a trigger
                     numTrigEnds++;
-                    if (triggerMode == QETriggerModeExtBulb) {
+                    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s falling edge, numTrigEnds=%d\n",
+                        driverName, functionName, numTrigEnds);
+                    if ((triggerMode == QETriggerModeExtTrigger) || (triggerMode == QETriggerModeExtBulb)) {
                         triggerCallbacks();
                     }
                     if (nextExpectedEdge != 1) {
@@ -521,6 +532,7 @@ asynStatus drvTetrAMM::setAcquire(epicsInt32 value)
         // Call the base class function because it handles some common tasks.
         drvQuadEM::setAcquire(1);
 
+        numTriggerSamplesReceived_ = 0;
         // For now we call setAcquireParams().  This seems to be necessary when sending NAQ, and only takes 20 ms.
         // It also has the effect of flusing any stale input
         setAcquireParams();
@@ -629,9 +641,7 @@ asynStatus drvTetrAMM::setAcquireParams()
 
     // Send the NAQ command
     naq = 0;
-    if ((triggerMode == QETriggerModeExtTrigger) || 
-       ((triggerMode == QETriggerModeFreeRun) && 
-        (acquireMode == QEAcquireModeSingle))) {
+    if ((triggerMode == QETriggerModeFreeRun) && (acquireMode == QEAcquireModeSingle)) {
         naq = numAverage;
     }        
     sprintf(outString_, "NAQ:%d", naq);
