@@ -446,7 +446,7 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - Provides the number of values that will be accumulated in the ring buffer before
       they are read out into NDArray objects and any registered plugins are called. NumAverage_RBV
       is computed as (int)((AveragingTime / SampleTime_RBV) + 0.5).
-      , On the TetrAMM when TriggerMode=External Bulb and on the AH501BE when TriggerMode=External
+      On the FX4 and TetrAMM when TriggerMode=External Bulb and on the AH501BE when TriggerMode=External
       Gate the AveragingTime is ignored and NumAverage_RBV will be 0. The averaging is
       done on all samples collected when the external gate signal is asserted.
   * - QE_NUM_AVERAGED
@@ -459,8 +459,8 @@ minimum, maximum, and other statistics, including a histogram of array values.
       before they were read out into NDArray objects and any registered plugins were called.
       If AveragingTime&gt;0 then NumAveraged_RBV will be the same as NumAverage_RBV. However,
       if AveragingTime=0. then NumAverage_RBV=0 and NumAveraged_RBV gives the actual number
-      of values read from the ring buffer when the ReadData record was processed. This
-      is also true on the TetrAMM when TriggerMode=ExternalBulb.
+      of values read from the ring buffer when the ReadData record was processed.
+      This is also true on the FX4 and TetrAMM in ExternalTrigger or ExternalBulb modes.
   * - N.A.
     - $(P)$(R)FastAveragingTime, $(P)$(R)FastAveragingTime_RBV
     - ao, ai
@@ -488,8 +488,9 @@ minimum, maximum, and other statistics, including a histogram of array values.
     - All
     - The number of acquisitions to acquire when AcquireMode=Multiple. An acquisition
       is complete when the callbacks are called. This normally occurs when the AveragingTime
-      has elapsed. However when TriggerMode=Ext. Bulb then the callbacks are called and
-      an acquisition is complete on the trailing edge of each external gate pulse.
+      has elapsed. However when TriggerMode=Ext. Bulb (and sometimes Ext. Trig) 
+      then the callbacks are called and an acquisition is complete on the trailing edge of each 
+      external trigger pulse.
   * - QE_NUM_ACQUIRED
     - $(P)$(R)NumAcquired
     - longin
@@ -534,10 +535,11 @@ minimum, maximum, and other statistics, including a histogram of array values.
       - 0: "Free Run" (all models). Ignores any external gate or trigger signal.
       - 1: "Software" (possible future choice for TetrAMM) This will trigger a single
         acquisition each time a software trigger command is sent.
-      - 2: "Ext. Trigger" (TetrAMM, FX4, AH401B, PCR4) This is an edge-sensitive trigger. On the
-        TetrAMM this will collect samples for the AveragingTime and then wait for the next
-        trigger. On the FX4 if the next trigger arrives before the AveragingTime is complete 
-        then it immediately averages the existing samples and begins a new average.
+      - 2: "Ext. Trigger" (TetrAMM, FX4, AH401B, PCR4) This is an edge-sensitive trigger.
+        On the leading edge of each trigger pulse it will collect samples for the AveragingTime
+        and then wait for the next trigger. However, on the FX and TetrAMM if the next trigger 
+        arrives before the AveragingTime is complete then it immediately averages the existing 
+        samples and begins a new average.
       - 3: "Ext. Bulb" (TetrAMM, FX4, AH501D) This is a level-sensitive trigger. It acquires
         data while the external gate signal is asserted. On the trailing edge of the gate
         signal the callbacks will be called. In this mode the AveragingTime is ignored and
@@ -784,6 +786,8 @@ minimum, maximum, and other statistics, including a histogram of array values.
 
 
 The following is the medm screen to control the quadEM with the records in quadEM.template.
+This is the version for the TetrAMM.  The versions for the other models differ only in the device-specific
+widgets in the left center of the screen.
 
 .. figure:: quadEM.png
     :align: center

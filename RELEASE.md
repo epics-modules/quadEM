@@ -4,13 +4,22 @@ The versions of EPICS base, asyn, ADCore, and other synApps modules used for eac
 the configure/RELEASE file in each release of quadEM.
 
 ## Release 9-8 (November XXX, 2026)
-- Improved support for the FX4 quad electrometer. 
+- Improved support for the FX4. 
   - Add support for high-speed gating and triggering up to 5 kHz.
     This requires updated firmware, version 26.10.151957 or higher.
   - Added diagnostic records to read the FX4 CPU %, trigger level, 
     and trigger counter.
   - Added records to configure the trigger input settings on the FX4
     at iocInit.
+- Improved External Trigger mode support for the TetrAMM.
+  Previously it required that the trigger period be longer than the AveragingTime.
+  If a trigger pulse arrived before the averaging time was complete it was ignored.
+  This required clients to know what the minimum trigger period would be and to
+  set the AveragingTime to be at least slightly less than this.
+  Now if the next trigger arrives before the averaging time is complete it immediately
+  computes the average of the samples so far and starts the next acquisition.
+  This means that external trigger mode is the same as external bulb mode if the trigger
+  period is less than the averaging time.
 - Fixed error in the fanout records for the PREC fields.
 - Increased the PREC field for the averaging times from 2 to 4.
 - Tweaked the device-dependent sub-screens to display better on Phoebus.
