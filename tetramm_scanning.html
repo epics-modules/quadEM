@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Using Feedback" href="feedback.html" />
-    <link rel="prev" title="TetrAMM and FX4 Acquisition Modes" href="tetramm_modes.html" /> 
+    <link rel="prev" title="TetrAMM and FX4 Trigger Modes" href="tetramm_modes.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,13 +47,11 @@
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM and FX4 Acquisition Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM and FX4 Trigger Modes</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Scanning with the TetrAMM or FX4</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#step-scan-with-quadem-in-free-run-mode">Step scan with quadEM in free-run mode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#step-scan-with-quadem-in-single-acquire-mode">Step scan with quadEM in single acquire mode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fly-scan-with-quadem-in-free-run-mode">Fly scan with quadEM in free-run mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#triggered-scan-using-quadem-time-series-plugin">Triggered scan using quadEM time series plugin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#triggered-scan-using-quadem-in-bulb-mode-with-the-statistics-plugin">Triggered scan using quadEM in bulb mode with the statistics plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fly-scan-in-external-triggered-mode-with-the-statistics-plugin">Fly scan in external triggered mode with the statistics plugin</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
@@ -94,61 +92,42 @@ Each scan described below used most of these settings, with the changes in the s
 <figure class="align-center">
 <img alt="_images/sscan_tetramm_base.png" src="_images/sscan_tetramm_base.png" />
 </figure>
-<section id="step-scan-with-quadem-in-free-run-mode">
-<h2>Step scan with quadEM in free-run mode<a class="headerlink" href="#step-scan-with-quadem-in-free-run-mode" title="Link to this heading"></a></h2>
-<p>This scan type uses a step-scan for the positioner and runs the quadEM in free running mode.
-The quadEM averaging time is set a small amount less than the time it takes the motors to move
-each step.  This mode is faster than stopping and starting the quadEM at each point. The error
-due to the quadEM not being strictly synchronized to the motor position are likely to be acceptable
-in many cases.</p>
-<p>The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the quadEM.
-There is no detector trigger.</p>
-<figure class="align-center">
-<img alt="_images/sscan_tetramm_free_run.png" src="_images/sscan_tetramm_free_run.png" />
-</figure>
-<p>The scan is 201 points and took 11.7 seconds.  The time per point is thus 0.058 ms.</p>
-<p>The quadEM was configured as follows:</p>
-<ul class="simple">
-<li><p>AcquireMode=Continuous</p></li>
-<li><p>ValuesPerRead=5</p></li>
-<li><p>AveragingTime=.05 s.  This is a little less than the time per point in the scan, so there will be a new reading at each point.</p></li>
-<li><p>The sscan record detectors are Current1:MeanValue_RBV, Current2:MeanValue_RBV, etc.</p></li>
-</ul>
-<p>This is a plot of Current1 after the scan.</p>
-<figure class="align-center">
-<img alt="_images/sscan_tetramm_free_run_plot.png" src="_images/sscan_tetramm_free_run_plot.png" />
-</figure>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-</section>
 <section id="step-scan-with-quadem-in-single-acquire-mode">
 <h2>Step scan with quadEM in single acquire mode<a class="headerlink" href="#step-scan-with-quadem-in-single-acquire-mode" title="Link to this heading"></a></h2>
 <p>This scan type uses a step-scan for the positioner and runs the quadEM in single cycle mode.
 This guarantees that the quadEM was only counting when the motor was at the target position
 for each step.</p>
-<p>The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the quadEM.
+<p>For both of the following scans the quadEM was configured as follows:</p>
+<ul class="simple">
+<li><p>AcquireMode=Single</p></li>
+<li><p>ValuesPerRead=10</p></li>
+<li><p>AveragingTime=.01 s</p></li>
+</ul>
+<p>The following is screen shot of the sscan record reading the first current from the TetrAMM.
+There is no positioner for this test, which is designed to measure the step-scan overhead.
+The first positioner readback is TIME, so the elapsed time for the scan can be measured.
+In practice a motor or other positioner would be used.
 The detector trigger is the quadEM Acquire PV.</p>
 <figure class="align-center">
 <img alt="_images/sscan_tetramm_triggered.png" src="_images/sscan_tetramm_triggered.png" />
 </figure>
-<p>The scan is 201 points and took 31.3 seconds.
-This scan took 20 seconds longer than the scan where the quadEM AcquireMode is Continuous.
-10 seconds of this are because the scan needs to wait for the quadEM averaging for 50 ms at each point.
-The additional 10 seconds is due to overhead with restarting the quadEM at each point.</p>
-<p>The quadEM was configured as follows:</p>
-<ul class="simple">
-<li><p>AcquireMode=Single</p></li>
-<li><p>ValuesPerRead=50</p></li>
-<li><p>AveragingTime=.05 s</p></li>
-</ul>
-<p>This is a plot of Current1 after the scan.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The scan is 200 points and took 12.0 seconds.  The actual collection time was 200*0.01 = 2 seconds.
+The overhard was thus 10.0 seconds, or 50 ms per point.</p>
+<p>The following is screen shot of the sscan record for the same scan using the FX4.</p>
 <figure class="align-center">
-<img alt="_images/sscan_tetramm_triggered_plot.png" src="_images/sscan_tetramm_triggered_plot.png" />
+<img alt="_images/sscan_fx4_triggered.png" src="_images/sscan_fx4_triggered.png" />
 </figure>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<p>The scan is 200 points and took 7.0 seconds.  The actual collection time was 200*0.01 = 2 seconds.
+The overhard was thus 5.0 seconds, or 25 ms per point.  This is half the overhead of the TetrAMM.</p>
 </section>
 <section id="fly-scan-with-quadem-in-free-run-mode">
 <h2>Fly scan with quadEM in free-run mode<a class="headerlink" href="#fly-scan-with-quadem-in-free-run-mode" title="Link to this heading"></a></h2>
@@ -188,93 +167,50 @@ accuracy and precision of their respective update rates.</p></li>
 <div class="line"><br /></div>
 </div>
 </section>
-<section id="triggered-scan-using-quadem-time-series-plugin">
-<h2>Triggered scan using quadEM time series plugin<a class="headerlink" href="#triggered-scan-using-quadem-time-series-plugin" title="Link to this heading"></a></h2>
-<p>This scan type uses triggers from the positioner to collect the quadEM data in the NDPluginTimeSeries plugin.
-This guarantees that the positioner and detector data are perfectly synchronized.</p>
+<section id="fly-scan-in-external-triggered-mode-with-the-statistics-plugin">
+<h2>Fly scan in external triggered mode with the statistics plugin<a class="headerlink" href="#fly-scan-in-external-triggered-mode-with-the-statistics-plugin" title="Link to this heading"></a></h2>
+<p>This scan type uses triggers from the positioner to collect the quadEM data in the time series of the
+NDPluginStats plugin. This guarantees that the positioner and detector data are perfectly synchronized.</p>
 <p>For this test the triggers came from a Measurement Computing USB-CTR08 pulse generator, but they could
 have been coming from position based triggers from a motor controller.</p>
-<p>The scan is configured by first determining the period at which trigger pulses will be arriving.
-For a motor scan this will be calculated from the distance interval per trigger and the motor velocity.
-For this test it was set by the following:</p>
-<ul class="simple">
-<li><p>The pulse generator is configured to output 201 pulses at 100 Hz, i.e. .01 second period.</p></li>
-</ul>
+<p>The pulse generator is configured to output 2000 pulses at 100 Hz, i.e. .01 second period.  However, this will work
+even if the trigger period is changing, e.g. during the acceleration phase of a motor.
+In this example the AveragingTime was set to 1.0 second, much longer than the 0.01 second pulse period.</p>
 <p>The quadEM was configured as follows:</p>
 <ul class="simple">
 <li><p>AcquireMode=Multiple</p></li>
-<li><p>NumAcquire=201</p></li>
+<li><p>NumAcquire=2000</p></li>
 <li><p>TriggerMode=Ext. Trig.</p></li>
-<li><p>ValuesPerRead=5</p></li>
-<li><p>AveragingTime=.0099 s, 1% (0.1 ms) less than the trigger period.</p></li>
+<li><p>ValuesPerRead=10</p></li>
+<li><p>AveragingTime=1 second. Because this is longer than the pulse period it is irrelevant.</p></li>
 </ul>
 <p>This is the configuration of the quadEM in this mode.</p>
 <figure class="align-center">
 <img alt="_images/tetramm_fly_triggered.png" src="_images/tetramm_fly_triggered.png" />
 </figure>
-<p>When TriggerMode=Ext. Trig. the driver tells the quadEM to collect the number of samples determined by the
-AveragingTime (i.e. NumAverage_RBV) on receipt of each trigger pulse.  NumAverage_RBV is 198 in the example above.
-The AveragingTime must be slightly less than the trigger pulse period to allow for slight clock frequency differences
-between the trigger source and the quadEM.  In this case the AveragingTime is 1% (0.1 ms) less than the pulse period.
-The only consequence of this is that there is 1% during each acquire period (0.1 ms) when the quadEM is not collecting data.</p>
-<p>The quadEM TimeSeries plugin is configured as follows:</p>
-<ul class="simple">
-<li><p>AveragingTime=0.0099 s</p></li>
-<li><p>NumPoints=201</p></li>
-</ul>
-<p>This is the configuration of the TimeSeries plugin:</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Open in Plugins/QE common plugins. This is this screen:</p>
 <figure class="align-center">
-<img alt="_images/tetramm_fly_triggered_time_series.png" src="_images/tetramm_fly_triggered_time_series.png" />
+<img alt="_images/tetramm_fly_triggered_common_plugins.png" src="_images/tetramm_fly_triggered_common_plugins.png" />
 </figure>
-<p>The AveragingTime of the time series plugin must be the same as that for the quadEM.  This guarantees that each
-external trigger will move to the next point in the time series.</p>
-<p>The following steps are used to perform as scan in this mode:</p>
-<ul class="simple">
-<li><p>Set the TimeSeries TSAcquire (labeled Erase/Start) PV to 1</p></li>
-<li><p>Set the quadEM Acquire PV to 1</p></li>
-<li><p>Start the trigger source.  In this test that is the pulse generator, but it would normally be the motor
-generating the trigger pulses.</p></li>
-<li><p>Wait for the motion to complete and then read the time series waveform records, e.g. TS:Current1, etc.</p></li>
-</ul>
-<p>This is a plot of Current1 after the scan.  The retrace to 0 on the last point is a bug in medm.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Press More for Current 1, which opens NDStats.adl for Current 1.
+This is this screen:</p>
 <figure class="align-center">
-<img alt="_images/tetramm_fly_triggered_time_series_plot.png" src="_images/tetramm_fly_triggered_time_series_plot.png" />
+<img alt="_images/tetramm_fly_triggered_current1_stats.png" src="_images/tetramm_fly_triggered_current1_stats.png" />
 </figure>
-<p>Note while the scan actually took 2.01 seconds (201 points at 100 Hz) the last point horizontal scale
-of this plot is 1.98 seconds.
-This is because the time between triggers is 1% more than the averaging time, but the
-plugin has no way to know what the actual time between trigger pulses is.</p>
-</section>
-<section id="triggered-scan-using-quadem-in-bulb-mode-with-the-statistics-plugin">
-<h2>Triggered scan using quadEM in bulb mode with the statistics plugin<a class="headerlink" href="#triggered-scan-using-quadem-in-bulb-mode-with-the-statistics-plugin" title="Link to this heading"></a></h2>
-<p>The time series plugin used in the previous example above can only be used when each trigger generates the same
-number of ADC samples. If the time between triggers is not know or is variable then bulb mode.
-This will average all samples between the leading and trailing edge of the trigger pulse.
-When using bulb mode or Ext. Trigger mode on the FX4 with triggers faster than the averaging time,
-the time series feature of the statistics plugin must be used.  It computes the statistics at the end
-of each trigger period, regardless of the number of samples collected.</p>
-<p>For this test the triggers came from a Measurement Computing USB-CTR08 pulse generator, but they could
-have been coming from position based triggers from a motor controller.</p>
-<p>The pulse generator is configured to output 201 pulses at 100 Hz, i.e. .01 second period.  However, this will work
-even if the trigger period is changing, e.g. during the acceleration phase of a motor.</p>
-<p>The quadEM was configured as follows:</p>
-<ul class="simple">
-<li><p>AcquireMode=Multiple</p></li>
-<li><p>NumAcquire=201</p></li>
-<li><p>TriggerMode=Ext. Trig.</p></li>
-<li><p>ValuesPerRead=5</p></li>
-<li><p>AveragingTime is irrelevant and is not used. It is set to 1 second to illustrate this.</p></li>
-</ul>
-<p>This is the configuration of the quadEM in this mode.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Open Statistics/Time series plots/Mean. That is this screen before the scan:</p>
 <figure class="align-center">
-<img alt="_images/tetramm_fly_bulb.png" src="_images/tetramm_fly_bulb.png" />
+<img alt="_images/tetramm_fly_triggered_current1_mean_plot_before.png" src="_images/tetramm_fly_triggered_current1_mean_plot_before.png" />
 </figure>
-<p>Open in Plugins/QE common plugins. Press More for Current 1, which opens NDStats.adl for Current 1.
-Open Statistics/Time series plots/Mean. That is this screen:</p>
-<figure class="align-center">
-<img alt="_images/tetramm_fly_bulb_statistics_mean.png" src="_images/tetramm_fly_bulb_statistics_mean.png" />
-</figure>
-<p>The number of points is set to 201.</p>
+<p>The number of points is set to 2000.</p>
 <p>The following steps are used to perform as scan in this mode:</p>
 <ul class="simple">
 <li><p>Set the TSAcquire PV to 1 (press EraseStart in above screen)</p></li>
@@ -285,9 +221,12 @@ generating the trigger pulses.</p></li>
 </ul>
 <p>This is a plot of Current1:TSMeanValue after the scan.  The retrace to 0 on the last point is a bug in medm.</p>
 <figure class="align-center">
-<img alt="_images/tetramm_fly_bulb_time_series_plot.png" src="_images/tetramm_fly_bulb_time_series_plot.png" />
+<img alt="_images/tetramm_fly_triggered_current1_mean_plot_after.png" src="_images/tetramm_fly_triggered_current1_mean_plot_after.png" />
 </figure>
-<p>Note that this scan actually took 2 seconds but the horizontal scale in this plot is incorrect (20 seconds)
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Note that this scan actually took 20 seconds but the horizontal scale in this plot is incorrect (200 seconds)
 because it has no way of knowing the actual time between triggers.  Each point in the plot is the mean
 of all ADC values between the leading and trailing edge of the trigger pulse.</p>
 </section>
@@ -297,7 +236,7 @@ of all ADC values between the leading and trailing edge of the trigger pulse.</p
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="tetramm_modes.html" class="btn btn-neutral float-left" title="TetrAMM and FX4 Acquisition Modes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tetramm_modes.html" class="btn btn-neutral float-left" title="TetrAMM and FX4 Trigger Modes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="feedback.html" class="btn btn-neutral float-right" title="Using Feedback" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
@@ -305,7 +244,7 @@ of all ADC values between the leading and trailing edge of the trigger pulse.</p
 
   <div role="contentinfo">
     <p>&#169; Copyright 2025, Mark Rivers.
-      <span class="lastupdated">Last updated on 2026-October-31.
+      <span class="lastupdated">Last updated on 2026-November-03.
       </span></p>
   </div>
 
