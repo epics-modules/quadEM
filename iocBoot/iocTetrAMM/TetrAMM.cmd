@@ -3,8 +3,8 @@ epicsEnvSet("RECORD",    "TetrAMM:")
 epicsEnvSet("PORT",      "TetrAMM")
 epicsEnvSet("TEMPLATE",  "TetrAMM")
 epicsEnvSet("QSIZE",     "20")
-epicsEnvSet("RING_SIZE", "10000")
-epicsEnvSet("TSPOINTS",  "2048")
+epicsEnvSet("RING_SIZE", "50000")
+epicsEnvSet("TSPOINTS",  "20000")
 epicsEnvSet("IP",        "10.54.160.186:10001")
 
 #drvAsynIPPortConfigure("portName","hostInfo",priority,noAutoConnect,
@@ -14,10 +14,10 @@ asynOctetSetInputEos("IP_$(PORT)",  0, "\r\n")
 asynOctetSetOutputEos("IP_$(PORT)", 0, "\r")
 
 # Set both TRACE_IO_ESCAPE (for ASCII command/response) and TRACE_IO_HEX (for binary data)
-asynSetTraceIOMask("IP_$(PORT)", 0, 6)
+#asynSetTraceIOMask("IP_$(PORT)", 0, 6)
 #asynSetTraceFile("IP_$(PORT)",   0, "AHxxx.out")
 #asynSetTraceMask("IP_$(PORT)",   0,  9)
-asynSetTraceIOTruncateSize("IP_$(PORT)", 0, 4000)
+#asynSetTraceIOTruncateSize("IP_$(PORT)", 0, 4000)
 
 # Load asynRecord record
 dbLoadRecords("$(ASYN)/db/asynRecord.db", "P=$(PREFIX), R=asyn1,PORT=IP_$(PORT),ADDR=0,OMAX=256,IMAX=256")
