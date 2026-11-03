@@ -9,34 +9,6 @@ Each scan described below used most of these settings, with the changes in the s
 .. figure:: sscan_tetramm_base.png
     :align: center
 
-Step scan with quadEM in free-run mode
-.......................................
-This scan type uses a step-scan for the positioner and runs the quadEM in free running mode.
-The quadEM averaging time is set a small amount less than the time it takes the motors to move
-each step.  This mode is faster than stopping and starting the quadEM at each point. The error
-due to the quadEM not being strictly synchronized to the motor position are likely to be acceptable
-in many cases.
-
-The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the quadEM.
-There is no detector trigger.
-
-.. figure:: sscan_tetramm_free_run.png
-    :align: center
-
-The scan is 201 points and took 11.7 seconds.  The time per point is thus 0.058 ms.
-
-The quadEM was configured as follows:
-
-- AcquireMode=Continuous
-- ValuesPerRead=5
-- AveragingTime=.05 s.  This is a little less than the time per point in the scan, so there will be a new reading at each point.
-- The sscan record detectors are Current1:MeanValue_RBV, Current2:MeanValue_RBV, etc.
-
-This is a plot of Current1 after the scan.
-
-.. figure:: sscan_tetramm_free_run_plot.png
-    :align: center
-
 |
 
 Step scan with quadEM in single acquire mode
@@ -45,29 +17,35 @@ This scan type uses a step-scan for the positioner and runs the quadEM in single
 This guarantees that the quadEM was only counting when the motor was at the target position
 for each step.
 
-The following is screen shot of the sscan record moving a single motor and reading the 4 currents from the quadEM.
+For both of the following scans the quadEM was configured as follows:
+
+- AcquireMode=Single
+- ValuesPerRead=10
+- AveragingTime=.01 s
+
+The following is screen shot of the sscan record reading the first current from the TetrAMM.
+There is no positioner for this test, which is designed to measure the step-scan overhead.
+The first positioner readback is TIME, so the elapsed time for the scan can be measured.
+In practice a motor or other positioner would be used.
 The detector trigger is the quadEM Acquire PV.
 
 .. figure:: sscan_tetramm_triggered.png
     :align: center
 
-The scan is 201 points and took 31.3 seconds.
-This scan took 20 seconds longer than the scan where the quadEM AcquireMode is Continuous.
-10 seconds of this are because the scan needs to wait for the quadEM averaging for 50 ms at each point.
-The additional 10 seconds is due to overhead with restarting the quadEM at each point.
+|
 
-The quadEM was configured as follows:
+The scan is 200 points and took 12.0 seconds.  The actual collection time was 200*0.01 = 2 seconds.
+The overhard was thus 10.0 seconds, or 50 ms per point.
 
-- AcquireMode=Single
-- ValuesPerRead=50
-- AveragingTime=.05 s
+The following is screen shot of the sscan record for the same scan using the FX4.
 
-This is a plot of Current1 after the scan.
-
-.. figure:: sscan_tetramm_triggered_plot.png
+.. figure:: sscan_fx4_triggered.png
     :align: center
 
 |
+
+The scan is 200 points and took 7.0 seconds.  The actual collection time was 200*0.01 = 2 seconds.
+The overhard was thus 5.0 seconds, or 25 ms per point.  This is half the overhead of the TetrAMM.
 
 Fly scan with quadEM in free-run mode
 .............................................
@@ -108,106 +86,54 @@ This is a plot of Current1 after the scan.
 
 |
 
-Triggered scan using quadEM time series plugin
-...............................................
-This scan type uses triggers from the positioner to collect the quadEM data in the NDPluginTimeSeries plugin.
-This guarantees that the positioner and detector data are perfectly synchronized.
+Fly scan in external triggered mode with the statistics plugin
+...............................................................
+This scan type uses triggers from the positioner to collect the quadEM data in the time series of the
+NDPluginStats plugin. This guarantees that the positioner and detector data are perfectly synchronized.
 
 For this test the triggers came from a Measurement Computing USB-CTR08 pulse generator, but they could
 have been coming from position based triggers from a motor controller.
 
-The scan is configured by first determining the period at which trigger pulses will be arriving.
-For a motor scan this will be calculated from the distance interval per trigger and the motor velocity.
-For this test it was set by the following:
-
-- The pulse generator is configured to output 201 pulses at 100 Hz, i.e. .01 second period.
+The pulse generator is configured to output 2000 pulses at 100 Hz, i.e. .01 second period.  However, this will work
+even if the trigger period is changing, e.g. during the acceleration phase of a motor.
+In this example the AveragingTime was set to 1.0 second, much longer than the 0.01 second pulse period.
 
 The quadEM was configured as follows:
 
 - AcquireMode=Multiple
-- NumAcquire=201
+- NumAcquire=2000
 - TriggerMode=Ext. Trig.
-- ValuesPerRead=5
-- AveragingTime=.0099 s, 1% (0.1 ms) less than the trigger period.
+- ValuesPerRead=10
+- AveragingTime=1 second. Because this is longer than the pulse period it is irrelevant.
 
 This is the configuration of the quadEM in this mode.
 
 .. figure:: tetramm_fly_triggered.png
     :align: center
 
-When TriggerMode=Ext. Trig. the driver tells the quadEM to collect the number of samples determined by the
-AveragingTime (i.e. NumAverage_RBV) on receipt of each trigger pulse.  NumAverage_RBV is 198 in the example above.
-The AveragingTime must be slightly less than the trigger pulse period to allow for slight clock frequency differences
-between the trigger source and the quadEM.  In this case the AveragingTime is 1% (0.1 ms) less than the pulse period.
-The only consequence of this is that there is 1% during each acquire period (0.1 ms) when the quadEM is not collecting data.
+|
 
-The quadEM TimeSeries plugin is configured as follows:
+Open in Plugins/QE common plugins. This is this screen:
 
-- AveragingTime=0.0099 s
-- NumPoints=201
-
-This is the configuration of the TimeSeries plugin:
-
-.. figure:: tetramm_fly_triggered_time_series.png
+.. figure:: tetramm_fly_triggered_common_plugins.png
     :align: center
 
-The AveragingTime of the time series plugin must be the same as that for the quadEM.  This guarantees that each
-external trigger will move to the next point in the time series.
+|
 
-The following steps are used to perform as scan in this mode:
+Press More for Current 1, which opens NDStats.adl for Current 1.
+This is this screen:
 
-- Set the TimeSeries TSAcquire (labeled Erase/Start) PV to 1
-- Set the quadEM Acquire PV to 1
-- Start the trigger source.  In this test that is the pulse generator, but it would normally be the motor
-  generating the trigger pulses.
-- Wait for the motion to complete and then read the time series waveform records, e.g. TS:Current1, etc.
-
-This is a plot of Current1 after the scan.  The retrace to 0 on the last point is a bug in medm.
-
-.. figure:: tetramm_fly_triggered_time_series_plot.png
+.. figure:: tetramm_fly_triggered_current1_stats.png
     :align: center
 
-Note while the scan actually took 2.01 seconds (201 points at 100 Hz) the last point horizontal scale
-of this plot is 1.98 seconds.
-This is because the time between triggers is 1% more than the averaging time, but the
-plugin has no way to know what the actual time between trigger pulses is.
+|
 
-Triggered scan using quadEM in bulb mode with the statistics plugin
-....................................................................
-The time series plugin used in the previous example above can only be used when each trigger generates the same
-number of ADC samples. If the time between triggers is not know or is variable then bulb mode.
-This will average all samples between the leading and trailing edge of the trigger pulse.
-When using bulb mode or Ext. Trigger mode on the FX4 with triggers faster than the averaging time,
-the time series feature of the statistics plugin must be used.  It computes the statistics at the end 
-of each trigger period, regardless of the number of samples collected.
+Open Statistics/Time series plots/Mean. That is this screen before the scan:
 
-For this test the triggers came from a Measurement Computing USB-CTR08 pulse generator, but they could
-have been coming from position based triggers from a motor controller.
-
-
-The pulse generator is configured to output 201 pulses at 100 Hz, i.e. .01 second period.  However, this will work
-even if the trigger period is changing, e.g. during the acceleration phase of a motor.
-
-The quadEM was configured as follows:
-
-- AcquireMode=Multiple
-- NumAcquire=201
-- TriggerMode=Ext. Trig.
-- ValuesPerRead=5
-- AveragingTime is irrelevant and is not used. It is set to 1 second to illustrate this.
-
-This is the configuration of the quadEM in this mode.
-
-.. figure:: tetramm_fly_bulb.png
+.. figure:: tetramm_fly_triggered_current1_mean_plot_before.png
     :align: center
 
-Open in Plugins/QE common plugins. Press More for Current 1, which opens NDStats.adl for Current 1.
-Open Statistics/Time series plots/Mean. That is this screen:
-
-.. figure:: tetramm_fly_bulb_statistics_mean.png
-    :align: center
-
-The number of points is set to 201.
+The number of points is set to 2000.
 
 The following steps are used to perform as scan in this mode:
 
@@ -219,9 +145,11 @@ The following steps are used to perform as scan in this mode:
 
 This is a plot of Current1:TSMeanValue after the scan.  The retrace to 0 on the last point is a bug in medm.
 
-.. figure:: tetramm_fly_bulb_time_series_plot.png
+.. figure:: tetramm_fly_triggered_current1_mean_plot_after.png
     :align: center
 
-Note that this scan actually took 2 seconds but the horizontal scale in this plot is incorrect (20 seconds) 
+|
+
+Note that this scan actually took 20 seconds but the horizontal scale in this plot is incorrect (200 seconds) 
 because it has no way of knowing the actual time between triggers.  Each point in the plot is the mean
 of all ADC values between the leading and trailing edge of the trigger pulse.
