@@ -113,25 +113,24 @@ This is the configuration of the quadEM in this mode.
 
 |
 
-Open in Plugins/QE common plugins. This is this screen:
+To navigate to the statistics time-series screen do the following:
+
+- Open Plugins/QE common plugins. This is this screen:
 
 .. figure:: tetramm_fly_triggered_common_plugins.png
     :align: center
 
-|
-
-Press More for Current 1, which opens NDStats.adl for Current 1.
-This is this screen:
+- Press More for Current 1, which opens NDStats.adl for Current 1. That is this screen:
 
 .. figure:: tetramm_fly_triggered_current1_stats.png
     :align: center
 
-|
-
-Open Statistics/Time series plots/Mean. That is this screen before the scan:
+- Open Statistics/Time series plots/Mean. That is this screen before the scan:
 
 .. figure:: tetramm_fly_triggered_current1_mean_plot_before.png
     :align: center
+
+|
 
 The number of points is set to 2000.
 
@@ -152,4 +151,4 @@ This is a plot of Current1:TSMeanValue after the scan.  The retrace to 0 on the 
 
 Note that this scan actually took 20 seconds but the horizontal scale in this plot is incorrect (200 seconds) 
 because it has no way of knowing the actual time between triggers.  Each point in the plot is the mean
-of all ADC values between the leading and trailing edge of the trigger pulse.
+of all ADC values between the leading and trailing edge of that trigger pulse.
