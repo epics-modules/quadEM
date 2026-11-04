@@ -142,7 +142,8 @@ The following steps are used to perform as scan in this mode:
   generating the trigger pulses.
 - Wait for the motion to complete and then read the time series waveform records, e.g. TSMeanValue, etc.
 
-This is a plot of Current1:TSMeanValue after the scan.  The retrace to 0 on the last point is a bug in medm.
+This is a plot of Current1:TSMeanValue after the scan. The retrace at the last point is a bug in medm.
+The vertical scale is expanded to show the small variations in the current.
 
 .. figure:: tetramm_fly_triggered_current1_mean_plot_after.png
     :align: center
