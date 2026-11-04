@@ -46,8 +46,8 @@
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM and FX4 Trigger Modes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM or FX4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadem_trigger_modes.html">TetrAMM and FX4 Trigger Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadem_scanning.html">Scanning with the TetrAMM or FX4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="streaming.html">Streaming data to disk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
@@ -110,18 +110,22 @@ on the FX4 Web page can be used to change to a static IP if desired.</p>
 <p>This will need to be edited to set the correct IP address of the meter to be used.</p>
 <p>To use the gating and triggering modes the digital inputs and encoder inputs must be
 configured correctly.  This is done by the ConfigureTrigger record in the FX4 EPICS database.
-This sets the following on the values as seen on the FX4 Web page:
-- Configuration/D1/Mode = Encoder 0 A Input
-- Configuration/Encoder Module 0/Enable = True
-- Configuration/Encoder Module 0/Position Counter/Stream = True
-- Configuration/Encoder Module 0/Position Counter/Position Counter Source = Up Count
-- Configuration/Encoder Module 0/Position Counter/External Clock Edge Select = Both Edges</p>
-<p>It actually sets these using EPICS Channel Access with these PVs and values:
-- $(FXP)/fx4/digital_expansion/d1/mode = encoder
-- $(FXP)/fx4/qep_0/enabled = 1
-- $(FXP)/fx4/qep_0/position_counter/stream_enabled = 1
-- $(FXP)/fx4/qep_0/position_counter_source = up
-- $(FXP)/fx4/qep_0/external_clock_edge_select = both</p>
+This sets the following on the values as seen on the FX4 Web page:</p>
+<ul class="simple">
+<li><p>Configuration/D1/Mode = Encoder 0 A Input</p></li>
+<li><p>Configuration/Encoder Module 0/Enable = True</p></li>
+<li><p>Configuration/Encoder Module 0/Position Counter/Stream = True</p></li>
+<li><p>Configuration/Encoder Module 0/Position Counter/Position Counter Source = Up Count</p></li>
+<li><p>Configuration/Encoder Module 0/Position Counter/External Clock Edge Select = Both Edges</p></li>
+</ul>
+<p>It actually sets these using EPICS Channel Access with these PVs and values:</p>
+<ul class="simple">
+<li><p>$(FXP)/fx4/digital_expansion/d1/mode = encoder</p></li>
+<li><p>$(FXP)/fx4/qep_0/enabled = 1</p></li>
+<li><p>$(FXP)/fx4/qep_0/position_counter/stream_enabled = 1</p></li>
+<li><p>$(FXP)/fx4/qep_0/position_counter_source = up</p></li>
+<li><p>$(FXP)/fx4/qep_0/external_clock_edge_select = both</p></li>
+</ul>
 <p>When using the EPICS driver at high sampling rate (ValuesPerRead &lt;= 20) it is a good idea to close
 all Web pages connected to the FX4.  If they are connected the CPU on the FX4 can be overloaded
 and the streaming data will be incorrect or the FX4 will freeze.</p>

@@ -85,7 +85,7 @@ This is the output of h5dump --header, looking at just that dataset.
 It is IEEE 64-bit little-endian, with dimensions [200,2000,11].
 In HDF5 convention the last array index is the fastest varying.
 
-Saving all 11 data items is somewhat wastefull, since everything else can be calculated from just
+Saving all 11 data items is somewhat wasteful, since everything else can be calculated from just
 the 4 currents, which are the first 4 items in the arrays.
 We can save disk space by only saving the currents by using an ROI plugin between the
 quadEM driver and the HDF5 plugin.
@@ -105,6 +105,8 @@ Note that the NDArrays being received are now [4, 2000].
 
 .. figure:: HDF5_stream_ROI.png
     :align: center
+
+|
 
 The filename is changed to quadEM_HDF5_ROI_001.h5.  The resulting file size is 13 MB.
 
@@ -146,7 +148,6 @@ The odd harmonics are ~10-100 times less than 60 Hz, and the even harmonics are 
 
 .. figure:: IDL_HDF5_frequency_plot.png
     :align: center
-
 
 Using Python, the data processing would be nearly identical, but with a few differences due to array and FFT conventions:
 

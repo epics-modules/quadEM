@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Scanning with the TetrAMM or FX4" href="tetramm_scanning.html" />
+    <link rel="next" title="Scanning with the TetrAMM or FX4" href="quadem_scanning.html" />
     <link rel="prev" title="Averaging" href="averaging.html" /> 
 </head>
 
@@ -48,7 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">TetrAMM and FX4 Trigger Modes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM or FX4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadem_scanning.html">Scanning with the TetrAMM or FX4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="streaming.html">Streaming data to disk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
@@ -71,7 +71,7 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">TetrAMM and FX4 Trigger Modes</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/tetramm_modes.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/quadem_trigger_modes.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -99,6 +99,38 @@ has a precise timestamp. The EPICS support streams the position counter, and
 does the triggering and gating operations in the driver software, using the counter
 transitions and the timestamps. This has been tested to work with 10000 point acquisition
 with 5 kHz trigger signal and ValuesPerRead=10.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>TriggerMode</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Free Run</p></td>
+<td><p>Values are acquired continuously and are averaged each time the AveragingTime is reached.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ext. Trig.</p></td>
+<td><p>NumAcquire samples are acquired starting on each leading edge of the external trigger input.
+NumAcquire is determined by the AveragingTime and ValuesPerRead.
+If the next trigger arrives before the averaging time is complete then it will immediately average the
+values received so far, and start accumulating the next time point.
+This means that Ext. Trig functions the same as Ext. Bulb mode if the trigger period is less
+than the averaging time.</p></td>
+</tr>
+<tr class="row-even"><td><p>Ext. Bulb</p></td>
+<td><p>Samples are acquired while the external trigger input is asserted. On each trailing
+edge of the external trigger signal the plugins are called. AveragingTime is
+ignored in this mode.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ext. Gate</p></td>
+<td><p>Samples are acquired while the external trigger input is asserted. When NumAverage
+samples have been acquired the plugins are called. The actual averaging time between
+calling the plugins will be longer than AverageTime, and is controlled by the duty
+cycle of the external gate signal. The trailing edge of the gate pulse is ignored
+in this mode.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
@@ -106,7 +138,7 @@ with 5 kHz trigger signal and ValuesPerRead=10.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="averaging.html" class="btn btn-neutral float-left" title="Averaging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="tetramm_scanning.html" class="btn btn-neutral float-right" title="Scanning with the TetrAMM or FX4" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="quadem_scanning.html" class="btn btn-neutral float-right" title="Scanning with the TetrAMM or FX4" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

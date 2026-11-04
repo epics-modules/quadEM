@@ -47,8 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="averaging.html">Averaging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_modes.html">TetrAMM and FX4 Trigger Modes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tetramm_scanning.html">Scanning with the TetrAMM or FX4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadem_trigger_modes.html">TetrAMM and FX4 Trigger Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadem_scanning.html">Scanning with the TetrAMM or FX4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="feedback.html">Using Feedback</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Streaming data to disk</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
@@ -158,7 +158,7 @@ This is the output of h5dump –header, looking at just that dataset.</p>
 </div>
 <p>It is IEEE 64-bit little-endian, with dimensions [200,2000,11].
 In HDF5 convention the last array index is the fastest varying.</p>
-<p>Saving all 11 data items is somewhat wastefull, since everything else can be calculated from just
+<p>Saving all 11 data items is somewhat wasteful, since everything else can be calculated from just
 the 4 currents, which are the first 4 items in the arrays.
 We can save disk space by only saving the currents by using an ROI plugin between the
 quadEM driver and the HDF5 plugin.</p>
@@ -177,6 +177,9 @@ Note that the NDArrays being received are now [4, 2000].</p>
 <figure class="align-center">
 <img alt="_images/HDF5_stream_ROI.png" src="_images/HDF5_stream_ROI.png" />
 </figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>The filename is changed to quadEM_HDF5_ROI_001.h5.  The resulting file size is 13 MB.</p>
 <p>The following is an IDL program to process the data in quadEM_HDF5_001.h5.
 The program does the following:</p>

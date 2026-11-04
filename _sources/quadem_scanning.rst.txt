@@ -120,12 +120,16 @@ To navigate to the statistics time-series screen do the following:
 .. figure:: tetramm_fly_triggered_common_plugins.png
     :align: center
 
+|
+
 - Press More for Current 1, which opens NDStats.adl for Current 1. That is this screen:
 
 .. figure:: tetramm_fly_triggered_current1_stats.png
     :align: center
 
-- Open Statistics/Time series plots/Mean. That is this screen before the scan:
+|
+
+- Open Statistics/Time series plots/Mean. This is that screen before the scan:
 
 .. figure:: tetramm_fly_triggered_current1_mean_plot_before.png
     :align: center
@@ -134,7 +138,7 @@ To navigate to the statistics time-series screen do the following:
 
 The number of points is set to 2000.
 
-The following steps are used to perform as scan in this mode:
+The following steps are used to perform a scan in this mode:
 
 - Set the TSAcquire PV to 1 (press EraseStart in above screen)
 - Set the quadEM Acquire PV to 1
