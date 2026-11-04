@@ -47,6 +47,7 @@ This will need to be edited to set the correct IP address of the meter to be use
 To use the gating and triggering modes the digital inputs and encoder inputs must be 
 configured correctly.  This is done by the ConfigureTrigger record in the FX4 EPICS database.
 This sets the following on the values as seen on the FX4 Web page:
+
 - Configuration/D1/Mode = Encoder 0 A Input
 - Configuration/Encoder Module 0/Enable = True
 - Configuration/Encoder Module 0/Position Counter/Stream = True
@@ -54,6 +55,7 @@ This sets the following on the values as seen on the FX4 Web page:
 - Configuration/Encoder Module 0/Position Counter/External Clock Edge Select = Both Edges
 
 It actually sets these using EPICS Channel Access with these PVs and values:
+
 - $(FXP)/fx4/digital_expansion/d1/mode = encoder
 - $(FXP)/fx4/qep_0/enabled = 1
 - $(FXP)/fx4/qep_0/position_counter/stream_enabled = 1

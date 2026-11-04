@@ -13,8 +13,8 @@ Table of Contents
   databases
   plugins
   averaging
-  tetramm_modes
-  tetramm_scanning
+  quadem_trigger_modes
+  quadem_scanning
   feedback
   streaming
   performance

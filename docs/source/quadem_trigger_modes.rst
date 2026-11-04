@@ -43,7 +43,7 @@ with 5 kHz trigger signal and ValuesPerRead=10.
       edge of the external trigger signal the plugins are called. AveragingTime is
       ignored in this mode.
   * - Ext. Gate
-     - Samples are acquired while the external trigger input is asserted. When NumAverage
+    - Samples are acquired while the external trigger input is asserted. When NumAverage
       samples have been acquired the plugins are called. The actual averaging time between
       calling the plugins will be longer than AverageTime, and is controlled by the duty
       cycle of the external gate signal. The trailing edge of the gate pulse is ignored
