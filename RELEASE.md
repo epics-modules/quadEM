@@ -20,6 +20,11 @@ the configure/RELEASE file in each release of quadEM.
   computes the average of the samples so far and starts the next acquisition.
   This means that external trigger mode is the same as external bulb mode if the trigger
   period is less than the averaging time.
+- Added a new triggering mode for the FX4 and TetrAMM.  
+  It is called External Single Trigger, abbreviated as "Sngl. trig." in the
+  mbbo and mbbi records.
+  This mode waits for single trigger edge to begin acquisition, and then behaves the
+  same as "Free run" mode.  It ignores any subsequent triggers during that acquisition.
 - Fixed error in the fanout records for the PREC fields.
 - Increased the PREC field for the averaging times from 2 to 4.
 - Tweaked the device-dependent sub-screens to display better on Phoebus.
