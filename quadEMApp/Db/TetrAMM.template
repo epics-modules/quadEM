@@ -85,6 +85,8 @@ record(mbbo,"$(P)$(R)TriggerMode") {
     field(TWST, "Ext. bulb")
     field(THVL, "4")
     field(THST, "Ext. gate")
+    field(FRVL, "5")
+    field(FRST, "Sngl. trig.")
 }
 
 record(mbbi,"$(P)$(R)TriggerMode_RBV") {
@@ -96,6 +98,8 @@ record(mbbi,"$(P)$(R)TriggerMode_RBV") {
     field(TWST, "Ext. bulb")
     field(THVL, "4")
     field(THST, "Ext. gate")
+    field(FRVL, "5")
+    field(FRST, "Sngl. trig.")
 }
 
 record(bi,"$(P)$(R)InterlockStatus_RBV") {
