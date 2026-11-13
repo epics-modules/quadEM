@@ -51,6 +51,7 @@ private:
     epicsEventId acquireStartEvent_;
     int readingActive_;
     int numTriggerSamplesReceived_;
+    bool initialTriggerReceived_;
     int numResync_;
     char *QEPortName_;
     char firmwareVersion_[MAX_COMMAND_LEN];
