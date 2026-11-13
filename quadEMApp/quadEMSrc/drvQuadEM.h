@@ -113,6 +113,7 @@ typedef enum {
     QETriggerModeExtTrigger,
     QETriggerModeExtBulb,
     QETriggerModeExtGate,
+    QETriggerModeSingleExtTrigger
 } QETriggerMode_t;
 
 /* Trigger polarity */
