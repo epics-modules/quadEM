@@ -1,12 +1,12 @@
 
 file {
-	name="/home/epics/devel/quadEM/quadEMApp/op/adl/TetrAMM.adl"
+	name="/home/epics/devel/quadEM-9-8/quadEMApp/op/adl/TetrAMM.adl"
 	version=030117
 }
 display {
 	object {
-		x=1098
-		y=334
+		x=876
+		y=615
 		width=390
 		height=400
 	}
@@ -89,48 +89,7 @@ display {
 }
 text {
 	object {
-		x=100
-		y=0
-		width=80
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Channels"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=280
-		y=0
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)NumChannels_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-menu {
-	object {
-		x=185
-		y=0
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)NumChannels"
-		clr=14
-		bclr=51
-	}
-}
-text {
-	object {
-		x=58
+		x=40
 		y=50
 		width=120
 		height=20
@@ -141,38 +100,9 @@ text {
 	textix="Trigger mode"
 	align="horiz. right"
 }
-"text update" {
-	object {
-		x=278
-		y=50
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)TriggerMode_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
-menu {
-	object {
-		x=183
-		y=50
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)TriggerMode"
-		clr=14
-		bclr=51
-	}
-}
 text {
 	object {
-		x=70
+		x=52
 		y=25
 		width=110
 		height=20
@@ -183,38 +113,9 @@ text {
 	textix="Read format"
 	align="horiz. right"
 }
-"text update" {
-	object {
-		x=280
-		y=25
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)ReadFormat_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
-menu {
-	object {
-		x=185
-		y=25
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)ReadFormat"
-		clr=14
-		bclr=51
-	}
-}
 text {
 	object {
-		x=58
+		x=40
 		y=125
 		width=120
 		height=20
@@ -226,7 +127,7 @@ text {
 }
 text {
 	object {
-		x=78
+		x=60
 		y=100
 		width=100
 		height=20
@@ -238,7 +139,7 @@ text {
 }
 text {
 	object {
-		x=38
+		x=20
 		y=150
 		width=140
 		height=20
@@ -249,161 +150,437 @@ text {
 	textix="Bias interlock"
 	align="horiz. right"
 }
-"text update" {
-	object {
-		x=278
-		y=125
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)BiasVoltage_RBV"
-		clr=54
-		bclr=3
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=278
-		y=100
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)BiasState_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=278
-		y=150
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)BiasInterlock_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
-"text entry" {
-	object {
-		x=183
-		y=125
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)BiasVoltage"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-menu {
-	object {
-		x=183
-		y=100
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)BiasState"
-		clr=14
-		bclr=51
-	}
-}
-menu {
-	object {
-		x=183
-		y=150
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)BiasInterlock"
-		clr=14
-		bclr=51
-	}
-}
 text {
 	object {
-		x=18
+		x=20
 		y=75
-		width=160
+		width=140
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Trigger polarity"
+	textix="Trig. polarity"
 	align="horiz. right"
 }
-"text update" {
+text {
 	object {
-		x=278
-		y=75
-		width=100
+		x=90
+		y=175
+		width=70
 		height=20
 	}
-	monitor {
-		chan="$(P)$(R)TriggerPolarity_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
-menu {
-	object {
-		x=183
-		y=75
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)TriggerPolarity"
+	"basic attribute" {
 		clr=14
-		bclr=51
+	}
+	textix="Range 1"
+	align="horiz. right"
+}
+text {
+	object {
+		x=90
+		y=200
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Range 2"
+	align="horiz. right"
+}
+text {
+	object {
+		x=90
+		y=225
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Range 3"
+	align="horiz. right"
+}
+text {
+	object {
+		x=82
+		y=0
+		width=80
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Channels"
+	align="horiz. right"
+}
+text {
+	object {
+		x=90
+		y=250
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Range 4"
+	align="horiz. right"
+}
+composite {
+	object {
+		x=167
+		y=0
+		width=100
+		height=270
+	}
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=167
+				y=0
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)NumChannels"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=167
+				y=50
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerMode"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=167
+				y=25
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ReadFormat"
+				clr=14
+				bclr=51
+			}
+		}
+		"text entry" {
+			object {
+				x=167
+				y=125
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)BiasVoltage"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		menu {
+			object {
+				x=167
+				y=100
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)BiasState"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=167
+				y=150
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)BiasInterlock"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=167
+				y=75
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerPolarity"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=167
+				y=175
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Range1"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=167
+				y=200
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Range2"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=167
+				y=225
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Range3"
+				clr=14
+				bclr=51
+			}
+		}
+		menu {
+			object {
+				x=167
+				y=250
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)Range4"
+				clr=14
+				bclr=51
+			}
+		}
 	}
 }
 composite {
 	object {
-		x=10
+		x=272
+		y=0
+		width=110
+		height=270
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=272
+				y=0
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)NumChannels_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=50
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerMode_RBV"
+				clr=54
+				bclr=3
+			}
+			format="string"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=25
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ReadFormat_RBV"
+				clr=54
+				bclr=3
+			}
+			format="string"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=125
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BiasVoltage_RBV"
+				clr=54
+				bclr=3
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=100
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BiasState_RBV"
+				clr=54
+				bclr=3
+			}
+			format="string"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=150
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BiasInterlock_RBV"
+				clr=54
+				bclr=3
+			}
+			format="string"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=75
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerPolarity_RBV"
+				clr=54
+				bclr=3
+			}
+			format="string"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=175
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)Range1_RBV"
+				clr=54
+				bclr=3
+			}
+			format="string"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=200
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)Range2_RBV"
+				clr=54
+				bclr=3
+			}
+			format="string"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=225
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)Range3_RBV"
+				clr=54
+				bclr=3
+			}
+			format="string"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=272
+				y=250
+				width=110
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)Range4_RBV"
+				clr=54
+				bclr=3
+			}
+			format="string"
+			limits {
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=20
 		y=275
 		width=286
 		height=120
 	}
 	"composite name"=""
 	children {
-		text {
-			object {
-				x=31
-				y=350
-				width=160
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Current readback"
-			align="horiz. right"
-		}
 		"text update" {
 			object {
-				x=196
+				x=206
 				y=350
 				width=100
 				height=20
@@ -416,22 +593,9 @@ composite {
 			limits {
 			}
 		}
-		text {
-			object {
-				x=81
-				y=375
-				width=110
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Temperature"
-			align="horiz. right"
-		}
 		"text update" {
 			object {
-				x=196
+				x=206
 				y=375
 				width=100
 				height=20
@@ -444,22 +608,9 @@ composite {
 			limits {
 			}
 		}
-		text {
-			object {
-				x=31
-				y=325
-				width=160
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Voltage readback"
-			align="horiz. right"
-		}
 		"text update" {
 			object {
-				x=196
+				x=206
 				y=325
 				width=100
 				height=20
@@ -472,22 +623,9 @@ composite {
 			limits {
 			}
 		}
-		text {
-			object {
-				x=61
-				y=300
-				width=130
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Bias readback"
-			align="horiz. right"
-		}
 		"text update" {
 			object {
-				x=196
+				x=206
 				y=300
 				width=100
 				height=20
@@ -500,22 +638,9 @@ composite {
 			limits {
 			}
 		}
-		text {
-			object {
-				x=10
-				y=275
-				width=180
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Interlock readback"
-			align="horiz. right"
-		}
 		"text update" {
 			object {
-				x=196
+				x=206
 				y=275
 				width=100
 				height=20
@@ -528,173 +653,70 @@ composite {
 			limits {
 			}
 		}
-	}
-}
-text {
-	object {
-		x=108
-		y=175
-		width=70
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Range 1"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=278
-		y=175
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)Range1_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
-menu {
-	object {
-		x=183
-		y=175
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Range1"
-		clr=14
-		bclr=51
-	}
-}
-text {
-	object {
-		x=108
-		y=200
-		width=70
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Range 2"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=278
-		y=200
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)Range2_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
-menu {
-	object {
-		x=183
-		y=200
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Range2"
-		clr=14
-		bclr=51
-	}
-}
-text {
-	object {
-		x=108
-		y=225
-		width=70
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Range 3"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=278
-		y=225
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)Range3_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
-menu {
-	object {
-		x=183
-		y=225
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Range3"
-		clr=14
-		bclr=51
-	}
-}
-text {
-	object {
-		x=108
-		y=250
-		width=70
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Range 4"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=278
-		y=250
-		width=100
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)Range4_RBV"
-		clr=54
-		bclr=3
-	}
-	format="string"
-	limits {
-	}
-}
-menu {
-	object {
-		x=183
-		y=250
-		width=90
-		height=20
-	}
-	control {
-		chan="$(P)$(R)Range4"
-		clr=14
-		bclr=51
+		text {
+			object {
+				x=41
+				y=350
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Current readback"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=91
+				y=375
+				width=110
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Temperature"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=41
+				y=325
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Voltage readback"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=71
+				y=300
+				width=130
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Bias readback"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=20
+				y=275
+				width=180
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Interlock readback"
+			align="horiz. right"
+		}
 	}
 }
