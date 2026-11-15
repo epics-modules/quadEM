@@ -404,19 +404,6 @@ endGroup
 endObjectProperties
 
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 270
-y 10
-w 110
-h 195
-
-beginGroup
-
 # (Text Monitor)
 object activeXTextDspClass:noedit
 beginObjectProperties
@@ -536,11 +523,6 @@ fastUpdate
 newPos
 objType "controls"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -655,18 +637,6 @@ endGroup
 
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 270
-y 10
-w 110
-h 195
-
-beginGroup
 
 # (Message Button)
 object activeMessageButtonClass
@@ -683,7 +653,7 @@ onColor rgb 29440 57088 65280
 offColor rgb 29440 57088 65280
 topShadowColor rgb 65280 65280 65280
 botShadowColor rgb 0 0 0
-controlPv "$(P)$(R)DoResetCounter"
+controlPv "$(P)$(R)ResetCounter"
 pressValue "1"
 releaseValue 
 onLabel "Reset"
@@ -692,9 +662,4 @@ offLabel "Reset"
 useEnumNumeric
 font "helvetica-medium-r-12.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
