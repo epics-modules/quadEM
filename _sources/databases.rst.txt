@@ -552,6 +552,10 @@ minimum, maximum, and other statistics, including a histogram of array values.
         longer than AveragingTime, and is controlled by the duty cycle of the external gate
         pulse. If the external gate pulse is asserted 40% of the time, then the actual averaging
         time will be AveragingTime * 2.5
+      - 5: "Single Ext. Trigger" (TetrAMM, FX4)  This is an edge-sensitive trigger.
+        On the leading edge of the first trigger pulse it will begin acquisition, which then
+        runs the same as Free Run mode.  Subsequent trigger pulses are ignored during that
+        acquisition.
   * - QE_TRIGGER_POLARITY
     - $(P)$(R)TriggerPolarity
     - mbbo
