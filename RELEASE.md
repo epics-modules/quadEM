@@ -1,16 +1,18 @@
 # quadEM Releases
 
-The versions of EPICS base, asyn, ADCore, and other synApps modules used for each release can be obtained from 
+The versions of EPICS base, asyn, ADCore, and other synApps modules used for each release can be obtained from
 the configure/RELEASE file in each release of quadEM.
 
 ## Release 9-8 (November XXX, 2026)
-- Improved support for the FX4. 
+- Improved support for the FX4.
   - Add support for high-speed gating and triggering up to 5 kHz.
     This requires updated firmware, version 26.10.151957 or higher.
-  - Added diagnostic records to read the FX4 CPU %, trigger level, 
-    and trigger counter.
-  - Added records to configure the trigger input settings on the FX4
-    at iocInit.
+  - Added diagnostic records to read the FX4 CPU %, trigger level, and trigger counter.
+  - Added records to configure the trigger input settings on the FX4 at iocInit.
+  - Changed the driver so that it directly reads the trigger level and writes the
+    trigger counter reset using Channel Access.  Previously the CA links were in
+    database records that communicated with the driver over asyn interfaces.
+    This had issues with message timing, while the direct CA interface does not.
 - Improved External Trigger mode support for the TetrAMM.
   Previously it required that the trigger period be longer than the AveragingTime.
   If a trigger pulse arrived before the averaging time was complete it was ignored.
@@ -18,9 +20,9 @@ the configure/RELEASE file in each release of quadEM.
   set the AveragingTime to be at least slightly less than this.
   Now if the next trigger arrives before the averaging time is complete it immediately
   computes the average of the samples so far and starts the next acquisition.
-  This means that external trigger mode is the same as external bulb mode if the trigger
-  period is less than the averaging time.
-- Added a new triggering mode for the FX4 and TetrAMM.  
+  This means that external trigger mode is effectively the same as external bulb mode
+  if the trigger period is less than the averaging time.
+- Added a new triggering mode for the FX4 and TetrAMM.
   It is called External Single Trigger, abbreviated as "Sngl. trig." in the
   mbbo and mbbi records.
   This mode waits for single trigger edge to begin acquisition, and then behaves the
@@ -39,12 +41,12 @@ the configure/RELEASE file in each release of quadEM.
 - Added support for the FX4 quad electrometer from Pyramid Technical Consultants.
   This sold by XDSOxford for the synchrotron market.
 - Fixed occassional read timeout issues with the TetrAMM.  It was using 50 ms timeout for both
-  ASCII commands and polling binary data.  50 ms is too short for some ASCII commands.  
+  ASCII commands and polling binary data.  50 ms is too short for some ASCII commands.
   Changed to 500 ms for ASCII commands and 50 ms for binary data.
-- Fixed several problems with the Range and individual Range[1-4] records. 
+- Fixed several problems with the Range and individual Range[1-4] records.
   These were mainly a problem for the TetrAMM.
   - The readbacks for the individual range records Range[1-4]_RBV were not being updated
-    when the value of the global Range record was changed.  
+    when the value of the global Range record was changed.
     This was a fixed in the drvQuadEM::writeInt32 method, where callParamCallbacks
     was only updating addr=0, rather than all of Range[1-4] record addresses.
   - The Range[1-4] output records were not being updated when the value of the global Range
@@ -103,7 +105,7 @@ the configure/RELEASE file in each release of quadEM.
 - Added interlock status and clear register fault on setBiasState on the TetrAMM. Thanks to Diego Omitto for this.
 - Improvements to NSLS2_IC driver.
 - Added new iocBoot/iocNSLS2_IC directory.
-  
+
 ## Release 9-3 (March 2, 2020)
 - This version of quadEM requires ADCore R3-8 or later.
 - Previous versions of quadEM will not work with ADCore R3-8 or later because the
@@ -114,7 +116,7 @@ the configure/RELEASE file in each release of quadEM.
 - drvNSLS_EM: Fixed logic error in turning off data transmission from meter when not acquiring.
 - iocsh/commonPlugins.iocsh: Fixed names of FFT time series ports.
 - Added .bob autoconverted files for Phoebus Display Manager.
-  
+
 ## Release 9-2-1 (August 9, 2019)
 - Updated autoconverted edl files.
 - Fixed Makefile to optionally build with SNCSEQ.
@@ -141,7 +143,7 @@ the configure/RELEASE file in each release of quadEM.
 - Changed iocBoot/commonPlugins.cmd to be compatible with ADCore R3-3 where the
   time series support in NDPluginStats was changed. Also changed the port names so
   that multiple quadEM instances should be able to be run in the same IOC.
-  
+
 ## Release 9-1 (January 31, 2018)
 - Fixed a bug in the drvQuadEM base class when ring buffer overflow occurred. It
   was not decrementing a counter when it should, which would cause extra attempts
@@ -197,7 +199,7 @@ the configure/RELEASE file in each release of quadEM.
 - Minor changes to be compatible with areaDetector/ADCore R3-0. The quadEM base
   class constructor has changed its arguments, so this is a major release. There are
   no changes required to startup scripts or OPI displays.
-  
+
 ## Release 7-1 (May 23, 2017)
 - Added support for a new electrometer from Brookhaven National Laboratory. This
   is called NSLS2_EM in the documentation. This device consists of a 4-channel digital
@@ -314,7 +316,7 @@ the configure/RELEASE file in each release of quadEM.
 - Fix to allow fast feedback to work on APS_EM.
 - Added new Firmware stringin record containing the firmware version from the device.
 - Changed to use R2-0 of areaDetector. It only uses the ADCORE and ADBINARIES modules.
-  
+
 ## Release 4-0 (March 12, 2013)
 - Major update of the module. The device-dependent classes (AHxxx, APS_EM) have
   not changed signficantly. However the base quadEM class has been rewritten. In R3-x
@@ -338,7 +340,7 @@ the configure/RELEASE file in each release of quadEM.
     to average the readings. The AveragingTime divided by the SampleTime determines
     the number of samples to average, NumAverage_RBV. When this number of samples have
     been accumulated in the ring buffer a separate thread copies them to a set of NDArrays
-    and calls any registered plugins. 
+    and calls any registered plugins.
   - There is a separate NDPluginStats plugin loaded for each of the 11 data values.
     This plugin receives an array of dimensions [NumAverage_RBV]. This plugin computes
     not only the mean (as in the previous version), but also the standard deviation,
@@ -366,7 +368,7 @@ the configure/RELEASE file in each release of quadEM.
   the binary data format.
 - New version of the AH501D manual that correctly documents the binary data format.
 - Minor changes to avoid compiler warnings.
-  
+
 ## Release 3-1 (September 13, 2012)
 - Added support for AH401D and the AH501 series (AH501, AH501C, AH501D) picoammeters
   from CaenEls. The AH501 series are significantly faster than the AH401 series. They
@@ -390,20 +392,20 @@ the configure/RELEASE file in each release of quadEM.
   specific model being used.
 - Modified startup scripts to simplify and support testing all models on any OS
   (for AH401 and AH501 series), and vxWorks for APS_EM.
-  
+
 ## Release 3-0 (September 6, 2012)
 - Complete re-write of the module. The new version is based on asynPortDriver. It
   consists of a base class, drvQuadEM.cpp, and two derived classes:
   1. drvAH401B.cpp which is new support for the AH401B picoammeter designed and sold
-    by Synchrotron Trieste (elettra). It is also sold by CAENels. 
+    by Synchrotron Trieste (elettra). It is also sold by CAENels.
   2. drvAPS_EM.cpp, which is improved support for the APS electrometer designed by Steve Ross.
 
   The new version is not completely backwards compatible with the previous version,
-  and will require modification of startup scripts and medm screens. 
+  and will require modification of startup scripts and medm screens.
 - Added support for power-spectra calculations using FFTs on time-series arrays.
   These now run in the IOC, rather than requiring a separate Channel Access client,
   which previous releases required.
-  
+
 ## Release 2-6 (November 2, 2011)
 - Added support for the remote reboot capability of the electrometer. This makes
   initialization much simpler and more robust, since it can be done with software
@@ -416,33 +418,33 @@ the configure/RELEASE file in each release of quadEM.
   when using the asynUInt32Digital interface. Now it uses drvUser->create, which
   is the correct way to do it.
 - Created new documentation file, quadEMDoc.html.
-  
+
 ## Release 2-5 (Sept 9, 2011)
 - Modified RELEASE; deleted RELEASE.arch.
 - Added .opi display files, for CSS-BOY
 
 ## Release 2-4-1 (March 30, 2010)
 - Support parallel build.
-  
+
 ## Release 2-4 (May 19, 2008)
 - Removed unused functions in driver.
 - Added new adl file quadEM_less.adl.
 - Fixed bug in quadEM_settings.req.
-  
+
 ## Release 2-3 (Sept. 6, 2006)
 - Fixed driver so that configuration routines can be called from iocsh.
-  
+
 ## Release 2-2 (March 29, 2005)
 - Changed from using hardcoded stack size in epicsThreadCreate to generic stack size
-  
+
 ## Release 2-1 (March 24, 2005)
 - Converted from MPF to ASYN.
 - Converted from specialized device support to generic device support from ASYN and MCA.
 - Converted from C++ to C
-  
+
 ## Release 2-0 (March 3, 2004)
 - First release for EPICS 3.14.
 - Converted from vxWorks functions to OSI functions
-  
+
 ## Release 1-1 (November 3, 2003)
 - Initial release, for EPICS 3.13.
