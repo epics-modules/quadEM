@@ -362,7 +362,7 @@ void drvFX4::sendGetEvent()
  */
 void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dataObj)
 {
-    static const char *functionName = "drvFX4::onMessageEvent";
+    static const char *functionName = "onMessageEvent";
     std::multiset<sortedListElement> eventList;
     double values[4] = {0, 0, 0, 0};
     double times[4]  = {0, 0, 0, 0};
@@ -439,7 +439,8 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
                     rawVal.convert(triggerCount);
                 } catch (...) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                              "Error converting trigger count\n");
+                              "%s::%s Error converting trigger count\n", 
+                              driverName, functionName);
                     continue;
                 }
                 values[0] = (double) triggerCount;
@@ -447,8 +448,8 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
 
                 if (!adcCache_[0].empty()) {
                     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-                              "Trigger event, value=%u, time=%f, ADC1 last time=%f\n",
-                              triggerCount, timestamp, adcCache_[0].back().time);
+                              "%s::%s Trigger event, value=%u, time=%f, ADC1 last time=%f\n",
+                              driverName, functionName, triggerCount, timestamp, adcCache_[0].back().time);
                 }
             } else {
                 /* ADC value is a floating-point number */
@@ -466,11 +467,11 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
     if (adcCache_[0].empty()) goto done;
 
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-              "%s: Samples=%lu %lu %lu %lu\n"
+              "%s::%s: Samples=%lu %lu %lu %lu\n"
               "    ADCs oldest=%f %f %f %f\n"
               "   Times oldest=%f %f %f %f\n"
               "    ADCs newest=%f %f %f %f\n"
-              "   Times newest=%f %f %f %f\n", functionName,
+              "   Times newest=%f %f %f %f\n", driverName, functionName,
               (unsigned long)adcCache_[0].size(), (unsigned long)adcCache_[1].size(),
               (unsigned long)adcCache_[2].size(), (unsigned long)adcCache_[3].size(),
               adcCache_[0].front().val,  adcCache_[1].front().val,
@@ -488,16 +489,16 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
                         adcCache_[2].size(), adcCache_[3].size()});
 
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-              "%s minimum size=%lu, size=%lu %lu %lu %lu\n",
-              functionName, (unsigned long)minSize,
+              "%s::%s minimum size=%lu, size=%lu %lu %lu %lu\n",
+              driverName, functionName, (unsigned long)minSize,
               (unsigned long)adcCache_[0].size(), (unsigned long)adcCache_[1].size(),
               (unsigned long)adcCache_[2].size(), (unsigned long)adcCache_[3].size());
 
     if (minSize != maxSize) {
         if (!synchronized_) {
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                      "%s message %llu, not synchronized and different number of samples per channel=%lu %lu %lu %lu\n",
-                      functionName, messageCounter_,
+                      "%s::%s message %llu, not synchronized and different number of samples per channel=%lu %lu %lu %lu\n",
+                      driverName, functionName, messageCounter_,
                       (unsigned long)adcCache_[0].size(), (unsigned long)adcCache_[1].size(),
                       (unsigned long)adcCache_[2].size(), (unsigned long)adcCache_[3].size());
             for (auto& adc : adcCache_) adc.clear();
@@ -516,16 +517,16 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
         if ((times[1] != times[0]) || (times[2] != times[0]) || (times[3] != times[0])) {
             if (!timestampMismatch_) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                          "%s message %llu sample %lu/%lu, timestamps are not the same: %f %f %f %f\n",
-                          functionName, messageCounter_, (unsigned long)i, (unsigned long)minSize,
+                          "%s::%s message %llu sample %lu/%lu, timestamps are not the same: %f %f %f %f\n",
+                          driverName, functionName, messageCounter_, (unsigned long)i, (unsigned long)minSize,
                           times[0], times[1], times[2], times[3]);
                 timestampMismatch_ = true;
             }
         } else {
             if (timestampMismatch_) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                          "%s message %llu sample %lu/%lu, timestamps back to normal\n",
-                          functionName, messageCounter_, (unsigned long)i, (unsigned long)minSize);
+                          "%s::%s message %llu sample %lu/%lu, timestamps back to normal\n",
+                          driverName, functionName, messageCounter_, (unsigned long)i, (unsigned long)minSize);
                 timestampMismatch_ = false;
             }
         }
@@ -538,22 +539,30 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
     for (const sortedListElement& element : eventList) {
         if (element.eventType == triggerEvent) {
             epicsInt32 newTriggerCount = (epicsUInt32) element.values[0];
+            // The initial trigger counters may be stale because the driver setting it to 0 takes time
+            if (triggerCount_ == -1) triggerCount_ = newTriggerCount;
             epicsInt32 triggerCountChange = newTriggerCount - triggerCount_;
+            // If the trigger count change <0 this is a delayed reset to 0
+            if (triggerCountChange < 0) {
+                triggerCount_ = newTriggerCount;
+                triggerCountChange = 0;
+            }
+            // If the trigger count change == 0 ignore this event
+            if (triggerCountChange == 0) continue;
             bool isOdd = ((triggerCountChange % 2) != 0);
             // If we have an odd number of new counts flip the trigger level
             if (isOdd) triggerLevel_ = !triggerLevel_;
-            if (triggerCountChange == 0) continue;
             triggerEvents++;
             transitionsDetected_ += triggerCountChange;
             if (triggerMode_ != QETriggerModeFreeRun) {
                 asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-                          "trigger event: triggerCount=%d, triggerCountChange=%d, triggerLevel=%d, timeStamp=%f, numADCValues=%d\n",
-                          newTriggerCount, triggerCountChange, triggerLevel_, element.timeStamp, numTriggerValues_);
+                          "%s::%s trigger event: triggerCount=%d, triggerCountChange=%d, triggerLevel=%d, timeStamp=%f, numADCValues=%d\n",
+                          driverName, functionName, newTriggerCount, triggerCountChange, triggerLevel_, element.timeStamp, numTriggerValues_);
             }
             if (triggerCountChange > 2) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                          "%s message %llu error, %d trigger changes in one cycle, should be <=2, previous=%d, new=%d\n",
-                          functionName, messageCounter_, triggerCountChange, triggerCount_, newTriggerCount);
+                          "%s::%s message %llu error, %d trigger changes in one cycle, should be <=2, previous=%d, new=%d\n",
+                          driverName, functionName, messageCounter_, triggerCountChange, triggerCount_, newTriggerCount);
             }
             triggerCount_ = newTriggerCount;
             if (triggerMode_ == QETriggerModeExtTrigger) {
@@ -562,13 +571,24 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
                     ((triggerPolarity_ == QETriggerPolarityNegative) && (triggerLevel_ == triggerLevelLow))) {
                     if (triggerActive_) {
                         asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-                                  "Error, received a new trigger when %d out of %d samples were collected, transitions=%d\n",
-                                  numTriggerValues_, numAverage_, transitionsDetected_);
+                                  "%s::%s Error, received a new trigger when %d out of %d samples were collected, transitions=%d\n",
+                                  driverName, functionName, numTriggerValues_, numAverage_, transitionsDetected_);
                         triggerCallbacks();
                         numCallbacks_++;
                     }
                     triggerActive_     = true;
                     numTriggerValues_  = 0;
+                }
+            } else if (triggerMode_ == QETriggerModeSingleExtTrigger) {
+                if ((triggerCountChange == 2) ||
+                    ((triggerPolarity_ == QETriggerPolarityPositive) && (triggerLevel_ == triggerLevelHigh)) ||
+                    ((triggerPolarity_ == QETriggerPolarityNegative) && (triggerLevel_ == triggerLevelLow))) {
+                    if (triggerActive_) {
+                        asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+                                  "%s::%s Error, received a new trigger when single trigger already received\n",
+                                  driverName, functionName);
+                    }
+                    triggerActive_     = true;
                 }
             } else if (triggerMode_ == QETriggerModeExtBulb) {
                 if ((triggerCountChange == 2) ||
@@ -577,7 +597,9 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
                     triggerCallbacks();
                     numCallbacks_++;
                     if (numTriggerValues_ == 0) {
-                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "Bulb mode callback %d but numTriggerValues=0\n", numCallbacks_);
+                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                            "%s::%s Bulb mode callback %d but numTriggerValues=0\n", 
+                            driverName, functionName, numCallbacks_);
                     }
                     numTriggerValues_ = 0;
                 }
@@ -591,9 +613,9 @@ void drvFX4::onMessageEvent(const std::string& event, const msgpack::object& dat
             if (numTriggerValues_ == numAverage_) {
                 triggerActive_ = false;
              }
-        }
-
-        if (triggerMode_ == QETriggerModeExtBulb) {
+        } else if (triggerMode_ == QETriggerModeSingleExtTrigger) {
+           if (!triggerActive_) continue;
+        } else if (triggerMode_ == QETriggerModeExtBulb) {
             numTriggerValues_++;
         }
         if ((triggerMode_ == QETriggerModeExtGate) || (triggerMode_ == QETriggerModeExtBulb)) {
@@ -611,8 +633,9 @@ done:
     epicsThreadSleep(0.01);
     if (acquiring_) sendGetEvent();
     epicsTime endTime = epicsTime::getCurrent();
-    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, "%s message %llu, ADC values=%u, triggerEvents=%u, elapsed time=%f\n",
-              functionName, messageCounter_, adcEvents, triggerEvents, endTime-startTime);
+    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
+        "%s::%s message %llu, ADC values=%u, triggerEvents=%u, elapsed time=%f\n",
+        driverName, functionName, messageCounter_, adcEvents, triggerEvents, endTime-startTime);
 }
 
 void drvFX4::pollThread()
@@ -670,6 +693,8 @@ asynStatus drvFX4::setAcquireParams()
 
 asynStatus drvFX4::setAcquire(epicsInt32 value)
 {
+    static const char *functionName = "setAcquire";
+
     if (value == acquiring_) return asynSuccess;
 
     if (value && !FX4Connected_ && !wsStopping_) {
@@ -691,8 +716,8 @@ asynStatus drvFX4::setAcquire(epicsInt32 value)
         numCallbacks_        = 0;
         int temp;
         getIntegerParam(pFX4TriggerLevel_, &temp);
-        triggerLevel_ = (temp == 1);
-        triggerCount_ = 0;
+        triggerLevel_        = (temp == 1);
+        triggerCount_        = -1;
         setIntegerParam(pFX4ResetCounter_, 0);
         setIntegerParam(pFX4ResetCounter_, 1);
         callParamCallbacks();
@@ -701,8 +726,8 @@ asynStatus drvFX4::setAcquire(epicsInt32 value)
     } else {
         sendUnsubscribeEvent();
         asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
-            "Acquisition complete, transitionsDetected_=%d numCallbacks_=%d, pointsCollected_=%d\n",
-            transitionsDetected_, numCallbacks_, pointsCollected_);
+            "%s::%s Acquisition complete, transitionsDetected_=%d numCallbacks_=%d, pointsCollected_=%d\n",
+            driverName, functionName, transitionsDetected_, numCallbacks_, pointsCollected_);
         acquiring_ = 0;
     }
 
