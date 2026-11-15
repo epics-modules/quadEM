@@ -22,9 +22,7 @@
 #include <IXNetSystem.h>
 #include <IXWebSocket.h>
 #include <msgpack.hpp>
-
-#define FX4TriggerLevelString "FX4_TRIGGER_LEVEL"
-#define FX4ResetCounterString "FX4_RESET_COUNTER"
+#include <cadef.h>
 
 typedef enum {
     triggerLevelLow = 0,
@@ -102,6 +100,7 @@ private:
     std::mutex wsMutex_;
     std::atomic<bool> FX4Connected_;
     std::atomic<bool> wsStopping_;
+    std::string FX4_ipAddress_;
     std::string wsUri_;
 
     static constexpr int FX4_NUM_CHANS = 4;
@@ -115,8 +114,6 @@ private:
     static inline const std::string TRIGGER_PATH = "/fx4/qep_0/position_counter/value";
 
     std::array<std::list<ADCSample>, FX4_NUM_CHANS> adcCache_;
-    int pFX4TriggerLevel_;
-    int pFX4ResetCounter_;
     epicsInt64 startTime_;
     bool triggerLevel_;
     epicsInt32 triggerCount_;
@@ -132,6 +129,10 @@ private:
     int triggerPolarity_;
     int acquireMode_;
     int numAverage_;
+    chid triggerCounterResetChid_;
+    chid triggerLevelChid_;
+    struct ca_client_context* CA_ctx_;
+    bool thread_ctx_;
 };
 
 #endif
