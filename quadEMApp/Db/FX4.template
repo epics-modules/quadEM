@@ -215,28 +215,11 @@ record(mbbi,    "$(P)$(R)TriggerMode_RBV") {
     field(FRST, "Sngl. trig.")
 }
 
-# The following 2 records read the current trigger level (input D1)
-# and the current trigger count (encoder 0 position counter)
-# and write them to the FX4 driver so it can access them at the start of a scan.
-# It assumes they are changing slowly enough before the scan that the
-# Channel Access updates for them are in sync.
-
-
 record(bi,      "$(P)$(R)FX4TriggerLevel") {
     field(INP,  "$(FXP)/fx4/digital_expansion/d1/value")
     field(ZNAM, "Low")
     field(ONAM, "High")
     field(SCAN, ".1 second")
-    field(FLNK, "$(P)$(R)SetTriggerLevel")
-}
-
-record(bo,      "$(P)$(R)SetTriggerLevel") {
-    field(DOL,  "$(P)$(R)FX4TriggerLevel")
-    field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT) 0)FX4_TRIGGER_LEVEL")
-    field(ZNAM, "Low")
-    field(ONAM, "High")
-    field(OMSL, "closed_loop")
 }
 
 record(longin,  "$(P)$(R)TriggerCount") {
@@ -250,16 +233,7 @@ record(ai,      "$(P)$(R)FX4_CPU") {
     field(PREC, "1")
 }
 
-record(bi,      "$(P)$(R)ResetCounter") {
-    field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT) 0)FX4_RESET_COUNTER")
-    field(ZNAM, "Done")
-    field(ONAM, "Reset")
-    field(SCAN, "I/O Intr")
-    field(FLNK, "$(P)$(R)DoResetCounter")
-}
-
-record(bo,      "$(P)$(R)DoResetCounter") {
+record(bo,      "$(P)$(R)ResetCounter") {
     field(OUT,  "$(FXP)/fx4/qep_0/reset_position_counter_button")
     field(ZNAM, "Done")
     field(ONAM, "Reset")
@@ -279,4 +253,8 @@ record(sseq,    "$(P)$(R)ConfigureTrigger") {
     field(STR4, "up")
     field(LNK5, "$(FXP)/fx4/qep_0/external_clock_edge_select")
     field(STR5, "both")
+    field(LNK6, "$(P)$(R)SetBiasVoltage.PROC")
+    field(STR6, "1")
+    field(LNK7, "$(P)$(R)SetBiasState.PROC")
+    field(STR7, "1")
 }
