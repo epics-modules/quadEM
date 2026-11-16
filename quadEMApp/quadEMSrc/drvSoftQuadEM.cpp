@@ -34,16 +34,16 @@ protected:
 private:
     int QES_DataIn;
     #define FIRST_QES_COMMAND QES_DataIn
-
-    int acquire_;
 };
 
 drvSoftQuadEM::drvSoftQuadEM(const char *portName, int ringBufferSize)
-    : drvQuadEM(portName, ringBufferSize), acquire_(0)
+    : drvQuadEM(portName, ringBufferSize)
 {
     createParam(QES_DataInString,     asynParamFloat64Array,  &QES_DataIn);
 
     setIntegerParam(P_Model, QE_ModelSoftDevice);
+
+    acquiring_ = 0;
 }
 
 drvSoftQuadEM::~drvSoftQuadEM()
@@ -52,7 +52,18 @@ drvSoftQuadEM::~drvSoftQuadEM()
 
 asynStatus drvSoftQuadEM::setAcquire(epicsInt32 value)
 {
-    acquire_ = value;
+    // Return without doing anything if value=1 and already acquiring
+    if ((value == 1) && (acquiring_)) return asynSuccess;
+
+    if (value == 0) {
+        acquiring_ = 0;
+        // Call the base class function in case anything needs to be done there.
+        drvQuadEM::setAcquire(0);
+    } else {
+        // Call the base class function because it handles some common tasks.
+        drvQuadEM::setAcquire(1);
+        acquiring_ = 1;
+    }
     return asynSuccess;
 }
 
@@ -96,7 +107,7 @@ asynStatus drvSoftQuadEM::writeFloat64Array(asynUser *pasynUser, epicsFloat64 *v
 
     if (function == QES_DataIn) {
         if (nElements == 4) {
-            if (acquire_)
+            if (acquiring_)
                 computePositions(value);
         }
         else {
