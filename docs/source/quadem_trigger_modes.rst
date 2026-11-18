@@ -48,3 +48,8 @@ with 5 kHz trigger signal and ValuesPerRead=10.
       calling the plugins will be longer than AverageTime, and is controlled by the duty
       cycle of the external gate signal. The trailing edge of the gate pulse is ignored
       in this mode.
+  * - Sngl. Trig.
+    - Single external trigger.  
+      Acquisition begins on the leading edge of the first trigger pulse. 
+      It then runs the same as Free Run mode.
+      Subsequent trigger pulses are ignored during that acquisition.
